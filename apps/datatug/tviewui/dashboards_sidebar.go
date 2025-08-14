@@ -1,14 +1,14 @@
 package ui
 
 import (
-	tapp2 "github.com/datatug/datatug-cli/apps/datatug/tapp"
+	"github.com/datatug/datatug-cli/apps/datatug/tapp"
 )
 
 type dashboardsSubMenu struct {
-	tapp2.PanelBase
+	tapp.PanelBase
 }
 
-func newDashboardsSidebar(tui *tapp2.TUI) *dashboardsSubMenu {
+func newDashboardsSidebar(tui *tapp.TUI) *dashboardsSubMenu {
 	list := menuList()
 
 	list.
@@ -17,7 +17,7 @@ func newDashboardsSidebar(tui *tapp2.TUI) *dashboardsSubMenu {
 		})
 
 	menu := &dashboardsSubMenu{
-		PanelBase: tapp2.NewPanelBase(tui, list, list.Box),
+		PanelBase: tapp.NewPanelBase(tui, list, list.Box),
 	}
 
 	return menu

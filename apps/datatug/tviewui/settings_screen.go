@@ -1,17 +1,17 @@
 package ui
 
 import (
-	tapp2 "github.com/datatug/datatug-cli/apps/datatug/tapp"
+	"github.com/datatug/datatug-cli/apps/datatug/tapp"
 	"github.com/datatug/datatug/packages/appconfig"
 	"github.com/rivo/tview"
 	"gopkg.in/yaml.v3"
 )
 
 type settingsScreen struct {
-	tapp2.ScreenBase
+	tapp.ScreenBase
 }
 
-func NewSettingsScreen(tui *tapp2.TUI) tapp2.Screen {
+func NewSettingsScreen(tui *tapp.TUI) tapp.Screen {
 	header := newHeaderPanel(tui, "")
 	menu := newHomeMenu(tui, settingsRootScreen)
 	sideBar := newProjectsMenu(tui)
@@ -45,6 +45,6 @@ func NewSettingsScreen(tui *tapp2.TUI) tapp2.Screen {
 		AddItem(sideBar, 1, 2, 1, 1, 0, 100, false)
 
 	return &settingsScreen{
-		ScreenBase: tapp2.NewScreenBase(tui, grid, tapp2.FullScreen()),
+		ScreenBase: tapp.NewScreenBase(tui, grid, tapp.FullScreen()),
 	}
 }

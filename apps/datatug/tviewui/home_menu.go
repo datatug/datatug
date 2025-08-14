@@ -1,7 +1,7 @@
 package ui
 
 import (
-	tapp2 "github.com/datatug/datatug-cli/apps/datatug/tapp"
+	"github.com/datatug/datatug-cli/apps/datatug/tapp"
 	"github.com/rivo/tview"
 )
 
@@ -12,8 +12,8 @@ const (
 	settingsRootScreen
 )
 
-func newHomeMenu(tui *tapp2.TUI, active rootScreen) (menu *homeMenu) {
-	newRootScreen := func(newScreen func(tui2 *tapp2.TUI) tapp2.Screen) func() {
+func newHomeMenu(tui *tapp.TUI, active rootScreen) (menu *homeMenu) {
+	newRootScreen := func(newScreen func(tui2 *tapp.TUI) tapp.Screen) func() {
 		return func() {
 			screen := newScreen(tui)
 			tui.SetRootScreen(screen)
@@ -27,16 +27,16 @@ func newHomeMenu(tui *tapp2.TUI, active rootScreen) (menu *homeMenu) {
 	defaultBorder(list.Box)
 
 	menu = &homeMenu{
-		PanelBase: tapp2.NewPanelBase(tui, list, list.Box),
+		PanelBase: tapp.NewPanelBase(tui, list, list.Box),
 		list:      list,
 	}
 
 	return menu
 }
 
-var _ tapp2.Cell = (*homeMenu)(nil)
+var _ tapp.Cell = (*homeMenu)(nil)
 
 type homeMenu struct {
-	tapp2.PanelBase
+	tapp.PanelBase
 	list *tview.List
 }

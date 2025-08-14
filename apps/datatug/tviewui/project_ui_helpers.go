@@ -1,21 +1,21 @@
 package ui
 
 import (
-	tapp2 "github.com/datatug/datatug-cli/apps/datatug/tapp"
+	"github.com/datatug/datatug-cli/apps/datatug/tapp"
 	"github.com/datatug/datatug/packages/appconfig"
 	"github.com/rivo/tview"
 )
 
 func newProjectRootScreenBase(
-	tui *tapp2.TUI,
+	tui *tapp.TUI,
 	project appconfig.ProjectConfig,
 	screen ProjectScreenID,
-	main tapp2.Panel,
-	sidebar tapp2.Panel,
-) tapp2.ScreenBase {
+	main tapp.Panel,
+	sidebar tapp.Panel,
+) tapp.ScreenBase {
 	grid := projectScreenGreed(tui, project, screen, main, sidebar)
 
-	screenBase := tapp2.NewScreenBase(tui, grid, tapp2.FullScreen())
+	screenBase := tapp.NewScreenBase(tui, grid, tapp.FullScreen())
 
 	screenBase.TakeFocus()
 
@@ -23,11 +23,11 @@ func newProjectRootScreenBase(
 }
 
 func projectScreenGreed(
-	tui *tapp2.TUI,
+	tui *tapp.TUI,
 	project appconfig.ProjectConfig,
 	screenID ProjectScreenID,
-	main tapp2.Panel,
-	sidebar tapp2.Panel,
+	main tapp.Panel,
+	sidebar tapp.Panel,
 ) *tview.Grid {
 	menu := newProjectMenu(tui, project, screenID)
 
@@ -57,6 +57,6 @@ func projectScreenGreed(
 		menu.TakeFocus()
 	})
 
-	_ = tapp2.NewRow(tui.App, menu, main, sidebar)
+	_ = tapp.NewRow(tui.App, menu, main, sidebar)
 	return grid
 }

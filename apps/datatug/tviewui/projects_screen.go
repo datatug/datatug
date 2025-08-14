@@ -1,10 +1,10 @@
 package ui
 
 import (
-	tapp2 "github.com/datatug/datatug-cli/apps/datatug/tapp"
+	"github.com/datatug/datatug-cli/apps/datatug/tapp"
 )
 
-func newProjectsScreen(tui *tapp2.TUI) tapp2.Screen {
+func newProjectsScreen(tui *tapp.TUI) tapp.Screen {
 
 	header := newHeaderPanel(tui, "")
 
@@ -34,14 +34,14 @@ func newProjectsScreen(tui *tapp2.TUI) tapp2.Screen {
 		menu.TakeFocus()
 	})
 
-	_ = tapp2.NewRow(tui.App,
+	_ = tapp.NewRow(tui.App,
 		menu,
 		projectsPanel,
 		sidebar,
 	)
 
 	screen := &projectsScreen{
-		ScreenBase: tapp2.NewScreenBase(tui, grid, tapp2.FullScreen()),
+		ScreenBase: tapp.NewScreenBase(tui, grid, tapp.FullScreen()),
 	}
 
 	tui.SetRootScreen(screen)
@@ -51,9 +51,9 @@ func newProjectsScreen(tui *tapp2.TUI) tapp2.Screen {
 	return screen
 }
 
-var _ tapp2.Screen = (*projectsScreen)(nil)
+var _ tapp.Screen = (*projectsScreen)(nil)
 
 type projectsScreen struct {
-	tapp2.ScreenBase
+	tapp.ScreenBase
 	//row *tapp.Row
 }

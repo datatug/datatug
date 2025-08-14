@@ -1,7 +1,8 @@
 package ui
 
 import (
-	tapp2 "github.com/datatug/datatug-cli/apps/datatug/tapp"
+	"fmt"
+	"github.com/datatug/datatug-cli/apps/datatug/tapp"
 	"github.com/datatug/datatug/packages/appconfig"
 	"github.com/gdamore/tcell/v2"
 	"github.com/rivo/tview"
@@ -10,25 +11,26 @@ import (
 )
 
 var _ tview.Primitive = (*projectsPanel)(nil)
-var _ tapp2.Cell = (*projectsPanel)(nil)
+var _ tapp.Cell = (*projectsPanel)(nil)
 
 type projectsPanel struct {
-	tapp2.PanelBase
+	tapp.PanelBase
 	projects        []*appconfig.ProjectConfig
 	selectProjectID string
 	list            *tview.List
 }
 
-func newProjectsPanel(tui *tapp2.TUI) (*projectsPanel, error) {
+func newProjectsPanel(tui *tapp.TUI) (*projectsPanel, error) {
 	list := tview.NewList()
 	panel := &projectsPanel{
-		PanelBase: tapp2.NewPanelBase(tui, list, list.Box),
+		PanelBase: tapp.NewPanelBase(tui, list, list.Box),
 		list:      list,
 	}
 
 	settings, err := appconfig.GetSettings()
 	if err != nil {
-		return nil, err
+		fmt.Println("Failed to get app settings:", err)
+		//return nil, err
 	}
 
 	openProject := func(projectConfig appconfig.ProjectConfig) {
