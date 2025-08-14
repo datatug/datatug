@@ -25,7 +25,8 @@ type uiCommand struct {
 
 func (v *uiCommand) Execute(_ []string) error {
 
-	app := tview.NewApplication().EnableMouse(true)
+	app := tview.NewApplication()
+	app.EnableMouse(true)
 	tui := tapp.NewTUI(app)
 	_ = ui.NewHomeScreen(tui)
 

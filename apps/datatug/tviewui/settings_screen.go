@@ -3,48 +3,38 @@ package ui
 import (
 	"github.com/datatug/datatug-cli/apps/datatug/tapp"
 	"github.com/datatug/datatug/packages/appconfig"
+	"github.com/gdamore/tcell/v2"
 	"github.com/rivo/tview"
 	"gopkg.in/yaml.v3"
 )
 
-type settingsScreen struct {
-	tapp.ScreenBase
+var _ tview.Primitive = (*settingsPanel)(nil)
+var _ tapp.Cell = (*settingsPanel)(nil)
+
+type settingsPanel struct {
+	tapp.PanelBase
+	textView *tview.TextView
+}
+
+func (p *settingsPanel) Draw(screen tcell.Screen) {
+	p.textView.Draw(screen)
 }
 
 func NewSettingsScreen(tui *tapp.TUI) tapp.Screen {
-	header := newHeaderPanel(tui, "")
-	menu := newHomeMenu(tui, settingsRootScreen)
-	sideBar := newProjectsMenu(tui)
-	footer := NewFooterPanel()
+	return newDefaultLayout(tui, func(tui *tapp.TUI) (tapp.Cell, error) {
+		setting, _ := appconfig.GetSettings()
 
-	grid := tview.NewGrid().
-		SetRows(1, 0, 1).
-		SetColumns(20, 0, 20).
-		SetBorders(false).
-		AddItem(header, 0, 0, 1, 3, 0, 0, false).
-		AddItem(footer, 2, 0, 1, 3, 0, 0, false)
+		content, _ := yaml.Marshal(setting)
 
-	setting, _ := appconfig.GetSettings()
-
-	content, _ := yaml.Marshal(setting)
-
-	const fileName = " Config File: ~/.datatug.yaml"
-	settingsPanel := tview.NewTextView().SetText(string(content))
-	defaultBorder(settingsPanel.Box)
-	settingsPanel.SetTitle(fileName)
-	settingsPanel.SetTitleAlign(tview.AlignLeft)
-
-	// Layout for screens narrower than 100 cells (menu and sidebar are hidden).
-	grid.AddItem(menu, 0, 0, 0, 0, 0, 0, false).
-		AddItem(settingsPanel, 1, 0, 1, 3, 0, 0, false).
-		AddItem(sideBar, 0, 0, 0, 0, 0, 0, false)
-
-	// Layout for screens wider than 100 cells.
-	grid.AddItem(menu, 1, 0, 1, 1, 0, 100, false).
-		AddItem(settingsPanel, 1, 1, 1, 1, 0, 100, false).
-		AddItem(sideBar, 1, 2, 1, 1, 0, 100, false)
-
-	return &settingsScreen{
-		ScreenBase: tapp.NewScreenBase(tui, grid, tapp.FullScreen()),
-	}
+		const fileName = " Config File: ~/.datatug.yaml"
+		textView := tview.NewTextView().SetText(string(content))
+		panel := &settingsPanel{
+			PanelBase: tapp.NewPanelBase(tui, textView, textView.Box),
+			textView:  textView,
+		}
+		defaultBorder(panel.textView.Box)
+		panel.textView.SetTitle(fileName)
+		panel.textView.SetTitleAlign(tview.AlignLeft)
+		return panel, nil
+	})
 }

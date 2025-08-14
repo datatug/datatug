@@ -9,7 +9,7 @@ type rootScreen int
 
 const (
 	projectsRootScreen rootScreen = iota
-	settingsRootScreen
+	//settingsRootScreen
 )
 
 func newHomeMenu(tui *tapp.TUI, active rootScreen) (menu *homeMenu) {
@@ -20,8 +20,8 @@ func newHomeMenu(tui *tapp.TUI, active rootScreen) (menu *homeMenu) {
 		}
 	}
 	list := menuList().
-		AddItem("Projects", "", 'P', newRootScreen(newProjectsScreen)).
-		AddItem("Settings", "", 'S', newRootScreen(NewSettingsScreen))
+		AddItem("Projects", "", 'p', newRootScreen(newProjectsScreen)).
+		AddItem("Settings", "", 's', newRootScreen(NewSettingsScreen))
 	list.SetCurrentItem(int(active))
 
 	defaultBorder(list.Box)

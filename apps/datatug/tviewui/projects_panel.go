@@ -1,11 +1,12 @@
 package ui
 
 import (
-	"fmt"
+	"context"
 	"github.com/datatug/datatug-cli/apps/datatug/tapp"
 	"github.com/datatug/datatug/packages/appconfig"
 	"github.com/gdamore/tcell/v2"
 	"github.com/rivo/tview"
+	"github.com/strongo/logus"
 	"sort"
 	"strconv"
 )
@@ -29,7 +30,7 @@ func newProjectsPanel(tui *tapp.TUI) (*projectsPanel, error) {
 
 	settings, err := appconfig.GetSettings()
 	if err != nil {
-		fmt.Println("Failed to get app settings:", err)
+		logus.Errorf(context.Background(), "Failed to get app settings: %v", err)
 		//return nil, err
 	}
 
