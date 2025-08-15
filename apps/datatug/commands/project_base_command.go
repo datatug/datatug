@@ -2,9 +2,9 @@ package commands
 
 import (
 	"errors"
-	config2 "github.com/datatug/datatug/packages/appconfig"
-	"github.com/datatug/datatug/packages/storage"
-	"github.com/datatug/datatug/packages/storage/filestore"
+	"github.com/datatug/datatug-core/pkg/appconfig"
+	"github.com/datatug/datatug-core/pkg/storage"
+	"github.com/datatug/datatug-core/pkg/storage/filestore"
 	"strings"
 )
 
@@ -34,7 +34,7 @@ func (v *projectBaseCommand) initProjectCommand(o projectCommandOptions) error {
 	if o.projNameOrDirRequired && v.ProjectName == "" && v.ProjectDir == "" {
 		return errors.New("either project name or project directory is required")
 	}
-	config, err := config2.GetSettings()
+	config, err := appconfig.GetSettings()
 	if err != nil {
 		return err
 	}

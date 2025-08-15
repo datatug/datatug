@@ -2,7 +2,7 @@ package ui
 
 import (
 	"github.com/datatug/datatug-cli/apps/datatug/tapp"
-	"github.com/datatug/datatug/packages/appconfig"
+	"github.com/datatug/datatug-core/pkg/appconfig"
 	"github.com/gdamore/tcell/v2"
 	"github.com/rivo/tview"
 	"gopkg.in/yaml.v3"
@@ -20,8 +20,8 @@ func (p *settingsPanel) Draw(screen tcell.Screen) {
 	p.textView.Draw(screen)
 }
 
-func NewSettingsScreen(tui *tapp.TUI) tapp.Screen {
-	return newDefaultLayout(tui, func(tui *tapp.TUI) (tapp.Cell, error) {
+func newSettingsScreen(tui *tapp.TUI) tapp.Screen {
+	return newDefaultLayout(tui, settingsRootScreen, func(tui *tapp.TUI) (tapp.Cell, error) {
 		setting, _ := appconfig.GetSettings()
 
 		content, _ := yaml.Marshal(setting)

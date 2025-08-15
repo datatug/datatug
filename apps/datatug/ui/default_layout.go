@@ -2,7 +2,7 @@ package ui
 
 import "github.com/datatug/datatug-cli/apps/datatug/tapp"
 
-func newDefaultLayout(tui *tapp.TUI, getContent func(tui *tapp.TUI) (tapp.Cell, error)) tapp.Screen {
+func newDefaultLayout(tui *tapp.TUI, selectedMenuItem rootScreen, getContent func(tui *tapp.TUI) (tapp.Cell, error)) tapp.Screen {
 	header := newHeaderPanel(tui, "")
 
 	grid := layoutGrid(header)
@@ -15,7 +15,7 @@ func newDefaultLayout(tui *tapp.TUI, getContent func(tui *tapp.TUI) (tapp.Cell, 
 		panic("getContent() returned nil")
 	}
 
-	menu := newHomeMenu(tui, projectsRootScreen)
+	menu := newHomeMenu(tui, selectedMenuItem)
 	sidebar := newProjectsMenu(tui)
 
 	// Layout for screens narrower than 100 cells (menu and sidebar are hidden).

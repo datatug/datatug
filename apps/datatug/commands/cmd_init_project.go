@@ -3,9 +3,9 @@ package commands
 import (
 	"context"
 	"fmt"
-	"github.com/datatug/datatug/packages/models"
-	"github.com/datatug/datatug/packages/storage"
-	"github.com/datatug/datatug/packages/storage/filestore"
+	"github.com/datatug/datatug-core/pkg/models"
+	"github.com/datatug/datatug-core/pkg/storage"
+	"github.com/datatug/datatug-core/pkg/storage/filestore"
 	"github.com/strongo/logus"
 	"github.com/urfave/cli/v3"
 	"os"

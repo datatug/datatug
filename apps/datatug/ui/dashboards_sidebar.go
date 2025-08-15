@@ -12,7 +12,7 @@ func newDashboardsSidebar(tui *tapp.TUI) *dashboardsSubMenu {
 	list := menuList()
 
 	list.
-		AddItem("Add", "", 'A', func() {
+		AddItem("Add", "", 'a', func() {
 			panic("implement me")
 		})
 

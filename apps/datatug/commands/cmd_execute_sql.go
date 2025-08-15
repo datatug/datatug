@@ -5,7 +5,7 @@ import (
 	"database/sql"
 	"errors"
 	"fmt"
-	"github.com/datatug/datatug/packages/dbconnection"
+	"github.com/datatug/datatug-core/pkg/dbconnection"
 	"github.com/datatug/sql2csv"
 	"github.com/google/uuid"
 	"github.com/gosuri/uitable"

@@ -1,7 +1,7 @@
 package ui
 
 import (
-	"github.com/datatug/datatug/packages/appconfig"
+	"github.com/datatug/datatug-core/pkg/appconfig"
 	"github.com/rivo/tview"
 )
 

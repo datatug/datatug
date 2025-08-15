@@ -2,7 +2,7 @@ package ui
 
 import (
 	"github.com/datatug/datatug-cli/apps/datatug/tapp"
-	"github.com/datatug/datatug/packages/appconfig"
+	"github.com/datatug/datatug-core/pkg/appconfig"
 )
 
 type dashboardsScreen struct {

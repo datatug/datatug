@@ -1,26 +1,20 @@
 package commands
 
-import (
-	"fmt"
-	config2 "github.com/datatug/datatug/packages/appconfig"
-	"os"
-)
-
 //nolint:unused // kept for backward-compatible CLI structure
-type configServerCommand struct {
-	urlConfigCommand
-}
-
-//nolint:unused // legacy consoleCommand entrypoint retained for reference
-func (v *configServerCommand) Execute(_ []string) error {
-	config, err := config2.GetSettings()
-	if err != nil {
-		return fmt.Errorf("failed to get config: %w", err)
-	}
-	if changed := v.updateUrlConfig(&config.Server.UrlConfig); changed {
-		if err = saveConfig(config); err != nil {
-			return fmt.Errorf("failed to save config: %w", err)
-		}
-	}
-	return config2.PrintSection(config.Server, config2.FormatYaml, os.Stdout)
-}
+//type configServerCommand struct {
+//	urlConfigCommand
+//}
+//
+////nolint:unused // legacy consoleCommand entrypoint retained for reference
+//func (v *configServerCommand) Execute(_ []string) error {
+//	settings, err := appconfig.GetSettings()
+//	if err != nil {
+//		return fmt.Errorf("failed to get settings: %w", err)
+//	}
+//	if changed := v.updateUrlConfig(&settings.Server.UrlConfig); changed {
+//		if err = saveConfig(settings); err != nil {
+//			return fmt.Errorf("failed to save settings: %w", err)
+//		}
+//	}
+//	return appconfig.PrintSection(settings.Server, appconfig.FormatYaml, os.Stdout)
+//}

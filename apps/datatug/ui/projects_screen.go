@@ -5,7 +5,7 @@ import (
 )
 
 func newProjectsScreen(tui *tapp.TUI) tapp.Screen {
-	return newDefaultLayout(tui, func(tui *tapp.TUI) (tapp.Cell, error) {
+	return newDefaultLayout(tui, projectsRootScreen, func(tui *tapp.TUI) (tapp.Cell, error) {
 		panel, err := newProjectsPanel(tui)
 		return panel, err
 	})

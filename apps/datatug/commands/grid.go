@@ -2,7 +2,7 @@ package commands
 
 import (
 	"fmt"
-	"github.com/datatug/datatug/packages/models"
+	"github.com/datatug/datatug-core/pkg/models"
 
 	"github.com/gdamore/tcell/v2"
 	"github.com/rivo/tview"

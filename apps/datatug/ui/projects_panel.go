@@ -3,7 +3,7 @@ package ui
 import (
 	"context"
 	"github.com/datatug/datatug-cli/apps/datatug/tapp"
-	"github.com/datatug/datatug/packages/appconfig"
+	"github.com/datatug/datatug-core/pkg/appconfig"
 	"github.com/gdamore/tcell/v2"
 	"github.com/rivo/tview"
 	"github.com/strongo/logus"

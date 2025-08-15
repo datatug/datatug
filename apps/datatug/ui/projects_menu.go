@@ -7,8 +7,8 @@ import (
 func newProjectsMenu(tui *tapp.TUI) *projectsMenu {
 	list := menuList()
 	list.
-		AddItem("Add", "", 'A', nil).
-		AddItem("Delete", "", 'D', nil)
+		AddItem("Add", "", 'a', nil).
+		AddItem("Delete", "", 'd', nil)
 	defaultListStyle(list)
 	menu := &projectsMenu{
 		PanelBase: tapp.NewPanelBase(tui, list, list.Box),

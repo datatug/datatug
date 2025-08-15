@@ -4,7 +4,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"github.com/datatug/datatug/packages/appconfig"
+	"github.com/datatug/datatug-core/pkg/appconfig"
 	"github.com/urfave/cli/v3"
 	"gopkg.in/yaml.v3"
 	"os"

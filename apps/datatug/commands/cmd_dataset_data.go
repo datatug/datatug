@@ -4,7 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"github.com/datatug/datatug/packages/models"
+	"github.com/datatug/datatug-core/pkg/models"
 	"github.com/urfave/cli/v3"
 	"gopkg.in/yaml.v3"
 	"os"

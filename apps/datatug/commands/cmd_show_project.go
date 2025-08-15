@@ -3,7 +3,7 @@ package commands
 import (
 	"context"
 	"fmt"
-	"github.com/datatug/datatug/packages/models"
+	"github.com/datatug/datatug-core/pkg/models"
 	"github.com/gosuri/uitable"
 	"github.com/urfave/cli/v3"
 	"os"

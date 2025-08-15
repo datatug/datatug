@@ -4,12 +4,12 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	config2 "github.com/datatug/datatug/packages/appconfig"
-	"github.com/datatug/datatug/packages/server"
-	"github.com/datatug/datatug/packages/storage/filestore"
+	"github.com/datatug/datatug-core/pkg/appconfig"
+	"github.com/datatug/datatug-core/pkg/server"
+	"github.com/datatug/datatug-core/pkg/storage/filestore"
 	"github.com/urfave/cli/v3"
 	"os/exec"
-	runtime "runtime"
+	"runtime"
 	"strings"
 )
 
@@ -18,8 +18,8 @@ import (
 
 func serveCommandAction(_ context.Context, _ *cli.Command) error {
 	v := &serveCommand{}
-	var config config2.Settings
-	config, err := config2.GetSettings()
+	var config appconfig.Settings
+	config, err := appconfig.GetSettings()
 	if err != nil {
 		return err
 	}

@@ -1,7 +1,7 @@
 package color_test
 
 import (
-	col "github.com/datatug/datatug-cli/pkg/color"
+	"github.com/datatug/datatug-cli/pkg/color"
 	"testing"
 )
 
@@ -17,11 +17,11 @@ const (
 
 func TestColorize_UsesDefaultReset(t *testing.T) {
 	// Save and restore default color
-	t.Cleanup(func() { col.SetDefaultColor(col.Name(ansiDefault)) })
+	t.Cleanup(func() { color.SetDefaultColor(color.Name(ansiDefault)) })
 
-	col.SetDefaultColor(col.Name(ansiResetAll))
+	color.SetDefaultColor(color.Name(ansiResetAll))
 
-	got := col.Colorize("Hello", col.Name(ansiRedLight))
+	got := color.Colorize("Hello", color.Name(ansiRedLight))
 	want := ansiRedLight + "Hello" + ansiResetAll
 	if got != want {
 		t.Fatalf("Colorize result mismatch.\n got:  %q\n want: %q", got, want)
@@ -29,20 +29,20 @@ func TestColorize_UsesDefaultReset(t *testing.T) {
 }
 
 func TestColorFunctions_WrapWithCorrectCodes(t *testing.T) {
-	t.Cleanup(func() { col.SetDefaultColor(col.Name(ansiDefault)) })
+	t.Cleanup(func() { color.SetDefaultColor(color.Name(ansiDefault)) })
 	// Ensure default reset is the package's default
-	col.SetDefaultColor(col.Name(ansiDefault))
+	color.SetDefaultColor(color.Name(ansiDefault))
 
 	tests := []struct {
 		name string
 		fn   func(string) string
 		code string
 	}{
-		{name: "Red", fn: col.Red, code: ansiRedLight},
-		{name: "Green", fn: col.Green, code: ansiGreen},
-		{name: "Blue", fn: col.Blue, code: ansiBlueLight},
-		{name: "Gray", fn: col.Gray, code: ansiGray},
-		{name: "Yellow", fn: col.Yellow, code: ansiYellow},
+		{name: "Red", fn: color.Red, code: ansiRedLight},
+		{name: "Green", fn: color.Green, code: ansiGreen},
+		{name: "Blue", fn: color.Blue, code: ansiBlueLight},
+		{name: "Gray", fn: color.Gray, code: ansiGray},
+		{name: "Yellow", fn: color.Yellow, code: ansiYellow},
 	}
 
 	for _, tt := range tests {
@@ -57,10 +57,10 @@ func TestColorFunctions_WrapWithCorrectCodes(t *testing.T) {
 }
 
 func TestColorFunctions_EmptyString(t *testing.T) {
-	t.Cleanup(func() { col.SetDefaultColor(col.Name(ansiDefault)) })
-	col.SetDefaultColor(col.Name(ansiDefault))
+	t.Cleanup(func() { color.SetDefaultColor(color.Name(ansiDefault)) })
+	color.SetDefaultColor(color.Name(ansiDefault))
 
-	got := col.Red("")
+	got := color.Red("")
 	want := ansiRedLight + "" + ansiDefault
 	if got != want {
 		t.Fatalf("Empty string wrapping mismatch. got %q want %q", got, want)
@@ -68,26 +68,26 @@ func TestColorFunctions_EmptyString(t *testing.T) {
 }
 
 func TestStyles_DangerWarningSuccess(t *testing.T) {
-	t.Cleanup(func() { col.SetDefaultColor(col.Name(ansiDefault)) })
-	col.SetDefaultColor(col.Name(ansiDefault))
+	t.Cleanup(func() { color.SetDefaultColor(color.Name(ansiDefault)) })
+	color.SetDefaultColor(color.Name(ansiDefault))
 
-	if got, want := col.Danger("boom"), ansiRedLight+"boom"+ansiDefault; got != want {
+	if got, want := color.Danger("boom"), ansiRedLight+"boom"+ansiDefault; got != want {
 		t.Fatalf("Danger mismatch. got %q want %q", got, want)
 	}
-	if got, want := col.Warning("careful"), ansiYellow+"careful"+ansiDefault; got != want {
+	if got, want := color.Warning("careful"), ansiYellow+"careful"+ansiDefault; got != want {
 		t.Fatalf("Warning mismatch. got %q want %q", got, want)
 	}
-	if got, want := col.Success("ok"), ansiGreen+"ok"+ansiDefault; got != want {
+	if got, want := color.Success("ok"), ansiGreen+"ok"+ansiDefault; got != want {
 		t.Fatalf("Success mismatch. got %q want %q", got, want)
 	}
 }
 
 func TestSetDefaultColor_AffectsHelpers(t *testing.T) {
 	// Ensure we restore the default after the test
-	t.Cleanup(func() { col.SetDefaultColor(col.Name(ansiDefault)) })
+	t.Cleanup(func() { color.SetDefaultColor(color.Name(ansiDefault)) })
 
-	col.SetDefaultColor(col.Name(ansiResetAll))
-	got := col.Green("done")
+	color.SetDefaultColor(color.Name(ansiResetAll))
+	got := color.Green("done")
 	want := ansiGreen + "done" + ansiResetAll
 	if got != want {
 		t.Fatalf("SetDefaultColor didn't affect result. got %q want %q", got, want)
