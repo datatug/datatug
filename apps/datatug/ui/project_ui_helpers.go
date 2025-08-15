@@ -31,7 +31,7 @@ func projectScreenGreed(
 ) *tview.Grid {
 	menu := newProjectMenu(tui, project, screenID)
 
-	header := newHeaderPanel(tui, project.ID)
+	header := newHeaderPanel()
 
 	footer := NewFooterPanel()
 

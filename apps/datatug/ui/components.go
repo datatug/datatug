@@ -4,7 +4,7 @@ import (
 	"github.com/rivo/tview"
 )
 
-func layoutGrid(header *headerPanel) *tview.Grid {
+func layoutGrid(header tview.Primitive) *tview.Grid {
 
 	//footer := NewFooterPanel()
 

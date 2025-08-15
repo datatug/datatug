@@ -19,6 +19,10 @@ type PanelBase struct {
 	box *tview.Box
 }
 
+func (p PanelBase) GetTitle() string {
+	return p.box.GetTitle()
+}
+
 func (p PanelBase) Box() *tview.Box {
 	return p.box
 }

@@ -6,7 +6,7 @@ func NewScreenBase(tui *TUI, primitive tview.Primitive, options ScreenOptions) S
 	return ScreenBase{Tui: tui, options: options, Primitive: primitive}
 }
 
-var _ Screen = (*ScreenBase)(nil)
+//var _ Screen = (*ScreenBase)(nil)
 
 type ScreenBase struct {
 	Tui     *TUI

@@ -3,6 +3,7 @@ package tapp
 import "github.com/rivo/tview"
 
 type Screen interface {
+	//GetTitle() string
 	tview.Primitive
 	Options() ScreenOptions
 	//Window() tview.Primitive

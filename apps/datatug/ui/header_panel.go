@@ -1,33 +1,13 @@
 package ui
 
 import (
-	"github.com/datatug/datatug-cli/apps/datatug/tapp"
-	"github.com/rivo/tview"
+	"github.com/datatug/datatug-cli/pkg/tvprimitives/breadcrumbs"
 )
 
-func newHeaderPanel(tui *tapp.TUI, project string) (header *headerPanel) {
-	flex := tview.NewFlex()
-
-	home := tview.NewButton("DataTug")
-	home.SetSelectedFunc(func() {
-		for tui.StackDepth() > 1 {
-			tui.PopScreen()
-		}
-	})
-	//home.SetBorderPadding(0, 0, 1, 1)
-
-	flex.AddItem(home, 9, 1, false)
-
-	if project != "" {
-		projectCrumb := tview.NewTextView().SetText(" > " + project)
-		flex.AddItem(projectCrumb, 0, 2, false)
-	}
-	header = &headerPanel{
-		Primitive: flex,
-	}
-	return header
-}
-
-type headerPanel struct {
-	tview.Primitive
+func newHeaderPanel() (bc *breadcrumbs.Breadcrumbs) {
+	bc = breadcrumbs.NewBreadcrumbs()
+	bc.Push(breadcrumbs.NewBreadcrumb("DataTug"))
+	bc.Push(breadcrumbs.NewBreadcrumb("Projects"))
+	bc.Push(breadcrumbs.NewBreadcrumb("Demo project"))
+	return bc
 }

@@ -5,7 +5,7 @@ import (
 )
 
 func newLoginScreen(tui *tapp.TUI) tapp.Screen {
-	return newDefaultLayout(tui, loginRootScreen, func(tui *tapp.TUI) (tapp.Cell, error) {
+	return newDefaultLayout(tui, loginRootScreen, func(tui *tapp.TUI) (tapp.Panel, error) {
 		panel, err := newLoginPanel(tui)
 		return panel, err
 	})
