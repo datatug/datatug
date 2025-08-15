@@ -2,13 +2,16 @@ package ui
 
 import (
 	"github.com/datatug/datatug-cli/apps/datatug/tapp"
+	"github.com/datatug/datatug-cli/pkg/tvprimitives/breadcrumbs"
 )
 
 func newProjectsScreen(tui *tapp.TUI) tapp.Screen {
-	return newDefaultLayout(tui, projectsRootScreen, func(tui *tapp.TUI) (tapp.Panel, error) {
-		panel, err := newProjectsPanel(tui)
-		return panel, err
-	})
+	screen, _ := newDefaultLayout(tui, projectsRootScreen, getProjectsContent)
+	tui.Header.Breadcrumbs.Clear()
+	tui.Header.Breadcrumbs.Push(breadcrumbs.NewBreadcrumb("DataTug", nil))
+	tui.Header.Breadcrumbs.Push(breadcrumbs.NewBreadcrumb("Projects", nil))
+	tui.Header.Breadcrumbs.Push(breadcrumbs.NewBreadcrumb("Demo project 2", nil))
+	return screen
 }
 
 var _ tapp.Screen = (*projectsScreen)(nil)

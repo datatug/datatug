@@ -5,10 +5,11 @@ import (
 )
 
 func newLoginScreen(tui *tapp.TUI) tapp.Screen {
-	return newDefaultLayout(tui, loginRootScreen, func(tui *tapp.TUI) (tapp.Panel, error) {
+	screen, _ := newDefaultLayout(tui, loginRootScreen, func(tui *tapp.TUI) (tapp.Panel, error) {
 		panel, err := newLoginPanel(tui)
 		return panel, err
 	})
+	return screen
 }
 
 var _ tapp.Screen = (*loginScreen)(nil)

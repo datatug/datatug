@@ -21,6 +21,11 @@ type projectsPanel struct {
 	list            *tview.List
 }
 
+func getProjectsContent(tui *tapp.TUI) (tapp.Panel, error) {
+	panel, err := newProjectsPanel(tui)
+	return panel, err
+}
+
 func newProjectsPanel(tui *tapp.TUI) (*projectsPanel, error) {
 	list := tview.NewList()
 	panel := &projectsPanel{

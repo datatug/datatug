@@ -11,12 +11,12 @@ func layoutGrid(header tview.Primitive) *tview.Grid {
 	grid := tview.NewGrid()
 
 	grid. // Default grid settings
-		SetRows(1, 0, 1).
-		SetColumns(20, 0, 20).
+		SetRows(1, 0).
+		SetColumns(20, 0).
 		SetBorders(false)
 
 	// Adds header and footer to the grid.
-	grid.AddItem(header, 0, 0, 1, 3, 0, 0, false)
+	grid.AddItem(header, 0, 0, 1, 2, 0, 0, false)
 	//grid.AddItem(footer, 2, 0, 1, 3, 0, 0, false)
 
 	return grid

@@ -2,18 +2,38 @@ package tapp
 
 import (
 	"fmt"
+	"github.com/gdamore/tcell/v2"
 	"github.com/rivo/tview"
 )
 
 func NewTUI(app *tview.Application) *TUI {
-	return &TUI{
-		App: app,
+	tui := &TUI{
+		App:    app,
+		Header: NewHeader(),
 	}
+	app.SetInputCapture(tui.inputCapture)
+	return tui
+}
+
+func (tui *TUI) inputCapture(event *tcell.EventKey) *tcell.EventKey {
+	switch key := event.Key(); key {
+	case tcell.KeyRune:
+		switch s := string(event.Rune()); s {
+		case "q":
+			tui.App.Stop()
+		default:
+			return event
+		}
+	default:
+		return event
+	}
+	return event
 }
 
 type TUI struct {
-	App   *tview.Application
-	stack []Screen
+	App    *tview.Application
+	Header *Header
+	stack  []Screen
 }
 
 func (tui *TUI) StackDepth() int {

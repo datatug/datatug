@@ -1,9 +1,11 @@
 package breadcrumbs
 
 import (
-	"github.com/gdamore/tcell/v2"
 	"strings"
 	"testing"
+
+	"github.com/gdamore/tcell/v2"
+	"github.com/rivo/tview"
 )
 
 // helper to read a full line from the screen
@@ -188,4 +190,254 @@ func TestBreadcrumbs_Draw_UnfocusedDim(t *testing.T) {
 	if attrsLast&tcell.AttrDim != 0 {
 		t.Fatalf("expected focused (last) item NOT to be dim, attrs=%v", attrsLast)
 	}
+}
+
+// --- Navigation tests for three items ---
+func TestBreadcrumbs_Navigation_ThreeItems(t *testing.T) {
+	width := 80
+	height := 1
+	s := newSimScreen(t, width, height)
+	defer s.Fini()
+
+	mk := func() *Breadcrumbs {
+		bc := NewBreadcrumbs()
+		bc.Push(NewBreadcrumb("Alpha", nil))
+		bc.Push(NewBreadcrumb("Beta", nil))
+		bc.Push(NewBreadcrumb("Gamma", nil))
+		bc.SetRect(0, 0, width, height)
+		bc.Focus(nil) // give focus; selects last by default
+		return bc
+	}
+
+	getX := func(screen tcell.Screen, y int, target rune) int {
+		for x := 0; x < width; x++ {
+			r, _, _, _ := screen.GetContent(x, y)
+			if r == target {
+				return x
+			}
+		}
+		return -1
+	}
+
+	assertHighlightOnly := func(screen tcell.Screen, y int, selected rune, others ...rune) {
+		// Selected must have yellow background.
+		sx := getX(screen, y, selected)
+		if sx == -1 {
+			t.Fatalf("could not find selected rune %q on line", string(selected))
+		}
+		_, _, styleSel, _ := screen.GetContent(sx, y)
+		_, bgSel, _ := styleSel.Decompose()
+		if bgSel != tcell.ColorYellow {
+			t.Fatalf("expected selected %q to have yellow background, got %v", string(selected), bgSel)
+		}
+		// Others must not have yellow background.
+		for _, r := range others {
+			ox := getX(screen, y, r)
+			if ox == -1 {
+				t.Fatalf("could not find other rune %q on line", string(r))
+			}
+			_, _, st, _ := screen.GetContent(ox, y)
+			_, bg, _ := st.Decompose()
+			if bg == tcell.ColorYellow {
+				t.Fatalf("expected non-selected %q to NOT be highlighted (yellow bg)", string(r))
+			}
+		}
+	}
+
+	// Subtest: current item is 2nd. LEFT selects 1st; RIGHT selects 3rd.
+	t.Run("current second: left->first, right->third", func(t *testing.T) {
+		bc := mk()
+		// Move from last (index 2) to second (index 1) with LEFT.
+		if h := bc.InputHandler(); h != nil {
+			h(tcell.NewEventKey(tcell.KeyLeft, 0, tcell.ModNone), func(p tview.Primitive) {})
+		}
+		bc.Draw(s)
+		assertHighlightOnly(s, 0, 'B', 'A', 'G') // Beta highlighted
+
+		// RIGHT should move to third (index 2).
+		if h := bc.InputHandler(); h != nil {
+			h(tcell.NewEventKey(tcell.KeyRight, 0, tcell.ModNone), func(p tview.Primitive) {})
+		}
+		bc.Draw(s)
+		assertHighlightOnly(s, 0, 'G', 'A', 'B') // Gamma highlighted
+	})
+
+	// Subtest: current last. LEFT -> second. RIGHT at last: no change.
+	t.Run("current last: left->second, right->noop", func(t *testing.T) {
+		bc := mk() // currently last (Gamma)
+		bc.Draw(s)
+		assertHighlightOnly(s, 0, 'G', 'A', 'B')
+		// LEFT -> second (Beta)
+		if h := bc.InputHandler(); h != nil {
+			h(tcell.NewEventKey(tcell.KeyLeft, 0, tcell.ModNone), func(p tview.Primitive) {})
+		}
+		bc.Draw(s)
+		assertHighlightOnly(s, 0, 'B', 'A', 'G')
+		// RIGHT -> back to last (Gamma)
+		if h := bc.InputHandler(); h != nil {
+			h(tcell.NewEventKey(tcell.KeyRight, 0, tcell.ModNone), func(p tview.Primitive) {})
+		}
+		bc.Draw(s)
+		assertHighlightOnly(s, 0, 'G', 'A', 'B')
+		// RIGHT at last: should stay last (no change)
+		if h := bc.InputHandler(); h != nil {
+			h(tcell.NewEventKey(tcell.KeyRight, 0, tcell.ModNone), func(p tview.Primitive) {})
+		}
+		bc.Draw(s)
+		assertHighlightOnly(s, 0, 'G', 'A', 'B')
+	})
+
+	// Subtest: current first. LEFT noop. RIGHT -> second.
+	t.Run("current first: left->noop, right->second", func(t *testing.T) {
+		bc := mk()
+		// Force current to first.
+		bc.SelectedItemIndex = 0
+		bc.Draw(s)
+		assertHighlightOnly(s, 0, 'A', 'B', 'G')
+		// LEFT at first: noop.
+		if h := bc.InputHandler(); h != nil {
+			h(tcell.NewEventKey(tcell.KeyLeft, 0, tcell.ModNone), func(p tview.Primitive) {})
+		}
+		bc.Draw(s)
+		assertHighlightOnly(s, 0, 'A', 'B', 'G')
+		// RIGHT -> second.
+		if h := bc.InputHandler(); h != nil {
+			h(tcell.NewEventKey(tcell.KeyRight, 0, tcell.ModNone), func(p tview.Primitive) {})
+		}
+		bc.Draw(s)
+		assertHighlightOnly(s, 0, 'B', 'A', 'G')
+	})
+}
+
+// Test the new '<' and '>' key navigation
+func TestBreadcrumbs_AngleBracketNavigation(t *testing.T) {
+	width := 80
+	height := 1
+	s := newSimScreen(t, width, height)
+	defer s.Fini()
+
+	bc := NewBreadcrumbs()
+	bc.Push(NewBreadcrumb("Alpha", nil))
+	bc.Push(NewBreadcrumb("Beta", nil))
+	bc.Push(NewBreadcrumb("Gamma", nil))
+	bc.SetRect(0, 0, width, height)
+	bc.Focus(nil) // give focus; selects last by default
+
+	getX := func(screen tcell.Screen, y int, target rune) int {
+		for x := 0; x < width; x++ {
+			r, _, _, _ := screen.GetContent(x, y)
+			if r == target {
+				return x
+			}
+		}
+		return -1
+	}
+
+	assertHighlightOnly := func(screen tcell.Screen, y int, selected rune, others ...rune) {
+		// Selected must have yellow background.
+		sx := getX(screen, y, selected)
+		if sx == -1 {
+			t.Fatalf("could not find selected rune %q on line", string(selected))
+		}
+		_, _, styleSel, _ := screen.GetContent(sx, y)
+		_, bgSel, _ := styleSel.Decompose()
+		if bgSel != tcell.ColorYellow {
+			t.Fatalf("expected selected %q to have yellow background, got %v", string(selected), bgSel)
+		}
+		// Others must not have yellow background.
+		for _, r := range others {
+			ox := getX(screen, y, r)
+			if ox == -1 {
+				t.Fatalf("could not find other rune %q on line", string(r))
+			}
+			_, _, st, _ := screen.GetContent(ox, y)
+			_, bg, _ := st.Decompose()
+			if bg == tcell.ColorYellow {
+				t.Fatalf("expected non-selected %q to NOT be highlighted (yellow bg)", string(r))
+			}
+		}
+	}
+
+	// Test '<' key navigation
+	t.Run("angle bracket left navigation", func(t *testing.T) {
+		bc.SelectedItemIndex = 2 // start at last (Gamma)
+		bc.Draw(s)
+		assertHighlightOnly(s, 0, 'G', 'A', 'B') // Gamma highlighted
+
+		// '<' should move to Beta
+		if h := bc.InputHandler(); h != nil {
+			h(tcell.NewEventKey(tcell.KeyRune, '<', tcell.ModNone), func(p tview.Primitive) {})
+		}
+		bc.Draw(s)
+		assertHighlightOnly(s, 0, 'B', 'A', 'G') // Beta highlighted
+
+		// '<' should move to Alpha
+		if h := bc.InputHandler(); h != nil {
+			h(tcell.NewEventKey(tcell.KeyRune, '<', tcell.ModNone), func(p tview.Primitive) {})
+		}
+		bc.Draw(s)
+		assertHighlightOnly(s, 0, 'A', 'B', 'G') // Alpha highlighted
+
+		// '<' at first item should do nothing
+		if h := bc.InputHandler(); h != nil {
+			h(tcell.NewEventKey(tcell.KeyRune, '<', tcell.ModNone), func(p tview.Primitive) {})
+		}
+		bc.Draw(s)
+		assertHighlightOnly(s, 0, 'A', 'B', 'G') // Still Alpha highlighted
+	})
+
+	// Test '>' key navigation
+	t.Run("angle bracket right navigation", func(t *testing.T) {
+		bc.SelectedItemIndex = 0 // start at first (Alpha)
+		bc.Draw(s)
+		assertHighlightOnly(s, 0, 'A', 'B', 'G') // Alpha highlighted
+
+		// '>' should move to Beta
+		if h := bc.InputHandler(); h != nil {
+			h(tcell.NewEventKey(tcell.KeyRune, '>', tcell.ModNone), func(p tview.Primitive) {})
+		}
+		bc.Draw(s)
+		assertHighlightOnly(s, 0, 'B', 'A', 'G') // Beta highlighted
+
+		// '>' should move to Gamma
+		if h := bc.InputHandler(); h != nil {
+			h(tcell.NewEventKey(tcell.KeyRune, '>', tcell.ModNone), func(p tview.Primitive) {})
+		}
+		bc.Draw(s)
+		assertHighlightOnly(s, 0, 'G', 'A', 'B') // Gamma highlighted
+
+		// '>' at last item should do nothing
+		if h := bc.InputHandler(); h != nil {
+			h(tcell.NewEventKey(tcell.KeyRune, '>', tcell.ModNone), func(p tview.Primitive) {})
+		}
+		bc.Draw(s)
+		assertHighlightOnly(s, 0, 'G', 'A', 'B') // Still Gamma highlighted
+	})
+
+	// Test that angle bracket keys don't change focus
+	t.Run("angle bracket keys should not change focus", func(t *testing.T) {
+		bc.SelectedItemIndex = 1 // start at middle item
+
+		var focusChanges int
+		// Test '<' key
+		if h := bc.InputHandler(); h != nil {
+			h(tcell.NewEventKey(tcell.KeyRune, '<', tcell.ModNone), func(p tview.Primitive) {
+				focusChanges++
+			})
+		}
+		if focusChanges > 0 {
+			t.Errorf("'<' key should not change focus; got %d focus changes", focusChanges)
+		}
+
+		focusChanges = 0
+		// Test '>' key
+		if h := bc.InputHandler(); h != nil {
+			h(tcell.NewEventKey(tcell.KeyRune, '>', tcell.ModNone), func(p tview.Primitive) {
+				focusChanges++
+			})
+		}
+		if focusChanges > 0 {
+			t.Errorf("'>' key should not change focus; got %d focus changes", focusChanges)
+		}
+	})
 }

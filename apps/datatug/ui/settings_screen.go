@@ -21,7 +21,7 @@ func (p *settingsPanel) Draw(screen tcell.Screen) {
 }
 
 func newSettingsScreen(tui *tapp.TUI) tapp.Screen {
-	return newDefaultLayout(tui, settingsRootScreen, func(tui *tapp.TUI) (tapp.Panel, error) {
+	screen, _ := newDefaultLayout(tui, settingsRootScreen, func(tui *tapp.TUI) (tapp.Panel, error) {
 		setting, _ := appconfig.GetSettings()
 
 		content, _ := yaml.Marshal(setting)
@@ -37,4 +37,5 @@ func newSettingsScreen(tui *tapp.TUI) tapp.Screen {
 		panel.textView.SetTitleAlign(tview.AlignLeft)
 		return panel, nil
 	})
+	return screen
 }

@@ -7,17 +7,19 @@ import (
 
 type Breadcrumbs struct {
 	*tview.Box
-	items        []Breadcrumb
-	separator    string
-	focusedIndex int // -1 means last item is considered focused
+	items             []Breadcrumb
+	separator         string
+	SelectedItemIndex int             // -1 means last item is considered focused
+	nextFocusTarget   tview.Primitive // optional: where to move focus on Tab/Down
+	prevFocusTarget   tview.Primitive // optional: where to move focus on Shift+Tab/Up
 }
 
 func NewBreadcrumbs(options ...option) *Breadcrumbs {
 	b := &Breadcrumbs{
-		Box:          tview.NewBox(),
-		items:        make([]Breadcrumb, 0, 8),
-		separator:    " > ",
-		focusedIndex: -1,
+		Box:               tview.NewBox(),
+		items:             make([]Breadcrumb, 0, 8),
+		separator:         " > ",
+		SelectedItemIndex: -1,
 	}
 	for _, o := range options {
 		o(b)
@@ -44,7 +46,7 @@ func (b *Breadcrumbs) Draw(screen tcell.Screen) {
 	}
 
 	// Determine which item is focused. Default to last.
-	focus := b.focusedIndex
+	focus := b.SelectedItemIndex
 	if focus < 0 || focus >= len(b.items) {
 		focus = len(b.items) - 1
 	}
@@ -80,11 +82,23 @@ func (b *Breadcrumbs) Draw(screen tcell.Screen) {
 	}
 }
 
+// SetNextFocusTarget sets the primitive to focus when Tab/Down is pressed.
+func (b *Breadcrumbs) SetNextFocusTarget(p tview.Primitive) *Breadcrumbs {
+	b.nextFocusTarget = p
+	return b
+}
+
+// SetPrevFocusTarget sets the primitive to focus when Shift+Tab/Up is pressed.
+func (b *Breadcrumbs) SetPrevFocusTarget(p tview.Primitive) *Breadcrumbs {
+	b.prevFocusTarget = p
+	return b
+}
+
 // Focus is called when this primitive receives focus.
 func (b *Breadcrumbs) Focus(delegate func(p tview.Primitive)) {
-	// Always select the last item upon receiving focus.
-	if len(b.items) > 0 {
-		b.focusedIndex = len(b.items) - 1
+	// When receiving focus, keep current selection if valid; otherwise select the last item.
+	if len(b.items) > 0 && (b.SelectedItemIndex < 0 || b.SelectedItemIndex >= len(b.items)) {
+		b.SelectedItemIndex = len(b.items) - 1
 	}
 	b.Box.Focus(delegate)
 }
@@ -94,39 +108,64 @@ func (b *Breadcrumbs) Blur() {
 	b.Box.Blur()
 }
 
-// InputHandler handles keyboard input for navigation and activation.
-func (b *Breadcrumbs) InputHandler() func(event *tcell.EventKey, setFocus func(p tview.Primitive)) {
-	return b.WrapInputHandler(func(event *tcell.EventKey, setFocus func(p tview.Primitive)) {
-		if len(b.items) == 0 {
+func (b *Breadcrumbs) inputHandler(event *tcell.EventKey, setFocus func(p tview.Primitive)) {
+	if len(b.items) == 0 {
+		return
+	}
+	sel := b.SelectedItemIndex
+	if sel < 0 || sel >= len(b.items) {
+		sel = len(b.items) - 1
+	}
+	switch event.Key() {
+	case tcell.KeyLeft:
+		if sel > 0 {
+			b.SelectedItemIndex = sel - 1
+		}
+		return
+	case tcell.KeyRight:
+		if sel < len(b.items)-1 {
+			b.SelectedItemIndex = sel + 1
+		}
+		// If already at last item, do nothing (consume key, keep focus).
+		return
+	case tcell.KeyEnter:
+		if sel >= 0 && sel < len(b.items) && b.items[sel] != nil {
+			_ = b.items[sel].Action()
+		}
+		return
+	case tcell.KeyRune:
+		switch event.Rune() {
+		case '<':
+			if sel > 0 {
+				b.SelectedItemIndex = sel - 1
+			}
+			return
+		case '>':
+			if sel < len(b.items)-1 {
+				b.SelectedItemIndex = sel + 1
+			}
 			return
 		}
-		sel := b.focusedIndex
-		if sel < 0 || sel >= len(b.items) {
-			sel = len(b.items) - 1
-		}
-		switch event.Key() {
-		case tcell.KeyLeft:
-			if sel > 0 {
-				b.focusedIndex = sel - 1
-			}
-		case tcell.KeyRight:
-			if sel < len(b.items)-1 {
-				b.focusedIndex = sel + 1
-			}
-		case tcell.KeyEnter:
-			if sel >= 0 && sel < len(b.items) && b.items[sel] != nil {
-				_ = b.items[sel].Action()
-			}
-		case tcell.KeyTab, tcell.KeyDown:
-			// Pass focus to the next focusable primitive by letting the container handle it.
-			// We indicate leaving by blurring ourselves and not consuming the event.
-			// Some containers handle Tab/Down globally; ensure we don't trap it.
-			setFocus(nil)
-		case tcell.KeyBacktab, tcell.KeyUp:
-			// Similarly, allow previous focus via container.
+	case tcell.KeyTab, tcell.KeyDown:
+		if b.nextFocusTarget != nil {
+			setFocus(b.nextFocusTarget)
+		} else {
 			setFocus(nil)
 		}
-	})
+		return
+	case tcell.KeyBacktab, tcell.KeyUp:
+		if b.prevFocusTarget != nil {
+			setFocus(b.prevFocusTarget)
+		} else {
+			setFocus(nil)
+		}
+		return
+	}
+}
+
+// InputHandler handles keyboard input for navigation and activation.
+func (b *Breadcrumbs) InputHandler() func(event *tcell.EventKey, setFocus func(p tview.Primitive)) {
+	return b.WrapInputHandler(b.inputHandler)
 }
 
 // MouseHandler handles selection via mouse and focusing on click.
@@ -152,8 +191,13 @@ func (b *Breadcrumbs) MouseHandler() func(action tview.MouseAction, event *tcell
 			// Compute width based on rune count (no style tags in label after Escape).
 			w := len([]rune(label))
 			if x >= cursorX && x < cursorX+w {
-				b.focusedIndex = i
+				b.SelectedItemIndex = i
+				// Focus breadcrumbs so it highlights selection.
 				setFocus(b)
+				// Call action only on mouse click (not on mouse down) to avoid double invocation.
+				if action == tview.MouseLeftClick && b.items[i] != nil {
+					_ = b.items[i].Action()
+				}
 				return true, nil
 			}
 			cursorX += w
