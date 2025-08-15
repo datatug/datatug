@@ -43,7 +43,7 @@ func addMainRow(tui *tapp.TUI, selectedMenuItem rootScreen, grid *tview.Grid, ge
 
 	// Layout for screens wider than 100 cells.
 	grid.
-		AddItem(menu, 1, 0, 1, 1, 0, 100, false).
+		AddItem(menu, 1, 0, 1, 1, 0, 100, true).
 		AddItem(content, 1, 1, 1, 1, 0, 100, false).
 		AddItem(sidebar, 1, 2, 1, 1, 0, 100, false)
 
