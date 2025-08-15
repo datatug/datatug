@@ -20,8 +20,7 @@ func TestBreadcrumbs_MouseClick_SelectsAndCallsAction(t *testing.T) {
 	s.SetSize(width, height)
 
 	var aCalls, bCalls, gCalls int
-	bc := NewBreadcrumbs()
-	bc.Push(NewBreadcrumb("Alpha", func() error { aCalls++; return nil }))
+	bc := NewBreadcrumbs(NewBreadcrumb("Alpha", func() error { aCalls++; return nil }))
 	bc.Push(NewBreadcrumb("Beta", func() error { bCalls++; return nil }))
 	bc.Push(NewBreadcrumb("Gamma", func() error { gCalls++; return nil }))
 	bc.SetRect(0, 0, width, height)
@@ -66,8 +65,8 @@ func TestBreadcrumbs_MouseClick_SelectsAndCallsAction(t *testing.T) {
 		}
 	}
 
-	if bc.SelectedItemIndex != 1 {
-		t.Fatalf("expected SelectedItemIndex=1 (Beta), got %d", bc.SelectedItemIndex)
+	if bc.selectedItemIndex != 1 {
+		t.Fatalf("expected selectedItemIndex=1 (Beta), got %d", bc.selectedItemIndex)
 	}
 	if aCalls != 0 || gCalls != 0 || bCalls != 1 {
 		t.Fatalf("unexpected action calls: A=%d B=%d G=%d (expected B=1)", aCalls, bCalls, gCalls)

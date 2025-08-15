@@ -38,7 +38,7 @@ func newSimScreen(t *testing.T, width, height int) tcell.Screen {
 }
 
 func TestNewBreadcrumbs_DefaultsAndOptions(t *testing.T) {
-	bc := NewBreadcrumbs()
+	bc := NewBreadcrumbs(nil)
 	if bc == nil {
 		t.Fatalf("NewBreadcrumbs returned nil")
 	}
@@ -46,25 +46,24 @@ func TestNewBreadcrumbs_DefaultsAndOptions(t *testing.T) {
 		t.Errorf("default separator = %q, want %q", bc.separator, " > ")
 	}
 
-	bc2 := NewBreadcrumbs(WithSeparator(" / "))
+	bc2 := NewBreadcrumbs(nil, WithSeparator(" / "))
 	if bc2.separator != " / " {
 		t.Errorf("WithSeparator not applied, got %q", bc2.separator)
 	}
 }
 
 func TestBreadcrumbs_PushAndClear(t *testing.T) {
-	bc := NewBreadcrumbs()
-	if len(bc.items) != 0 {
-		t.Fatalf("initial items length = %d, want 0", len(bc.items))
+	bc := NewBreadcrumbs(NewBreadcrumb("A", nil))
+	if len(bc.items) != 1 {
+		t.Fatalf("initial items length = %d, want 1", len(bc.items))
 	}
-	bc.Push(NewBreadcrumb("A", nil))
 	bc.Push(NewBreadcrumb("B", nil))
 	if len(bc.items) != 2 {
 		t.Fatalf("after Push, items length = %d, want 2", len(bc.items))
 	}
 	bc.Clear()
-	if got := len(bc.items); got != 0 {
-		t.Fatalf("after Clear, items length = %d, want 0", got)
+	if got := len(bc.items); got != 1 {
+		t.Fatalf("after Clear, items length = %d, want 1", got)
 	}
 }
 
@@ -74,8 +73,7 @@ func TestBreadcrumbs_Draw_SingleLineNoBorder(t *testing.T) {
 	s := newSimScreen(t, width, height)
 	defer s.Fini()
 
-	bc := NewBreadcrumbs()
-	bc.Push(NewBreadcrumb("DataTug", nil))
+	bc := NewBreadcrumbs(NewBreadcrumb("DataTug", nil))
 	bc.Push(NewBreadcrumb("Projects", nil))
 	bc.Push(NewBreadcrumb("Demo", nil))
 	bc.SetRect(0, 0, width, height)
@@ -96,9 +94,8 @@ func TestBreadcrumbs_Draw_RespectsInnerRectWithBorder(t *testing.T) {
 	s := newSimScreen(t, width, height)
 	defer s.Fini()
 
-	bc := NewBreadcrumbs()
+	bc := NewBreadcrumbs(NewBreadcrumb("A", nil))
 	bc.SetBorder(true)
-	bc.Push(NewBreadcrumb("A", nil))
 	bc.Push(NewBreadcrumb("B", nil))
 	bc.SetRect(0, 0, width, height)
 	bc.Draw(s)
@@ -133,8 +130,7 @@ func TestBreadcrumbs_Draw_TruncatesAtWidth(t *testing.T) {
 	s := newSimScreen(t, width, height)
 	defer s.Fini()
 
-	bc := NewBreadcrumbs(WithSeparator("/"))
-	bc.Push(NewBreadcrumb("ABCDEFGHI", nil))
+	bc := NewBreadcrumbs(NewBreadcrumb("ABCDEFGHI", nil), WithSeparator("/"))
 	bc.Push(NewBreadcrumb("XYZ", nil))
 	bc.SetRect(0, 0, width, height)
 	bc.Draw(s)
@@ -156,8 +152,7 @@ func TestBreadcrumbs_Draw_UnfocusedDim(t *testing.T) {
 	s := newSimScreen(t, width, height)
 	defer s.Fini()
 
-	bc := NewBreadcrumbs()
-	bc.Push(NewBreadcrumb("DataTug", nil))
+	bc := NewBreadcrumbs(NewBreadcrumb("DataTug", nil))
 	bc.Push(NewBreadcrumb("Projects", nil))
 	bc.Push(NewBreadcrumb("Demo", nil)) // last item is focused by default
 	bc.SetRect(0, 0, width, height)
@@ -200,8 +195,7 @@ func TestBreadcrumbs_Navigation_ThreeItems(t *testing.T) {
 	defer s.Fini()
 
 	mk := func() *Breadcrumbs {
-		bc := NewBreadcrumbs()
-		bc.Push(NewBreadcrumb("Alpha", nil))
+		bc := NewBreadcrumbs(NewBreadcrumb("Alpha", nil))
 		bc.Push(NewBreadcrumb("Beta", nil))
 		bc.Push(NewBreadcrumb("Gamma", nil))
 		bc.SetRect(0, 0, width, height)
@@ -291,7 +285,7 @@ func TestBreadcrumbs_Navigation_ThreeItems(t *testing.T) {
 	t.Run("current first: left->noop, right->second", func(t *testing.T) {
 		bc := mk()
 		// Force current to first.
-		bc.SelectedItemIndex = 0
+		bc.selectedItemIndex = 0
 		bc.Draw(s)
 		assertHighlightOnly(s, 0, 'A', 'B', 'G')
 		// LEFT at first: noop.
@@ -316,8 +310,7 @@ func TestBreadcrumbs_AngleBracketNavigation(t *testing.T) {
 	s := newSimScreen(t, width, height)
 	defer s.Fini()
 
-	bc := NewBreadcrumbs()
-	bc.Push(NewBreadcrumb("Alpha", nil))
+	bc := NewBreadcrumbs(NewBreadcrumb("Alpha", nil))
 	bc.Push(NewBreadcrumb("Beta", nil))
 	bc.Push(NewBreadcrumb("Gamma", nil))
 	bc.SetRect(0, 0, width, height)
@@ -360,7 +353,7 @@ func TestBreadcrumbs_AngleBracketNavigation(t *testing.T) {
 
 	// Test '<' key navigation
 	t.Run("angle bracket left navigation", func(t *testing.T) {
-		bc.SelectedItemIndex = 2 // start at last (Gamma)
+		bc.selectedItemIndex = 2 // start at last (Gamma)
 		bc.Draw(s)
 		assertHighlightOnly(s, 0, 'G', 'A', 'B') // Gamma highlighted
 
@@ -388,7 +381,7 @@ func TestBreadcrumbs_AngleBracketNavigation(t *testing.T) {
 
 	// Test '>' key navigation
 	t.Run("angle bracket right navigation", func(t *testing.T) {
-		bc.SelectedItemIndex = 0 // start at first (Alpha)
+		bc.selectedItemIndex = 0 // start at first (Alpha)
 		bc.Draw(s)
 		assertHighlightOnly(s, 0, 'A', 'B', 'G') // Alpha highlighted
 
@@ -416,7 +409,7 @@ func TestBreadcrumbs_AngleBracketNavigation(t *testing.T) {
 
 	// Test that angle bracket keys don't change focus
 	t.Run("angle bracket keys should not change focus", func(t *testing.T) {
-		bc.SelectedItemIndex = 1 // start at middle item
+		bc.selectedItemIndex = 1 // start at middle item
 
 		var focusChanges int
 		// Test '<' key

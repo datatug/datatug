@@ -70,7 +70,7 @@ func TestBreadcrumbs_InDefaultLayout_FocusTraversalToList(t *testing.T) {
 //		app.SetFocus(header)
 //
 //		// Get initial state - should be at last item (index 2, Gamma)
-//		initialIndex := header.SelectedItemIndex
+//		initialIndex := header.selectedItemIndex
 //		if initialIndex != 2 {
 //			t.Fatalf("Expected initial index 2 (Gamma), got %d", initialIndex)
 //		}
@@ -88,8 +88,8 @@ func TestBreadcrumbs_InDefaultLayout_FocusTraversalToList(t *testing.T) {
 //		//}
 //
 //		// Verify LEFT arrow moved selection from index 2 to index 1 (Beta)
-//		if header.SelectedItemIndex != 1 {
-//			t.Errorf("Selected item index should be 1 after LEFT arrow, got %d", header.SelectedItemIndex)
+//		if header.selectedItemIndex != 1 {
+//			t.Errorf("Selected item index should be 1 after LEFT arrow, got %d", header.selectedItemIndex)
 //		}
 //
 //		// Test RIGHT arrow key - should move from index 1 back to index 2
@@ -100,8 +100,8 @@ func TestBreadcrumbs_InDefaultLayout_FocusTraversalToList(t *testing.T) {
 //		}
 //
 //		// Verify RIGHT arrow moved selection from index 1 to index 2 (Gamma)
-//		if header.SelectedItemIndex != 2 {
-//			t.Errorf("Selected item index should be 2 after RIGHT arrow, got %d", header.SelectedItemIndex)
+//		if header.selectedItemIndex != 2 {
+//			t.Errorf("Selected item index should be 2 after RIGHT arrow, got %d", header.selectedItemIndex)
 //		}
 //	})
 //}

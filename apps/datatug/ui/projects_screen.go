@@ -8,9 +8,7 @@ import (
 func newProjectsScreen(tui *tapp.TUI) tapp.Screen {
 	screen, _ := newDefaultLayout(tui, projectsRootScreen, getProjectsContent)
 	tui.Header.Breadcrumbs.Clear()
-	tui.Header.Breadcrumbs.Push(breadcrumbs.NewBreadcrumb("DataTug", nil))
 	tui.Header.Breadcrumbs.Push(breadcrumbs.NewBreadcrumb("Projects", nil))
-	tui.Header.Breadcrumbs.Push(breadcrumbs.NewBreadcrumb("Demo project", nil))
 	return screen
 }
 
