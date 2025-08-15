@@ -41,7 +41,9 @@ func (v *uiCommand) Execute(_ []string) error {
 	//
 	//})
 	tui := tapp.NewTUI(app)
-	_ = ui.NewHomeScreen(tui)
-
+	if err := ui.GoHomeScreen(tui); err != nil {
+		panic(err)
+	}
+	app.SetRoot(tui.Grid, true)
 	return app.Run()
 }

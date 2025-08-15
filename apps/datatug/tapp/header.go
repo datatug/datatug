@@ -14,7 +14,7 @@ type Header struct {
 func NewHeader() *Header {
 	header := &Header{
 		Flex:        tview.NewFlex(),
-		Breadcrumbs: breadcrumbs.NewBreadcrumbs(breadcrumbs.NewBreadcrumb("DataTug", nil)),
+		Breadcrumbs: breadcrumbs.NewBreadcrumbs(breadcrumbs.NewBreadcrumb(" ⛴ DataTug", nil)),
 		RightMenu:   tview.NewTextView().SetText("Sign In"),
 	}
 

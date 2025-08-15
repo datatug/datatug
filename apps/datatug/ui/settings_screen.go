@@ -20,22 +20,34 @@ func (p *settingsPanel) Draw(screen tcell.Screen) {
 	p.textView.Draw(screen)
 }
 
-func newSettingsScreen(tui *tapp.TUI) tapp.Screen {
-	screen, _ := newDefaultLayout(tui, settingsRootScreen, func(tui *tapp.TUI) (tapp.Panel, error) {
-		setting, _ := appconfig.GetSettings()
+func goSettingsScreen(tui *tapp.TUI) error {
+	textView := tview.NewTextView()
+	var settingsStr string
+	setting, err := appconfig.GetSettings()
+	if err != nil {
+		settingsStr = err.Error()
+	}
 
-		content, _ := yaml.Marshal(setting)
-
-		const fileName = " Config File: ~/.datatug.yaml"
-		textView := tview.NewTextView().SetText(string(content))
-		panel := &settingsPanel{
-			PanelBase: tapp.NewPanelBaseFromTextView(tui, textView),
-			textView:  textView,
+	if settingsStr == "" {
+		data, err := yaml.Marshal(setting)
+		if err != nil {
+			settingsStr = err.Error()
+		} else {
+			settingsStr = string(data)
 		}
-		defaultBorder(panel.textView.Box)
-		panel.textView.SetTitle(fileName)
-		panel.textView.SetTitleAlign(tview.AlignLeft)
-		return panel, nil
-	})
-	return screen
+	}
+
+	const fileName = " Config File: ~/.datatug.yaml"
+	textView.SetText(string(settingsStr))
+	content := &settingsPanel{
+		PanelBase: tapp.NewPanelBaseFromTextView(tui, textView),
+		textView:  textView,
+	}
+	defaultBorder(content.textView.Box)
+	content.textView.SetTitle(fileName)
+	content.textView.SetTitleAlign(tview.AlignLeft)
+
+	menu := newDataTugMainMenu(tui, settingsRootScreen)
+	tui.SetPanels(menu, content)
+	return nil
 }

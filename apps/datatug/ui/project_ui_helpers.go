@@ -10,9 +10,8 @@ func newProjectRootScreenBase(
 	project appconfig.ProjectConfig,
 	screen ProjectScreenID,
 	main tapp.Panel,
-	sidebar tapp.Panel,
 ) tapp.ScreenBase {
-	grid := projectScreenGrid(tui, project, screen, main, sidebar)
+	grid := projectScreenGrid(tui, project, screen, main)
 
 	screenBase := tapp.NewScreenBase(tui, grid, tapp.FullScreen())
 
@@ -26,7 +25,6 @@ func projectScreenGrid(
 	project appconfig.ProjectConfig,
 	screenID ProjectScreenID,
 	main tapp.Panel,
-	sidebar tapp.Panel,
 ) (screen tapp.Screen) {
 	_ = newProjectMenu(tui, project, screenID)
 

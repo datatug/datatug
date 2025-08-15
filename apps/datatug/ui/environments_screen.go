@@ -13,9 +13,9 @@ func newEnvironmentsScreen(tui *tapp.TUI, project appconfig.ProjectConfig) tapp.
 
 	main := newEnvironmentsPanel(project)
 
-	sidebar := newProjectsMenu(tui)
+	_ = newProjectsMenu(tui)
 
 	return &environmentsScreen{
-		ScreenBase: newProjectRootScreenBase(tui, project, ProjectScreenEnvironments, main, sidebar),
+		ScreenBase: newProjectRootScreenBase(tui, project, ProjectScreenEnvironments, main),
 	}
 }

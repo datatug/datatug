@@ -3,6 +3,7 @@ package ui
 import (
 	"context"
 	"github.com/datatug/datatug-cli/apps/datatug/tapp"
+	"github.com/datatug/datatug-cli/pkg/tvprimitives/breadcrumbs"
 	"github.com/datatug/datatug-core/pkg/appconfig"
 	"github.com/gdamore/tcell/v2"
 	"github.com/rivo/tview"
@@ -19,6 +20,17 @@ type projectsPanel struct {
 	projects        []*appconfig.ProjectConfig
 	selectProjectID string
 	list            *tview.List
+}
+
+func goProjectsScreen(tui *tapp.TUI) error {
+	content, err := getProjectsContent(tui)
+	if err != nil {
+		return err
+	}
+	tui.SetPanels(newDataTugMainMenu(tui, projectsRootScreen), content)
+	tui.Header.Breadcrumbs.Clear()
+	tui.Header.Breadcrumbs.Push(breadcrumbs.NewBreadcrumb("Projects", nil))
+	return nil
 }
 
 func getProjectsContent(tui *tapp.TUI) (tapp.Panel, error) {

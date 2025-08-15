@@ -20,4 +20,7 @@
 # Go workspace file
 go.work
 
-**/datatug
+# Executables
+apps/datatug/datatug
+apps/firestoreviewer/firestoreviewer
+./datatug
