@@ -19,7 +19,7 @@ func defaultListStyle(list *tview.List) {
 }
 
 func setPanelTitle(panel tapp.PanelBase, title string) {
-	box := panel.Box()
+	box := panel.GetBox()
 	defaultBorder(box)
 	box.SetTitle(title)
 	box.SetTitleAlign(tview.AlignCenter)

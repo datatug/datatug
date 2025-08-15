@@ -5,41 +5,47 @@ import (
 )
 
 type Panel interface {
-	tview.Primitive
-	Box() *tview.Box
+	PrimitiveWithBox
 	TakeFocus()
 }
+
+type PanelPrimitive interface {
+	tview.Primitive
+	Box() string
+}
+
+//type panelInner interface { // Why we need this?
+//	tview.Primitive
+//	Box() *tview.Box
+//	TakeFocus()
+//}
 
 var _ Panel = (*PanelBase)(nil)
 var _ Cell = (*PanelBase)(nil)
 
 type PanelBase struct {
 	tui *TUI
-	tview.Primitive
-	box *tview.Box
+	PrimitiveWithBox
 }
 
-func (p PanelBase) GetTitle() string {
-	return p.box.GetTitle()
+func (p *PanelBase) TakeFocus() {
+	//return p.box.
 }
 
-func (p PanelBase) Box() *tview.Box {
-	return p.box
-}
-
-func (p PanelBase) TakeFocus() {
-	p.tui.App.SetFocus(p.Primitive)
-}
-
-func NewPanelBase(tui *TUI, primitive tview.Primitive, box *tview.Box) PanelBase {
+func NewPanelBase(tui *TUI,
+	primitive PrimitiveWithBox,
+	// box *tview.Box, // we have to pass both `list` and `list.Box` as list has no `Box()` required for cell
+) PanelBase {
 	if tui == nil {
 		panic("tui is nil")
 	}
-	if primitive == nil {
-		panic("primitive is nil")
-	}
-	if box == nil {
-		panic("box is nil")
-	}
-	return PanelBase{tui: tui, Primitive: primitive, box: box}
+	return PanelBase{tui: tui, PrimitiveWithBox: primitive}
+}
+
+func NewPanelBaseFromList(tui *TUI, p *tview.List) PanelBase {
+	return NewPanelBase(tui, WithBox(p, p.Box))
+}
+
+func NewPanelBaseFromTextView(tui *TUI, p *tview.TextView) PanelBase {
+	return NewPanelBase(tui, WithBox(p, p.Box))
 }

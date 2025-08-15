@@ -16,6 +16,6 @@ func newEnvironmentsPanel(project appconfig.ProjectConfig) *environmentsPanel {
 	defaultBorder(content.Box)
 
 	return &environmentsPanel{
-		projectBasePanel: newProjectBasePanel(project, content, content.Box),
+		projectBasePanel: newProjectBasePanel(project, content.Box),
 	}
 }

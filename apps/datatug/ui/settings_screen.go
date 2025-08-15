@@ -29,7 +29,7 @@ func newSettingsScreen(tui *tapp.TUI) tapp.Screen {
 		const fileName = " Config File: ~/.datatug.yaml"
 		textView := tview.NewTextView().SetText(string(content))
 		panel := &settingsPanel{
-			PanelBase: tapp.NewPanelBase(tui, textView, textView.Box),
+			PanelBase: tapp.NewPanelBaseFromTextView(tui, textView),
 			textView:  textView,
 		}
 		defaultBorder(panel.textView.Box)

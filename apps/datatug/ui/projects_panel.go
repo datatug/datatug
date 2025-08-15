@@ -29,7 +29,7 @@ func getProjectsContent(tui *tapp.TUI) (tapp.Panel, error) {
 func newProjectsPanel(tui *tapp.TUI) (*projectsPanel, error) {
 	list := tview.NewList()
 	panel := &projectsPanel{
-		PanelBase: tapp.NewPanelBase(tui, list, list.Box),
+		PanelBase: tapp.NewPanelBaseFromList(tui, list),
 		list:      list,
 	}
 

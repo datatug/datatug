@@ -14,11 +14,11 @@ func NewRow(app *tview.Application, cells ...Cell) *Row {
 		cells: cells,
 	}
 	for _, cell := range cells {
-		box := cell.Box()
+		box := cell.GetBox()
 		box.SetFocusFunc(func() {
 			box.SetBorderAttributes(tcell.AttrNone)
 			for i, c := range cells {
-				if c.Box() == box {
+				if c.GetBox() == box {
 					row.activeCell = i
 					break
 				}
@@ -34,7 +34,7 @@ func NewRow(app *tview.Application, cells ...Cell) *Row {
 
 type Cell interface {
 	tview.Primitive
-	Box() *tview.Box
+	GetBox() *tview.Box
 	TakeFocus()
 }
 

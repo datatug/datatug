@@ -11,7 +11,7 @@ func newProjectsMenu(tui *tapp.TUI) *projectsMenu {
 		AddItem("Delete", "", 'd', nil)
 	defaultListStyle(list)
 	menu := &projectsMenu{
-		PanelBase: tapp.NewPanelBase(tui, list, list.Box),
+		PanelBase: tapp.NewPanelBaseFromList(tui, list),
 	}
 	setPanelTitle(menu.PanelBase, "")
 	return menu

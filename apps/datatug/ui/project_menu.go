@@ -40,7 +40,7 @@ func newProjectMenu(tui *tapp.TUI, project appconfig.ProjectConfig, currentScree
 	defaultListStyle(list)
 
 	return &projectMenu{
-		PanelBase: tapp.NewPanelBase(tui, list, list.Box),
+		PanelBase: tapp.NewPanelBaseFromList(tui, list),
 	}
 }
 

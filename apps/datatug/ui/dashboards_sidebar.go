@@ -11,13 +11,12 @@ type dashboardsSubMenu struct {
 func newDashboardsSidebar(tui *tapp.TUI) *dashboardsSubMenu {
 	list := menuList()
 
-	list.
-		AddItem("Add", "", 'a', func() {
-			panic("implement me")
-		})
+	list.AddItem("Add", "", 'a', func() {
+		panic("implement me")
+	})
 
 	menu := &dashboardsSubMenu{
-		PanelBase: tapp.NewPanelBase(tui, list, list.Box),
+		PanelBase: tapp.NewPanelBaseFromList(tui, list),
 	}
 
 	return menu

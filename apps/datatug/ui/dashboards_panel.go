@@ -16,6 +16,6 @@ func newDashboardsPanel(project appconfig.ProjectConfig) *dashboardsPanel {
 	defaultBorder(content.Box)
 
 	return &dashboardsPanel{
-		projectBasePanel: newProjectBasePanel(project, content, content.Box),
+		projectBasePanel: newProjectBasePanel(project, content.Box),
 	}
 }

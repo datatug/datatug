@@ -23,5 +23,7 @@ func layoutGrid(header tview.Primitive) *tview.Grid {
 }
 
 func menuList() *tview.List {
-	return tview.NewList().SetWrapAround(false)
+	list := tview.NewList()
+	list.SetWrapAround(false)
+	return list
 }
