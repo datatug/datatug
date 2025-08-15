@@ -1,11 +1,31 @@
 package ui
 
-import "github.com/datatug/datatug-cli/apps/datatug/tapp"
+import (
+	"github.com/datatug/datatug-cli/apps/datatug/tapp"
+	"github.com/rivo/tview"
+)
 
 func newDefaultLayout(tui *tapp.TUI, selectedMenuItem rootScreen, getContent func(tui *tapp.TUI) (tapp.Panel, error)) tapp.Screen {
 	header := newHeaderPanel()
 
 	grid := layoutGrid(header)
+
+	addMainRow(tui, selectedMenuItem, grid, getContent)
+
+	screen := &projectsScreen{
+		ScreenBase: tapp.NewScreenBase(tui, grid, tapp.FullScreen()),
+	}
+
+	tui.SetRootScreen(screen)
+
+	screen.TakeFocus()
+
+	return screen
+}
+
+func addMainRow(tui *tapp.TUI, selectedMenuItem rootScreen, grid *tview.Grid, getContent func(tui *tapp.TUI) (tapp.Panel, error)) {
+	menu := newHomeMenu(tui, selectedMenuItem)
+	sidebar := newProjectsMenu(tui)
 
 	content, err := getContent(tui)
 	if err != nil {
@@ -14,9 +34,6 @@ func newDefaultLayout(tui *tapp.TUI, selectedMenuItem rootScreen, getContent fun
 	if content == nil {
 		panic("getContent() returned nil")
 	}
-
-	menu := newHomeMenu(tui, selectedMenuItem)
-	sidebar := newProjectsMenu(tui)
 
 	// Layout for screens narrower than 100 cells (menu and sidebar are hidden).
 	grid.
@@ -39,14 +56,4 @@ func newDefaultLayout(tui *tapp.TUI, selectedMenuItem rootScreen, getContent fun
 		content,
 		sidebar,
 	)
-
-	screen := &projectsScreen{
-		ScreenBase: tapp.NewScreenBase(tui, grid, tapp.FullScreen()),
-	}
-
-	tui.SetRootScreen(screen)
-
-	screen.TakeFocus()
-
-	return screen
 }

@@ -7,15 +7,17 @@ import (
 
 type Breadcrumbs struct {
 	*tview.Box
-	items     []Breadcrumb
-	separator string
+	items        []Breadcrumb
+	separator    string
+	focusedIndex int // -1 means last item is considered focused
 }
 
 func NewBreadcrumbs(options ...option) *Breadcrumbs {
 	b := &Breadcrumbs{
-		Box:       tview.NewBox(),
-		items:     make([]Breadcrumb, 0, 8),
-		separator: " > ",
+		Box:          tview.NewBox(),
+		items:        make([]Breadcrumb, 0, 8),
+		separator:    " > ",
+		focusedIndex: -1,
 	}
 	for _, o := range options {
 		o(b)
@@ -41,20 +43,31 @@ func (b *Breadcrumbs) Draw(screen tcell.Screen) {
 		return
 	}
 
-	// Draw items horizontally within the header row.
+	// Determine which item is focused. Default to last.
+	focus := b.focusedIndex
+	if focus < 0 || focus >= len(b.items) {
+		focus = len(b.items) - 1
+	}
+
+	// Draw items horizontally within the header row as buttons: "[ Title ]".
 	cursorX := x
 	maxX := x + width
 	for i, item := range b.items {
 		if cursorX >= maxX {
 			break
 		}
-		// Print the item title and advance the cursor by the number of cells used.
-		_, printed := tview.Print(screen, item.GetTitle(), cursorX, y, maxX-cursorX, tview.AlignLeft, tcell.ColorYellow)
+		label := item.GetTitle()
+		text := tview.Escape(label) // ensure literal brackets, no tag parsing
+		if i != focus {
+			// Dim for unfocused items.
+			text = "[::d]" + text + "[-:-:-]"
+		}
+		_, printed := tview.Print(screen, text, cursorX, y, maxX-cursorX, tview.AlignLeft, tcell.ColorYellow)
 		cursorX += printed
-		// Print separator between items if there is still space.
+		// Add a separator between items if there is still room.
 		if i < len(b.items)-1 && cursorX < maxX {
-			_, sepPrinted := tview.Print(screen, b.separator, cursorX, y, maxX-cursorX, tview.AlignLeft, tcell.ColorGray)
-			cursorX += sepPrinted
+			_, sp := tview.Print(screen, b.separator, cursorX, y, maxX-cursorX, tview.AlignLeft, tcell.ColorGray)
+			cursorX += sp
 		}
 	}
 }

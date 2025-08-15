@@ -16,7 +16,7 @@ func layoutGrid(header tview.Primitive) *tview.Grid {
 		SetBorders(false)
 
 	// Adds header and footer to the grid.
-	grid.AddItem(header, 0, 0, 1, 3, 0, 0, false)
+	grid.AddItem(header, 0, 0, 1, 3, 0, 0, true)
 	//grid.AddItem(footer, 2, 0, 1, 3, 0, 0, false)
 
 	return grid

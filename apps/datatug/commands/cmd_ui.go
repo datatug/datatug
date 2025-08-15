@@ -27,6 +27,19 @@ func (v *uiCommand) Execute(_ []string) error {
 
 	app := tview.NewApplication()
 	app.EnableMouse(true)
+	//app.SetInputCapture(func(event *tcell.EventKey) *tcell.EventKey {
+	//	switch event.Key() {
+	//	case tcell.KeyTab:
+	//		// Move to next (default behavior)
+	//		return event
+	//	case tcell.KeyBacktab: // This is Shift+Tab
+	//		// Move to previous
+	//		app.SetFocus(getPreviousFocusable())
+	//		return nil // Consume the event
+	//	}
+	//	return event
+	//
+	//})
 	tui := tapp.NewTUI(app)
 	_ = ui.NewHomeScreen(tui)
 
