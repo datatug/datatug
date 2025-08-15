@@ -13,6 +13,7 @@ func newProjectsMenu(tui *tapp.TUI) *projectsMenu {
 	menu := &projectsMenu{
 		PanelBase: tapp.NewPanelBase(tui, list, list.Box),
 	}
+	setPanelTitle(menu.PanelBase, "")
 	return menu
 }
 

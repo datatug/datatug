@@ -1,6 +1,7 @@
 package ui
 
 import (
+	"github.com/datatug/datatug-cli/apps/datatug/tapp"
 	"github.com/gdamore/tcell/v2"
 	"github.com/rivo/tview"
 )
@@ -14,5 +15,13 @@ func defaultBorder(box *tview.Box) {
 
 func defaultListStyle(list *tview.List) {
 	list.SetWrapAround(false)
-	defaultBorder(list.Box)
+	//defaultBorder(list.Box)
+}
+
+func setPanelTitle(panel tapp.PanelBase, title string) {
+	box := panel.Box()
+	defaultBorder(box)
+	box.SetTitle(title)
+	box.SetTitleAlign(tview.AlignCenter)
+	box.SetTitleColor(tview.Styles.TitleColor)
 }

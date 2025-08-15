@@ -2,7 +2,6 @@ package ui
 
 import (
 	"github.com/datatug/datatug-cli/apps/datatug/tapp"
-	"github.com/rivo/tview"
 )
 
 func newLoginScreen(tui *tapp.TUI) tapp.Screen {
@@ -16,12 +15,4 @@ var _ tapp.Screen = (*loginScreen)(nil)
 
 type loginScreen struct {
 	tapp.ScreenBase
-}
-
-func newLoginPanel(tui *tapp.TUI) (*loginPanel, error) {
-	textView := tview.NewTextView().SetText(string("Login to DataTug"))
-	panel := &loginPanel{
-		PanelBase: tapp.NewPanelBase(tui, textView, textView.Box),
-	}
-	return panel, nil
 }

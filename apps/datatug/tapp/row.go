@@ -1,7 +1,7 @@
 package tapp
 
 import (
-	tcell "github.com/gdamore/tcell/v2"
+	"github.com/gdamore/tcell/v2"
 	"github.com/rivo/tview"
 )
 

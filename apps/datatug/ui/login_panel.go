@@ -11,3 +11,13 @@ var _ tapp.Cell = (*loginPanel)(nil)
 type loginPanel struct {
 	tapp.PanelBase
 }
+
+func newLoginPanel(tui *tapp.TUI) (*loginPanel, error) {
+	text := tview.NewTextView()
+	text.SetText("Sign in browser: https://datatug.app")
+	panel := &loginPanel{
+		PanelBase: tapp.NewPanelBase(tui, text, text.Box),
+	}
+	setPanelTitle(panel.PanelBase, "Login to DataTug")
+	return panel, nil
+}

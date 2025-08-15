@@ -56,12 +56,9 @@ func newProjectsPanel(tui *tapp.TUI) (*projectsPanel, error) {
 		})
 	}
 
-	list.SetTitle(" Projects") // TODO(ask-stackoverflow): how to set title?
-	list.SetTitleColor(tview.Styles.TitleColor)
-
 	defaultListStyle(list)
 
-	list.SetTitleAlign(tview.AlignLeft)
+	setPanelTitle(panel.PanelBase, "Projects")
 
 	return panel, nil
 }
