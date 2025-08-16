@@ -8,37 +8,87 @@ import (
 
 type Header struct {
 	*tview.Flex
+	tui         *TUI
 	breadcrumbs *sneatv.Breadcrumbs
-	RightMenu   *LoginMenu
+	rightMenu   *LoginMenu
+	focus       focusOptions
+	focused     HeaderFocusedTo
 }
 
-func (h Header) Breadcrumbs() *sneatv.Breadcrumbs {
+type Breadcrumbs interface {
+	Clear()
+	Push(bc sneatv.Breadcrumb)
+}
+
+func (h *Header) SetFocus(to HeaderFocusedTo, from tview.Primitive) {
+	h.focused = to
+	h.focus.from = from
+	switch to {
+	case ToBreadcrumbs:
+		h.tui.SetFocus(h.breadcrumbs)
+	case ToRightMenu:
+		h.tui.SetFocus(h.rightMenu)
+	default:
+		h.tui.SetFocus(h)
+		return
+	}
+}
+
+func (h *Header) Breadcrumbs() Breadcrumbs {
 	return h.breadcrumbs
 }
 
 func NewHeader(tui *TUI, root sneatv.Breadcrumb) *Header {
-	header := &Header{
-		Flex: tview.NewFlex(),
-		breadcrumbs: sneatv.NewBreadcrumbs(root, sneatv.WithInputHandler(func(event *tcell.EventKey, setFocus func(p tview.Primitive)) *tcell.EventKey {
-			switch event.Key() {
-			case tcell.KeyDown:
-				if tui.focus.from != nil {
-					tui.App.SetFocus(tui.focus.from)
-					return nil
-				}
-				return event
-			default:
-				return event
-			}
-		})),
-		RightMenu: NewLoginMenu(),
+	h := &Header{
+		Flex:        tview.NewFlex(),
+		tui:         tui,
+		breadcrumbs: sneatv.NewBreadcrumbs(root),
+		rightMenu:   NewLoginMenu(),
 	}
 
-	// Calculate fixed width for RightMenu: "(l) Login" = 9 characters + padding
+	h.SetInputCapture(func(event *tcell.EventKey) *tcell.EventKey {
+		switch event.Key() {
+		case tcell.KeyDown:
+			if h.focus.from != nil {
+				tui.SetFocus(h.focus.from)
+				h.focused = toNothing
+				return nil
+			}
+			tui.SetFocus(tui.Menu)
+			return nil
+		case tcell.KeyRight:
+			if h.focused != ToRightMenu && h.breadcrumbs.IsLastItemSelected() {
+				tui.App.SetFocus(h.rightMenu)
+				h.focused = ToRightMenu
+				return nil
+			}
+			return event
+		case tcell.KeyLeft:
+			if h.focused != ToBreadcrumbs {
+				tui.App.SetFocus(h.breadcrumbs)
+				h.focused = ToBreadcrumbs
+				return nil
+			}
+			return event
+		default:
+			return event
+		}
+	})
+
+	// Calculate fixed width for rightMenu: "(l) Login" = 9 characters + padding
 	rightMenuWidth := 11 // "(l) Login" + some padding for borders
 
-	header.AddItem(header.breadcrumbs, 0, 1, true)            // Flexible width (takes remaining space)
-	header.AddItem(header.RightMenu, rightMenuWidth, 0, true) // Fixed width
+	h.AddItem(h.breadcrumbs, 0, 1, true)            // Flexible width (takes remaining space)
+	h.AddItem(h.rightMenu, rightMenuWidth, 0, true) // Fixed width
 
-	return header
+	// Set focus and blur handlers to update focused state
+	//h.SetFocusFunc(func() {
+	//	// Focus event - keep current focused state or set to default
+	//})
+
+	h.SetBlurFunc(func() {
+		h.focused = toNothing
+	})
+
+	return h
 }

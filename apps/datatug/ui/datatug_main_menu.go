@@ -44,16 +44,16 @@ func newDataTugMainMenu(tui *sneatnav.TUI, active rootScreen) (menu *homeMenu) {
 		switch event.Key() {
 		case tcell.KeyUp:
 			if menu.list.GetCurrentItem() == 0 {
-				tui.SetFocus(tui.Header.Breadcrumbs())
+				tui.Header.SetFocus(sneatnav.ToBreadcrumbs, list)
 				return nil
 			}
 			return event
 		case tcell.KeyRight:
-			tui.App.SetFocus(tui.Content)
+			tui.SetFocus(tui.Content)
 			return nil
 		case tcell.KeyBacktab:
 			// Move focus to header (breadcrumbs) when Shift+Tab or Up arrow is pressed on the menu.
-			tui.App.SetFocus(tui.Header.Breadcrumbs())
+			tui.Header.SetFocus(sneatnav.ToBreadcrumbs, list)
 			return nil // consume the event
 		default:
 			return event

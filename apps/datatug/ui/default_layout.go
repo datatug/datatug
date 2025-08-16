@@ -2,19 +2,15 @@ package ui
 
 import (
 	"github.com/datatug/datatug-cli/pkg/sneatview/sneatnav"
-	"github.com/datatug/datatug-cli/pkg/sneatview/sneatv"
 	"github.com/rivo/tview"
 )
 
 func newDefaultLayout(
 	tui *sneatnav.TUI, selectedMenuItem rootScreen, getContent func(tui *sneatnav.TUI) (sneatnav.Panel, error),
-) (
-	sneatnav.Screen, *sneatv.Breadcrumbs,
-) {
-
+) sneatnav.Screen {
 	addMainRow(tui, selectedMenuItem, tui.Grid, getContent)
 
-	return nil, tui.Header.Breadcrumbs()
+	return nil
 }
 
 func addMainRow(

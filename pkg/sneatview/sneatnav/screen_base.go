@@ -15,7 +15,7 @@ type ScreenBase struct {
 }
 
 func (screen *ScreenBase) TakeFocus() {
-	screen.Tui.App.SetFocus(screen.Primitive)
+	screen.Tui.SetFocus(screen.Primitive)
 }
 
 func (screen *ScreenBase) Options() ScreenOptions {
@@ -27,7 +27,7 @@ func (screen *ScreenBase) Window() tview.Primitive {
 }
 
 func (screen *ScreenBase) Activate() error {
-	screen.Tui.App.SetFocus(screen.Primitive)
+	screen.Tui.SetFocus(screen.Primitive)
 	return nil
 }
 

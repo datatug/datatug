@@ -44,7 +44,14 @@ func goViewersScreen(tui *sneatnav.TUI) error {
 			return nil
 		case tcell.KeyUp:
 			if list.GetCurrentItem() == 0 {
-				tui.SetFocus(tui.Header.Breadcrumbs(), sneatnav.From(list))
+
+				tui.Header.SetFocus(sneatnav.ToBreadcrumbs, list)
+				return nil
+			}
+			return event
+		case tcell.KeyDown:
+			// Prevent jumping to first item when on last item
+			if list.GetCurrentItem() == list.GetItemCount()-1 {
 				return nil
 			}
 			return event

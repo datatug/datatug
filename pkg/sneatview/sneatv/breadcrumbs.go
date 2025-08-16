@@ -12,11 +12,18 @@ type Breadcrumbs struct {
 	selectedItemIndex int             // -1 means last item is considered focused
 	nextFocusTarget   tview.Primitive // optional: where to move focus on Tab/Down
 	prevFocusTarget   tview.Primitive // optional: where to move focus on Shift+Tab/Up
-	inputHandler      func(event *tcell.EventKey, setFocus func(p tview.Primitive)) *tcell.EventKey
 }
 
 func (b *Breadcrumbs) SelectedItemIndex() int {
 	return b.selectedItemIndex
+}
+
+func (b *Breadcrumbs) ItemsCount() int {
+	return len(b.items)
+}
+
+func (b *Breadcrumbs) IsLastItemSelected() bool {
+	return b.selectedItemIndex == b.ItemsCount()-1
 }
 
 func NewBreadcrumbs(root Breadcrumb, options ...func(bc *Breadcrumbs)) *Breadcrumbs {
@@ -116,11 +123,11 @@ func (b *Breadcrumbs) Blur() {
 }
 
 func (b *Breadcrumbs) defaultInputHandler(event *tcell.EventKey, setFocus func(p tview.Primitive)) {
-	if b.inputHandler != nil {
-		if event = b.inputHandler(event, setFocus); event == nil {
-			return
-		}
-	}
+	//if b.inputHandler != nil {
+	//	if event = b.inputHandler(b, event, setFocus); event == nil {
+	//		return
+	//	}
+	//}
 	if len(b.items) == 0 {
 		return
 	}

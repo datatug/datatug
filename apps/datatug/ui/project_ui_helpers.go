@@ -28,7 +28,7 @@ func projectScreenGrid(
 ) (screen sneatnav.Screen) {
 	_ = newProjectMenu(tui, project, screenID)
 
-	screen, _ = newDefaultLayout(tui, projectsRootScreen, func(tui *sneatnav.TUI) (sneatnav.Panel, error) {
+	screen = newDefaultLayout(tui, projectsRootScreen, func(tui *sneatnav.TUI) (sneatnav.Panel, error) {
 		return main, nil
 	})
 

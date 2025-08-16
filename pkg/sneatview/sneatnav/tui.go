@@ -70,7 +70,6 @@ type TUI struct {
 	Content Panel
 	Menu    Panel
 	stack   []Screen
-	focus   focusOptions
 }
 
 func (tui *TUI) StackDepth() int {
@@ -83,6 +82,14 @@ const (
 	FocusToNone FocusTo = iota
 	FocusToMenu
 	FocusToContent
+)
+
+type HeaderFocusedTo int
+
+const (
+	toNothing HeaderFocusedTo = iota
+	ToBreadcrumbs
+	ToRightMenu
 )
 
 type setPanelsOptions struct {
@@ -113,9 +120,9 @@ func (tui *TUI) SetPanels(menu, content Panel, options ...func(panelsOptions *se
 	}
 	switch spo.focusTo {
 	case FocusToMenu:
-		tui.App.SetFocus(menu)
+		tui.SetFocus(menu)
 	case FocusToContent:
-		tui.App.SetFocus(content)
+		tui.SetFocus(content)
 	default:
 		// Nothing to do
 	}
@@ -148,16 +155,12 @@ type focusOptions struct {
 	from tview.Primitive
 }
 
-func From(p tview.Primitive) func(o *focusOptions) {
-	return func(o *focusOptions) {
-		o.from = p
-	}
-}
+//func From(p tview.Primitive) func(o *focusOptions) {
+//	return func(o *focusOptions) {
+//		o.from = p
+//	}
+//}
 
-func (tui *TUI) SetFocus(p tview.Primitive, options ...func(o *focusOptions)) {
-	tui.focus = focusOptions{}
-	for _, o := range options {
-		o(&tui.focus)
-	}
+func (tui *TUI) SetFocus(p tview.Primitive) {
 	tui.App.SetFocus(p)
 }
