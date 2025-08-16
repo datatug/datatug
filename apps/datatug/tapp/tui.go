@@ -74,7 +74,19 @@ func (tui *TUI) StackDepth() int {
 	return len(tui.stack)
 }
 
-func (tui *TUI) SetPanels(menu, content Panel) {
+type FocusTo int
+
+const (
+	FocusToNone FocusTo = iota
+	FocusToMenu
+	FocusToContent
+)
+
+type setPanelsOptions struct {
+	focusTo FocusTo
+}
+
+func (tui *TUI) SetPanels(menu, content Panel, options ...func(panelsOptions *setPanelsOptions)) {
 	if content != nil {
 		tui.Content = content
 	}
@@ -84,6 +96,21 @@ func (tui *TUI) SetPanels(menu, content Panel) {
 	}
 	tui.Grid = layoutGrid(tui.Header, menu, content)
 	tui.App.SetRoot(tui.Grid, true)
+	spo := &setPanelsOptions{
+		focusTo: FocusToContent,
+	}
+	for _, option := range options {
+		option(spo)
+	}
+	switch spo.focusTo {
+	case FocusToMenu:
+		tui.App.SetFocus(menu)
+	case FocusToContent:
+		tui.App.SetFocus(content)
+	default:
+		// Nothing to do
+	}
+
 }
 
 func (tui *TUI) SetRootScreen(screen Screen) {

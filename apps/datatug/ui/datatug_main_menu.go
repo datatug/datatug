@@ -13,6 +13,7 @@ type rootScreen int
 const (
 	homeRootScreen rootScreen = iota
 	projectsRootScreen
+	viewersRootScreen
 	credentialsRootScreen
 	settingsRootScreen
 )
@@ -30,6 +31,7 @@ func newDataTugMainMenu(tui *tapp.TUI, active rootScreen) (menu *homeMenu) {
 	list := menuList().
 		AddItem("Home", "", 'h', handleMenuAction(GoHomeScreen)).
 		AddItem("Projects", "", 'p', handleMenuAction(goProjectsScreen)).
+		AddItem("Viewers", "", 'v', handleMenuAction(goViewersScreen)).
 		AddItem("Credentials", "", 'c', handleMenuAction(goCredentials)).
 		AddItem("Settings", "", 's', handleMenuAction(goSettingsScreen)).
 		AddItem("Exit", "", 'q', func() {
