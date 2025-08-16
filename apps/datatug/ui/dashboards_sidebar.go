@@ -1,14 +1,14 @@
 package ui
 
 import (
-	"github.com/datatug/datatug-cli/apps/datatug/tapp"
+	"github.com/datatug/datatug-cli/pkg/sneatview/sneatnav"
 )
 
 type dashboardsSubMenu struct {
-	tapp.PanelBase
+	sneatnav.PanelBase
 }
 
-func newDashboardsSidebar(tui *tapp.TUI) *dashboardsSubMenu {
+func newDashboardsSidebar(tui *sneatnav.TUI) *dashboardsSubMenu {
 	list := menuList()
 
 	list.AddItem("Add", "", 'a', func() {
@@ -16,7 +16,7 @@ func newDashboardsSidebar(tui *tapp.TUI) *dashboardsSubMenu {
 	})
 
 	menu := &dashboardsSubMenu{
-		PanelBase: tapp.NewPanelBaseFromList(tui, list),
+		PanelBase: sneatnav.NewPanelBaseFromList(tui, list),
 	}
 
 	return menu

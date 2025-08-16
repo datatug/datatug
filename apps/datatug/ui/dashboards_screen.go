@@ -1,15 +1,15 @@
 package ui
 
 import (
-	"github.com/datatug/datatug-cli/apps/datatug/tapp"
+	"github.com/datatug/datatug-cli/pkg/sneatview/sneatnav"
 	"github.com/datatug/datatug-core/pkg/appconfig"
 )
 
 type dashboardsScreen struct {
-	tapp.ScreenBase
+	sneatnav.ScreenBase
 }
 
-func newDashboardsScreen(tui *tapp.TUI, project appconfig.ProjectConfig) tapp.Screen {
+func newDashboardsScreen(tui *sneatnav.TUI, project appconfig.ProjectConfig) sneatnav.Screen {
 	main := newDashboardsPanel(project)
 
 	_ = newDashboardsSidebar(tui)

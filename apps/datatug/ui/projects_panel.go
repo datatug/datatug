@@ -2,8 +2,8 @@ package ui
 
 import (
 	"context"
-	"github.com/datatug/datatug-cli/apps/datatug/tapp"
-	"github.com/datatug/datatug-cli/pkg/tvprimitives/breadcrumbs"
+	"github.com/datatug/datatug-cli/pkg/sneatview/sneatnav"
+	"github.com/datatug/datatug-cli/pkg/sneatview/sneatv"
 	"github.com/datatug/datatug-core/pkg/appconfig"
 	"github.com/gdamore/tcell/v2"
 	"github.com/rivo/tview"
@@ -13,35 +13,36 @@ import (
 )
 
 var _ tview.Primitive = (*projectsPanel)(nil)
-var _ tapp.Cell = (*projectsPanel)(nil)
+var _ sneatnav.Cell = (*projectsPanel)(nil)
 
 type projectsPanel struct {
-	tapp.PanelBase
+	sneatnav.PanelBase
 	projects        []*appconfig.ProjectConfig
 	selectProjectID string
 	list            *tview.List
 }
 
-func goProjectsScreen(tui *tapp.TUI) error {
+func goProjectsScreen(tui *sneatnav.TUI) error {
 	content, err := getProjectsContent(tui)
 	if err != nil {
 		return err
 	}
-	tui.SetPanels(newDataTugMainMenu(tui, projectsRootScreen), content)
-	tui.Header.Breadcrumbs.Clear()
-	tui.Header.Breadcrumbs.Push(breadcrumbs.NewBreadcrumb("Projects", nil))
+	tui.SetPanels(newDataTugMainMenu(tui, projectsRootScreen), content, sneatnav.WithFocusTo(sneatnav.FocusToMenu))
+	breadcrumbs := tui.Header.Breadcrumbs()
+	breadcrumbs.Clear()
+	breadcrumbs.Push(sneatv.NewBreadcrumb("Projects", nil))
 	return nil
 }
 
-func getProjectsContent(tui *tapp.TUI) (tapp.Panel, error) {
+func getProjectsContent(tui *sneatnav.TUI) (sneatnav.Panel, error) {
 	panel, err := newProjectsPanel(tui)
 	return panel, err
 }
 
-func newProjectsPanel(tui *tapp.TUI) (*projectsPanel, error) {
+func newProjectsPanel(tui *sneatnav.TUI) (*projectsPanel, error) {
 	list := tview.NewList()
 	panel := &projectsPanel{
-		PanelBase: tapp.NewPanelBaseFromList(tui, list),
+		PanelBase: sneatnav.NewPanelBaseFromList(tui, list),
 		list:      list,
 	}
 

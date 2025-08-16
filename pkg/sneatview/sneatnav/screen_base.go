@@ -1,4 +1,4 @@
-package tapp
+package sneatnav
 
 import "github.com/rivo/tview"
 

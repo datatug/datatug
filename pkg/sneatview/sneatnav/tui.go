@@ -1,16 +1,18 @@
-package tapp
+package sneatnav
 
 import (
 	"fmt"
+	"github.com/datatug/datatug-cli/pkg/sneatview/sneatv"
 	"github.com/gdamore/tcell/v2"
 	"github.com/rivo/tview"
 )
 
-func NewTUI(app *tview.Application) *TUI {
+func NewTUI(app *tview.Application, root sneatv.Breadcrumb) *TUI {
 	tui := &TUI{
-		App:    app,
-		Header: NewHeader(),
+		App: app,
 	}
+	tui.Header = NewHeader(tui, root)
+
 	menu := tview.NewTextView().SetText("Menu")
 	content := tview.NewTextView().SetText("Content")
 	tui.Grid = layoutGrid(tui.Header, menu, content)
@@ -68,6 +70,7 @@ type TUI struct {
 	Content Panel
 	Menu    Panel
 	stack   []Screen
+	focus   focusOptions
 }
 
 func (tui *TUI) StackDepth() int {
@@ -86,13 +89,19 @@ type setPanelsOptions struct {
 	focusTo FocusTo
 }
 
+func WithFocusTo(focusTo FocusTo) func(o *setPanelsOptions) {
+	return func(spo *setPanelsOptions) {
+		spo.focusTo = focusTo
+	}
+}
+
 func (tui *TUI) SetPanels(menu, content Panel, options ...func(panelsOptions *setPanelsOptions)) {
 	if content != nil {
 		tui.Content = content
 	}
 	if menu != nil {
 		tui.Menu = menu
-		tui.Header.Breadcrumbs.SetNextFocusTarget(menu)
+		tui.Header.breadcrumbs.SetNextFocusTarget(menu)
 	}
 	tui.Grid = layoutGrid(tui.Header, menu, content)
 	tui.App.SetRoot(tui.Grid, true)
@@ -133,4 +142,22 @@ func (tui *TUI) PopScreen() {
 		options := currentScreen.Options()
 		tui.App.SetRoot(currentScreen, options.fullScreen)
 	}
+}
+
+type focusOptions struct {
+	from tview.Primitive
+}
+
+func From(p tview.Primitive) func(o *focusOptions) {
+	return func(o *focusOptions) {
+		o.from = p
+	}
+}
+
+func (tui *TUI) SetFocus(p tview.Primitive, options ...func(o *focusOptions)) {
+	tui.focus = focusOptions{}
+	for _, o := range options {
+		o(&tui.focus)
+	}
+	tui.App.SetFocus(p)
 }

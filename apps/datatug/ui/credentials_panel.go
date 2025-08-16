@@ -1,30 +1,31 @@
 package ui
 
 import (
-	"github.com/datatug/datatug-cli/apps/datatug/tapp"
-	"github.com/datatug/datatug-cli/pkg/tvprimitives/breadcrumbs"
+	"github.com/datatug/datatug-cli/pkg/sneatview/sneatnav"
+	"github.com/datatug/datatug-cli/pkg/sneatview/sneatv"
 	"github.com/rivo/tview"
 )
 
-func goCredentials(tui *tapp.TUI) error {
-	tui.Header.Breadcrumbs.Clear()
-	tui.Header.Breadcrumbs.Push(breadcrumbs.NewBreadcrumb("Credentials", nil))
+func goCredentials(tui *sneatnav.TUI) error {
+	breadcrumbs := tui.Header.Breadcrumbs()
+	breadcrumbs.Clear()
+	breadcrumbs.Push(sneatv.NewBreadcrumb("Credentials", nil))
 	menu := newDataTugMainMenu(tui, credentialsRootScreen)
 	content := newCredentialsContent(tui)
-	tui.SetPanels(menu, content)
+	tui.SetPanels(menu, content, sneatnav.WithFocusTo(sneatnav.FocusToMenu))
 	return nil
 }
 
-func newCredentialsContent(tui *tapp.TUI) *credentialsPanel {
+func newCredentialsContent(tui *sneatnav.TUI) *credentialsPanel {
 	text := tview.NewTextView()
 	text.SetText("You have 3 credentials.")
 	panel := &credentialsPanel{
-		PanelBase: tapp.NewPanelBaseFromTextView(tui, text),
+		PanelBase: sneatnav.NewPanelBaseFromTextView(tui, text),
 	}
 	setPanelTitle(panel.PanelBase, "Credentials")
 	return panel
 }
 
 type credentialsPanel struct {
-	tapp.PanelBase
+	sneatnav.PanelBase
 }

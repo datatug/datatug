@@ -1,17 +1,17 @@
 package ui
 
 import (
-	"github.com/datatug/datatug-cli/apps/datatug/tapp"
-	"github.com/datatug/datatug-cli/pkg/tvprimitives/breadcrumbs"
+	"github.com/datatug/datatug-cli/pkg/sneatview/sneatnav"
+	"github.com/datatug/datatug-cli/pkg/sneatview/sneatv"
 	"github.com/gdamore/tcell/v2"
 	"github.com/rivo/tview"
 )
 
 var _ tview.Primitive = (*viewersPanel)(nil)
-var _ tapp.Cell = (*viewersPanel)(nil)
+var _ sneatnav.Cell = (*viewersPanel)(nil)
 
 type viewersPanel struct {
-	tapp.PanelBase
+	sneatnav.PanelBase
 	list *tview.List
 }
 
@@ -19,9 +19,10 @@ func (p *viewersPanel) Draw(screen tcell.Screen) {
 	p.list.Draw(screen)
 }
 
-func goViewersScreen(tui *tapp.TUI) error {
-	tui.Header.Breadcrumbs.Clear()
-	tui.Header.Breadcrumbs.Push(breadcrumbs.NewBreadcrumb("Viewers", nil))
+func goViewersScreen(tui *sneatnav.TUI) error {
+	breadcrumbs := tui.Header.Breadcrumbs()
+	breadcrumbs.Clear()
+	breadcrumbs.Push(sneatv.NewBreadcrumb("Viewers", nil))
 	list := tview.NewList()
 
 	// Add the two required items
@@ -32,9 +33,25 @@ func goViewersScreen(tui *tapp.TUI) error {
 	list.SetSecondaryTextColor(tcell.ColorDarkGray)
 
 	content := &viewersPanel{
-		PanelBase: tapp.NewPanelBaseFromList(tui, list),
+		PanelBase: sneatnav.NewPanelBaseFromList(tui, list),
 		list:      list,
 	}
+
+	list.SetInputCapture(func(event *tcell.EventKey) *tcell.EventKey {
+		switch event.Key() {
+		case tcell.KeyESC, tcell.KeyBacktab, tcell.KeyLeft:
+			tui.SetFocus(tui.Menu)
+			return nil
+		case tcell.KeyUp:
+			if list.GetCurrentItem() == 0 {
+				tui.SetFocus(tui.Header.Breadcrumbs(), sneatnav.From(list))
+				return nil
+			}
+			return event
+		default:
+			return event
+		}
+	})
 
 	defaultBorder(content.list.Box)
 	// Set spacing between items to 1 line by increasing vertical padding

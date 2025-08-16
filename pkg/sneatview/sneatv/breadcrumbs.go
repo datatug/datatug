@@ -1,4 +1,4 @@
-package breadcrumbs
+package sneatv
 
 import (
 	"github.com/gdamore/tcell/v2"
@@ -12,13 +12,14 @@ type Breadcrumbs struct {
 	selectedItemIndex int             // -1 means last item is considered focused
 	nextFocusTarget   tview.Primitive // optional: where to move focus on Tab/Down
 	prevFocusTarget   tview.Primitive // optional: where to move focus on Shift+Tab/Up
+	inputHandler      func(event *tcell.EventKey, setFocus func(p tview.Primitive)) *tcell.EventKey
 }
 
 func (b *Breadcrumbs) SelectedItemIndex() int {
 	return b.selectedItemIndex
 }
 
-func NewBreadcrumbs(root Breadcrumb, options ...option) *Breadcrumbs {
+func NewBreadcrumbs(root Breadcrumb, options ...func(bc *Breadcrumbs)) *Breadcrumbs {
 	b := &Breadcrumbs{
 		Box:               tview.NewBox(),
 		items:             make([]Breadcrumb, 0, 8),
@@ -33,6 +34,7 @@ func NewBreadcrumbs(root Breadcrumb, options ...option) *Breadcrumbs {
 }
 
 func (b *Breadcrumbs) Push(item Breadcrumb) {
+	b.selectedItemIndex = len(b.items)
 	b.items = append(b.items, item)
 }
 
@@ -113,7 +115,12 @@ func (b *Breadcrumbs) Blur() {
 	b.Box.Blur()
 }
 
-func (b *Breadcrumbs) inputHandler(event *tcell.EventKey, setFocus func(p tview.Primitive)) {
+func (b *Breadcrumbs) defaultInputHandler(event *tcell.EventKey, setFocus func(p tview.Primitive)) {
+	if b.inputHandler != nil {
+		if event = b.inputHandler(event, setFocus); event == nil {
+			return
+		}
+	}
 	if len(b.items) == 0 {
 		return
 	}
@@ -156,6 +163,7 @@ func (b *Breadcrumbs) inputHandler(event *tcell.EventKey, setFocus func(p tview.
 			// On blur we always highlight the last item
 			b.selectedItemIndex = len(b.items) - 1
 			setFocus(b.nextFocusTarget)
+			setFocus(b.nextFocusTarget)
 		} else {
 			setFocus(nil)
 		}
@@ -174,7 +182,7 @@ func (b *Breadcrumbs) inputHandler(event *tcell.EventKey, setFocus func(p tview.
 
 // InputHandler handles keyboard input for navigation and activation.
 func (b *Breadcrumbs) InputHandler() func(event *tcell.EventKey, setFocus func(p tview.Primitive)) {
-	return b.WrapInputHandler(b.inputHandler)
+	return b.WrapInputHandler(b.defaultInputHandler)
 }
 
 // MouseHandler handles selection via mouse and focusing on click.

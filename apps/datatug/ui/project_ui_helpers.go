@@ -1,19 +1,19 @@
 package ui
 
 import (
-	"github.com/datatug/datatug-cli/apps/datatug/tapp"
+	"github.com/datatug/datatug-cli/pkg/sneatview/sneatnav"
 	"github.com/datatug/datatug-core/pkg/appconfig"
 )
 
 func newProjectRootScreenBase(
-	tui *tapp.TUI,
+	tui *sneatnav.TUI,
 	project appconfig.ProjectConfig,
 	screen ProjectScreenID,
-	main tapp.Panel,
-) tapp.ScreenBase {
+	main sneatnav.Panel,
+) sneatnav.ScreenBase {
 	grid := projectScreenGrid(tui, project, screen, main)
 
-	screenBase := tapp.NewScreenBase(tui, grid, tapp.FullScreen())
+	screenBase := sneatnav.NewScreenBase(tui, grid, sneatnav.FullScreen())
 
 	screenBase.TakeFocus()
 
@@ -21,14 +21,14 @@ func newProjectRootScreenBase(
 }
 
 func projectScreenGrid(
-	tui *tapp.TUI,
+	tui *sneatnav.TUI,
 	project appconfig.ProjectConfig,
 	screenID ProjectScreenID,
-	main tapp.Panel,
-) (screen tapp.Screen) {
+	main sneatnav.Panel,
+) (screen sneatnav.Screen) {
 	_ = newProjectMenu(tui, project, screenID)
 
-	screen, _ = newDefaultLayout(tui, projectsRootScreen, func(tui *tapp.TUI) (tapp.Panel, error) {
+	screen, _ = newDefaultLayout(tui, projectsRootScreen, func(tui *sneatnav.TUI) (sneatnav.Panel, error) {
 		return main, nil
 	})
 

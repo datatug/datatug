@@ -1,7 +1,7 @@
 package ui
 
 import (
-	"github.com/datatug/datatug-cli/apps/datatug/tapp"
+	"github.com/datatug/datatug-cli/pkg/sneatview/sneatnav"
 	"github.com/datatug/datatug-core/pkg/appconfig"
 	"github.com/rivo/tview"
 )
@@ -13,7 +13,7 @@ const (
 	ProjectScreenEnvironments = "environments"
 )
 
-func newProjectMenu(tui *tapp.TUI, project appconfig.ProjectConfig, currentScreen ProjectScreenID) *projectMenu {
+func newProjectMenu(tui *sneatnav.TUI, project appconfig.ProjectConfig, currentScreen ProjectScreenID) *projectMenu {
 	list := tview.NewList().
 		//AddItem("Databases", "", 'D', nil).
 		AddItem("Dashboards", "", 'B', func() {
@@ -40,10 +40,10 @@ func newProjectMenu(tui *tapp.TUI, project appconfig.ProjectConfig, currentScree
 	defaultListStyle(list)
 
 	return &projectMenu{
-		PanelBase: tapp.NewPanelBaseFromList(tui, list),
+		PanelBase: sneatnav.NewPanelBaseFromList(tui, list),
 	}
 }
 
 type projectMenu struct {
-	tapp.PanelBase
+	sneatnav.PanelBase
 }

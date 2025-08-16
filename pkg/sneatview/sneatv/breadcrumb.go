@@ -1,4 +1,9 @@
-package breadcrumbs
+package sneatv
+
+type Breadcrumb interface {
+	GetTitle() string
+	Action() error
+}
 
 type breadcrumb struct {
 	title  string

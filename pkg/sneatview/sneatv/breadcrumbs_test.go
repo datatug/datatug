@@ -1,4 +1,4 @@
-package breadcrumbs
+package sneatv
 
 import (
 	"strings"

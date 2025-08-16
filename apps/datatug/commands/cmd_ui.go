@@ -2,8 +2,9 @@ package commands
 
 import (
 	"context"
-	"github.com/datatug/datatug-cli/apps/datatug/tapp"
 	"github.com/datatug/datatug-cli/apps/datatug/ui"
+	"github.com/datatug/datatug-cli/pkg/sneatview/sneatnav"
+	"github.com/datatug/datatug-cli/pkg/sneatview/sneatv"
 	"github.com/rivo/tview"
 	"github.com/urfave/cli/v3"
 )
@@ -40,7 +41,10 @@ func (v *uiCommand) Execute(_ []string) error {
 	//	return event
 	//
 	//})
-	tui := tapp.NewTUI(app)
+	var tui *sneatnav.TUI
+	tui = sneatnav.NewTUI(app, sneatv.NewBreadcrumb(" ⛴ DataTug", func() error {
+		return ui.GoHomeScreen(tui)
+	}))
 	if err := ui.GoHomeScreen(tui); err != nil {
 		panic(err)
 	}

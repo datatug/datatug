@@ -1,26 +1,25 @@
 package ui
 
 import (
-	"github.com/datatug/datatug-cli/apps/datatug/tapp"
-	"github.com/datatug/datatug-cli/pkg/tvprimitives/breadcrumbs"
+	"github.com/datatug/datatug-cli/pkg/sneatview/sneatnav"
+	"github.com/datatug/datatug-cli/pkg/sneatview/sneatv"
 	"github.com/rivo/tview"
 )
 
 func newDefaultLayout(
-	tui *tapp.TUI, selectedMenuItem rootScreen, getContent func(tui *tapp.TUI) (tapp.Panel, error),
+	tui *sneatnav.TUI, selectedMenuItem rootScreen, getContent func(tui *sneatnav.TUI) (sneatnav.Panel, error),
 ) (
-	tapp.Screen, *breadcrumbs.Breadcrumbs,
+	sneatnav.Screen, *sneatv.Breadcrumbs,
 ) {
 
-	addMainRow(tui, selectedMenuItem, tui.Grid, getContent, tui.Header.Breadcrumbs)
+	addMainRow(tui, selectedMenuItem, tui.Grid, getContent)
 
-	return nil, tui.Header.Breadcrumbs
+	return nil, tui.Header.Breadcrumbs()
 }
 
 func addMainRow(
-	tui *tapp.TUI, selectedMenuItem rootScreen, grid *tview.Grid,
-	getContent func(tui *tapp.TUI) (tapp.Panel, error),
-	header *breadcrumbs.Breadcrumbs,
+	tui *sneatnav.TUI, selectedMenuItem rootScreen, grid *tview.Grid,
+	getContent func(tui *sneatnav.TUI) (sneatnav.Panel, error),
 ) {
 	menu := newDataTugMainMenu(tui, selectedMenuItem)
 
@@ -39,7 +38,7 @@ func addMainRow(
 		menu.TakeFocus()
 	})
 
-	_ = tapp.NewRow(tui.App,
+	_ = sneatnav.NewRow(tui.App,
 		menu,
 		content,
 	)

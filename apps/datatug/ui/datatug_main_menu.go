@@ -2,7 +2,7 @@ package ui
 
 import (
 	"context"
-	"github.com/datatug/datatug-cli/apps/datatug/tapp"
+	"github.com/datatug/datatug-cli/pkg/sneatview/sneatnav"
 	"github.com/gdamore/tcell/v2"
 	"github.com/rivo/tview"
 	"github.com/strongo/logus"
@@ -18,8 +18,8 @@ const (
 	settingsRootScreen
 )
 
-func newDataTugMainMenu(tui *tapp.TUI, active rootScreen) (menu *homeMenu) {
-	handleMenuAction := func(action func(tui2 *tapp.TUI) error) func() {
+func newDataTugMainMenu(tui *sneatnav.TUI, active rootScreen) (menu *homeMenu) {
+	handleMenuAction := func(action func(tui2 *sneatnav.TUI) error) func() {
 		return func() {
 			if err := action(tui); err != nil {
 				logus.Errorf(context.Background(), "Failed to execute action: %v", err)
@@ -39,35 +39,40 @@ func newDataTugMainMenu(tui *tapp.TUI, active rootScreen) (menu *homeMenu) {
 		})
 	list.SetCurrentItem(int(active))
 
-	list.SetInputCapture(func(ev *tcell.EventKey) *tcell.EventKey {
+	list.SetInputCapture(func(event *tcell.EventKey) *tcell.EventKey {
 		// Handle the logic from newDataTugMainMenu: move focus to breadcrumbs when on first item
-		if ev.Key() == tcell.KeyUp {
+		switch event.Key() {
+		case tcell.KeyUp:
 			if menu.list.GetCurrentItem() == 0 {
-				tui.App.SetFocus(tui.Header.Breadcrumbs)
+				tui.SetFocus(tui.Header.Breadcrumbs())
 				return nil
 			}
-		}
-		if ev.Key() == tcell.KeyBacktab {
+			return event
+		case tcell.KeyRight:
+			tui.App.SetFocus(tui.Content)
+			return nil
+		case tcell.KeyBacktab:
 			// Move focus to header (breadcrumbs) when Shift+Tab or Up arrow is pressed on the menu.
-			tui.App.SetFocus(tui.Header.Breadcrumbs)
+			tui.App.SetFocus(tui.Header.Breadcrumbs())
 			return nil // consume the event
+		default:
+			return event
 		}
-		return ev
 	})
 
 	defaultBorder(list.Box)
 
 	menu = &homeMenu{
-		PanelBase: tapp.NewPanelBaseFromList(tui, list),
+		PanelBase: sneatnav.NewPanelBaseFromList(tui, list),
 		list:      list,
 	}
 
 	return menu
 }
 
-var _ tapp.Cell = (*homeMenu)(nil)
+var _ sneatnav.Cell = (*homeMenu)(nil)
 
 type homeMenu struct {
-	tapp.PanelBase
+	sneatnav.PanelBase
 	list *tview.List
 }
