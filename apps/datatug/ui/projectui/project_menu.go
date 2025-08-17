@@ -1,7 +1,8 @@
-package ui
+package projectui
 
 import (
 	"github.com/datatug/datatug-cli/pkg/sneatview/sneatnav"
+	"github.com/datatug/datatug-cli/pkg/sneatview/sneatv"
 	"github.com/datatug/datatug-core/pkg/appconfig"
 	"github.com/rivo/tview"
 )
@@ -37,7 +38,8 @@ func newProjectMenuPanel(tui *sneatnav.TUI, project *appconfig.ProjectConfig, cu
 		list.SetCurrentItem(currentItem)
 	}
 
-	defaultListStyle(list)
+	sneatv.DefaultListStyle(list)
+	sneatv.DefaultBorder(list.Box)
 
 	return sneatnav.NewPanelFromList(tui, list)
 }

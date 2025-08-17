@@ -2,6 +2,7 @@ package ui
 
 import (
 	"context"
+	"github.com/datatug/datatug-cli/apps/datatug/ui/projectui"
 	"github.com/datatug/datatug-cli/pkg/sneatview/sneatnav"
 	"github.com/datatug/datatug-cli/pkg/sneatview/sneatv"
 	"github.com/datatug/datatug-core/pkg/appconfig"
@@ -21,7 +22,6 @@ type projectsPanel struct {
 	selectProjectID  string
 	localTree        *tview.TreeView
 	cloudTree        *tview.TreeView
-	githubTree       *tview.TreeView
 	layout           *tview.Flex
 	currentTreeIndex int               // 0=local, 1=cloud, 2=github
 	trees            []*tview.TreeView // slice for easy access
@@ -57,26 +57,24 @@ func newProjectsPanel(tui *sneatnav.TUI) (*projectsPanel, error) {
 	// Create 3 separate trees
 	localTree := tview.NewTreeView()
 	cloudTree := tview.NewTreeView()
-	githubTree := tview.NewTreeView()
 
 	// Create layout to hold all 3 trees horizontally
 	layout := tview.NewFlex().SetDirection(tview.FlexColumn)
 
 	panel := &projectsPanel{
-		PanelBase:  sneatnav.NewPanelBase(tui, sneatnav.WithBox(layout, layout.Box)),
-		tui:        tui,
-		localTree:  localTree,
-		cloudTree:  cloudTree,
-		githubTree: githubTree,
-		layout:     layout,
-		trees:      []*tview.TreeView{localTree, cloudTree, githubTree},
+		PanelBase: sneatnav.NewPanelBase(tui, sneatnav.WithBox(layout, layout.Box)),
+		tui:       tui,
+		localTree: localTree,
+		cloudTree: cloudTree,
+		layout:    layout,
+		trees:     []*tview.TreeView{localTree, cloudTree},
 	}
 
 	for _, tree := range panel.trees {
 		layout.AddItem(tree, 0, 1, false)
 	}
 
-	setPanelTitle(panel.GetBox(), "Projects")
+	sneatv.SetPanelTitle(panel.GetBox(), "Projects")
 
 	settings, err := appconfig.GetSettings()
 	if err != nil {
@@ -85,7 +83,7 @@ func newProjectsPanel(tui *sneatnav.TUI) (*projectsPanel, error) {
 	}
 
 	openProject := func(projectConfig *appconfig.ProjectConfig) {
-		goProjectScreen(tui, projectConfig)
+		projectui.GoProjectScreen(tui, projectConfig)
 	}
 
 	panel.projects = settings.Projects
@@ -100,45 +98,37 @@ func newProjectsPanel(tui *sneatnav.TUI) (*projectsPanel, error) {
 		SetSelectable(false)
 	localTree.SetRoot(localRoot)
 
+	// Add existing projects under Local projects
+	for _, p := range panel.projects {
+		title := " 📁 " + projectui.GetProjectTitle(p) + " "
+		projectNode := tview.NewTreeNode(title).
+			SetReference(p).
+			SetColor(tcell.ColorWhite)
+		localRoot.AddChild(projectNode)
+	}
+
 	// Add Demo project first
 	localDemoProject := &appconfig.ProjectConfig{
 		ID:  "local-demo-project",
 		Url: "local",
 	}
-	demoProjectNode := tview.NewTreeNode("Local demo project").
+	demoProjectNode := tview.NewTreeNode(" 📁 Local demo project ").
 		SetReference(localDemoProject) //.
-	//SetColor(tcell.ColorWhite)
 	localRoot.AddChild(demoProjectNode)
 
-	// Add existing projects under Local projects
-	for _, p := range panel.projects {
-		project := p
-		title := project.Title
-		if title == "" {
-			title = project.ID
-		}
-		if title == "" {
-			title = project.Url
-		}
-		projectNode := tview.NewTreeNode(title).
-			SetReference(project).
-			SetColor(tcell.ColorWhite)
-		localRoot.AddChild(projectNode)
-	}
-
 	// Add actions to Local projects
-	localAddNode := tview.NewTreeNode("Add exising").
+	localAddNode := tview.NewTreeNode(" 🔗 Add exising ").
 		SetReference("local-add").
-		SetColor(tcell.ColorBlue)
+		SetColor(tcell.ColorBlue) // TODO: Remove should be set by common styling
 	localRoot.AddChild(localAddNode)
 
-	localCreateNode := tview.NewTreeNode("Create new").
+	localCreateNode := tview.NewTreeNode(" ➕Create new ").
 		SetReference("local-create").
-		SetColor(tcell.ColorBlue)
+		SetColor(tcell.ColorBlue) // TODO: Remove should be set by common styling
 	localRoot.AddChild(localCreateNode)
 
 	localRoot.SetExpanded(true)
-	localTree.SetCurrentNode(demoProjectNode)
+	localTree.SetCurrentNode(localRoot.GetChildren()[0])
 
 	// === DATATUG CLOUD PROJECTS TREE ===
 	cloudRoot := tview.NewTreeNode("Projects in DataTug cloud").
@@ -151,36 +141,17 @@ func newProjectsPanel(tui *sneatnav.TUI) (*projectsPanel, error) {
 		ID:  "datatug-demo-project",
 		Url: "cloud",
 	}
-	cloudDemoProjectNode := tview.NewTreeNode("DataTug demo project").
+	cloudDemoProjectNode := tview.NewTreeNode(" 📁 DataTug demo project ").
 		SetReference(datatugDemoProject) //.
 	//SetColor(tcell.ColorWhite)
 	cloudRoot.AddChild(cloudDemoProjectNode)
 
 	// Login to view action (moved to end)
-	loginNode := tview.NewTreeNode("Login to view personal or work projects").
+	loginNode := tview.NewTreeNode(" 👤 Login to view personal or work projects ").
 		SetReference("login").
 		SetColor(tcell.ColorBlue)
 	cloudRoot.AddChild(loginNode)
 	cloudRoot.SetExpanded(true)
-
-	// === GITHUB PROJECTS TREE ===
-	githubRoot := tview.NewTreeNode("Projects in GitHub").
-		SetColor(tcell.ColorYellow).
-		SetSelectable(false)
-	githubTree.SetRoot(githubRoot)
-
-	// Add action
-	addNode := tview.NewTreeNode("Add").
-		SetReference("add").
-		SetColor(tcell.ColorBlue)
-	githubRoot.AddChild(addNode)
-
-	// Create action
-	createNode := tview.NewTreeNode("Create").
-		SetReference("create").
-		SetColor(tcell.ColorBlue)
-	githubRoot.AddChild(createNode)
-	githubRoot.SetExpanded(true)
 
 	// Create selection handler function
 	selectionHandler := func(node *tview.TreeNode) {
@@ -311,7 +282,7 @@ func newProjectsPanel(tui *sneatnav.TUI) (*projectsPanel, error) {
 					switch ref := reference.(type) {
 					case *appconfig.ProjectConfig:
 						// Call goProjectDashboards when ENTER is pressed on a project node
-						goProjectDashboards(tui, ref)
+						projectui.GoProjectScreen(tui, ref)
 						return nil
 					}
 				}

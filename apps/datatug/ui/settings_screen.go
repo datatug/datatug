@@ -2,6 +2,7 @@ package ui
 
 import (
 	"github.com/datatug/datatug-cli/pkg/sneatview/sneatnav"
+	"github.com/datatug/datatug-cli/pkg/sneatview/sneatv"
 	"github.com/datatug/datatug-core/pkg/appconfig"
 	"github.com/rivo/tview"
 	"gopkg.in/yaml.v3"
@@ -29,7 +30,7 @@ func goSettingsScreen(tui *sneatnav.TUI) error {
 
 	content := sneatnav.NewPanelFromTextView(tui, textView)
 
-	defaultBorder(textView.Box)
+	sneatv.DefaultBorder(textView.Box)
 	textView.SetTitle(fileName)
 	textView.SetTitleAlign(tview.AlignLeft)
 

@@ -43,7 +43,7 @@ func goViewersScreen(tui *sneatnav.TUI) error {
 		}
 	})
 
-	defaultBorder(list.Box)
+	sneatv.DefaultBorder(list.Box)
 	// Set spacing between items to 1 line by increasing vertical padding
 	list.SetBorderPadding(1, 1, 1, 1)
 	list.SetTitle(" Viewers ")

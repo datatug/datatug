@@ -20,6 +20,6 @@ func newCredentialsPanel(tui *sneatnav.TUI) sneatnav.Panel {
 	text := tview.NewTextView()
 	text.SetText("You have 3 credentials.")
 	panel := sneatnav.NewPanelFromTextView(tui, text)
-	setPanelTitle(panel.GetBox(), "Credentials")
+	sneatv.SetPanelTitle(panel.GetBox(), "Credentials")
 	return panel
 }

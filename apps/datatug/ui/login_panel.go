@@ -13,6 +13,6 @@ package ui
 //	panel := &loginPanel{
 //		PanelBase: tapp.NewPanelBaseFromTextView(tui, text),
 //	}
-//	setPanelTitle(panel.PanelBase, "Login to DataTug")
+//	SetPanelTitle(panel.PanelBase, "Login to DataTug")
 //	return panel
 //}

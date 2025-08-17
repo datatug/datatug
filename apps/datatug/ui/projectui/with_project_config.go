@@ -1,7 +1,6 @@
-package ui
+package projectui
 
 import (
-	"github.com/datatug/datatug-cli/pkg/sneatview/sneatnav"
 	"github.com/datatug/datatug-core/pkg/appconfig"
 )
 
@@ -16,7 +15,3 @@ type WithProjectConfig interface {
 //func (v withProjectConfig) GetProjectConfig() *appconfig.ProjectConfig {
 //	return v.projectConfig
 //}
-
-func goProjectScreen(tui *sneatnav.TUI, project *appconfig.ProjectConfig) {
-	goEnvironmentsScreen(tui, project)
-}

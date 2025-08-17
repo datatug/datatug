@@ -3,6 +3,7 @@ package ui
 import (
 	"context"
 	"github.com/datatug/datatug-cli/pkg/sneatview/sneatnav"
+	"github.com/datatug/datatug-cli/pkg/sneatview/sneatv"
 	"github.com/gdamore/tcell/v2"
 	"github.com/strongo/logus"
 )
@@ -59,7 +60,7 @@ func newDataTugMainMenu(tui *sneatnav.TUI, active rootScreen) (menu sneatnav.Pan
 		}
 	})
 
-	defaultBorder(list.Box)
+	sneatv.DefaultBorder(list.Box)
 
 	return sneatnav.NewPanelFromList(tui, list)
 }

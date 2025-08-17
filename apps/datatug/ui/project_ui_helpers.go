@@ -26,7 +26,7 @@ package ui
 //	screenID ProjectScreenID,
 //	main sneatnav.Panel,
 //) (screen sneatnav.Screen) {
-//	_ = newProjectMenuPanel(tui, project, screenID)
+//	_ = NewProjectMenuPanel(tui, project, screenID)
 //
 //	screen = newDefaultLayout(tui, projectsRootScreen, func(tui *sneatnav.TUI) (sneatnav.Panel, error) {
 //		return main, nil

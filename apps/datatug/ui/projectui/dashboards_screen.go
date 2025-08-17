@@ -1,4 +1,4 @@
-package ui
+package projectui
 
 import (
 	"github.com/datatug/datatug-cli/pkg/sneatview/sneatnav"
