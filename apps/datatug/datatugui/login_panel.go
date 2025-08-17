@@ -1,4 +1,4 @@
-package ui
+package datatugui
 
 //var _ tview.Primitive = (*loginPanel)(nil)
 //var _ tapp.Cell = (*loginPanel)(nil)

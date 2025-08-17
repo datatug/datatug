@@ -28,7 +28,7 @@ func layoutGrid(header, menu, content tview.Primitive) *tview.Grid {
 
 	grid. // Default grid settings
 		SetRows(1, 0).
-		SetColumns(20, 0).
+		SetColumns(30, 0).
 		SetBorders(false)
 
 	// Adds header and footer to the grid.

@@ -1,4 +1,4 @@
-package ui
+package datatugui
 
 import "github.com/rivo/tview"
 

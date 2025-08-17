@@ -1,8 +1,8 @@
-package ui
+package datatugui
 
 import (
 	"context"
-	"github.com/datatug/datatug-cli/apps/datatug/ui/projectui"
+	"github.com/datatug/datatug-cli/apps/datatug/datatugui/projectui"
 	"github.com/datatug/datatug-cli/pkg/sneatview/sneatnav"
 	"github.com/datatug/datatug-cli/pkg/sneatview/sneatv"
 	"github.com/datatug/datatug-core/pkg/appconfig"

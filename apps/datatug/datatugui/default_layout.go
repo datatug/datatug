@@ -1,4 +1,4 @@
-package ui
+package datatugui
 
 //func newDefaultLayout(
 //	tui *sneatnav.TUI, selectedMenuItem rootScreen, getContent func(tui *sneatnav.TUI) (sneatnav.Panel, error),

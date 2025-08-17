@@ -23,7 +23,9 @@ func GoProjectScreen(tui *sneatnav.TUI, p *appconfig.ProjectConfig) {
 	menu := newProjectMenuPanel(tui, p, "project")
 	content := NewProjectPanel(tui, p)
 	tui.Header.Breadcrumbs().Clear()
-	tui.Header.Breadcrumbs().Push(sneatv.NewBreadcrumb("Projects", nil))
+	tui.Header.Breadcrumbs().Push(sneatv.NewBreadcrumb("Projects", func() error {
+		return nil
+	}))
 	title := GetProjectTitle(p)
 	if parts := strings.Split(title, "/"); len(parts) > 1 {
 		title = parts[len(parts)-1]
@@ -39,6 +41,14 @@ func GetProjectTitle(p *appconfig.ProjectConfig) (projectTitle string) {
 	}
 	if projectTitle == "" {
 		projectTitle = p.Url
+	}
+	return projectTitle
+}
+
+func GetProjectShortTitle(p *appconfig.ProjectConfig) (projectTitle string) {
+	projectTitle = GetProjectTitle(p)
+	if parts := strings.Split(projectTitle, "/"); len(parts) > 1 {
+		projectTitle = parts[len(parts)-1]
 	}
 	return projectTitle
 }
