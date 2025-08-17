@@ -11,21 +11,15 @@ func goCredentials(tui *sneatnav.TUI) error {
 	breadcrumbs.Clear()
 	breadcrumbs.Push(sneatv.NewBreadcrumb("Credentials", nil))
 	menu := newDataTugMainMenu(tui, credentialsRootScreen)
-	content := newCredentialsContent(tui)
+	content := newCredentialsPanel(tui)
 	tui.SetPanels(menu, content, sneatnav.WithFocusTo(sneatnav.FocusToMenu))
 	return nil
 }
 
-func newCredentialsContent(tui *sneatnav.TUI) *credentialsPanel {
+func newCredentialsPanel(tui *sneatnav.TUI) sneatnav.Panel {
 	text := tview.NewTextView()
 	text.SetText("You have 3 credentials.")
-	panel := &credentialsPanel{
-		PanelBase: sneatnav.NewPanelBaseFromTextView(tui, text),
-	}
-	setPanelTitle(panel.PanelBase, "Credentials")
+	panel := sneatnav.NewPanelFromTextView(tui, text)
+	setPanelTitle(panel.GetBox(), "Credentials")
 	return panel
-}
-
-type credentialsPanel struct {
-	sneatnav.PanelBase
 }

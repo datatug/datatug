@@ -7,18 +7,6 @@ import (
 	"github.com/rivo/tview"
 )
 
-var _ tview.Primitive = (*viewersPanel)(nil)
-var _ sneatnav.Cell = (*viewersPanel)(nil)
-
-type viewersPanel struct {
-	sneatnav.PanelBase
-	list *tview.List
-}
-
-func (p *viewersPanel) Draw(screen tcell.Screen) {
-	p.list.Draw(screen)
-}
-
 func goViewersScreen(tui *sneatnav.TUI) error {
 	breadcrumbs := tui.Header.Breadcrumbs()
 	breadcrumbs.Clear()
@@ -31,11 +19,6 @@ func goViewersScreen(tui *sneatnav.TUI) error {
 
 	// Set secondary text color to gray
 	list.SetSecondaryTextColor(tcell.ColorDarkGray)
-
-	content := &viewersPanel{
-		PanelBase: sneatnav.NewPanelBaseFromList(tui, list),
-		list:      list,
-	}
 
 	list.SetInputCapture(func(event *tcell.EventKey) *tcell.EventKey {
 		switch event.Key() {
@@ -60,13 +43,14 @@ func goViewersScreen(tui *sneatnav.TUI) error {
 		}
 	})
 
-	defaultBorder(content.list.Box)
+	defaultBorder(list.Box)
 	// Set spacing between items to 1 line by increasing vertical padding
-	content.list.SetBorderPadding(1, 1, 1, 1)
-	content.list.SetTitle(" Viewers ")
-	content.list.SetTitleAlign(tview.AlignLeft)
+	list.SetBorderPadding(1, 1, 1, 1)
+	list.SetTitle(" Viewers ")
+	list.SetTitleAlign(tview.AlignLeft)
 
 	menu := newDataTugMainMenu(tui, viewersRootScreen)
+	content := sneatnav.NewPanelFromList(tui, list)
 	tui.SetPanels(menu, content)
 	return nil
 }

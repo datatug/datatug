@@ -5,16 +5,8 @@ import (
 	"github.com/datatug/datatug-core/pkg/appconfig"
 )
 
-type dashboardsScreen struct {
-	sneatnav.ScreenBase
-}
-
-func newDashboardsScreen(tui *sneatnav.TUI, project appconfig.ProjectConfig) sneatnav.Screen {
-	main := newDashboardsPanel(project)
-
-	_ = newDashboardsSidebar(tui)
-
-	return &dashboardsScreen{
-		ScreenBase: newProjectRootScreenBase(tui, project, ProjectScreenDashboards, main),
-	}
+func goProjectDashboards(tui *sneatnav.TUI, project *appconfig.ProjectConfig) {
+	menu := newProjectMenuPanel(tui, project, "dashboards")
+	content := newDashboardsPanel(tui, project)
+	tui.SetPanels(menu, content)
 }

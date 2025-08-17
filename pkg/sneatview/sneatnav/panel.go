@@ -20,16 +20,28 @@ type PanelPrimitive interface {
 //	TakeFocus()
 //}
 
-var _ Panel = (*PanelBase)(nil)
-var _ Cell = (*PanelBase)(nil)
+var _ Panel = (*panel[PrimitiveWithBox])(nil)
+var _ Cell = (*panel[PrimitiveWithBox])(nil)
+
+type panel[T PrimitiveWithBox] struct {
+	PrimitiveWithBox
+	tui *TUI
+}
+
+func (p panel[T]) TakeFocus() {
+	p.tui.App.SetFocus(p.PrimitiveWithBox)
+}
+
+func NewPanel[T PrimitiveWithBox](tui *TUI, p PrimitiveWithBox) Panel {
+	return &panel[T]{
+		PrimitiveWithBox: p,
+		tui:              tui,
+	}
+}
 
 type PanelBase struct {
 	tui *TUI
 	PrimitiveWithBox
-}
-
-func (p *PanelBase) TakeFocus() {
-	//return p.box.
 }
 
 func NewPanelBase(tui *TUI,
@@ -42,10 +54,10 @@ func NewPanelBase(tui *TUI,
 	return PanelBase{tui: tui, PrimitiveWithBox: primitive}
 }
 
-func NewPanelBaseFromList(tui *TUI, p *tview.List) PanelBase {
-	return NewPanelBase(tui, WithBox(p, p.Box))
+func NewPanelFromList(tui *TUI, p *tview.List) Panel {
+	return NewPanel[withBox[*tview.List]](tui, WithBox(p, p.Box))
 }
 
-func NewPanelBaseFromTextView(tui *TUI, p *tview.TextView) PanelBase {
-	return NewPanelBase(tui, WithBox(p, p.Box))
+func NewPanelFromTextView(tui *TUI, p *tview.TextView) Panel {
+	return NewPanel[withBox[*tview.TextView]](tui, WithBox(p, p.Box))
 }

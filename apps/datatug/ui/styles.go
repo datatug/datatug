@@ -1,7 +1,6 @@
 package ui
 
 import (
-	"github.com/datatug/datatug-cli/pkg/sneatview/sneatnav"
 	"github.com/gdamore/tcell/v2"
 	"github.com/rivo/tview"
 )
@@ -18,8 +17,7 @@ func defaultListStyle(list *tview.List) {
 	//defaultBorder(list.Box)
 }
 
-func setPanelTitle(panel sneatnav.PanelBase, title string) {
-	box := panel.GetBox()
+func setPanelTitle(box *tview.Box, title string) {
 	defaultBorder(box)
 	box.SetTitle(title)
 	box.SetTitleAlign(tview.AlignCenter)

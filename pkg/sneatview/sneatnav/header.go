@@ -6,6 +6,10 @@ import (
 	"github.com/rivo/tview"
 )
 
+type focusOptions struct {
+	from tview.Primitive
+}
+
 type Header struct {
 	*tview.Flex
 	tui         *TUI

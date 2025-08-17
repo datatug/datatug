@@ -67,8 +67,8 @@ type TUI struct {
 	App     *tview.Application
 	Grid    *tview.Grid
 	Header  *Header
-	Content Panel
 	Menu    Panel
+	Content Panel
 	stack   []Screen
 }
 
@@ -119,7 +119,7 @@ func (tui *TUI) SetPanels(menu, content Panel, options ...func(panelsOptions *se
 		option(spo)
 	}
 	switch spo.focusTo {
-	case FocusToMenu:
+	case FocusToNone, FocusToMenu:
 		tui.SetFocus(menu)
 	case FocusToContent:
 		tui.SetFocus(content)
@@ -129,6 +129,7 @@ func (tui *TUI) SetPanels(menu, content Panel, options ...func(panelsOptions *se
 
 }
 
+// Deprecated
 func (tui *TUI) SetRootScreen(screen Screen) {
 	tui.stack = []Screen{screen}
 	tui.App.SetRoot(screen, screen.Options().FullScreen())
@@ -137,6 +138,7 @@ func (tui *TUI) SetRootScreen(screen Screen) {
 	}
 }
 
+// Deprecated
 func (tui *TUI) PushScreen(screen Screen) {
 	tui.stack = append(tui.stack, screen)
 	tui.App.SetRoot(screen, screen.Options().FullScreen())
@@ -150,16 +152,6 @@ func (tui *TUI) PopScreen() {
 		tui.App.SetRoot(currentScreen, options.fullScreen)
 	}
 }
-
-type focusOptions struct {
-	from tview.Primitive
-}
-
-//func From(p tview.Primitive) func(o *focusOptions) {
-//	return func(o *focusOptions) {
-//		o.from = p
-//	}
-//}
 
 func (tui *TUI) SetFocus(p tview.Primitive) {
 	tui.App.SetFocus(p)

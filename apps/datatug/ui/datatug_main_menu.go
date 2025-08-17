@@ -4,7 +4,6 @@ import (
 	"context"
 	"github.com/datatug/datatug-cli/pkg/sneatview/sneatnav"
 	"github.com/gdamore/tcell/v2"
-	"github.com/rivo/tview"
 	"github.com/strongo/logus"
 )
 
@@ -18,7 +17,7 @@ const (
 	settingsRootScreen
 )
 
-func newDataTugMainMenu(tui *sneatnav.TUI, active rootScreen) (menu *homeMenu) {
+func newDataTugMainMenu(tui *sneatnav.TUI, active rootScreen) (menu sneatnav.Panel) {
 	handleMenuAction := func(action func(tui2 *sneatnav.TUI) error) func() {
 		return func() {
 			if err := action(tui); err != nil {
@@ -43,7 +42,7 @@ func newDataTugMainMenu(tui *sneatnav.TUI, active rootScreen) (menu *homeMenu) {
 		// Handle the logic from newDataTugMainMenu: move focus to breadcrumbs when on first item
 		switch event.Key() {
 		case tcell.KeyUp:
-			if menu.list.GetCurrentItem() == 0 {
+			if list.GetCurrentItem() == 0 {
 				tui.Header.SetFocus(sneatnav.ToBreadcrumbs, list)
 				return nil
 			}
@@ -62,17 +61,5 @@ func newDataTugMainMenu(tui *sneatnav.TUI, active rootScreen) (menu *homeMenu) {
 
 	defaultBorder(list.Box)
 
-	menu = &homeMenu{
-		PanelBase: sneatnav.NewPanelBaseFromList(tui, list),
-		list:      list,
-	}
-
-	return menu
-}
-
-var _ sneatnav.Cell = (*homeMenu)(nil)
-
-type homeMenu struct {
-	sneatnav.PanelBase
-	list *tview.List
+	return sneatnav.NewPanelFromList(tui, list)
 }

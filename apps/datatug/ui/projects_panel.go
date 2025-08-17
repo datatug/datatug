@@ -9,7 +9,6 @@ import (
 	"github.com/rivo/tview"
 	"github.com/strongo/logus"
 	"sort"
-	"strconv"
 )
 
 var _ tview.Primitive = (*projectsPanel)(nil)
@@ -17,34 +16,67 @@ var _ sneatnav.Cell = (*projectsPanel)(nil)
 
 type projectsPanel struct {
 	sneatnav.PanelBase
-	projects        []*appconfig.ProjectConfig
-	selectProjectID string
-	list            *tview.List
+	tui              *sneatnav.TUI
+	projects         []*appconfig.ProjectConfig
+	selectProjectID  string
+	localTree        *tview.TreeView
+	cloudTree        *tview.TreeView
+	githubTree       *tview.TreeView
+	layout           *tview.Flex
+	currentTreeIndex int               // 0=local, 1=cloud, 2=github
+	trees            []*tview.TreeView // slice for easy access
 }
 
 func goProjectsScreen(tui *sneatnav.TUI) error {
-	content, err := getProjectsContent(tui)
+	content, err := newProjectsPanel(tui)
 	if err != nil {
 		return err
 	}
-	tui.SetPanels(newDataTugMainMenu(tui, projectsRootScreen), content, sneatnav.WithFocusTo(sneatnav.FocusToMenu))
+	menu := newDataTugMainMenu(tui, projectsRootScreen)
+	tui.SetPanels(menu, content, sneatnav.WithFocusTo(sneatnav.FocusToContent))
 	breadcrumbs := tui.Header.Breadcrumbs()
 	breadcrumbs.Clear()
 	breadcrumbs.Push(sneatv.NewBreadcrumb("Projects", nil))
+	tui.App.SetFocus(content)
+	content.TakeFocus()
 	return nil
 }
 
-func getProjectsContent(tui *sneatnav.TUI) (sneatnav.Panel, error) {
-	panel, err := newProjectsPanel(tui)
-	return panel, err
-}
+//type nodeType int
+//
+//const (
+//	nodeTypeAction nodeType = iota
+//	nodeTypeLink
+//)
+//
+//type nodeRef struct {
+//	nodeType nodeType
+//}
 
 func newProjectsPanel(tui *sneatnav.TUI) (*projectsPanel, error) {
-	list := tview.NewList()
+	// Create 3 separate trees
+	localTree := tview.NewTreeView()
+	cloudTree := tview.NewTreeView()
+	githubTree := tview.NewTreeView()
+
+	// Create layout to hold all 3 trees horizontally
+	layout := tview.NewFlex().SetDirection(tview.FlexColumn)
+
 	panel := &projectsPanel{
-		PanelBase: sneatnav.NewPanelBaseFromList(tui, list),
-		list:      list,
+		PanelBase:  sneatnav.NewPanelBase(tui, sneatnav.WithBox(layout, layout.Box)),
+		tui:        tui,
+		localTree:  localTree,
+		cloudTree:  cloudTree,
+		githubTree: githubTree,
+		layout:     layout,
+		trees:      []*tview.TreeView{localTree, cloudTree, githubTree},
 	}
+
+	for _, tree := range panel.trees {
+		layout.AddItem(tree, 0, 1, false)
+	}
+
+	setPanelTitle(panel.GetBox(), "Projects")
 
 	settings, err := appconfig.GetSettings()
 	if err != nil {
@@ -52,9 +84,8 @@ func newProjectsPanel(tui *sneatnav.TUI) (*projectsPanel, error) {
 		//return nil, err
 	}
 
-	openProject := func(projectConfig appconfig.ProjectConfig) {
-		projectScreen := newProjectScreen(tui, projectConfig)
-		tui.PushScreen(projectScreen)
+	openProject := func(projectConfig *appconfig.ProjectConfig) {
+		goProjectScreen(tui, projectConfig)
 	}
 
 	panel.projects = settings.Projects
@@ -63,34 +94,303 @@ func newProjectsPanel(tui *sneatnav.TUI) (*projectsPanel, error) {
 		return panel.projects[i].ID < panel.projects[j].ID
 	})
 
-	projectSelected := func(p *appconfig.ProjectConfig) {
-		panel.selectProjectID = p.ID
-		openProject(*p)
+	// === LOCAL PROJECTS TREE ===
+	localRoot := tview.NewTreeNode("Local projects").
+		SetColor(tcell.ColorYellow).
+		SetSelectable(false)
+	localTree.SetRoot(localRoot)
+
+	// Add Demo project first
+	localDemoProject := &appconfig.ProjectConfig{
+		ID:  "local-demo-project",
+		Url: "local",
 	}
-	for i, p := range panel.projects {
+	demoProjectNode := tview.NewTreeNode("Local demo project").
+		SetReference(localDemoProject) //.
+	//SetColor(tcell.ColorWhite)
+	localRoot.AddChild(demoProjectNode)
+
+	// Add existing projects under Local projects
+	for _, p := range panel.projects {
 		project := p
-		list.AddItem(project.ID, project.Url, rune(strconv.Itoa(i + 1)[0]), func() {
-			projectSelected(project)
+		title := project.Title
+		if title == "" {
+			title = project.ID
+		}
+		if title == "" {
+			title = project.Url
+		}
+		projectNode := tview.NewTreeNode(title).
+			SetReference(project).
+			SetColor(tcell.ColorWhite)
+		localRoot.AddChild(projectNode)
+	}
+
+	// Add actions to Local projects
+	localAddNode := tview.NewTreeNode("Add exising").
+		SetReference("local-add").
+		SetColor(tcell.ColorBlue)
+	localRoot.AddChild(localAddNode)
+
+	localCreateNode := tview.NewTreeNode("Create new").
+		SetReference("local-create").
+		SetColor(tcell.ColorBlue)
+	localRoot.AddChild(localCreateNode)
+
+	localRoot.SetExpanded(true)
+	localTree.SetCurrentNode(demoProjectNode)
+
+	// === DATATUG CLOUD PROJECTS TREE ===
+	cloudRoot := tview.NewTreeNode("Projects in DataTug cloud").
+		SetColor(tcell.ColorYellow).
+		SetSelectable(false)
+	cloudTree.SetRoot(cloudRoot)
+
+	// DataTug demo project
+	datatugDemoProject := &appconfig.ProjectConfig{
+		ID:  "datatug-demo-project",
+		Url: "cloud",
+	}
+	cloudDemoProjectNode := tview.NewTreeNode("DataTug demo project").
+		SetReference(datatugDemoProject) //.
+	//SetColor(tcell.ColorWhite)
+	cloudRoot.AddChild(cloudDemoProjectNode)
+
+	// Login to view action (moved to end)
+	loginNode := tview.NewTreeNode("Login to view personal or work projects").
+		SetReference("login").
+		SetColor(tcell.ColorBlue)
+	cloudRoot.AddChild(loginNode)
+	cloudRoot.SetExpanded(true)
+
+	// === GITHUB PROJECTS TREE ===
+	githubRoot := tview.NewTreeNode("Projects in GitHub").
+		SetColor(tcell.ColorYellow).
+		SetSelectable(false)
+	githubTree.SetRoot(githubRoot)
+
+	// Add action
+	addNode := tview.NewTreeNode("Add").
+		SetReference("add").
+		SetColor(tcell.ColorBlue)
+	githubRoot.AddChild(addNode)
+
+	// Create action
+	createNode := tview.NewTreeNode("Create").
+		SetReference("create").
+		SetColor(tcell.ColorBlue)
+	githubRoot.AddChild(createNode)
+	githubRoot.SetExpanded(true)
+
+	// Create selection handler function
+	selectionHandler := func(node *tview.TreeNode) {
+		reference := node.GetReference()
+		if reference != nil {
+			switch ref := reference.(type) {
+			case *appconfig.ProjectConfig:
+				panel.selectProjectID = ref.ID
+				openProject(ref)
+			case string:
+				switch ref {
+				case "login":
+					// Handle login action
+					logus.Infof(context.Background(), "Login action triggered")
+				case "local-add":
+					// Handle local add action
+					logus.Infof(context.Background(), "Local add action triggered")
+				case "local-create":
+					// Handle local create action
+					logus.Infof(context.Background(), "Local create action triggered")
+				case "add":
+					// Handle GitHub add action
+					logus.Infof(context.Background(), "GitHub add action triggered")
+				case "create":
+					// Handle GitHub create action
+					logus.Infof(context.Background(), "GitHub create action triggered")
+				}
+			}
+		}
+	}
+
+	// Function to update visual styling based on active tree
+	updateTreeStyling := func() {
+		for i, tree := range panel.trees {
+			tree.SetSelectedFunc(selectionHandler)
+			// Remove titles as requested - no SetTitle calls
+
+			// Use available TreeView styling methods for highlighting
+
+			if i == panel.currentTreeIndex {
+				// Active tree: use bright colors for selected item highlighting
+				tree.SetGraphicsColor(tcell.ColorWhite) // tree lines
+			} else {
+				// Inactive tree: use dim gray for selected item highlighting
+				tree.SetGraphicsColor(tcell.ColorGrey) // tree lines
+			}
+		}
+	}
+
+	// Set up focus and blur handlers for each tree to manage selected item styling
+	for i, tree := range panel.trees {
+		treeIndex := i // Capture loop variable
+
+		tree.SetFocusFunc(func() {
+			// When tree gains focus, update styling for active state
+			panel.currentTreeIndex = treeIndex
+			updateTreeStyling()
+			// Apply active styling to current node
+			panel.applyNodeStyling(tree, true)
+		})
+
+		tree.SetBlurFunc(func() {
+			// Update overall tree styling for inactive state
+			updateTreeStyling()
+			// When tree loses focus, apply dimmed styling to current node
+			panel.applyNodeStyling(tree, false)
 		})
 	}
 
-	defaultListStyle(list)
+	// Main input capture function for the layout
+	layout.SetInputCapture(func(event *tcell.EventKey) *tcell.EventKey {
+		currentTree := panel.trees[panel.currentTreeIndex]
+		if !currentTree.HasFocus() { // Workaround for a bug
+			panel.tui.SetFocus(currentTree)
+		}
 
-	setPanelTitle(panel.PanelBase, "Projects")
+		switch event.Key() {
+		case tcell.KeyESC:
+			tui.SetFocus(tui.Menu)
+			return nil
+		case tcell.KeyLeft:
+			// Move to previous tree
+			if panel.currentTreeIndex == 0 {
+				panel.tui.SetFocus(tui.Menu)
+				return nil
+			}
+			// Apply dimmed styling to current tree before switching
+			panel.applyNodeStyling(currentTree, false)
+			panel.currentTreeIndex--
+			currentTree = panel.trees[panel.currentTreeIndex]
+			updateTreeStyling()
+			// Set focus to the newly activated tree
+			panel.ensureTreeHasCurrentNode(currentTree)
+			tui.SetFocus(currentTree)
+			return nil
+		case tcell.KeyRight:
+			// Move to next tree
+			if panel.currentTreeIndex < len(panel.trees)-1 {
+				// Apply dimmed styling to current tree before switching
+				panel.applyNodeStyling(currentTree, false)
+				panel.currentTreeIndex++
+				currentTree = panel.trees[panel.currentTreeIndex]
+				updateTreeStyling()
+				// Set focus to the newly activated tree
+				panel.ensureTreeHasCurrentNode(currentTree)
+				tui.SetFocus(currentTree)
+				return nil
+			}
+			return event
+		case tcell.KeyUp:
+			// Check if we're on the first non-root item
+			currentNode := currentTree.GetCurrentNode()
+			currentNode.GetChildren()
+			if currentNode != nil && currentNode == currentTree.GetRoot().GetChildren()[0] {
+				tui.Header.SetFocus(sneatnav.ToBreadcrumbs, currentTree)
+				return nil
+			}
+			// Normal UP navigation within a tree
+			return event
+		case tcell.KeyDown:
+			return event // Normal DOWN navigation within a tree
+		case tcell.KeyEnter:
+			// Handle ENTER key press on project nodes
+			currentNode := currentTree.GetCurrentNode()
+			if currentNode != nil {
+				reference := currentNode.GetReference()
+				if reference != nil {
+					switch ref := reference.(type) {
+					case *appconfig.ProjectConfig:
+						// Call goProjectDashboards when ENTER is pressed on a project node
+						goProjectDashboards(tui, ref)
+						return nil
+					}
+				}
+			}
+			return event
+		default:
+			return event
+		}
+	})
+
+	// Set up all trees with basic styling
+	updateTreeStyling()
 
 	return panel, nil
 }
 
 func (p *projectsPanel) Draw(screen tcell.Screen) {
-	var selectedItem = -1
+	p.layout.Draw(screen)
+}
 
-	for i, proj := range p.projects {
-		if proj.ID == p.selectProjectID {
-			selectedItem = i
+func (p *projectsPanel) ensureTreeHasCurrentNode(tree *tview.TreeView) {
+	if tree.GetCurrentNode() == nil {
+		root := tree.GetRoot()
+		if root != nil && len(root.GetChildren()) > 0 {
+			tree.SetCurrentNode(root.GetChildren()[0])
 		}
 	}
-	if selectedItem >= 0 {
-		p.list.SetCurrentItem(selectedItem)
+}
+
+const dimGray = tcell.ColorDarkSlateGray // 255 * 50 / 100
+
+func (p *projectsPanel) applyNodeStyling(tree *tview.TreeView, isActive bool) {
+	currentNode := tree.GetCurrentNode()
+	if currentNode == nil {
+		return
 	}
-	p.list.Draw(screen)
+
+	reference := currentNode.GetReference()
+	if reference == nil {
+		return
+	}
+
+	// Check node reference for *appconfig.ProjectConfig to determine node type
+	switch reference.(type) {
+	case *appconfig.ProjectConfig:
+		// Project link node - has *appconfig.ProjectConfig reference
+		if isActive {
+			currentNode.SetColor(tcell.ColorWhite)
+			currentNode.SetSelectedTextStyle(currentNode.GetSelectedTextStyle().Foreground(tcell.ColorBlack))
+		} else {
+			// Inactive project link nodes have different color than action nodes
+			currentNode.SetColor(dimGray)
+			currentNode.SetSelectedTextStyle(currentNode.GetSelectedTextStyle().Foreground(tcell.ColorWhite))
+
+		}
+	default:
+		// Action node - all other nodes (string references, etc.)
+		if isActive {
+			currentNode.SetColor(tcell.ColorBlue)
+		} else {
+			// Inactive action nodes have different color than project link nodes
+			currentNode.SetColor(dimGray)
+			currentNode.SetSelectedTextStyle(currentNode.GetSelectedTextStyle().Foreground(tcell.ColorWhite))
+		}
+	}
+}
+
+func (p *projectsPanel) TakeFocus() {
+	if len(p.trees) == 0 {
+		return
+	}
+	// Ensure the tree has a current node before setting focus
+	p.ensureTreeHasCurrentNode(p.trees[p.currentTreeIndex])
+
+	// When the projectsPanel gets focus, delegate it to the current tree
+	// Default to the first tree (local projects) if currentTreeIndex is not set
+	if p.currentTreeIndex >= 0 && p.currentTreeIndex < len(p.trees) {
+		p.tui.SetFocus(p.trees[p.currentTreeIndex])
+	} else {
+		p.tui.SetFocus(p.trees[0])
+	}
 }

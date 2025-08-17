@@ -5,17 +5,9 @@ import (
 	"github.com/datatug/datatug-core/pkg/appconfig"
 )
 
-type environmentsScreen struct {
-	sneatnav.ScreenBase
-}
+func goEnvironmentsScreen(tui *sneatnav.TUI, project *appconfig.ProjectConfig) {
 
-func newEnvironmentsScreen(tui *sneatnav.TUI, project appconfig.ProjectConfig) sneatnav.Screen {
-
-	main := newEnvironmentsPanel(project)
-
-	_ = newProjectsMenu(tui)
-
-	return &environmentsScreen{
-		ScreenBase: newProjectRootScreenBase(tui, project, ProjectScreenEnvironments, main),
-	}
+	menu := newProjectsMenuPanel(tui)
+	content := newEnvironmentsPanel(tui, project)
+	tui.SetPanels(menu, content)
 }

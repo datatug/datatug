@@ -16,16 +16,9 @@ func GoHomeScreen(tui *sneatnav.TUI) error {
 	return nil
 }
 
-func newHomeContent(tui *sneatnav.TUI) *homePanel {
+func newHomeContent(tui *sneatnav.TUI) sneatnav.Panel {
 	text := tview.NewTextView()
 	text.SetText("You have 2 projects.")
-	panel := &homePanel{
-		PanelBase: sneatnav.NewPanelBaseFromTextView(tui, text),
-	}
-	setPanelTitle(panel.PanelBase, "Welcome to DataTug CLI!")
-	return panel
-}
-
-type homePanel struct {
-	sneatnav.PanelBase
+	setPanelTitle(text.Box, "Welcome to DataTug CLI!")
+	return sneatnav.NewPanelFromTextView(tui, text)
 }

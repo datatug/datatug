@@ -13,14 +13,14 @@ const (
 	ProjectScreenEnvironments = "environments"
 )
 
-func newProjectMenu(tui *sneatnav.TUI, project appconfig.ProjectConfig, currentScreen ProjectScreenID) *projectMenu {
+func newProjectMenuPanel(tui *sneatnav.TUI, project *appconfig.ProjectConfig, currentScreen ProjectScreenID) sneatnav.Panel {
 	list := tview.NewList().
 		//AddItem("Databases", "", 'D', nil).
 		AddItem("Dashboards", "", 'B', func() {
-			tui.SetRootScreen(newDashboardsScreen(tui, project))
+			goProjectDashboards(tui, project)
 		}).
 		AddItem("Environments", "", 'E', func() {
-			tui.SetRootScreen(newEnvironmentsScreen(tui, project))
+			goEnvironmentsScreen(tui, project)
 		})
 
 	//AddItem("Queries", "", 'Q', nil).
@@ -39,11 +39,5 @@ func newProjectMenu(tui *sneatnav.TUI, project appconfig.ProjectConfig, currentS
 
 	defaultListStyle(list)
 
-	return &projectMenu{
-		PanelBase: sneatnav.NewPanelBaseFromList(tui, list),
-	}
-}
-
-type projectMenu struct {
-	sneatnav.PanelBase
+	return sneatnav.NewPanelFromList(tui, list)
 }
