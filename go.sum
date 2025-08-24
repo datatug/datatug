@@ -56,6 +56,8 @@ github.com/danieljoos/wincred v1.2.2 h1:774zMFJrqaeYCK2W57BgAem/MLi6mtSE47MB6BOJ
 github.com/danieljoos/wincred v1.2.2/go.mod h1:w7w4Utbrz8lqeMbDAK0lkNJUv5sAOkFi7nd/ogr0Uh8=
 github.com/datatug/datatug-core v0.7.0 h1:eveZ1tM5u8PPwnRoXRsfzUyAAQzpTUrvzT6rDmYQrq0=
 github.com/datatug/datatug-core v0.7.0/go.mod h1:VJkc0dZAW8r24wkxRnZk9xjUY77KWaDelANPscvL6q0=
+github.com/datatug/datatug-core v0.7.1 h1:zTM2y5Srsm574xTe5a0CDmvpQ3zgOSMz7wn1bruTewM=
+github.com/datatug/datatug-core v0.7.1/go.mod h1:TPF/ktVyql3vqsJ7+p2WC2T5lnQ6OtbWe5UOaUEK83M=
 github.com/datatug/sql2csv v0.0.0-20200927071952-a7fb986d1ec2 h1:9iN4YNV3PIGMU7Wh4hU0AjuI/mMwgbVXaV4YqHoE0ZU=
 github.com/datatug/sql2csv v0.0.0-20200927071952-a7fb986d1ec2/go.mod h1:8mhg6DTTobWkm+Xfyts3nwJ7ZmxWMWWboguVH1INkc8=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
@@ -191,6 +193,8 @@ github.com/skeema/knownhosts v1.3.1 h1:X2osQ+RAjK76shCbvhHHHVl3ZlgDm8apHEHFqRjnB
 github.com/skeema/knownhosts v1.3.1/go.mod h1:r7KTdC8l4uxWRyK2TpQZ/1o5HaSzh06ePQNxPwTcfiY=
 github.com/sneat-co/sneat-go-core v0.54.1 h1:Ol0UyitzKNCAFizaWYUM810yYrYMXr6FvPWvoifHXwU=
 github.com/sneat-co/sneat-go-core v0.54.1/go.mod h1:3LNVUIaMp4phoYRV0NPRM5u7wHTTJlmuts3rodmRHBk=
+github.com/sneat-co/sneat-go-core v0.54.2 h1:j73eWsweX/2ggteIL/bWc4lrGkhYEAnWEsv99GGsS0w=
+github.com/sneat-co/sneat-go-core v0.54.2/go.mod h1:XeHs2GAzso8iCbcLnQSPcDwtjoaB8zc+BruAt5R35u0=
 github.com/stretchr/objx v0.1.0/go.mod h1:HFkY916IF+rwdDfMAkV7OtwuqBVzrE8GR6GFx+wExME=
 github.com/stretchr/objx v0.5.2 h1:xuMeJ0Sdp5ZMRXx/aWO6RZxdr3beISkG5/G/aIRr3pY=
 github.com/stretchr/objx v0.5.2/go.mod h1:FRsXN1f5AsAjCGJKqEizvkpNtU+EGNCLh3NxZ/8L+MA=
