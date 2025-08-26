@@ -60,6 +60,8 @@ github.com/datatug/datatug-core v0.7.0 h1:eveZ1tM5u8PPwnRoXRsfzUyAAQzpTUrvzT6rDm
 github.com/datatug/datatug-core v0.7.0/go.mod h1:VJkc0dZAW8r24wkxRnZk9xjUY77KWaDelANPscvL6q0=
 github.com/datatug/datatug-core v0.7.1 h1:zTM2y5Srsm574xTe5a0CDmvpQ3zgOSMz7wn1bruTewM=
 github.com/datatug/datatug-core v0.7.1/go.mod h1:TPF/ktVyql3vqsJ7+p2WC2T5lnQ6OtbWe5UOaUEK83M=
+github.com/datatug/datatug-core v0.8.0 h1:oujFTOKw1wshJenOW4OdE89uu/A/kFsPSAlPvVfJ1AU=
+github.com/datatug/datatug-core v0.8.0/go.mod h1:TPF/ktVyql3vqsJ7+p2WC2T5lnQ6OtbWe5UOaUEK83M=
 github.com/datatug/sql2csv v0.0.0-20200927071952-a7fb986d1ec2 h1:9iN4YNV3PIGMU7Wh4hU0AjuI/mMwgbVXaV4YqHoE0ZU=
 github.com/datatug/sql2csv v0.0.0-20200927071952-a7fb986d1ec2/go.mod h1:8mhg6DTTobWkm+Xfyts3nwJ7ZmxWMWWboguVH1INkc8=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
