@@ -16,7 +16,7 @@ require (
 	github.com/mattn/go-sqlite3 v1.14.32
 	github.com/mitchellh/go-homedir v1.1.0
 	github.com/pkg/browser v0.0.0-20240102092130-5ac0b6a4141c
-	github.com/rivo/tview v0.0.0-20250625164341-a4a78f1e05cb
+	github.com/rivo/tview v0.42.0
 	github.com/stretchr/testify v1.11.1
 	github.com/strongo/logus v0.2.1
 	github.com/strongo/validation v0.0.7
