@@ -22,7 +22,7 @@ require (
 	github.com/strongo/validation v0.0.7
 	github.com/urfave/cli/v3 v3.4.1
 	github.com/zalando/go-keyring v0.2.6
-	golang.org/x/oauth2 v0.30.0
+	golang.org/x/oauth2 v0.31.0
 	google.golang.org/api v0.248.0
 	gopkg.in/yaml.v3 v3.0.1
 )
