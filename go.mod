@@ -20,7 +20,7 @@ require (
 	github.com/stretchr/testify v1.11.1
 	github.com/strongo/logus v0.2.1
 	github.com/strongo/validation v0.0.7
-	github.com/urfave/cli/v3 v3.6.0
+	github.com/urfave/cli/v3 v3.6.1
 	github.com/zalando/go-keyring v0.2.6
 	golang.org/x/oauth2 v0.33.0
 	google.golang.org/api v0.256.0
