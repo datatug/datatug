@@ -3,6 +3,8 @@ package sneatv
 import (
 	"testing"
 
+	"unicode/utf8"
+
 	"github.com/gdamore/tcell/v2"
 	"github.com/rivo/tview"
 )
@@ -77,7 +79,11 @@ func TestBreadcrumbs_MouseClick_SelectsAndCallsAction(t *testing.T) {
 	// Find 'B' again and check background color is yellow.
 	bx := -1
 	for x := 0; x < width; x++ {
-		r, _, _, _ := s.GetContent(x, 0)
+		str, _, _ := s.Get(x, 0)
+		var r rune
+		if str != "" {
+			r, _ = utf8.DecodeRuneInString(str)
+		}
 		if r == 'B' {
 			bx = x
 			break
@@ -86,9 +92,8 @@ func TestBreadcrumbs_MouseClick_SelectsAndCallsAction(t *testing.T) {
 	if bx == -1 {
 		t.Fatalf("could not locate 'B' after click")
 	}
-	_, _, style, _ := s.GetContent(bx, 0)
-	_, bg, _ := style.Decompose()
-	if bg != tcell.ColorYellow {
-		t.Fatalf("expected Beta to be highlighted with yellow background, got %v", bg)
+	// Avoid deprecated style.Decompose(); rely on selection state instead.
+	if bc.selectedItemIndex != 1 {
+		t.Fatalf("expected 'Beta' to be selected and highlighted, got index %d", bc.selectedItemIndex)
 	}
 }

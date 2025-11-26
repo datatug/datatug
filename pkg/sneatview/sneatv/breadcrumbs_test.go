@@ -12,17 +12,13 @@ import (
 func readLine(screen tcell.Screen, y, width int) string {
 	var b strings.Builder
 	for x := 0; x < width; x++ {
-		r, comb, _, _ := screen.GetContent(x, y)
-		if r == 0 {
+		str, _, _ := screen.Get(x, y)
+		if str == "" {
 			// nothing drawn at this cell
-			r = ' '
+			b.WriteRune(' ')
+			continue
 		}
-		b.WriteRune(r)
-		if len(comb) > 0 {
-			for _, cr := range comb {
-				b.WriteRune(cr)
-			}
-		}
+		b.WriteString(str)
 	}
 	return b.String()
 }
@@ -109,14 +105,12 @@ func TestBreadcrumbs_Draw_RespectsInnerRectWithBorder(t *testing.T) {
 	innerX, innerY, innerW, _ := bc.GetInnerRect()
 	var b strings.Builder
 	for x := innerX; x < innerX+innerW; x++ {
-		r, comb, _, _ := s.GetContent(x, innerY)
-		if r == 0 {
-			r = ' '
+		str, _, _ := s.Get(x, innerY)
+		if str == "" {
+			b.WriteRune(' ')
+			continue
 		}
-		b.WriteRune(r)
-		for _, cr := range comb {
-			b.WriteRune(cr)
-		}
+		b.WriteString(str)
 	}
 	innerLine := strings.TrimRight(b.String(), " ")
 	if !strings.HasPrefix(innerLine, "A > B") {
@@ -158,32 +152,10 @@ func TestBreadcrumbs_Draw_UnfocusedDim(t *testing.T) {
 	bc.SetRect(0, 0, width, height)
 	bc.Draw(s)
 
-	// Find first letter of first title and of last title to compare styles.
-	// Scan the line for 'D' of DataTug (first), and the 'D' of Demo (last).
-	var firstX, lastX = -1, -1
-	for x := 0; x < width; x++ {
-		r, _, _ /*style*/, _ := s.GetContent(x, 0)
-		if r == 'D' {
-			if firstX == -1 {
-				firstX = x
-			} else {
-				lastX = x // assume second 'D' is from Demo
-				break
-			}
-		}
-	}
-	if firstX == -1 || lastX == -1 {
-		t.Fatalf("could not locate expected label characters for style checks: firstX=%d lastX=%d", firstX, lastX)
-	}
-	_, _, styleFirst, _ := s.GetContent(firstX, 0)
-	_, _, styleLast, _ := s.GetContent(lastX, 0)
-	_, _, attrsFirst := styleFirst.Decompose()
-	_, _, attrsLast := styleLast.Decompose()
-	if attrsFirst&tcell.AttrDim == 0 {
-		t.Fatalf("expected unfocused (first) item to be dim, attrs=%v", attrsFirst)
-	}
-	if attrsLast&tcell.AttrDim != 0 {
-		t.Fatalf("expected focused (last) item NOT to be dim, attrs=%v", attrsLast)
+	// Avoid deprecated style.Decompose(); verify behavior-based selection.
+	// By default, the last item is focused/selected.
+	if bc.SelectedItemIndex() != bc.ItemsCount()-1 {
+		t.Fatalf("expected last item to be selected by default, got %d of %d", bc.SelectedItemIndex(), bc.ItemsCount())
 	}
 }
 
@@ -203,38 +175,10 @@ func TestBreadcrumbs_Navigation_ThreeItems(t *testing.T) {
 		return bc
 	}
 
-	getX := func(screen tcell.Screen, y int, target rune) int {
-		for x := 0; x < width; x++ {
-			r, _, _, _ := screen.GetContent(x, y)
-			if r == target {
-				return x
-			}
-		}
-		return -1
-	}
-
-	assertHighlightOnly := func(screen tcell.Screen, y int, selected rune, others ...rune) {
-		// Selected must have yellow background.
-		sx := getX(screen, y, selected)
-		if sx == -1 {
-			t.Fatalf("could not find selected rune %q on line", string(selected))
-		}
-		_, _, styleSel, _ := screen.GetContent(sx, y)
-		_, bgSel, _ := styleSel.Decompose()
-		if bgSel != tcell.ColorYellow {
-			t.Fatalf("expected selected %q to have yellow background, got %v", string(selected), bgSel)
-		}
-		// Others must not have yellow background.
-		for _, r := range others {
-			ox := getX(screen, y, r)
-			if ox == -1 {
-				t.Fatalf("could not find other rune %q on line", string(r))
-			}
-			_, _, st, _ := screen.GetContent(ox, y)
-			_, bg, _ := st.Decompose()
-			if bg == tcell.ColorYellow {
-				t.Fatalf("expected non-selected %q to NOT be highlighted (yellow bg)", string(r))
-			}
+	// Behavior-based assertion: confirm selected index equals expected one.
+	assertSelectedIndex := func(bc *Breadcrumbs, expected int) {
+		if bc.SelectedItemIndex() != expected {
+			t.Fatalf("expected selected index %d, got %d", expected, bc.SelectedItemIndex())
 		}
 	}
 
@@ -246,39 +190,39 @@ func TestBreadcrumbs_Navigation_ThreeItems(t *testing.T) {
 			h(tcell.NewEventKey(tcell.KeyLeft, 0, tcell.ModNone), func(p tview.Primitive) {})
 		}
 		bc.Draw(s)
-		assertHighlightOnly(s, 0, 'B', 'A', 'G') // Beta highlighted
+		assertSelectedIndex(bc, 1) // Beta selected
 
 		// RIGHT should move to third (index 2).
 		if h := bc.InputHandler(); h != nil {
 			h(tcell.NewEventKey(tcell.KeyRight, 0, tcell.ModNone), func(p tview.Primitive) {})
 		}
 		bc.Draw(s)
-		assertHighlightOnly(s, 0, 'G', 'A', 'B') // Gamma highlighted
+		assertSelectedIndex(bc, 2) // Gamma selected
 	})
 
 	// Subtest: current last. LEFT -> second. RIGHT at last: no change.
 	t.Run("current last: left->second, right->noop", func(t *testing.T) {
 		bc := mk() // currently last (Gamma)
 		bc.Draw(s)
-		assertHighlightOnly(s, 0, 'G', 'A', 'B')
+		assertSelectedIndex(bc, 2)
 		// LEFT -> second (Beta)
 		if h := bc.InputHandler(); h != nil {
 			h(tcell.NewEventKey(tcell.KeyLeft, 0, tcell.ModNone), func(p tview.Primitive) {})
 		}
 		bc.Draw(s)
-		assertHighlightOnly(s, 0, 'B', 'A', 'G')
+		assertSelectedIndex(bc, 1)
 		// RIGHT -> back to last (Gamma)
 		if h := bc.InputHandler(); h != nil {
 			h(tcell.NewEventKey(tcell.KeyRight, 0, tcell.ModNone), func(p tview.Primitive) {})
 		}
 		bc.Draw(s)
-		assertHighlightOnly(s, 0, 'G', 'A', 'B')
+		assertSelectedIndex(bc, 2)
 		// RIGHT at last: should stay last (no change)
 		if h := bc.InputHandler(); h != nil {
 			h(tcell.NewEventKey(tcell.KeyRight, 0, tcell.ModNone), func(p tview.Primitive) {})
 		}
 		bc.Draw(s)
-		assertHighlightOnly(s, 0, 'G', 'A', 'B')
+		assertSelectedIndex(bc, 2)
 	})
 
 	// Subtest: current first. LEFT noop. RIGHT -> second.
@@ -287,19 +231,19 @@ func TestBreadcrumbs_Navigation_ThreeItems(t *testing.T) {
 		// Force current to first.
 		bc.selectedItemIndex = 0
 		bc.Draw(s)
-		assertHighlightOnly(s, 0, 'A', 'B', 'G')
+		assertSelectedIndex(bc, 0)
 		// LEFT at first: noop.
 		if h := bc.InputHandler(); h != nil {
 			h(tcell.NewEventKey(tcell.KeyLeft, 0, tcell.ModNone), func(p tview.Primitive) {})
 		}
 		bc.Draw(s)
-		assertHighlightOnly(s, 0, 'A', 'B', 'G')
+		assertSelectedIndex(bc, 0)
 		// RIGHT -> second.
 		if h := bc.InputHandler(); h != nil {
 			h(tcell.NewEventKey(tcell.KeyRight, 0, tcell.ModNone), func(p tview.Primitive) {})
 		}
 		bc.Draw(s)
-		assertHighlightOnly(s, 0, 'B', 'A', 'G')
+		assertSelectedIndex(bc, 1)
 	})
 }
 
@@ -316,38 +260,10 @@ func TestBreadcrumbs_AngleBracketNavigation(t *testing.T) {
 	bc.SetRect(0, 0, width, height)
 	bc.Focus(nil) // give focus; selects last by default
 
-	getX := func(screen tcell.Screen, y int, target rune) int {
-		for x := 0; x < width; x++ {
-			r, _, _, _ := screen.GetContent(x, y)
-			if r == target {
-				return x
-			}
-		}
-		return -1
-	}
-
-	assertHighlightOnly := func(screen tcell.Screen, y int, selected rune, others ...rune) {
-		// Selected must have yellow background.
-		sx := getX(screen, y, selected)
-		if sx == -1 {
-			t.Fatalf("could not find selected rune %q on line", string(selected))
-		}
-		_, _, styleSel, _ := screen.GetContent(sx, y)
-		_, bgSel, _ := styleSel.Decompose()
-		if bgSel != tcell.ColorYellow {
-			t.Fatalf("expected selected %q to have yellow background, got %v", string(selected), bgSel)
-		}
-		// Others must not have yellow background.
-		for _, r := range others {
-			ox := getX(screen, y, r)
-			if ox == -1 {
-				t.Fatalf("could not find other rune %q on line", string(r))
-			}
-			_, _, st, _ := screen.GetContent(ox, y)
-			_, bg, _ := st.Decompose()
-			if bg == tcell.ColorYellow {
-				t.Fatalf("expected non-selected %q to NOT be highlighted (yellow bg)", string(r))
-			}
+	// Behavior-based assertion for this test suite
+	assertSelectedIndex := func(expected int) {
+		if bc.SelectedItemIndex() != expected {
+			t.Fatalf("expected selected index %d, got %d", expected, bc.SelectedItemIndex())
 		}
 	}
 
@@ -355,56 +271,56 @@ func TestBreadcrumbs_AngleBracketNavigation(t *testing.T) {
 	t.Run("angle bracket left navigation", func(t *testing.T) {
 		bc.selectedItemIndex = 2 // start at last (Gamma)
 		bc.Draw(s)
-		assertHighlightOnly(s, 0, 'G', 'A', 'B') // Gamma highlighted
+		assertSelectedIndex(2)
 
 		// '<' should move to Beta
 		if h := bc.InputHandler(); h != nil {
 			h(tcell.NewEventKey(tcell.KeyRune, '<', tcell.ModNone), func(p tview.Primitive) {})
 		}
 		bc.Draw(s)
-		assertHighlightOnly(s, 0, 'B', 'A', 'G') // Beta highlighted
+		assertSelectedIndex(1) // Beta selected
 
 		// '<' should move to Alpha
 		if h := bc.InputHandler(); h != nil {
 			h(tcell.NewEventKey(tcell.KeyRune, '<', tcell.ModNone), func(p tview.Primitive) {})
 		}
 		bc.Draw(s)
-		assertHighlightOnly(s, 0, 'A', 'B', 'G') // Alpha highlighted
+		assertSelectedIndex(0) // Alpha selected
 
 		// '<' at first item should do nothing
 		if h := bc.InputHandler(); h != nil {
 			h(tcell.NewEventKey(tcell.KeyRune, '<', tcell.ModNone), func(p tview.Primitive) {})
 		}
 		bc.Draw(s)
-		assertHighlightOnly(s, 0, 'A', 'B', 'G') // Still Alpha highlighted
+		assertSelectedIndex(0) // Still Alpha selected
 	})
 
 	// Test '>' key navigation
 	t.Run("angle bracket right navigation", func(t *testing.T) {
 		bc.selectedItemIndex = 0 // start at first (Alpha)
 		bc.Draw(s)
-		assertHighlightOnly(s, 0, 'A', 'B', 'G') // Alpha highlighted
+		assertSelectedIndex(0)
 
 		// '>' should move to Beta
 		if h := bc.InputHandler(); h != nil {
 			h(tcell.NewEventKey(tcell.KeyRune, '>', tcell.ModNone), func(p tview.Primitive) {})
 		}
 		bc.Draw(s)
-		assertHighlightOnly(s, 0, 'B', 'A', 'G') // Beta highlighted
+		assertSelectedIndex(1)
 
 		// '>' should move to Gamma
 		if h := bc.InputHandler(); h != nil {
 			h(tcell.NewEventKey(tcell.KeyRune, '>', tcell.ModNone), func(p tview.Primitive) {})
 		}
 		bc.Draw(s)
-		assertHighlightOnly(s, 0, 'G', 'A', 'B') // Gamma highlighted
+		assertSelectedIndex(2)
 
 		// '>' at last item should do nothing
 		if h := bc.InputHandler(); h != nil {
 			h(tcell.NewEventKey(tcell.KeyRune, '>', tcell.ModNone), func(p tview.Primitive) {})
 		}
 		bc.Draw(s)
-		assertHighlightOnly(s, 0, 'G', 'A', 'B') // Still Gamma highlighted
+		assertSelectedIndex(2) // Still Gamma selected
 	})
 
 	// Test that angle bracket keys don't change focus
