@@ -50,8 +50,12 @@ func (b *ButtonWithShortcut) Draw(screen tcell.Screen) {
 		style = tcell.StyleDefault.Background(tcell.ColorYellow).Foreground(tcell.ColorBlack)
 		shortcutStyle = b.shortcutActivateStyle
 	}
-	_, backgroundColor, _ := style.Decompose()
-	b.SetBackgroundColor(backgroundColor)
+	// Avoid deprecated Style.Decompose(): derive background color from state
+	bgColor := tview.Styles.PrimitiveBackgroundColor
+	if b.HasFocus() && !b.IsDisabled() {
+		bgColor = tcell.ColorYellow
+	}
+	b.SetBackgroundColor(bgColor)
 	b.DrawForSubclass(screen, b)
 
 	// Draw label with shortcut
