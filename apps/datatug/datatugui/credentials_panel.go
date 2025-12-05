@@ -6,13 +6,16 @@ import (
 	"github.com/rivo/tview"
 )
 
-func goCredentials(tui *sneatnav.TUI) error {
+func goCredentials(tui *sneatnav.TUI, focusTo sneatnav.FocusTo) error {
 	breadcrumbs := tui.Header.Breadcrumbs()
 	breadcrumbs.Clear()
 	breadcrumbs.Push(sneatv.NewBreadcrumb("Credentials", nil))
 	menu := newDataTugMainMenu(tui, credentialsRootScreen)
 	content := newCredentialsPanel(tui)
 	tui.SetPanels(menu, content, sneatnav.WithFocusTo(sneatnav.FocusToMenu))
+	if focusTo == sneatnav.FocusToContent {
+		tui.App.SetFocus(content)
+	}
 	return nil
 }
 

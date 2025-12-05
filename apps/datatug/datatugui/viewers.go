@@ -7,7 +7,7 @@ import (
 	"github.com/rivo/tview"
 )
 
-func goViewersScreen(tui *sneatnav.TUI) error {
+func goViewersScreen(tui *sneatnav.TUI, focusTo sneatnav.FocusTo) error {
 	breadcrumbs := tui.Header.Breadcrumbs()
 	breadcrumbs.Clear()
 	breadcrumbs.Push(sneatv.NewBreadcrumb("Viewers", nil))
@@ -51,6 +51,7 @@ func goViewersScreen(tui *sneatnav.TUI) error {
 
 	menu := newDataTugMainMenu(tui, viewersRootScreen)
 	content := sneatnav.NewPanelFromList(tui, list)
-	tui.SetPanels(menu, content)
+
+	tui.SetPanels(menu, content, sneatnav.WithFocusTo(focusTo))
 	return nil
 }

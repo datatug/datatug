@@ -2,6 +2,7 @@ package commands
 
 import (
 	"context"
+
 	"github.com/datatug/datatug-cli/apps/datatug/datatugui"
 	"github.com/datatug/datatug-cli/pkg/sneatview/sneatnav"
 	"github.com/datatug/datatug-cli/pkg/sneatview/sneatv"
@@ -43,9 +44,9 @@ func (v *uiCommand) Execute(_ []string) error {
 	//})
 	var tui *sneatnav.TUI
 	tui = sneatnav.NewTUI(app, sneatv.NewBreadcrumb(" ⛴ DataTug", func() error {
-		return datatugui.GoHomeScreen(tui)
+		return datatugui.GoHomeScreen(tui, sneatnav.FocusToContent)
 	}))
-	if err := datatugui.GoHomeScreen(tui); err != nil {
+	if err := datatugui.GoHomeScreen(tui, sneatnav.FocusToContent); err != nil {
 		panic(err)
 	}
 	app.SetRoot(tui.Grid, true)

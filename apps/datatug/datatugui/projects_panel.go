@@ -2,6 +2,8 @@ package datatugui
 
 import (
 	"context"
+	"sort"
+
 	"github.com/datatug/datatug-cli/apps/datatug/datatugui/projectui"
 	"github.com/datatug/datatug-cli/pkg/sneatview/sneatnav"
 	"github.com/datatug/datatug-cli/pkg/sneatview/sneatv"
@@ -9,7 +11,6 @@ import (
 	"github.com/gdamore/tcell/v2"
 	"github.com/rivo/tview"
 	"github.com/strongo/logus"
-	"sort"
 )
 
 var _ tview.Primitive = (*projectsPanel)(nil)
@@ -27,18 +28,16 @@ type projectsPanel struct {
 	trees            []*tview.TreeView // slice for easy access
 }
 
-func goProjectsScreen(tui *sneatnav.TUI) error {
+func goProjectsScreen(tui *sneatnav.TUI, focusTo sneatnav.FocusTo) error {
 	content, err := newProjectsPanel(tui)
 	if err != nil {
 		return err
 	}
 	menu := newDataTugMainMenu(tui, projectsRootScreen)
-	tui.SetPanels(menu, content, sneatnav.WithFocusTo(sneatnav.FocusToContent))
+	tui.SetPanels(menu, content, sneatnav.WithFocusTo(focusTo))
 	breadcrumbs := tui.Header.Breadcrumbs()
 	breadcrumbs.Clear()
 	breadcrumbs.Push(sneatv.NewBreadcrumb("Projects", nil))
-	tui.App.SetFocus(content)
-	content.TakeFocus()
 	return nil
 }
 

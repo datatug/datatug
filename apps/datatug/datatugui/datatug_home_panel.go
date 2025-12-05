@@ -6,13 +6,13 @@ import (
 	"github.com/rivo/tview"
 )
 
-func GoHomeScreen(tui *sneatnav.TUI) error {
+func GoHomeScreen(tui *sneatnav.TUI, focusTo sneatnav.FocusTo) error {
 	breadcrumbs := tui.Header.Breadcrumbs()
 	breadcrumbs.Clear()
 	breadcrumbs.Push(sneatv.NewBreadcrumb("Home", nil))
 	menu := newDataTugMainMenu(tui, homeRootScreen)
 	content := newHomeContent(tui)
-	tui.SetPanels(menu, content, sneatnav.WithFocusTo(sneatnav.FocusToMenu))
+	tui.SetPanels(menu, content, sneatnav.WithFocusTo(focusTo))
 	return nil
 }
 

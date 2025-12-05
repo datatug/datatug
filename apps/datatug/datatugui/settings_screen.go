@@ -8,7 +8,7 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
-func goSettingsScreen(tui *sneatnav.TUI) error {
+func goSettingsScreen(tui *sneatnav.TUI, focusTo sneatnav.FocusTo) error {
 	textView := tview.NewTextView()
 	var settingsStr string
 	setting, err := appconfig.GetSettings()
@@ -36,5 +36,8 @@ func goSettingsScreen(tui *sneatnav.TUI) error {
 
 	menu := newDataTugMainMenu(tui, settingsRootScreen)
 	tui.SetPanels(menu, content, sneatnav.WithFocusTo(sneatnav.FocusToMenu))
+	if focusTo == sneatnav.FocusToContent {
+		tui.App.SetFocus(content)
+	}
 	return nil
 }
