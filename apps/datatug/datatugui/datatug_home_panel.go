@@ -3,6 +3,7 @@ package datatugui
 import (
 	"github.com/datatug/datatug-cli/pkg/sneatview/sneatnav"
 	"github.com/datatug/datatug-cli/pkg/sneatview/sneatv"
+	"github.com/gdamore/tcell/v2"
 	"github.com/rivo/tview"
 )
 
@@ -20,5 +21,14 @@ func newHomeContent(tui *sneatnav.TUI) sneatnav.Panel {
 	text := tview.NewTextView()
 	text.SetText("You have 2 projects.")
 	sneatv.SetPanelTitle(text.Box, "Welcome to DataTug CLI!")
+	text.SetInputCapture(func(event *tcell.EventKey) *tcell.EventKey {
+		switch event.Key() {
+		case tcell.KeyESC, tcell.KeyBacktab, tcell.KeyLeft:
+			tui.SetFocus(tui.Menu)
+			return nil
+		default:
+			return event
+		}
+	})
 	return sneatnav.NewPanelFromTextView(tui, text)
 }
