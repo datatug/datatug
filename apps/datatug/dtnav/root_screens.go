@@ -7,6 +7,6 @@ const (
 	RootScreenHome
 	RootScreenProjects
 	RootScreenViewers
-	RootScreenCredentials
+	RootScreenClouds
 	RootScreenSettings
 )

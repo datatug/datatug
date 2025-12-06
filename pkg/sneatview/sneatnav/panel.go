@@ -44,6 +44,10 @@ type PanelBase struct {
 	PrimitiveWithBox
 }
 
+func (p PanelBase) TUI() *TUI {
+	return p.tui
+}
+
 func NewPanelBase(tui *TUI,
 	primitive PrimitiveWithBox,
 	// box *tview.Box, // we have to pass both `list` and `list.Box` as list has no `Box()` required for cell

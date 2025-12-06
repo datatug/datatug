@@ -3,7 +3,7 @@ package commands
 import (
 	"context"
 
-	"github.com/datatug/datatug-cli/apps/datatug/dtscreeens/dtcredentials"
+	"github.com/datatug/datatug-cli/apps/datatug/dtscreeens/clouds"
 	"github.com/datatug/datatug-cli/apps/datatug/dtscreeens/dthome"
 	"github.com/datatug/datatug-cli/apps/datatug/dtscreeens/dtprojects"
 	"github.com/datatug/datatug-cli/apps/datatug/dtscreeens/dtsettings"
@@ -54,7 +54,7 @@ func registerModules(tui *sneatnav.TUI) {
 
 	// Main menu screens
 	dthome.RegisterModule()
-	dtcredentials.RegisterModule()
+	clouds.RegisterModule()
 	dtsettings.RegisterModule()
 	dtprojects.RegisterModule()
 	dtviewers.RegisterModule()
