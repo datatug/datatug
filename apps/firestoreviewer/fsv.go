@@ -2,21 +2,14 @@ package firestoreviewer
 
 import (
 	"fmt"
-	tea "github.com/charmbracelet/bubbletea"
-	"github.com/datatug/datatug-cli/apps/firestoreviewer/fsviewer"
 	"os"
+
+	"github.com/datatug/datatug-cli/apps/firestoreviewer/fsviewer"
 )
 
 func Run() {
-	app, err := fsviewer.NewApp()
-	if err != nil {
+	if _, err := fsviewer.NewApp(); err != nil {
 		_, _ = fmt.Fprintln(os.Stderr, err)
 		os.Exit(1)
-	}
-	p := tea.NewProgram(app, tea.WithAltScreen())
-	if _, err = p.Run(); err != nil {
-		// Ensure the error is printed to console explicitly
-		_, _ = fmt.Fprintln(os.Stderr, err)
-		os.Exit(2)
 	}
 }
