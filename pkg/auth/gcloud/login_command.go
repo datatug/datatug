@@ -6,7 +6,7 @@ import (
 	"github.com/urfave/cli/v3"
 )
 
-func gCloudLoginCommand() *cli.Command {
+func loginCommand() *cli.Command {
 	return &cli.Command{
 		Name: "login",
 		Action: func(ctx context.Context, command *cli.Command) error {

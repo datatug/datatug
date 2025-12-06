@@ -9,7 +9,7 @@ import (
 	"github.com/urfave/cli/v3"
 )
 
-func gCloudProjectsCommand() *cli.Command {
+func projectsCommand() *cli.Command {
 	formatFlag := &cli.StringFlag{
 		Name:    "format",
 		Aliases: []string{"f"},

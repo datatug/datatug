@@ -6,8 +6,8 @@ func GoogleCloudCommand() *cli.Command {
 	return &cli.Command{
 		Name: "gcloud",
 		Commands: []*cli.Command{
-			gCloudLoginCommand(),
-			gCloudProjectsCommand(),
+			loginCommand(),
+			projectsCommand(),
 		},
 	}
 }
