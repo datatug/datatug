@@ -1,4 +1,4 @@
-package uimodels
+package dtbubble
 
 import (
 	tea "github.com/charmbracelet/bubbletea"

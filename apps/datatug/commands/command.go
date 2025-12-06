@@ -3,14 +3,15 @@ package commands
 import (
 	"context"
 	"fmt"
+	"os"
+
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/datatug/datatug-cli/apps"
-	"github.com/datatug/datatug-cli/apps/datatug/uimodels"
+	"github.com/datatug/datatug-cli/apps/datatug/dtbubble"
 	"github.com/datatug/datatug-cli/apps/firestoreviewer"
 	"github.com/datatug/datatug-cli/pkg/auth"
 	"github.com/datatug/datatug-cli/pkg/auth/gcloud"
 	"github.com/urfave/cli/v3"
-	"os"
 )
 
 func DatatugCommand() *cli.Command {
@@ -48,7 +49,7 @@ func datatugCommandAction(_ context.Context, cmd *cli.Command) error {
 		_ = cli.ShowRootCommandHelp(cmd)
 		return nil
 	}
-	datatugApp := uimodels.DatatugAppModel()
+	datatugApp := dtbubble.DatatugAppModel()
 	p := tea.NewProgram(datatugApp, tea.WithAltScreen())
 	if _, err := p.Run(); err != nil {
 		// Ensure the error is printed to the console explicitly

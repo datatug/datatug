@@ -3,7 +3,12 @@ package commands
 import (
 	"context"
 
-	"github.com/datatug/datatug-cli/apps/datatug/datatugui"
+	"github.com/datatug/datatug-cli/apps/datatug/dtscreeens/dtcredentials"
+	"github.com/datatug/datatug-cli/apps/datatug/dtscreeens/dthome"
+	"github.com/datatug/datatug-cli/apps/datatug/dtscreeens/dtprojects"
+	"github.com/datatug/datatug-cli/apps/datatug/dtscreeens/dtsettings"
+	"github.com/datatug/datatug-cli/apps/datatug/dtscreeens/dtviewers"
+	"github.com/datatug/datatug-cli/apps/firestoreviewer/fsviewer"
 	"github.com/datatug/datatug-cli/pkg/sneatview/sneatnav"
 	"github.com/datatug/datatug-cli/pkg/sneatview/sneatv"
 	"github.com/rivo/tview"
@@ -29,26 +34,31 @@ func (v *uiCommand) Execute(_ []string) error {
 
 	app := tview.NewApplication()
 	app.EnableMouse(true)
-	//app.SetInputCapture(func(event *tcell.EventKey) *tcell.EventKey {
-	//	switch event.Key() {
-	//	case tcell.KeyTab:
-	//		// Move to next (default behavior)
-	//		return event
-	//	case tcell.KeyBacktab: // This is Shift+Tab
-	//		// Move to previous
-	//		app.SetFocus(getPreviousFocusable())
-	//		return nil // Consume the event
-	//	}
-	//	return event
-	//
-	//})
+
 	var tui *sneatnav.TUI
 	tui = sneatnav.NewTUI(app, sneatv.NewBreadcrumb(" ⛴ DataTug", func() error {
-		return datatugui.GoHomeScreen(tui, sneatnav.FocusToContent)
+		return dthome.GoHomeScreen(tui, sneatnav.FocusToContent)
 	}))
-	if err := datatugui.GoHomeScreen(tui, sneatnav.FocusToContent); err != nil {
+
+	registerModules(tui)
+
+	if err := dthome.GoHomeScreen(tui, sneatnav.FocusToContent); err != nil {
 		panic(err)
 	}
+
 	app.SetRoot(tui.Grid, true)
 	return app.Run()
+}
+
+func registerModules(tui *sneatnav.TUI) {
+
+	// Main menu screens
+	dthome.RegisterModule()
+	dtcredentials.RegisterModule()
+	dtsettings.RegisterModule()
+	dtprojects.RegisterModule()
+	dtviewers.RegisterModule()
+
+	// Sub-modules
+	fsviewer.RegisterModule(tui)
 }

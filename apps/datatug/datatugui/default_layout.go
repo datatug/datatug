@@ -1,7 +1,7 @@
 package datatugui
 
 //func newDefaultLayout(
-//	tui *sneatnav.TUI, selectedMenuItem rootScreen, getContent func(tui *sneatnav.TUI) (sneatnav.Panel, error),
+//	tui *sneatnav.TUI, selectedMenuItem RootScreen, getContent func(tui *sneatnav.TUI) (sneatnav.Panel, error),
 //) sneatnav.Screen {
 //	addMainRow(tui, selectedMenuItem, tui.Grid, getContent)
 //
@@ -9,10 +9,10 @@ package datatugui
 //}
 
 //func addMainRow(
-//	tui *sneatnav.TUI, selectedMenuItem rootScreen, grid *tview.Grid,
+//	tui *sneatnav.TUI, selectedMenuItem RootScreen, grid *tview.Grid,
 //	getContent func(tui *sneatnav.TUI) (sneatnav.Panel, error),
 //) {
-//	menu := newDataTugMainMenu(tui, selectedMenuItem)
+//	menu := NewDataTugMainMenu(tui, selectedMenuItem)
 //
 //	content, err := getContent(tui)
 //	if err != nil {

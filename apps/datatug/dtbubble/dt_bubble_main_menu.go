@@ -1,12 +1,13 @@
-package uimodels
+package dtbubble
 
 import (
 	"fmt"
+	"strings"
+
 	"github.com/charmbracelet/bubbles/list"
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
 	"github.com/datatug/datatug-cli/pkg/bubbles"
-	"strings"
 )
 
 func newDatatugMainMenu() tea.Model {

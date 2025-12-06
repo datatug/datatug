@@ -1,7 +1,8 @@
-package uimodels
+package dtbubble
 
 import (
 	"fmt"
+
 	"github.com/charmbracelet/bubbles/list"
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/datatug/datatug-cli/pkg/bubbles"
