@@ -3,9 +3,10 @@ package commands
 import (
 	"context"
 	"fmt"
+	"os"
+
 	"github.com/datatug/datatug-core/pkg/appconfig"
 	"github.com/urfave/cli/v3"
-	"os"
 )
 
 func configCommandAction(_ context.Context, _ *cli.Command) error {

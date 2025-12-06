@@ -4,12 +4,13 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"github.com/datatug/datatug-core/pkg/models"
-	"github.com/urfave/cli/v3"
-	"gopkg.in/yaml.v3"
 	"os"
 	"strconv"
 	"strings"
+
+	"github.com/datatug/datatug-core/pkg/models"
+	"github.com/urfave/cli/v3"
+	"gopkg.in/yaml.v3"
 )
 
 // datasetDataCommand holds flags for the dataset data consoleCommand

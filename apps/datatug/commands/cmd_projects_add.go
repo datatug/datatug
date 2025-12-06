@@ -4,11 +4,12 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"os"
+	"strings"
+
 	"github.com/datatug/datatug-core/pkg/appconfig"
 	"github.com/urfave/cli/v3"
 	"gopkg.in/yaml.v3"
-	"os"
-	"strings"
 )
 
 type addProjectCommand struct {

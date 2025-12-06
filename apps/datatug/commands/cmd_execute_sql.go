@@ -5,17 +5,18 @@ import (
 	"database/sql"
 	"errors"
 	"fmt"
+	"io"
+	"log"
+	"os"
+	"regexp"
+	"strings"
+
 	"github.com/datatug/datatug-core/pkg/dbconnection"
 	"github.com/datatug/sql2csv"
 	"github.com/google/uuid"
 	"github.com/gosuri/uitable"
 	"github.com/strongo/validation"
 	"github.com/urfave/cli/v3"
-	"io"
-	"log"
-	"os"
-	"regexp"
-	"strings"
 )
 
 func updateUrlConfigCommandArgs() *cli.Command {
