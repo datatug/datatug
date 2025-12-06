@@ -1,10 +1,11 @@
 package apps
 
 import (
+	"strings"
+
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
 	"github.com/datatug/datatug-cli/pkg/bubbles/panel"
-	"strings"
 )
 
 type BaseAppModel struct {

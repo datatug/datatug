@@ -2,13 +2,14 @@ package fsviewer
 
 import (
 	"fmt"
+	"log"
+
 	"github.com/charmbracelet/bubbles/list"
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
 	"github.com/datatug/datatug-cli/apps"
 	"github.com/datatug/datatug-cli/pkg/auth/gauth"
 	"github.com/pkg/browser"
-	"log"
 )
 
 // App is the root Bubble Tea model for the Firestore Viewer.
