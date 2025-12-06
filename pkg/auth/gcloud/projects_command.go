@@ -3,9 +3,10 @@ package gcloud
 import (
 	"context"
 	"fmt"
+	"strings"
+
 	"github.com/datatug/datatug-cli/pkg/auth/gauth"
 	"github.com/urfave/cli/v3"
-	"strings"
 )
 
 func gCloudProjectsCommand() *cli.Command {

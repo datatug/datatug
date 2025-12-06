@@ -4,11 +4,12 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"golang.org/x/oauth2"
 	"log"
 	"net/http"
 	"os/exec"
 	"runtime"
+
+	"golang.org/x/oauth2"
 )
 
 // getTokenFromWeb runs a browser auth flow.

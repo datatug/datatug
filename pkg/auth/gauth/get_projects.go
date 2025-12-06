@@ -3,10 +3,11 @@ package gauth
 import (
 	"context"
 	"fmt"
-	"google.golang.org/api/cloudresourcemanager/v3"
-	"google.golang.org/api/option"
 	"log"
 	"net/http"
+
+	"google.golang.org/api/cloudresourcemanager/v3"
+	"google.golang.org/api/option"
 )
 
 func GetGCloudProjects(ctx context.Context) (projects []*cloudresourcemanager.Project, err error) {

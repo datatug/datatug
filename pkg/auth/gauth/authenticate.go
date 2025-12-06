@@ -3,14 +3,15 @@ package gauth
 import (
 	"context"
 	"fmt"
+	"log"
+	"net/http"
+	"time"
+
 	"github.com/strongo/logus"
 	"github.com/zalando/go-keyring"
 	"golang.org/x/oauth2"
 	"golang.org/x/oauth2/google"
 	"google.golang.org/api/cloudresourcemanager/v3"
-	"log"
-	"net/http"
-	"time"
 )
 
 const (

@@ -1,10 +1,11 @@
 package gauth_test
 
 import (
-	"github.com/datatug/datatug-cli/pkg/auth/gauth"
 	"os"
 	"path/filepath"
 	"testing"
+
+	"github.com/datatug/datatug-cli/pkg/auth/gauth"
 )
 
 func TestServiceAccountValidate(t *testing.T) {
