@@ -9,25 +9,13 @@ import (
 	"github.com/rivo/tview"
 )
 
-func RegisterModule() {
-	datatugui.RegisterMainMenuItem(dtnav.RootScreenClouds,
-		datatugui.MainMenuItem{
-			Text:     "Clouds",
-			Shortcut: 'c',
-			Action:   goClouds,
-		})
-}
-
 func goClouds(tui *sneatnav.TUI, focusTo sneatnav.FocusTo) error {
 	breadcrumbs := tui.Header.Breadcrumbs()
 	breadcrumbs.Clear()
 	breadcrumbs.Push(sneatv.NewBreadcrumb("Clouds", nil))
 	menu := datatugui.NewDataTugMainMenu(tui, dtnav.RootScreenClouds)
 	content := newCloudsPanel(tui)
-	tui.SetPanels(menu, content, sneatnav.WithFocusTo(sneatnav.FocusToMenu))
-	if focusTo == sneatnav.FocusToContent {
-		tui.App.SetFocus(content)
-	}
+	tui.SetPanels(menu, content, sneatnav.WithFocusTo(focusTo))
 	return nil
 }
 
@@ -36,17 +24,13 @@ func newCloudsPanel(tui *sneatnav.TUI) *cloudsPanel {
 
 	list := tview.NewList()
 
-	list.AddItem("Google Cloud", "", 'g', func() {
-
-	})
-
-	list.AddItem("Amazon Web Services", "", 'a', func() {
-
-	})
-
-	list.AddItem("Microsoft Azure", "", 'z', func() {
-
-	})
+	for _, cloud := range registeredClouds {
+		list.AddItem(cloud.Name, "", cloud.Shortcut, func() {
+			if err := cloud.Action(tui, sneatnav.FocusToContent); err != nil {
+				panic(err) // TODO: Show error to user
+			}
+		})
+	}
 
 	//cloudsNode := tview.NewTreeNode("Big Clouds").SetSelectable(false)
 	//tree.SetRoot(cloudsNode)

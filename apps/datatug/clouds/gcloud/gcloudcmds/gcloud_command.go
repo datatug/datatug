@@ -1,4 +1,4 @@
-package gcloud
+package gcloudcmds
 
 import "github.com/urfave/cli/v3"
 

@@ -4,9 +4,9 @@ import (
 	"context"
 
 	"github.com/datatug/datatug-cli/apps"
+	"github.com/datatug/datatug-cli/apps/datatug/clouds/gcloud/gcloudcmds"
 	"github.com/datatug/datatug-cli/apps/firestoreviewer"
 	"github.com/datatug/datatug-cli/pkg/auth"
-	"github.com/datatug/datatug-cli/pkg/auth/gcloud"
 	"github.com/urfave/cli/v3"
 )
 
@@ -17,7 +17,7 @@ func DatatugCommand() *cli.Command {
 		Commands: []*cli.Command{
 			initCommand(),
 			auth.AuthCommand(),
-			gcloud.GoogleCloudCommand(),
+			gcloudcmds.GoogleCloudCommand(),
 			configCommand(),
 			datasetCommands(),
 			datasetDefCommandArgs(),

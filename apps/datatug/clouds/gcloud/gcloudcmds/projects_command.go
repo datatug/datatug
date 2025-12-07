@@ -1,10 +1,11 @@
-package gcloud
+package gcloudcmds
 
 import (
 	"context"
 	"fmt"
 	"strings"
 
+	"github.com/datatug/datatug-cli/apps/datatug/clouds/gcloud/gcloudui"
 	"github.com/datatug/datatug-cli/pkg/auth/gauth"
 	"github.com/urfave/cli/v3"
 )
@@ -36,6 +37,8 @@ func projectsCommand() *cli.Command {
 				for _, project := range projects {
 					fmt.Println(project.ProjectId)
 				}
+			case "":
+				return gcloudui.OpenProjectsScreen(projects)
 			default:
 				return fmt.Errorf("invalid flag: --format=%s", format)
 			}

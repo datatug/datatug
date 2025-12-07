@@ -22,7 +22,7 @@ const (
 // getGoogleCloudClient handles the OAuth2 flow for desktop apps and caches the token locally.
 func getGoogleCloudClient(ctx context.Context) (client *http.Client, err error) {
 
-	// Cloud Resource Manager v3 scope
+	// Cloud Resource Manager v3 scope.
 	// Use "Desktop app" type so no client secret is needed.
 	config := &oauth2.Config{
 		ClientID:     "588648831063-393c7c5gfj70sstaioked6qpb0sfj87h.apps.googleusercontent.com", // os.Getenv("GOOGLE_OAUTH_CLIENT_ID"),

@@ -1,7 +1,6 @@
-package dthome
+package datatugui
 
 import (
-	"github.com/datatug/datatug-cli/apps/datatug/datatugui"
 	"github.com/datatug/datatug-cli/apps/datatug/dtnav"
 	"github.com/datatug/datatug-cli/pkg/sneatview/sneatnav"
 	"github.com/datatug/datatug-cli/pkg/sneatview/sneatv"
@@ -10,8 +9,8 @@ import (
 )
 
 func RegisterModule() {
-	datatugui.RegisterMainMenuItem(dtnav.RootScreenHome,
-		datatugui.MainMenuItem{
+	RegisterMainMenuItem(dtnav.RootScreenHome,
+		MainMenuItem{
 			Text:     "Home",
 			Shortcut: 'h',
 			Action:   GoHomeScreen,
@@ -22,7 +21,7 @@ func GoHomeScreen(tui *sneatnav.TUI, focusTo sneatnav.FocusTo) error {
 	breadcrumbs := tui.Header.Breadcrumbs()
 	breadcrumbs.Clear()
 	breadcrumbs.Push(sneatv.NewBreadcrumb("Home", nil))
-	menu := datatugui.NewDataTugMainMenu(tui, dtnav.RootScreenHome)
+	menu := NewDataTugMainMenu(tui, dtnav.RootScreenHome)
 	content := newHomeContent(tui)
 	tui.SetPanels(menu, content, sneatnav.WithFocusTo(focusTo))
 	return nil
