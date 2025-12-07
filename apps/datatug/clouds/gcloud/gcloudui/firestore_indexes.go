@@ -16,7 +16,7 @@ func goFirestoreIndexes(gcProjCtx CGProjectContext) error {
 	list.SetTitle("Firestore Indexes")
 	content := sneatnav.NewPanelFromList(gcProjCtx.TUI, list)
 
-	list.AddItem("Loading... (not implemented yet)", "", 0, nil)
+	list.AddItem("Loading...", "(not implemented yet)", 0, nil)
 
 	gcProjCtx.TUI.SetPanels(menu, content, sneatnav.WithFocusTo(sneatnav.FocusToContent))
 	return nil

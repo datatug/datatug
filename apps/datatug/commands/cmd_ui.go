@@ -52,7 +52,7 @@ func registerModules(tui *sneatnav.TUI) {
 			Name:     "Google Cloud",
 			Shortcut: 'g',
 			Action: func(tui *sneatnav.TUI, focusTo sneatnav.FocusTo) error {
-				return gcloudui.GoHome(tui, focusTo)
+				return gcloudui.GoHome(&gcloudui.GCloudContext{TUI: tui}, focusTo)
 			},
 		},
 		{

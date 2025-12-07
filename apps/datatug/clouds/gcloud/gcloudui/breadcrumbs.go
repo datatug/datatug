@@ -6,18 +6,18 @@ import (
 	"github.com/datatug/datatug-cli/pkg/sneatview/sneatv"
 )
 
-func NewGoogleCloudBreadcrumbs(tui *sneatnav.TUI) sneatnav.Breadcrumbs {
-	breadcrumbs := clouds.NewCloudsBreadcrumbs(tui)
+func NewGoogleCloudBreadcrumbs(gcContext *GCloudContext) sneatnav.Breadcrumbs {
+	breadcrumbs := clouds.NewCloudsBreadcrumbs(gcContext.TUI)
 	breadcrumbs.Push(sneatv.NewBreadcrumb("Google", func() error {
-		return GoHome(tui, sneatnav.FocusToContent)
+		return GoHome(gcContext, sneatnav.FocusToContent)
 	}))
 	return breadcrumbs
 }
 
-func newBreadcrumbsProjects(tui *sneatnav.TUI) sneatnav.Breadcrumbs {
-	breadcrumbs := NewGoogleCloudBreadcrumbs(tui)
+func newBreadcrumbsProjects(gcContext *GCloudContext) sneatnav.Breadcrumbs {
+	breadcrumbs := NewGoogleCloudBreadcrumbs(gcContext)
 	breadcrumbs.Push(sneatv.NewBreadcrumb("Projects", func() error {
-		return GoProjects(tui, sneatnav.FocusToContent)
+		return GoProjects(gcContext, sneatnav.FocusToContent)
 	}))
 	return breadcrumbs
 }
