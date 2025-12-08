@@ -32,10 +32,10 @@ func showProjects(gcContext *GCloudContext, focusTo sneatnav.FocusTo) error {
 	}))
 	menu := newMainMenu(gcContext, ScreenProjects)
 
-	list := tview.NewList()
-	sneatv.SetPanelTitle(list.Box, "Google Cloud Projects")
-	list.SetWrapAround(false)
-	list.SetInputCapture(func(event *tcell.EventKey) *tcell.EventKey {
+	table := tview.NewTable().
+		SetSelectable(true, false)
+	sneatv.SetPanelTitle(table.Box, "Google Cloud Projects")
+	table.SetInputCapture(func(event *tcell.EventKey) *tcell.EventKey {
 		switch event.Key() {
 		case tcell.KeyLeft, tcell.KeyEscape:
 			gcContext.TUI.SetFocus(menu)
@@ -45,34 +45,69 @@ func showProjects(gcContext *GCloudContext, focusTo sneatnav.FocusTo) error {
 		}
 	})
 
-	list.AddItem("Loading...", "", 0, nil)
+	// Header
+	headerStyle := tcell.StyleDefault.Bold(true).Reverse(true)
+
+	addHeader := func() {
+		table.SetCell(0, 0, tview.NewTableCell("Name").SetSelectable(false).SetStyle(headerStyle))
+		table.SetCell(0, 1, tview.NewTableCell("Project ID").SetSelectable(false).SetStyle(headerStyle))
+		table.SetCell(0, 2, tview.NewTableCell("#").SetSelectable(false).SetStyle(headerStyle))
+	}
+
+	addHeader()
+	// Loading row
+	table.SetCell(1, 0, tview.NewTableCell("Loading...").SetSelectable(false))
 
 	go func() {
 		projects, err := gcContext.GetProjects()
 		gcContext.TUI.App.QueueUpdateDraw(func() {
-			list.Clear()
+			// Clear rows except header
+			table.Clear()
+			// Re-add header after Clear
+			addHeader()
+
 			if err != nil {
-				list.AddItem("Failed to load projects:", err.Error(), 0, nil)
+				table.SetCell(1, 0, tview.NewTableCell(fmt.Sprintf("Failed to load projects: %v", err)).SetSelectable(false))
 				return
 			}
-			for _, project := range projects {
+			for i, project := range projects {
+				row := i + 1
 				gcProjCtx := CGProjectContext{
 					GCloudContext: gcContext,
 					Project:       project,
 				}
-				list.AddItem(
-					project.DisplayName,
-					fmt.Sprintf("%s (# %s)", project.ProjectId, project.Name[9:]),
-					0,
-					func() {
-						_ = goProject(gcProjCtx)
-					},
-				)
+				// Store context in the first cell reference
+				nameCell := tview.NewTableCell(project.DisplayName).SetReference(gcProjCtx)
+				idCell := tview.NewTableCell(project.ProjectId)
+				num := ""
+				if len(project.Name) > 9 {
+					num = project.Name[9:]
+				}
+				numCell := tview.NewTableCell(num)
+				table.SetCell(row, 0, nameCell)
+				table.SetCell(row, 1, idCell)
+				table.SetCell(row, 2, numCell)
 			}
+			table.ScrollToBeginning()
 		})
 	}()
 
-	content := sneatnav.NewPanelFromList(gcContext.TUI, list)
+	table.SetSelectedFunc(func(row, column int) {
+		if row <= 0 {
+			return // header
+		}
+		cell := table.GetCell(row, 0)
+		if cell == nil {
+			return
+		}
+		if ref := cell.GetReference(); ref != nil {
+			if ctx, ok := ref.(CGProjectContext); ok {
+				_ = goProject(ctx)
+			}
+		}
+	})
+
+	content := sneatnav.NewPanelFromTable(gcContext.TUI, table)
 
 	gcContext.TUI.SetPanels(menu, content, sneatnav.WithFocusTo(focusTo))
 

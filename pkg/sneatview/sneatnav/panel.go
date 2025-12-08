@@ -69,3 +69,7 @@ func NewPanelFromTextView(tui *TUI, p *tview.TextView) Panel {
 func NewPanelFromTreeView(tui *TUI, p *tview.TreeView) Panel {
 	return NewPanel[withBox[*tview.TreeView]](tui, WithBox(p, p.Box))
 }
+
+func NewPanelFromTable(tui *TUI, p *tview.Table) Panel {
+	return NewPanel[withBox[*tview.Table]](tui, WithBox(p, p.Box))
+}
