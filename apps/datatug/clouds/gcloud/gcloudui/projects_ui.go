@@ -159,12 +159,11 @@ func showProjects(cContext *GCloudContext, focusTo sneatnav.FocusTo) error {
 			}
 			for i, project := range projects {
 				row := i + 1
-				gcProjCtx := CGProjectContext{
+				// Store context in the first cell reference
+				nameCell := tview.NewTableCell(project.DisplayName).SetReference(&CGProjectContext{
 					GCloudContext: cContext,
 					Project:       project,
-				}
-				// Store context in the first cell reference
-				nameCell := tview.NewTableCell(project.DisplayName).SetReference(gcProjCtx)
+				})
 				idCell := tview.NewTableCell(project.ProjectId)
 				num := ""
 				if len(project.Name) > 9 {
@@ -190,7 +189,11 @@ func showProjects(cContext *GCloudContext, focusTo sneatnav.FocusTo) error {
 		}
 		if ref := cell.GetReference(); ref != nil {
 			if ctx, ok := ref.(*CGProjectContext); ok {
-				_ = goProject(ctx)
+				if err := goProject(ctx); err != nil {
+					panic(err)
+				}
+			} else {
+				panic(fmt.Errorf("unexpected reference type: %T", ref))
 			}
 		}
 	})
