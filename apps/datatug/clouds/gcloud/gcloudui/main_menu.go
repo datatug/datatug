@@ -13,28 +13,46 @@ const (
 	ScreenCredentials
 )
 
-func newMainMenu(gcContext *GCloudContext, active Screen) (menu sneatnav.Panel) {
+func newMainMenu(cContext *GCloudContext, active Screen) (menu sneatnav.Panel) {
 	list := sneatnav.MainMenuList()
+	list.SetTitle("Google Cloud")
 	sneatv.DefaultBorder(list.Box)
 
 	list.AddItem("Projects", "", 'p', func() {
-		_ = GoProjects(gcContext, sneatnav.FocusToContent)
+		_ = GoProjects(cContext, sneatnav.FocusToContent)
 	})
 	list.AddItem("Credentials", "", 'c', func() {
-		_ = GoCredentials(gcContext, sneatnav.FocusToContent)
+		_ = GoCredentials(cContext, sneatnav.FocusToContent)
 	})
 
 	list.SetCurrentItem(int(active))
 
+	list.SetChangedFunc(func(index int, mainText string, secondaryText string, shortcut rune) {
+		switch index { // Not ideal
+		case 0:
+			_ = GoProjects(cContext, sneatnav.FocusToMenu)
+		case 1:
+			_ = GoCredentials(cContext, sneatnav.FocusToMenu)
+		}
+	})
+
 	list.SetInputCapture(func(event *tcell.EventKey) *tcell.EventKey {
 		switch event.Key() {
 		case tcell.KeyRight:
-			list.GetItemSelectedFunc(list.GetCurrentItem())()
+			cContext.TUI.Content.TakeFocus()
+		case tcell.KeyLeft:
+			cContext.TUI.SetFocus(cContext.TUI.Menu)
+		case tcell.KeyUp:
+			if list.GetCurrentItem() == 0 {
+				cContext.TUI.Header.SetFocus(sneatnav.ToBreadcrumbs, list)
+				return nil
+			}
+			return event
 		default:
 			return event
 		}
 		return event
 	})
 
-	return sneatnav.NewPanelFromList(gcContext.TUI, list)
+	return sneatnav.NewPanelFromList(cContext.TUI, list)
 }

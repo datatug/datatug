@@ -11,26 +11,26 @@ import (
 	"google.golang.org/api/cloudresourcemanager/v3"
 )
 
-func GoProjects(gcContext *GCloudContext, focusTo sneatnav.FocusTo) error {
-	return showProjects(gcContext, focusTo)
+func GoProjects(cContext *GCloudContext, focusTo sneatnav.FocusTo) error {
+	return showProjects(cContext, focusTo)
 }
 
 func OpenProjectsScreen(projects []*cloudresourcemanager.Project) error {
 	tui := datatugui.NewDatatugTUI()
-	gcContext := &GCloudContext{
+	cContext := &GCloudContext{
 		TUI:      tui,
 		projects: projects,
 	}
-	return showProjects(gcContext, sneatnav.FocusToContent)
+	return showProjects(cContext, sneatnav.FocusToContent)
 }
 
-func showProjects(gcContext *GCloudContext, focusTo sneatnav.FocusTo) error {
-	breadcrumbs := NewGoogleCloudBreadcrumbs(gcContext)
+func showProjects(cContext *GCloudContext, focusTo sneatnav.FocusTo) error {
+	breadcrumbs := NewGoogleCloudBreadcrumbs(cContext)
 
 	breadcrumbs.Push(sneatv.NewBreadcrumb("Projects", func() error {
-		return showProjects(gcContext, sneatnav.FocusToContent)
+		return showProjects(cContext, sneatnav.FocusToContent)
 	}))
-	menu := newMainMenu(gcContext, ScreenProjects)
+	menu := newMainMenu(cContext, ScreenProjects)
 
 	table := tview.NewTable().
 		SetSelectable(true, false)
@@ -43,7 +43,7 @@ func showProjects(gcContext *GCloudContext, focusTo sneatnav.FocusTo) error {
 	table.SetInputCapture(func(event *tcell.EventKey) *tcell.EventKey {
 		switch event.Key() {
 		case tcell.KeyLeft, tcell.KeyEscape:
-			gcContext.TUI.SetFocus(menu)
+			cContext.TUI.SetFocus(menu)
 			return nil
 		default:
 			return event
@@ -146,8 +146,8 @@ func showProjects(gcContext *GCloudContext, focusTo sneatnav.FocusTo) error {
 	})
 
 	go func() {
-		projects, err := gcContext.GetProjects()
-		gcContext.TUI.App.QueueUpdateDraw(func() {
+		projects, err := cContext.GetProjects()
+		cContext.TUI.App.QueueUpdateDraw(func() {
 			// Clear rows except header
 			table.Clear()
 			// Re-add header after Clear
@@ -160,7 +160,7 @@ func showProjects(gcContext *GCloudContext, focusTo sneatnav.FocusTo) error {
 			for i, project := range projects {
 				row := i + 1
 				gcProjCtx := CGProjectContext{
-					GCloudContext: gcContext,
+					GCloudContext: cContext,
 					Project:       project,
 				}
 				// Store context in the first cell reference
@@ -202,12 +202,12 @@ func showProjects(gcContext *GCloudContext, focusTo sneatnav.FocusTo) error {
 
 	// Ensure focus goes to the table when this panel is focused
 	flex.SetFocusFunc(func() {
-		gcContext.TUI.App.SetFocus(table)
+		cContext.TUI.App.SetFocus(table)
 	})
 
-	content := sneatnav.NewPanelFromFlex(gcContext.TUI, flex)
+	content := sneatnav.NewPanelFromFlex(cContext.TUI, flex)
 
-	gcContext.TUI.SetPanels(menu, content, sneatnav.WithFocusTo(focusTo))
+	cContext.TUI.SetPanels(menu, content, sneatnav.WithFocusTo(focusTo))
 
 	return nil
 }

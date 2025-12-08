@@ -28,6 +28,9 @@ func getGoogleCloudClient(ctx context.Context) (client *http.Client, err error) 
 		ClientID:     "588648831063-393c7c5gfj70sstaioked6qpb0sfj87h.apps.googleusercontent.com", // os.Getenv("GOOGLE_OAUTH_CLIENT_ID"),
 		ClientSecret: "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",                                      // Creation date: 11 August 2025 at 16:03:21 GMT+1
 		Scopes: []string{
+			// Request broad scopes so the resulting refresh token can be reused for Firestore
+			"https://www.googleapis.com/auth/cloud-platform",
+			"https://www.googleapis.com/auth/datastore",
 			cloudresourcemanager.CloudPlatformReadOnlyScope,
 		},
 		Endpoint:    google.Endpoint,
@@ -35,7 +38,7 @@ func getGoogleCloudClient(ctx context.Context) (client *http.Client, err error) 
 	}
 
 	var refreshToken string
-	refreshToken, err = getRefreshToken()
+	refreshToken, err = GetRefreshToken()
 	if err != nil {
 		log.Printf("Failed to get refresh token: %v", err)
 	}
@@ -78,7 +81,40 @@ func saveRefreshToken(token string) error {
 	return keyring.Set(keyringService, keyringUser, token)
 }
 
-// getRefreshToken retrieves a stored token from the keychain
-func getRefreshToken() (string, error) {
+// GetRefreshToken retrieves a stored token from the keychain
+func GetRefreshToken() (string, error) {
 	return keyring.Get(keyringService, keyringUser)
+}
+
+// DeleteRefreshToken removes the stored refresh token from the keychain
+func DeleteRefreshToken() error {
+	return keyring.Delete(keyringService, keyringUser)
+}
+
+// StartInteractiveLogin runs an interactive OAuth login with the provided scopes,
+// stores the refresh token in keychain, and returns the acquired token.
+func StartInteractiveLogin(ctx context.Context, scopes []string) (*oauth2.Token, error) {
+	if len(scopes) == 0 {
+		scopes = []string{
+			"https://www.googleapis.com/auth/cloud-platform",
+			"https://www.googleapis.com/auth/datastore",
+		}
+	}
+	cfg := &oauth2.Config{
+		ClientID:     "588648831063-393c7c5gfj70sstaioked6qpb0sfj87h.apps.googleusercontent.com",
+		ClientSecret: "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",
+		Scopes:       scopes,
+		Endpoint:     google.Endpoint,
+		RedirectURL:  "http://localhost:8080/oauth2callback",
+	}
+	tok, err := getTokenFromWeb(ctx, cfg)
+	if err != nil {
+		return nil, fmt.Errorf("interactive login failed: %w", err)
+	}
+	if tok.RefreshToken != "" {
+		if err := saveRefreshToken(tok.RefreshToken); err != nil {
+			log.Printf("Failed to save refresh token: %v", err)
+		}
+	}
+	return tok, nil
 }

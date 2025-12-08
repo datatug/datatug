@@ -71,6 +71,10 @@ func NewDataTugMainMenu(tui *sneatnav.TUI, active dtnav.RootScreen) (menu sneatn
 	list.SetInputCapture(func(event *tcell.EventKey) *tcell.EventKey {
 		// Handle the logic from NewDataTugMainMenu: move focus to breadcrumbs when on first item
 		switch event.Key() {
+		case tcell.KeyEnter:
+			tui.Content.TakeFocus()
+			tui.Content.InputHandler()(event, tui.SetFocus)
+			return nil
 		case tcell.KeyUp:
 			if list.GetCurrentItem() == 0 {
 				tui.Header.SetFocus(sneatnav.ToBreadcrumbs, list)

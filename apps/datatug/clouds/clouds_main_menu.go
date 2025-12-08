@@ -26,10 +26,21 @@ func NewCloudsMenu(tui *sneatnav.TUI, active Screen) (menu sneatnav.Panel) {
 
 	list.SetCurrentItem(int(active))
 
+	list.SetChangedFunc(func(index int, mainText string, secondaryText string, shortcut rune) {
+		_ = registeredClouds[index].Action(tui, sneatnav.FocusToMenu)
+	})
+
 	list.SetInputCapture(func(event *tcell.EventKey) *tcell.EventKey {
 		switch event.Key() {
 		case tcell.KeyRight:
-			list.GetItemSelectedFunc(list.GetCurrentItem())()
+			tui.SetFocus(tui.Content)
+		//list.GetItemSelectedFunc(list.GetCurrentItem())()
+		case tcell.KeyUp:
+			if list.GetCurrentItem() == 0 {
+				tui.Header.SetFocus(sneatnav.ToBreadcrumbs, list)
+				return nil
+			}
+			return event
 		default:
 			return event
 		}

@@ -7,8 +7,8 @@ import (
 	"github.com/rivo/tview"
 )
 
-func GoCredentials(gcContext *GCloudContext, focusTo sneatnav.FocusTo) error {
-	menu := newMainMenu(gcContext, ScreenCredentials)
+func GoCredentials(cContext *GCloudContext, focusTo sneatnav.FocusTo) error {
+	menu := newMainMenu(cContext, ScreenCredentials)
 
 	list := tview.NewList()
 	sneatv.SetPanelTitle(list.Box, "Google Cloud Projects")
@@ -19,15 +19,15 @@ func GoCredentials(gcContext *GCloudContext, focusTo sneatnav.FocusTo) error {
 	list.SetInputCapture(func(event *tcell.EventKey) *tcell.EventKey {
 		switch event.Key() {
 		case tcell.KeyLeft, tcell.KeyEscape:
-			gcContext.TUI.SetFocus(menu)
+			cContext.TUI.SetFocus(menu)
 			return nil
 		default:
 			return event
 		}
 	})
 
-	content := sneatnav.NewPanelFromList(gcContext.TUI, list)
+	content := sneatnav.NewPanelFromList(cContext.TUI, list)
 
-	gcContext.TUI.SetPanels(menu, content, sneatnav.WithFocusTo(focusTo))
+	cContext.TUI.SetPanels(menu, content, sneatnav.WithFocusTo(focusTo))
 	return nil
 }

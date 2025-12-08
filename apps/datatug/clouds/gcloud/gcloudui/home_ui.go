@@ -5,12 +5,12 @@ import (
 	"github.com/datatug/datatug-cli/pkg/sneatview/sneatnav"
 )
 
-func GoHome(gcContext *GCloudContext, focusTo sneatnav.FocusTo) error {
-	menu := clouds.NewCloudsMenu(gcContext.TUI, clouds.CloudGoogle)
-	content := newMainMenu(gcContext, ScreenProjects)
+func GoHome(cContext *GCloudContext, focusTo sneatnav.FocusTo) error {
+	menu := clouds.NewCloudsMenu(cContext.TUI, clouds.CloudGoogle)
+	content := newMainMenu(cContext, ScreenProjects)
 	go func() {
-		_, _ = gcContext.GetProjects()
+		_, _ = cContext.GetProjects()
 	}()
-	gcContext.TUI.SetPanels(menu, content, sneatnav.WithFocusTo(focusTo))
+	cContext.TUI.SetPanels(menu, content, sneatnav.WithFocusTo(focusTo))
 	return nil
 }

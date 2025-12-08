@@ -4,6 +4,8 @@ import (
 	"context"
 
 	"github.com/datatug/datatug-cli/apps/datatug/clouds"
+	"github.com/datatug/datatug-cli/apps/datatug/clouds/aws/awsui"
+	"github.com/datatug/datatug-cli/apps/datatug/clouds/azure/azureui"
 	"github.com/datatug/datatug-cli/apps/datatug/clouds/gcloud/gcloudui"
 	"github.com/datatug/datatug-cli/apps/datatug/datatugui"
 	"github.com/datatug/datatug-cli/apps/datatug/dtscreeens/dtprojects"
@@ -58,10 +60,16 @@ func registerModules(tui *sneatnav.TUI) {
 		{
 			Name:     "Amazon Web Services",
 			Shortcut: 'a',
+			Action: func(tui *sneatnav.TUI, focusTo sneatnav.FocusTo) error {
+				return awsui.GoAwsHome(&awsui.AwsContext{TUI: tui}, focusTo)
+			},
 		},
 		{
 			Name:     "Microsoft Azure",
 			Shortcut: 'm',
+			Action: func(tui *sneatnav.TUI, focusTo sneatnav.FocusTo) error {
+				return azureui.GoAzureHome(&azureui.AzureContext{TUI: tui}, focusTo)
+			},
 		},
 	})
 	dtsettings.RegisterModule()

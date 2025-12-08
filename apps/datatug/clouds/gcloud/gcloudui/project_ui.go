@@ -24,11 +24,11 @@ func goProject(gcProjCtx CGProjectContext) error {
 	sneatv.DefaultBorder(list.Box)
 	list.SetTitle("Google Cloud Project: " + gcProjCtx.Project.DisplayName)
 
-	list.AddItem("Firestore Database", "", 0, func() {
+	list.AddItem("🛢️ Firestore Database", "", 0, func() {
 		_ = goFirestoreDb(gcProjCtx)
 	})
 
-	list.AddItem("Firebase Authentication: Users", "", 0, func() {
+	list.AddItem("🆔 Firebase Authentication: Users", "", 0, func() {
 	})
 
 	list.SetInputCapture(func(event *tcell.EventKey) *tcell.EventKey {
@@ -46,17 +46,32 @@ func goProject(gcProjCtx CGProjectContext) error {
 	return nil
 }
 
-func newMenuWithProjects(gcContext *GCloudContext) (menu sneatnav.Panel) {
+func newMenuWithProjects(cContext *GCloudContext) (menu sneatnav.Panel) {
 	list := sneatnav.MainMenuList()
 	list.SetTitle("Projects")
 	sneatv.DefaultBorder(list.Box)
-	projects, err := gcContext.GetProjects()
+	list.SetInputCapture(func(event *tcell.EventKey) *tcell.EventKey {
+		switch event.Key() {
+		case tcell.KeyUp:
+			cContext.TUI.Header.SetFocus(sneatnav.ToBreadcrumbs, list)
+		case tcell.KeyRight:
+			cContext.TUI.Content.TakeFocus()
+		case tcell.KeyEnter:
+			cContext.TUI.Content.TakeFocus()
+			cContext.TUI.Content.InputHandler()(event, cContext.TUI.SetFocus)
+		default:
+			return event
+		}
+		return event
+	})
+
+	projects, err := cContext.GetProjects()
 	if err != nil {
 		list.AddItem("Failed to load  projects:", err.Error(), 0, nil)
-		return sneatnav.NewPanelFromList(gcContext.TUI, list)
+		return sneatnav.NewPanelFromList(cContext.TUI, list)
 	}
 	for _, project := range projects {
 		list.AddItem(project.DisplayName, "", 0, func() {})
 	}
-	return sneatnav.NewPanelFromList(gcContext.TUI, list)
+	return sneatnav.NewPanelFromList(cContext.TUI, list)
 }

@@ -4,6 +4,6 @@ package gcloudui
 //	"github.com/datatug/datatug-cli/pkg/sneatview/sneatnav"
 //)
 //
-//func goFirebase(tui *sneatnav.TUI, gcContext *GCloudContext) error {
+//func goFirebase(tui *sneatnav.TUI, cContext *GCloudContext) error {
 //	return nil
 //}

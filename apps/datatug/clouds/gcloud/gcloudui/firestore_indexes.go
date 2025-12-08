@@ -9,7 +9,7 @@ import (
 func goFirestoreIndexes(gcProjCtx CGProjectContext) error {
 	breadcrumbs := newProjectBreadcrumbs(gcProjCtx)
 	breadcrumbs.Push(sneatv.NewBreadcrumb("Firestore", nil))
-	menu := firestoreMainMenu(gcProjCtx, firestoreScreenIndexes)
+	menu := firestoreMainMenu(gcProjCtx, firestoreScreenIndexes, "")
 
 	list := tview.NewList()
 	sneatv.DefaultBorder(list.Box)
