@@ -2,6 +2,7 @@ package gcloudui
 
 import (
 	"context"
+	"sync"
 
 	"github.com/datatug/datatug-cli/pkg/auth/gauth"
 	"github.com/datatug/datatug-cli/pkg/sneatview/sneatnav"
@@ -9,18 +10,20 @@ import (
 )
 
 type GCloudContext struct {
-	TUI      *sneatnav.TUI
-	projects []*cloudresourcemanager.Project
+	TUI             *sneatnav.TUI
+	loadingProjects sync.Mutex
+	projects        []*cloudresourcemanager.Project
 }
 
-func (v *GCloudContext) GetProjects() (project []*cloudresourcemanager.Project, err error) {
+func (v *GCloudContext) GetProjects() (projects []*cloudresourcemanager.Project, err error) {
 	if v.projects == nil {
-		ctx := context.Background()
-		if v.projects, err = gauth.GetGCloudProjects(ctx); err != nil {
-			return
+		v.loadingProjects.Lock()
+		defer v.loadingProjects.Unlock()
+		if v.projects == nil {
+			v.projects, err = gauth.GetGCloudProjects(context.Background())
 		}
 	}
-	return v.projects, nil
+	return v.projects, err
 }
 
 type CGProjectContext struct {

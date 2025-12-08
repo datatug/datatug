@@ -3,6 +3,7 @@ package gcloudui
 import (
 	"github.com/datatug/datatug-cli/pkg/sneatview/sneatnav"
 	"github.com/datatug/datatug-cli/pkg/sneatview/sneatv"
+	"github.com/gdamore/tcell/v2"
 	"github.com/rivo/tview"
 )
 
@@ -30,6 +31,16 @@ func goProject(gcProjCtx CGProjectContext) error {
 	list.AddItem("Firebase Authentication: Users", "", 0, func() {
 	})
 
+	list.SetInputCapture(func(event *tcell.EventKey) *tcell.EventKey {
+		switch event.Key() {
+		case tcell.KeyLeft:
+			gcProjCtx.TUI.SetFocus(menu)
+			return nil
+		default:
+			return event
+		}
+	})
+
 	content := sneatnav.NewPanelFromList(gcProjCtx.TUI, list)
 	gcProjCtx.TUI.SetPanels(menu, content, sneatnav.WithFocusTo(sneatnav.FocusToContent))
 	return nil
@@ -37,7 +48,8 @@ func goProject(gcProjCtx CGProjectContext) error {
 
 func newMenuWithProjects(gcContext *GCloudContext) (menu sneatnav.Panel) {
 	list := sneatnav.MainMenuList()
-	//sneatv.DefaultBorder(list.Box)
+	list.SetTitle("Projects")
+	sneatv.DefaultBorder(list.Box)
 	projects, err := gcContext.GetProjects()
 	if err != nil {
 		list.AddItem("Failed to load  projects:", err.Error(), 0, nil)

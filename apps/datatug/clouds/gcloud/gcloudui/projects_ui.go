@@ -34,6 +34,7 @@ func showProjects(gcContext *GCloudContext, focusTo sneatnav.FocusTo) error {
 
 	list := tview.NewList()
 	sneatv.SetPanelTitle(list.Box, "Google Cloud Projects")
+	list.SetWrapAround(false)
 	list.SetInputCapture(func(event *tcell.EventKey) *tcell.EventKey {
 		switch event.Key() {
 		case tcell.KeyLeft, tcell.KeyEscape:

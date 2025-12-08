@@ -8,7 +8,9 @@ import (
 func GoHome(gcContext *GCloudContext, focusTo sneatnav.FocusTo) error {
 	menu := clouds.NewCloudsMenu(gcContext.TUI, clouds.CloudGoogle)
 	content := newMainMenu(gcContext, ScreenProjects)
-
+	go func() {
+		_, _ = gcContext.GetProjects()
+	}()
 	gcContext.TUI.SetPanels(menu, content, sneatnav.WithFocusTo(focusTo))
 	return nil
 }
