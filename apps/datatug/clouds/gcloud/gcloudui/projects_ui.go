@@ -189,7 +189,7 @@ func showProjects(cContext *GCloudContext, focusTo sneatnav.FocusTo) error {
 			return
 		}
 		if ref := cell.GetReference(); ref != nil {
-			if ctx, ok := ref.(CGProjectContext); ok {
+			if ctx, ok := ref.(*CGProjectContext); ok {
 				_ = goProject(ctx)
 			}
 		}

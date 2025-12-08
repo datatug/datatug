@@ -16,7 +16,7 @@ import (
 	"google.golang.org/api/option"
 )
 
-func goFirestoreCollections(gcProjCtx CGProjectContext) error {
+func goFirestoreCollections(gcProjCtx *CGProjectContext) error {
 	breadcrumbs := newProjectBreadcrumbs(gcProjCtx)
 	breadcrumbs.Push(sneatv.NewBreadcrumb("Firestore", nil))
 	menu := firestoreMainMenu(gcProjCtx, firestoreScreenCollections, "")
@@ -82,7 +82,9 @@ func goFirestoreCollections(gcProjCtx CGProjectContext) error {
 			}
 			for _, id := range collections {
 				list.AddItem("📋 "+id, "", 0, func() {
-					// TODO: Navigate into the collection view
+					if err := goFirestoreCollection(gcProjCtx, id, sneatnav.FocusToContent); err != nil {
+						panic(err)
+					}
 				})
 			}
 		})
@@ -126,7 +128,7 @@ func newFirestoreClient(ctx context.Context, projectID string) (*firestore.Clien
 }
 
 // addAuthErrorItems renders an error with recovery actions.
-func addAuthErrorItems(gcProjCtx CGProjectContext, list *tview.List, err error) {
+func addAuthErrorItems(gcProjCtx *CGProjectContext, list *tview.List, err error) {
 	// Show base error
 	list.AddItem("Error", err.Error(), 0, nil)
 

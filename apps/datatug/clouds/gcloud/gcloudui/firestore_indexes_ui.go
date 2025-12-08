@@ -6,7 +6,7 @@ import (
 	"github.com/rivo/tview"
 )
 
-func goFirestoreIndexes(gcProjCtx CGProjectContext) error {
+func goFirestoreIndexes(gcProjCtx *CGProjectContext) error {
 	breadcrumbs := newProjectBreadcrumbs(gcProjCtx)
 	breadcrumbs.Push(sneatv.NewBreadcrumb("Firestore", nil))
 	menu := firestoreMainMenu(gcProjCtx, firestoreScreenIndexes, "")

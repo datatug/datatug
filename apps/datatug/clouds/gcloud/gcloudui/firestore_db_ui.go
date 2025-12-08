@@ -14,9 +14,14 @@ const (
 	firestoreScreenIndexes
 )
 
-func goFirestoreDb(gcProjCtx CGProjectContext) error {
+func firestoreBreadcrumbs(gcProjCtx *CGProjectContext) sneatnav.Breadcrumbs {
 	breadcrumbs := newProjectBreadcrumbs(gcProjCtx)
 	breadcrumbs.Push(sneatv.NewBreadcrumb("Firestore", nil))
+	return breadcrumbs
+}
+
+func goFirestoreDb(gcProjCtx *CGProjectContext) error {
+	_ = firestoreBreadcrumbs(gcProjCtx)
 	menu := clouds.NewCloudsMenu(gcProjCtx.TUI, clouds.CloudGoogle)
 
 	content := firestoreMainMenu(gcProjCtx, firestoreScreenCollections, "Firestore Database")
@@ -25,7 +30,7 @@ func goFirestoreDb(gcProjCtx CGProjectContext) error {
 	return nil
 }
 
-func firestoreMainMenu(gcProjCtx CGProjectContext, active firestoreScreen, title string) (menu sneatnav.Panel) {
+func firestoreMainMenu(gcProjCtx *CGProjectContext, active firestoreScreen, title string) (menu sneatnav.Panel) {
 	list := sneatnav.MainMenuList()
 	sneatv.DefaultBorder(list.Box)
 

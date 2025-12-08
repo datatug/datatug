@@ -7,7 +7,7 @@ import (
 	"github.com/rivo/tview"
 )
 
-func newProjectBreadcrumbs(gcProjectCtx CGProjectContext) sneatnav.Breadcrumbs {
+func newProjectBreadcrumbs(gcProjectCtx *CGProjectContext) sneatnav.Breadcrumbs {
 	breadcrumbs := newBreadcrumbsProjects(gcProjectCtx.GCloudContext)
 	breadcrumbs.Push(sneatv.NewBreadcrumb(gcProjectCtx.Project.DisplayName, func() error {
 		return goProject(gcProjectCtx)
@@ -15,7 +15,7 @@ func newProjectBreadcrumbs(gcProjectCtx CGProjectContext) sneatnav.Breadcrumbs {
 	return breadcrumbs
 }
 
-func goProject(gcProjCtx CGProjectContext) error {
+func goProject(gcProjCtx *CGProjectContext) error {
 	_ = newProjectBreadcrumbs(gcProjCtx)
 
 	menu := newMenuWithProjects(gcProjCtx.GCloudContext)
