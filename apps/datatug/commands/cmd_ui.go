@@ -11,7 +11,6 @@ import (
 	"github.com/datatug/datatug-cli/apps/datatug/dtscreeens/dtprojects"
 	"github.com/datatug/datatug-cli/apps/datatug/dtscreeens/dtsettings"
 	"github.com/datatug/datatug-cli/apps/datatug/dtscreeens/dtviewers"
-	"github.com/datatug/datatug-cli/apps/firestoreviewer/fsviewer"
 	"github.com/datatug/datatug-cli/pkg/sneatview/sneatnav"
 	"github.com/urfave/cli/v3"
 )
@@ -47,6 +46,7 @@ func (v *uiCommand) Execute(_ []string) error {
 
 func registerModules(tui *sneatnav.TUI) {
 
+	dtprojects.RegisterModule()
 	// Main menu screens
 	datatugui.RegisterModule()
 	clouds.RegisterModule([]clouds.Cloud{
@@ -73,9 +73,5 @@ func registerModules(tui *sneatnav.TUI) {
 		},
 	})
 	dtsettings.RegisterModule()
-	dtprojects.RegisterModule()
 	dtviewers.RegisterModule()
-
-	// Sub-modules
-	fsviewer.RegisterModule(tui)
 }

@@ -5,7 +5,6 @@ import (
 
 	"github.com/datatug/datatug-cli/apps"
 	"github.com/datatug/datatug-cli/apps/datatug/clouds/gcloud/gcloudcmds"
-	"github.com/datatug/datatug-cli/apps/firestoreviewer"
 	"github.com/datatug/datatug-cli/pkg/auth"
 	"github.com/urfave/cli/v3"
 )
@@ -34,7 +33,6 @@ func DatatugCommand() *cli.Command {
 			uiCommandArgs(),
 			testCommandArgs(),
 			consoleCommandArgs(),
-			firestoreviewer.FirestoreCommand(),
 		},
 	}
 }
