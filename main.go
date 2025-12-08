@@ -3,13 +3,15 @@ package main
 import (
 	"context"
 	_ "embed"
-	"github.com/datatug/datatug-cli/apps/datatug/commands"
-	_ "github.com/denisenkom/go-mssqldb"
-	_ "github.com/mattn/go-sqlite3"
-	"github.com/urfave/cli/v3"
 	"log"
 	"os"
 	"strings"
+
+	"github.com/datatug/datatug-cli/apps/datatug/commands"
+	_ "github.com/denisenkom/go-mssqldb"
+	_ "github.com/jackc/pgx/v5"
+	_ "github.com/mattn/go-sqlite3"
+	"github.com/urfave/cli/v3"
 )
 
 func main() {
