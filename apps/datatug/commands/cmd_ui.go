@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/datatug/datatug-cli/apps/datatug"
+	"github.com/datatug/datatug-cli/apps/datatug/datatugui/dtapiservice"
 	dtproject2 "github.com/datatug/datatug-cli/apps/datatug/datatugui/dtproject"
 	"github.com/datatug/datatug-cli/apps/datatug/datatugui/dtsettings"
 	"github.com/datatug/datatug-cli/apps/datatug/datatugui/dtviewers"
@@ -55,4 +56,5 @@ func registerModules() {
 
 	dtviewers.RegisterModule()
 	dtsettings.RegisterModule()
+	dtapiservice.RegisterModule()
 }

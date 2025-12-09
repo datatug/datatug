@@ -1,0 +1,44 @@
+package dtapiservice
+
+import (
+	"github.com/datatug/datatug-cli/apps/datatug/datatugui"
+	"github.com/datatug/datatug-cli/apps/datatug/dtnav"
+	"github.com/datatug/datatug-cli/pkg/sneatview/sneatnav"
+	"github.com/datatug/datatug-cli/pkg/sneatview/sneatv"
+	"github.com/gdamore/tcell/v2"
+	"github.com/rivo/tview"
+)
+
+func RegisterModule() {
+	datatugui.RegisterMainMenuItem(dtnav.RootScreenWebUI,
+		datatugui.MainMenuItem{
+			Text:     "Web UI & API Monitor",
+			Shortcut: 'w',
+			Action:   goApiServiceMonitor,
+		})
+}
+
+func goApiServiceMonitor(tui *sneatnav.TUI, focusTo sneatnav.FocusTo) error {
+	menu := datatugui.NewDataTugMainMenu(tui, dtnav.RootScreenWebUI)
+	textView := tview.NewTextView()
+	sneatv.DefaultBorder(textView.Box)
+	textView.SetTitle("Web UI & Local API Service Monitor")
+	textView.SetText("Open web UI: https://datatug.app/pwa/#api=localhost:8080")
+	textView.SetInputCapture(func(event *tcell.EventKey) *tcell.EventKey {
+		switch event.Key() {
+		case tcell.KeyLeft, tcell.KeyESC, tcell.KeyBackspace:
+			tui.Menu.TakeFocus()
+			return nil
+		case tcell.KeyUp:
+			tui.SetFocus(tui.Header)
+		default:
+			return event
+		}
+		return event
+	})
+
+	content := sneatnav.NewPanelFromTextView(tui, textView)
+
+	tui.SetPanels(menu, content, sneatnav.WithFocusTo(focusTo))
+	return nil
+}

@@ -4,9 +4,8 @@ type RootScreen int
 
 const (
 	_ RootScreen = iota
-	RootScreenHome
 	RootScreenProjects
 	RootScreenViewers
-	RootScreenClouds
 	RootScreenSettings
+	RootScreenWebUI
 )

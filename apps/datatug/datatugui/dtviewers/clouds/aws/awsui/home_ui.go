@@ -13,9 +13,10 @@ const viewerID dtviewers.ViewerID = "aws"
 
 func RegisterAsViewer() {
 	dtviewers.RegisterViewer(dtviewers.Viewer{
-		ID:       viewerID,
-		Name:     "Amazon Web Services",
-		Shortcut: 'a',
+		ID:          viewerID,
+		Name:        "Amazon Web Services",
+		Description: "(not implemented yet)",
+		Shortcut:    'a',
 		Action: func(tui *sneatnav.TUI, focusTo sneatnav.FocusTo) error {
 			return goAwsHome(&clouds.CloudContext{TUI: tui}, focusTo)
 		},

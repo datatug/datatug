@@ -13,9 +13,10 @@ const viewerID dtviewers.ViewerID = "azure"
 
 func RegisterAsViewer() {
 	dtviewers.RegisterViewer(dtviewers.Viewer{
-		ID:       viewerID,
-		Name:     "Microsoft Azure",
-		Shortcut: 'm',
+		ID:          viewerID,
+		Name:        "Microsoft Azure",
+		Description: "(not implemented yet)",
+		Shortcut:    'm',
 		Action: func(tui *sneatnav.TUI, focusTo sneatnav.FocusTo) error {
 			return GoAzureHome(&clouds.CloudContext{TUI: tui}, focusTo)
 		},

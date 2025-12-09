@@ -10,9 +10,10 @@ const viewerID dtviewers.ViewerID = "gc"
 
 func RegisterAsViewer() {
 	dtviewers.RegisterViewer(dtviewers.Viewer{
-		ID:       viewerID,
-		Name:     "Google Cloud",
-		Shortcut: 'g',
+		ID:          viewerID,
+		Name:        "Google Cloud",
+		Description: "Firestore, Cloud SQL, etc.",
+		Shortcut:    'g',
 		Action: func(tui *sneatnav.TUI, focusTo sneatnav.FocusTo) error {
 			return goHome(&GCloudContext{
 				CloudContext: &clouds.CloudContext{TUI: tui},
