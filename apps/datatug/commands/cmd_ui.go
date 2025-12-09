@@ -4,13 +4,13 @@ import (
 	"context"
 
 	"github.com/datatug/datatug-cli/apps/datatug"
-	dtprojects2 "github.com/datatug/datatug-cli/apps/datatug/datatugui/dtscreeens/dtprojects"
-	"github.com/datatug/datatug-cli/apps/datatug/datatugui/dtscreeens/dtsettings"
-	"github.com/datatug/datatug-cli/apps/datatug/datatugui/viewers"
-	"github.com/datatug/datatug-cli/apps/datatug/datatugui/viewers/clouds/aws/awsui"
-	"github.com/datatug/datatug-cli/apps/datatug/datatugui/viewers/clouds/azure/azureui"
-	"github.com/datatug/datatug-cli/apps/datatug/datatugui/viewers/clouds/gcloud/gcloudui"
-	"github.com/datatug/datatug-cli/apps/datatug/datatugui/viewers/sqlviewer"
+	dtproject2 "github.com/datatug/datatug-cli/apps/datatug/datatugui/dtproject"
+	"github.com/datatug/datatug-cli/apps/datatug/datatugui/dtsettings"
+	"github.com/datatug/datatug-cli/apps/datatug/datatugui/dtviewers"
+	"github.com/datatug/datatug-cli/apps/datatug/datatugui/dtviewers/clouds/aws/awsui"
+	"github.com/datatug/datatug-cli/apps/datatug/datatugui/dtviewers/clouds/azure/azureui"
+	"github.com/datatug/datatug-cli/apps/datatug/datatugui/dtviewers/clouds/gcloud/gcloudui"
+	"github.com/datatug/datatug-cli/apps/datatug/datatugui/dtviewers/sqlviewer"
 	"github.com/datatug/datatug-cli/pkg/sneatview/sneatnav"
 	"github.com/urfave/cli/v3"
 )
@@ -36,7 +36,7 @@ func (v *uiCommand) Execute(_ []string) error {
 
 	registerModules()
 
-	if err := dtprojects2.GoProjectsScreen(tui, sneatnav.FocusToMenu); err != nil {
+	if err := dtproject2.GoProjectsScreen(tui, sneatnav.FocusToMenu); err != nil {
 		panic(err)
 	}
 
@@ -46,13 +46,13 @@ func (v *uiCommand) Execute(_ []string) error {
 
 func registerModules() {
 
-	dtprojects2.RegisterModule()
+	dtproject2.RegisterModule()
 
 	gcloudui.RegisterAsViewer()
 	awsui.RegisterAsViewer()
 	azureui.RegisterAsViewer()
 	sqlviewer.RegisterAsViewer()
 
-	viewers.RegisterModule()
+	dtviewers.RegisterModule()
 	dtsettings.RegisterModule()
 }

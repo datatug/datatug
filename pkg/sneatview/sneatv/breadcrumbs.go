@@ -14,6 +14,10 @@ type Breadcrumbs struct {
 	prevFocusTarget   tview.Primitive // optional: where to move focus on Shift+Tab/Up
 }
 
+func (b *Breadcrumbs) TakeFocus() {
+	//b.selectedItemIndex -= 1
+}
+
 func (b *Breadcrumbs) SelectedItemIndex() int {
 	return b.selectedItemIndex
 }
@@ -111,14 +115,15 @@ func (b *Breadcrumbs) SetPrevFocusTarget(p tview.Primitive) *Breadcrumbs {
 // Focus is called when this primitive receives focus.
 func (b *Breadcrumbs) Focus(delegate func(p tview.Primitive)) {
 	// When receiving focus, keep current selection if valid; otherwise select the last item.
-	if len(b.items) > 0 && (b.selectedItemIndex < 0 || b.selectedItemIndex >= len(b.items)) {
-		b.selectedItemIndex = len(b.items) - 1
+	if len(b.items) > 0 && (b.selectedItemIndex < 0 || b.selectedItemIndex >= len(b.items)-1) {
+		b.selectedItemIndex = len(b.items) - 2
 	}
 	b.Box.Focus(delegate)
 }
 
 // Blur is called when this primitive loses focus.
 func (b *Breadcrumbs) Blur() {
+	b.selectedItemIndex = len(b.items) - 1
 	b.Box.Blur()
 }
 

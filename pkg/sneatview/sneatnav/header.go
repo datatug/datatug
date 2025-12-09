@@ -29,6 +29,7 @@ func (h *Header) SetFocus(to HeaderFocusedTo, from tview.Primitive) {
 	h.focus.from = from
 	switch to {
 	case ToBreadcrumbs:
+		h.breadcrumbs.TakeFocus()
 		h.tui.SetFocus(h.breadcrumbs)
 	case ToRightMenu:
 		h.tui.SetFocus(h.rightMenu)
