@@ -48,10 +48,19 @@ func firestoreMainMenu(gcProjCtx *CGProjectContext, active firestoreScreen, titl
 	list.SetCurrentItem(int(active))
 
 	list.SetInputCapture(func(event *tcell.EventKey) *tcell.EventKey {
-		if event.Key() == tcell.KeyRight {
+		switch event.Key() {
+		case tcell.KeyRight:
 			gcProjCtx.TUI.SetFocus(gcProjCtx.TUI.Content)
+			return nil
+		case tcell.KeyUp:
+			if list.GetCurrentItem() == 0 {
+				gcProjCtx.TUI.Header.SetFocus(sneatnav.ToBreadcrumbs, list)
+				return nil
+			}
+			return event
+		default:
+			return event
 		}
-		return event
 	})
 
 	return sneatnav.NewPanelFromList(gcProjCtx.TUI, list)

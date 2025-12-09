@@ -8,7 +8,7 @@ import (
 )
 
 func GoCredentials(cContext *GCloudContext, focusTo sneatnav.FocusTo) error {
-	menu := newMainMenu(cContext, ScreenCredentials)
+	menu := newMainMenu(cContext, ScreenCredentials, false)
 
 	list := tview.NewList()
 	sneatv.SetPanelTitle(list.Box, "Google Cloud Projects")

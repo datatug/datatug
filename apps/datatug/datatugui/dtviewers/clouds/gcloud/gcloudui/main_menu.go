@@ -13,16 +13,16 @@ const (
 	ScreenCredentials
 )
 
-func newMainMenu(cContext *GCloudContext, active Screen) (menu sneatnav.Panel) {
+func newMainMenu(cContext *GCloudContext, active Screen, isInContent bool) (menu sneatnav.Panel) {
 	list := sneatnav.MainMenuList()
 	list.SetTitle("Google Cloud")
 	sneatv.DefaultBorder(list.Box)
 
 	list.AddItem("Projects", "", 'p', func() {
-		_ = GoProjects(cContext, sneatnav.FocusToContent)
+		_ = GoProjects(cContext, sneatnav.FocusToMenu)
 	})
 	list.AddItem("Credentials", "", 'c', func() {
-		_ = GoCredentials(cContext, sneatnav.FocusToContent)
+		_ = GoCredentials(cContext, sneatnav.FocusToMenu)
 	})
 
 	list.SetCurrentItem(int(active))
@@ -48,6 +48,13 @@ func newMainMenu(cContext *GCloudContext, active Screen) (menu sneatnav.Panel) {
 				return nil
 			}
 			return event
+		case tcell.KeyEnter:
+			if isInContent {
+				return event
+			}
+			cContext.TUI.Content.TakeFocus()
+			cContext.TUI.Content.InputHandler()(event, cContext.TUI.SetFocus)
+			return nil
 		default:
 			return event
 		}

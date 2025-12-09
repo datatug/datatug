@@ -24,7 +24,7 @@ func RegisterAsViewer() {
 
 func goHome(cContext *GCloudContext, focusTo sneatnav.FocusTo) error {
 	menu := dtviewers.NewCloudsMenu(cContext.TUI, viewerID)
-	content := newMainMenu(cContext, ScreenProjects)
+	content := newMainMenu(cContext, ScreenProjects, true)
 	go func() {
 		_, _ = cContext.GetProjects()
 	}()

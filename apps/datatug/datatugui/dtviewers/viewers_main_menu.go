@@ -41,6 +41,10 @@ func NewCloudsMenu(tui *sneatnav.TUI, active ViewerID) (menu sneatnav.Panel) {
 				return nil
 			}
 			return event
+		case tcell.KeyEnter:
+			tui.Content.TakeFocus()
+			tui.Content.InputHandler()(event, tui.SetFocus)
+			return nil
 		default:
 			return event
 		}

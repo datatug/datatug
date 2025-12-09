@@ -30,6 +30,8 @@ func goFirestoreCollection(gcProjCtx *CGProjectContext, collection *dbschema.Col
 	}
 	table.SetTitle(title)
 
+	// Input handling: we'll override later with combined handler; keeping placeholder here removed
+
 	// Header
 	headerStyle := tview.Styles.SecondaryTextColor
 	table.SetCell(0, 0, tview.NewTableCell("Doc ID").SetTextColor(headerStyle).SetSelectable(false))
@@ -40,17 +42,28 @@ func goFirestoreCollection(gcProjCtx *CGProjectContext, collection *dbschema.Col
 
 	content := sneatnav.NewPanelFromTable(gcProjCtx.TUI, table)
 
+	// Unified input handler:
+	// - Up: move focus to header breadcrumbs only if the first data row is selected (row == 1).
+	// - Left: move focus to the menu only if the first column is selected (col == 0).
 	table.SetInputCapture(func(event *tcell.EventKey) *tcell.EventKey {
-		if event.Key() == tcell.KeyLeft {
-			// Only switch focus to the menu if we're in the first column (# / Doc ID)
+		switch event.Key() {
+		case tcell.KeyUp:
+			row, _ := table.GetSelection()
+			if row == 1 { // first selectable row below header
+				gcProjCtx.TUI.Header.SetFocus(sneatnav.ToBreadcrumbs, table)
+				return nil
+			}
+			return event
+		case tcell.KeyLeft:
 			_, col := table.GetSelection()
 			if col == 0 {
 				gcProjCtx.TUI.SetFocus(menu)
 				return nil
 			}
-			// Otherwise, let the table handle the left navigation within cells
+			return event
+		default:
+			return event
 		}
-		return event
 	})
 
 	// Async load first 100 docs

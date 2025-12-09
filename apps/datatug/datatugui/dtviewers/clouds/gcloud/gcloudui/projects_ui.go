@@ -29,7 +29,7 @@ func showProjects(cContext *GCloudContext, focusTo sneatnav.FocusTo) error {
 	breadcrumbs.Push(sneatv.NewBreadcrumb("Projects", func() error {
 		return showProjects(cContext, sneatnav.FocusToContent)
 	}))
-	menu := newMainMenu(cContext, ScreenProjects)
+	menu := newMainMenu(cContext, ScreenProjects, false)
 
 	table := tview.NewTable().
 		SetSelectable(true, false)

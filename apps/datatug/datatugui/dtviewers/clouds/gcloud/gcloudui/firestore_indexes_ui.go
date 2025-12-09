@@ -3,6 +3,7 @@ package gcloudui
 import (
 	"github.com/datatug/datatug-cli/pkg/sneatview/sneatnav"
 	"github.com/datatug/datatug-cli/pkg/sneatview/sneatv"
+	"github.com/gdamore/tcell/v2"
 	"github.com/rivo/tview"
 )
 
@@ -17,6 +18,19 @@ func goFirestoreIndexes(gcProjCtx *CGProjectContext) error {
 	content := sneatnav.NewPanelFromList(gcProjCtx.TUI, list)
 
 	list.AddItem("Loading...", "(not implemented yet)", 0, nil)
+
+	list.SetInputCapture(func(event *tcell.EventKey) *tcell.EventKey {
+		switch event.Key() {
+		case tcell.KeyLeft:
+			gcProjCtx.TUI.Menu.TakeFocus()
+			return nil
+		case tcell.KeyUp:
+			gcProjCtx.TUI.Header.SetFocus(sneatnav.ToBreadcrumbs, list)
+			return nil
+		default:
+			return event
+		}
+	})
 
 	gcProjCtx.TUI.SetPanels(menu, content, sneatnav.WithFocusTo(sneatnav.FocusToContent))
 	return nil
