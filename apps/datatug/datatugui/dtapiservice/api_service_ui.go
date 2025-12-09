@@ -2,7 +2,6 @@ package dtapiservice
 
 import (
 	"github.com/datatug/datatug-cli/apps/datatug/datatugui"
-	"github.com/datatug/datatug-cli/apps/datatug/dtnav"
 	"github.com/datatug/datatug-cli/pkg/sneatview/sneatnav"
 	"github.com/datatug/datatug-cli/pkg/sneatview/sneatv"
 	"github.com/gdamore/tcell/v2"
@@ -10,7 +9,7 @@ import (
 )
 
 func RegisterModule() {
-	datatugui.RegisterMainMenuItem(dtnav.RootScreenWebUI,
+	datatugui.RegisterMainMenuItem(datatugui.RootScreenWebUI,
 		datatugui.MainMenuItem{
 			Text:     "Web UI & API Monitor",
 			Shortcut: 'w',
@@ -19,7 +18,7 @@ func RegisterModule() {
 }
 
 func goApiServiceMonitor(tui *sneatnav.TUI, focusTo sneatnav.FocusTo) error {
-	menu := datatugui.NewDataTugMainMenu(tui, dtnav.RootScreenWebUI)
+	menu := datatugui.NewDataTugMainMenu(tui, datatugui.RootScreenWebUI)
 	textView := tview.NewTextView()
 	sneatv.DefaultBorder(textView.Box)
 	textView.SetTitle("Web UI & Local API Service Monitor")

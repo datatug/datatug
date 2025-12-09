@@ -5,7 +5,6 @@ import (
 	"sort"
 
 	"github.com/datatug/datatug-cli/apps/datatug/datatugui"
-	"github.com/datatug/datatug-cli/apps/datatug/dtnav"
 	"github.com/datatug/datatug-cli/pkg/sneatview/sneatnav"
 	"github.com/datatug/datatug-cli/pkg/sneatview/sneatv"
 	"github.com/datatug/datatug-core/pkg/appconfig"
@@ -44,7 +43,7 @@ func GoProjectsScreen(tui *sneatnav.TUI, focusTo sneatnav.FocusTo) error {
 	if err != nil {
 		return err
 	}
-	menu := datatugui.NewDataTugMainMenu(tui, dtnav.RootScreenProjects)
+	menu := datatugui.NewDataTugMainMenu(tui, datatugui.RootScreenProjects)
 	tui.SetPanels(menu, content, sneatnav.WithFocusTo(focusTo))
 	return nil
 }

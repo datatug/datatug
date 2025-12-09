@@ -2,7 +2,6 @@ package dtsettings
 
 import (
 	"github.com/datatug/datatug-cli/apps/datatug/datatugui"
-	"github.com/datatug/datatug-cli/apps/datatug/dtnav"
 	"github.com/datatug/datatug-cli/pkg/sneatview/sneatnav"
 	"github.com/datatug/datatug-cli/pkg/sneatview/sneatv"
 	"github.com/datatug/datatug-core/pkg/appconfig"
@@ -11,7 +10,7 @@ import (
 )
 
 func RegisterModule() {
-	datatugui.RegisterMainMenuItem(dtnav.RootScreenSettings,
+	datatugui.RegisterMainMenuItem(datatugui.RootScreenSettings,
 		datatugui.MainMenuItem{
 			Text:     "Settings",
 			Shortcut: 's',
@@ -45,7 +44,7 @@ func goSettingsScreen(tui *sneatnav.TUI, focusTo sneatnav.FocusTo) error {
 	textView.SetTitle(fileName)
 	textView.SetTitleAlign(tview.AlignLeft)
 
-	menu := datatugui.NewDataTugMainMenu(tui, dtnav.RootScreenSettings)
+	menu := datatugui.NewDataTugMainMenu(tui, datatugui.RootScreenSettings)
 	tui.SetPanels(menu, content, sneatnav.WithFocusTo(sneatnav.FocusToMenu))
 	if focusTo == sneatnav.FocusToContent {
 		tui.App.SetFocus(content)

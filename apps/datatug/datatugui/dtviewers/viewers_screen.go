@@ -2,7 +2,6 @@ package dtviewers
 
 import (
 	"github.com/datatug/datatug-cli/apps/datatug/datatugui"
-	"github.com/datatug/datatug-cli/apps/datatug/dtnav"
 	"github.com/datatug/datatug-cli/pkg/sneatview/sneatnav"
 	"github.com/datatug/datatug-cli/pkg/sneatview/sneatv"
 	"github.com/gdamore/tcell/v2"
@@ -53,7 +52,7 @@ func goViewersScreen(tui *sneatnav.TUI, focusTo sneatnav.FocusTo) error {
 	list.SetTitle(" Viewers ")
 	list.SetTitleAlign(tview.AlignLeft)
 
-	menu := datatugui.NewDataTugMainMenu(tui, dtnav.RootScreenViewers)
+	menu := datatugui.NewDataTugMainMenu(tui, datatugui.RootScreenViewers)
 	content := sneatnav.NewPanelFromList(tui, list)
 
 	tui.SetPanels(menu, content, sneatnav.WithFocusTo(focusTo))

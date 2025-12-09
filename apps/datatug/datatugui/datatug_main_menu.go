@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/datatug/datatug-cli/apps/datatug/dtnav"
 	"github.com/datatug/datatug-cli/pkg/sneatview/sneatnav"
 	"github.com/datatug/datatug-cli/pkg/sneatview/sneatv"
 	"github.com/gdamore/tcell/v2"
@@ -18,7 +17,7 @@ type MainMenuItem struct {
 	Action   func(tui2 *sneatnav.TUI, focusTo sneatnav.FocusTo) error
 }
 
-func RegisterMainMenuItem(id dtnav.RootScreen, item MainMenuItem) {
+func RegisterMainMenuItem(id RootScreen, item MainMenuItem) {
 	for _, existingItem := range mainMenuItems {
 		if existingItem.id == int(id) {
 			panic(fmt.Errorf("duplicate main menu item %d: adding '%s' already exists '%s'", id, item.Text, existingItem.Text))
@@ -30,7 +29,7 @@ func RegisterMainMenuItem(id dtnav.RootScreen, item MainMenuItem) {
 
 var mainMenuItems []MainMenuItem
 
-func NewDataTugMainMenu(tui *sneatnav.TUI, active dtnav.RootScreen) (menu sneatnav.Panel) {
+func NewDataTugMainMenu(tui *sneatnav.TUI, active RootScreen) (menu sneatnav.Panel) {
 	handleMenuAction := func(action func(tui2 *sneatnav.TUI, focusTo sneatnav.FocusTo) error) func() {
 		return func() {
 			if err := action(tui, sneatnav.FocusToContent); err != nil {
