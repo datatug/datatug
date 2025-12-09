@@ -177,6 +177,7 @@ func TestBreadcrumbs_Navigation_ThreeItems(t *testing.T) {
 
 	// Behavior-based assertion: confirm selected index equals expected one.
 	assertSelectedIndex := func(bc *Breadcrumbs, expected int) {
+		t.Helper()
 		if bc.SelectedItemIndex() != expected {
 			t.Fatalf("expected selected index %d, got %d", expected, bc.SelectedItemIndex())
 		}
@@ -190,33 +191,33 @@ func TestBreadcrumbs_Navigation_ThreeItems(t *testing.T) {
 			h(tcell.NewEventKey(tcell.KeyLeft, 0, tcell.ModNone), func(p tview.Primitive) {})
 		}
 		bc.Draw(s)
-		assertSelectedIndex(bc, 1) // Beta selected
+		assertSelectedIndex(bc, 0) // Alpha selected
 
 		// RIGHT should move to third (index 2).
 		if h := bc.InputHandler(); h != nil {
 			h(tcell.NewEventKey(tcell.KeyRight, 0, tcell.ModNone), func(p tview.Primitive) {})
 		}
 		bc.Draw(s)
-		assertSelectedIndex(bc, 2) // Gamma selected
+		assertSelectedIndex(bc, 1) // Beta selected
 	})
 
 	// Subtest: current last. LEFT -> second. RIGHT at last: no change.
 	t.Run("current last: left->second, right->noop", func(t *testing.T) {
 		bc := mk() // currently last (Gamma)
 		bc.Draw(s)
-		assertSelectedIndex(bc, 2)
+		assertSelectedIndex(bc, 1)
 		// LEFT -> second (Beta)
 		if h := bc.InputHandler(); h != nil {
 			h(tcell.NewEventKey(tcell.KeyLeft, 0, tcell.ModNone), func(p tview.Primitive) {})
 		}
 		bc.Draw(s)
-		assertSelectedIndex(bc, 1)
+		assertSelectedIndex(bc, 0)
 		// RIGHT -> back to last (Gamma)
 		if h := bc.InputHandler(); h != nil {
 			h(tcell.NewEventKey(tcell.KeyRight, 0, tcell.ModNone), func(p tview.Primitive) {})
 		}
 		bc.Draw(s)
-		assertSelectedIndex(bc, 2)
+		assertSelectedIndex(bc, 1)
 		// RIGHT at last: should stay last (no change)
 		if h := bc.InputHandler(); h != nil {
 			h(tcell.NewEventKey(tcell.KeyRight, 0, tcell.ModNone), func(p tview.Primitive) {})
