@@ -63,30 +63,33 @@ func newProjectMenuPanel(tui *sneatnav.TUI, project *appconfig.ProjectConfig, cu
 		tree.SetCurrentNode(envsNode)
 	}
 
-	//list := tview.NewList().
-	//	//AddItem("Databases", "", 'D', nil).
-	//	AddItem("Dashboards", "", 'B', func() {
-	//		goProjectDashboards(tui, project)
-	//	}).
-	//	AddItem("Environments", "", 'E', func() {
-	//		goEnvironmentsScreen(tui, project)
-	//	})
+	/*
+		list := tview.NewList().
+			//AddItem("Databases", "", 'D', nil).
+			AddItem("Dashboards", "", 'B', func() {
+				goProjectDashboards(tui, project)
+			}).
+			AddItem("Environments", "", 'E', func() {
+				goEnvironmentsScreen(tui, project)
+			})
 
-	//AddItem("Queries", "", 'Q', nil).
-	//AddItem("Web UI", "", 'W', nil)
+		AddItem("Queries", "", 'Q', nil).
+		AddItem("Web UI", "", 'W', nil)
 
-	//currentItem := -1
-	//switch currentScreen {
-	//case ProjectScreenDashboards:
-	//	currentItem = 0
-	//case ProjectScreenEnvironments:
-	//	currentItem = 1
-	//}
-	//if currentItem >= 0 {
-	//	list.SetCurrentItem(currentItem)
-	//}
+		currentItem := -1
+		switch currentScreen {
+		case ProjectScreenDashboards:
+			currentItem = 0
+		case ProjectScreenEnvironments:
+			currentItem = 1
+		}
+		if currentItem >= 0 {
+			list.SetCurrentItem(currentItem)
+		}
 
-	//sneatv.DefaultListStyle(list)
+		sneatv.DefaultListStyle(list)
+	*/
+
 	sneatv.DefaultBorder(tree.Box)
 
 	return sneatnav.NewPanelFromTreeView(tui, tree)
