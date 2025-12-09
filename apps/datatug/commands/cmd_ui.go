@@ -3,14 +3,14 @@ package commands
 import (
 	"context"
 
-	"github.com/datatug/datatug-cli/apps/datatug/clouds"
-	"github.com/datatug/datatug-cli/apps/datatug/clouds/aws/awsui"
-	"github.com/datatug/datatug-cli/apps/datatug/clouds/azure/azureui"
-	"github.com/datatug/datatug-cli/apps/datatug/clouds/gcloud/gcloudui"
-	"github.com/datatug/datatug-cli/apps/datatug/datatugui"
-	"github.com/datatug/datatug-cli/apps/datatug/dtscreeens/dtprojects"
-	"github.com/datatug/datatug-cli/apps/datatug/dtscreeens/dtsettings"
-	"github.com/datatug/datatug-cli/apps/datatug/dtscreeens/dtviewers"
+	"github.com/datatug/datatug-cli/apps/datatug"
+	dtprojects2 "github.com/datatug/datatug-cli/apps/datatug/datatugui/dtscreeens/dtprojects"
+	"github.com/datatug/datatug-cli/apps/datatug/datatugui/dtscreeens/dtsettings"
+	"github.com/datatug/datatug-cli/apps/datatug/datatugui/viewers"
+	"github.com/datatug/datatug-cli/apps/datatug/datatugui/viewers/clouds/aws/awsui"
+	"github.com/datatug/datatug-cli/apps/datatug/datatugui/viewers/clouds/azure/azureui"
+	"github.com/datatug/datatug-cli/apps/datatug/datatugui/viewers/clouds/gcloud/gcloudui"
+	"github.com/datatug/datatug-cli/apps/datatug/datatugui/viewers/sqlviewer"
 	"github.com/datatug/datatug-cli/pkg/sneatview/sneatnav"
 	"github.com/urfave/cli/v3"
 )
@@ -32,11 +32,11 @@ type uiCommand struct {
 
 func (v *uiCommand) Execute(_ []string) error {
 
-	tui := datatugui.NewDatatugTUI()
+	tui := datatug.NewDatatugTUI()
 
-	registerModules(tui)
+	registerModules()
 
-	if err := datatugui.GoHomeScreen(tui, sneatnav.FocusToContent); err != nil {
+	if err := dtprojects2.GoProjectsScreen(tui, sneatnav.FocusToMenu); err != nil {
 		panic(err)
 	}
 
@@ -44,38 +44,15 @@ func (v *uiCommand) Execute(_ []string) error {
 	return tui.App.Run()
 }
 
-func registerModules(tui *sneatnav.TUI) {
+func registerModules() {
 
-	dtprojects.RegisterModule()
-	// Main menu screens
-	datatugui.RegisterModule()
+	dtprojects2.RegisterModule()
 
-	cloudContext := &clouds.CloudContext{TUI: tui}
-	clouds.RegisterModule([]clouds.Cloud{
-		{
-			Name:     "Google Cloud",
-			Shortcut: 'g',
-			Action: func(tui *sneatnav.TUI, focusTo sneatnav.FocusTo) error {
-				return gcloudui.GoHome(&gcloudui.GCloudContext{
-					CloudContext: cloudContext,
-				}, focusTo)
-			},
-		},
-		{
-			Name:     "Amazon Web Services",
-			Shortcut: 'a',
-			Action: func(tui *sneatnav.TUI, focusTo sneatnav.FocusTo) error {
-				return awsui.GoAwsHome(cloudContext, focusTo)
-			},
-		},
-		{
-			Name:     "Microsoft Azure",
-			Shortcut: 'm',
-			Action: func(tui *sneatnav.TUI, focusTo sneatnav.FocusTo) error {
-				return azureui.GoAzureHome(cloudContext, focusTo)
-			},
-		},
-	})
+	gcloudui.RegisterAsViewer()
+	awsui.RegisterAsViewer()
+	azureui.RegisterAsViewer()
+	sqlviewer.RegisterAsViewer()
+
+	viewers.RegisterModule()
 	dtsettings.RegisterModule()
-	dtviewers.RegisterModule()
 }

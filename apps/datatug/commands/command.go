@@ -4,7 +4,7 @@ import (
 	"context"
 
 	"github.com/datatug/datatug-cli/apps"
-	"github.com/datatug/datatug-cli/apps/datatug/clouds/gcloud/gcloudcmds"
+	"github.com/datatug/datatug-cli/apps/datatug/datatugui/viewers/clouds/gcloud/gcloudcmds"
 	"github.com/datatug/datatug-cli/pkg/auth"
 	"github.com/urfave/cli/v3"
 )
