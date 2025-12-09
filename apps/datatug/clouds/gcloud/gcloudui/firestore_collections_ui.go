@@ -12,7 +12,6 @@ import (
 	"github.com/rivo/tview"
 	"golang.org/x/oauth2"
 	"golang.org/x/oauth2/google"
-	"google.golang.org/api/iterator"
 	"google.golang.org/api/option"
 )
 
@@ -43,35 +42,14 @@ func goFirestoreCollections(gcProjCtx *CGProjectContext) error {
 	// Load collections asynchronously to avoid blocking UI
 	go func() {
 		ctx := context.Background()
-		projectID := ""
-		if gcProjCtx.Project != nil {
-			projectID = gcProjCtx.Project.ProjectId
-		}
-		client, err := newFirestoreClient(ctx, projectID)
+
+		collections, err := gcProjCtx.Schema().GetCollections(ctx)
 		if err != nil {
 			gcProjCtx.TUI.App.QueueUpdateDraw(func() {
 				list.Clear()
 				addAuthErrorItems(gcProjCtx, list, err)
 			})
 			return
-		}
-		defer func() { _ = client.Close() }()
-
-		iter := client.Collections(ctx)
-		var collections []string
-		for {
-			ref, err := iter.Next()
-			if err != nil {
-				if err == iterator.Done {
-					break
-				}
-				gcProjCtx.TUI.App.QueueUpdateDraw(func() {
-					list.Clear()
-					addAuthErrorItems(gcProjCtx, list, err)
-				})
-				return
-			}
-			collections = append(collections, ref.ID)
 		}
 
 		gcProjCtx.TUI.App.QueueUpdateDraw(func() {
@@ -80,9 +58,9 @@ func goFirestoreCollections(gcProjCtx *CGProjectContext) error {
 				list.AddItem("No collections", "The Firestore database has no root collections", 0, nil)
 				return
 			}
-			for _, id := range collections {
-				list.AddItem("📋 "+id, "", 0, func() {
-					if err := goFirestoreCollection(gcProjCtx, id, sneatnav.FocusToContent); err != nil {
+			for _, collection := range collections {
+				list.AddItem("📋 "+collection.ID, "", 0, func() {
+					if err := goFirestoreCollection(gcProjCtx, collection, sneatnav.FocusToContent); err != nil {
 						panic(err)
 					}
 				})

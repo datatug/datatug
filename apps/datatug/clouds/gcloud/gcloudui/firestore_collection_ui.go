@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"slices"
 
+	"github.com/datatug/datatug-cli/pkg/dbschema"
 	"github.com/datatug/datatug-cli/pkg/sneatview/sneatnav"
 	"github.com/datatug/datatug-cli/pkg/sneatview/sneatv"
 	"github.com/gdamore/tcell/v2"
@@ -12,9 +13,9 @@ import (
 	"google.golang.org/api/iterator"
 )
 
-func goFirestoreCollection(gcProjCtx *CGProjectContext, collectionID string, focusTo sneatnav.FocusTo) error {
+func goFirestoreCollection(gcProjCtx *CGProjectContext, collection *dbschema.Collection, focusTo sneatnav.FocusTo) error {
 	breadcrumbs := firestoreBreadcrumbs(gcProjCtx)
-	breadcrumbs.Push(sneatv.NewBreadcrumb(collectionID, nil))
+	breadcrumbs.Push(sneatv.NewBreadcrumb(collection.ID, nil))
 
 	menu := firestoreMainMenu(gcProjCtx, firestoreScreenCollections, "")
 
@@ -23,7 +24,7 @@ func goFirestoreCollection(gcProjCtx *CGProjectContext, collectionID string, foc
 	table := tview.NewTable().SetFixed(1, 0).SetSelectable(true, true)
 	sneatv.DefaultBorder(table.Box)
 
-	title := "Collection: " + collectionID
+	title := "Collection: " + collection.ID
 	if gcProjCtx.Project != nil && gcProjCtx.Project.ProjectId != "" {
 		title += " — " + gcProjCtx.Project.ProjectId
 	}
@@ -72,7 +73,7 @@ func goFirestoreCollection(gcProjCtx *CGProjectContext, collectionID string, foc
 		}
 		defer func() { _ = client.Close() }()
 
-		iter := client.Collection(collectionID).Limit(100).Documents(ctx)
+		iter := client.Collection(collection.ID).Limit(100).Documents(ctx)
 		type row struct {
 			id   string
 			data map[string]any

@@ -107,7 +107,7 @@ func initCommandAction(ctx context.Context, c *cli.Command) (err error) {
 	}
 	if currentUser != nil {
 		datatugProject.Created = &models.ProjectCreated{
-			//ByName:     currentUser.Name,
+			//ByName:     currentUser.ID,
 			//ByUsername: currentUser.Username,
 			At: time.Now(),
 		}

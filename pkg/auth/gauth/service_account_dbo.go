@@ -6,13 +6,13 @@ import (
 )
 
 // ServiceAccountDbo represents a Firebase service account reference stored locally.
-// It must have a human-readable Name and a Path to the JSON credentials file.
+// It must have a human-readable ID and a Path to the JSON credentials file.
 //
 // NOTE: This is a data holder and does not load credentials; that is handled
 // elsewhere when we actually talk to Firebase APIs.
 //
 // Validation rules:
-// - Name: required, trimmed, non-empty
+// - ID: required, trimmed, non-empty
 // - Path: required, trimmed, non-empty
 // No file existence check here to allow adding first and validating later in flows.
 // This keeps Validate deterministic and unit-testable without filesystem.

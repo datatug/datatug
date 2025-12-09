@@ -16,11 +16,10 @@ func GoProjects(cContext *GCloudContext, focusTo sneatnav.FocusTo) error {
 }
 
 func OpenProjectsScreen(projects []*cloudresourcemanager.Project) error {
-	tui := datatugui.NewDatatugTUI()
 	cContext := &GCloudContext{
-		TUI:      tui,
 		projects: projects,
 	}
+	cContext.TUI = datatugui.NewDatatugTUI()
 	return showProjects(cContext, sneatnav.FocusToContent)
 }
 
@@ -160,10 +159,7 @@ func showProjects(cContext *GCloudContext, focusTo sneatnav.FocusTo) error {
 			for i, project := range projects {
 				row := i + 1
 				// Store context in the first cell reference
-				nameCell := tview.NewTableCell(project.DisplayName).SetReference(&CGProjectContext{
-					GCloudContext: cContext,
-					Project:       project,
-				})
+				nameCell := tview.NewTableCell(project.DisplayName).SetReference(NewProjectContext(cContext, project))
 				idCell := tview.NewTableCell(project.ProjectId)
 				num := ""
 				if len(project.Name) > 9 {

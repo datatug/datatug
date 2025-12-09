@@ -18,10 +18,10 @@ type AddServiceAccountSubmittedMsg struct{ Account ServiceAccountDbo }
 type AddServiceAccountCanceledMsg struct{}
 
 // AddServiceAccountForm is a focused Bubble Tea model responsible for collecting
-// a ServiceAccountDbo (Name + Path). It owns its own filepicker and text inputs.
+// a ServiceAccountDbo (ID + Path). It owns its own filepicker and text inputs.
 // Navigation:
-// - Tab: move focus to next field (Path -> Name -> Path ...).
-// - Shift+Tab: move focus to previous field (Name -> Path -> Name ...).
+// - Tab: move focus to next field (Path -> ID -> Path ...).
+// - Shift+Tab: move focus to previous field (ID -> Path -> ID ...).
 // - Enter: if Path is focused and empty, opens the file picker; otherwise submits.
 // - Esc in picker returns to form; Esc in form emits cancel.
 //
@@ -50,7 +50,7 @@ func newAddServiceAccountForm() *addServiceAccountForm {
 	name := textinput.New()
 	name.Placeholder = "Account name"
 	name.CharLimit = 128
-	name.Prompt = "Name: "
+	name.Prompt = "ID: "
 	name.Width = 40 // sensible default so placeholder is fully visible
 
 	path := textinput.New()
@@ -121,7 +121,7 @@ func (f *addServiceAccountForm) updateForm(msg tea.Msg) (tea.Model, tea.Cmd) {
 	case tea.KeyMsg:
 		switch {
 		case m.String() == "tab":
-			// Next field: Path -> Name -> Path ...
+			// Next field: Path -> ID -> Path ...
 			if f.pathInput.Focused() {
 				f.pathInput.Blur()
 				f.nameInput.Focus()
@@ -131,7 +131,7 @@ func (f *addServiceAccountForm) updateForm(msg tea.Msg) (tea.Model, tea.Cmd) {
 			}
 			return f, nil
 		case m.String() == "shift+tab":
-			// Previous field: Name -> Path -> Name ...
+			// Previous field: ID -> Path -> ID ...
 			if f.nameInput.Focused() {
 				f.nameInput.Blur()
 				f.pathInput.Focus()
@@ -174,7 +174,7 @@ func (f *addServiceAccountForm) updatePicker(msg tea.Msg) (tea.Model, tea.Cmd) {
 	}
 	if did, path := f.picker.DidSelectFile(msg); did {
 		f.pathInput.SetValue(path)
-		// Autofill Name from selected file if Name is empty
+		// Autofill ID from selected file if ID is empty
 		if strings.TrimSpace(f.nameInput.Value()) == "" {
 			base := filepath.Base(path)
 			name := strings.TrimSuffix(base, filepath.Ext(base))

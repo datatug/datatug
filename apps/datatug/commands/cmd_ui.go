@@ -49,26 +49,30 @@ func registerModules(tui *sneatnav.TUI) {
 	dtprojects.RegisterModule()
 	// Main menu screens
 	datatugui.RegisterModule()
+
+	cloudContext := &clouds.CloudContext{TUI: tui}
 	clouds.RegisterModule([]clouds.Cloud{
 		{
 			Name:     "Google Cloud",
 			Shortcut: 'g',
 			Action: func(tui *sneatnav.TUI, focusTo sneatnav.FocusTo) error {
-				return gcloudui.GoHome(&gcloudui.GCloudContext{TUI: tui}, focusTo)
+				return gcloudui.GoHome(&gcloudui.GCloudContext{
+					CloudContext: cloudContext,
+				}, focusTo)
 			},
 		},
 		{
 			Name:     "Amazon Web Services",
 			Shortcut: 'a',
 			Action: func(tui *sneatnav.TUI, focusTo sneatnav.FocusTo) error {
-				return awsui.GoAwsHome(&awsui.AwsContext{TUI: tui}, focusTo)
+				return awsui.GoAwsHome(cloudContext, focusTo)
 			},
 		},
 		{
 			Name:     "Microsoft Azure",
 			Shortcut: 'm',
 			Action: func(tui *sneatnav.TUI, focusTo sneatnav.FocusTo) error {
-				return azureui.GoAzureHome(&azureui.AzureContext{TUI: tui}, focusTo)
+				return azureui.GoAzureHome(cloudContext, focusTo)
 			},
 		},
 	})
