@@ -5,7 +5,7 @@ import (
 	"database/sql"
 	"fmt"
 
-	"github.com/datatug/datatug-core/pkg/models"
+	"github.com/datatug/datatug-core/pkg/datatug"
 	"github.com/datatug/datatug-core/pkg/schemer"
 )
 
@@ -89,7 +89,7 @@ func (s columnsReader) NextColumn() (col schemer.Column, err error) {
 		return col, err
 	}
 	if charSetName.Valid && charSetName.String != "" {
-		col.CharacterSet = &models.CharacterSet{Name: charSetName.String}
+		col.CharacterSet = &datatug.CharacterSet{Name: charSetName.String}
 		if charSetSchema.Valid {
 			col.CharacterSet.Schema = charSetSchema.String
 		}
@@ -98,7 +98,7 @@ func (s columnsReader) NextColumn() (col schemer.Column, err error) {
 		}
 	}
 	if collationName.Valid && collationName.String != "" {
-		col.Collation = &models.Collation{Name: collationName.String}
+		col.Collation = &datatug.Collation{Name: collationName.String}
 		//if collationSchema.Valid {
 		//	c.Collation.Schema = collationSchema.String
 		//}

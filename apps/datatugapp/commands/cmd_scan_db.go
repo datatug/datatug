@@ -8,8 +8,8 @@ import (
 	"strconv"
 
 	"github.com/datatug/datatug-cli/pkg/api"
+	"github.com/datatug/datatug-core/pkg/datatug"
 	"github.com/datatug/datatug-core/pkg/dbconnection"
-	"github.com/datatug/datatug-core/pkg/models"
 	"github.com/datatug/datatug-core/pkg/storage"
 	"github.com/datatug/datatug-core/pkg/storage/filestore"
 	"github.com/mitchellh/go-homedir"
@@ -57,7 +57,7 @@ func scanCommandAction(_ context.Context, _ *cli.Command) error {
 
 	switch v.Driver {
 	case "sqlite3":
-		serverRef := models.ServerReference{Driver: v.Driver, Host: "localhost"}
+		serverRef := datatug.ServerReference{Driver: v.Driver, Host: "localhost"}
 		dbCatalog, err := v.store.GetProjectStore(v.projectID).DbServers().DbServer(serverRef).Catalogs().DbCatalog(v.Database).LoadDbCatalogSummary(ctx)
 		if err != nil {
 			return fmt.Errorf("failed to load DB catalog: %w", err)
@@ -80,7 +80,7 @@ func scanCommandAction(_ context.Context, _ *cli.Command) error {
 		v.DbModel = v.Database
 	}
 
-	var datatugProject *models.DatatugProject
+	var datatugProject *datatug.Project
 	projectStore := v.store.GetProjectStore(v.projectID)
 	datatugProject, err = api.UpdateDbSchema(context.Background(), projectStore, v.projectID, v.Environment, v.Driver, v.DbModel, connParams)
 	if err != nil {

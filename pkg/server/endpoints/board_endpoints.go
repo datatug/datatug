@@ -5,8 +5,8 @@ import (
 	"net/http"
 
 	"github.com/datatug/datatug-cli/pkg/api"
+	"github.com/datatug/datatug-core/pkg/datatug"
 	"github.com/datatug/datatug-core/pkg/dto"
-	"github.com/datatug/datatug-core/pkg/models"
 	"github.com/sneat-co/sneat-go-core/apicore"
 	"github.com/strongo/random"
 )
@@ -22,8 +22,8 @@ func getBoard(w http.ResponseWriter, r *http.Request) {
 // createBoard handles board creation endpoint
 func createBoard(w http.ResponseWriter, r *http.Request) {
 	var ref dto.ProjectRef
-	var board models.Board
-	board.ID = models.AutoID
+	var board datatug.Board
+	board.ID = datatug.AutoID
 	createProjectItem(w, r, &ref, &board, func(ctx context.Context) (apicore.ResponseDTO, error) {
 		board.ID = random.ID(9)
 		return api.CreateBoard(ctx, ref, board)
@@ -33,7 +33,7 @@ func createBoard(w http.ResponseWriter, r *http.Request) {
 // saveBoard handles save board endpoint
 func saveBoard(w http.ResponseWriter, r *http.Request) {
 	var ref dto.ProjectItemRef
-	var board models.Board
+	var board datatug.Board
 	saveProjectItem(w, r, &ref, &board, func(ctx context.Context) (apicore.ResponseDTO, error) {
 		return api.SaveBoard(ctx, ref.ProjectRef, board)
 	})

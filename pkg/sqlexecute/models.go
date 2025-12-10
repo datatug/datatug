@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/datatug/datatug-core/pkg/models"
+	"github.com/datatug/datatug-core/pkg/datatug"
 	"github.com/strongo/validation"
 )
 
@@ -48,12 +48,12 @@ func (v Request) Validate() error {
 
 // RequestCommand holds parameters for command to be executed
 type RequestCommand struct {
-	models.Credentials // holds username & password, if not provided trusted connection
-	models.ServerReference
-	Env        string             `json:"env"`
-	DB         string             `json:"db"`
-	Text       string             `json:"text"`
-	Parameters []models.Parameter `json:"parameters"`
+	datatug.Credentials // holds username & password, if not provided trusted connection
+	datatug.ServerReference
+	Env        string              `json:"env"`
+	DB         string              `json:"db"`
+	Text       string              `json:"text"`
+	Parameters []datatug.Parameter `json:"parameters"`
 }
 
 // Validate checks of command request is valid

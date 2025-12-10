@@ -6,7 +6,7 @@ import (
 	"fmt"
 
 	"github.com/dal-go/dalgo/dal"
-	"github.com/datatug/datatug-core/pkg/models"
+	"github.com/datatug/datatug-core/pkg/datatug"
 	"github.com/datatug/datatug-core/pkg/schemer"
 )
 
@@ -70,7 +70,7 @@ type tablesReader struct {
 	rows    *sql.Rows
 }
 
-func (s tablesReader) NextCollection() (*models.CollectionInfo, error) {
+func (s tablesReader) NextCollection() (*datatug.CollectionInfo, error) {
 	if !s.rows.Next() {
 		err := s.rows.Err()
 		if err != nil {
@@ -78,7 +78,7 @@ func (s tablesReader) NextCollection() (*models.CollectionInfo, error) {
 		}
 		return nil, err
 	}
-	var table models.CollectionInfo
+	var table datatug.CollectionInfo
 	var err error
 	if s.schema == "" {
 		err = s.rows.Scan(&table.Schema, &table.Name, &table.DbType)

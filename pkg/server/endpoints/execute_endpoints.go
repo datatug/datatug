@@ -10,7 +10,7 @@ import (
 
 	"github.com/datatug/datatug-cli/pkg/api"
 	"github.com/datatug/datatug-cli/pkg/sqlexecute"
-	"github.com/datatug/datatug-core/pkg/models"
+	"github.com/datatug/datatug-core/pkg/datatug"
 	"github.com/datatug/datatug-core/pkg/storage"
 	"github.com/strongo/validation"
 )
@@ -112,7 +112,7 @@ func executeSelectHandler(w http.ResponseWriter, r *http.Request) {
 			handleError(validation.NewErrBadRecordFieldValue(qpName, "unknown or unsupported parameter type: "+pType), w, r)
 			return
 		}
-		request.Parameters = append(request.Parameters, models.Parameter{
+		request.Parameters = append(request.Parameters, datatug.Parameter{
 			ID:    pKey,
 			Type:  pType,
 			Value: pVal,

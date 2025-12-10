@@ -5,7 +5,7 @@ import (
 	"database/sql"
 	"fmt"
 
-	"github.com/datatug/datatug-core/pkg/models"
+	"github.com/datatug/datatug-core/pkg/datatug"
 	"github.com/datatug/datatug-core/pkg/schemer"
 )
 
@@ -67,7 +67,7 @@ func (s indexesReader) NextIndex() (index *schemer.Index, err error) {
 		return index, err
 	}
 	index = &schemer.Index{
-		Index: new(models.Index),
+		Index: new(datatug.Index),
 	}
 	var iType int
 	if err = s.rows.Scan(

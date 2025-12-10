@@ -4,13 +4,13 @@ import (
 	"context"
 	"log"
 
+	"github.com/datatug/datatug-core/pkg/datatug"
 	"github.com/datatug/datatug-core/pkg/dto"
-	"github.com/datatug/datatug-core/pkg/models"
 	"github.com/datatug/datatug-core/pkg/storage"
 )
 
 // CreateBoard creates board
-func CreateBoard(ctx context.Context, ref dto.ProjectRef, board models.Board) (*models.Board, error) {
+func CreateBoard(ctx context.Context, ref dto.ProjectRef, board datatug.Board) (*datatug.Board, error) {
 	log.Printf("api.CreateBoard(ref=%+v)", ref)
 	store, err := storage.GetStore(ctx, ref.StoreID)
 	if err != nil {
@@ -20,7 +20,7 @@ func CreateBoard(ctx context.Context, ref dto.ProjectRef, board models.Board) (*
 }
 
 // GetBoard returns board by ID
-func GetBoard(ctx context.Context, ref dto.ProjectItemRef) (*models.Board, error) {
+func GetBoard(ctx context.Context, ref dto.ProjectItemRef) (*datatug.Board, error) {
 	store, err := storage.GetStore(ctx, ref.StoreID)
 	if err != nil {
 		return nil, err
@@ -40,7 +40,7 @@ func DeleteBoard(ctx context.Context, ref dto.ProjectItemRef) error {
 }
 
 // SaveBoard saves board
-func SaveBoard(ctx context.Context, ref dto.ProjectRef, board models.Board) (*models.Board, error) {
+func SaveBoard(ctx context.Context, ref dto.ProjectRef, board datatug.Board) (*datatug.Board, error) {
 	store, err := storage.GetStore(ctx, ref.StoreID)
 	if err != nil {
 		return nil, err

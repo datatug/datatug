@@ -3,14 +3,14 @@ package api
 import (
 	"context"
 
+	"github.com/datatug/datatug-core/pkg/datatug"
 	"github.com/datatug/datatug-core/pkg/dto"
-	"github.com/datatug/datatug-core/pkg/models"
 	"github.com/datatug/datatug-core/pkg/storage"
 	"github.com/strongo/validation"
 )
 
 //// GetQueries returns queries
-//func GetQueries(ctx context.Context, ref dto.ProjectRef, folder string) (*models.QueryFolder, error) {
+//func GetQueries(ctx context.Context, ref dto.ProjectRef, folder string) (*datatug.QueryFolder, error) {
 //	store, err := storage.GetStore(ctx, ref.StoreID)
 //	if err != nil {
 //		return nil, err
@@ -21,7 +21,7 @@ import (
 //}
 
 // CreateQuery creates a new query
-func CreateQuery(ctx context.Context, request dto.CreateQuery) (*models.QueryDefWithFolderPath, error) {
+func CreateQuery(ctx context.Context, request dto.CreateQuery) (*datatug.QueryDefWithFolderPath, error) {
 	if err := request.Validate(); err != nil {
 		return nil, err
 	}
@@ -35,7 +35,7 @@ func CreateQuery(ctx context.Context, request dto.CreateQuery) (*models.QueryDef
 }
 
 // UpdateQuery updates existing query
-func UpdateQuery(ctx context.Context, request dto.UpdateQuery) (*models.QueryDefWithFolderPath, error) {
+func UpdateQuery(ctx context.Context, request dto.UpdateQuery) (*datatug.QueryDefWithFolderPath, error) {
 	if err := request.Validate(); err != nil {
 		return nil, validation.NewBadRequestError(err)
 	}
@@ -63,7 +63,7 @@ func DeleteQuery(ctx context.Context, ref dto.ProjectItemRef) error {
 }
 
 // GetQuery returns query definition
-func GetQuery(ctx context.Context, ref dto.ProjectItemRef) (query *models.QueryDefWithFolderPath, err error) {
+func GetQuery(ctx context.Context, ref dto.ProjectItemRef) (query *datatug.QueryDefWithFolderPath, err error) {
 	if err = ref.Validate(); err != nil {
 		return query, err
 	}

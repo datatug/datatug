@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"log"
 
+	"github.com/datatug/datatug-core/pkg/datatug"
 	"github.com/datatug/datatug-core/pkg/dto"
-	"github.com/datatug/datatug-core/pkg/models"
 	"github.com/datatug/datatug-core/pkg/storage"
 	"github.com/strongo/validation"
 )
@@ -22,7 +22,7 @@ func validateEntityInput(projectID, entityID string) (err error) {
 }
 
 // GetEntity returns board by ID
-func GetEntity(ctx context.Context, ref dto.ProjectItemRef) (entity *models.Entity, err error) {
+func GetEntity(ctx context.Context, ref dto.ProjectItemRef) (entity *datatug.Entity, err error) {
 	if err = validateEntityInput(ref.ProjectID, ref.ID); err != nil {
 		return
 	}
@@ -36,7 +36,7 @@ func GetEntity(ctx context.Context, ref dto.ProjectItemRef) (entity *models.Enti
 }
 
 // GetAllEntities returns all entities
-func GetAllEntities(ctx context.Context, ref dto.ProjectRef) (entity models.Entities, err error) {
+func GetAllEntities(ctx context.Context, ref dto.ProjectRef) (entity datatug.Entities, err error) {
 	if err = validateProjectInput(ref.ProjectID); err != nil {
 		return
 	}
@@ -64,7 +64,7 @@ func DeleteEntity(ctx context.Context, ref dto.ProjectItemRef) error {
 }
 
 // SaveEntity saves board
-func SaveEntity(ctx context.Context, ref dto.ProjectRef, entity *models.Entity) error {
+func SaveEntity(ctx context.Context, ref dto.ProjectRef, entity *datatug.Entity) error {
 	if entity.ID == "" {
 		entity.ID = entity.Title
 		entity.Title = ""

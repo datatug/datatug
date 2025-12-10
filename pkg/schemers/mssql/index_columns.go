@@ -5,7 +5,7 @@ import (
 	"database/sql"
 	"fmt"
 
-	"github.com/datatug/datatug-core/pkg/models"
+	"github.com/datatug/datatug-core/pkg/datatug"
 	"github.com/datatug/datatug-core/pkg/schemer"
 )
 
@@ -60,7 +60,7 @@ func (s indexColumnsReader) NextIndexColumn() (indexColumn *schemer.IndexColumn,
 		return indexColumn, err
 	}
 	indexColumn = &schemer.IndexColumn{
-		IndexColumn: new(models.IndexColumn),
+		IndexColumn: new(datatug.IndexColumn),
 	}
 	//var objType string
 	var keyOrdinal, partitionOrdinal, columnStoreOrderOrdinal int

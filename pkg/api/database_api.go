@@ -2,13 +2,13 @@ package api
 
 import (
 	"github.com/datatug/datatug-cli/pkg/sqlexecute"
+	"github.com/datatug/datatug-core/pkg/datatug"
 	"github.com/datatug/datatug-core/pkg/dto"
-	"github.com/datatug/datatug-core/pkg/models"
 	"github.com/strongo/validation"
 )
 
 // GetServerDatabases returns list of databases hosted at a server
-func GetServerDatabases(request dto.GetServerDatabasesRequest) (databases []*models.DbCatalog, err error) {
+func GetServerDatabases(request dto.GetServerDatabasesRequest) (databases []*datatug.DbCatalog, err error) {
 	if err = request.Validate(); err != nil {
 		return nil, validation.NewBadRequestError(err)
 	}
@@ -23,10 +23,10 @@ func GetServerDatabases(request dto.GetServerDatabasesRequest) (databases []*mod
 	if response, err = executor.ExecuteSingle(command); err != nil {
 		return nil, err
 	}
-	recordset := response.Commands[0].Items[0].Value.(models.Recordset)
-	databases = make([]*models.DbCatalog, len(recordset.Rows))
+	recordset := response.Commands[0].Items[0].Value.(datatug.Recordset)
+	databases = make([]*datatug.DbCatalog, len(recordset.Rows))
 	for i, row := range recordset.Rows {
-		databases[i] = new(models.DbCatalog)
+		databases[i] = new(datatug.DbCatalog)
 		databases[i].ID = row[0].(string)
 	}
 	return

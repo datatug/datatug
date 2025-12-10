@@ -5,7 +5,7 @@ import (
 	"database/sql"
 	"fmt"
 
-	"github.com/datatug/datatug-core/pkg/models"
+	"github.com/datatug/datatug-core/pkg/datatug"
 	"github.com/datatug/datatug-core/pkg/schemer"
 )
 
@@ -55,7 +55,7 @@ func (s constraintsReader) NextConstraint() (constraint *schemer.Constraint, err
 		return
 	}
 	constraint = new(schemer.Constraint)
-	constraint.Constraint = new(models.Constraint)
+	constraint.Constraint = new(datatug.Constraint)
 	if err = s.rows.Scan(
 		&constraint.SchemaName, &constraint.TableName,
 		&constraint.Type, &constraint.Name,

@@ -8,7 +8,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/datatug/datatug-core/pkg/models"
+	"github.com/datatug/datatug-core/pkg/datatug"
 	"github.com/urfave/cli/v3"
 	"gopkg.in/yaml.v3"
 )
@@ -93,7 +93,7 @@ type Encoder interface {
 	Encode(v interface{}) error
 }
 
-func writeRows(recordset models.Recordset, encoder Encoder) error {
+func writeRows(recordset datatug.Recordset, encoder Encoder) error {
 	rows := make([]map[string]interface{}, 0, len(recordset.Rows))
 
 	for _, values := range recordset.Rows {

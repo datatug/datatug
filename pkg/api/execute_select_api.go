@@ -5,7 +5,7 @@ import (
 	"strings"
 
 	"github.com/datatug/datatug-cli/pkg/sqlexecute"
-	"github.com/datatug/datatug-core/pkg/models"
+	"github.com/datatug/datatug-core/pkg/datatug"
 	"github.com/strongo/validation"
 )
 
@@ -19,7 +19,7 @@ type SelectRequest struct {
 	Where       string
 	Limit       int
 	Columns     []string
-	Parameters  []models.Parameter
+	Parameters  []datatug.Parameter
 }
 
 // Validate returns error if not valid

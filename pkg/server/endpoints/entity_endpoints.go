@@ -5,8 +5,8 @@ import (
 	"net/http"
 
 	"github.com/datatug/datatug-cli/pkg/api"
+	"github.com/datatug/datatug-core/pkg/datatug"
 	"github.com/datatug/datatug-core/pkg/dto"
-	"github.com/datatug/datatug-core/pkg/models"
 	"github.com/sneat-co/sneat-go-core/apicore"
 )
 
@@ -32,7 +32,7 @@ func getEntities(w http.ResponseWriter, r *http.Request) {
 // saveEntity handles save entity endpoint
 func saveEntity(w http.ResponseWriter, r *http.Request) {
 	var ref dto.ProjectItemRef
-	var entity models.Entity
+	var entity datatug.Entity
 	saveFunc := func(ctx context.Context) (apicore.ResponseDTO, error) {
 		entity.ID = ref.ID
 		return entity, api.SaveEntity(ctx, ref.ProjectRef, &entity)

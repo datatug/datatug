@@ -3,14 +3,14 @@ package api
 import (
 	"context"
 
+	"github.com/datatug/datatug-core/pkg/datatug"
 	"github.com/datatug/datatug-core/pkg/dto"
-	"github.com/datatug/datatug-core/pkg/models"
 	"github.com/datatug/datatug-core/pkg/storage"
 	"github.com/strongo/validation"
 )
 
 // GetEnvironmentSummary returns environment summary
-func GetEnvironmentSummary(ctx context.Context, ref dto.ProjectItemRef) (*models.EnvironmentSummary, error) {
+func GetEnvironmentSummary(ctx context.Context, ref dto.ProjectItemRef) (*datatug.EnvironmentSummary, error) {
 	if ref.ProjectID == "" {
 		return nil, validation.NewErrRequestIsMissingRequiredField("projID")
 	}

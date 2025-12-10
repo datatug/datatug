@@ -6,15 +6,15 @@ import (
 	"net/http"
 
 	"github.com/datatug/datatug-cli/pkg/api"
+	"github.com/datatug/datatug-core/pkg/datatug"
 	"github.com/datatug/datatug-core/pkg/dto"
-	"github.com/datatug/datatug-core/pkg/models"
 	"github.com/sneat-co/sneat-go-core/apicore"
 )
 
 // addDbServer adds a new DB server to project
 func addDbServer(w http.ResponseWriter, r *http.Request) {
 	var ref dto.ProjectRef
-	var projDbServer models.ProjDbServer
+	var projDbServer datatug.ProjDbServer
 	saveFunc := func(ctx context.Context) (apicore.ResponseDTO, error) {
 		return projDbServer, api.AddDbServer(ctx, ref, projDbServer)
 	}
@@ -25,7 +25,7 @@ func addDbServer(w http.ResponseWriter, r *http.Request) {
 func getDbServerSummary(w http.ResponseWriter, r *http.Request) {
 	log.Println(r.Method, r.RequestURI)
 	q := r.URL.Query()
-	dbServer := models.ServerReference{
+	dbServer := datatug.ServerReference{
 		Driver: q.Get("driver"),
 		Host:   q.Get("host"),
 	}

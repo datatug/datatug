@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/datatug/datatug-core/pkg/models"
+	"github.com/datatug/datatug-core/pkg/datatug"
 	"github.com/urfave/cli/v3"
 )
 
@@ -31,7 +31,7 @@ func (v *validateCommand) Execute(_ []string) (err error) {
 		return err
 	}
 
-	var project *models.DatatugProject
+	var project *datatug.Project
 	if project, err = v.store.GetProjectStore(v.projectID).LoadProject(context.Background()); err != nil {
 		return fmt.Errorf("failed to load project from [%v]: %w", v.ProjectDir, err)
 	}

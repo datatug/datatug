@@ -11,8 +11,8 @@ import (
 	"sync"
 	"time"
 
+	"github.com/datatug/datatug-core/pkg/datatug"
 	"github.com/datatug/datatug-core/pkg/dbconnection"
-	"github.com/datatug/datatug-core/pkg/models"
 	"github.com/google/uuid"
 	"github.com/mitchellh/go-homedir"
 	"github.com/strongo/slice"
@@ -20,14 +20,14 @@ import (
 
 // Executor executes DataTug commands
 type Executor struct {
-	getDbByID         func(envID, dbID string) (*models.EnvDb, error)
-	getCatalogSummary func(server models.ServerReference, catalogID string) (*models.DbCatalogSummary, error)
+	getDbByID         func(envID, dbID string) (*datatug.EnvDb, error)
+	getCatalogSummary func(server datatug.ServerReference, catalogID string) (*datatug.DbCatalogSummary, error)
 }
 
 // NewExecutor creates new executor
 func NewExecutor(
-	getDbByID func(envID, dbID string) (*models.EnvDb, error),
-	getCatalogSummary func(server models.ServerReference, catalogID string) (*models.DbCatalogSummary, error),
+	getDbByID func(envID, dbID string) (*datatug.EnvDb, error),
+	getCatalogSummary func(server datatug.ServerReference, catalogID string) (*datatug.DbCatalogSummary, error),
 ) Executor {
 	return Executor{
 		getDbByID:         getDbByID,
@@ -45,7 +45,7 @@ func (e Executor) Execute(request Request) (response Response, err error) {
 
 // ExecuteSingle executes single DB command
 func (e Executor) ExecuteSingle(command RequestCommand) (response Response, err error) {
-	var recordset models.Recordset
+	var recordset datatug.Recordset
 	if recordset, err = e.executeCommand(command); err != nil {
 		return
 	}
@@ -73,7 +73,7 @@ func (e Executor) executeMulti(request Request) (response Response, err error) {
 		response.Commands = append(response.Commands, &commandResponse)
 		go func(cmd RequestCommand) {
 			var (
-				recordset  models.Recordset
+				recordset  datatug.Recordset
 				commandErr error
 			)
 			if recordset, commandErr = e.executeCommand(cmd); commandErr != nil {
@@ -97,19 +97,19 @@ func (e Executor) executeMulti(request Request) (response Response, err error) {
 
 var reParameter = regexp.MustCompile(`@\w+`)
 
-func (e Executor) executeCommand(command RequestCommand) (recordset models.Recordset, err error) {
+func (e Executor) executeCommand(command RequestCommand) (recordset datatug.Recordset, err error) {
 
-	var dbServer models.ServerReference
+	var dbServer datatug.ServerReference
 
 	if e.getDbByID != nil {
-		var envDb *models.EnvDb
+		var envDb *datatug.EnvDb
 		if envDb, err = e.getDbByID(command.Env, command.DB); err != nil {
 			return
 		}
 		dbServer = envDb.Server
 	} else {
 		strings.Split(command.DB, ":")
-		dbServer = models.ServerReference{Host: command.Host, Port: command.Port, Driver: command.Driver}
+		dbServer = datatug.ServerReference{Host: command.Host, Port: command.Port, Driver: command.Driver}
 		if err = dbServer.Validate(); err != nil {
 			return recordset, fmt.Errorf("execute command does not have valid server parameters: %w", err)
 		}
@@ -122,14 +122,14 @@ func (e Executor) executeCommand(command RequestCommand) (recordset models.Recor
 
 	switch dbServer.Driver {
 	case "sqlite3":
-		var catalogSummary *models.DbCatalogSummary
+		var catalogSummary *datatug.DbCatalogSummary
 		if catalogSummary, err = e.getCatalogSummary(dbServer, command.DB); err != nil {
-			return models.Recordset{}, err
+			return datatug.Recordset{}, err
 		}
 		fullPath, err := homedir.Expand(catalogSummary.Path)
 		if err != nil {
 			err = fmt.Errorf("failed to expand path for SQLite3 connection string: %w", err)
-			return models.Recordset{}, err
+			return datatug.Recordset{}, err
 		}
 		connParams = dbconnection.NewSQLite3ConnectionParams(fullPath, command.DB, dbconnection.ModeReadOnly)
 	default:
@@ -197,7 +197,7 @@ func (e Executor) executeCommand(command RequestCommand) (recordset models.Recor
 }
 
 // TODO: Return slice of recordsets
-func (e Executor) executeQuery(db *sql.DB, driver, text string, args []interface{}) (recordset models.Recordset, err error) {
+func (e Executor) executeQuery(db *sql.DB, driver, text string, args []interface{}) (recordset datatug.Recordset, err error) {
 	started := time.Now()
 	var rows *sql.Rows
 	if rows, err = db.Query(text, args...); err != nil {
@@ -215,7 +215,7 @@ func (e Executor) executeQuery(db *sql.DB, driver, text string, args []interface
 	}
 
 	for _, col := range columnTypes {
-		recordset.Columns = append(recordset.Columns, models.RecordsetColumn{
+		recordset.Columns = append(recordset.Columns, datatug.RecordsetColumn{
 			Name:   col.Name(),
 			DbType: col.DatabaseTypeName(),
 		})

@@ -9,8 +9,8 @@ import (
 	"strings"
 
 	"github.com/datatug/datatug-cli/pkg/api"
+	"github.com/datatug/datatug-core/pkg/datatug"
 	"github.com/datatug/datatug-core/pkg/dto"
-	"github.com/datatug/datatug-core/pkg/models"
 	"github.com/strongo/validation"
 )
 
@@ -31,7 +31,7 @@ func getServerDatabases(w http.ResponseWriter, r *http.Request) {
 	returnJSON(w, r, http.StatusOK, err, databases)
 }
 
-func newDbServerFromQueryParams(query url.Values) (dbServer models.ServerReference, err error) {
+func newDbServerFromQueryParams(query url.Values) (dbServer datatug.ServerReference, err error) {
 	dbServer.Driver = query.Get("driver")
 	dbServer.Host = query.Get("host")
 	if port := strings.TrimSpace(query.Get("port")); port != "" {

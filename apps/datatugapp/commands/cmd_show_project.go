@@ -7,7 +7,7 @@ import (
 	"path"
 	"strings"
 
-	"github.com/datatug/datatug-core/pkg/models"
+	"github.com/datatug/datatug-core/pkg/datatug"
 	"github.com/gosuri/uitable"
 	"github.com/urfave/cli/v3"
 )
@@ -60,7 +60,7 @@ func (v *showProjectCommand) Execute(_ []string) error {
 			_, _ = fmt.Fprintln(w, "\t\t🛢️ Database: ", db.ID)
 			for _, schema := range db.Schemas {
 				_, _ = fmt.Fprintln(w, "\t\t\t Schema: ", db.ID)
-				printCols := func(t *models.CollectionInfo) {
+				printCols := func(t *datatug.CollectionInfo) {
 					if len(t.Columns) > 0 {
 						table := uitable.New()
 						for _, c := range t.Columns {
@@ -74,7 +74,7 @@ func (v *showProjectCommand) Execute(_ []string) error {
 						_, _ = fmt.Fprintln(w, table.String())
 					}
 				}
-				printTable := func(singular string, t *models.CollectionInfo) {
+				printTable := func(singular string, t *datatug.CollectionInfo) {
 					_, _ = fmt.Fprintf(w, "\t\t\t\t📄 %v: %v.%v\n", singular, t.Schema, t.Name)
 					if t.PrimaryKey != nil {
 						_, _ = fmt.Fprintf(w, "\t\t\t\t\t🔑 Primary key: %v (%v)\n", t.PrimaryKey.Name, strings.Join(t.PrimaryKey.Columns, ", "))

@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/datatug/datatug-core/pkg/models"
+	"github.com/datatug/datatug-core/pkg/datatug"
 	"github.com/datatug/datatug-core/pkg/parallel"
 	"github.com/datatug/datatug-core/pkg/schemer"
 )
@@ -13,26 +13,26 @@ import (
 // InformationSchema provides API to retrieve information about a database
 type InformationSchema struct {
 	db     *sql.DB
-	server models.ServerReference
+	server datatug.ServerReference
 }
 
 // NewInformationSchema creates new InformationSchema
-func NewInformationSchema(server models.ServerReference /*, db *sql.DB*/) InformationSchema {
+func NewInformationSchema(server datatug.ServerReference /*, db *sql.DB*/) InformationSchema {
 	return InformationSchema{server: server /*, db: db*/}
 }
 
 // GetDatabase returns complete information about a database
-func (s InformationSchema) GetDatabase(name string) (database *models.DbCatalog, err error) {
-	database = new(models.DbCatalog)
+func (s InformationSchema) GetDatabase(name string) (database *datatug.DbCatalog, err error) {
+	database = new(datatug.DbCatalog)
 	database.ID = name
-	var tables []*models.CollectionInfo
+	var tables []*datatug.CollectionInfo
 	if tables, err = s.getTables(name); err != nil {
 		return database, fmt.Errorf("failed to retrieve tables metadata: %w", err)
 	}
 	for _, t := range tables {
 		schema := database.Schemas.GetByID(t.Schema)
 		if schema == nil {
-			schema = new(models.DbSchema)
+			schema = new(datatug.DbSchema)
 			schema.ID = t.Schema
 			database.Schemas = append(database.Schemas, schema)
 		}
@@ -71,7 +71,7 @@ func (s InformationSchema) GetDatabase(name string) (database *models.DbCatalog,
 	return
 }
 
-func (s InformationSchema) getTables(catalog string) (tables []*models.CollectionInfo, err error) {
+func (s InformationSchema) getTables(catalog string) (tables []*datatug.CollectionInfo, err error) {
 	var rows *sql.Rows
 	//goland:noinspection SqlNoDataSourceInspection
 	rows, err = s.db.Query(`SELECT
@@ -83,9 +83,9 @@ ORDER BY TABLE_SCHEMA, TABLE_NAME`)
 	if err != nil {
 		return nil, fmt.Errorf("failed to query INFORMATION_SCHEMA.TABLES: %w", err)
 	}
-	tables = make([]*models.CollectionInfo, 0)
+	tables = make([]*datatug.CollectionInfo, 0)
 	for rows.Next() {
-		var table models.CollectionInfo
+		var table datatug.CollectionInfo
 		if err = rows.Scan(&table.Schema, &table.Name, &table.DbType); err != nil {
 			return nil, fmt.Errorf("failed to scan table row into CollectionInfo struct: %w", err)
 		}
@@ -143,7 +143,7 @@ ORDER BY tc.TABLE_SCHEMA, tc.TABLE_NAME, tc.CONSTRAINT_TYPE, kcu.CONSTRAINT_NAME
 			switch constraintType {
 			case "PRIMARY KEY":
 				if table.PrimaryKey == nil {
-					table.PrimaryKey = &models.UniqueKey{Name: constraintName, Columns: []string{columnName}}
+					table.PrimaryKey = &datatug.UniqueKey{Name: constraintName, Columns: []string{columnName}}
 				} else {
 					table.PrimaryKey.Columns = append(table.PrimaryKey.Columns, columnName)
 				}
@@ -152,7 +152,7 @@ ORDER BY tc.TABLE_SCHEMA, tc.TABLE_NAME, tc.CONSTRAINT_TYPE, kcu.CONSTRAINT_NAME
 					i := len(table.UniqueKeys) - 1
 					table.UniqueKeys[i].Columns = append(table.UniqueKeys[i].Columns, columnName)
 				} else {
-					table.UniqueKeys = append(table.UniqueKeys, &models.UniqueKey{Name: constraintName, Columns: []string{columnName}})
+					table.UniqueKeys = append(table.UniqueKeys, &datatug.UniqueKey{Name: constraintName, Columns: []string{columnName}})
 				}
 			case "FOREIGN KEY":
 				if len(table.ForeignKeys) > 0 && table.ForeignKeys[len(table.ForeignKeys)-1].Name == constraintName {
@@ -160,11 +160,11 @@ ORDER BY tc.TABLE_SCHEMA, tc.TABLE_NAME, tc.CONSTRAINT_TYPE, kcu.CONSTRAINT_NAME
 					table.ForeignKeys[i].Columns = append(table.ForeignKeys[i].Columns, columnName)
 				} else {
 					//refTable := refTableFinder.FindTable(refTableCatalog, refTableSchema, refTableName)
-					fk := models.ForeignKey{
+					fk := datatug.ForeignKey{
 						Name: constraintName,
 						Columns: []string{
 							columnName},
-						RefTable: models.CollectionKey{Catalog: refTableCatalog.String, Schema: refTableSchema.String, Name: refTableName.String},
+						RefTable: datatug.CollectionKey{Catalog: refTableCatalog.String, Schema: refTableSchema.String, Name: refTableName.String},
 					}
 					if matchOption.Valid {
 						fk.MatchOption = matchOption.String
@@ -179,18 +179,18 @@ ORDER BY tc.TABLE_SCHEMA, tc.TABLE_NAME, tc.CONSTRAINT_TYPE, kcu.CONSTRAINT_NAME
 
 					{ // Update reference table
 						refTable := schemer.FindTable(tablesFinder.Tables, refTableCatalog.String, refTableSchema.String, refTableName.String)
-						var refByFk *models.RefByForeignKey
+						var refByFk *datatug.RefByForeignKey
 						if refTable == nil {
 							return fmt.Errorf("reference table not found: %v.%v.%v", refTableCatalog.String, refTableSchema.String, refTableName.String)
 						}
-						var refByTable *models.TableReferencedBy
+						var refByTable *datatug.TableReferencedBy
 						for _, refByTable = range refTable.ReferencedBy {
 							if refByTable.Catalog == catalog && refByTable.Schema == tSchema && refByTable.Name == tName {
 								break
 							}
 						}
 						if refByTable == nil || refByTable.Catalog != catalog || refByTable.Schema != tSchema || refByTable.Name != tName {
-							refByTable = &models.TableReferencedBy{CollectionKey: table.CollectionKey, ForeignKeys: make([]*models.RefByForeignKey, 0, 1)}
+							refByTable = &datatug.TableReferencedBy{CollectionKey: table.CollectionKey, ForeignKeys: make([]*datatug.RefByForeignKey, 0, 1)}
 							refTable.ReferencedBy = append(refTable.ReferencedBy, refByTable)
 						}
 						for _, fk2 := range refByTable.ForeignKeys {
@@ -199,7 +199,7 @@ ORDER BY tc.TABLE_SCHEMA, tc.TABLE_NAME, tc.CONSTRAINT_TYPE, kcu.CONSTRAINT_NAME
 								goto fkAddedToRefByTable
 							}
 						}
-						refByFk = &models.RefByForeignKey{
+						refByFk = &datatug.RefByForeignKey{
 							Name:        fk.Name,
 							MatchOption: fk.MatchOption,
 							UpdateRule:  fk.UpdateRule,
@@ -250,7 +250,7 @@ FROM INFORMATION_SCHEMA.COLUMNS ORDER BY TABLE_SCHEMA, TABLE_NAME, ORDINAL_POSIT
 	i := 0
 	for rows.Next() {
 		i++
-		c := new(models.ColumnInfo)
+		c := new(datatug.ColumnInfo)
 		var tSchema, tName string
 		if err = rows.Scan(
 			&tSchema,
@@ -281,7 +281,7 @@ FROM INFORMATION_SCHEMA.COLUMNS ORDER BY TABLE_SCHEMA, TABLE_NAME, ORDINAL_POSIT
 			return
 		}
 		if charSetName.Valid && charSetName.String != "" {
-			c.CharacterSet = &models.CharacterSet{Name: charSetName.String}
+			c.CharacterSet = &datatug.CharacterSet{Name: charSetName.String}
 			if charSetSchema.Valid {
 				c.CharacterSet.Schema = charSetSchema.String
 			}
@@ -290,7 +290,7 @@ FROM INFORMATION_SCHEMA.COLUMNS ORDER BY TABLE_SCHEMA, TABLE_NAME, ORDINAL_POSIT
 			}
 		}
 		if collationName.Valid && collationName.String != "" {
-			c.Collation = &models.Collation{Name: collationName.String}
+			c.Collation = &datatug.Collation{Name: collationName.String}
 			//if collationSchema.Valid {
 			//	c.Collation.Schema = collationSchema.String
 			//}
@@ -358,7 +358,7 @@ ORDER BY SCHEMA_NAME(o.schema_id) + '.' + o.name, i.name;`)
 	i := 0
 	for rows.Next() {
 		i++
-		c := new(models.ColumnInfo)
+		c := new(datatug.ColumnInfo)
 		var tSchema, tName string
 		if err = rows.Scan(
 			&tSchema,
@@ -389,7 +389,7 @@ ORDER BY SCHEMA_NAME(o.schema_id) + '.' + o.name, i.name;`)
 			return
 		}
 		if charSetName.Valid && charSetName.String != "" {
-			c.CharacterSet = &models.CharacterSet{Name: charSetName.String}
+			c.CharacterSet = &datatug.CharacterSet{Name: charSetName.String}
 			if charSetSchema.Valid {
 				c.CharacterSet.Schema = charSetSchema.String
 			}
@@ -398,7 +398,7 @@ ORDER BY SCHEMA_NAME(o.schema_id) + '.' + o.name, i.name;`)
 			}
 		}
 		if collationName.Valid && collationName.String != "" {
-			c.Collation = &models.Collation{Name: collationName.String}
+			c.Collation = &datatug.Collation{Name: collationName.String}
 			//if collationSchema.Valid {
 			//	c.Collation.Schema = collationSchema.String
 			//}

@@ -8,7 +8,7 @@ import (
 	"path"
 	"time"
 
-	"github.com/datatug/datatug-core/pkg/models"
+	"github.com/datatug/datatug-core/pkg/datatug"
 	"github.com/datatug/datatug-core/pkg/storage"
 	"github.com/datatug/datatug-core/pkg/storage/filestore"
 	"github.com/strongo/logus"
@@ -68,10 +68,10 @@ func initCommandAction(ctx context.Context, c *cli.Command) (err error) {
 	//// Close the database connection pool after consoleCommand executes
 	//defer func() { _ = db.Close() }()
 	//
-	//server := models.ServerReference{Driver: v.Driver, Host: v.Host, Port: port}
+	//server := datatug.ServerReference{Driver: v.Driver, Host: v.Host, Port: port}
 	//informationSchema := schemer.NewInformationSchema(server, db)
 	//
-	//var database *models.Database
+	//var database *datatug.Database
 	//if database, err = informationSchema.GetDatabase(v.Database); err != nil {
 	//	return fmt.Errorf("failed to get database metadata: %w", err)
 	//}
@@ -79,15 +79,15 @@ func initCommandAction(ctx context.Context, c *cli.Command) (err error) {
 	projectID := projectIdArg.Get().(string)
 
 	storage.Current, projectID = filestore.NewSingleProjectStore(projectDir, projectID)
-	datatugProject := models.DatatugProject{
-		ProjectItem: models.ProjectItem{
-			ProjItemBrief: models.ProjItemBrief{ID: projectID},
+	datatugProject := datatug.Project{
+		ProjectItem: datatug.ProjectItem{
+			ProjItemBrief: datatug.ProjItemBrief{ID: projectID},
 			Access:        "private",
 		},
-		//Environments: []*models.Environment{
+		//Environments: []*datatug.Environment{
 		//	{
-		//		ProjectItem: models.ProjectItem{ID: v.Environment},
-		//		DbServers: []*models.EnvDbServer{
+		//		ProjectItem: datatug.ProjectItem{ID: v.Environment},
+		//		DbServers: []*datatug.EnvDbServer{
 		//			{
 		//				Driver:    v.Driver,
 		//				Host:      server.Host,
@@ -95,7 +95,7 @@ func initCommandAction(ctx context.Context, c *cli.Command) (err error) {
 		//				DatabaseDiffs: []string{database.ID},
 		//			},
 		//		},
-		//		DatabaseDiffs: []*models.Database{
+		//		DatabaseDiffs: []*datatug.Database{
 		//			database,
 		//		},
 		//	},
@@ -106,7 +106,7 @@ func initCommandAction(ctx context.Context, c *cli.Command) (err error) {
 		return err
 	}
 	if currentUser != nil {
-		datatugProject.Created = &models.ProjectCreated{
+		datatugProject.Created = &datatug.ProjectCreated{
 			//ByName:     currentUser.ID,
 			//ByUsername: currentUser.Username,
 			At: time.Now(),

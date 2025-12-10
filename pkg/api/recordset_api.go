@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/datatug/datatug-core/pkg/datatug"
 	"github.com/datatug/datatug-core/pkg/dto"
-	"github.com/datatug/datatug-core/pkg/models"
 	"github.com/datatug/datatug-core/pkg/storage"
 	"github.com/strongo/validation"
 )
@@ -38,11 +38,11 @@ func GetRecordsetsSummary(ctx context.Context, ref dto.ProjectRef) (*dto.ProjRec
 		}
 
 		ds := dto.ProjRecordsetSummary{
-			ProjectItem: models.ProjectItem{
-				ProjItemBrief: models.ProjItemBrief{
+			ProjectItem: datatug.ProjectItem{
+				ProjItemBrief: datatug.ProjItemBrief{
 					ID:    dsDef.ID,
 					Title: dsDef.Title,
-					ListOfTags: models.ListOfTags{
+					ListOfTags: datatug.ListOfTags{
 						Tags: dsDef.Tags,
 					},
 				},
@@ -69,7 +69,7 @@ func getRecordsetFolder(folder *dto.ProjRecordsetSummary, paths []string) *dto.P
 			}
 		}
 		newFolder := &dto.ProjRecordsetSummary{
-			ProjectItem: models.ProjectItem{ProjItemBrief: models.ProjItemBrief{ID: p}},
+			ProjectItem: datatug.ProjectItem{ProjItemBrief: datatug.ProjItemBrief{ID: p}},
 		}
 		folder.Recordsets = append(folder.Recordsets, newFolder)
 		folder = newFolder
@@ -78,7 +78,7 @@ func getRecordsetFolder(folder *dto.ProjRecordsetSummary, paths []string) *dto.P
 }
 
 // GetDatasetDefinition returns definition of a dataset by ID
-func GetDatasetDefinition(ctx context.Context, ref dto.ProjectItemRef) (dataset *models.RecordsetDefinition, err error) {
+func GetDatasetDefinition(ctx context.Context, ref dto.ProjectItemRef) (dataset *datatug.RecordsetDefinition, err error) {
 	store, err := storage.GetStore(ctx, ref.StoreID)
 	if err != nil {
 		return nil, err
@@ -88,7 +88,7 @@ func GetDatasetDefinition(ctx context.Context, ref dto.ProjectItemRef) (dataset 
 }
 
 // GetRecordset saves board
-func GetRecordset(ctx context.Context, ref dto.ProjectItemRef) (recordset *models.Recordset, err error) {
+func GetRecordset(ctx context.Context, ref dto.ProjectItemRef) (recordset *datatug.Recordset, err error) {
 	store, err := storage.GetStore(ctx, ref.StoreID)
 	if err != nil {
 		return nil, err

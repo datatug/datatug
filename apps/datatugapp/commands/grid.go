@@ -3,13 +3,13 @@ package commands
 import (
 	"fmt"
 
-	"github.com/datatug/datatug-core/pkg/models"
+	"github.com/datatug/datatug-core/pkg/datatug"
 
 	"github.com/gdamore/tcell/v2"
 	"github.com/rivo/tview"
 )
 
-func showRecordsetInGrid(recordset models.Recordset) error {
+func showRecordsetInGrid(recordset datatug.Recordset) error {
 	app := tview.NewApplication()
 	table := tview.NewTable()
 	table.SetBorders(true)

@@ -5,7 +5,7 @@ import (
 	"fmt"
 
 	"github.com/datatug/datatug-cli/pkg/sqlexecute"
-	"github.com/datatug/datatug-core/pkg/models"
+	"github.com/datatug/datatug-core/pkg/datatug"
 	"github.com/datatug/datatug-core/pkg/storage"
 )
 
@@ -18,9 +18,9 @@ func ExecuteCommands(storeID string, request sqlexecute.Request) (response sqlex
 		return
 	}
 
-	dbs := make(map[string]*models.EnvDb)
+	dbs := make(map[string]*datatug.EnvDb)
 
-	var getEnvDbByID = func(envID, dbID string) (envDb *models.EnvDb, err error) {
+	var getEnvDbByID = func(envID, dbID string) (envDb *datatug.EnvDb, err error) {
 		key := fmt.Sprintf("%v/%v", envDb, dbID)
 		if db, cached := dbs[key]; cached {
 			return db, err
@@ -33,7 +33,7 @@ func ExecuteCommands(storeID string, request sqlexecute.Request) (response sqlex
 		return
 	}
 
-	var getCatalog = func(server models.ServerReference, catalogID string) (*models.DbCatalogSummary, error) {
+	var getCatalog = func(server datatug.ServerReference, catalogID string) (*datatug.DbCatalogSummary, error) {
 		serverStore := dal.GetProjectStore(request.Project).DbServers().DbServer(server)
 		return serverStore.Catalogs().DbCatalog(catalogID).LoadDbCatalogSummary(context.Background())
 	}

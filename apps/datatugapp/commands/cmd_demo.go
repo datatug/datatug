@@ -13,8 +13,8 @@ import (
 
 	"github.com/datatug/datatug-cli/pkg/api"
 	"github.com/datatug/datatug-core/pkg/appconfig"
+	"github.com/datatug/datatug-core/pkg/datatug"
 	"github.com/datatug/datatug-core/pkg/dto"
-	"github.com/datatug/datatug-core/pkg/models"
 	"github.com/datatug/datatug-core/pkg/parallel"
 	"github.com/datatug/datatug-core/pkg/storage"
 	"github.com/datatug/datatug-core/pkg/storage/filestore"
@@ -338,14 +338,14 @@ func (c demoCommand) updateDemoProject(demoProjectPath string, demoDbFiles []dem
 	return nil
 }
 
-func (c demoCommand) updateDemoProjectDbServer(project *models.DatatugProject) (projDbServer *models.ProjDbServer, err error) {
-	projDbServer = project.DbServers.GetProjDbServer(models.ServerReference{Driver: demoDriver, Host: localhost, Port: 0})
+func (c demoCommand) updateDemoProjectDbServer(project *datatug.Project) (projDbServer *datatug.ProjDbServer, err error) {
+	projDbServer = project.DbServers.GetProjDbServer(datatug.ServerReference{Driver: demoDriver, Host: localhost, Port: 0})
 	if projDbServer == nil {
-		projDbServer = &models.ProjDbServer{
-			ProjectItem: models.ProjectItem{
-				ProjItemBrief: models.ProjItemBrief{ID: localhost},
+		projDbServer = &datatug.ProjDbServer{
+			ProjectItem: datatug.ProjectItem{
+				ProjItemBrief: datatug.ProjItemBrief{ID: localhost},
 			},
-			Server: models.ServerReference{
+			Server: datatug.ServerReference{
 				Driver: demoDriver,
 				Host:   localhost,
 			},
@@ -356,10 +356,10 @@ func (c demoCommand) updateDemoProjectDbServer(project *models.DatatugProject) (
 	return
 }
 
-func (c demoCommand) updateDemoProjectCatalog(projDbServer *models.ProjDbServer, catalogID string, demoDb demoDbFile) error {
+func (c demoCommand) updateDemoProjectCatalog(projDbServer *datatug.ProjDbServer, catalogID string, demoDb demoDbFile) error {
 	catalog := projDbServer.Catalogs.GetDbByID(catalogID)
 	if catalog == nil {
-		catalog = new(models.DbCatalog)
+		catalog = new(datatug.DbCatalog)
 		catalog.ID = catalogID
 		catalog.Driver = "sqlite3"
 		catalog.Path = demoDb.path
@@ -376,19 +376,19 @@ func (c demoCommand) updateDemoProjectCatalog(projDbServer *models.ProjDbServer,
 	return nil
 }
 
-func (c demoCommand) updateDemoProjectDbModel(project *models.DatatugProject, catalogID string, demoDb demoDbFile) error {
+func (c demoCommand) updateDemoProjectDbModel(project *datatug.Project, catalogID string, demoDb demoDbFile) error {
 	dbModel := project.DbModels.GetDbModelByID(demoDb.model)
 	if dbModel == nil {
-		dbModel = new(models.DbModel)
+		dbModel = new(datatug.DbModel)
 		dbModel.ID = demoDb.model
 		project.DbModels = append(project.DbModels, dbModel)
-		dbModel.Environments = make([]*models.DbModelEnv, 0) // weird lint requires it twice
+		dbModel.Environments = make([]*datatug.DbModelEnv, 0) // weird lint requires it twice
 	} else if dbModel.Environments == nil {
-		dbModel.Environments = make([]*models.DbModelEnv, 0)
+		dbModel.Environments = make([]*datatug.DbModelEnv, 0)
 	}
 	dbModelEnv := dbModel.Environments.GetByID(demoDb.env)
 	if dbModelEnv == nil {
-		dbModelEnv = &models.DbModelEnv{
+		dbModelEnv = &datatug.DbModelEnv{
 			ID: demoDb.env,
 		}
 		//goland:noinspection GoNilness
@@ -396,7 +396,7 @@ func (c demoCommand) updateDemoProjectDbModel(project *models.DatatugProject, ca
 	}
 	dbModelEnvCatalog := dbModelEnv.DbCatalogs.GetByID(catalogID)
 	if dbModelEnvCatalog == nil {
-		dbModelEnvCatalog = &models.DbModelDbCatalog{
+		dbModelEnvCatalog = &datatug.DbModelDbCatalog{
 			ID: catalogID,
 		}
 		dbModelEnv.DbCatalogs = append(dbModelEnv.DbCatalogs, dbModelEnvCatalog)
@@ -405,7 +405,7 @@ func (c demoCommand) updateDemoProjectDbModel(project *models.DatatugProject, ca
 }
 
 //goland:noinspection GoUnusedParameter
-func (c demoCommand) updateDemoProjectEnvironments(project *models.DatatugProject, catalogID string, demoDb demoDbFile) error {
+func (c demoCommand) updateDemoProjectEnvironments(project *datatug.Project, catalogID string, demoDb demoDbFile) error {
 
 	return nil
 }

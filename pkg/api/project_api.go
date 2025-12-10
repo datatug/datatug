@@ -4,8 +4,8 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/datatug/datatug-core/pkg/datatug"
 	"github.com/datatug/datatug-core/pkg/dto"
-	"github.com/datatug/datatug-core/pkg/models"
 	"github.com/datatug/datatug-core/pkg/storage"
 	"github.com/strongo/validation"
 )
@@ -18,7 +18,7 @@ func validateProjectInput(projectID string) (err error) {
 }
 
 // GetProjects return all projects
-func GetProjects(ctx context.Context, storeID string) ([]models.ProjectBrief, error) {
+func GetProjects(ctx context.Context, storeID string) ([]datatug.ProjectBrief, error) {
 	dal, err := storage.NewDatatugStore(storeID)
 	if err != nil {
 		return nil, err
@@ -27,7 +27,7 @@ func GetProjects(ctx context.Context, storeID string) ([]models.ProjectBrief, er
 }
 
 // GetProjectSummary returns project summary
-func GetProjectSummary(ctx context.Context, ref dto.ProjectRef) (*models.ProjectSummary, error) {
+func GetProjectSummary(ctx context.Context, ref dto.ProjectRef) (*datatug.ProjectSummary, error) {
 	if ref.ProjectID == "" {
 		return nil, validation.NewErrRequestIsMissingRequiredField("id")
 	}
@@ -42,7 +42,7 @@ func GetProjectSummary(ctx context.Context, ref dto.ProjectRef) (*models.Project
 }
 
 // CreateProject create a new DataTug project using requested store
-func CreateProject(ctx context.Context, request dto.CreateProjectRequest) (*models.ProjectSummary, error) {
+func CreateProject(ctx context.Context, request dto.CreateProjectRequest) (*datatug.ProjectSummary, error) {
 	if err := request.Validate(); err != nil {
 		return nil, err
 	}
@@ -57,7 +57,7 @@ func CreateProject(ctx context.Context, request dto.CreateProjectRequest) (*mode
 }
 
 // GetProjectFull returns full project metadata
-func GetProjectFull(ctx context.Context, ref dto.ProjectRef) (*models.DatatugProject, error) {
+func GetProjectFull(ctx context.Context, ref dto.ProjectRef) (*datatug.Project, error) {
 	store, err := storage.GetStore(ctx, ref.StoreID)
 	if err != nil {
 		return nil, err
