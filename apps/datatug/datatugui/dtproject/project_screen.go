@@ -14,10 +14,7 @@ func NewProjectPanel(tui *sneatnav.TUI, projectConfig *appconfig.ProjectConfig) 
 	content := tview.NewTextView().SetTextAlign(tview.AlignCenter)
 	projectTitle := GetProjectTitle(projectConfig)
 	sneatv.SetPanelTitle(content.Box, fmt.Sprintf("Project: %s", projectTitle))
-
-	sneatv.DefaultBorder(content.Box)
-
-	return sneatnav.NewPanelFromTextView(tui, content)
+	return sneatnav.NewPanelWithBoxedPrimitive(tui, sneatnav.WithBox(content, content.Box))
 }
 
 func GoProjectScreen(tui *sneatnav.TUI, p *appconfig.ProjectConfig) {

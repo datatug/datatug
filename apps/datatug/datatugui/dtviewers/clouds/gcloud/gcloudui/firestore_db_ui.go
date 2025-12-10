@@ -63,5 +63,5 @@ func firestoreMainMenu(gcProjCtx *CGProjectContext, active firestoreScreen, titl
 		}
 	})
 
-	return sneatnav.NewPanelFromList(gcProjCtx.TUI, list)
+	return sneatnav.NewPanelWithBoxedPrimitive(gcProjCtx.TUI, sneatnav.WithBox(list, list.Box))
 }

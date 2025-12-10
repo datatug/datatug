@@ -92,5 +92,5 @@ func newProjectMenuPanel(tui *sneatnav.TUI, project *appconfig.ProjectConfig, cu
 
 	sneatv.DefaultBorder(tree.Box)
 
-	return sneatnav.NewPanelFromTreeView(tui, tree)
+	return sneatnav.NewPanelWithBoxedPrimitive(tui, sneatnav.WithBox(tree, tree.Box))
 }

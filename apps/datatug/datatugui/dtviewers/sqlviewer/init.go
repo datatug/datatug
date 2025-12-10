@@ -25,7 +25,7 @@ func goSqlDbHome(tui *sneatnav.TUI, focusTo sneatnav.FocusTo) error {
 	textView := tview.NewTextView()
 	sneatv.DefaultBorder(textView.Box)
 	textView.SetTitle("SQL DB Viewer")
-	content := sneatnav.NewPanelFromTextView(tui, textView)
+	content := sneatnav.NewPanelWithBoxedPrimitive(tui, sneatnav.WithBox(textView, textView.Box))
 	tui.SetPanels(nil, content, sneatnav.WithFocusTo(focusTo))
 
 	return nil

@@ -6,6 +6,7 @@ import (
 	"slices"
 
 	"github.com/datatug/datatug-cli/pkg/schemers"
+	"github.com/datatug/datatug-cli/pkg/sneatview/databrowser"
 	"github.com/datatug/datatug-cli/pkg/sneatview/sneatnav"
 	"github.com/datatug/datatug-cli/pkg/sneatview/sneatv"
 	"github.com/gdamore/tcell/v2"
@@ -19,43 +20,40 @@ func goFirestoreCollection(gcProjCtx *CGProjectContext, collection *schemers.Col
 
 	menu := firestoreMainMenu(gcProjCtx, firestoreScreenCollections, "")
 
-	// Content: table with first 100 docs
-	// Enable cell selection (row & column) so only a single cell is highlighted
-	table := tview.NewTable().SetFixed(1, 0).SetSelectable(true, true)
-	sneatv.DefaultBorder(table.Box)
+	b := databrowser.NewDataBrowser()
 
 	title := "Collection: " + collection.ID
 	if gcProjCtx.Project != nil && gcProjCtx.Project.ProjectId != "" {
 		title += " — " + gcProjCtx.Project.ProjectId
 	}
-	table.SetTitle(title)
+	b.SetTitle(title)
 
 	// Input handling: we'll override later with combined handler; keeping placeholder here removed
 
 	// Header
 	headerStyle := tview.Styles.SecondaryTextColor
-	table.SetCell(0, 0, tview.NewTableCell("Doc ID").SetTextColor(headerStyle).SetSelectable(false))
-	table.SetCell(0, 1, tview.NewTableCell("Data (JSON)").SetTextColor(headerStyle).SetSelectable(false))
+	b.Table.SetCell(0, 0, tview.NewTableCell("Doc ID").SetTextColor(headerStyle).SetSelectable(false))
+	b.Table.SetCell(0, 1, tview.NewTableCell("Data (JSON)").SetTextColor(headerStyle).SetSelectable(false))
 
 	// Loading placeholder
-	table.SetCell(1, 0, tview.NewTableCell("Loading...").SetSelectable(false))
+	b.Table.SetCell(1, 0, tview.NewTableCell("Loading...").SetSelectable(false))
 
-	content := sneatnav.NewPanelFromTable(gcProjCtx.TUI, table)
+	content := sneatnav.NewPanelWithBoxedPrimitive(gcProjCtx.TUI, sneatnav.WithBox(b, b.Box))
 
 	// Unified input handler:
 	// - Up: move focus to header breadcrumbs only if the first data row is selected (row == 1).
 	// - Left: move focus to the menu only if the first column is selected (col == 0).
-	table.SetInputCapture(func(event *tcell.EventKey) *tcell.EventKey {
+	b.Table.SetInputCapture(func(event *tcell.EventKey) *tcell.EventKey {
 		switch event.Key() {
 		case tcell.KeyUp:
-			row, _ := table.GetSelection()
+			row, _ := b.Table.GetSelection()
 			if row == 1 { // first selectable row below header
-				gcProjCtx.TUI.Header.SetFocus(sneatnav.ToBreadcrumbs, table)
+				gcProjCtx.TUI.Header.SetFocus(sneatnav.ToBreadcrumbs, b.Table)
 				return nil
 			}
 			return event
 		case tcell.KeyLeft:
-			_, col := table.GetSelection()
+			_, col := b.Table.GetSelection()
 			if col == 0 {
 				gcProjCtx.TUI.SetFocus(menu)
 				return nil
@@ -77,10 +75,10 @@ func goFirestoreCollection(gcProjCtx *CGProjectContext, collection *schemers.Col
 		if err != nil {
 			gcProjCtx.TUI.App.QueueUpdateDraw(func() {
 				// Clear and show error
-				table.Clear()
-				table.SetCell(0, 0, tview.NewTableCell("Error").SetSelectable(false))
-				table.SetCell(1, 0, tview.NewTableCell(err.Error()).SetSelectable(false))
-				table.SetCell(2, 0, tview.NewTableCell("Hint: re-login or check scopes in Firestore Collections screen").SetSelectable(false))
+				b.Table.Clear()
+				b.Table.SetCell(0, 0, tview.NewTableCell("Error").SetSelectable(false))
+				b.Table.SetCell(1, 0, tview.NewTableCell(err.Error()).SetSelectable(false))
+				b.Table.SetCell(2, 0, tview.NewTableCell("Hint: re-login or check scopes in Firestore Collections screen").SetSelectable(false))
 			})
 			return
 		}
@@ -100,9 +98,9 @@ func goFirestoreCollection(gcProjCtx *CGProjectContext, collection *schemers.Col
 					break
 				}
 				gcProjCtx.TUI.App.QueueUpdateDraw(func() {
-					table.Clear()
-					table.SetCell(0, 0, tview.NewTableCell("Error").SetSelectable(false))
-					table.SetCell(1, 0, tview.NewTableCell(err.Error()).SetSelectable(false))
+					b.Table.Clear()
+					b.Table.SetCell(0, 0, tview.NewTableCell("Error").SetSelectable(false))
+					b.Table.SetCell(1, 0, tview.NewTableCell(err.Error()).SetSelectable(false))
 				})
 				return
 			}
@@ -123,26 +121,26 @@ func goFirestoreCollection(gcProjCtx *CGProjectContext, collection *schemers.Col
 
 		gcProjCtx.TUI.App.QueueUpdateDraw(func() {
 			const maxWidth = 15
-			table.Clear()
+			b.Table.Clear()
 			// Recreate header
-			table.SetCell(0, 0, tview.NewTableCell("#").SetTextColor(headerStyle).SetSelectable(false))
+			b.Table.SetCell(0, 0, tview.NewTableCell("#").SetTextColor(headerStyle).SetSelectable(false))
 			for i, col := range columns {
 				cell := tview.NewTableCell(col).SetTextColor(headerStyle).SetSelectable(false)
 				cell.MaxWidth = maxWidth
-				table.SetCell(0, i+1, cell)
+				b.Table.SetCell(0, i+1, cell)
 			}
 			//table.SetCell(0, 1, tview.NewTableCell("Data (JSON)").SetTextColor(headerStyle).SetSelectable(false))
 			if len(rows) == 0 {
-				table.SetCell(1, 0, tview.NewTableCell("No documents").SetSelectable(false))
+				b.Table.SetCell(1, 0, tview.NewTableCell("No documents").SetSelectable(false))
 				return
 			}
 			for i, r := range rows {
-				table.SetCell(i+1, 0, tview.NewTableCell(r.id))
+				b.Table.SetCell(i+1, 0, tview.NewTableCell(r.id))
 				for j, col := range columns {
 					if v, hasVal := r.data[col]; hasVal {
 						cell := tview.NewTableCell(fmt.Sprintf("%v", v))
 						cell.MaxWidth = maxWidth
-						table.SetCell(i+1, j+1, cell)
+						b.Table.SetCell(i+1, j+1, cell)
 					}
 				}
 			}

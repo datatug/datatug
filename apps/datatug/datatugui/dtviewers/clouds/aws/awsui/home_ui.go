@@ -44,7 +44,7 @@ func goAwsHome(cContext *AwsContext, focusTo sneatnav.FocusTo) error {
 		}
 	})
 
-	content := sneatnav.NewPanelFromTextView(cContext.TUI, textView)
+	content := sneatnav.NewPanelWithBoxedPrimitive(cContext.TUI, sneatnav.WithBox(textView, textView.Box))
 	cContext.TUI.SetPanels(menu, content, sneatnav.WithFocusTo(focusTo))
 
 	return nil

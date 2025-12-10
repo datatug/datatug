@@ -53,7 +53,7 @@ func goViewersScreen(tui *sneatnav.TUI, focusTo sneatnav.FocusTo) error {
 	list.SetTitleAlign(tview.AlignLeft)
 
 	menu := datatugui.NewDataTugMainMenu(tui, datatugui.RootScreenViewers)
-	content := sneatnav.NewPanelFromList(tui, list)
+	content := sneatnav.NewPanelWithBoxedPrimitive(tui, sneatnav.WithBox(list, list.Box))
 
 	tui.SetPanels(menu, content, sneatnav.WithFocusTo(focusTo))
 	return nil

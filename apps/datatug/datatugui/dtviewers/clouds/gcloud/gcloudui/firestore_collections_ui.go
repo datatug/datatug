@@ -27,7 +27,7 @@ func goFirestoreCollections(gcProjCtx *CGProjectContext) error {
 		title += " — " + gcProjCtx.Project.ProjectId
 	}
 	list.SetTitle(title)
-	content := sneatnav.NewPanelFromList(gcProjCtx.TUI, list)
+	content := sneatnav.NewPanelWithBoxedPrimitive(gcProjCtx.TUI, sneatnav.WithBox(list, list.Box))
 
 	list.SetInputCapture(func(event *tcell.EventKey) *tcell.EventKey {
 		if event.Key() == tcell.KeyLeft {
