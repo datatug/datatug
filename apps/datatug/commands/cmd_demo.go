@@ -11,7 +11,7 @@ import (
 	"path"
 	"strings"
 
-	"github.com/datatug/datatug-core/pkg/api"
+	"github.com/datatug/datatug-cli/pkg/api"
 	"github.com/datatug/datatug-core/pkg/appconfig"
 	"github.com/datatug/datatug-core/pkg/dto"
 	"github.com/datatug/datatug-core/pkg/models"

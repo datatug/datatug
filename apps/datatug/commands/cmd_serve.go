@@ -4,13 +4,14 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"github.com/datatug/datatug-core/pkg/appconfig"
-	"github.com/datatug/datatug-core/pkg/server"
-	"github.com/datatug/datatug-core/pkg/storage/filestore"
-	"github.com/urfave/cli/v3"
 	"os/exec"
 	"runtime"
 	"strings"
+
+	"github.com/datatug/datatug-cli/pkg/server"
+	"github.com/datatug/datatug-core/pkg/appconfig"
+	"github.com/datatug/datatug-core/pkg/storage/filestore"
+	"github.com/urfave/cli/v3"
 )
 
 // ServeCommand executes serve consoleCommand

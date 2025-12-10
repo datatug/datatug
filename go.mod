@@ -1,13 +1,14 @@
 module github.com/datatug/datatug-cli
 
-go 1.25.0
+go 1.25.4
 
 require (
 	cloud.google.com/go/firestore v1.20.0
 	github.com/charmbracelet/bubbles v0.21.0
 	github.com/charmbracelet/bubbletea v1.3.10
 	github.com/charmbracelet/lipgloss v1.1.0
-	github.com/datatug/datatug-core v0.8.3
+	github.com/datatug/datatug-core v0.10.0
+	github.com/datatug/datatug-mssql v0.0.1
 	github.com/datatug/sql2csv v0.0.0-20200927071952-a7fb986d1ec2
 	github.com/denisenkom/go-mssqldb v0.12.3
 	github.com/gdamore/tcell/v2 v2.13.2
@@ -73,7 +74,7 @@ require (
 	github.com/googleapis/gax-go/v2 v2.15.0 // indirect
 	//github.com/jackc/pgx/v5 v5.7.6 // indirect
 	github.com/jbenet/go-context v0.0.0-20150711004518-d14ea06fba99 // indirect
-	github.com/julienschmidt/httprouter v1.3.0 // indirect
+	github.com/julienschmidt/httprouter v1.3.0
 	github.com/kevinburke/ssh_config v1.4.0 // indirect
 	github.com/klauspost/cpuid/v2 v2.3.0 // indirect
 	github.com/lucasb-eyer/go-colorful v1.3.0 // indirect
@@ -92,11 +93,11 @@ require (
 	github.com/sahilm/fuzzy v0.1.1 // indirect
 	github.com/sergi/go-diff v1.4.0 // indirect
 	github.com/skeema/knownhosts v1.3.2 // indirect
-	github.com/sneat-co/sneat-go-core v0.54.4 // indirect
+	github.com/sneat-co/sneat-go-core v0.54.4
 	github.com/strongo/analytics v0.2.2 // indirect
 	github.com/strongo/decimal v0.1.1 // indirect
-	github.com/strongo/random v0.0.1 // indirect
-	github.com/strongo/slice v0.3.3 // indirect
+	github.com/strongo/random v0.0.1
+	github.com/strongo/slice v0.3.3
 	github.com/strongo/strongoapp v0.31.9 // indirect
 	github.com/xanzy/ssh-agent v0.3.3 // indirect
 	github.com/xo/terminfo v0.0.0-20220910002029-abceb7e1c41e // indirect
