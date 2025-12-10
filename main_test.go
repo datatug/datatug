@@ -2,8 +2,9 @@ package main
 
 import (
 	"context"
-	"github.com/urfave/cli/v3"
 	"testing"
+
+	"github.com/urfave/cli/v3"
 )
 
 func TestMainFunc(t *testing.T) {

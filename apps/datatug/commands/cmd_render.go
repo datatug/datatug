@@ -3,11 +3,12 @@ package commands
 import (
 	"context"
 	"fmt"
+	"log"
+	"os"
+
 	"github.com/datatug/datatug-core/pkg/storage"
 	"github.com/datatug/datatug-core/pkg/storage/filestore"
 	"github.com/urfave/cli/v3"
-	"log"
-	"os"
 )
 
 func renderCommandAction(_ context.Context, _ *cli.Command) error {

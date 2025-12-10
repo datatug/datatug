@@ -3,12 +3,13 @@ package commands
 import (
 	"context"
 	"fmt"
-	"github.com/datatug/datatug-core/pkg/models"
-	"github.com/gosuri/uitable"
-	"github.com/urfave/cli/v3"
 	"os"
 	"path"
 	"strings"
+
+	"github.com/datatug/datatug-core/pkg/models"
+	"github.com/gosuri/uitable"
+	"github.com/urfave/cli/v3"
 )
 
 func showCommandArgs() *cli.Command {

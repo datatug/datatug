@@ -3,6 +3,10 @@ package commands
 import (
 	"context"
 	"fmt"
+	"log"
+	"os"
+	"strconv"
+
 	"github.com/datatug/datatug-cli/pkg/api"
 	"github.com/datatug/datatug-core/pkg/dbconnection"
 	"github.com/datatug/datatug-core/pkg/models"
@@ -10,9 +14,6 @@ import (
 	"github.com/datatug/datatug-core/pkg/storage/filestore"
 	"github.com/mitchellh/go-homedir"
 	"github.com/urfave/cli/v3"
-	"log"
-	"os"
-	"strconv"
 )
 
 func scanCommandAction(_ context.Context, _ *cli.Command) error {

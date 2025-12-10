@@ -2,10 +2,11 @@ package commands
 
 import (
 	"errors"
+	"strings"
+
 	"github.com/datatug/datatug-core/pkg/appconfig"
 	"github.com/datatug/datatug-core/pkg/storage"
 	"github.com/datatug/datatug-core/pkg/storage/filestore"
-	"strings"
 )
 
 type projectDirCommand struct {
