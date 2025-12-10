@@ -25,3 +25,5 @@ apps/datatug/datatug
 apps/firestoreviewer/firestoreviewer
 ./datatug
 demo-dbs/
+
+.idea
