@@ -11,10 +11,12 @@ import (
 
 func DatatugCommand() *cli.Command {
 	return &cli.Command{
-		Action: datatugCommandAction,
-		Flags:  []cli.Flag{apps.TUIFlag},
+		Action:         datatugCommandAction,
+		DefaultCommand: "ui", // run UI when no subcommand is provided
+		Flags:          []cli.Flag{apps.TUIFlag},
 		Commands: []*cli.Command{
 			initCommand(),
+			uiCommandArgs(),
 			auth.AuthCommand(),
 			gcloudcmds.GoogleCloudCommand(),
 			configCommand(),
@@ -30,7 +32,6 @@ func DatatugCommand() *cli.Command {
 			scanCommandArgs(),
 			serveCommandArgs(),
 			showCommandArgs(),
-			uiCommandArgs(),
 			testCommandArgs(),
 			consoleCommandArgs(),
 		},

@@ -19,7 +19,7 @@ import (
 func uiCommandArgs() *cli.Command {
 	return &cli.Command{
 		Name:        "ui",
-		Usage:       "Starts UI",
+		Usage:       "Starts Command Line UI",
 		Description: "",
 		Action: func(ctx context.Context, c *cli.Command) error {
 			v := &uiCommand{}
