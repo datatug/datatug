@@ -13,6 +13,14 @@ func goViewersScreen(tui *sneatnav.TUI, focusTo sneatnav.FocusTo) error {
 	breadcrumbs.Clear()
 	breadcrumbs.Push(sneatv.NewBreadcrumb("Viewers", nil))
 
+	menu := datatugui.NewDataTugMainMenu(tui, datatugui.RootScreenViewers)
+	content := GetViewersListPanel(tui, " Viewers ", focusTo)
+
+	tui.SetPanels(menu, content, sneatnav.WithFocusTo(focusTo))
+	return nil
+}
+
+func GetViewersListPanel(tui *sneatnav.TUI, title string, focusTo sneatnav.FocusTo) sneatnav.Panel {
 	list := tview.NewList()
 
 	for _, viewer := range viewers {
@@ -49,12 +57,8 @@ func goViewersScreen(tui *sneatnav.TUI, focusTo sneatnav.FocusTo) error {
 	sneatv.DefaultBorder(list.Box)
 	// Set spacing between items to 1 line by increasing vertical padding
 	list.SetBorderPadding(1, 1, 1, 1)
-	list.SetTitle(" Viewers ")
+	list.SetTitle(title)
 	list.SetTitleAlign(tview.AlignLeft)
 
-	menu := datatugui.NewDataTugMainMenu(tui, datatugui.RootScreenViewers)
-	content := sneatnav.NewPanelWithBoxedPrimitive(tui, sneatnav.WithBox(list, list.Box))
-
-	tui.SetPanels(menu, content, sneatnav.WithFocusTo(focusTo))
-	return nil
+	return sneatnav.NewPanelWithBoxedPrimitive(tui, sneatnav.WithBox(list, list.Box))
 }

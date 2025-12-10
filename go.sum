@@ -66,16 +66,10 @@ github.com/cyphar/filepath-securejoin v0.6.1 h1:5CeZ1jPXEiYt3+Z6zqprSAgSWiggmpVy
 github.com/cyphar/filepath-securejoin v0.6.1/go.mod h1:A8hd4EnAeyujCJRrICiOWqjS1AX0a9kM5XL+NwKoYSc=
 github.com/dal-go/dalgo v0.26.5 h1:EG7fg/oX++QMZvTERB8NTYxFJuY6X0vXuFbFUg1nHhQ=
 github.com/dal-go/dalgo v0.26.5/go.mod h1:ZVN3K0I3Oq20o+GT8SeouIbyCxbL9F7XQbY0VT8haF0=
-github.com/dal-go/dalgo2firestore v0.6.27 h1:o9HRK30IL6BInkSahTLcOy+XwRambByXcZFsvOqErWk=
-github.com/dal-go/dalgo2firestore v0.6.27/go.mod h1:EVzCOct+WU9O4KNB+CGPTdrxtmuiPnqV11scHd/941Y=
 github.com/dal-go/mocks4dalgo v0.3.10 h1:TNEvy5x4ggXN+7flqrnJoEojmwKR6beEfolMsiuAofo=
 github.com/dal-go/mocks4dalgo v0.3.10/go.mod h1:CAnOekOUKRbKqdA9SqXrOfkad2QJqLw2Q720Z8x4lDc=
 github.com/danieljoos/wincred v1.2.3 h1:v7dZC2x32Ut3nEfRH+vhoZGvN72+dQ/snVXo/vMFLdQ=
 github.com/danieljoos/wincred v1.2.3/go.mod h1:6qqX0WNrS4RzPZ1tnroDzq9kY3fu1KwE7MRLQK4X0bs=
-github.com/datatug/datatug-core v0.10.0 h1:jbwvrOmE1IvTyMxyRjy6eW8JR6iQvua9Hiij90MvxBo=
-github.com/datatug/datatug-core v0.10.0/go.mod h1:HF6QCZcQNcWpi6hKFjd/KOYwZpE1uL+ZlF4ygriaasM=
-github.com/datatug/datatug-core v0.11.0 h1:Oay8jxoUytnw2Lqma9zo5mJ8uItYINLzJ4o8VklHwJw=
-github.com/datatug/datatug-core v0.11.0/go.mod h1:t4l/UWP36kuteQB14nmW9i9qojaXuux9vzjXZwCeFjs=
 github.com/datatug/datatug-core v0.11.1 h1:bbNmuoK7oIByefgtbA9Rbrl5eXS5BkoUWy0Rj78Cqds=
 github.com/datatug/datatug-core v0.11.1/go.mod h1:t4l/UWP36kuteQB14nmW9i9qojaXuux9vzjXZwCeFjs=
 github.com/datatug/sql2csv v0.0.0-20200927071952-a7fb986d1ec2 h1:9iN4YNV3PIGMU7Wh4hU0AjuI/mMwgbVXaV4YqHoE0ZU=
