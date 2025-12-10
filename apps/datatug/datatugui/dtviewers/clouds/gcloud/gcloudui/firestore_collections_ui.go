@@ -43,7 +43,7 @@ func goFirestoreCollections(gcProjCtx *CGProjectContext) error {
 	go func() {
 		ctx := context.Background()
 
-		collections, err := gcProjCtx.Schema().GetCollections(ctx)
+		collections, err := gcProjCtx.Schema().GetCollections(ctx, nil)
 		if err != nil {
 			gcProjCtx.TUI.App.QueueUpdateDraw(func() {
 				list.Clear()

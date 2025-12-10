@@ -66,6 +66,8 @@ github.com/cyphar/filepath-securejoin v0.6.1 h1:5CeZ1jPXEiYt3+Z6zqprSAgSWiggmpVy
 github.com/cyphar/filepath-securejoin v0.6.1/go.mod h1:A8hd4EnAeyujCJRrICiOWqjS1AX0a9kM5XL+NwKoYSc=
 github.com/dal-go/dalgo v0.26.5 h1:EG7fg/oX++QMZvTERB8NTYxFJuY6X0vXuFbFUg1nHhQ=
 github.com/dal-go/dalgo v0.26.5/go.mod h1:ZVN3K0I3Oq20o+GT8SeouIbyCxbL9F7XQbY0VT8haF0=
+github.com/dal-go/dalgo2firestore v0.6.27 h1:o9HRK30IL6BInkSahTLcOy+XwRambByXcZFsvOqErWk=
+github.com/dal-go/dalgo2firestore v0.6.27/go.mod h1:EVzCOct+WU9O4KNB+CGPTdrxtmuiPnqV11scHd/941Y=
 github.com/dal-go/mocks4dalgo v0.3.10 h1:TNEvy5x4ggXN+7flqrnJoEojmwKR6beEfolMsiuAofo=
 github.com/dal-go/mocks4dalgo v0.3.10/go.mod h1:CAnOekOUKRbKqdA9SqXrOfkad2QJqLw2Q720Z8x4lDc=
 github.com/danieljoos/wincred v1.2.3 h1:v7dZC2x32Ut3nEfRH+vhoZGvN72+dQ/snVXo/vMFLdQ=

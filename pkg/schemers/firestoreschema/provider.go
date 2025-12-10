@@ -3,8 +3,10 @@ package firestoreschema
 import (
 	"context"
 	"errors"
+	"strings"
 
 	"cloud.google.com/go/firestore"
+	"github.com/dal-go/dalgo/dal"
 	"github.com/datatug/datatug-cli/pkg/schemers"
 	"google.golang.org/api/iterator"
 )
@@ -21,12 +23,26 @@ type provider struct {
 	getClient GetClient
 }
 
-func (p provider) GetCollection(ctx context.Context, path ...string) (collection *schemers.Collection, err error) {
+type firestoreCollectionsProvider interface {
+	Collections(ctx context.Context) *firestore.CollectionIterator
+}
+
+func (p provider) GetCollection(ctx context.Context, collectionRef *dal.CollectionRef) (collection *schemers.Collection, err error) {
 	var client *firestore.Client
 	if client, err = p.getClient(ctx); err != nil {
 		return
 	}
-	iter := client.Collections(ctx)
+
+	var fsCollectionsProvider firestoreCollectionsProvider
+
+	if strings.Contains(collectionRef.Path(), "/") {
+		fsCollectionsProvider = client.Doc(collectionRef.Parent().String())
+	} else {
+		fsCollectionsProvider = client
+	}
+
+	iter := fsCollectionsProvider.Collections(ctx)
+
 	for {
 		var ref *firestore.CollectionRef
 		if ref, err = iter.Next(); err != nil {
@@ -36,7 +52,7 @@ func (p provider) GetCollection(ctx context.Context, path ...string) (collection
 			}
 			return
 		}
-		if ref.ID == path[0] {
+		if ref.Path == collectionRef.Name() {
 			return &schemers.Collection{
 				ID: ref.ID,
 			}, nil
@@ -45,7 +61,7 @@ func (p provider) GetCollection(ctx context.Context, path ...string) (collection
 	return
 }
 
-func (p provider) GetCollections(ctx context.Context, path ...string) (collections []*schemers.Collection, err error) {
+func (p provider) GetCollections(ctx context.Context, parentKey *dal.Key) (collections []*schemers.Collection, err error) {
 	var client *firestore.Client
 	if client, err = p.getClient(ctx); err != nil {
 		return
@@ -53,7 +69,16 @@ func (p provider) GetCollections(ctx context.Context, path ...string) (collectio
 	defer func() {
 		_ = client.Close()
 	}()
-	iter := client.Collections(ctx)
+
+	var fsCollectionsProvider firestoreCollectionsProvider
+
+	if parentKey == nil {
+		fsCollectionsProvider = client
+	} else {
+		fsCollectionsProvider = client.Doc(parentKey.String())
+	}
+
+	iter := fsCollectionsProvider.Collections(ctx)
 	for {
 		var ref *firestore.CollectionRef
 		if ref, err = iter.Next(); err != nil {

@@ -28,6 +28,11 @@ require (
 )
 
 require (
+	github.com/dal-go/dalgo2firestore v0.6.27 // indirect
+	github.com/pkg/errors v0.9.1 // indirect
+)
+
+require (
 	al.essio.dev/pkg/shellescape v1.6.0 // indirect
 	cloud.google.com/go v0.123.0 // indirect
 	cloud.google.com/go/auth v0.17.0 // indirect
