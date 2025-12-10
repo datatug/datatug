@@ -60,7 +60,7 @@ func (v *showProjectCommand) Execute(_ []string) error {
 			_, _ = fmt.Fprintln(w, "\t\t🛢️ Database: ", db.ID)
 			for _, schema := range db.Schemas {
 				_, _ = fmt.Fprintln(w, "\t\t\t Schema: ", db.ID)
-				printCols := func(t *models.Table) {
+				printCols := func(t *models.CollectionInfo) {
 					if len(t.Columns) > 0 {
 						table := uitable.New()
 						for _, c := range t.Columns {
@@ -74,7 +74,7 @@ func (v *showProjectCommand) Execute(_ []string) error {
 						_, _ = fmt.Fprintln(w, table.String())
 					}
 				}
-				printTable := func(singular string, t *models.Table) {
+				printTable := func(singular string, t *models.CollectionInfo) {
 					_, _ = fmt.Fprintf(w, "\t\t\t\t📄 %v: %v.%v\n", singular, t.Schema, t.Name)
 					if t.PrimaryKey != nil {
 						_, _ = fmt.Fprintf(w, "\t\t\t\t\t🔑 Primary key: %v (%v)\n", t.PrimaryKey.Name, strings.Join(t.PrimaryKey.Columns, ", "))

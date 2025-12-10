@@ -5,38 +5,39 @@ import (
 	"database/sql"
 	"fmt"
 
+	"github.com/dal-go/dalgo/dal"
 	"github.com/datatug/datatug-core/pkg/models"
 	"github.com/datatug/datatug-core/pkg/schemer"
 )
 
-var _ schemer.TablesProvider = (*tablesProvider)(nil)
+var _ schemer.CollectionsProvider = (*tablesProvider)(nil)
 
 type tablesProvider struct {
+	db *sql.DB
 }
 
-func (v tablesProvider) GetTables(
+func (v tablesProvider) GetCollections(
 	_ context.Context,
-	db *sql.DB,
-	catalog, schema string,
+	parentKey *dal.Key,
 ) (
-	reader schemer.TablesReader,
+	reader schemer.CollectionsReader,
 	err error,
 ) {
-	if db == nil {
-		panic("required parameter db *sql.DB is nil")
-	}
 	var rows *sql.Rows
-	if schema == "" {
-		rows, err = db.Query(allTablesSQL)
+
+	if parentKey == nil {
+		rows, err = v.db.Query(allTablesSQL)
 	} else {
-		rows, err = db.Query(tablesForSchemaSQL, schema)
+		schema := parentKey.ID.(string)
+		rows, err = v.db.Query(tablesForSchemaSQL, schema)
 	}
 	if err != nil {
 		return nil, fmt.Errorf("failed to query MSSQL tables: %w", err)
 	}
+
 	reader = tablesReader{
-		catalog: catalog,
-		schema:  schema,
+		catalog: parentKey.Parent().ID.(string),
+		schema:  parentKey.ID.(string),
 		rows:    rows,
 	}
 	return reader, nil
@@ -59,7 +60,7 @@ FROM INFORMATION_SCHEMA.TABLES
 WHERE TABLE_SCHEMA = ?
 ORDER BY TABLE_NAME`
 
-var _ schemer.TablesReader = (*tablesReader)(nil)
+var _ schemer.CollectionsReader = (*tablesReader)(nil)
 
 type tablesReader struct {
 	catalog string
@@ -67,7 +68,7 @@ type tablesReader struct {
 	rows    *sql.Rows
 }
 
-func (s tablesReader) NextTable() (*models.Table, error) {
+func (s tablesReader) NextCollection() (*models.CollectionInfo, error) {
 	if !s.rows.Next() {
 		err := s.rows.Err()
 		if err != nil {
@@ -75,7 +76,7 @@ func (s tablesReader) NextTable() (*models.Table, error) {
 		}
 		return nil, err
 	}
-	var table models.Table
+	var table models.CollectionInfo
 	var err error
 	if s.schema == "" {
 		err = s.rows.Scan(&table.Schema, &table.Name, &table.DbType)

@@ -9,7 +9,7 @@ import (
 	"strings"
 
 	"github.com/datatug/datatug-cli/pkg/api"
-	"github.com/datatug/datatug-core/pkg/execute"
+	"github.com/datatug/datatug-cli/pkg/sqlexecute"
 	"github.com/datatug/datatug-core/pkg/models"
 	"github.com/datatug/datatug-core/pkg/storage"
 	"github.com/strongo/validation"
@@ -18,7 +18,7 @@ import (
 // executeCommandsHandler handler for execute command endpoint
 func executeCommandsHandler(w http.ResponseWriter, r *http.Request) {
 
-	var executeRequest execute.Request
+	var executeRequest sqlexecute.Request
 
 	executeRequest.Project = r.URL.Query().Get("project")
 

@@ -21,15 +21,16 @@ type schemaProvider struct {
 	indexColumnsProvider
 	indexesProvider
 	tablesProvider
+	db *sql.DB
 }
 
 func (schemaProvider) IsBulkProvider() bool {
 	return true
 }
 
-func (s schemaProvider) RecordsCount(c context.Context, db *sql.DB, catalog, schema, object string) (*int, error) {
+func (s schemaProvider) RecordsCount(c context.Context, catalog, schema, object string) (*int, error) {
 	query := fmt.Sprintf("SELECT COUNT(1) FROM [%v].[%v]", schema, object)
-	rows, err := db.Query(query)
+	rows, err := s.db.Query(query)
 	if err != nil {
 		return nil, fmt.Errorf("failed to get records count for %v.%v: %w", schema, object, err)
 	}

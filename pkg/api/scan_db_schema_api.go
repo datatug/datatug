@@ -268,7 +268,7 @@ func scanDbCatalog(server models.ServerReference, connectionParams dbconnection.
 		return nil, fmt.Errorf("unsupported DB driver: %v", err)
 	}
 
-	dbCatalog, err = scanner.ScanCatalog(context.Background(), db, connectionParams.Catalog())
+	dbCatalog, err = scanner.ScanCatalog(context.Background(), connectionParams.Catalog())
 	dbCatalog.ID = connectionParams.Catalog()
 	if err != nil {
 		return dbCatalog, fmt.Errorf("failed to get dbCatalog metadata: %w", err)
@@ -315,13 +315,13 @@ func updateDbModelWithDbCatalog(envID string, dbModel *models.DbModel, dbCatalog
 }
 
 func updateSchemaModel(envID string, schemaModel *models.SchemaModel, dbSchema *models.DbSchema) (err error) {
-	updateTables := func(tables []*models.Table) (result models.TableModels) {
+	updateTables := func(tables []*models.CollectionInfo) (result models.TableModels) {
 		for _, table := range tables {
-			tableModel := schemaModel.Tables.GetByKey(table.TableKey)
+			tableModel := schemaModel.Tables.GetByKey(table.CollectionKey)
 			if tableModel == nil {
 				tableModel = &models.TableModel{
-					TableKey: table.TableKey,
-					ByEnv:    make(models.StateByEnv),
+					CollectionKey: table.CollectionKey,
+					ByEnv:         make(models.StateByEnv),
 				}
 				tableModel.ByEnv[envID] = &models.EnvState{
 					Status: "exists",
@@ -329,8 +329,8 @@ func updateSchemaModel(envID string, schemaModel *models.SchemaModel, dbSchema *
 				tableModel.Columns = make(models.ColumnModels, len(table.Columns))
 				for i, c := range table.Columns {
 					tableModel.Columns[i] = &models.ColumnModel{
-						TableColumn: *c,
-						ByEnv:       make(models.StateByEnv),
+						ColumnInfo: *c,
+						ByEnv:      make(models.StateByEnv),
 					}
 					tableModel.Columns[i].ByEnv[envID] = &models.EnvState{
 						Status: "exists",

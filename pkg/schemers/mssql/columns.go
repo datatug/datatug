@@ -32,10 +32,11 @@ FROM INFORMATION_SCHEMA.COLUMNS ORDER BY TABLE_SCHEMA, TABLE_NAME, ORDINAL_POSIT
 var _ schemer.ColumnsProvider = (*columnsProvider)(nil)
 
 type columnsProvider struct {
+	db *sql.DB
 }
 
-func (v columnsProvider) GetColumns(_ context.Context, db *sql.DB, catalog, schemaName, tableName string) (schemer.ColumnsReader, error) {
-	rows, err := db.Query(columnsSQL)
+func (v columnsProvider) GetColumns(_ context.Context, catalog, schemaName, tableName string) (schemer.ColumnsReader, error) {
+	rows, err := v.db.Query(columnsSQL)
 	if err != nil {
 		return nil, fmt.Errorf("failed to retrieve columns: %w", err)
 	}

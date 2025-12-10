@@ -12,10 +12,11 @@ import (
 var _ schemer.IndexesProvider = (*indexesProvider)(nil)
 
 type indexesProvider struct {
+	db *sql.DB
 }
 
-func (v indexesProvider) GetIndexes(_ context.Context, db *sql.DB, catalog, schema, table string) (schemer.IndexesReader, error) {
-	rows, err := db.Query(indexesSQL)
+func (v indexesProvider) GetIndexes(_ context.Context, catalog, schema, table string) (schemer.IndexesReader, error) {
+	rows, err := v.db.Query(indexesSQL)
 	if err != nil {
 		return nil, fmt.Errorf("failed to retrieve indexes: %w", err)
 	}

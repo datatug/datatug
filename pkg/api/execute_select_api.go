@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/datatug/datatug-core/pkg/execute"
+	"github.com/datatug/datatug-cli/pkg/sqlexecute"
 	"github.com/datatug/datatug-core/pkg/models"
 	"github.com/strongo/validation"
 )
@@ -57,11 +57,11 @@ func (v SelectRequest) Validate() error {
 }
 
 // ExecuteSelect executes select command
-func ExecuteSelect(storeID string, selectRequest SelectRequest) (response execute.Response, err error) {
+func ExecuteSelect(storeID string, selectRequest SelectRequest) (response sqlexecute.Response, err error) {
 	if err = selectRequest.Validate(); err != nil {
 		return
 	}
-	command := execute.RequestCommand{
+	command := sqlexecute.RequestCommand{
 		Env: selectRequest.Environment,
 		DB:  selectRequest.Database,
 	}
@@ -93,9 +93,9 @@ func ExecuteSelect(storeID string, selectRequest SelectRequest) (response execut
 		command.Text = selectRequest.SQL
 	}
 	command.Parameters = selectRequest.Parameters[:]
-	request := execute.Request{
+	request := sqlexecute.Request{
 		Project: selectRequest.Project,
-		Commands: []execute.RequestCommand{
+		Commands: []sqlexecute.RequestCommand{
 			command,
 		},
 	}

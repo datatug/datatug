@@ -14,12 +14,12 @@ import (
 type GetClient func(ctx context.Context) (client *firestore.Client, err error)
 
 func NewProvider(getConnection GetClient) schemers.Provider {
-	return &provider{
+	return &simpleProvider{
 		getClient: getConnection,
 	}
 }
 
-type provider struct {
+type simpleProvider struct {
 	getClient GetClient
 }
 
@@ -27,7 +27,7 @@ type firestoreCollectionsProvider interface {
 	Collections(ctx context.Context) *firestore.CollectionIterator
 }
 
-func (p provider) GetCollection(ctx context.Context, collectionRef *dal.CollectionRef) (collection *schemers.Collection, err error) {
+func (p simpleProvider) GetCollection(ctx context.Context, collectionRef *dal.CollectionRef) (collection *schemers.Collection, err error) {
 	var client *firestore.Client
 	if client, err = p.getClient(ctx); err != nil {
 		return
@@ -61,7 +61,7 @@ func (p provider) GetCollection(ctx context.Context, collectionRef *dal.Collecti
 	return
 }
 
-func (p provider) GetCollections(ctx context.Context, parentKey *dal.Key) (collections []*schemers.Collection, err error) {
+func (p simpleProvider) GetCollections(ctx context.Context, parentKey *dal.Key) (collections []*schemers.Collection, err error) {
 	var client *firestore.Client
 	if client, err = p.getClient(ctx); err != nil {
 		return

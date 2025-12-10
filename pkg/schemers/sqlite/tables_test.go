@@ -3,6 +3,8 @@ package mssql
 import (
 	"context"
 	"testing"
+
+	"github.com/datatug/datatug-core/pkg/schemer"
 )
 
 func TestTablesProvider_GetTables(t *testing.T) {
@@ -14,6 +16,6 @@ func TestTablesProvider_GetTables(t *testing.T) {
 				t.Error("expected to panic if DB parameter is not supplied")
 			}
 		}()
-		_, _ = v.GetTables(ctx, nil, "catalog", "schema")
+		_, _ = v.GetCollections(ctx, schemer.NewSchemaKey("catalog", "schema"))
 	})
 }

@@ -1,8 +1,8 @@
 package api
 
 import (
+	"github.com/datatug/datatug-cli/pkg/sqlexecute"
 	"github.com/datatug/datatug-core/pkg/dto"
-	"github.com/datatug/datatug-core/pkg/execute"
 	"github.com/datatug/datatug-core/pkg/models"
 	"github.com/strongo/validation"
 )
@@ -13,13 +13,13 @@ func GetServerDatabases(request dto.GetServerDatabasesRequest) (databases []*mod
 		return nil, validation.NewBadRequestError(err)
 	}
 
-	executor := execute.NewExecutor(nil, nil)
+	executor := sqlexecute.NewExecutor(nil, nil)
 
-	command := execute.RequestCommand{
+	command := sqlexecute.RequestCommand{
 		ServerReference: request.ServerReference,
 		Text:            "select name from sys.databases where owner_sid > 0x01",
 	}
-	var response execute.Response
+	var response sqlexecute.Response
 	if response, err = executor.ExecuteSingle(command); err != nil {
 		return nil, err
 	}

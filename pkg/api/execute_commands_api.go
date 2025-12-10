@@ -4,13 +4,13 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/datatug/datatug-core/pkg/execute"
+	"github.com/datatug/datatug-cli/pkg/sqlexecute"
 	"github.com/datatug/datatug-core/pkg/models"
 	"github.com/datatug/datatug-core/pkg/storage"
 )
 
 // ExecuteCommands executes command
-func ExecuteCommands(storeID string, request execute.Request) (response execute.Response, err error) {
+func ExecuteCommands(storeID string, request sqlexecute.Request) (response sqlexecute.Response, err error) {
 
 	var dal storage.Store
 	dal, err = storage.NewDatatugStore(storeID)
@@ -38,6 +38,6 @@ func ExecuteCommands(storeID string, request execute.Request) (response execute.
 		return serverStore.Catalogs().DbCatalog(catalogID).LoadDbCatalogSummary(context.Background())
 	}
 
-	executor := execute.NewExecutor(getEnvDbByID, getCatalog)
+	executor := sqlexecute.NewExecutor(getEnvDbByID, getCatalog)
 	return executor.Execute(request)
 }
