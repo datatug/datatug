@@ -8,12 +8,12 @@ import (
 	"strings"
 	"time"
 
+	"github.com/datatug/datatug-cli/pkg/schemers/mssql"
 	"github.com/datatug/datatug-core/pkg/dbconnection"
 	"github.com/datatug/datatug-core/pkg/models"
 	"github.com/datatug/datatug-core/pkg/parallel"
 	"github.com/datatug/datatug-core/pkg/schemer"
 	"github.com/datatug/datatug-core/pkg/storage"
-	"github.com/datatug/datatug-mssql"
 	"github.com/strongo/random"
 	"github.com/strongo/slice"
 	"github.com/strongo/validation"

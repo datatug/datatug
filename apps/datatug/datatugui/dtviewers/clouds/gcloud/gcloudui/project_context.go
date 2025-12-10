@@ -7,8 +7,8 @@ import (
 	"cloud.google.com/go/firestore"
 	"github.com/datatug/datatug-cli/apps/datatug/datatugui/dtviewers/clouds"
 	"github.com/datatug/datatug-cli/pkg/auth/gauth"
-	"github.com/datatug/datatug-cli/pkg/dbschema"
-	"github.com/datatug/datatug-cli/pkg/dbschema/firestoreschema"
+	"github.com/datatug/datatug-cli/pkg/schemers"
+	"github.com/datatug/datatug-cli/pkg/schemers/firestoreschema"
 	"google.golang.org/api/cloudresourcemanager/v3"
 )
 
@@ -34,7 +34,7 @@ var _ clouds.ProjectContext = (*CGProjectContext)(nil)
 type CGProjectContext struct {
 	*GCloudContext
 	Project *cloudresourcemanager.Project
-	schema  dbschema.Provider
+	schema  schemers.Provider
 }
 
 func NewProjectContext(ctx *GCloudContext, project *cloudresourcemanager.Project) *CGProjectContext {
@@ -47,7 +47,7 @@ func NewProjectContext(ctx *GCloudContext, project *cloudresourcemanager.Project
 	}
 }
 
-func (c CGProjectContext) Schema() dbschema.Provider {
+func (c CGProjectContext) Schema() schemers.Provider {
 
 	return c.schema
 }

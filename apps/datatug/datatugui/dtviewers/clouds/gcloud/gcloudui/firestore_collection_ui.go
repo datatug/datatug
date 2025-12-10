@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"slices"
 
-	"github.com/datatug/datatug-cli/pkg/dbschema"
+	"github.com/datatug/datatug-cli/pkg/schemers"
 	"github.com/datatug/datatug-cli/pkg/sneatview/sneatnav"
 	"github.com/datatug/datatug-cli/pkg/sneatview/sneatv"
 	"github.com/gdamore/tcell/v2"
@@ -13,7 +13,7 @@ import (
 	"google.golang.org/api/iterator"
 )
 
-func goFirestoreCollection(gcProjCtx *CGProjectContext, collection *dbschema.Collection, focusTo sneatnav.FocusTo) error {
+func goFirestoreCollection(gcProjCtx *CGProjectContext, collection *schemers.Collection, focusTo sneatnav.FocusTo) error {
 	breadcrumbs := firestoreBreadcrumbs(gcProjCtx)
 	breadcrumbs.Push(sneatv.NewBreadcrumb(collection.ID, nil))
 

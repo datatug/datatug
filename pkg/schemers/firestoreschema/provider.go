@@ -5,13 +5,13 @@ import (
 	"errors"
 
 	"cloud.google.com/go/firestore"
-	"github.com/datatug/datatug-cli/pkg/dbschema"
+	"github.com/datatug/datatug-cli/pkg/schemers"
 	"google.golang.org/api/iterator"
 )
 
 type GetClient func(ctx context.Context) (client *firestore.Client, err error)
 
-func NewProvider(getConnection GetClient) dbschema.Provider {
+func NewProvider(getConnection GetClient) schemers.Provider {
 	return &provider{
 		getClient: getConnection,
 	}
@@ -21,7 +21,7 @@ type provider struct {
 	getClient GetClient
 }
 
-func (p provider) GetCollection(ctx context.Context, path ...string) (collection *dbschema.Collection, err error) {
+func (p provider) GetCollection(ctx context.Context, path ...string) (collection *schemers.Collection, err error) {
 	var client *firestore.Client
 	if client, err = p.getClient(ctx); err != nil {
 		return
@@ -37,7 +37,7 @@ func (p provider) GetCollection(ctx context.Context, path ...string) (collection
 			return
 		}
 		if ref.ID == path[0] {
-			return &dbschema.Collection{
+			return &schemers.Collection{
 				ID: ref.ID,
 			}, nil
 		}
@@ -45,7 +45,7 @@ func (p provider) GetCollection(ctx context.Context, path ...string) (collection
 	return
 }
 
-func (p provider) GetCollections(ctx context.Context, path ...string) (collections []*dbschema.Collection, err error) {
+func (p provider) GetCollections(ctx context.Context, path ...string) (collections []*schemers.Collection, err error) {
 	var client *firestore.Client
 	if client, err = p.getClient(ctx); err != nil {
 		return
@@ -63,7 +63,7 @@ func (p provider) GetCollections(ctx context.Context, path ...string) (collectio
 			}
 			return
 		}
-		collections = append(collections, &dbschema.Collection{
+		collections = append(collections, &schemers.Collection{
 			ID: ref.ID,
 		})
 	}
