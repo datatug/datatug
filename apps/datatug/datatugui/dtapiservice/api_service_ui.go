@@ -11,13 +11,19 @@ import (
 func RegisterModule() {
 	datatugui.RegisterMainMenuItem(datatugui.RootScreenWebUI,
 		datatugui.MainMenuItem{
-			Text:     "Web UI & API Monitor",
+			Text:     "API Monitor",
 			Shortcut: 'w',
 			Action:   goApiServiceMonitor,
 		})
 }
 
 func goApiServiceMonitor(tui *sneatnav.TUI, focusTo sneatnav.FocusTo) error {
+	breadcrumbs := tui.Header.Breadcrumbs()
+	breadcrumbs.Clear()
+	breadcrumbs.Push(sneatv.NewBreadcrumb("API Monitor", func() error {
+		return goApiServiceMonitor(tui, sneatnav.FocusToContent)
+	}))
+
 	menu := datatugui.NewDataTugMainMenu(tui, datatugui.RootScreenWebUI)
 	textView := tview.NewTextView()
 	sneatv.DefaultBorder(textView.Box)
