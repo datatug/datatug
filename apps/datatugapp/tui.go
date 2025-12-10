@@ -14,5 +14,6 @@ func NewDatatugTUI() (tui *sneatnav.TUI) {
 	tui = sneatnav.NewTUI(app, sneatv.NewBreadcrumb(" ⛴ DataTug", func() error {
 		return dtproject.GoProjectsScreen(tui, sneatnav.FocusToMenu)
 	}))
+
 	return tui
 }
