@@ -1,4 +1,4 @@
-package mssql
+package mssqlschema
 
 import (
 	"context"
@@ -10,13 +10,13 @@ import (
 	"github.com/datatug/datatug-core/pkg/schemer"
 )
 
-var _ schemer.CollectionsProvider = (*tablesProvider)(nil)
+var _ schemer.CollectionsProvider = (*collectionsProvider)(nil)
 
-type tablesProvider struct {
+type collectionsProvider struct {
 	db *sql.DB
 }
 
-func (v tablesProvider) GetCollections(
+func (v collectionsProvider) GetCollections(
 	_ context.Context,
 	parentKey *dal.Key,
 ) (
@@ -24,20 +24,22 @@ func (v tablesProvider) GetCollections(
 	err error,
 ) {
 	var rows *sql.Rows
-
+	var catalog, schema string
 	if parentKey == nil {
 		rows, err = v.db.Query(allTablesSQL)
 	} else {
-		schema := parentKey.ID.(string)
-		rows, err = v.db.Query(tablesForSchemaSQL, schema)
+		schema = parentKey.ID.(string)
+		if p := parentKey.Parent(); p != nil {
+			catalog = p.ID.(string)
+		}
+		rows, err = v.db.Query(tablesForSchemaSQL, parentKey.ID.(string))
 	}
 	if err != nil {
 		return nil, fmt.Errorf("failed to query MSSQL tables: %w", err)
 	}
-
 	reader = tablesReader{
-		catalog: parentKey.Parent().ID.(string),
-		schema:  parentKey.ID.(string),
+		catalog: catalog,
+		schema:  schema,
 		rows:    rows,
 	}
 	return reader, nil

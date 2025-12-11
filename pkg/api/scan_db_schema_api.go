@@ -8,7 +8,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/datatug/datatug-cli/pkg/schemers/mssql"
+	"github.com/datatug/datatug-cli/pkg/schemers/mssqlschema"
 	"github.com/datatug/datatug-core/pkg/datatug"
 	"github.com/datatug/datatug-core/pkg/dbconnection"
 	"github.com/datatug/datatug-core/pkg/parallel"
@@ -260,7 +260,7 @@ func scanDbCatalog(server datatug.ServerReference, connectionParams dbconnection
 	var scanner schemer.Scanner
 	switch server.Driver {
 	case "sqlserver":
-		scanner = schemer.NewScanner(mssql.NewSchemaProvider())
+		scanner = schemer.NewScanner(mssqlschema.NewSchemaProvider())
 	// TODO: Disabled until figured out how to exclude it from Google Appengine Build
 	//case "sqlite3":
 	//	scanner = schemer.NewScanner(sqlite.NewSchemaProvider())

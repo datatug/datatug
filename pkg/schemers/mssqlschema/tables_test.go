@@ -1,4 +1,4 @@
-package mssql
+package mssqlschema
 
 import (
 	"context"
