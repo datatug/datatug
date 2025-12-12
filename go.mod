@@ -7,7 +7,8 @@ require (
 	github.com/charmbracelet/bubbles v0.21.0
 	github.com/charmbracelet/bubbletea v1.3.10
 	github.com/charmbracelet/lipgloss v1.1.0
-	github.com/datatug/datatug-core v0.12.0
+	github.com/dal-go/dalgo2sql v0.2.6
+	github.com/datatug/datatug-core v0.12.1
 	github.com/datatug/sql2csv v0.0.0-20200927071952-a7fb986d1ec2
 	github.com/denisenkom/go-mssqldb v0.12.3
 	github.com/gdamore/tcell/v2 v2.13.4
@@ -27,10 +28,7 @@ require (
 	gopkg.in/yaml.v3 v3.0.1
 )
 
-require (
-	github.com/dal-go/dalgo2sql v0.2.6 // indirect
-	github.com/georgysavva/scany/v2 v2.1.4 // indirect
-)
+require github.com/georgysavva/scany/v2 v2.1.4 // indirect
 
 require (
 	al.essio.dev/pkg/shellescape v1.6.0 // indirect
