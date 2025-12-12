@@ -61,14 +61,14 @@ func initCommandAction(ctx context.Context, c *cli.Command) (err error) {
 	//
 	//var db *sql.DB
 	//
-	//if db, err = sql.Open(v.Driver, connString.String()); err != nil {
+	//if db, err = sql.Open(v.driver, connString.String()); err != nil {
 	//	log.Fatal("Error creating DB connection: " + err.Error())
 	//}
 	//
 	//// Close the database connection pool after consoleCommand executes
 	//defer func() { _ = db.Close() }()
 	//
-	//server := datatug.ServerReference{Driver: v.Driver, Host: v.Host, Port: port}
+	//server := datatug.ServerReference{driver: v.driver, Host: v.Host, Port: port}
 	//informationSchema := schemer.NewInformationSchema(server, db)
 	//
 	//var database *datatug.Database
@@ -89,7 +89,7 @@ func initCommandAction(ctx context.Context, c *cli.Command) (err error) {
 		//		ProjectItem: datatug.ProjectItem{ID: v.Environment},
 		//		DbServers: []*datatug.EnvDbServer{
 		//			{
-		//				Driver:    v.Driver,
+		//				driver:    v.driver,
 		//				Host:      server.Host,
 		//				Port:      server.Port,
 		//				DatabaseDiffs: []string{database.ID},

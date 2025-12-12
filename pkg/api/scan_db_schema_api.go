@@ -138,7 +138,7 @@ func updateProjectWithDbCatalog(project *datatug.Project, envID string, dbServer
 	if dbCatalog.Driver == "" {
 		dbCatalog.Driver = dbServerRef.Driver
 	} else if dbCatalog.Driver != dbServerRef.Driver {
-		return validation.NewErrBadRecordFieldValue("driver", "dbCatalog.Driver != dbServerRef.Driver")
+		return validation.NewErrBadRecordFieldValue("driver", "dbCatalog.driver != dbServerRef.driver")
 	}
 	if err = dbServerRef.Validate(); err != nil {
 		return fmt.Errorf("db server ref is invalid: %w", err)
@@ -269,10 +269,10 @@ func scanDbCatalog(server datatug.ServerReference, connectionParams dbconnection
 	}
 
 	dbCatalog, err = scanner.ScanCatalog(context.Background(), connectionParams.Catalog())
-	dbCatalog.ID = connectionParams.Catalog()
 	if err != nil {
 		return dbCatalog, fmt.Errorf("failed to get dbCatalog metadata: %w", err)
 	}
+	dbCatalog.ID = connectionParams.Catalog()
 	//if database, err = informationSchema.GetDatabase(connectionParams.Database()); err != nil {
 	//	return nil, fmt.Errorf("failed to get database metadata: %w", err)
 	//}

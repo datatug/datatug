@@ -1,6 +1,7 @@
-package sqlviewer
+package dbviewer
 
 import (
+	"github.com/datatug/datatug-cli/apps/datatugapp/datatugui/dtviewers"
 	"github.com/datatug/datatug-cli/pkg/sneatview/sneatnav"
 	"github.com/gdamore/tcell/v2"
 	"github.com/rivo/tview"
@@ -13,15 +14,15 @@ const (
 	SqlDbScreenViews
 )
 
-func newSqlDbMenu(tui *sneatnav.TUI, selectedScreen SqlDbRootScreen, filePath string) sneatnav.Panel {
+func newSqlDbMenu(tui *sneatnav.TUI, selectedScreen SqlDbRootScreen, dbContext dtviewers.DbContext) sneatnav.Panel {
 	list := tview.NewList()
 	list.SetWrapAround(false)
 
 	list.AddItem("Tables", "", 't', func() {
-		_ = goTables(tui, sneatnav.FocusToContent, filePath)
+		_ = goTables(tui, sneatnav.FocusToContent, dbContext)
 	})
 	list.AddItem("Views", "", 'v', func() {
-		_ = goViews(tui, sneatnav.FocusToContent, filePath)
+		_ = goViews(tui, sneatnav.FocusToContent, dbContext)
 	})
 
 	list.SetCurrentItem(int(selectedScreen))

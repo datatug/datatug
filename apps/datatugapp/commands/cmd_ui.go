@@ -2,6 +2,7 @@ package commands
 
 import (
 	"context"
+	"database/sql"
 	"errors"
 
 	"github.com/datatug/datatug-cli/apps/datatugapp"
@@ -12,8 +13,9 @@ import (
 	"github.com/datatug/datatug-cli/apps/datatugapp/datatugui/dtviewers/clouds/aws/awsui"
 	"github.com/datatug/datatug-cli/apps/datatugapp/datatugui/dtviewers/clouds/azure/azureui"
 	"github.com/datatug/datatug-cli/apps/datatugapp/datatugui/dtviewers/clouds/gcloud/gcloudui"
-	"github.com/datatug/datatug-cli/apps/datatugapp/datatugui/dtviewers/sqlviewer"
+	"github.com/datatug/datatug-cli/apps/datatugapp/datatugui/dtviewers/dbviewer"
 	"github.com/datatug/datatug-cli/pkg/dtio"
+	"github.com/datatug/datatug-cli/pkg/schemers/sqliteschema"
 	"github.com/datatug/datatug-cli/pkg/sneatview/sneatnav"
 	"github.com/urfave/cli/v3"
 )
@@ -63,7 +65,19 @@ func (v *uiCommand) Execute(filePath string) error {
 
 func openFile(filePath string, tui *sneatnav.TUI) error {
 	if dtio.IsSQLite(filePath) {
-		return sqlviewer.GoSqlDB(tui, filePath)
+		getSqlDB := func(_ context.Context, driverName string) (*sql.DB, error) {
+			// Open SQL database by file path
+			return sql.Open(driverName, filePath)
+		}
+
+		driver := dtviewers.Driver{ID: "sqlite3", ShortTitle: "SQLite"}
+
+		schema := sqliteschema.NewSchemaProvider(func() (*sql.DB, error) {
+			return getSqlDB(context.Background(), driver.ID)
+		})
+
+		dbContext := dtviewers.NewSqlDBContext(driver, getSqlDB, schema)
+		return dbviewer.GoDbViewerHome(tui, dbContext)
 	}
 	return errors.New("not a SQLite file")
 }
@@ -75,7 +89,7 @@ func registerModules() {
 	gcloudui.RegisterAsViewer()
 	awsui.RegisterAsViewer()
 	azureui.RegisterAsViewer()
-	sqlviewer.RegisterAsViewer()
+	dbviewer.RegisterAsViewer()
 
 	dtviewers.RegisterModule()
 	dtsettings.RegisterModule()

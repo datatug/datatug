@@ -149,17 +149,17 @@ func (e Executor) executeCommand(command RequestCommand) (recordset datatug.Reco
 	}
 
 	fmt.Println(connParams)
-	//fmt.Println(envDb.ServerReference.Driver, connParams.String())
+	//fmt.Println(envDb.ServerReference.driver, connParams.String())
 	//fmt.Println(command.Text)
 	var db *sql.DB
 	if db, err = sql.Open(dbServer.Driver, connParams.ConnectionString()); err != nil {
 		return
 	}
-	//defer func() {
-	//	if err := db.Close(); err != nil {
-	//		log.Printf("Failed to close DB: %v", err)
-	//	}
-	//}()
+	defer func() {
+		if err := db.Close(); err != nil {
+			log.Printf("Failed to close DB: %v", err)
+		}
+	}()
 
 	//var stmt *sql.Stmt
 	//if stmt, err = db.Prepare(command.Text); err != nil {
@@ -204,11 +204,11 @@ func (e Executor) executeQuery(db *sql.DB, driver, text string, args []interface
 		log.Printf("Failed to execute %v: %v", text, err)
 		return
 	}
-	//defer func() {
-	//	if err := rows.Close(); err != nil {
-	//		log.Printf("Failed to close rows reader: %v", err)
-	//	}
-	//}()
+	defer func() {
+		if err := rows.Close(); err != nil {
+			log.Printf("Failed to close rows reader: %v", err)
+		}
+	}()
 	var columnTypes []*sql.ColumnType
 	if columnTypes, err = rows.ColumnTypes(); err != nil {
 		return

@@ -3,14 +3,19 @@ package sqliteschema
 import (
 	"context"
 	"database/sql"
-	"fmt"
 
+	"github.com/dal-go/dalgo/dal"
 	"github.com/datatug/datatug-core/pkg/schemer"
 )
 
 // NewSchemaProvider creates a new SchemaProvider for MS SQL Server
-func NewSchemaProvider() schemer.SchemaProvider {
-	return schemaProvider{}
+func NewSchemaProvider(getSqliteDB func() (*sql.DB, error)) schemer.SchemaProvider {
+	if getSqliteDB == nil {
+		panic("getSqliteDB cannot be nil")
+	}
+	return schemaProvider{
+		getSqliteDB: getSqliteDB,
+	}
 }
 
 var _ schemer.SchemaProvider = (*schemaProvider)(nil)
@@ -20,23 +25,17 @@ type schemaProvider struct {
 	constraintsProvider
 	indexColumnsProvider
 	indexesProvider
-	collectionsProvider
-	db *sql.DB
+	getSqliteDB func() (*sql.DB, error)
+}
+
+func (s schemaProvider) GetCollections(_ context.Context, parent *dal.Key) (schemer.CollectionsReader, error) {
+	if db, err := s.getSqliteDB(); err != nil {
+		return nil, err
+	} else {
+		return getCollections(db, parent)
+	}
 }
 
 func (schemaProvider) IsBulkProvider() bool {
 	return true
-}
-
-func (s schemaProvider) RecordsCount(c context.Context, catalog, schema, object string) (*int, error) {
-	query := fmt.Sprintf("SELECT COUNT(1) FROM [%v].[%v]", schema, object)
-	rows, err := s.db.Query(query)
-	if err != nil {
-		return nil, fmt.Errorf("failed to get records count for %v.%v: %w", schema, object, err)
-	}
-	if rows.Next() {
-		var count int
-		return &count, rows.Scan(&count)
-	}
-	return nil, nil
 }

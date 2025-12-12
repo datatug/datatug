@@ -8,7 +8,7 @@ import (
 )
 
 func TestTablesProvider_GetTables(t *testing.T) {
-	v := collectionsProvider{}
+	v := schemaProvider{}
 	ctx := context.Background()
 	t.Run("panics on nil db", func(t *testing.T) {
 		defer func() {

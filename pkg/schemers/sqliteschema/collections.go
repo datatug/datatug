@@ -1,7 +1,6 @@
 package sqliteschema
 
 import (
-	"context"
 	"database/sql"
 	"fmt"
 	"strings"
@@ -11,19 +10,14 @@ import (
 	"github.com/datatug/datatug-core/pkg/schemer"
 )
 
-var _ schemer.CollectionsProvider = (*collectionsProvider)(nil)
-
-type collectionsProvider struct {
-	db *sql.DB
-}
-
-func (v collectionsProvider) GetCollections(
-	_ context.Context, parentKey *dal.Key,
-) (reader schemer.CollectionsReader, err error) {
+func getCollections(db *sql.DB, parentKey *dal.Key) (reader schemer.CollectionsReader, err error) {
 	r := new(collectionsReader)
 	reader = r
 	if parentKey == nil {
-		r.rows, err = v.db.Query(`SELECT type, name, sql FROM sqlite_schema WHERE type in ('table', 'view') ORDER BY name`)
+		//dal.From(dal.NewCollectionRef("sqlite_schema", "", nil)).
+		//	Where(dal.Field("type").Equal("table", "view")).
+		//	OrderBy(dal.Ascending(dal.Field("name")))
+		r.rows, err = db.Query(`SELECT type, name, sql FROM sqlite_schema WHERE type in ('table', 'view') ORDER BY name`)
 		if err != nil {
 			return nil, fmt.Errorf("failed to retrieve list of SQLite tables and views: %w", err)
 		}
@@ -31,13 +25,13 @@ func (v collectionsProvider) GetCollections(
 		switch strings.ToLower(parentKey.ID.(string)) {
 		case "tables":
 			r.collectionType = "table"
-			r.rows, err = v.db.Query(`SELECT name, sql FROM sqlite_schema WHERE type  'table' ORDER BY name`)
+			r.rows, err = db.Query(`SELECT name, sql FROM sqlite_schema WHERE type  'table' ORDER BY name`)
 			if err != nil {
 				return nil, fmt.Errorf("failed to retrieve list of SQLite tables : %w", err)
 			}
 		case "views":
 			r.collectionType = "view"
-			r.rows, err = v.db.Query(`SELECT name, sql FROM sqlite_schema WHERE type  'view' ORDER BY name`)
+			r.rows, err = db.Query(`SELECT name, sql FROM sqlite_schema WHERE type  'view' ORDER BY name`)
 			if err != nil {
 				return nil, fmt.Errorf("failed to retrieve list of SQLite views : %w", err)
 			}
@@ -69,9 +63,9 @@ func (s *collectionsReader) NextCollection() (c *datatug.CollectionInfo, err err
 	}
 	c = new(datatug.CollectionInfo)
 	if s.collectionType == "" {
-		err = s.rows.Scan(c.Name, c.SQL)
+		err = s.rows.Scan(&c.DbType, &c.Name, &c.SQL)
 	} else {
-		err = s.rows.Scan(c.DbType, c.Name, c.SQL)
+		err = s.rows.Scan(&c.Name, &c.SQL)
 	}
 	if err != nil {
 		return c, fmt.Errorf("failed to scan db row into CollectionInfo struct: %w", err)

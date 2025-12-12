@@ -1,4 +1,4 @@
-package sqlviewer
+package dbviewer
 
 type SqlDbContext struct {
 }

@@ -28,6 +28,11 @@ require (
 )
 
 require (
+	github.com/dal-go/dalgo2sql v0.2.6 // indirect
+	github.com/georgysavva/scany/v2 v2.1.4 // indirect
+)
+
+require (
 	al.essio.dev/pkg/shellescape v1.6.0 // indirect
 	cloud.google.com/go v0.123.0 // indirect
 	cloud.google.com/go/auth v0.17.0 // indirect

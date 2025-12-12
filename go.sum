@@ -66,6 +66,8 @@ github.com/cyphar/filepath-securejoin v0.6.1 h1:5CeZ1jPXEiYt3+Z6zqprSAgSWiggmpVy
 github.com/cyphar/filepath-securejoin v0.6.1/go.mod h1:A8hd4EnAeyujCJRrICiOWqjS1AX0a9kM5XL+NwKoYSc=
 github.com/dal-go/dalgo v0.26.5 h1:EG7fg/oX++QMZvTERB8NTYxFJuY6X0vXuFbFUg1nHhQ=
 github.com/dal-go/dalgo v0.26.5/go.mod h1:ZVN3K0I3Oq20o+GT8SeouIbyCxbL9F7XQbY0VT8haF0=
+github.com/dal-go/dalgo2sql v0.2.6 h1:gSu3c2jDULqOhh6PSzahvS9dmi5uVq3yX+FxxrI6Hro=
+github.com/dal-go/dalgo2sql v0.2.6/go.mod h1:BetmXJjVUKVQw/WuvY9c+0RsRBtG1OYj/2u53q08FJs=
 github.com/dal-go/mocks4dalgo v0.3.10 h1:TNEvy5x4ggXN+7flqrnJoEojmwKR6beEfolMsiuAofo=
 github.com/dal-go/mocks4dalgo v0.3.10/go.mod h1:CAnOekOUKRbKqdA9SqXrOfkad2QJqLw2Q720Z8x4lDc=
 github.com/danieljoos/wincred v1.2.3 h1:v7dZC2x32Ut3nEfRH+vhoZGvN72+dQ/snVXo/vMFLdQ=
@@ -105,6 +107,8 @@ github.com/gdamore/tcell/v2 v2.13.2 h1:5j4srfF8ow3HICOv/61/sOhQtA25qxEB2XR3Q/Bhx
 github.com/gdamore/tcell/v2 v2.13.2/go.mod h1:+Wfe208WDdB7INEtCsNrAN6O2m+wsTPk1RAovjaILlo=
 github.com/gdamore/tcell/v2 v2.13.4 h1:k4fdtdHGvLsLr2RttPnWEGTZEkEuTaL+rL6AOVFyRWU=
 github.com/gdamore/tcell/v2 v2.13.4/go.mod h1:+Wfe208WDdB7INEtCsNrAN6O2m+wsTPk1RAovjaILlo=
+github.com/georgysavva/scany/v2 v2.1.4 h1:nrzHEJ4oQVRoiKmocRqA1IyGOmM/GQOEsg9UjMR5Ip4=
+github.com/georgysavva/scany/v2 v2.1.4/go.mod h1:fqp9yHZzM/PFVa3/rYEC57VmDx+KDch0LoqrJzkvtos=
 github.com/gliderlabs/ssh v0.3.8 h1:a4YXD1V7xMF9g5nTkdfnja3Sxy1PVDCj1Zg4Wb8vY6c=
 github.com/gliderlabs/ssh v0.3.8/go.mod h1:xYoytBv1sV0aL3CavoDuJIQNURXkkfPA/wxQ1pL1fAU=
 github.com/go-git/gcfg v1.5.1-0.20230307220236-3a3c6141e376 h1:+zs/tPmkDkHx3U66DAb0lQFJrpS6731Oaa12ikc+DiI=

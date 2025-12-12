@@ -1,4 +1,4 @@
-package sqlviewer
+package dbviewer
 
 import (
 	"github.com/datatug/datatug-cli/apps/datatugapp/datatugui/dtviewers"
@@ -17,5 +17,5 @@ func RegisterAsViewer() {
 }
 
 func goSqlDbHome(tui *sneatnav.TUI, _ sneatnav.FocusTo) error {
-	return GoSqlDB(tui, "")
+	return GoDbViewerHome(tui, nil)
 }
