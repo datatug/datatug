@@ -100,13 +100,14 @@ func newProjectsPanel(tui *sneatnav.TUI) (*projectsPanel, error) {
 
 	// === LOCAL PROJECTS TREE ===
 	localRoot := tview.NewTreeNode("Local projects").
-		SetColor(tcell.ColorYellow).
+		SetColor(tcell.ColorLightBlue).
 		SetSelectable(false)
 	localTree.SetRoot(localRoot)
 
 	// Add existing projects under Local projects
 	for _, p := range panel.projects {
-		title := " 📁 " + GetProjectTitle(p) + " "
+		//title := " 📁 " + GetProjectTitle(p) + " "
+		title := GetProjectTitle(p) + " "
 		projectNode := tview.NewTreeNode(title).
 			SetReference(p).
 			SetColor(tcell.ColorWhite)
@@ -115,20 +116,21 @@ func newProjectsPanel(tui *sneatnav.TUI) (*projectsPanel, error) {
 
 	// Add Demo project first
 	localDemoProject := &appconfig.ProjectConfig{
-		ID:  "local-demo-project",
-		Url: "local",
+		ID:  "datatug-demo-project",
+		Url: "https://github.com/datatug/datatug-demo-project",
 	}
-	demoProjectNode := tview.NewTreeNode(" 📁 Local demo project ").
+	demoProjectNode := tview.NewTreeNode(" ~/datatug/datatug-demo-project ").
 		SetReference(localDemoProject) //.
 	localRoot.AddChild(demoProjectNode)
+	demoProjectNode.SetSelectedFunc(openDatatugDemoProject)
 
 	// Add actions to Local projects
-	localAddNode := tview.NewTreeNode(" 🔗 Add exising ").
+	localAddNode := tview.NewTreeNode(" Add exising ").
 		SetReference("local-add").
 		SetColor(tcell.ColorBlue) // TODO: Remove should be set by common styling
 	localRoot.AddChild(localAddNode)
 
-	localCreateNode := tview.NewTreeNode(" ➕Create new ").
+	localCreateNode := tview.NewTreeNode(" Create new ").
 		SetReference("local-create").
 		SetColor(tcell.ColorBlue) // TODO: Remove should be set by common styling
 	localRoot.AddChild(localCreateNode)
@@ -137,27 +139,33 @@ func newProjectsPanel(tui *sneatnav.TUI) (*projectsPanel, error) {
 	localTree.SetCurrentNode(localRoot.GetChildren()[0])
 
 	// === DATATUG CLOUD PROJECTS TREE ===
-	cloudRoot := tview.NewTreeNode("Projects in DataTug cloud").
-		SetColor(tcell.ColorYellow).
+	cloudsRoot := tview.NewTreeNode("Cloud projects").
+		SetColor(tcell.ColorLightBlue).
 		SetSelectable(false)
-	cloudTree.SetRoot(cloudRoot)
+	cloudTree.SetRoot(cloudsRoot)
+
+	datatugCloud := tview.NewTreeNode("Datatug Cloud")
+	datatugCloud.SetColor(tcell.ColorLightBlue).SetSelectable(false)
+	cloudsRoot.AddChild(datatugCloud)
 
 	// DataTug demo project
 	datatugDemoProject := &appconfig.ProjectConfig{
 		ID:  "datatug-demo-project",
 		Url: "cloud",
 	}
-	cloudDemoProjectNode := tview.NewTreeNode(" 📁 DataTug demo project ").
+	cloudDemoProjectNode := tview.NewTreeNode(" DataTug demo project ").
 		SetReference(datatugDemoProject) //.
 	//SetColor(tcell.ColorWhite)
-	cloudRoot.AddChild(cloudDemoProjectNode)
+	datatugCloud.AddChild(cloudDemoProjectNode)
 
 	// Login to view action (moved to end)
-	loginNode := tview.NewTreeNode(" 👤 Login to view personal or work projects ").
+	loginNode := tview.NewTreeNode(" Login to view personal or work projects ").
 		SetReference("login").
 		SetColor(tcell.ColorBlue)
-	cloudRoot.AddChild(loginNode)
-	cloudRoot.SetExpanded(true)
+	datatugCloud.AddChild(loginNode)
+
+	datatugCloud.SetExpanded(true)
+	cloudsRoot.SetExpanded(true)
 
 	// Create selection handler function
 	selectionHandler := func(node *tview.TreeNode) {

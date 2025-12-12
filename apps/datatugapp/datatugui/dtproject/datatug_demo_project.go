@@ -1,0 +1,5 @@
+package dtproject
+
+func openDatatugDemoProject() {
+
+}
