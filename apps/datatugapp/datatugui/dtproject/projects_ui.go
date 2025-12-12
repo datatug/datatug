@@ -116,13 +116,15 @@ func newProjectsPanel(tui *sneatnav.TUI) (*projectsPanel, error) {
 
 	// Add Demo project first
 	localDemoProject := &appconfig.ProjectConfig{
-		ID:  "datatug-demo-project",
+		ID:  datatugDemoProjectID,
 		Url: "https://github.com/datatug/datatug-demo-project",
 	}
 	demoProjectNode := tview.NewTreeNode(" ~/datatug/datatug-demo-project ").
 		SetReference(localDemoProject) //.
 	localRoot.AddChild(demoProjectNode)
-	demoProjectNode.SetSelectedFunc(openDatatugDemoProject)
+	demoProjectNode.SetSelectedFunc(func() {
+		openDatatugDemoProject(tui)
+	})
 
 	// Add actions to Local projects
 	localAddNode := tview.NewTreeNode(" Add exising ").
@@ -150,7 +152,7 @@ func newProjectsPanel(tui *sneatnav.TUI) (*projectsPanel, error) {
 
 	// DataTug demo project
 	datatugDemoProject := &appconfig.ProjectConfig{
-		ID:  "datatug-demo-project",
+		ID:  datatugDemoProjectID,
 		Url: "cloud",
 	}
 	cloudDemoProjectNode := tview.NewTreeNode(" DataTug demo project ").
@@ -289,18 +291,18 @@ func newProjectsPanel(tui *sneatnav.TUI) (*projectsPanel, error) {
 			return event // Normal DOWN navigation within a tree
 		case tcell.KeyEnter:
 			// Handle ENTER key press on project nodes
-			currentNode := currentTree.GetCurrentNode()
-			if currentNode != nil {
-				reference := currentNode.GetReference()
-				if reference != nil {
-					switch ref := reference.(type) {
-					case *appconfig.ProjectConfig:
-						// Call goProjectDashboards when ENTER is pressed on a project node
-						GoProjectScreen(tui, ref)
-						return nil
-					}
-				}
-			}
+			//currentNode := currentTree.GetCurrentNode()
+			//if currentNode != nil {
+			//	reference := currentNode.GetReference()
+			//	if reference != nil {
+			//		switch ref := reference.(type) {
+			//		case *appconfig.ProjectConfig:
+			//			// Call goProjectDashboards when ENTER is pressed on a project node
+			//			GoProjectScreen(tui, ref)
+			//			return nil
+			//		}
+			//	}
+			//}
 			return event
 		default:
 			return event
