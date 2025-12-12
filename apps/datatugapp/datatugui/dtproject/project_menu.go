@@ -1,6 +1,8 @@
 package dtproject
 
 import (
+	"strings"
+
 	"github.com/datatug/datatug-core/pkg/appconfig"
 	"github.com/datatug/datatug/pkg/sneatview/sneatnav"
 	"github.com/datatug/datatug/pkg/sneatview/sneatv"
@@ -28,14 +30,25 @@ func newProjectMenuPanel(tui *sneatnav.TUI, project *appconfig.ProjectConfig, cu
 	projectTitle := GetProjectShortTitle(project)
 	projectNode := tview.NewTreeNode(projectTitle).SetSelectable(true)
 	tree.SetRoot(projectNode)
+	projectNode.SetSelectedFunc(func() {
+		GoProjectScreen(tui, project)
+	})
 
 	tree.SetCurrentNode(projectNode)
 
 	tree.SetInputCapture(func(event *tcell.EventKey) *tcell.EventKey {
-		switch event.Key() {
+		key := event.Key()
+		switch key {
 		case tcell.KeyUp:
 			if tree.GetCurrentNode() == tree.GetRoot() {
 				tui.Header.SetFocus(sneatnav.ToBreadcrumbs, tree)
+				return nil
+			}
+			return event
+		case tcell.KeyRight, tcell.KeyLeft:
+			node := tree.GetCurrentNode()
+			if strings.HasPrefix(node.GetText(), "Environments") {
+				node.SetExpanded(key == tcell.KeyRight)
 				return nil
 			}
 			return event
@@ -53,11 +66,29 @@ func newProjectMenuPanel(tui *sneatnav.TUI, project *appconfig.ProjectConfig, cu
 		tree.SetCurrentNode(dashboardsNode)
 	}
 
-	envsNode := tview.NewTreeNode("Environments").SetSelectable(true)
+	dbsNode := tview.NewTreeNode("Databases").SetSelectable(true)
+	projectNode.AddChild(dbsNode)
+	dbsNode.SetSelectedFunc(func() {
+		panic("not implemented")
+	})
+
+	envsNode := tview.NewTreeNode("Environments (4)").SetSelectable(true)
 	projectNode.AddChild(envsNode)
 	envsNode.SetSelectedFunc(func() {
 		goEnvironmentsScreen(tui, project)
 	})
+
+	envsNode.AddChild(tview.NewTreeNode("Dev"))
+	envsNode.AddChild(tview.NewTreeNode("QA"))
+	envsNode.AddChild(tview.NewTreeNode("UAT"))
+	envsNode.AddChild(tview.NewTreeNode("PROD"))
+	envsNode.SetExpanded(false)
+
+	entitiesNode := tview.NewTreeNode("Entities").SetSelectable(true)
+	projectNode.AddChild(entitiesNode)
+
+	logsNode := tview.NewTreeNode("Logs").SetSelectable(true)
+	projectNode.AddChild(logsNode)
 
 	if currentScreen == ProjectScreenEnvironments {
 		tree.SetCurrentNode(envsNode)
