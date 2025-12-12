@@ -13,7 +13,7 @@ It can be run with your user account credentials (*e.g. trusted connection*) or 
 
 The `datatug` app has a lot of modules. Some ot that modules can be run as standalone CLI apps:
 
-- [`fsv`](../datatug-cli/apps/firestoreviewer) - A Firestore Viewer, similar to running `datatug firestore`
+- [`fsv`](../datatug/apps/firestoreviewer) - A Firestore Viewer, similar to running `datatug firestore`
 
 ## Would you steal my data?
 
@@ -73,7 +73,7 @@ If it passes you are good to go:
 
 ## How to run?
 
-Check the [CLI](https://github.com/datatug/datatug-cli) section on how to run DataTug agent.
+Check the [CLI](https://github.com/datatug/datatug) section on how to run DataTug agent.
 
 ## Supported databases
 
@@ -93,9 +93,9 @@ We are open for pull requests to support other `sql` DBs.
 
 ## Project structure
 
-- [apps](../datatug-cli/apps) - contains mini-apps like Firestore Viewer
-    - [datatug](../datatug-cli/apps/datatug) - defines `datatug` CLI commands & modules
-    - [firestoreviewer](../datatug-cli/apps/firestoreviewer) - the `fsv` CLI utility for managing Firestore databases
+- [apps](../datatug/apps) - contains mini-apps like Firestore Viewer
+    - [datatug](../datatug/apps/datatug) - defines `datatug` CLI commands & modules
+    - [firestoreviewer](../datatug/apps/firestoreviewer) - the `fsv` CLI utility for managing Firestore databases
 
 ## Dependencies & Credits
 

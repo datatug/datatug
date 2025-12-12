@@ -8,9 +8,9 @@ import (
 	"runtime"
 	"strings"
 
-	"github.com/datatug/datatug-cli/pkg/server"
 	"github.com/datatug/datatug-core/pkg/appconfig"
 	"github.com/datatug/datatug-core/pkg/storage/filestore"
+	"github.com/datatug/datatug/pkg/server"
 	"github.com/urfave/cli/v3"
 )
 

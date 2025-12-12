@@ -3,7 +3,7 @@ package color_test
 import (
 	"testing"
 
-	"github.com/datatug/datatug-cli/pkg/color"
+	"github.com/datatug/datatug/pkg/color"
 )
 
 const (

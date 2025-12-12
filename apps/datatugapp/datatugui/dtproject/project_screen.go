@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/datatug/datatug-cli/pkg/sneatview/sneatnav"
-	"github.com/datatug/datatug-cli/pkg/sneatview/sneatv"
 	"github.com/datatug/datatug-core/pkg/appconfig"
+	"github.com/datatug/datatug/pkg/sneatview/sneatnav"
+	"github.com/datatug/datatug/pkg/sneatview/sneatv"
 	"github.com/rivo/tview"
 )
 

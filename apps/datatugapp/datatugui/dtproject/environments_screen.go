@@ -1,8 +1,8 @@
 package dtproject
 
 import (
-	"github.com/datatug/datatug-cli/pkg/sneatview/sneatnav"
 	"github.com/datatug/datatug-core/pkg/appconfig"
+	"github.com/datatug/datatug/pkg/sneatview/sneatnav"
 )
 
 func goEnvironmentsScreen(tui *sneatnav.TUI, project *appconfig.ProjectConfig) {

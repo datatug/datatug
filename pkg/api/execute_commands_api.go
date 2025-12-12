@@ -4,9 +4,9 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/datatug/datatug-cli/pkg/sqlexecute"
 	"github.com/datatug/datatug-core/pkg/datatug"
 	"github.com/datatug/datatug-core/pkg/storage"
+	"github.com/datatug/datatug/pkg/sqlexecute"
 )
 
 // ExecuteCommands executes command
