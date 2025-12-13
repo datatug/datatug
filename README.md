@@ -91,11 +91,10 @@ Datatug can work with `sql` DBs if a relevant driver has been linked into `datat
 
 We are open for pull requests to support other `sql` DBs.
 
-## Project structure
+## For developers
 
-- [apps](../datatug/apps) - contains mini-apps like Firestore Viewer
-    - [datatug](../datatug/apps/datatug) - defines `datatug` CLI commands & modules
-    - [firestoreviewer](../datatug/apps/firestoreviewer) - the `fsv` CLI utility for managing Firestore databases
+Read [README-dev.md](README-dev.md) for details on how to setup, debug, and contribute.
+
 
 ## Dependencies & Credits
 
@@ -107,12 +106,12 @@ We are open for pull requests to support other `sql` DBs.
 ### By Database Platform
 
 - SQLite
-  - [Chinook Database](https://github.com/lerocha/chinook-database)
-  - [Northwind](https://github.com/jpwhite3/northwind-SQLite3)
+    - [Chinook Database](https://github.com/lerocha/chinook-database)
+    - [Northwind](https://github.com/jpwhite3/northwind-SQLite3)
 - MS SQL Server
-  - [Northwind](https://github.com/Microsoft/sql-server-samples/tree/master/samples/databases/northwind-pubs)
+    - [Northwind](https://github.com/Microsoft/sql-server-samples/tree/master/samples/databases/northwind-pubs)
 - Oracle
-  - [Northwind](https://github.com/dshifflet/NorthwindOracle_DDL)
+    - [Northwind](https://github.com/dshifflet/NorthwindOracle_DDL)
 
 ### Northwind Database
 
@@ -125,12 +124,9 @@ We are open for pull requests to support other `sql` DBs.
 - [DALgo](https://github.com/dal-go/dalgo) - Database Abstraction Layer for Go
 - [Bubble Tea](https://github.com/charmbracelet/bubbletea) - A Go framework for TUI apps
 
-## Contribution
+## Contributing
 
-Contributors wanted. For a start check [issues](https://github.com/datatug/datatug/issues)
-tagged with [`help wanted`](https://github.com/datatug/datatug/labels/help%20wanted)
-and [`good first issue`](https://github.com/datatug/datatug/labels/good%20first%20issue).
-
+We welcome contributions to DataTug! Please read our [contributing guidelines](CONTRIBUTING.md) for more information on how to contribute to the project.
 
 ## Download
 
