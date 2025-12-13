@@ -1,9 +1,11 @@
 package dtproject
 
 import (
+	"context"
+	"fmt"
 	"strings"
 
-	"github.com/datatug/datatug-core/pkg/appconfig"
+	"github.com/datatug/datatug-core/pkg/datatug"
 	"github.com/datatug/datatug/pkg/sneatview/sneatnav"
 	"github.com/datatug/datatug/pkg/sneatview/sneatv"
 	"github.com/gdamore/tcell/v2"
@@ -17,7 +19,36 @@ const (
 	ProjectScreenEnvironments = "environments"
 )
 
-func newProjectMenuPanel(tui *sneatnav.TUI, project *appconfig.ProjectConfig, currentScreen ProjectScreenID) sneatnav.Panel {
+type projectMenuPanel struct {
+	sneatnav.Panel
+	app     *tview.Application
+	project *datatug.Project
+	//
+	environments *tview.TreeNode
+}
+
+func (p *projectMenuPanel) SetProject(project *datatug.Project) {
+	p.project = project
+	if project == nil {
+		return
+	}
+	project.Environments = nil // force reload
+	environments, err := project.GetEnvironments(context.Background())
+
+	p.app.QueueUpdateDraw(func() {
+		if err != nil {
+			p.environments.ClearChildren()
+			p.environments.SetText("Environments (error)")
+		}
+		p.environments.SetText(fmt.Sprintf("Environments (%d)", len(environments)))
+		p.environments.ClearChildren()
+		for _, environment := range environments {
+			p.environments.AddChild(tview.NewTreeNode(environment.ID))
+		}
+	})
+}
+
+func newProjectMenuPanel(ctx ProjectContext, currentScreen ProjectScreenID) *projectMenuPanel {
 	tree := tview.NewTreeView()
 
 	//datatugNode := tview.NewTreeNode("DataTug").SetSelectable(true)
@@ -26,15 +57,30 @@ func newProjectMenuPanel(tui *sneatnav.TUI, project *appconfig.ProjectConfig, cu
 	//projectsNode := tview.NewTreeNode("Projects").SetSelectable(true)
 	//datatugNode.AddChild(projectsNode)
 
+	prjConfig := ctx.Config()
 	//projectTitle := " 📁 " + GetProjectShortTitle(project) // TODO: emoji breaks borders
-	projectTitle := GetProjectShortTitle(project)
+	projectTitle := GetProjectShortTitle(prjConfig)
 	projectNode := tview.NewTreeNode(projectTitle).SetSelectable(true)
 	tree.SetRoot(projectNode)
 	projectNode.SetSelectedFunc(func() {
-		GoProjectScreen(tui, project)
+		GoProjectScreen(ctx)
 	})
 
 	tree.SetCurrentNode(projectNode)
+
+	tui := ctx.TUI()
+
+	menu := projectMenuPanel{
+		app:   tui.App,
+		Panel: sneatnav.NewPanelWithBoxedPrimitive(tui, sneatnav.WithBox(tree, tree.Box)),
+	}
+
+	tree.SetChangedFunc(func(node *tview.TreeNode) {
+		switch node {
+		case menu.environments:
+			goEnvironmentsScreen(ctx, sneatnav.FocusToMenu)
+		}
+	})
 
 	tree.SetInputCapture(func(event *tcell.EventKey) *tcell.EventKey {
 		key := event.Key()
@@ -60,7 +106,7 @@ func newProjectMenuPanel(tui *sneatnav.TUI, project *appconfig.ProjectConfig, cu
 	dashboardsNode := tview.NewTreeNode("Dashboards").SetSelectable(true)
 	projectNode.AddChild(dashboardsNode)
 	dashboardsNode.SetSelectedFunc(func() {
-		goProjectDashboards(tui, project)
+		goProjectDashboards(ctx)
 	})
 	if currentScreen == ProjectScreenDashboards {
 		tree.SetCurrentNode(dashboardsNode)
@@ -72,17 +118,13 @@ func newProjectMenuPanel(tui *sneatnav.TUI, project *appconfig.ProjectConfig, cu
 		panic("not implemented")
 	})
 
-	envsNode := tview.NewTreeNode("Environments (4)").SetSelectable(true)
-	projectNode.AddChild(envsNode)
-	envsNode.SetSelectedFunc(func() {
-		goEnvironmentsScreen(tui, project)
+	menu.environments = tview.NewTreeNode("Environments").SetSelectable(true)
+	projectNode.AddChild(menu.environments)
+	menu.environments.SetSelectedFunc(func() {
+		goEnvironmentsScreen(ctx, sneatnav.FocusToContent)
 	})
 
-	envsNode.AddChild(tview.NewTreeNode("Dev"))
-	envsNode.AddChild(tview.NewTreeNode("QA"))
-	envsNode.AddChild(tview.NewTreeNode("UAT"))
-	envsNode.AddChild(tview.NewTreeNode("PROD"))
-	envsNode.SetExpanded(false)
+	menu.environments.SetExpanded(false)
 
 	entitiesNode := tview.NewTreeNode("Entities").SetSelectable(true)
 	projectNode.AddChild(entitiesNode)
@@ -91,7 +133,7 @@ func newProjectMenuPanel(tui *sneatnav.TUI, project *appconfig.ProjectConfig, cu
 	projectNode.AddChild(logsNode)
 
 	if currentScreen == ProjectScreenEnvironments {
-		tree.SetCurrentNode(envsNode)
+		tree.SetCurrentNode(menu.environments)
 	}
 
 	/*
@@ -123,5 +165,5 @@ func newProjectMenuPanel(tui *sneatnav.TUI, project *appconfig.ProjectConfig, cu
 
 	sneatv.DefaultBorder(tree.Box)
 
-	return sneatnav.NewPanelWithBoxedPrimitive(tui, sneatnav.WithBox(tree, tree.Box))
+	return &menu
 }

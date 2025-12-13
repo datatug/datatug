@@ -17,16 +17,28 @@ func NewProjectPanel(tui *sneatnav.TUI, projectConfig *appconfig.ProjectConfig) 
 	return sneatnav.NewPanelWithBoxedPrimitive(tui, sneatnav.WithBox(content, content.Box))
 }
 
-func GoProjectScreen(tui *sneatnav.TUI, p *appconfig.ProjectConfig) {
+func GoProjectScreen(ctx ProjectContext) {
+	tui := ctx.TUI()
+	pConfig := ctx.Config()
 	breadcrumbs := projectsBreadcrumbs(tui)
-	title := GetProjectTitle(p)
+	title := GetProjectTitle(pConfig)
 	if parts := strings.Split(title, "/"); len(parts) > 1 {
 		title = parts[len(parts)-1]
 	}
 	breadcrumbs.Push(sneatv.NewBreadcrumb(title, nil))
-	menu := newProjectMenuPanel(tui, p, "project")
-	content := NewProjectPanel(tui, p)
+	menu := newProjectMenuPanel(ctx, "project")
+	content := NewProjectPanel(tui, pConfig)
 	tui.SetPanels(menu, content, sneatnav.WithFocusTo(sneatnav.FocusToMenu))
+
+	go func() {
+		err := <-ctx.WatchProject()
+		if err != nil {
+			panic(fmt.Errorf("watch project error: %w", err))
+		}
+		project := ctx.Project()
+		menu.SetProject(project)
+	}()
+
 }
 
 func GetProjectTitle(p *appconfig.ProjectConfig) (projectTitle string) {

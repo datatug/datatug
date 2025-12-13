@@ -2,9 +2,11 @@ package dtproject
 
 import (
 	"context"
+	"fmt"
 	"sort"
 
 	"github.com/datatug/datatug-core/pkg/appconfig"
+	"github.com/datatug/datatug-core/pkg/storage/filestore"
 	"github.com/datatug/datatug/apps/datatugapp/datatugui"
 	"github.com/datatug/datatug/pkg/sneatview/sneatnav"
 	"github.com/datatug/datatug/pkg/sneatview/sneatv"
@@ -89,7 +91,13 @@ func newProjectsPanel(tui *sneatnav.TUI) (*projectsPanel, error) {
 	}
 
 	openProject := func(projectConfig *appconfig.ProjectConfig) {
-		GoProjectScreen(tui, projectConfig)
+		if projectConfig.ID == datatugDemoProjectID {
+			openDatatugDemoProject(tui)
+		} else {
+			loader := filestore.NewProjectsLoader("~/datatug")
+			ctx := NewProjectContext(tui, projectConfig, loader)
+			GoProjectScreen(ctx)
+		}
 	}
 
 	panel.projects = settings.Projects
@@ -114,17 +122,16 @@ func newProjectsPanel(tui *sneatnav.TUI) (*projectsPanel, error) {
 		localRoot.AddChild(projectNode)
 	}
 
-	// Add Demo project first
-	localDemoProject := &appconfig.ProjectConfig{
-		ID:  datatugDemoProjectID,
-		Url: "https://github.com/datatug/datatug-demo-project",
+	// Add a demo project first
+	localDemoProjectConfig := &appconfig.ProjectConfig{
+		ID:   datatugDemoProjectID,
+		Path: "~/datatug/datatug-demo-project",
+		Url:  "https://github.com/datatug/datatug-demo-project",
 	}
-	demoProjectNode := tview.NewTreeNode(" ~/datatug/datatug-demo-project ").
-		SetReference(localDemoProject) //.
-	localRoot.AddChild(demoProjectNode)
-	demoProjectNode.SetSelectedFunc(func() {
-		openDatatugDemoProject(tui)
-	})
+	localDemoProjectNode := tview.NewTreeNode(fmt.Sprintf(" %s ", localDemoProjectConfig.Path))
+	localDemoProjectNode.SetReference(localDemoProjectConfig)
+
+	localRoot.AddChild(localDemoProjectNode)
 
 	// Add actions to Local projects
 	localAddNode := tview.NewTreeNode(" Add exising ").

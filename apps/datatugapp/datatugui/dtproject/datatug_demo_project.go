@@ -3,11 +3,11 @@ package dtproject
 import (
 	"os"
 	"path/filepath"
-	"strings"
 
 	"github.com/datatug/datatug-core/pkg/appconfig"
+	"github.com/datatug/datatug-core/pkg/storage/filestore"
 	"github.com/datatug/datatug/pkg/sneatview/sneatnav"
-	git "github.com/go-git/go-git/v5"
+	"github.com/go-git/go-git/v5"
 	"github.com/rivo/tview"
 )
 
@@ -18,69 +18,50 @@ const datatugDemoProjectDir = "~/datatug/" + datatugDemoProjectID
 
 func openDatatugDemoProject(tui *sneatnav.TUI) {
 	// Expand home in path like ~/...
-	projectDir := expandHome(datatugDemoProjectDir)
+	projectDir := filestore.ExpandHome(datatugDemoProjectDir)
 
-	projectDirExists, err := dirExists(projectDir)
+	projectDirExists, err := filestore.DirExists(projectDir)
 	if err != nil {
 		panic(err)
 	}
-	if !projectDirExists {
-
-		progressText := tview.NewTextView()
-		progressText.SetTitle("Cloning project...")
-		progressPanel := sneatnav.NewPanelWithBoxedPrimitive(tui, sneatnav.WithBox(progressText, progressText.Box))
-		tui.SetPanels(tui.Menu, progressPanel, sneatnav.WithFocusTo(sneatnav.FocusToContent))
-
-		go func() {
-			// Ensure parent directory exists
-			parent := filepath.Dir(projectDir)
-			if err = os.MkdirAll(parent, 0o755); err != nil {
-				panic(err)
-			}
-			// Clone public GitHub repository datatugDemoProjectGitHubRepoID into datatugDemoProjectDir using go-git
-			if _, err = git.PlainClone(projectDir, false, &git.CloneOptions{
-				URL:      datatugDemoProjectGitHubRepoURL,
-				Progress: newTviewProgressWriter(tui, progressText),
-				// Depth: 1, // uncomment for shallow clone if desired
-			}); err != nil {
-				panic("git clone failed: " + err.Error())
-			}
-			tui.App.QueueUpdateDraw(func() {
-				p := &appconfig.ProjectConfig{
-					ID:  datatugDemoProjectID,
-					Url: datatugDemoProjectGitHubRepoURL,
-				}
-				GoProjectScreen(tui, p)
-			})
-		}()
-	}
-}
-func dirExists(path string) (bool, error) {
-	info, err := os.Stat(path)
-	if os.IsNotExist(err) {
-		return false, nil
-	}
-	if err != nil {
-		return false, err // some other error
-	}
-	return info.IsDir(), nil
-}
-
-// expandHome expands leading ~ to the user's home directory.
-func expandHome(p string) string {
-	if p == "" {
-		return p
-	}
-	if strings.HasPrefix(p, "~/") || p == "~" {
-		home, err := os.UserHomeDir()
-		if err == nil {
-			if p == "~" {
-				return home
-			}
-			return filepath.Join(home, strings.TrimPrefix(p, "~/"))
+	openDemoProject := func() {
+		pConfig := &appconfig.ProjectConfig{
+			ID:  datatugDemoProjectID,
+			Url: datatugDemoProjectGitHubRepoURL,
 		}
+		loader := filestore.NewProjectsLoader("~/datatug")
+		ctx := NewProjectContext(tui, pConfig, loader)
+		GoProjectScreen(ctx)
 	}
-	return p
+
+	if projectDirExists {
+		openDemoProject()
+		return
+	}
+
+	progressText := tview.NewTextView()
+	progressText.SetTitle("Cloning project...")
+	progressPanel := sneatnav.NewPanelWithBoxedPrimitive(tui, sneatnav.WithBox(progressText, progressText.Box))
+	tui.SetPanels(tui.Menu, progressPanel, sneatnav.WithFocusTo(sneatnav.FocusToContent))
+
+	go func() {
+		// Ensure parent directory exists
+		parent := filepath.Dir(projectDir)
+		if err = os.MkdirAll(parent, 0o755); err != nil {
+			panic(err)
+		}
+		// Clone public GitHub repository datatugDemoProjectGitHubRepoID into datatugDemoProjectDir using go-git
+		if _, err = git.PlainClone(projectDir, false, &git.CloneOptions{
+			URL:      datatugDemoProjectGitHubRepoURL,
+			Progress: newTviewProgressWriter(tui, progressText),
+			// Depth: 1, // uncomment for shallow clone if desired
+		}); err != nil {
+			panic("git clone failed: " + err.Error())
+		}
+		tui.App.QueueUpdateDraw(func() {
+			openDemoProject()
+		})
+	}()
 }
 
 // tviewProgressWriter implements io.Writer and appends text to a TextView safely via tview.Application.

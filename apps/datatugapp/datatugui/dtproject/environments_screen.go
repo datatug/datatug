@@ -1,15 +1,27 @@
 package dtproject
 
 import (
-	"github.com/datatug/datatug-core/pkg/appconfig"
 	"github.com/datatug/datatug/pkg/sneatview/sneatnav"
 )
 
-func goEnvironmentsScreen(tui *sneatnav.TUI, project *appconfig.ProjectConfig) {
+func goEnvironmentsScreen(ctx ProjectContext, focusTo sneatnav.FocusTo) {
 
-	menu := newProjectMenuPanel(tui, project, "environments")
+	var menu *projectMenuPanel
+	{ // This is too much boilerplate and needs to be simplified
+		if existing := ctx.TUI().Menu; existing != nil {
+			if m, ok := existing.(*projectMenuPanel); ok {
+				menu = m
+			}
+		}
+		if menu == nil {
+			menu = newProjectMenuPanel(ctx, "environments")
+		}
+	}
 
-	content := newEnvironmentsPanel(tui, project)
+	//project := ctx.Project()
+	//menu.SetProject(project)
 
-	tui.SetPanels(menu, content, sneatnav.WithFocusTo(sneatnav.FocusToContent))
+	content := newEnvironmentsPanel(ctx)
+
+	ctx.TUI().SetPanels(menu, content, sneatnav.WithFocusTo(focusTo))
 }
