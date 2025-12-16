@@ -40,12 +40,12 @@ func (v *addProjectCommand) Execute(_ []string) error {
 	projectID := strings.ToLower(v.ProjectName)
 	project := settings.GetProjectConfig(projectID)
 	if project != nil { // GetProjectStore with requested name already added to settings
-		if project.Url == appconfig.FileStoreUrlPrefix+v.ProjectDir { // Attempt to add the same project with same path
+		if project.Path == v.ProjectDir { // Attempt to add the same project with same path
 			return nil // No problem, just do nothing.
 		}
 		return fmt.Errorf("project with name [%v] already added to settings with path: %v", projectID, project.Url)
 	}
-	projectConfig := appconfig.ProjectConfig{ID: projectID, Url: appconfig.FileStoreUrlPrefix + v.ProjectDir}
+	projectConfig := appconfig.ProjectConfig{ID: projectID, Path: v.ProjectDir}
 
 	settings.Projects = append(settings.Projects, &projectConfig)
 

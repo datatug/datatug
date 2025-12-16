@@ -2,13 +2,14 @@ module github.com/datatug/datatug
 
 go 1.25.4
 
+//replace github.com/datatug/datatug-core => ../datatug-core
+
 require (
 	cloud.google.com/go/firestore v1.20.0
 	github.com/charmbracelet/bubbles v0.21.0
 	github.com/charmbracelet/bubbletea v1.3.10
 	github.com/charmbracelet/lipgloss v1.1.0
-	github.com/dal-go/dalgo2sql v0.2.6
-	github.com/datatug/datatug-core v0.12.1
+	github.com/datatug/datatug-core v0.12.2
 	github.com/datatug/sql2csv v0.0.0-20200927071952-a7fb986d1ec2
 	github.com/denisenkom/go-mssqldb v0.12.3
 	github.com/gdamore/tcell/v2 v2.13.4
@@ -28,7 +29,10 @@ require (
 	gopkg.in/yaml.v3 v3.0.1
 )
 
-require github.com/georgysavva/scany/v2 v2.1.4 // indirect
+require (
+	github.com/dal-go/dalgo2sql v0.2.6 // indirect
+	github.com/georgysavva/scany/v2 v2.1.4 // indirect
+)
 
 require (
 	al.essio.dev/pkg/shellescape v1.6.0 // indirect
@@ -43,8 +47,8 @@ require (
 	github.com/atotto/clipboard v0.1.4 // indirect
 	github.com/aymanbagabas/go-osc52/v2 v2.0.1 // indirect
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
-	github.com/charmbracelet/colorprofile v0.3.3 // indirect
-	github.com/charmbracelet/x/ansi v0.11.2 // indirect
+	github.com/charmbracelet/colorprofile v0.4.1 // indirect
+	github.com/charmbracelet/x/ansi v0.11.3 // indirect
 	github.com/charmbracelet/x/cellbuf v0.0.14 // indirect
 	github.com/charmbracelet/x/term v0.2.2 // indirect
 	github.com/clipperhouse/displaywidth v0.6.1 // indirect
@@ -119,6 +123,6 @@ require (
 	google.golang.org/genproto/googleapis/api v0.0.0-20251202230838-ff82c1b0f217 // indirect
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20251202230838-ff82c1b0f217 // indirect
 	google.golang.org/grpc v1.77.0 // indirect
-	google.golang.org/protobuf v1.36.10 // indirect
+	google.golang.org/protobuf v1.36.11 // indirect
 	gopkg.in/warnings.v0 v0.1.2 // indirect
 )
