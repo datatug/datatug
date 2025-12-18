@@ -70,6 +70,7 @@ func showCollections(tui *sneatnav.TUI, dbContext dtviewers.DbContext, selectedS
 	}
 	addHeader("Name")
 	addHeader("Cols")
+	table.SetFixed(1, 1)
 
 	table.SetCell(1, 0, tview.NewTableCell("Loading...").
 		SetSelectable(false).
