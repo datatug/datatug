@@ -9,7 +9,7 @@ import (
 type ViewerID string
 
 func NewCloudsMenu(tui *sneatnav.TUI, active ViewerID) (menu sneatnav.Panel) {
-	list := sneatnav.MainMenuList()
+	list := sneatnav.MainMenuList(tui)
 	sneatv.DefaultBorder(list.Box)
 
 	current := -1

@@ -40,7 +40,7 @@ func NewDataTugMainMenu(tui *sneatnav.TUI, active RootScreen) (menu sneatnav.Pan
 		}
 	}
 
-	list := sneatnav.MainMenuList()
+	list := sneatnav.MainMenuList(tui)
 
 	for _, item := range mainMenuItems {
 		list.AddItem(item.Text, "", item.Shortcut, handleMenuAction(item.Action))

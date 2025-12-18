@@ -25,7 +25,7 @@ func goDbViewerSelector(tui *sneatnav.TUI, focusTo sneatnav.FocusTo) error {
 }
 
 func getDbViewerMenu(tui *sneatnav.TUI, focusTo sneatnav.FocusTo, title string) *tview.List {
-	list := tview.NewList()
+	list := sneatnav.MainMenuList(tui)
 	if title != "" {
 		list.SetTitle(title)
 	}
@@ -33,5 +33,6 @@ func getDbViewerMenu(tui *sneatnav.TUI, focusTo sneatnav.FocusTo, title string) 
 		_ = goSqliteHome(tui, focusTo)
 	})
 	list.AddItem("PostgreSQL", "", 'p', nil)
+	setDefaultInputCaptureForList(tui, list)
 	return list
 }
