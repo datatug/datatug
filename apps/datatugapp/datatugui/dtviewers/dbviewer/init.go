@@ -16,6 +16,6 @@ func RegisterAsViewer() {
 	})
 }
 
-func goSqlDbHome(tui *sneatnav.TUI, _ sneatnav.FocusTo) error {
-	return GoDbViewerHome(tui, nil)
+func goSqlDbHome(tui *sneatnav.TUI, focusTo sneatnav.FocusTo) error {
+	return goDbViewerSelector(tui, focusTo)
 }

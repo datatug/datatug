@@ -115,7 +115,7 @@ func newProjectMenuPanel(ctx ProjectContext, currentScreen ProjectScreenID) *pro
 	dbsNode := tview.NewTreeNode("Databases").SetSelectable(true)
 	projectNode.AddChild(dbsNode)
 	dbsNode.SetSelectedFunc(func() {
-		panic("not implemented")
+		goDatabasesScreen(ctx, sneatnav.FocusToContent)
 	})
 
 	menu.environments = tview.NewTreeNode("Environments").SetSelectable(true)

@@ -2,6 +2,7 @@ package dbviewer
 
 import (
 	"context"
+	"errors"
 	"fmt"
 
 	"github.com/datatug/datatug/apps/datatugapp/datatugui/dtviewers"
@@ -20,6 +21,9 @@ func goViews(tui *sneatnav.TUI, _ sneatnav.FocusTo, dbContext dtviewers.DbContex
 }
 
 func showCollections(tui *sneatnav.TUI, dbContext dtviewers.DbContext, selectedScreen SqlDbRootScreen, title, collectionType string) error {
+	if dbContext == nil {
+		return errors.New("dbContext is nil")
+	}
 	breadcrumbs := getSqlDbBreadcrumbs(tui, dbContext)
 	breadcrumbs.Push(sneatv.NewBreadcrumb(title, nil))
 

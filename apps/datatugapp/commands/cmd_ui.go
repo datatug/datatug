@@ -77,7 +77,7 @@ func openFile(filePath string, tui *sneatnav.TUI) error {
 		})
 
 		dbContext := dtviewers.NewSqlDBContext(driver, getSqlDB, schema)
-		return dbviewer.GoDbViewerHome(tui, dbContext)
+		return dbviewer.GoSqlDbHome(tui, dbContext)
 	}
 	return errors.New("not a SQLite file")
 }
