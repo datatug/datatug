@@ -32,7 +32,33 @@ func showCollections(tui *sneatnav.TUI, dbContext dtviewers.DbContext, selectedS
 
 	table := tview.NewTable()
 	table.SetTitle(title + " @ " + dbContext.Driver().ShortTitle)
-	//setDefaultInputCaptureForList(tui, table)
+	// Enable cell selection by row and column
+	table.SetSelectable(true, true)
+	// Start with the first data row (row 1, col 0) active
+	table.Select(1, 0)
+	// Arrow-key behavior with edge focus transfers
+	table.SetInputCapture(func(event *tcell.EventKey) *tcell.EventKey {
+		switch event.Key() {
+		case tcell.KeyLeft:
+			_, col := table.GetSelection()
+			if col == 0 {
+				// Move focus to menu when on the leftmost column
+				tui.Menu.TakeFocus()
+				return nil
+			}
+			return event
+		case tcell.KeyUp:
+			row, _ := table.GetSelection()
+			if row <= 1 { // row 0 is header; row 1 is first data row
+				// Move focus to breadcrumbs when at the top row and pressing Up
+				tui.Header.SetFocus(sneatnav.ToBreadcrumbs, table)
+				return nil
+			}
+			return event
+		default:
+			return event
+		}
+	})
 
 	colIndex := 0
 	addHeader := func(name string) {
@@ -45,7 +71,9 @@ func showCollections(tui *sneatnav.TUI, dbContext dtviewers.DbContext, selectedS
 	addHeader("Name")
 	addHeader("Cols")
 
-	table.SetCell(1, 0, tview.NewTableCell("Loading..."))
+	table.SetCell(1, 0, tview.NewTableCell("Loading...").
+		SetSelectable(false).
+		SetTextColor(tcell.ColorLightGrey))
 
 	go func() {
 		if schema := dbContext.Schema(); schema != nil {
@@ -80,6 +108,20 @@ func showCollections(tui *sneatnav.TUI, dbContext dtviewers.DbContext, selectedS
 					}
 				}
 				table.SetTitle(fmt.Sprintf("%d %s @ %s", count, title, dbContext.Driver().ShortTitle))
+				// Ensure selection remains on a valid data row
+				selRow, selCol := table.GetSelection()
+				if selRow < 1 {
+					table.Select(1, 0)
+				} else {
+					// clamp column within available range [0, colIndex-1]
+					if selCol < 0 {
+						selCol = 0
+					}
+					if selCol >= colIndex {
+						selCol = colIndex - 1
+					}
+					table.Select(selRow, selCol)
+				}
 			})
 		}
 	}()
