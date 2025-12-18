@@ -108,20 +108,11 @@ func showCollections(tui *sneatnav.TUI, dbContext dtviewers.DbContext, selectedS
 					}
 				}
 				table.SetTitle(fmt.Sprintf("%d %s @ %s", count, title, dbContext.Driver().ShortTitle))
-				// Ensure selection remains on a valid data row
-				selRow, selCol := table.GetSelection()
-				if selRow < 1 {
+
+				if count > 0 {
 					table.Select(1, 0)
-				} else {
-					// clamp column within available range [0, colIndex-1]
-					if selCol < 0 {
-						selCol = 0
-					}
-					if selCol >= colIndex {
-						selCol = colIndex - 1
-					}
-					table.Select(selRow, selCol)
 				}
+				table.ScrollToBeginning()
 			})
 		}
 	}()
