@@ -43,5 +43,15 @@ func newSqlDbMenu(tui *sneatnav.TUI, selectedScreen SqlDbRootScreen, dbContext d
 		return event
 	})
 
+	list.SetChangedFunc(func(index int, mainText string, secondaryText string, shortcut rune) {
+		switch mainText {
+		case "Tables":
+			_ = goTables(tui, sneatnav.FocusToMenu, dbContext)
+			return
+		case "Views":
+			_ = goViews(tui, sneatnav.FocusToMenu, dbContext)
+		}
+	})
+
 	return sneatnav.NewPanelWithBoxedPrimitive(tui, sneatnav.WithBox(list, list.Box))
 }

@@ -8,6 +8,7 @@ import (
 	"github.com/dal-go/dalgo/dal"
 	"github.com/dal-go/dalgo2sql"
 	"github.com/datatug/datatug-core/pkg/schemer"
+	"github.com/datatug/datatug-core/pkg/storage/filestore"
 	"github.com/datatug/datatug/pkg/schemers/sqliteschema"
 )
 
@@ -39,6 +40,8 @@ func NewSqlDBContext(driver Driver, name string, getSqlDB SqlDBGetter, schema sc
 
 func GetSQLiteDbContext(path string) *SqlDBContext {
 	driver := Driver{ID: "sqlite3", ShortTitle: "SQLite"}
+
+	path = filestore.ExpandHome(path)
 
 	getSqlDB := func(_ context.Context, driverName string) (*sql.DB, error) {
 		return sql.Open(driverName, path) // Open SQL database by file path

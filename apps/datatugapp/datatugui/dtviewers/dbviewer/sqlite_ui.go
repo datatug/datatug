@@ -55,6 +55,7 @@ const northwindSqliteDbFileName = "northwind-sqlite.db"
 const northwindSqliteDbUrl = "https://raw.githubusercontent.com/jpwhite3/northwind-SQLite3/refs/heads/main/dist/northwind.db"
 
 func fileExists(path string) bool {
+	path = filestore.ExpandHome(path)
 	info, err := os.Stat(path)
 	return err == nil && !info.IsDir()
 }
@@ -69,7 +70,7 @@ func openSqliteDemoDb(tui *sneatnav.TUI, name string) {
 				return
 			}
 		}
-		dbContext := dtviewers.GetSQLiteDbContext(northwindSqliteDbFileName)
+		dbContext := dtviewers.GetSQLiteDbContext(filePath)
 		_ = GoSqlDbHome(tui, dbContext)
 	}
 }
@@ -292,17 +293,17 @@ func downloadFile(tui *sneatnav.TUI, from, to string) error {
 		go func() {
 			defer close(done)
 			for {
-				n, rerr := resp.Body.Read(buf)
+				n, respErr := resp.Body.Read(buf)
 				if n > 0 {
-					if _, werr := f.Write(buf[:n]); werr != nil {
-						copyErr = werr
+					if _, writeErr := f.Write(buf[:n]); writeErr != nil {
+						copyErr = writeErr
 						return
 					}
 					downloaded += int64(n)
 				}
-				if rerr != nil {
-					if rerr != io.EOF {
-						copyErr = rerr
+				if respErr != nil {
+					if respErr != io.EOF {
+						copyErr = respErr
 					}
 					return
 				}
@@ -352,7 +353,7 @@ func downloadFile(tui *sneatnav.TUI, from, to string) error {
 					_ = os.Remove(tmp)
 					return
 				}
-				if err := os.Rename(tmp, dst); err != nil {
+				if err = os.Rename(tmp, dst); err != nil {
 					tui.App.QueueUpdateDraw(func() {
 						_, _ = fmt.Fprintf(progress, "[red]Error saving file: %v[-]\n", err)
 					})
