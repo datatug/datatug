@@ -1,5 +1,9 @@
 package sneatnav
 
-func ShowErrorModal(_ *TUI, _ error) {
+import "github.com/rivo/tview"
 
+func ShowErrorModal(tui *TUI, err error) {
+	text := tview.NewTextView()
+	text.SetText(err.Error())
+	NewPanelWithBoxedPrimitive(tui, WithBox(text, text.Box))
 }

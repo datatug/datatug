@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"strconv"
 
 	"github.com/datatug/datatug/apps/datatugapp/datatugui/dtviewers"
 	"github.com/datatug/datatug/pkg/sneatview/sneatnav"
@@ -29,29 +30,40 @@ func showCollections(tui *sneatnav.TUI, dbContext dtviewers.DbContext, selectedS
 
 	menu := newSqlDbMenu(tui, selectedScreen, dbContext)
 
-	list := tview.NewList()
-	list.SetTitle(title + " @ " + dbContext.Driver().ShortTitle)
-	list.SetWrapAround(false)
-	setDefaultInputCaptureForList(tui, list)
+	table := tview.NewTable()
+	table.SetTitle(title + " @ " + dbContext.Driver().ShortTitle)
+	//setDefaultInputCaptureForList(tui, table)
 
-	list.AddItem("Loading...", "Please wait.", 0, nil)
+	colIndex := 0
+	addHeader := func(name string) {
+		cell := tview.NewTableCell(name).
+			SetSelectable(false).
+			SetTextColor(tcell.ColorLightBlue)
+		table.SetCell(0, colIndex, cell)
+		colIndex++
+	}
+	addHeader("Name")
+	addHeader("Cols")
 
-	if schema := dbContext.Schema(); schema != nil {
-		go func() {
+	table.SetCell(1, 0, tview.NewTableCell("Loading..."))
+
+	go func() {
+		if schema := dbContext.Schema(); schema != nil {
 			// Prime schema loading (non-blocking behavior depends on provider)
 			collections, err := schema.GetCollections(context.Background(), nil)
 			if err != nil {
-				list.Clear()
-				list.AddItem("Error", err.Error(), 0, nil)
+				table.Clear()
+				sneatnav.ShowErrorModal(tui, err)
 				return
 			}
 			tui.App.QueueUpdateDraw(func() {
-				list.Clear()
 				count := 0
+				i := 0
+
 				for {
 					collection, err := collections.NextCollection()
 					if err != nil {
-						list.AddItem("Error", err.Error(), 0, nil)
+						sneatnav.ShowErrorModal(tui, err)
 						return
 					}
 					if collection == nil {
@@ -59,15 +71,20 @@ func showCollections(tui *sneatnav.TUI, dbContext dtviewers.DbContext, selectedS
 					}
 					count++
 					if collection.DbType == collectionType {
-						list.AddItem(collection.Name, "", 0, nil)
+						i++
+						name := tview.NewTableCell(collection.Name)
+						table.SetCell(i, 0, name)
+
+						cols := tview.NewTableCell(strconv.Itoa(i)).SetAlign(tview.AlignRight)
+						table.SetCell(i, 1, cols)
 					}
 				}
-				list.SetTitle(fmt.Sprintf("%d %s @ %s", count, title, dbContext.Driver().ShortTitle))
+				table.SetTitle(fmt.Sprintf("%d %s @ %s", count, title, dbContext.Driver().ShortTitle))
 			})
-		}()
-	}
+		}
+	}()
 
-	content := sneatnav.NewPanelWithBoxedPrimitive(tui, sneatnav.WithBox(list, list.Box))
+	content := sneatnav.NewPanelWithBoxedPrimitive(tui, sneatnav.WithBox(table, table.Box))
 
 	tui.SetPanels(menu, content, sneatnav.WithFocusTo(sneatnav.FocusToContent))
 	return nil
