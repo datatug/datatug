@@ -8,6 +8,7 @@ import (
 )
 
 type DbContext interface {
+	Name() string // A db name. For SQLite would be a file name
 	Driver() Driver
 	Schema() schemer.SchemaProvider
 	GetDB(ctx context.Context) (db dal.DB, err error)
@@ -18,10 +19,17 @@ type Driver struct {
 	ShortTitle string
 }
 
+var _ DbContext = (*DbContextBase)(nil)
+
 type DbContextBase struct {
+	name   string
 	driver Driver
 	schema schemer.SchemaProvider
 	getDB  func(ctx context.Context) (dal.DB, error)
+}
+
+func (c *DbContextBase) Name() string {
+	return c.name
 }
 
 func (c *DbContextBase) Driver() Driver {

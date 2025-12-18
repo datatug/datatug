@@ -9,5 +9,8 @@ import (
 func getSqlDbBreadcrumbs(tui *sneatnav.TUI, dbContext dtviewers.DbContext) sneatnav.Breadcrumbs {
 	breadcrumbs := dtviewers.GetViewersBreadcrumbs(tui)
 	breadcrumbs.Push(sneatv.NewBreadcrumb(dbContext.Driver().ShortTitle, nil))
+	if name := dbContext.Name(); name != "" {
+		breadcrumbs.Push(sneatv.NewBreadcrumb(name, nil))
+	}
 	return breadcrumbs
 }

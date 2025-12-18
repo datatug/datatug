@@ -2,7 +2,6 @@ package commands
 
 import (
 	"context"
-	"database/sql"
 	"errors"
 
 	datatug "github.com/datatug/datatug/apps/datatugapp"
@@ -15,7 +14,6 @@ import (
 	"github.com/datatug/datatug/apps/datatugapp/datatugui/dtviewers/clouds/gcloud/gcloudui"
 	"github.com/datatug/datatug/apps/datatugapp/datatugui/dtviewers/dbviewer"
 	"github.com/datatug/datatug/pkg/dtio"
-	"github.com/datatug/datatug/pkg/schemers/sqliteschema"
 	"github.com/datatug/datatug/pkg/sneatview/sneatnav"
 	"github.com/urfave/cli/v3"
 )
@@ -65,18 +63,7 @@ func (v *uiCommand) Execute(filePath string) error {
 
 func openFile(filePath string, tui *sneatnav.TUI) error {
 	if dtio.IsSQLite(filePath) {
-		getSqlDB := func(_ context.Context, driverName string) (*sql.DB, error) {
-			// Open SQL database by file path
-			return sql.Open(driverName, filePath)
-		}
-
-		driver := dtviewers.Driver{ID: "sqlite3", ShortTitle: "SQLite"}
-
-		schema := sqliteschema.NewSchemaProvider(func() (*sql.DB, error) {
-			return getSqlDB(context.Background(), driver.ID)
-		})
-
-		dbContext := dtviewers.NewSqlDBContext(driver, getSqlDB, schema)
+		dbContext := dtviewers.GetSQLiteDbContext(filePath)
 		return dbviewer.GoSqlDbHome(tui, dbContext)
 	}
 	return errors.New("not a SQLite file")

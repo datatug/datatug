@@ -11,6 +11,8 @@ import (
 	"strings"
 	"time"
 
+	"github.com/datatug/datatug-core/pkg/storage/filestore"
+	"github.com/datatug/datatug/apps/datatugapp/datatugui/dtviewers"
 	"github.com/datatug/datatug/pkg/sneatview/sneatnav"
 	"github.com/gdamore/tcell/v2"
 	"github.com/rivo/tview"
@@ -36,7 +38,7 @@ func goSqliteHome(tui *sneatnav.TUI, focusTo sneatnav.FocusTo) error {
 	demoNode.SetSelectable(false)
 	root.AddChild(demoNode)
 
-	northwindNode := tview.NewTreeNode(demoDbsFolder + northwindSqliteDbFileName)
+	northwindNode := tview.NewTreeNode(" " + demoDbsFolder + northwindSqliteDbFileName + " ")
 	northwindNode.SetSelectedFunc(func() {
 		openSqliteDemoDb(tui, northwindSqliteDbFileName)
 	})
@@ -50,15 +52,25 @@ func goSqliteHome(tui *sneatnav.TUI, focusTo sneatnav.FocusTo) error {
 
 const demoDbsFolder = "~/datatug/demo-dbs/"
 const northwindSqliteDbFileName = "northwind-sqlite.db"
+const northwindSqliteDbUrl = "https://raw.githubusercontent.com/jpwhite3/northwind-SQLite3/refs/heads/main/dist/northwind.db"
+
+func fileExists(path string) bool {
+	info, err := os.Stat(path)
+	return err == nil && !info.IsDir()
+}
 
 func openSqliteDemoDb(tui *sneatnav.TUI, name string) {
 	switch name {
 	case northwindSqliteDbFileName:
-		_ = downloadFile(
-			tui,
-			"https://raw.githubusercontent.com/jpwhite3/northwind-SQLite3/refs/heads/main/dist/northwind.db",
-			demoDbsFolder+northwindSqliteDbFileName)
-
+		filePath := filepath.Join(demoDbsFolder, name)
+		if !fileExists(filePath) {
+			if err := downloadFile(tui, northwindSqliteDbUrl, filePath); err != nil {
+				sneatnav.ShowErrorModal(tui, err)
+				return
+			}
+		}
+		dbContext := dtviewers.GetSQLiteDbContext(northwindSqliteDbFileName)
+		_ = GoSqlDbHome(tui, dbContext)
 	}
 }
 
@@ -67,8 +79,7 @@ func downloadFile(tui *sneatnav.TUI, from, to string) error {
 		return errors.New("tui is nil")
 	}
 
-	// Prepare destination path
-	dst := expandHome(to)
+	dst := filestore.ExpandHome(to)
 	if err := os.MkdirAll(filepath.Dir(dst), 0o755); err != nil {
 		return fmt.Errorf("failed to create dir: %w", err)
 	}
@@ -354,6 +365,8 @@ func downloadFile(tui *sneatnav.TUI, from, to string) error {
 					// Move focus to progress text since the button row is gone
 					tui.SetFocus(progress)
 					_, _ = fmt.Fprintf(progress, "\n[green]Completed successfully.[-]\n")
+					dtContext := dtviewers.GetSQLiteDbContext(dst)
+					_ = GoSqlDbHome(tui, dtContext)
 				})
 				return
 			}
@@ -377,16 +390,4 @@ func humanBytes(n int64) string {
 		exp++
 	}
 	return fmt.Sprintf("%.1f %ciB", float64(n)/float64(div), "KMGTPE"[exp])
-}
-
-func expandHome(path string) string {
-	if strings.HasPrefix(path, "~/") || path == "~" {
-		if home, err := os.UserHomeDir(); err == nil {
-			if path == "~" {
-				return home
-			}
-			return filepath.Join(home, path[2:])
-		}
-	}
-	return path
 }
