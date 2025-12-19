@@ -68,8 +68,12 @@ github.com/cyphar/filepath-securejoin v0.6.1 h1:5CeZ1jPXEiYt3+Z6zqprSAgSWiggmpVy
 github.com/cyphar/filepath-securejoin v0.6.1/go.mod h1:A8hd4EnAeyujCJRrICiOWqjS1AX0a9kM5XL+NwKoYSc=
 github.com/dal-go/dalgo v0.26.5 h1:EG7fg/oX++QMZvTERB8NTYxFJuY6X0vXuFbFUg1nHhQ=
 github.com/dal-go/dalgo v0.26.5/go.mod h1:ZVN3K0I3Oq20o+GT8SeouIbyCxbL9F7XQbY0VT8haF0=
+github.com/dal-go/dalgo v0.29.3 h1:RGep+caRNT1/t4cYsWW3pSSmmpeBWIewNPQ/pLSesyg=
+github.com/dal-go/dalgo v0.29.3/go.mod h1:5pxs6KCdhMjtfNiFCQZS9Qsupqphcr9cP01lwQ7vvUs=
 github.com/dal-go/dalgo2sql v0.2.6 h1:gSu3c2jDULqOhh6PSzahvS9dmi5uVq3yX+FxxrI6Hro=
 github.com/dal-go/dalgo2sql v0.2.6/go.mod h1:BetmXJjVUKVQw/WuvY9c+0RsRBtG1OYj/2u53q08FJs=
+github.com/dal-go/dalgo2sql v0.3.0 h1:kSdvI1QXnBGFQNCkifJulu2cTFhKge0nU7scV2fIbEY=
+github.com/dal-go/dalgo2sql v0.3.0/go.mod h1:rc1tbjH5qlRp8y553puQHRDEpyasgxQJERPtUF9g+vk=
 github.com/dal-go/mocks4dalgo v0.3.10 h1:TNEvy5x4ggXN+7flqrnJoEojmwKR6beEfolMsiuAofo=
 github.com/dal-go/mocks4dalgo v0.3.10/go.mod h1:CAnOekOUKRbKqdA9SqXrOfkad2QJqLw2Q720Z8x4lDc=
 github.com/danieljoos/wincred v1.2.3 h1:v7dZC2x32Ut3nEfRH+vhoZGvN72+dQ/snVXo/vMFLdQ=
