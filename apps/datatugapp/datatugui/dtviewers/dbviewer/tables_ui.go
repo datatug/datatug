@@ -35,6 +35,9 @@ func showCollections(tui *sneatnav.TUI, focusTo sneatnav.FocusTo, dbContext dtvi
 	collectionsTable.SetTitle(title + " @ " + dbContext.Driver().ShortTitle)
 	// Enable cell selection by row and column
 	collectionsTable.SetSelectable(true, true)
+	collectionsTable.SetSelectedFunc(func(row, column int) {
+		goTable(tui, dtviewers.CollectionContext{})
+	})
 	// Start with the first data row (row 1, col 0) active
 	collectionsTable.Select(1, 0)
 	// Arrow-key behavior with edge focus transfers
