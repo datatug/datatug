@@ -2,9 +2,7 @@ package dbviewer
 
 import (
 	"context"
-	"errors"
 	"fmt"
-	"io"
 	"reflect"
 
 	"github.com/dal-go/dalgo/dal"
@@ -45,20 +43,9 @@ func loadDataIntoTable(collectionCtx dtviewers.CollectionContext, table *tview.T
 
 	schema := collectionCtx.Schema()
 	// TODO: Pass CollectionRef to GetColumns() by value?
-	columnsReader, err := schema.GetColumns(ctx, "", &collectionCtx.CollectionRef)
+	columns, err := schema.GetColumns(ctx, "", schemer.ColumnsFilter{CollectionRef: &collectionCtx.CollectionRef})
 	if err != nil {
 		return err
-	}
-	var columns []schemer.Column
-	for {
-		col, err := columnsReader.NextColumn()
-		if err != nil {
-			if errors.Is(err, io.EOF) {
-				break
-			}
-			return err
-		}
-		columns = append(columns, col)
 	}
 
 	for i, record := range records {
