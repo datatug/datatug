@@ -41,7 +41,7 @@ func openDatatugDemoProject(tui *sneatnav.TUI) {
 
 	progressText := tview.NewTextView()
 	progressText.SetTitle("Cloning project...")
-	progressPanel := sneatnav.NewPanelWithBoxedPrimitive(tui, sneatnav.WithBox(progressText, progressText.Box))
+	progressPanel := sneatnav.NewPanel(tui, sneatnav.WithBox(progressText, progressText.Box))
 	tui.SetPanels(tui.Menu, progressPanel, sneatnav.WithFocusTo(sneatnav.FocusToContent))
 
 	go func() {

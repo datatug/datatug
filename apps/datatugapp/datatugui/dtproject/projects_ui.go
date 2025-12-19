@@ -30,6 +30,9 @@ type projectsPanel struct {
 	trees            []*tview.TreeView // slice for easy access
 }
 
+func (*projectsPanel) Close() {
+}
+
 func projectsBreadcrumbs(tui *sneatnav.TUI) sneatnav.Breadcrumbs {
 	breadcrumbs := tui.Header.Breadcrumbs()
 	breadcrumbs.Clear()

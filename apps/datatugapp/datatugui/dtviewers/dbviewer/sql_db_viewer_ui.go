@@ -19,7 +19,7 @@ func goDbViewerSelector(tui *sneatnav.TUI, focusTo sneatnav.FocusTo) error {
 	breadcrumbs := dtviewers.GetViewersBreadcrumbs(tui)
 	breadcrumbs.Push(sneatv.NewBreadcrumb("SQL DB Viewers", nil))
 
-	content := sneatnav.NewPanelWithBoxedPrimitive(tui, sneatnav.WithBox(menu, menu.Box))
+	content := sneatnav.NewPanel(tui, sneatnav.WithBox(menu, menu.Box))
 	tui.SetPanels(tui.Menu, content, sneatnav.WithFocusTo(focusTo))
 	return nil
 }

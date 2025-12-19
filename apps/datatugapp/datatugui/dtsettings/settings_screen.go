@@ -45,7 +45,7 @@ func goSettingsScreen(tui *sneatnav.TUI, focusTo sneatnav.FocusTo) error {
 	const fileName = " Config File: ~/.datatug.yaml"
 	textView.SetText(settingsStr)
 
-	content := sneatnav.NewPanelWithBoxedPrimitive(tui, sneatnav.WithBox(textView, textView.Box))
+	content := sneatnav.NewPanel(tui, sneatnav.WithBox(textView, textView.Box))
 
 	sneatv.DefaultBorder(textView.Box)
 	textView.SetTitle(fileName)

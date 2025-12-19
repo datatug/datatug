@@ -142,7 +142,7 @@ func showCollections(tui *sneatnav.TUI, focusTo sneatnav.FocusTo, dbContext dtvi
 	//contentFlex.AddItem(collectionsTable, 0, 1, true)
 	//contentFlex.AddItem(sidePanel, 0, 1, true)
 
-	content := sneatnav.NewPanelWithBoxedPrimitive(tui, sneatnav.WithBox(collectionsTable, collectionsTable.Box))
+	content := sneatnav.NewPanel(tui, sneatnav.WithBox(collectionsTable, collectionsTable.Box))
 
 	tui.SetPanels(menu, content, sneatnav.WithFocusTo(focusTo))
 	return nil

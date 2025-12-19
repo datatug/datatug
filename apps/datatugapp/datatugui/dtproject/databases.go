@@ -39,7 +39,7 @@ func newDatabasesPanel(ctx ProjectContext) sneatnav.Panel {
 		textView := tview.NewTextView()
 		textView.SetText(err.Error())
 		textView.SetTextColor(tcell.ColorRed)
-		return sneatnav.NewPanelWithBoxedPrimitive(ctx.TUI(), sneatnav.WithBox(textView, textView.Box))
+		return sneatnav.NewPanel(ctx.TUI(), sneatnav.WithBox(textView, textView.Box))
 	}
 
 	list := tview.NewList()
@@ -58,5 +58,5 @@ func newDatabasesPanel(ctx ProjectContext) sneatnav.Panel {
 	//list.AddItem("UAT", "User Acceptance Testing", 'u', nil)
 	//list.AddItem("PROD", "Production", 'p', nil)
 
-	return sneatnav.NewPanelWithBoxedPrimitive(ctx.TUI(), sneatnav.WithBox(list, list.Box))
+	return sneatnav.NewPanel(ctx.TUI(), sneatnav.WithBox(list, list.Box))
 }

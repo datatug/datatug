@@ -7,6 +7,7 @@ import (
 type Panel interface {
 	PrimitiveWithBox
 	TakeFocus()
+	Close()
 }
 
 type PanelPrimitive interface {
@@ -28,11 +29,15 @@ type panel[T PrimitiveWithBox] struct {
 	tui *TUI
 }
 
+func (p panel[T]) Close() {
+	panic("implement me") //TODO implement me
+}
+
 func (p panel[T]) TakeFocus() {
 	p.tui.App.SetFocus(p.PrimitiveWithBox)
 }
 
-func NewPanelWithBoxedPrimitive[T tview.Primitive](tui *TUI, p WithBoxType[T]) Panel {
+func NewPanel[T tview.Primitive](tui *TUI, p WithBoxType[T]) Panel {
 	return &panel[WithBoxType[T]]{
 		PrimitiveWithBox: p,
 		tui:              tui,

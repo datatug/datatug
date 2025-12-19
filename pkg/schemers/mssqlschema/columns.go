@@ -5,6 +5,7 @@ import (
 	"database/sql"
 	"fmt"
 
+	"github.com/dal-go/dalgo/dal"
 	"github.com/datatug/datatug-core/pkg/datatug"
 	"github.com/datatug/datatug-core/pkg/schemer"
 )
@@ -35,7 +36,8 @@ type columnsProvider struct {
 	db *sql.DB
 }
 
-func (v columnsProvider) GetColumns(_ context.Context, catalog, schemaName, tableName string) (schemer.ColumnsReader, error) {
+func (v columnsProvider) GetColumns(_ context.Context, catalog string, colRef *dal.CollectionRef) (schemer.ColumnsReader, error) {
+	_, _ = catalog, colRef
 	rows, err := v.db.Query(columnsSQL)
 	if err != nil {
 		return nil, fmt.Errorf("failed to retrieve columns: %w", err)

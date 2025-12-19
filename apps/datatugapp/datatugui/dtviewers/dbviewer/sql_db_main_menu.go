@@ -53,5 +53,5 @@ func newSqlDbMenu(tui *sneatnav.TUI, selectedScreen SqlDbRootScreen, dbContext d
 		}
 	})
 
-	return sneatnav.NewPanelWithBoxedPrimitive(tui, sneatnav.WithBox(list, list.Box))
+	return sneatnav.NewPanel(tui, sneatnav.WithBox(list, list.Box))
 }

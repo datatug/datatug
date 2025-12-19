@@ -42,7 +42,7 @@ func goApiServiceMonitor(tui *sneatnav.TUI, focusTo sneatnav.FocusTo) error {
 		return event
 	})
 
-	content := sneatnav.NewPanelWithBoxedPrimitive(tui, sneatnav.WithBox(textView, textView.Box))
+	content := sneatnav.NewPanel(tui, sneatnav.WithBox(textView, textView.Box))
 
 	tui.SetPanels(menu, content, sneatnav.WithFocusTo(focusTo))
 	return nil

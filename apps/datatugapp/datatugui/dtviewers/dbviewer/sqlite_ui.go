@@ -20,7 +20,7 @@ import (
 
 func goSqliteHome(tui *sneatnav.TUI, focusTo sneatnav.FocusTo) error {
 	menu := getDbViewerMenu(tui, focusTo, "")
-	menuPanel := sneatnav.NewPanelWithBoxedPrimitive(tui, sneatnav.WithBox(menu, menu.Box))
+	menuPanel := sneatnav.NewPanel(tui, sneatnav.WithBox(menu, menu.Box))
 
 	tree := tview.NewTreeView()
 	tree.SetTitle("SQLite DB viewer")
@@ -44,7 +44,7 @@ func goSqliteHome(tui *sneatnav.TUI, focusTo sneatnav.FocusTo) error {
 	})
 	demoNode.AddChild(northwindNode)
 
-	content := sneatnav.NewPanelWithBoxedPrimitive(tui, sneatnav.WithBox(tree, tree.Box))
+	content := sneatnav.NewPanel(tui, sneatnav.WithBox(tree, tree.Box))
 
 	tui.SetPanels(menuPanel, content, sneatnav.WithFocusTo(focusTo))
 	return nil
@@ -109,7 +109,7 @@ func downloadFile(tui *sneatnav.TUI, from, to string) error {
 
 	// Show initial content panel with progress + button
 	boxed := sneatnav.WithBox(container, container.Box)
-	progressPanel := sneatnav.NewPanelWithBoxedPrimitive(tui, boxed)
+	progressPanel := sneatnav.NewPanel(tui, boxed)
 	tui.SetPanels(tui.Menu, progressPanel, sneatnav.WithFocusTo(sneatnav.FocusToContent))
 	// Focus the Cancel button when the download view opens
 	// Set focus explicitly to the Cancel button so user can press Enter immediately

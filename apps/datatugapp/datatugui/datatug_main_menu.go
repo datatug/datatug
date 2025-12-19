@@ -94,5 +94,5 @@ func NewDataTugMainMenu(tui *sneatnav.TUI, active RootScreen) (menu sneatnav.Pan
 
 	sneatv.DefaultBorder(list.Box)
 
-	return sneatnav.NewPanelWithBoxedPrimitive(tui, sneatnav.WithBox(list, list.Box))
+	return sneatnav.NewPanel(tui, sneatnav.WithBox(list, list.Box))
 }

@@ -46,7 +46,7 @@ func newGProjectMenu(gcProjCtx *CGProjectContext) sneatnav.Panel {
 			return event
 		}
 	})
-	return sneatnav.NewPanelWithBoxedPrimitive(gcProjCtx.TUI, sneatnav.WithBox(list, list.Box))
+	return sneatnav.NewPanel(gcProjCtx.TUI, sneatnav.WithBox(list, list.Box))
 }
 
 func goProject(gcProjCtx *CGProjectContext) error {

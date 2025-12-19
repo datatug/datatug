@@ -11,5 +11,5 @@ func newDashboardsPanel(ctx ProjectContext) sneatnav.Panel {
 
 	sneatv.DefaultBorder(content.Box)
 
-	return sneatnav.NewPanelWithBoxedPrimitive(ctx.TUI(), sneatnav.WithBox(content, content.Box))
+	return sneatnav.NewPanel(ctx.TUI(), sneatnav.WithBox(content, content.Box))
 }

@@ -72,7 +72,7 @@ func newProjectMenuPanel(ctx ProjectContext, currentScreen ProjectScreenID) *pro
 
 	menu := projectMenuPanel{
 		app:   tui.App,
-		Panel: sneatnav.NewPanelWithBoxedPrimitive(tui, sneatnav.WithBox(tree, tree.Box)),
+		Panel: sneatnav.NewPanel(tui, sneatnav.WithBox(tree, tree.Box)),
 	}
 
 	tree.SetChangedFunc(func(node *tview.TreeNode) {

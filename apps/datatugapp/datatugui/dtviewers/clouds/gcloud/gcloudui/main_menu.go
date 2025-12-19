@@ -61,5 +61,5 @@ func newMainMenu(cContext *GCloudContext, active Screen, isInContent bool) (menu
 		return event
 	})
 
-	return sneatnav.NewPanelWithBoxedPrimitive(cContext.TUI, sneatnav.WithBox(list, list.Box))
+	return sneatnav.NewPanel(cContext.TUI, sneatnav.WithBox(list, list.Box))
 }
