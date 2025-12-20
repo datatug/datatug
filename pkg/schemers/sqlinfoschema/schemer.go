@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 	"log"
+	"strings"
 
 	"github.com/datatug/datatug-core/pkg/datatug"
 	"github.com/datatug/datatug-core/pkg/parallel"
@@ -30,19 +31,19 @@ func (s InformationSchema) GetDatabase(name string) (database *datatug.DbCatalog
 		return database, fmt.Errorf("failed to retrieve tables metadata: %w", err)
 	}
 	for _, t := range tables {
-		schema := database.Schemas.GetByID(t.Schema)
+		schema := database.Schemas.GetByID(t.Schema())
 		if schema == nil {
 			schema = new(datatug.DbSchema)
-			schema.ID = t.Schema
+			schema.ID = t.Schema()
 			database.Schemas = append(database.Schemas, schema)
 		}
-		switch t.DbType {
+		switch t.CollectionKey.Name() {
 		case "BASE TABLE":
 			schema.Tables = append(schema.Tables, t)
 		case "VIEW":
 			schema.Views = append(schema.Views, t)
 		default:
-			err = fmt.Errorf("object [%v] has unknown DB type: %v", t.Name, t.DbType)
+			err = fmt.Errorf("object [%s] has unknown DB type: %v", t.Name(), t.DbType)
 			return
 		}
 	}
@@ -85,11 +86,29 @@ ORDER BY TABLE_SCHEMA, TABLE_NAME`)
 	}
 	tables = make([]*datatug.CollectionInfo, 0)
 	for rows.Next() {
-		var table datatug.CollectionInfo
-		if err = rows.Scan(&table.Schema, &table.Name, &table.DbType); err != nil {
+		var schema, name, dbType string
+		if err = rows.Scan(&schema, &name, &dbType); err != nil {
 			return nil, fmt.Errorf("failed to scan table row into CollectionInfo struct: %w", err)
 		}
-		table.Catalog = catalog
+		var collectionType datatug.CollectionType
+		switch strings.ToUpper(dbType) {
+		case "BASE TABLE":
+			collectionType = datatug.CollectionTypeTable
+		case "VIEW":
+			collectionType = datatug.CollectionTypeView
+		default:
+			err = fmt.Errorf("unsupported DB type: %s", dbType)
+			return
+		}
+		table := datatug.CollectionInfo{
+			CollectionKey: datatug.NewCollectionKey(
+				collectionType,
+				name,
+				schema,
+				catalog,
+				nil,
+			),
+		}
 		tables = append(tables, &table)
 	}
 	log.Printf("Retrieved %v tables.", len(tables))
@@ -161,10 +180,9 @@ ORDER BY tc.TABLE_SCHEMA, tc.TABLE_NAME, tc.CONSTRAINT_TYPE, kcu.CONSTRAINT_NAME
 				} else {
 					//refTable := refTableFinder.FindTable(refTableCatalog, refTableSchema, refTableName)
 					fk := datatug.ForeignKey{
-						Name: constraintName,
-						Columns: []string{
-							columnName},
-						RefTable: datatug.CollectionKey{Catalog: refTableCatalog.String, Schema: refTableSchema.String, Name: refTableName.String},
+						Name:     constraintName,
+						Columns:  []string{columnName},
+						RefTable: datatug.NewTableKey(refTableName.String, refTableSchema.String, refTableCatalog.String, nil),
 					}
 					if matchOption.Valid {
 						fk.MatchOption = matchOption.String
@@ -185,11 +203,11 @@ ORDER BY tc.TABLE_SCHEMA, tc.TABLE_NAME, tc.CONSTRAINT_TYPE, kcu.CONSTRAINT_NAME
 						}
 						var refByTable *datatug.TableReferencedBy
 						for _, refByTable = range refTable.ReferencedBy {
-							if refByTable.Catalog == catalog && refByTable.Schema == tSchema && refByTable.Name == tName {
+							if refByTable.Catalog() == catalog && refByTable.Schema() == tSchema && refByTable.Name() == tName {
 								break
 							}
 						}
-						if refByTable == nil || refByTable.Catalog != catalog || refByTable.Schema != tSchema || refByTable.Name != tName {
+						if refByTable == nil || refByTable.Catalog() != catalog || refByTable.Schema() != tSchema || refByTable.Name() != tName {
 							refByTable = &datatug.TableReferencedBy{CollectionKey: table.CollectionKey, ForeignKeys: make([]*datatug.RefByForeignKey, 0, 1)}
 							refTable.ReferencedBy = append(refTable.ReferencedBy, refByTable)
 						}
@@ -292,23 +310,23 @@ FROM INFORMATION_SCHEMA.COLUMNS ORDER BY TABLE_SCHEMA, TABLE_NAME, ORDINAL_POSIT
 		if collationName.Valid && collationName.String != "" {
 			c.Collation = &datatug.Collation{Name: collationName.String}
 			//if collationSchema.Valid {
-			//	c.Collation.Schema = collationSchema.String
+			//	c.Collation.schema = collationSchema.String
 			//}
 			//if collationCatalog.Valid {
-			//	c.Collation.Catalog = collationCatalog.String
+			//	c.Collation.catalog = collationCatalog.String
 			//}
 		}
 		/*
-			if table == nil || tName != table.ID || tSchema != table.Schema || tCatalog != table.Catalog {
+			if table == nil || tName != table.ID || tSchema != table.schema || tCatalog != table.catalog {
 				for _, t := range tables {
-					if t.ID == tName && t.Schema == tSchema && t.Catalog == tCatalog {
+					if t.ID == tName && t.schema == tSchema && t.catalog == tCatalog {
 						//log.Printf("Found table: %+v", t)
 						table = t
 						break
 					}
 				}
 			}
-			if table == nil || table.ID != tName || table.Schema != tSchema || table.Catalog != tCatalog {
+			if table == nil || table.ID != tName || table.schema != tSchema || table.catalog != tCatalog {
 			}
 		*/
 		if table := tablesFinder.SequentialFind(catalog, tSchema, tName); table != nil {
@@ -400,23 +418,23 @@ ORDER BY SCHEMA_NAME(o.schema_id) + '.' + o.name, i.name;`)
 		if collationName.Valid && collationName.String != "" {
 			c.Collation = &datatug.Collation{Name: collationName.String}
 			//if collationSchema.Valid {
-			//	c.Collation.Schema = collationSchema.String
+			//	c.Collation.schema = collationSchema.String
 			//}
 			//if collationCatalog.Valid {
-			//	c.Collation.Catalog = collationCatalog.String
+			//	c.Collation.catalog = collationCatalog.String
 			//}
 		}
 		/*
-			if table == nil || tName != table.ID || tSchema != table.Schema || tCatalog != table.Catalog {
+			if table == nil || tName != table.ID || tSchema != table.schema || tCatalog != table.catalog {
 				for _, t := range tables {
-					if t.ID == tName && t.Schema == tSchema && t.Catalog == tCatalog {
+					if t.ID == tName && t.schema == tSchema && t.catalog == tCatalog {
 						//log.Printf("Found table: %+v", t)
 						table = t
 						break
 					}
 				}
 			}
-			if table == nil || table.ID != tName || table.Schema != tSchema || table.Catalog != tCatalog {
+			if table == nil || table.ID != tName || table.schema != tSchema || table.catalog != tCatalog {
 			}
 		*/
 		if table := tablesFinder.SequentialFind(catalog, tSchema, tName); table != nil {

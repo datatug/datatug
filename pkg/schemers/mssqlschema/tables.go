@@ -4,6 +4,7 @@ import (
 	"context"
 	"database/sql"
 	"fmt"
+	"strings"
 
 	"github.com/dal-go/dalgo/dal"
 	"github.com/datatug/datatug-core/pkg/datatug"
@@ -70,25 +71,40 @@ type tablesReader struct {
 	rows    *sql.Rows
 }
 
-func (s tablesReader) NextCollection() (*datatug.CollectionInfo, error) {
+func (s tablesReader) NextCollection() (collectionInfo *datatug.CollectionInfo, err error) {
 	if !s.rows.Next() {
-		err := s.rows.Err()
+		err = s.rows.Err()
 		if err != nil {
 			err = fmt.Errorf("failed to retrieve db object row: %w", err)
 		}
 		return nil, err
 	}
-	var table datatug.CollectionInfo
-	var err error
+
+	var name, schema, dbType string
 	if s.schema == "" {
-		err = s.rows.Scan(&table.Schema, &table.Name, &table.DbType)
+		err = s.rows.Scan(&schema, &name, &dbType)
 	} else {
-		err = s.rows.Scan(&table.Name, &table.DbType)
-		table.Schema = s.schema
+		schema = s.schema
+		err = s.rows.Scan(&name, &dbType)
 	}
+	var collectionType datatug.CollectionType
+	switch strings.ToLower(dbType) {
+	case "table":
+		collectionType = datatug.CollectionTypeTable
+	case "view":
+		collectionType = datatug.CollectionTypeView
+	default:
+		collectionType = datatug.CollectionTypeUnknown
+	}
+	table := datatug.CollectionInfo{
+		CollectionKey: datatug.NewCollectionKey(collectionType, name, schema, "", nil),
+		TableProps: datatug.TableProps{
+			DbType: dbType,
+		},
+	}
+
 	if err != nil {
 		return nil, fmt.Errorf("failed to scan table row into Table struct: %w", err)
 	}
-	table.Catalog = s.catalog
 	return &table, nil
 }

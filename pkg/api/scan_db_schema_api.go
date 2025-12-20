@@ -35,7 +35,7 @@ func UpdateDbSchema(ctx context.Context, projectLoader ProjectLoader, projectID,
 		projectID, environment, driver, dbModelID, dbConnParams.Catalog(), dbConnParams.String())
 
 	if dbConnParams.Catalog() == "" {
-		return nil, validation.NewErrRequestIsMissingRequiredField("dbConnParams.Catalog")
+		return nil, validation.NewErrRequestIsMissingRequiredField("dbConnParams.catalog")
 	}
 
 	if projectID == "" {

@@ -36,7 +36,9 @@ func showCollections(tui *sneatnav.TUI, focusTo sneatnav.FocusTo, dbContext dtvi
 	// Enable cell selection by row and column
 	collectionsTable.SetSelectable(true, true)
 	collectionsTable.SetSelectedFunc(func(row, column int) {
-		goTable(tui, dtviewers.CollectionContext{})
+		cell := collectionsTable.GetCell(row, column)
+		collectionInfo := cell.Reference.(*datatug.CollectionInfo)
+		goTable(tui, dtviewers.CollectionContext{CollectionRef: collectionInfo.Ref})
 	})
 	// Start with the first data row (row 1, col 0) active
 	collectionsTable.Select(1, 0)
@@ -107,7 +109,7 @@ func showCollections(tui *sneatnav.TUI, focusTo sneatnav.FocusTo, dbContext dtvi
 					}
 					if collection.DbType == collectionType {
 						i++
-						name := tview.NewTableCell(collection.Name)
+						name := tview.NewTableCell(collection.Name())
 						name.SetReference(collection)
 						collectionsTable.SetCell(i, 0, name)
 

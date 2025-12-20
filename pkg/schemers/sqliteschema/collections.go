@@ -61,14 +61,21 @@ func (s *collectionsReader) NextCollection() (c *datatug.CollectionInfo, err err
 		}
 		return
 	}
-	c = new(datatug.CollectionInfo)
+	var name, dbType string
 	if s.collectionType == "" {
-		err = s.rows.Scan(&c.DbType, &c.Name, &c.SQL)
+		err = s.rows.Scan(&c.DbType, &name, &c.SQL)
 	} else {
-		err = s.rows.Scan(&c.Name, &c.SQL)
+		err = s.rows.Scan(&name, &c.SQL)
 	}
 	if err != nil {
 		return c, fmt.Errorf("failed to scan db row into CollectionInfo struct: %w", err)
 	}
+	var collectionType datatug.CollectionType
+	switch strings.ToUpper(dbType) {
+	case "TABLE":
+		collectionType = datatug.CollectionTypeTable
+	case "VIEW":
+	}
+	c.CollectionKey = datatug.NewCollectionKey(collectionType, name, "", "", nil)
 	return
 }

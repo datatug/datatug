@@ -109,23 +109,23 @@ func (s columnsReader) NextColumn() (col schemer.Column, err error) {
 	if collationName.Valid && collationName.String != "" {
 		col.Collation = &datatug.Collation{Name: collationName.String}
 		//if collationSchema.Valid {
-		//	c.Collation.Schema = collationSchema.String
+		//	c.Collation.schema = collationSchema.String
 		//}
 		//if collationCatalog.Valid {
-		//	c.Collation.Catalog = collationCatalog.String
+		//	c.Collation.catalog = collationCatalog.String
 		//}
 	}
 	/*
-		if table == nil || tName != table.ID || tSchema != table.Schema || tCatalog != table.Catalog {
+		if table == nil || tName != table.ID || tSchema != table.schema || tCatalog != table.catalog {
 			for _, t := range tables {
-				if t.ID == tName && t.Schema == tSchema && t.Catalog == tCatalog {
+				if t.ID == tName && t.schema == tSchema && t.catalog == tCatalog {
 					//log.Printf("Found table: %+v", t)
 					table = t
 					break
 				}
 			}
 		}
-		if table == nil || table.ID != tName || table.Schema != tSchema || table.Catalog != tCatalog {
+		if table == nil || table.ID != tName || table.schema != tSchema || table.catalog != tCatalog {
 		}
 	*/
 	return col, nil

@@ -59,7 +59,7 @@ func (v *showProjectCommand) Execute(_ []string) error {
 		for _, db := range dbServer.Catalogs {
 			_, _ = fmt.Fprintln(w, "\t\t🛢️ Database: ", db.ID)
 			for _, schema := range db.Schemas {
-				_, _ = fmt.Fprintln(w, "\t\t\t Schema: ", db.ID)
+				_, _ = fmt.Fprintln(w, "\t\t\t schema: ", db.ID)
 				printCols := func(t *datatug.CollectionInfo) {
 					if len(t.Columns) > 0 {
 						table := uitable.New()
@@ -75,19 +75,19 @@ func (v *showProjectCommand) Execute(_ []string) error {
 					}
 				}
 				printTable := func(singular string, t *datatug.CollectionInfo) {
-					_, _ = fmt.Fprintf(w, "\t\t\t\t📄 %v: %v.%v\n", singular, t.Schema, t.Name)
+					_, _ = fmt.Fprintf(w, "\t\t\t\t📄 %v: %s.%s\n", singular, t.Schema(), t.Name())
 					if t.PrimaryKey != nil {
-						_, _ = fmt.Fprintf(w, "\t\t\t\t\t🔑 Primary key: %v (%v)\n", t.PrimaryKey.Name, strings.Join(t.PrimaryKey.Columns, ", "))
+						_, _ = fmt.Fprintf(w, "\t\t\t\t\t🔑 Primary key: %s (%s)\n", t.PrimaryKey.Name, strings.Join(t.PrimaryKey.Columns, ", "))
 					}
 					if len(t.ForeignKeys) > 0 {
-						_, _ = fmt.Fprintf(w, "\t\t\t\t\t🔗 Foreign keys (%v):", len(t.ForeignKeys))
+						_, _ = fmt.Fprintf(w, "\t\t\t\t\t🔗 Foreign keys (%d):", len(t.ForeignKeys))
 						for _, fk := range t.ForeignKeys {
-							_, _ = fmt.Fprintf(w, "\t\t\t\t\t\t (%v) %v.%v @ %v\n", strings.Join(fk.Columns, ", "), fk.RefTable.Schema, fk.RefTable.Name, fk.Name)
+							_, _ = fmt.Fprintf(w, "\t\t\t\t\t\t (%v) %s.%s @ %v\n", strings.Join(fk.Columns, ", "), fk.RefTable.Schema(), fk.RefTable.Name(), fk.Name)
 						}
 					}
 					for _, refBy := range t.ReferencedBy {
 						for _, fk := range refBy.ForeignKeys {
-							_, _ = fmt.Fprintf(w, "\t\t\t\t\t📎 Referenced by: %v.%v (%v) @ %v\n", refBy.Schema, refBy.Name, strings.Join(fk.Columns, ", "), fk.Name)
+							_, _ = fmt.Fprintf(w, "\t\t\t\t\t📎 Referenced by: %s.%s (%s) @ %v\n", refBy.Schema(), refBy.Name(), strings.Join(fk.Columns, ", "), fk.Name)
 						}
 					}
 					printCols(t)
