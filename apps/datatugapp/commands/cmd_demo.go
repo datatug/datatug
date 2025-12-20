@@ -85,7 +85,7 @@ func (c demoCommand) Execute(_ []string) error {
 
 	if c.ResetProject {
 		if err := os.RemoveAll(demoProjectPath); err != nil {
-			return fmt.Errorf("failed to remove existig demo project: %w", err)
+			return fmt.Errorf("failed to remove existing demo project: %w", err)
 		}
 	}
 	demoDbFiles := []demoDbFile{
