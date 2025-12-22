@@ -29,11 +29,15 @@ func (schemaProvider) IsBulkProvider() bool {
 }
 
 func (s schemaProvider) RecordsCount(_ context.Context, catalog, schema, object string) (*int, error) {
+	_ = catalog
 	query := fmt.Sprintf("SELECT COUNT(1) FROM [%v].[%v]", schema, object)
 	rows, err := s.db.Query(query)
 	if err != nil {
 		return nil, fmt.Errorf("failed to get records count for %v.%v: %w", schema, object, err)
 	}
+	defer func() {
+		_ = rows.Close()
+	}()
 	if rows.Next() {
 		var count int
 		return &count, rows.Scan(&count)

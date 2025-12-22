@@ -17,7 +17,7 @@ func DatatugCommand() *cli.Command {
 		Commands: []*cli.Command{
 			initCommand(),
 			uiCommandArgs(),
-			auth.AuthCommand(),
+			auth.Command(),
 			gcloudcmds.GoogleCloudCommand(),
 			configCommand(),
 			datasetCommands(),

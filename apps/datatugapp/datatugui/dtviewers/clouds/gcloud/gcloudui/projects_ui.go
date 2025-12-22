@@ -110,11 +110,11 @@ func showProjects(cContext *GCloudContext, focusTo sneatnav.FocusTo) error {
 		if thumbSize < 1 {
 			thumbSize = 1
 		}
-		// Thumb position based on selection ratio
-		denom := (total - 1)
 		pos := 0
-		if denom > 0 {
-			pos = (selRow - 1) * (track - thumbSize) / denom
+		// Thumb position based on selection ratio
+		denominator := total - 1
+		if denominator > 0 {
+			pos = (selRow - 1) * (track - thumbSize) / denominator
 		}
 		if pos < 0 {
 			pos = 0

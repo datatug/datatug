@@ -2,9 +2,9 @@ package sneatnav
 
 import "github.com/rivo/tview"
 
-func NewScreenBase(tui *TUI, primitive tview.Primitive, options ScreenOptions) ScreenBase {
-	return ScreenBase{Tui: tui, options: options, Primitive: primitive}
-}
+//func NewScreenBase(tui *TUI, primitive tview.Primitive, options ScreenOptions) ScreenBase {
+//	return ScreenBase{Tui: tui, options: options, Primitive: primitive}
+//}
 
 //var _ Screen = (*ScreenBase)(nil)
 

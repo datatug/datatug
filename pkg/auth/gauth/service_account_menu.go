@@ -23,7 +23,7 @@ type serviceAccountMenu struct {
 // For now, we derive the project list from the service account JSON (field project_id),
 // which provides at least one project ID without external API calls.
 func newServiceAccountMenu(acc ServiceAccountDbo) tea.Model {
-	items := []list.Item{}
+	var items []list.Item
 	if projects, err := projectsFromServiceAccount(acc.Path); err == nil {
 		for _, project := range projects {
 			items = append(items, menuItem{title: project.Name, id: project.ProjectId})

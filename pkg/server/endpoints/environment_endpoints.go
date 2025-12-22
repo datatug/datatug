@@ -1,7 +1,7 @@
 package endpoints
 
 import (
-	context "context"
+	"context"
 	"net/http"
 
 	"github.com/datatug/datatug-core/pkg/dto"

@@ -12,11 +12,6 @@ func DefaultBorder(box *tview.Box) {
 	box.SetBorderPadding(1, 0, 1, 1)
 }
 
-func DefaultListStyle(list *tview.List) {
-	list.SetWrapAround(false)
-	//DefaultBorder(list.Box)
-}
-
 func SetPanelTitle(box *tview.Box, title string) {
 	DefaultBorder(box)
 	box.SetTitle(title)

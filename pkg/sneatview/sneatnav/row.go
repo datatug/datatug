@@ -4,33 +4,32 @@ import (
 	//"fmt"
 	//"strings"
 
-	"github.com/gdamore/tcell/v2"
 	"github.com/rivo/tview"
 )
 
-func NewRow(app *tview.Application, cells ...Cell) *Row {
-	row := &Row{
-		app:   app,
-		cells: cells,
-	}
-	for _, cell := range cells {
-		box := cell.GetBox()
-		box.SetFocusFunc(func() {
-			box.SetBorderAttributes(tcell.AttrNone)
-			for i, c := range cells {
-				if c.GetBox() == box {
-					row.activeCell = i
-					break
-				}
-			}
-		})
-		box.SetBlurFunc(func() {
-			box.SetBorderAttributes(tcell.AttrDim)
-		})
-	}
-	row.setKeyboardCapture()
-	return row
-}
+//func NewRow(app *tview.Application, cells ...Cell) *Row {
+//	row := &Row{
+//		app:   app,
+//		cells: cells,
+//	}
+//	for _, cell := range cells {
+//		box := cell.GetBox()
+//		box.SetFocusFunc(func() {
+//			box.SetBorderAttributes(tcell.AttrNone)
+//			for i, c := range cells {
+//				if c.GetBox() == box {
+//					row.activeCell = i
+//					break
+//				}
+//			}
+//		})
+//		box.SetBlurFunc(func() {
+//			box.SetBorderAttributes(tcell.AttrDim)
+//		})
+//	}
+//	row.setKeyboardCapture()
+//	return row
+//}
 
 type Cell interface {
 	tview.Primitive

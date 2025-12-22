@@ -16,6 +16,7 @@ type indexColumnsProvider struct {
 }
 
 func (v indexColumnsProvider) GetIndexColumns(_ context.Context, catalog, schema, table, index string) (schemer.IndexColumnsReader, error) {
+	_, _, _, _ = catalog, schema, table, index
 	rows, err := v.db.Query(indexColumnsSQL)
 	if err != nil {
 		return nil, fmt.Errorf("failed to retrieve index columns: %w", err)

@@ -2,6 +2,7 @@ package gcloudui
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"slices"
 
@@ -94,7 +95,7 @@ func goFirestoreCollection(gcProjCtx *CGProjectContext, collection *schemers.Col
 		for {
 			snap, err := iter.Next()
 			if err != nil {
-				if err == iterator.Done {
+				if errors.Is(err, iterator.Done) {
 					break
 				}
 				gcProjCtx.TUI.App.QueueUpdateDraw(func() {

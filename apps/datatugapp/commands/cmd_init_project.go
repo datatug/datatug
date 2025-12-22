@@ -46,9 +46,8 @@ func initCommandAction(ctx context.Context, c *cli.Command) (err error) {
 		}
 	} else if fileInfo.IsDir() {
 		return fmt.Errorf("the folder already contains datatug project: %v", dataTugDirPath)
-	} else {
-		return fmt.Errorf("the folder  contains a `datatug` file, this name is reserver for DataTug directory: %v", dataTugDirPath)
 	}
+	//return fmt.Errorf("the folder  contains a `datatug` file, this name is reserver for DataTug directory: %v", dataTugDirPath)
 
 	//var port int
 	//if v.Port != "" {

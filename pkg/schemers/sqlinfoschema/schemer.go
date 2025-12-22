@@ -81,6 +81,9 @@ func (s InformationSchema) getTables(catalog string) (tables []*datatug.Collecti
        TABLE_TYPE
 FROM INFORMATION_SCHEMA.TABLES
 ORDER BY TABLE_SCHEMA, TABLE_NAME`)
+	defer func() {
+		_ = rows.Close()
+	}()
 	if err != nil {
 		return nil, fmt.Errorf("failed to query INFORMATION_SCHEMA.TABLES: %w", err)
 	}
@@ -137,7 +140,9 @@ ORDER BY tc.TABLE_SCHEMA, tc.TABLE_NAME, tc.CONSTRAINT_TYPE, kcu.CONSTRAINT_NAME
 	if err != nil {
 		return err
 	}
-
+	defer func() {
+		_ = rows.Close()
+	}()
 	var (
 		tSchema, tName                                                        string
 		constraintType, constraintName                                        string
@@ -265,6 +270,9 @@ FROM INFORMATION_SCHEMA.COLUMNS ORDER BY TABLE_SCHEMA, TABLE_NAME, ORDINAL_POSIT
 	if err != nil {
 		return fmt.Errorf("failed to query INFORMATION_SCHEMA.COLUMNS: %w", err)
 	}
+	defer func() {
+		_ = rows.Close()
+	}()
 	var isNullable string
 	var charSetCatalog, charSetSchema, charSetName sql.NullString
 	var collationCatalog, collationSchema, collationName sql.NullString
@@ -373,6 +381,9 @@ ORDER BY SCHEMA_NAME(o.schema_id) + '.' + o.name, i.name;`)
 	if err != nil {
 		return fmt.Errorf("failed to query INFORMATION_SCHEMA.COLUMNS: %w", err)
 	}
+	defer func() {
+		_ = rows.Close()
+	}()
 	var isNullable string
 	var charSetCatalog, charSetSchema, charSetName sql.NullString
 	var collationCatalog, collationSchema, collationName sql.NullString

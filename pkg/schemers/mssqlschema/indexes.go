@@ -16,6 +16,7 @@ type indexesProvider struct {
 }
 
 func (v indexesProvider) GetIndexes(_ context.Context, catalog, schema, table string) (schemer.IndexesReader, error) {
+	_, _, _ = catalog, schema, table
 	rows, err := v.db.Query(indexesSQL)
 	if err != nil {
 		return nil, fmt.Errorf("failed to retrieve indexes: %w", err)

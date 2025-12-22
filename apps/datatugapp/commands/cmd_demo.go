@@ -60,6 +60,7 @@ func (c demoCommand) Execute(_ []string) error {
 		path.Join(datatugUserDirPath, demoDbsDirName, chinookSQLiteLocalFileName),
 		path.Join(datatugUserDirPath, demoDbsDirName, chinookSQLiteProdFileName),
 	}
+
 	if c.ResetDB {
 		if err = c.reDownloadChinookDb(dbFilePaths...); err != nil {
 			return err
@@ -73,13 +74,13 @@ func (c demoCommand) Execute(_ []string) error {
 		}
 	} else if err != nil {
 		return fmt.Errorf("failed to check if demo db file exists: %w", err)
-	} else {
-		log.Println("Demo project folder already exists.")
-		if err = c.VerifyChinookDb(dbFilePaths...); err != nil {
-			log.Println("Failed to verify demo db:", err)
-			if err = c.reDownloadChinookDb(dbFilePaths...); err != nil {
-				return err
-			}
+	}
+
+	log.Println("Demo project folder already exists.")
+	if err = c.VerifyChinookDb(dbFilePaths...); err != nil {
+		log.Println("Failed to verify demo db:", err)
+		if err = c.reDownloadChinookDb(dbFilePaths...); err != nil {
+			return err
 		}
 	}
 
@@ -435,13 +436,13 @@ func demoCommandAction(_ context.Context, _ *cli.Command) error {
 		}
 	} else if err != nil {
 		return fmt.Errorf("failed to check if demo db file exists: %w", err)
-	} else {
-		log.Println("Demo project folder already exists.")
-		if err = c.VerifyChinookDb(dbFilePaths...); err != nil {
-			log.Println("Failed to verify demo db:", err)
-			if err = c.reDownloadChinookDb(dbFilePaths...); err != nil {
-				return err
-			}
+	}
+
+	log.Println("Demo project folder already exists.")
+	if err = c.VerifyChinookDb(dbFilePaths...); err != nil {
+		log.Println("Failed to verify demo db:", err)
+		if err = c.reDownloadChinookDb(dbFilePaths...); err != nil {
+			return err
 		}
 	}
 

@@ -36,12 +36,12 @@ func (s *Stack[T]) Len() int {
 }
 
 func (s *Stack[T]) Current() T {
-	if count := len(s.items); count == 0 {
+	count := len(s.items)
+	if count == 0 {
 		var zero T
 		return zero
-	} else {
-		return s.items[count-1]
 	}
+	return s.items[count-1]
 }
 
 func (s *Stack[T]) SetRoot(item T) {

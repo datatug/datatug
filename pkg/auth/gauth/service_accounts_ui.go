@@ -94,9 +94,12 @@ func (m *serviceAccountsList) View() string {
 	return m.list.View() + "\n[a] add  [ctrl+d] delete  [Enter] select  [Esc] back"
 }
 
-func NewServiceAccountsUI(store Store, accs []ServiceAccountDbo) (tea.Model, error) {
-	it := make([]list.Item, 0, len(accs))
-	for _, a := range accs {
+func NewServiceAccountsUI(store Store, serviceAccounts []ServiceAccountDbo) (tea.Model, error) {
+	if store == nil {
+		panic("store is nil")
+	}
+	it := make([]list.Item, 0, len(serviceAccounts))
+	for _, a := range serviceAccounts {
 		it = append(it, saItem{a})
 	}
 	return &serviceAccountsUI{

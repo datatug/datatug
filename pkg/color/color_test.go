@@ -18,11 +18,11 @@ const (
 
 func TestColorize_UsesDefaultReset(t *testing.T) {
 	// Save and restore default color
-	t.Cleanup(func() { color.SetDefaultColor(color.Name(ansiDefault)) })
+	t.Cleanup(func() { color.SetDefaultColor(ansiDefault) })
 
-	color.SetDefaultColor(color.Name(ansiResetAll))
+	color.SetDefaultColor(ansiResetAll)
 
-	got := color.Colorize("Hello", color.Name(ansiRedLight))
+	got := color.Colorize("Hello", ansiRedLight)
 	want := ansiRedLight + "Hello" + ansiResetAll
 	if got != want {
 		t.Fatalf("Colorize result mismatch.\n got:  %q\n want: %q", got, want)
@@ -30,9 +30,9 @@ func TestColorize_UsesDefaultReset(t *testing.T) {
 }
 
 func TestColorFunctions_WrapWithCorrectCodes(t *testing.T) {
-	t.Cleanup(func() { color.SetDefaultColor(color.Name(ansiDefault)) })
+	t.Cleanup(func() { color.SetDefaultColor(ansiDefault) })
 	// Ensure default reset is the package's default
-	color.SetDefaultColor(color.Name(ansiDefault))
+	color.SetDefaultColor(ansiDefault)
 
 	tests := []struct {
 		name string
@@ -58,8 +58,8 @@ func TestColorFunctions_WrapWithCorrectCodes(t *testing.T) {
 }
 
 func TestColorFunctions_EmptyString(t *testing.T) {
-	t.Cleanup(func() { color.SetDefaultColor(color.Name(ansiDefault)) })
-	color.SetDefaultColor(color.Name(ansiDefault))
+	t.Cleanup(func() { color.SetDefaultColor(ansiDefault) })
+	color.SetDefaultColor(ansiDefault)
 
 	got := color.Red("")
 	want := ansiRedLight + "" + ansiDefault
@@ -69,8 +69,8 @@ func TestColorFunctions_EmptyString(t *testing.T) {
 }
 
 func TestStyles_DangerWarningSuccess(t *testing.T) {
-	t.Cleanup(func() { color.SetDefaultColor(color.Name(ansiDefault)) })
-	color.SetDefaultColor(color.Name(ansiDefault))
+	t.Cleanup(func() { color.SetDefaultColor(ansiDefault) })
+	color.SetDefaultColor(ansiDefault)
 
 	if got, want := color.Danger("boom"), ansiRedLight+"boom"+ansiDefault; got != want {
 		t.Fatalf("Danger mismatch. got %q want %q", got, want)
@@ -85,9 +85,9 @@ func TestStyles_DangerWarningSuccess(t *testing.T) {
 
 func TestSetDefaultColor_AffectsHelpers(t *testing.T) {
 	// Ensure we restore the default after the test
-	t.Cleanup(func() { color.SetDefaultColor(color.Name(ansiDefault)) })
+	t.Cleanup(func() { color.SetDefaultColor(ansiDefault) })
 
-	color.SetDefaultColor(color.Name(ansiResetAll))
+	color.SetDefaultColor(ansiResetAll)
 	got := color.Green("done")
 	want := ansiGreen + "done" + ansiResetAll
 	if got != want {

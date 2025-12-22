@@ -130,6 +130,7 @@ func (tui *TUI) SetPanels(menu, content Panel, options ...func(panelsOptions *se
 
 }
 
+// SetRootScreen is deprecated.
 // Deprecated
 func (tui *TUI) SetRootScreen(screen Screen) {
 	tui.stack = []Screen{screen}
@@ -139,6 +140,7 @@ func (tui *TUI) SetRootScreen(screen Screen) {
 	}
 }
 
+// PushScreen is deprecated.
 // Deprecated
 func (tui *TUI) PushScreen(screen Screen) {
 	tui.stack = append(tui.stack, screen)

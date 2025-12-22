@@ -21,9 +21,9 @@ import (
 
 // ProjectLoader defines an interface to load project info
 type ProjectLoader interface {
-	// Loads project summary
+	// LoadProjectSummary loads project summary
 	LoadProjectSummary(ctx context.Context) (projectSummary datatug.ProjectSummary, err error)
-	// Loads the whole project
+	// LoadProject loads the whole project
 	LoadProject(ctx context.Context) (project *datatug.Project, err error)
 }
 

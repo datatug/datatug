@@ -17,7 +17,7 @@ func registerRoutes(path string, router router, wrapper wrapper, writeOnly bool)
 	route(router, wrapper, http.MethodGet, path+"/ping", Ping)
 	route(router, wrapper, http.MethodGet, path+"/agent-info", AgentInfo)
 	projectsRoutes(path, router, wrapper, writeOnly)
-	foldersRoutes(path, router, wrapper, writeOnly)
+	foldersRoutes(path, router, wrapper)
 	queriesRoutes(path, router, wrapper, writeOnly)
 	boardsRoutes(path, router, wrapper, writeOnly)
 	environmentsRoutes(path, router, wrapper, writeOnly)
@@ -28,7 +28,7 @@ func registerRoutes(path string, router router, wrapper wrapper, writeOnly bool)
 
 }
 
-func foldersRoutes(path string, router router, wrap wrapper, writeOnly bool) {
+func foldersRoutes(path string, router router, wrap wrapper) {
 	route(router, wrap, http.MethodPut, path+"/folders/create_folder", createFolder)
 	route(router, wrap, http.MethodDelete, path+"/folders/delete_folder", deleteFolder)
 }

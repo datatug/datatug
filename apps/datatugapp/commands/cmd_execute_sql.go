@@ -44,7 +44,7 @@ type executeSQLCommand struct {
 	OutputFormat string `short:"f" long:"output-format" choice:"csv" default:"csv"`
 }
 
-func (v executeSQLCommand) Validate() error {
+func (v *executeSQLCommand) Validate() error {
 	if v.Query != "" && v.CommandText != "" {
 		return validation.NewBadRequestError(errors.New("either 'query' or 'consoleCommand-text' arguments should be specified but not both at the same time"))
 	}
