@@ -97,7 +97,7 @@ func (s tablesReader) NextCollection() (collectionInfo *datatug.CollectionInfo, 
 		collectionType = datatug.CollectionTypeUnknown
 	}
 	table := datatug.CollectionInfo{
-		CollectionKey: datatug.NewCollectionKey(collectionType, name, schema, "", nil),
+		DBCollectionKey: datatug.NewCollectionKey(collectionType, name, schema, "", nil),
 		TableProps: datatug.TableProps{
 			DbType: dbType,
 		},

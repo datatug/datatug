@@ -317,11 +317,11 @@ func updateDbModelWithDbCatalog(envID string, dbModel *datatug.DbModel, dbCatalo
 func updateSchemaModel(envID string, schemaModel *datatug.SchemaModel, dbSchema *datatug.DbSchema) (err error) {
 	updateTables := func(tables []*datatug.CollectionInfo) (result datatug.TableModels) {
 		for _, table := range tables {
-			tableModel := schemaModel.Tables.GetByKey(table.CollectionKey)
+			tableModel := schemaModel.Tables.GetByKey(table.DBCollectionKey)
 			if tableModel == nil {
 				tableModel = &datatug.TableModel{
-					CollectionKey: table.CollectionKey,
-					ByEnv:         make(datatug.StateByEnv),
+					DBCollectionKey: table.DBCollectionKey,
+					ByEnv:           make(datatug.StateByEnv),
 				}
 				tableModel.ByEnv[envID] = &datatug.EnvState{
 					Status: "exists",

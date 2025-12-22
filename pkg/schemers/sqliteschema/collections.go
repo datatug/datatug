@@ -3,42 +3,42 @@ package sqliteschema
 import (
 	"database/sql"
 	"fmt"
+	"io"
 	"strings"
 
-	"github.com/dal-go/dalgo/dal"
 	"github.com/datatug/datatug-core/pkg/datatug"
 	"github.com/datatug/datatug-core/pkg/schemer"
 )
 
-func getCollections(db *sql.DB, parentKey *dal.Key) (reader schemer.CollectionsReader, err error) {
-	r := new(collectionsReader)
+type collectionsFilter struct {
+	CollectionType datatug.CollectionType
+}
+
+// To load table parentKey.ID == "tables"
+func getCollections(db *sql.DB, filter collectionsFilter) (reader schemer.CollectionsReader, err error) {
+	r := &collectionsReader{}
 	reader = r
-	if parentKey == nil {
-		//dal.From(dal.NewCollectionRef("sqlite_schema", "", nil)).
-		//	Where(dal.Field("type").Equal("table", "view")).
-		//	OrderBy(dal.Ascending(dal.Field("name")))
+	switch filter.CollectionType {
+	case datatug.CollectionTypeAny, datatug.CollectionTypeUnknown:
 		r.rows, err = db.Query(`SELECT type, name, sql FROM sqlite_schema WHERE type in ('table', 'view') ORDER BY name`)
 		if err != nil {
 			return nil, fmt.Errorf("failed to retrieve list of SQLite tables and views: %w", err)
 		}
-	} else {
-		switch strings.ToLower(parentKey.ID.(string)) {
-		case "tables":
-			r.collectionType = "table"
-			r.rows, err = db.Query(`SELECT name, sql FROM sqlite_schema WHERE type  'table' ORDER BY name`)
-			if err != nil {
-				return nil, fmt.Errorf("failed to retrieve list of SQLite tables : %w", err)
-			}
-		case "views":
-			r.collectionType = "view"
-			r.rows, err = db.Query(`SELECT name, sql FROM sqlite_schema WHERE type  'view' ORDER BY name`)
-			if err != nil {
-				return nil, fmt.Errorf("failed to retrieve list of SQLite views : %w", err)
-			}
-		default:
-			err = fmt.Errorf("parent key ID expected to be either 'tables' or 'views', got '%s'", parentKey.ID.(string))
-			return
+	case datatug.CollectionTypeTable:
+		r.collectionType = datatug.CollectionTypeTable
+		r.rows, err = db.Query(`SELECT name, sql FROM sqlite_schema WHERE type  'table' ORDER BY name`)
+		if err != nil {
+			return nil, fmt.Errorf("failed to retrieve list of SQLite tables : %w", err)
 		}
+	case datatug.CollectionTypeView:
+		r.collectionType = datatug.CollectionTypeView
+		r.rows, err = db.Query(`SELECT name, sql FROM sqlite_schema WHERE type  'view' ORDER BY name`)
+		if err != nil {
+			return nil, fmt.Errorf("failed to retrieve list of SQLite views : %w", err)
+		}
+	default:
+		err = fmt.Errorf("unexpected filter.CollectionType, got '%s'", filter.CollectionType)
+		return
 	}
 	return
 }
@@ -48,7 +48,7 @@ func getCollections(db *sql.DB, parentKey *dal.Key) (reader schemer.CollectionsR
 var _ schemer.CollectionsReader = (*collectionsReader)(nil)
 
 type collectionsReader struct {
-	collectionType string
+	collectionType datatug.CollectionType
 	rows           *sql.Rows
 	i              int
 }
@@ -58,24 +58,33 @@ func (s *collectionsReader) NextCollection() (c *datatug.CollectionInfo, err err
 	if !s.rows.Next() {
 		if err = s.rows.Err(); err != nil {
 			err = fmt.Errorf("failed to retrieve db object row #%d: %w", s.i, err)
+		} else {
+			err = io.EOF
 		}
 		return
 	}
-	var name, dbType string
-	if s.collectionType == "" {
-		err = s.rows.Scan(&c.DbType, &name, &c.SQL)
+	var name, dbType, sqlText string
+	if s.collectionType == datatug.CollectionTypeUnknown {
+		err = s.rows.Scan(&dbType, &name, &sqlText)
 	} else {
-		err = s.rows.Scan(&name, &c.SQL)
+		err = s.rows.Scan(&name, &sqlText)
 	}
 	if err != nil {
 		return c, fmt.Errorf("failed to scan db row into CollectionInfo struct: %w", err)
 	}
 	var collectionType datatug.CollectionType
-	switch strings.ToUpper(dbType) {
-	case "TABLE":
+	switch strings.ToLower(dbType) {
+	case "table":
 		collectionType = datatug.CollectionTypeTable
-	case "VIEW":
+	case "view":
+		collectionType = datatug.CollectionTypeView
+	default:
+		err = fmt.Errorf("unsupported DB type: %s", dbType)
+		return
 	}
-	c.CollectionKey = datatug.NewCollectionKey(collectionType, name, "", "", nil)
+	c = &datatug.CollectionInfo{
+		DBCollectionKey: datatug.NewCollectionKey(collectionType, name, "", "", nil),
+		SQL:             sqlText,
+	}
 	return
 }

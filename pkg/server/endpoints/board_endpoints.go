@@ -23,7 +23,7 @@ func getBoard(w http.ResponseWriter, r *http.Request) {
 func createBoard(w http.ResponseWriter, r *http.Request) {
 	var ref dto.ProjectRef
 	var board datatug.Board
-	board.ID = datatug.AutoID
+	//board.ID = datatug.AutoID
 	createProjectItem(w, r, &ref, &board, func(ctx context.Context) (apicore.ResponseDTO, error) {
 		board.ID = random.ID(9)
 		return api.CreateBoard(ctx, ref, board)

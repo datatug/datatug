@@ -29,11 +29,13 @@ type schemaProvider struct {
 }
 
 func (s schemaProvider) GetCollections(_ context.Context, parent *dal.Key) (schemer.CollectionsReader, error) {
-	if db, err := s.getSqliteDB(); err != nil {
+	_ = parent
+	db, err := s.getSqliteDB()
+	if err != nil {
 		return nil, err
-	} else {
-		return getCollections(db, parent)
 	}
+	filter := collectionsFilter{}
+	return getCollections(db, filter)
 }
 
 func (schemaProvider) IsBulkProvider() bool {

@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"io"
 	"strconv"
 
 	"github.com/datatug/datatug-core/pkg/datatug"
@@ -15,14 +16,14 @@ import (
 )
 
 func goTables(tui *sneatnav.TUI, focusTo sneatnav.FocusTo, dbContext dtviewers.DbContext) error {
-	return showCollections(tui, focusTo, dbContext, SqlDbScreenTables, "Tables", "table")
+	return showCollections(tui, focusTo, dbContext, SqlDbScreenTables, "Tables", datatug.CollectionTypeTable)
 }
 
 func goViews(tui *sneatnav.TUI, focusTo sneatnav.FocusTo, dbContext dtviewers.DbContext) error {
-	return showCollections(tui, focusTo, dbContext, SqlDbScreenViews, "Views", "view")
+	return showCollections(tui, focusTo, dbContext, SqlDbScreenViews, "Views", datatug.CollectionTypeView)
 }
 
-func showCollections(tui *sneatnav.TUI, focusTo sneatnav.FocusTo, dbContext dtviewers.DbContext, selectedScreen SqlDbRootScreen, title, collectionType string) error {
+func showCollections(tui *sneatnav.TUI, focusTo sneatnav.FocusTo, dbContext dtviewers.DbContext, selectedScreen SqlDbRootScreen, title string, collectionType datatug.CollectionType) error {
 	if dbContext == nil {
 		return errors.New("dbContext is nil")
 	}
@@ -38,7 +39,10 @@ func showCollections(tui *sneatnav.TUI, focusTo sneatnav.FocusTo, dbContext dtvi
 	collectionsTable.SetSelectedFunc(func(row, column int) {
 		cell := collectionsTable.GetCell(row, column)
 		collectionInfo := cell.Reference.(*datatug.CollectionInfo)
-		goTable(tui, dtviewers.CollectionContext{CollectionRef: collectionInfo.Ref})
+		goTable(tui, dtviewers.CollectionContext{
+			CollectionRef: collectionInfo.Ref,
+			DbContext:     dbContext,
+		})
 	})
 	// Start with the first data row (row 1, col 0) active
 	collectionsTable.Select(1, 0)
@@ -99,15 +103,18 @@ func showCollections(tui *sneatnav.TUI, focusTo sneatnav.FocusTo, dbContext dtvi
 
 				for {
 					collection, err := collectionsReader.NextCollection()
-					collections = append(collections, collection)
 					if err != nil {
+						if errors.Is(err, io.EOF) {
+							break
+						}
 						sneatnav.ShowErrorModal(tui, err)
 						return
 					}
 					if collection == nil {
 						break
 					}
-					if collection.DbType == collectionType {
+					collections = append(collections, collection)
+					if collection.Type() == collectionType {
 						i++
 						name := tview.NewTableCell(collection.Name())
 						name.SetReference(collection)

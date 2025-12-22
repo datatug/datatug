@@ -45,7 +45,7 @@ type Panel interface {
 //	if cmd == nil {
 //		switch mm := msg.(type) {
 //		case tea.KeyMsg:
-//			switch mm.Type {
+//			switch mm.CollectionType {
 //			case tea.KeyEsc, tea.KeyBackspace:
 //				if p.Len() > 1 {
 //					_, _ = p.Pop()

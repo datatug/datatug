@@ -37,7 +37,7 @@ func (s InformationSchema) GetDatabase(name string) (database *datatug.DbCatalog
 			schema.ID = t.Schema()
 			database.Schemas = append(database.Schemas, schema)
 		}
-		switch t.CollectionKey.Name() {
+		switch t.DBCollectionKey.Name() {
 		case "BASE TABLE":
 			schema.Tables = append(schema.Tables, t)
 		case "VIEW":
@@ -101,7 +101,7 @@ ORDER BY TABLE_SCHEMA, TABLE_NAME`)
 			return
 		}
 		table := datatug.CollectionInfo{
-			CollectionKey: datatug.NewCollectionKey(
+			DBCollectionKey: datatug.NewCollectionKey(
 				collectionType,
 				name,
 				schema,
@@ -208,7 +208,10 @@ ORDER BY tc.TABLE_SCHEMA, tc.TABLE_NAME, tc.CONSTRAINT_TYPE, kcu.CONSTRAINT_NAME
 							}
 						}
 						if refByTable == nil || refByTable.Catalog() != catalog || refByTable.Schema() != tSchema || refByTable.Name() != tName {
-							refByTable = &datatug.TableReferencedBy{CollectionKey: table.CollectionKey, ForeignKeys: make([]*datatug.RefByForeignKey, 0, 1)}
+							refByTable = &datatug.TableReferencedBy{
+								DBCollectionKey: table.DBCollectionKey,
+								ForeignKeys:     make([]*datatug.RefByForeignKey, 0, 1),
+							}
 							refTable.ReferencedBy = append(refTable.ReferencedBy, refByTable)
 						}
 						for _, fk2 := range refByTable.ForeignKeys {

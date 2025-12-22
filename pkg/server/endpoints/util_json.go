@@ -9,7 +9,7 @@ import (
 	"net/http"
 )
 
-// returnJSON returns provided response as a JSON and sets "Content-Type" as "application/json"
+// returnJSON returns provided response as a JSON and sets "Content-CollectionType" as "application/json"
 var returnJSON = func(w http.ResponseWriter, r *http.Request, statusCode int, err error, content interface{}) {
 	if handleError(err, w, r) {
 		return

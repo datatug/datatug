@@ -2,18 +2,19 @@ module github.com/datatug/datatug
 
 go 1.25.4
 
-//replace github.com/datatug/datatug-core => ../datatug-core
+replace github.com/datatug/datatug-core => ../datatug-core
+replace github.com/dal-go/dalgo2sql => ../../dal-go/dalgo2sql
 
 require (
 	cloud.google.com/go/firestore v1.20.0
 	github.com/charmbracelet/bubbles v0.21.0
 	github.com/charmbracelet/bubbletea v1.3.10
 	github.com/charmbracelet/lipgloss v1.1.0
-	github.com/dal-go/dalgo2sql v0.4.1
+	github.com/dal-go/dalgo2sql v0.3.0
 	github.com/datatug/datatug-core v0.13.1
 	github.com/datatug/sql2csv v0.0.0-20200927071952-a7fb986d1ec2
 	github.com/denisenkom/go-mssqldb v0.12.3
-	github.com/gdamore/tcell/v2 v2.13.5
+	github.com/gdamore/tcell/v2 v2.13.4
 	github.com/go-git/go-git/v5 v5.16.4
 	github.com/google/uuid v1.6.0
 	github.com/gosuri/uitable v0.0.4
@@ -55,7 +56,7 @@ require (
 	github.com/cloudflare/circl v1.6.1 // indirect
 	github.com/crediterra/money v0.3.0 // indirect
 	github.com/cyphar/filepath-securejoin v0.6.1 // indirect
-	github.com/dal-go/dalgo v0.30.3
+	github.com/dal-go/dalgo v0.30.1
 	github.com/danieljoos/wincred v1.2.3 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/dustin/go-humanize v1.0.1 // indirect
@@ -96,7 +97,7 @@ require (
 	github.com/sahilm/fuzzy v0.1.1 // indirect
 	github.com/sergi/go-diff v1.4.0 // indirect
 	github.com/skeema/knownhosts v1.3.2 // indirect
-	github.com/sneat-co/sneat-go-core v0.54.5
+	github.com/sneat-co/sneat-go-core v0.54.4
 	github.com/strongo/analytics v0.2.2 // indirect
 	github.com/strongo/decimal v0.1.1 // indirect
 	github.com/strongo/random v0.0.1

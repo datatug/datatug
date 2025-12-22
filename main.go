@@ -31,7 +31,7 @@ func main() {
 	//	var flagsErr *flags.Error
 	//	switch {
 	//	case errors.As(err, &flagsErr):
-	//		if errors.Is(flagsErr.Type, flags.ErrHelp) {
+	//		if errors.Is(flagsErr.CollectionType, flags.ErrHelp) {
 	//			os.Exit(0)
 	//		}
 	//		os.Exit(1)

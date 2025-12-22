@@ -27,12 +27,17 @@ func goTable(tui *sneatnav.TUI, collectionCtx dtviewers.CollectionContext) {
 }
 
 func loadDataIntoTable(collectionCtx dtviewers.CollectionContext, table *tview.Table) (err error) {
+	if collectionCtx.DbContext == nil {
+		panic("collectionCtx.DbContext is nil")
+	}
 	db, err := collectionCtx.GetDB(context.Background())
 	if err != nil {
 		return err
 	}
 	q := dal.NewQueryBuilder(dal.From(collectionCtx.CollectionRef)).SelectInto(func() dal.Record {
-		return dal.NewRecordWithIncompleteKey(collectionCtx.CollectionRef.Name(), reflect.Invalid, make(map[string]any))
+		r := dal.NewRecordWithIncompleteKey(collectionCtx.CollectionRef.Name(), reflect.String, make(map[string]any))
+		r.SetError(nil)
+		return r
 	})
 	ctx := context.Background()
 
