@@ -34,14 +34,14 @@ func loadDataIntoTable(collectionCtx dtviewers.CollectionContext, table *tview.T
 	if err != nil {
 		return err
 	}
-	q := dal.NewQueryBuilder(dal.From(collectionCtx.CollectionRef)).SelectInto(func() dal.Record {
+	q := dal.NewQueryBuilder(dal.From(collectionCtx.CollectionRef)).SelectIntoRecord(func() dal.Record {
 		r := dal.NewRecordWithIncompleteKey(collectionCtx.CollectionRef.Name(), reflect.String, make(map[string]any))
 		r.SetError(nil)
 		return r
 	})
 	ctx := context.Background()
 
-	records, err := q.ReadRecords(ctx, db)
+	records, err := dal.ExecuteQueryAndReadAllToRecords(ctx, q, db)
 	if err != nil {
 		return err
 	}

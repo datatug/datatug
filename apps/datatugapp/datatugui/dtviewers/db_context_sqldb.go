@@ -30,7 +30,7 @@ func NewSqlDBContext(driver Driver, name string, getSqlDB SqlDBGetter, schema sc
 				if err != nil {
 					return nil, err
 				}
-				db := dalgo2sql.NewDatabase(sqlLiteDB, dal.NewSchema(nil, nil), dalgo2sql.Options{})
+				db := dalgo2sql.NewDatabase(sqlLiteDB, dal.NewSchema(nil, nil), dalgo2sql.DbOptions{})
 				return db, nil
 			},
 		},
