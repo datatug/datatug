@@ -35,9 +35,6 @@ func newSimScreen(t *testing.T, width, height int) tcell.Screen {
 
 func TestNewBreadcrumbs_DefaultsAndOptions(t *testing.T) {
 	bc := NewBreadcrumbs(nil)
-	if bc == nil {
-		t.Fatalf("NewBreadcrumbs returned nil")
-	}
 	if bc.separator != " > " {
 		t.Errorf("default separator = %q, want %q", bc.separator, " > ")
 	}
