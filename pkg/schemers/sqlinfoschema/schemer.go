@@ -37,7 +37,7 @@ func (s InformationSchema) GetDatabase(name string) (database *datatug.DbCatalog
 			schema.ID = t.Schema()
 			database.Schemas = append(database.Schemas, schema)
 		}
-		switch t.DBCollectionKey.Name() {
+		switch t.Name() {
 		case "BASE TABLE":
 			schema.Tables = append(schema.Tables, t)
 		case "VIEW":
