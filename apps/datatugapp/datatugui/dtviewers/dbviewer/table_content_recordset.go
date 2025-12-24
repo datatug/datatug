@@ -20,6 +20,7 @@ type TableContentRecordset struct {
 }
 
 func (t TableContentRecordset) GetCell(row, column int) (cell *tview.TableCell) {
+	cellStyle := tcell.StyleDefault
 	col := t.recordset.GetColumnByIndex(column)
 	if row == 0 { // Header
 		return tview.NewTableCell(col.Name()).
@@ -42,11 +43,13 @@ func (t TableContentRecordset) GetCell(row, column int) (cell *tview.TableCell) 
 			itemType = "byte"
 		}
 		length := strconv.Itoa(vVal.Len())
-		cell = tview.NewTableCell(fmt.Sprintf("[]%v - %s", itemType, length)).SetTextColor(tcell.ColorGray)
+		cell = tview.NewTableCell(fmt.Sprintf("[]%v - %s", itemType, length))
+		cellStyle = cellStyle.Foreground(tcell.ColorGray)
 	}
 	switch tVal := v.(type) {
 	case string:
-		cell = tview.NewTableCell(tVal).SetTextColor(tcell.ColorLightGreen)
+		cell = tview.NewTableCell(tVal)
+		cellStyle = cellStyle.Foreground(tcell.ColorLightSteelBlue)
 	case bool:
 		if tVal {
 			cell = tview.NewTableCell("YES")
@@ -55,9 +58,11 @@ func (t TableContentRecordset) GetCell(row, column int) (cell *tview.TableCell) 
 		}
 		cell.SetAlign(tview.AlignCenter).SetTextColor(tcell.ColorCornflowerBlue)
 	case float64, float32:
-		cell = tview.NewTableCell(fmt.Sprintf("%v", tVal)).SetTextColor(tcell.ColorLightGoldenrodYellow).SetAlign(tview.AlignRight)
+		cell = tview.NewTableCell(fmt.Sprintf("%v", tVal)).SetAlign(tview.AlignRight)
+		cellStyle = cellStyle.Foreground(tcell.ColorLightGoldenrodYellow)
 	case int, int64, int32, int16, int8:
-		cell = tview.NewTableCell(fmt.Sprintf("%d", tVal)).SetTextColor(tcell.ColorLightSalmon).SetAlign(tview.AlignRight)
+		cell = tview.NewTableCell(fmt.Sprintf("%d", tVal)).SetAlign(tview.AlignRight)
+		cellStyle = cellStyle.Foreground(tcell.ColorLightBlue)
 	case time.Time:
 		_, offset := tVal.Zone()
 		if tVal.Hour() == 0 && tVal.Minute() == 0 && tVal.Second() == 0 && tVal.Nanosecond() == 0 {
@@ -72,19 +77,23 @@ func (t TableContentRecordset) GetCell(row, column int) (cell *tview.TableCell) 
 			cell = tview.NewTableCell(tVal.Format(time.RFC3339))
 		}
 		if column%2 == 0 {
-			cell.SetTextColor(tcell.ColorLightCoral)
+			cellStyle = cellStyle.Foreground(tcell.ColorLightCoral)
 		} else {
-			cell.SetTextColor(tcell.ColorLightSalmon)
+			cellStyle = cellStyle.Foreground(tcell.ColorLightSalmon)
 		}
 	default:
 		cell = tview.NewTableCell(fmt.Sprintf("%T:%v", v, v)).SetTextColor(tcell.ColorLightGray)
 	}
 	if strings.HasSuffix(col.Name(), "ID") {
-		cell.SetStyle(tcell.StyleDefault.Foreground(tcell.ColorBlue).Underline(true))
+		refTableName := strings.TrimSuffix(col.Name(), "ID") + "s"
+		rsName := t.recordset.Name()
+		if refTableName == rsName {
+			cellStyle = cellStyle.Foreground(tcell.ColorPaleVioletRed)
+		} else {
+			cellStyle = cellStyle.Underline(true)
+		}
 	}
-	//if row%2 == 1 {
-	//	cell.SetBackgroundColor(tcell.ColorGray)
-	//}
+	cell.SetStyle(cellStyle)
 	return
 }
 

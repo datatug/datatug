@@ -97,7 +97,7 @@ func loadDataIntoTable(tui *sneatnav.TUI, collectionCtx dtviewers.CollectionCont
 	if err != nil {
 		return nil, err
 	}
-	q := dal.From(collectionCtx.CollectionRef).NewQuery().SelectIntoRecordset(nil)
+	q := dal.From(collectionCtx.CollectionRef).NewQuery().SelectIntoRecordset(recordset.WithName(collectionCtx.CollectionRef.Name()))
 	ctx := context.Background()
 
 	var tableContent TableContentRecordset
