@@ -1,11 +1,7 @@
 package dbviewer
 
 import (
-	"context"
 	"errors"
-	"fmt"
-	"io"
-	"strconv"
 
 	"github.com/datatug/datatug-core/pkg/datatug"
 	"github.com/datatug/datatug/apps/datatugapp/datatugui/dtviewers"
@@ -32,36 +28,46 @@ func showCollections(tui *sneatnav.TUI, focusTo sneatnav.FocusTo, dbContext dtvi
 
 	menu := newSqlDbMenu(tui, selectedScreen, dbContext)
 
-	collectionsTable := tview.NewTable()
-	collectionsTable.SetTitle(title + " @ " + dbContext.Driver().ShortTitle)
-	// Enable cell selection by row and column
-	collectionsTable.SetSelectable(true, true)
-	collectionsTable.SetSelectedFunc(func(row, column int) {
-		cell := collectionsTable.GetCell(row, column)
-		collectionInfo := cell.Reference.(*datatug.CollectionInfo)
-		goTable(tui, dtviewers.CollectionContext{
-			CollectionRef: collectionInfo.Ref,
-			DbContext:     dbContext,
-		})
-	})
-	// Start with the first data row (row 1, col 0) active
-	collectionsTable.Select(1, 0)
-	// Arrow-key behavior with edge focus transfers
-	collectionsTable.SetInputCapture(func(event *tcell.EventKey) *tcell.EventKey {
+	flex := tview.NewFlex()
+	//flex.SetTitle(title + " @ " + dbContext.Driver().ShortTitle)
+	//flex.SetBorder(true)
+
+	collectionsBox := NewTablesBox(tui, dbContext, collectionType, title)
+	flex.AddItem(collectionsBox, 0, 2, true)
+
+	collectionCtx := dtviewers.CollectionContext{
+		DbContext: dbContext,
+	}
+
+	columnsBox := NewColumnsBox(collectionCtx)
+	flex.AddItem(columnsBox, 0, 2, true)
+
+	flex2 := tview.NewFlex()
+	flex2.SetDirection(tview.FlexRow)
+	flex.AddItem(flex2, 0, 3, false)
+
+	fks := NewForeignKeysBox(collectionCtx)
+	flex2.AddItem(fks, 0, 1, false)
+
+	referrersBox := NewReferrersBox(collectionCtx)
+	flex2.AddItem(referrersBox, 0, 1, true)
+
+	content := sneatnav.NewPanel(tui, sneatnav.WithBox(flex, flex.Box))
+
+	tui.SetPanels(menu, content, sneatnav.WithFocusTo(focusTo))
+
+	collectionsBox.SetInputCapture(func(event *tcell.EventKey) *tcell.EventKey {
 		switch event.Key() {
 		case tcell.KeyLeft:
-			_, col := collectionsTable.GetSelection()
-			if col == 0 {
-				// Move focus to menu when on the leftmost column
-				tui.Menu.TakeFocus()
-				return nil
-			}
-			return event
+			tui.App.SetFocus(tui.Menu)
+			return nil
+		case tcell.KeyRight:
+			tui.App.SetFocus(columnsBox)
+			return nil
 		case tcell.KeyUp:
-			row, _ := collectionsTable.GetSelection()
-			if row <= 1 { // row 0 is a header; row 1 is the first data row
-				// Move focus to breadcrumbs when at the top row and pressing Up
-				tui.Header.SetFocus(sneatnav.ToBreadcrumbs, collectionsTable)
+			row, _ := collectionsBox.GetSelection()
+			if row <= 1 {
+				tui.Header.SetFocus(sneatnav.ToBreadcrumbs, collectionsBox)
 				return nil
 			}
 			return event
@@ -70,93 +76,78 @@ func showCollections(tui *sneatnav.TUI, focusTo sneatnav.FocusTo, dbContext dtvi
 		}
 	})
 
-	// If we create collectionsTable before collections loaded columns jump
+	setFocusBlurFunc := func(t *tview.Table) {
+		t.SetFocusFunc(func() {
+			t.SetSelectable(true, false)
+		})
+		t.SetBlurFunc(func() {
+			t.SetSelectable(false, false)
+		})
+	}
+	setFocusBlurFunc(columnsBox)
+	setFocusBlurFunc(fks)
+	setFocusBlurFunc(referrersBox)
 
-	//collectionsTable.SetCell(1, 0, tview.NewTableCell("Loading...").
-	//	SetSelectable(false).
-	//	SetTextColor(tcell.ColorLightGrey))
-
-	collections := make([]*datatug.CollectionInfo, 0)
-
-	go func() {
-		if schema := dbContext.Schema(); schema != nil {
-			// Prime schema loading (non-blocking behavior depends on provider)
-			collectionsReader, err := schema.GetCollections(context.Background(), nil)
-			if err != nil {
-				sneatnav.ShowErrorModal(tui, err)
-				return
+	columnsBox.SetInputCapture(func(event *tcell.EventKey) *tcell.EventKey {
+		switch event.Key() {
+		case tcell.KeyRight:
+			tui.App.SetFocus(fks)
+			return nil
+		case tcell.KeyLeft:
+			tui.App.SetFocus(collectionsBox)
+			return nil
+		case tcell.KeyUp:
+			row, _ := columnsBox.GetSelection()
+			if row == 0 {
+				tui.Header.SetFocus(sneatnav.ToBreadcrumbs, columnsBox)
+				return nil
 			}
-			tui.App.QueueUpdateDraw(func() {
-				colIndex := 0
-				addHeader := func(name string) {
-					cell := tview.NewTableCell(name).
-						SetSelectable(false).
-						SetTextColor(tcell.ColorLightBlue)
-					collectionsTable.SetCell(0, colIndex, cell)
-					colIndex++
-				}
-				addHeader("Name")
-				addHeader("Cols")
-				collectionsTable.SetFixed(1, 1)
-
-				i := 0
-
-				for {
-					collection, err := collectionsReader.NextCollection()
-					if err != nil {
-						if errors.Is(err, io.EOF) {
-							break
-						}
-						sneatnav.ShowErrorModal(tui, err)
-						return
-					}
-					if collection == nil {
-						break
-					}
-					collections = append(collections, collection)
-					if collection.Type() == collectionType {
-						i++
-						name := tview.NewTableCell(collection.Name())
-						name.SetReference(collection)
-						collectionsTable.SetCell(i, 0, name)
-
-						cols := tview.NewTableCell(strconv.Itoa(i)).SetAlign(tview.AlignRight)
-						collectionsTable.SetCell(i, 1, cols)
-					}
-				}
-				collectionsTable.SetTitle(fmt.Sprintf("%d %s @ %s", i, title, dbContext.Driver().ShortTitle))
-
-				if i > 0 {
-					collectionsTable.Select(1, 0)
-				}
-				collectionsTable.ScrollToBeginning()
-			})
+			return event
+		default:
+			return event
 		}
-	}()
+	})
 
-	//sidePanel := tview.NewFlex().SetDirection(tview.FlexRow)
-	//
-	//primaryKey := tview.NewTextView()
-	////primaryKey.SetBorder(true)
-	//primaryKey.SetText("Primary Key: Loading...")
-	//
-	//columns := tview.NewTextView()
-	//columns.SetBorder(true)
-	//columns.SetTitle("Columns")
-	//columns.SetTextColor(tcell.ColorLightGrey)
-	//columns.SetText("Loading...")
-	//
-	//sidePanel.AddItem(primaryKey, 1, 0, false)
-	//sidePanel.AddItem(columns, 0, 1, false)
-	//
-	//contentFlex := tview.NewFlex()
-	//
-	//contentFlex.AddItem(collectionsTable, 0, 1, true)
-	//contentFlex.AddItem(sidePanel, 0, 1, true)
+	fks.SetInputCapture(func(event *tcell.EventKey) *tcell.EventKey {
+		switch event.Key() {
+		case tcell.KeyLeft:
+			tui.App.SetFocus(columnsBox)
+			return nil
+		case tcell.KeyUp:
+			row, _ := fks.GetSelection()
+			if row == 0 {
+				tui.Header.SetFocus(sneatnav.ToBreadcrumbs, fks)
+				return nil
+			}
+			return event
+		case tcell.KeyDown:
+			row, _ := fks.GetSelection()
+			if row == fks.GetRowCount()-1 {
+				tui.App.SetFocus(referrersBox)
+				return nil
+			}
+			return event
+		default:
+			return event
+		}
+	})
 
-	content := sneatnav.NewPanel(tui, sneatnav.WithBox(collectionsTable, collectionsTable.Box))
-
-	tui.SetPanels(menu, content, sneatnav.WithFocusTo(focusTo))
+	referrersBox.SetInputCapture(func(event *tcell.EventKey) *tcell.EventKey {
+		switch event.Key() {
+		case tcell.KeyLeft:
+			tui.App.SetFocus(columnsBox)
+			return nil
+		case tcell.KeyUp:
+			row, _ := referrersBox.GetSelection()
+			if row == 0 {
+				tui.App.SetFocus(fks)
+				return nil
+			}
+			return event
+		default:
+			return event
+		}
+	})
 	return nil
 }
 

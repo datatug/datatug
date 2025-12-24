@@ -40,7 +40,7 @@ func goSqliteHome(tui *sneatnav.TUI, focusTo sneatnav.FocusTo) error {
 
 	northwindNode := tview.NewTreeNode(" " + demoDbsFolder + northwindSqliteDbFileName + " ")
 	northwindNode.SetSelectedFunc(func() {
-		openSqliteDemoDb(tui, northwindSqliteDbFileName)
+		go openSqliteDemoDb(tui, northwindSqliteDbFileName)
 	})
 	demoNode.AddChild(northwindNode)
 
@@ -66,12 +66,18 @@ func openSqliteDemoDb(tui *sneatnav.TUI, name string) {
 		filePath := filepath.Join(demoDbsFolder, name)
 		if !fileExists(filePath) {
 			if err := downloadFile(tui, northwindSqliteDbUrl, filePath); err != nil {
-				sneatnav.ShowErrorModal(tui, err)
+				if !errors.Is(err, context.Canceled) {
+					tui.App.QueueUpdateDraw(func() {
+						sneatnav.ShowErrorModal(tui, err)
+					})
+				}
 				return
 			}
 		}
-		dbContext := dtviewers.GetSQLiteDbContext(filePath)
-		_ = GoSqlDbHome(tui, dbContext)
+		tui.App.QueueUpdateDraw(func() {
+			dbContext := dtviewers.GetSQLiteDbContext(filePath)
+			_ = GoSqlDbHome(tui, dbContext)
+		})
 	}
 }
 
@@ -110,13 +116,20 @@ func downloadFile(tui *sneatnav.TUI, from, to string) error {
 	// Show initial content panel with progress + button
 	boxed := sneatnav.WithBox(container, container.Box)
 	progressPanel := sneatnav.NewPanel(tui, boxed)
-	tui.SetPanels(tui.Menu, progressPanel, sneatnav.WithFocusTo(sneatnav.FocusToContent))
-	// Focus the Cancel button when the download view opens
-	// Set focus explicitly to the Cancel button so user can press Enter immediately
-	tui.SetFocus(cancelBtn)
+
+	// Use a channel to wait for the download to complete
+	doneChan := make(chan error, 1)
+
+	tui.App.QueueUpdateDraw(func() {
+		tui.SetPanels(tui.Menu, progressPanel, sneatnav.WithFocusTo(sneatnav.FocusToContent))
+		// Focus the Cancel button when the download view opens
+		// Set focus explicitly to the Cancel button so user can press Enter immediately
+		tui.SetFocus(cancelBtn)
+	})
 
 	// Run download in background and update progress via QueueUpdateDraw
 	go func() {
+		defer close(doneChan)
 		// Context to support cancel
 		ctx, cancel := context.WithCancel(context.Background())
 		defer cancel()
@@ -126,8 +139,7 @@ func downloadFile(tui *sneatnav.TUI, from, to string) error {
 		var tmp string
 		var canceled bool
 
-		// Wire Cancel button and ESC key
-		tui.App.QueueUpdateDraw(func() {
+		tui.App.QueueUpdate(func() {
 			cancelBtn.SetSelectedFunc(func() {
 				if !canceled {
 					canceled = true
@@ -145,6 +157,7 @@ func downloadFile(tui *sneatnav.TUI, from, to string) error {
 				}
 				return event
 			})
+
 			// Allow ESC key to cancel while this container has focus
 			container.SetInputCapture(func(event *tcell.EventKey) *tcell.EventKey {
 				if event.Key() == tcell.KeyEsc {
@@ -233,6 +246,7 @@ func downloadFile(tui *sneatnav.TUI, from, to string) error {
 		}
 
 		// Render the very first status snapshot immediately
+		// QueueUpdateDraw is called inside
 		update(false)
 
 		// HTTP GET with context
@@ -241,6 +255,7 @@ func downloadFile(tui *sneatnav.TUI, from, to string) error {
 			tui.App.QueueUpdateDraw(func() {
 				_, _ = fmt.Fprintf(progress, "[red]Error: %v[-]\n", err)
 			})
+			doneChan <- err
 			return
 		}
 		resp, err = http.DefaultClient.Do(req) //nolint:gosec
@@ -254,11 +269,13 @@ func downloadFile(tui *sneatnav.TUI, from, to string) error {
 					tui.SetFocus(progress)
 					_, _ = fmt.Fprint(progress, "[yellow]Canceled.[-]\n")
 				})
+				doneChan <- ctx.Err()
 				return
 			}
 			tui.App.QueueUpdateDraw(func() {
 				_, _ = fmt.Fprintf(progress, "[red]Error: %v[-]\n", err)
 			})
+			doneChan <- err
 			return
 		}
 		defer func() { _ = resp.Body.Close() }()
@@ -266,6 +283,7 @@ func downloadFile(tui *sneatnav.TUI, from, to string) error {
 			tui.App.QueueUpdateDraw(func() {
 				_, _ = fmt.Fprintf(progress, "[red]HTTP error: %s[-]\n", resp.Status)
 			})
+			doneChan <- fmt.Errorf("HTTP error: %s", resp.Status)
 			return
 		}
 
@@ -276,6 +294,7 @@ func downloadFile(tui *sneatnav.TUI, from, to string) error {
 			tui.App.QueueUpdateDraw(func() {
 				_, _ = fmt.Fprintf(progress, "[red]Error creating file: %v[-]\n", err)
 			})
+			doneChan <- err
 			return
 		}
 
@@ -330,6 +349,7 @@ func downloadFile(tui *sneatnav.TUI, from, to string) error {
 					tui.SetFocus(progress)
 					_, _ = fmt.Fprintln(progress, "[yellow]Canceled.[-]")
 				})
+				doneChan <- ctx.Err()
 				return
 			case <-done:
 				// finish copy
@@ -345,18 +365,21 @@ func downloadFile(tui *sneatnav.TUI, from, to string) error {
 							tui.SetFocus(progress)
 							_, _ = fmt.Fprintln(progress, "[yellow]Canceled.[-]")
 						})
+						doneChan <- ctx.Err()
 						return
 					}
 					tui.App.QueueUpdateDraw(func() {
 						_, _ = fmt.Fprintf(progress, "[red]Error during download: %v[-]\n", copyErr)
 					})
 					_ = os.Remove(tmp)
+					doneChan <- copyErr
 					return
 				}
 				if err = os.Rename(tmp, dst); err != nil {
 					tui.App.QueueUpdateDraw(func() {
 						_, _ = fmt.Fprintf(progress, "[red]Error saving file: %v[-]\n", err)
 					})
+					doneChan <- err
 					return
 				}
 				update(true)
@@ -366,15 +389,14 @@ func downloadFile(tui *sneatnav.TUI, from, to string) error {
 					// Move focus to progress text since the button row is gone
 					tui.SetFocus(progress)
 					_, _ = fmt.Fprintf(progress, "\n[green]Completed successfully.[-]\n")
-					dtContext := dtviewers.GetSQLiteDbContext(dst)
-					_ = GoSqlDbHome(tui, dtContext)
 				})
+				doneChan <- nil
 				return
 			}
 		}
 	}()
 
-	return nil
+	return <-doneChan
 }
 
 func humanBytes(n int64) string {
