@@ -2,31 +2,42 @@ package dbviewer
 
 import (
 	"context"
-	"fmt"
-	"reflect"
 
 	"github.com/dal-go/dalgo/dal"
-	"github.com/datatug/datatug-core/pkg/schemer"
 	"github.com/datatug/datatug/apps/datatugapp/datatugui/dtviewers"
 	"github.com/datatug/datatug/pkg/sneatview/sneatnav"
+	"github.com/datatug/datatug/pkg/sneatview/sneatv"
+	"github.com/gdamore/tcell/v2"
 	"github.com/rivo/tview"
 )
 
 func goTable(tui *sneatnav.TUI, collectionCtx dtviewers.CollectionContext) {
+
+	tableName := collectionCtx.CollectionRef.Name()
+	breadcrumbs := getSqlDbBreadcrumbs(tui, collectionCtx.DbContext)
+	breadcrumbs.Push(sneatv.NewBreadcrumb("Tables", nil))
+	breadcrumbs.Push(sneatv.NewBreadcrumb(tableName, nil))
+
 	table := tview.NewTable()
+	table.SetTitle("Table: " + tableName)
+	table.SetSelectable(true, true)
+	table.SetFixed(1, 0)
 
-	table.SetTitle(collectionCtx.CollectionRef.Name())
-
+	menu := newSqlDbMenu(tui, SqlDbScreenTables, collectionCtx.DbContext)
 	content := sneatnav.NewPanel(tui, sneatnav.WithBox(table, table.Box))
 
-	tui.SetPanels(nil, content)
+	tui.SetPanels(menu, content)
 
 	go func() {
-		_ = loadDataIntoTable(collectionCtx, table)
+		err := loadDataIntoTable(tui, collectionCtx, table)
+		if err != nil {
+			table.SetCell(0, 0, tview.NewTableCell("Error: "+err.Error()).SetTextColor(tcell.ColorRed).SetBackgroundColor(tcell.ColorWhiteSmoke))
+			return
+		}
 	}()
 }
 
-func loadDataIntoTable(collectionCtx dtviewers.CollectionContext, table *tview.Table) (err error) {
+func loadDataIntoTable(tui *sneatnav.TUI, collectionCtx dtviewers.CollectionContext, table *tview.Table) (err error) {
 	if collectionCtx.DbContext == nil {
 		panic("collectionCtx.DbContext is nil")
 	}
@@ -34,32 +45,16 @@ func loadDataIntoTable(collectionCtx dtviewers.CollectionContext, table *tview.T
 	if err != nil {
 		return err
 	}
-	q := dal.NewQueryBuilder(dal.From(collectionCtx.CollectionRef)).SelectIntoRecord(func() dal.Record {
-		r := dal.NewRecordWithIncompleteKey(collectionCtx.CollectionRef.Name(), reflect.String, make(map[string]any))
-		r.SetError(nil)
-		return r
-	})
+	q := dal.From(collectionCtx.CollectionRef).NewQuery().SelectIntoRecordset(nil)
 	ctx := context.Background()
 
-	records, err := dal.ExecuteQueryAndReadAllToRecords(ctx, q, db)
+	var tableContent TableContentRecordset
+	tableContent.recordset, err = dal.ExecuteQueryAndReadAllToRecordset(ctx, q, db)
 	if err != nil {
 		return err
 	}
-
-	schema := collectionCtx.Schema()
-	// TODO: Pass CollectionRef to GetColumns() by value?
-	columns, err := schema.GetColumns(ctx, "", schemer.ColumnsFilter{CollectionRef: &collectionCtx.CollectionRef})
-	if err != nil {
-		return err
-	}
-
-	for i, record := range records {
-		data := record.Data().(map[string]any)
-		for j, col := range columns {
-			v := data[col.Name]
-			table.SetCell(i+1, j, tview.NewTableCell(fmt.Sprintf("%v", v)))
-		}
-	}
-
+	tui.App.QueueUpdateDraw(func() {
+		table.SetContent(tableContent)
+	})
 	return nil
 }
