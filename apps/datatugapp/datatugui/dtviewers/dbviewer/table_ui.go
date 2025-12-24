@@ -3,6 +3,7 @@ package dbviewer
 import (
 	"context"
 
+	"github.com/atotto/clipboard"
 	"github.com/dal-go/dalgo/dal"
 	"github.com/datatug/datatug/apps/datatugapp/datatugui/dtviewers"
 	"github.com/datatug/datatug/pkg/sneatview/sneatnav"
@@ -22,6 +23,31 @@ func goTable(tui *sneatnav.TUI, collectionCtx dtviewers.CollectionContext) {
 	table.SetTitle("Table: " + tableName)
 	table.SetSelectable(true, true)
 	table.SetFixed(1, 0)
+
+	table.SetInputCapture(func(event *tcell.EventKey) *tcell.EventKey {
+		if event.Key() == tcell.KeyCtrlC || (event.Key() == tcell.KeyRune && event.Rune() == 'c' && event.Modifiers()&tcell.ModMeta != 0) {
+			row, col := table.GetSelection()
+			if row >= 0 && col >= 0 {
+				cell := table.GetCell(row, col)
+				if cell != nil && cell.Text != "" {
+					_ = clipboard.WriteAll(cell.Text)
+				}
+			}
+			return nil
+		}
+
+		switch event.Key() {
+		case tcell.KeyLeft:
+			_, col := table.GetSelection()
+			if col == 0 {
+				tui.SetFocus(tui.Menu)
+				return nil
+			}
+		default:
+			return event
+		}
+		return event
+	})
 
 	menu := newSqlDbMenu(tui, SqlDbScreenTables, collectionCtx.DbContext)
 	content := sneatnav.NewPanel(tui, sneatnav.WithBox(table, table.Box))

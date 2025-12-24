@@ -51,17 +51,15 @@ func layoutGrid(header, menu, content tview.Primitive) *tview.Grid {
 
 func (tui *TUI) inputCapture(event *tcell.EventKey) *tcell.EventKey {
 	switch key := event.Key(); key {
-	case tcell.KeyRune:
-		switch s := string(event.Rune()); s {
-		case "q":
-			tui.App.Stop()
-		default:
-			return event
-		}
+	case tcell.KeyCtrlC:
+		clone := *event
+		return &clone
+	case tcell.KeyCtrlQ:
+		tui.App.Stop()
+		return nil
 	default:
 		return event
 	}
-	return event
 }
 
 type TUI struct {
