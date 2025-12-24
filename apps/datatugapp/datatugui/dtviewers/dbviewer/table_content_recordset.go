@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"reflect"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/dal-go/dalgo/recordset"
@@ -18,10 +19,12 @@ type TableContentRecordset struct {
 	recordset recordset.Recordset
 }
 
-func (t TableContentRecordset) GetCell(row, column int) *tview.TableCell {
+func (t TableContentRecordset) GetCell(row, column int) (cell *tview.TableCell) {
 	col := t.recordset.GetColumnByIndex(column)
 	if row == 0 { // Header
-		return tview.NewTableCell(col.Name()).SetTextColor(tcell.ColorLightBlue)
+		return tview.NewTableCell(col.Name()).
+			SetTextColor(tcell.ColorYellow).
+			SetBackgroundColor(tcell.ColorGray)
 	}
 	row--
 	v, err := col.GetValue(row)
@@ -39,35 +42,50 @@ func (t TableContentRecordset) GetCell(row, column int) *tview.TableCell {
 			itemType = "byte"
 		}
 		length := strconv.Itoa(vVal.Len())
-		return tview.NewTableCell(fmt.Sprintf("[]%v - %s", itemType, length)).SetTextColor(tcell.ColorGray)
+		cell = tview.NewTableCell(fmt.Sprintf("[]%v - %s", itemType, length)).SetTextColor(tcell.ColorGray)
 	}
 	switch tVal := v.(type) {
 	case string:
-		return tview.NewTableCell(tVal).SetTextColor(tcell.ColorLightGreen)
+		cell = tview.NewTableCell(tVal).SetTextColor(tcell.ColorLightGreen)
 	case bool:
-		var cell *tview.TableCell
 		if tVal {
 			cell = tview.NewTableCell("YES")
 		} else {
 			cell = tview.NewTableCell("NO")
 		}
-		return cell.SetAlign(tview.AlignCenter).SetTextColor(tcell.ColorCornflowerBlue)
+		cell.SetAlign(tview.AlignCenter).SetTextColor(tcell.ColorCornflowerBlue)
 	case float64, float32:
-		return tview.NewTableCell(fmt.Sprintf("%v", tVal)).SetTextColor(tcell.ColorLightGoldenrodYellow).SetAlign(tview.AlignRight)
+		cell = tview.NewTableCell(fmt.Sprintf("%v", tVal)).SetTextColor(tcell.ColorLightGoldenrodYellow).SetAlign(tview.AlignRight)
 	case int, int64, int32, int16, int8:
-		return tview.NewTableCell(fmt.Sprintf("%d", tVal)).SetTextColor(tcell.ColorLightSalmon).SetAlign(tview.AlignRight)
+		cell = tview.NewTableCell(fmt.Sprintf("%d", tVal)).SetTextColor(tcell.ColorLightSalmon).SetAlign(tview.AlignRight)
 	case time.Time:
-		const timeColor = tcell.ColorLightCoral
+		_, offset := tVal.Zone()
 		if tVal.Hour() == 0 && tVal.Minute() == 0 && tVal.Second() == 0 && tVal.Nanosecond() == 0 {
-			if tVal.Location().String() == "UTC" {
-				return tview.NewTableCell(tVal.Format("2006-01-02")).SetTextColor(timeColor)
+			if offset == 0 {
+				cell = tview.NewTableCell(tVal.Format("2006-01-02"))
+			} else {
+				cell = tview.NewTableCell(tVal.Format("2006-01-02") + " " + tVal.Location().String())
 			}
-			return tview.NewTableCell(tVal.Format("2006-01-02") + " " + tVal.Location().String()).SetTextColor(timeColor)
+		} else if offset == 0 {
+			cell = tview.NewTableCell(tVal.Format("2006-01-02 15:04:05"))
+		} else {
+			cell = tview.NewTableCell(tVal.Format(time.RFC3339))
 		}
-		return tview.NewTableCell(fmt.Sprintf("%v", v)).SetTextColor(timeColor)
+		if column%2 == 0 {
+			cell.SetTextColor(tcell.ColorLightCoral)
+		} else {
+			cell.SetTextColor(tcell.ColorLightSalmon)
+		}
 	default:
-		return tview.NewTableCell(fmt.Sprintf("%T:%v", v, v)).SetTextColor(tcell.ColorLightGray)
+		cell = tview.NewTableCell(fmt.Sprintf("%T:%v", v, v)).SetTextColor(tcell.ColorLightGray)
 	}
+	if strings.HasSuffix(col.Name(), "ID") {
+		cell.SetStyle(tcell.StyleDefault.Foreground(tcell.ColorBlue).Underline(true))
+	}
+	//if row%2 == 1 {
+	//	cell.SetBackgroundColor(tcell.ColorGray)
+	//}
+	return
 }
 
 func (t TableContentRecordset) GetRowCount() int {

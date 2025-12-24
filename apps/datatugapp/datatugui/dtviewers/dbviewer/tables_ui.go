@@ -59,7 +59,7 @@ func showCollections(tui *sneatnav.TUI, focusTo sneatnav.FocusTo, dbContext dtvi
 			return event
 		case tcell.KeyUp:
 			row, _ := collectionsTable.GetSelection()
-			if row <= 1 { // row 0 is header; row 1 is first data row
+			if row <= 1 { // row 0 is a header; row 1 is the first data row
 				// Move focus to breadcrumbs when at the top row and pressing Up
 				tui.Header.SetFocus(sneatnav.ToBreadcrumbs, collectionsTable)
 				return nil
