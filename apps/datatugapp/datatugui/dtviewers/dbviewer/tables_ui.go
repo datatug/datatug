@@ -47,6 +47,7 @@ func showCollections(tui *sneatnav.TUI, focusTo sneatnav.FocusTo, dbContext dtvi
 	columns := newColumnsBox(ctx, dbContext, tui)
 	if columns != nil {
 		flex.AddItem(columns, 0, proportionColumns, true)
+		collectionsBox.SetNextFocus(columns)
 	}
 
 	flex2 := tview.NewFlex()
@@ -84,26 +85,6 @@ func showCollections(tui *sneatnav.TUI, focusTo sneatnav.FocusTo, dbContext dtvi
 	content := sneatnav.NewPanel(tui, sneatnav.WithBoxWithoutBorder(flex, flex.Box))
 
 	tui.SetPanels(menu, content, sneatnav.WithFocusTo(focusTo))
-
-	collectionsBox.SetInputCapture(func(event *tcell.EventKey) *tcell.EventKey {
-		switch event.Key() {
-		case tcell.KeyLeft:
-			tui.App.SetFocus(tui.Menu)
-			return nil
-		case tcell.KeyRight:
-			tui.App.SetFocus(columns)
-			return nil
-		case tcell.KeyUp:
-			row, _ := collectionsBox.GetSelection()
-			if row <= 1 {
-				tui.Header.SetFocus(sneatnav.ToBreadcrumbs, collectionsBox)
-				return nil
-			}
-			return event
-		default:
-			return event
-		}
-	})
 
 	setFocusAndBlurFunc := func(t *tview.Table) {
 		t.SetFocusFunc(func() {

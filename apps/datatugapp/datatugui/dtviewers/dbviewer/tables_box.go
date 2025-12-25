@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"strings"
 
 	"github.com/datatug/datatug-core/pkg/datatug"
 	"github.com/datatug/datatug/apps/datatugapp/datatugui/dtviewers"
@@ -15,8 +16,62 @@ import (
 	"github.com/rivo/tview"
 )
 
-func NewTablesBox(tui *sneatnav.TUI, dbContext dtviewers.DbContext, collectionType datatug.CollectionType, title string) *tview.Table {
+type tablesBox struct {
+	*tview.Table
+	tui            *sneatnav.TUI
+	dbContext      dtviewers.DbContext
+	collectionType datatug.CollectionType
+	title          string
+	filter         string
+	collections    []*datatug.CollectionInfo
+	nextFocus      tview.Primitive
+}
+
+func (b *tablesBox) SetNextFocus(next tview.Primitive) {
+	b.nextFocus = next
+}
+
+func (b *tablesBox) refreshTable() {
+	headerText := "Name"
+	if b.filter != "" {
+		headerText = fmt.Sprintf("Tables [grey]~ [red]%s", b.filter)
+	}
+	b.GetCell(0, 0).SetText(headerText)
+
+	// Clear only data rows
+	for r := b.GetRowCount() - 1; r >= 1; r-- {
+		b.RemoveRow(r)
+	}
+
+	i := 0
+	lowerFilter := strings.ToLower(b.filter)
+	for _, collection := range b.collections {
+		if collection.Type() == b.collectionType {
+			if b.filter != "" && !strings.Contains(strings.ToLower(collection.Name()), lowerFilter) {
+				continue
+			}
+			i++
+			name := tview.NewTableCell(collection.Name()).SetExpansion(1)
+			name.SetReference(collection)
+			b.SetCell(i, 0, name)
+		}
+	}
+	b.SetTitle(fmt.Sprintf("%s [gray](%d)", b.title, i))
+	if i > 0 {
+		b.Select(1, 0)
+	}
+	b.ScrollToBeginning()
+}
+
+func NewTablesBox(tui *sneatnav.TUI, dbContext dtviewers.DbContext, collectionType datatug.CollectionType, title string) *tablesBox {
 	table := tview.NewTable()
+	b := &tablesBox{
+		Table:          table,
+		tui:            tui,
+		dbContext:      dbContext,
+		collectionType: collectionType,
+		title:          title,
+	}
 	sneatv.DefaultBorderWithoutPadding(table.Box)
 
 	// Enable cell selection by row and column
@@ -51,11 +106,31 @@ func NewTablesBox(tui *sneatnav.TUI, dbContext dtviewers.DbContext, collectionTy
 	// Arrow-key behavior with edge focus transfers
 	table.SetInputCapture(func(event *tcell.EventKey) *tcell.EventKey {
 		switch event.Key() {
+		case tcell.KeyRune:
+			b.filter += string(event.Rune())
+			b.refreshTable()
+			return nil
+		case tcell.KeyBackspace, tcell.KeyBackspace2:
+			if len(b.filter) > 0 {
+				b.filter = b.filter[:len(b.filter)-1]
+				b.refreshTable()
+			}
+			return nil
+		case tcell.KeyEsc:
+			b.filter = ""
+			b.refreshTable()
+			return nil
 		case tcell.KeyLeft:
 			_, col := table.GetSelection()
 			if col == 0 {
 				// Move focus to menu when on the leftmost column
 				tui.Menu.TakeFocus()
+				return nil
+			}
+			return event
+		case tcell.KeyRight:
+			if b.nextFocus != nil {
+				tui.App.SetFocus(b.nextFocus)
 				return nil
 			}
 			return event
@@ -78,8 +153,6 @@ func NewTablesBox(tui *sneatnav.TUI, dbContext dtviewers.DbContext, collectionTy
 	//	SetSelectable(false).
 	//	SetTextColor(tcell.ColorLightGrey))
 
-	collections := make([]*datatug.CollectionInfo, 0)
-
 	if schema := dbContext.Schema(); schema != nil {
 		go func() {
 			// Prime schema loading (non-blocking behavior depends on provider)
@@ -89,9 +162,6 @@ func NewTablesBox(tui *sneatnav.TUI, dbContext dtviewers.DbContext, collectionTy
 				return
 			}
 			tui.App.QueueUpdateDraw(func() {
-
-				i := 0
-
 				for {
 					collection, err := collectionsReader.NextCollection()
 					if err != nil {
@@ -104,31 +174,14 @@ func NewTablesBox(tui *sneatnav.TUI, dbContext dtviewers.DbContext, collectionTy
 					if collection == nil {
 						break
 					}
-					collections = append(collections, collection)
-					if collection.Type() == collectionType {
-						i++
-						name := tview.NewTableCell(collection.Name()).SetExpansion(1)
-						name.SetReference(collection)
-						table.SetCell(i, 0, name)
-
-						//recordsCell := tview.NewTableCell("?").
-						//	SetAlign(tview.AlignRight).
-						//	SetTextColor(tcell.ColorGray)
-						//table.SetCell(i, 1, recordsCell)
-					}
+					b.collections = append(b.collections, collection)
 				}
-
-				table.SetTitle(fmt.Sprintf("%s [gray](%d)", title, i))
-
-				if i > 0 {
-					table.Select(1, 0)
-				}
-				table.ScrollToBeginning()
+				b.refreshTable()
 				table.SetSelectable(true, false)
 				table.Select(1, 0)
 			})
 		}()
 	}
 
-	return table
+	return b
 }
