@@ -26,7 +26,7 @@ func newQueryTable(tui *sneatnav.TUI, title string, dbContext dtviewers.DbContex
 	go func() {
 		ctx := context.Background()
 		db, _ := dbContext.GetDB(ctx)
-		_, _ = loadDataIntoTable(ctx, tui, db, q, b.Table)
+		_, _ = loadDataIntoTable(ctx, tui, db, q, b.Table, nil)
 	}()
 	return b
 }

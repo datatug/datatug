@@ -57,7 +57,7 @@ func newRecordsetUI(tui *sneatnav.TUI, collectionCtx dtviewers.CollectionContext
 
 	var rs recordset.Recordset
 
-	var currentColIndex int
+	currentColIndex := -1
 	var currentCol recordset.Column[any]
 	var currentFK schemer.ForeignKey
 	var bottomTable *recordsetTable
@@ -71,7 +71,7 @@ func newRecordsetUI(tui *sneatnav.TUI, collectionCtx dtviewers.CollectionContext
 		return
 	}
 
-	table.SetSelectionChangedFunc(func(row, column int) {
+	onSelectionChanged := func(row, column int) {
 		if rs == nil {
 			return
 		}
@@ -99,7 +99,9 @@ func newRecordsetUI(tui *sneatnav.TUI, collectionCtx dtviewers.CollectionContext
 			bottomTable = newQueryTable(tui, currentFK.To.Name, collectionCtx.DbContext, q, currentFK.To.Columns)
 			b.Flex.AddItem(bottomTable, 4, 0, false)
 		}
-	})
+	}
+
+	table.SetSelectionChangedFunc(onSelectionChanged)
 
 	table.SetInputCapture(func(event *tcell.EventKey) *tcell.EventKey {
 		if event.Key() == tcell.KeyCtrlC || (event.Key() == tcell.KeyRune && (event.Rune() == 'c' || event.Rune() == 'C') && (event.Modifiers()&tcell.ModMeta != 0 || event.Modifiers()&tcell.ModAlt != 0)) {
@@ -160,13 +162,11 @@ func newRecordsetUI(tui *sneatnav.TUI, collectionCtx dtviewers.CollectionContext
 		}
 		q := dal.From(collectionCtx.CollectionRef).NewQuery().SelectIntoRecordset(recordset.WithName(collectionCtx.CollectionRef.Name()))
 
-		rs, err = loadDataIntoTable(ctx, tui, db, q, table)
-		if err != nil {
-			tui.App.QueueUpdateDraw(func() {
-				table.SetCell(0, 0, tview.NewTableCell("Error: "+err.Error()).SetTextColor(tcell.ColorRed).SetBackgroundColor(tcell.ColorWhiteSmoke))
-			})
-			return
-		}
+		rs, err = loadDataIntoTable(ctx, tui, db, q, table, func(rs2 recordset.Recordset) {
+			rs = rs2
+			row, col := table.GetSelection()
+			onSelectionChanged(row, col)
+		})
 	}()
 
 	return &b
@@ -187,16 +187,31 @@ func goTable(tui *sneatnav.TUI, collectionCtx dtviewers.CollectionContext) {
 	tui.SetPanels(menu, content)
 }
 
-func loadDataIntoTable(ctx context.Context, tui *sneatnav.TUI, db dal.DB, q dal.Query, table *tview.Table) (rs recordset.Recordset, err error) {
+func loadDataIntoTable(
+	ctx context.Context,
+	tui *sneatnav.TUI,
+	db dal.DB,
+	q dal.Query,
+	table *tview.Table,
+	done func(rs recordset.Recordset),
+) (rs recordset.Recordset, err error) {
 	var tableContent TableContentRecordset
-	// TODO: Use reader
 	tableContent.recordset, err = dal.ExecuteQueryAndReadAllToRecordset(ctx, q, db)
-	if err != nil {
-		return tableContent.recordset, err
-	}
 	tui.App.QueueUpdateDraw(func() {
+		if err != nil {
+			table.SetCell(0, 0, tview.NewTableCell("Error: "+err.Error()).SetTextColor(tcell.ColorRed).SetBackgroundColor(tcell.ColorWhiteSmoke))
+			return
+		}
 		table.SetContent(tableContent)
 		table.ScrollToBeginning()
+		row, col := table.GetSelection()
+		if row == 0 {
+			row = 1
+			table.Select(row, col)
+		}
+		if done != nil {
+			done(tableContent.recordset)
+		}
 	})
 	return tableContent.recordset, nil
 }
