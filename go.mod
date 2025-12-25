@@ -2,7 +2,7 @@ module github.com/datatug/datatug
 
 go 1.25.4
 
-//replace github.com/datatug/datatug-core => ../datatug-core
+replace github.com/datatug/datatug-core => ../datatug-core
 
 //replace github.com/dal-go/dalgo => ../../dal-go/dalgo
 //

@@ -1,8 +1,10 @@
 package dbviewer
 
 import (
+	"context"
 	"errors"
 
+	"github.com/dal-go/dalgo/dal"
 	"github.com/datatug/datatug-core/pkg/datatug"
 	"github.com/datatug/datatug/apps/datatugapp/datatugui/dtviewers"
 	"github.com/datatug/datatug/pkg/sneatview/sneatnav"
@@ -23,6 +25,9 @@ func showCollections(tui *sneatnav.TUI, focusTo sneatnav.FocusTo, dbContext dtvi
 	if dbContext == nil {
 		return errors.New("dbContext is nil")
 	}
+
+	ctx := context.Background()
+
 	breadcrumbs := getSqlDbBreadcrumbs(tui, dbContext)
 	breadcrumbs.Push(sneatv.NewBreadcrumb(title, nil))
 
@@ -36,11 +41,14 @@ func showCollections(tui *sneatnav.TUI, focusTo sneatnav.FocusTo, dbContext dtvi
 	flex.AddItem(collectionsBox, 0, 2, true)
 
 	collectionCtx := dtviewers.CollectionContext{
-		DbContext: dbContext,
+		DbContext:     dbContext,
+		CollectionRef: dal.NewCollectionRef("Categories", "", nil),
 	}
 
-	columnsBox := NewColumnsBox(collectionCtx)
-	flex.AddItem(columnsBox, 0, 2, true)
+	columnsBox := NewColumnsBox(ctx, collectionCtx, tui)
+	if columnsBox != nil {
+		flex.AddItem(columnsBox, 0, 2, true)
+	}
 
 	flex2 := tview.NewFlex()
 	flex2.SetDirection(tview.FlexRow)

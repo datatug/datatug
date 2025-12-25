@@ -49,7 +49,7 @@ func (v columnsProvider) GetColumns(ctx context.Context, catalog string, filter 
 	if err != nil {
 		return nil, err
 	}
-	return schemer.ReadColumns(r)
+	return schemer.ReadColumns(ctx, r)
 }
 
 var _ schemer.ColumnsReader = (*columnsReader)(nil)

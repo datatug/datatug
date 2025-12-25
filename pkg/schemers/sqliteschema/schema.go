@@ -15,6 +15,9 @@ func NewSchemaProvider(getSqliteDB func() (*sql.DB, error)) schemer.SchemaProvid
 	}
 	return schemaProvider{
 		getSqliteDB: getSqliteDB,
+		columnsProvider: columnsProvider{
+			getSqliteDB: getSqliteDB,
+		},
 	}
 }
 
