@@ -24,6 +24,21 @@ type schemaProvider struct {
 	db *sql.DB
 }
 
+func (s schemaProvider) GetForeignKeysReader(c context.Context, schema, table string) (schemer.ForeignKeysReader, error) {
+	//TODO implement me
+	panic("implement me")
+}
+
+func (s schemaProvider) GetForeignKeys(c context.Context, schema, table string) ([]schemer.ForeignKey, error) {
+	//TODO implement me
+	panic("implement me")
+}
+
+func (s schemaProvider) GetReferrers(ctx context.Context, schema, table string) ([]schemer.ForeignKey, error) {
+	//TODO implement me
+	panic("implement me")
+}
+
 func (schemaProvider) IsBulkProvider() bool {
 	return true
 }

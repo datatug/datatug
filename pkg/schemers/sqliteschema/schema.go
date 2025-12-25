@@ -31,6 +31,11 @@ type schemaProvider struct {
 	getSqliteDB func() (*sql.DB, error)
 }
 
+func (s schemaProvider) GetReferrers(ctx context.Context, schema, table string) ([]schemer.ForeignKey, error) {
+	//TODO implement me
+	panic("implement me")
+}
+
 func (s schemaProvider) GetCollections(_ context.Context, parent *dal.Key) (schemer.CollectionsReader, error) {
 	_ = parent
 	db, err := s.getSqliteDB()
