@@ -21,7 +21,7 @@ func goFirestoreCollections(gcProjCtx *CGProjectContext) error {
 	menu := firestoreMainMenu(gcProjCtx, firestoreScreenCollections, "")
 
 	list := tview.NewList()
-	sneatv.DefaultBorder(list.Box)
+	sneatv.DefaultBorderWithPadding(list.Box)
 	title := "Firestore Collections"
 	if gcProjCtx.Project != nil && gcProjCtx.Project.ProjectId != "" {
 		title += " — " + gcProjCtx.Project.ProjectId

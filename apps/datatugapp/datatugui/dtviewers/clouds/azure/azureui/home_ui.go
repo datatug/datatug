@@ -27,7 +27,7 @@ func GoAzureHome(cContext *AzureContext, focusTo sneatnav.FocusTo) error {
 	menu := dtviewers.NewCloudsMenu(cContext.TUI, viewerID)
 
 	textView := tview.NewTextView()
-	sneatv.DefaultBorder(textView.Box)
+	sneatv.DefaultBorderWithPadding(textView.Box)
 	textView.SetTitle("Microsoft Azure Viewer")
 	textView.SetText("Azure is not implemented yet.")
 

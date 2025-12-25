@@ -9,7 +9,7 @@ import (
 func newDashboardsPanel(ctx ProjectContext) sneatnav.Panel {
 	content := tview.NewTextView().SetTextAlign(tview.AlignCenter).SetText("List of dashboards here")
 
-	sneatv.DefaultBorder(content.Box)
+	sneatv.DefaultBorderWithPadding(content.Box)
 
 	return sneatnav.NewPanel(ctx.TUI(), sneatnav.WithBox(content, content.Box))
 }

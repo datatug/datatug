@@ -26,7 +26,7 @@ func goApiServiceMonitor(tui *sneatnav.TUI, focusTo sneatnav.FocusTo) error {
 
 	menu := datatugui.NewDataTugMainMenu(tui, datatugui.RootScreenWebUI)
 	textView := tview.NewTextView()
-	sneatv.DefaultBorder(textView.Box)
+	sneatv.DefaultBorderWithPadding(textView.Box)
 	textView.SetTitle("Web UI & Local API Service Monitor")
 	textView.SetText("Open web UI: https://datatug.app/pwa/#api=localhost:8080")
 	textView.SetInputCapture(func(event *tcell.EventKey) *tcell.EventKey {

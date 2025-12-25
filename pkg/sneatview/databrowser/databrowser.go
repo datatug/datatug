@@ -29,7 +29,7 @@ func NewDataBrowser() *DataBrowser {
 	b.AddItem(b.Table, 0, 0, 1, 1, 0, 0, true)
 	b.AddItem(buttons, 1, 0, 1, 1, 0, 0, true)
 
-	sneatv.DefaultBorder(b.Box)
+	sneatv.DefaultBorderWithPadding(b.Box)
 
 	return b
 }

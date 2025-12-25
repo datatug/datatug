@@ -4,15 +4,14 @@ import (
 	"fmt"
 
 	"github.com/datatug/datatug/apps/datatugapp/datatugui/dtviewers"
-	"github.com/gdamore/tcell/v2"
+	"github.com/datatug/datatug/pkg/sneatview/sneatv"
 	"github.com/rivo/tview"
 )
 
 func NewReferrersBox(_ dtviewers.CollectionContext) *tview.Table {
 	table := tview.NewTable()
 	table.SetTitle("Referrers")
-	table.SetBorder(true)
-	table.SetBorderColor(tcell.ColorDarkSlateGray)
+	sneatv.DefaultBorderWithoutPadding(table.Box)
 	//table.SetSelectable(true, false)
 
 	newRow := func(row int, referrer, fkCols string) {

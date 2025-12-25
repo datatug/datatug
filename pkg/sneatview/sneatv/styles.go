@@ -5,15 +5,30 @@ import (
 	"github.com/rivo/tview"
 )
 
-func DefaultBorder(box *tview.Box) {
-	box.SetBorder(true)
-	box.SetBorderColor(tcell.ColorCornflowerBlue)
-	box.SetBorderAttributes(tcell.AttrDim)
+const DefaultFocusedBorderColor = tcell.ColorCornflowerBlue
+const DefaultBlurBorderColor = tcell.ColorGray
+
+func DefaultBorderWithPadding(box *tview.Box) {
+	DefaultBorderWithoutPadding(box)
 	box.SetBorderPadding(1, 0, 1, 1)
 }
 
+func DefaultBorderWithoutPadding(box *tview.Box) {
+	box.SetBorder(true)
+	box.SetBorderColor(DefaultBlurBorderColor)
+	box.SetBorderAttributes(tcell.AttrDim)
+	box.SetFocusFunc(func() {
+		//box.SetBorderAttributes(tcell.AttrNone)
+		box.SetBorderColor(DefaultFocusedBorderColor)
+	})
+	box.SetBlurFunc(func() {
+		//box.SetBorderAttributes(tcell.AttrDim)
+		box.SetBorderColor(DefaultBlurBorderColor)
+	})
+}
+
 func SetPanelTitle(box *tview.Box, title string) {
-	DefaultBorder(box)
+	DefaultBorderWithPadding(box)
 	box.SetTitle(title)
 	box.SetTitleAlign(tview.AlignCenter)
 	box.SetTitleColor(tview.Styles.TitleColor)

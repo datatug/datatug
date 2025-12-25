@@ -47,7 +47,7 @@ func goSettingsScreen(tui *sneatnav.TUI, focusTo sneatnav.FocusTo) error {
 
 	content := sneatnav.NewPanel(tui, sneatnav.WithBox(textView, textView.Box))
 
-	sneatv.DefaultBorder(textView.Box)
+	sneatv.DefaultBorderWithPadding(textView.Box)
 	textView.SetTitle(fileName)
 	textView.SetTitleAlign(tview.AlignLeft)
 

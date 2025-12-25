@@ -10,7 +10,7 @@ type ViewerID string
 
 func NewCloudsMenu(tui *sneatnav.TUI, active ViewerID) (menu sneatnav.Panel) {
 	list := sneatnav.MainMenuList(tui)
-	sneatv.DefaultBorder(list.Box)
+	sneatv.DefaultBorderWithPadding(list.Box)
 
 	current := -1
 	for i, viewer := range viewers {

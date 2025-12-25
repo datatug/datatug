@@ -17,7 +17,7 @@ func newProjectBreadcrumbs(gcProjectCtx *CGProjectContext) sneatnav.Breadcrumbs 
 
 func newGProjectMenu(gcProjCtx *CGProjectContext) sneatnav.Panel {
 	list := tview.NewList()
-	sneatv.DefaultBorder(list.Box)
+	sneatv.DefaultBorderWithPadding(list.Box)
 	list.SetTitle(gcProjCtx.Project.DisplayName)
 
 	list.AddItem("Firestore Database", "", 0, func() {
@@ -63,7 +63,7 @@ func goProject(gcProjCtx *CGProjectContext) error {
 //func newMenuWithProjects(cContext *GCloudContext) (menu sneatnav.Panel) {
 //	list := sneatnav.MainMenuList()
 //	list.SetTitle("Projects")
-//	sneatv.DefaultBorder(list.Box)
+//	sneatv.DefaultBorderWithPadding(list.Box)
 //	list.SetInputCapture(func(event *tcell.EventKey) *tcell.EventKey {
 //		switch event.Key() {
 //		case tcell.KeyUp:

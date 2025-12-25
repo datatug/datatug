@@ -32,7 +32,7 @@ func goFirestoreDb(gcProjCtx *CGProjectContext) error {
 
 func firestoreMainMenu(gcProjCtx *CGProjectContext, active firestoreScreen, title string) (menu sneatnav.Panel) {
 	list := sneatnav.MainMenuList(gcProjCtx.TUI)
-	sneatv.DefaultBorder(list.Box)
+	sneatv.DefaultBorderWithPadding(list.Box)
 	if title != "" {
 		list.SetTitle(title)
 	}

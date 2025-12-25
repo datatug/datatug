@@ -27,7 +27,7 @@ func goAwsHome(cContext *AwsContext, focusTo sneatnav.FocusTo) error {
 	menu := dtviewers.NewCloudsMenu(cContext.TUI, viewerID)
 
 	textView := tview.NewTextView()
-	sneatv.DefaultBorder(textView.Box)
+	sneatv.DefaultBorderWithPadding(textView.Box)
 	textView.SetTitle("Amazon Web Services")
 	textView.SetText("AWS is not implemented yet.")
 

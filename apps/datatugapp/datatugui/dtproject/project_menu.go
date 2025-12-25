@@ -163,7 +163,7 @@ func newProjectMenuPanel(ctx ProjectContext, currentScreen ProjectScreenID) *pro
 		sneatv.DefaultListStyle(list)
 	*/
 
-	sneatv.DefaultBorder(tree.Box)
+	sneatv.DefaultBorderWithPadding(tree.Box)
 
 	return &menu
 }

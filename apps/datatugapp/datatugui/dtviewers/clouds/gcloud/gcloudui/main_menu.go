@@ -16,7 +16,7 @@ const (
 func newMainMenu(cContext *GCloudContext, active Screen, isInContent bool) (menu sneatnav.Panel) {
 	list := sneatnav.MainMenuList(cContext.TUI)
 	list.SetTitle("Google Cloud")
-	sneatv.DefaultBorder(list.Box)
+	sneatv.DefaultBorderWithPadding(list.Box)
 
 	list.AddItem("Projects", "", 'p', func() {
 		_ = GoProjects(cContext, sneatnav.FocusToMenu)

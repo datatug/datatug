@@ -9,15 +9,15 @@ import (
 	"github.com/datatug/datatug-core/pkg/datatug"
 	"github.com/datatug/datatug/apps/datatugapp/datatugui/dtviewers"
 	"github.com/datatug/datatug/pkg/sneatview/sneatnav"
+	"github.com/datatug/datatug/pkg/sneatview/sneatv"
 	"github.com/gdamore/tcell/v2"
 	"github.com/rivo/tview"
 )
 
 func NewTablesBox(tui *sneatnav.TUI, dbContext dtviewers.DbContext, collectionType datatug.CollectionType, title string) *tview.Table {
 	table := tview.NewTable()
-	//table.SetTitle(title + " @ " + dbContext.Driver().ShortTitle)
-	table.SetBorder(true)
-	table.SetBorderColor(tcell.ColorDarkSlateGray)
+	sneatv.DefaultBorderWithoutPadding(table.Box)
+
 	// Enable cell selection by row and column
 	table.SetSelectable(true, false)
 	table.SetSelectedFunc(func(row, _ int) {
@@ -30,15 +30,17 @@ func NewTablesBox(tui *sneatnav.TUI, dbContext dtviewers.DbContext, collectionTy
 	})
 	{
 		colIndex := 0
-		addHeader := func(name string) {
+		addHeader := func(name string, align int, expansion int) {
 			cell := tview.NewTableCell(name).
 				SetSelectable(false).
+				SetAlign(align).
+				SetExpansion(expansion).
 				SetTextColor(tcell.ColorLightBlue)
 			table.SetCell(0, colIndex, cell)
 			colIndex++
 		}
-		addHeader("Name")
-		addHeader("Records")
+		addHeader("Name", tview.AlignLeft, 1)
+		addHeader("Records", tview.AlignRight, 0)
 		table.SetFixed(1, 1)
 	}
 
@@ -104,15 +106,18 @@ func NewTablesBox(tui *sneatnav.TUI, dbContext dtviewers.DbContext, collectionTy
 					collections = append(collections, collection)
 					if collection.Type() == collectionType {
 						i++
-						name := tview.NewTableCell(collection.Name())
+						name := tview.NewTableCell(collection.Name()).SetExpansion(1)
 						name.SetReference(collection)
 						table.SetCell(i, 0, name)
 
-						recordsCell := tview.NewTableCell("?").SetAlign(tview.AlignRight)
+						recordsCell := tview.NewTableCell("?").
+							SetAlign(tview.AlignRight).
+							SetTextColor(tcell.ColorGray)
 						table.SetCell(i, 1, recordsCell)
 					}
 				}
-				table.SetTitle(fmt.Sprintf("%d %s @ %s", i, title, dbContext.Driver().ShortTitle))
+
+				table.SetTitle(fmt.Sprintf("%s [gray](%d)", title, i))
 
 				if i > 0 {
 					table.Select(1, 0)

@@ -52,7 +52,7 @@ func showCollections(tui *sneatnav.TUI, focusTo sneatnav.FocusTo, dbContext dtvi
 	referrersBox := NewReferrersBox(collectionCtx)
 	flex2.AddItem(referrersBox, 0, 1, true)
 
-	content := sneatnav.NewPanel(tui, sneatnav.WithBox(flex, flex.Box))
+	content := sneatnav.NewPanel(tui, sneatnav.WithBoxWithoutBorder(flex, flex.Box))
 
 	tui.SetPanels(menu, content, sneatnav.WithFocusTo(focusTo))
 
@@ -76,17 +76,17 @@ func showCollections(tui *sneatnav.TUI, focusTo sneatnav.FocusTo, dbContext dtvi
 		}
 	})
 
-	setFocusBlurFunc := func(t *tview.Table) {
-		t.SetFocusFunc(func() {
-			t.SetSelectable(true, false)
-		})
-		t.SetBlurFunc(func() {
-			t.SetSelectable(false, false)
-		})
-	}
-	setFocusBlurFunc(columnsBox)
-	setFocusBlurFunc(fks)
-	setFocusBlurFunc(referrersBox)
+	//setFocusBlurFunc := func(t *tview.Table) {
+	//	t.SetFocusFunc(func() {
+	//		t.SetSelectable(true, false)
+	//	})
+	//	t.SetBlurFunc(func() {
+	//		t.SetSelectable(false, false)
+	//	})
+	//}
+	//setFocusBlurFunc(columnsBox)
+	//setFocusBlurFunc(fks)
+	//setFocusBlurFunc(referrersBox)
 
 	columnsBox.SetInputCapture(func(event *tcell.EventKey) *tcell.EventKey {
 		switch event.Key() {
@@ -121,11 +121,12 @@ func showCollections(tui *sneatnav.TUI, focusTo sneatnav.FocusTo, dbContext dtvi
 			}
 			return event
 		case tcell.KeyDown:
-			row, _ := fks.GetSelection()
-			if row == fks.GetRowCount()-1 {
-				tui.App.SetFocus(referrersBox)
-				return nil
-			}
+			tui.App.SetFocus(referrersBox)
+			//row, _ := fks.GetSelection()
+			//if row == fks.GetRowCount()-1 {
+			//	tui.App.SetFocus(referrersBox)
+			//	return nil
+			//}
 			return event
 		default:
 			return event
@@ -138,11 +139,12 @@ func showCollections(tui *sneatnav.TUI, focusTo sneatnav.FocusTo, dbContext dtvi
 			tui.App.SetFocus(columnsBox)
 			return nil
 		case tcell.KeyUp:
-			row, _ := referrersBox.GetSelection()
-			if row == 0 {
-				tui.App.SetFocus(fks)
-				return nil
-			}
+			tui.App.SetFocus(fks)
+			//row, _ := referrersBox.GetSelection()
+			//if row == 0 {
+			//	tui.App.SetFocus(fks)
+			//	return nil
+			//}
 			return event
 		default:
 			return event

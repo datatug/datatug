@@ -13,7 +13,7 @@ func goFirestoreIndexes(gcProjCtx *CGProjectContext) error {
 	menu := firestoreMainMenu(gcProjCtx, firestoreScreenIndexes, "")
 
 	list := tview.NewList()
-	sneatv.DefaultBorder(list.Box)
+	sneatv.DefaultBorderWithPadding(list.Box)
 	list.SetTitle("Firestore Indexes")
 	content := sneatnav.NewPanel(gcProjCtx.TUI, sneatnav.WithBox(list, list.Box))
 

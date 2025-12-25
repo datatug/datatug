@@ -25,7 +25,14 @@ func (p WithBoxType[T]) GetPrimitive() T {
 }
 
 func WithBox[T tview.Primitive](p T, box *tview.Box) WithBoxType[T] {
-	sneatv.DefaultBorder(box)
+	sneatv.DefaultBorderWithPadding(box)
+	return WithBoxType[T]{
+		Primitive: p,
+		box:       box,
+	}
+}
+
+func WithBoxWithoutBorder[T tview.Primitive](p T, box *tview.Box) WithBoxType[T] {
 	return WithBoxType[T]{
 		Primitive: p,
 		box:       box,

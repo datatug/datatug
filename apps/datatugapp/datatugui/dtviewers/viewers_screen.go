@@ -54,7 +54,7 @@ func GetViewersListPanel(tui *sneatnav.TUI, title string, focusTo sneatnav.Focus
 		}
 	})
 
-	sneatv.DefaultBorder(list.Box)
+	sneatv.DefaultBorderWithPadding(list.Box)
 	// Set spacing between items to 1 line by increasing vertical padding
 	list.SetBorderPadding(1, 1, 1, 1)
 	list.SetTitle(title)
