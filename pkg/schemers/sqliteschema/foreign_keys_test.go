@@ -1,0 +1,112 @@
+package sqliteschema
+
+import (
+	"context"
+	"database/sql"
+	"testing"
+
+	"github.com/datatug/datatug-core/pkg/schemer"
+)
+
+func TestGetForeignKeys(t *testing.T) {
+	db, err := createTestDB()
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer db.Close()
+
+	s := NewSchemaProvider(func() (*sql.DB, error) {
+		return db, nil
+	})
+
+	testCases := []struct {
+		table    string
+		expected []schemer.ForeignKey
+	}{
+		{
+			table: "User",
+			expected: []schemer.ForeignKey{
+				{
+					From: schemer.FKAnchor{Name: "User", Columns: []string{"MainCountryID"}},
+					To:   schemer.FKAnchor{Name: "Country", Columns: []string{"ID"}},
+				},
+				{
+					From: schemer.FKAnchor{Name: "User", Columns: []string{"DefaultCurrency"}},
+					To:   schemer.FKAnchor{Name: "Currency", Columns: []string{"ID"}},
+				},
+			},
+		},
+		{table: "Country", expected: nil},
+		{table: "Currency", expected: nil},
+		{table: "Shop", expected: nil},
+		{
+			table: "Order",
+			expected: []schemer.ForeignKey{
+				{
+					From: schemer.FKAnchor{Name: "Order", Columns: []string{"Currency"}},
+					To:   schemer.FKAnchor{Name: "Currency", Columns: []string{"ID"}},
+				},
+				{
+					From: schemer.FKAnchor{Name: "Order", Columns: []string{"CountryID"}},
+					To:   schemer.FKAnchor{Name: "Country", Columns: []string{"ID"}},
+				},
+			},
+		},
+		{
+			table: "OrderDetails",
+			expected: []schemer.ForeignKey{
+				{
+					From: schemer.FKAnchor{Name: "OrderDetails", Columns: []string{"ShopID", "OrderID"}},
+					To:   schemer.FKAnchor{Name: "Order", Columns: []string{"ShopID", "OrderID"}},
+				},
+				{
+					From: schemer.FKAnchor{Name: "OrderDetails", Columns: []string{"ProductID"}},
+					To:   schemer.FKAnchor{Name: "Product", Columns: []string{"ProductID"}},
+				},
+				{
+					From: schemer.FKAnchor{Name: "OrderDetails", Columns: []string{"Currency"}},
+					To:   schemer.FKAnchor{Name: "Currency", Columns: []string{"ID"}},
+				},
+			},
+		},
+	}
+
+	for _, tc := range testCases {
+		t.Run(tc.table, func(t *testing.T) {
+			fks, err := s.GetForeignKeys(context.Background(), "", tc.table)
+			if err != nil {
+				t.Fatalf("failed to get foreign keys for %s: %v", tc.table, err)
+			}
+			if len(fks) != len(tc.expected) {
+				t.Errorf("expected %d foreign keys for %s, got %d", len(tc.expected), tc.table, len(fks))
+			}
+
+			for _, expectedFK := range tc.expected {
+				found := false
+				for _, actualFK := range fks {
+					if actualFK.To.Name == expectedFK.To.Name {
+						// Check columns
+						if len(actualFK.From.Columns) != len(expectedFK.From.Columns) {
+							continue
+						}
+						match := true
+						for i := range actualFK.From.Columns {
+							if actualFK.From.Columns[i] != expectedFK.From.Columns[i] ||
+								actualFK.To.Columns[i] != expectedFK.To.Columns[i] {
+								match = false
+								break
+							}
+						}
+						if match {
+							found = true
+							break
+						}
+					}
+				}
+				if !found {
+					t.Errorf("missing expected foreign key for %s to %s with columns %v -> %v", tc.table, expectedFK.To.Name, expectedFK.From.Columns, expectedFK.To.Columns)
+				}
+			}
+		})
+	}
+}

@@ -23,7 +23,7 @@ func (s schemaProvider) GetForeignKeysReader(c context.Context, schema, table st
 	if err != nil {
 		return nil, fmt.Errorf("failed to retrieve columns: %w", err)
 	}
-	return &foreignKeysReader{rows: rows}, nil
+	return &foreignKeysReader{table: table, rows: rows}, nil
 }
 
 func (s schemaProvider) GetForeignKeys(ctx context.Context, schema, table string) (foreignKeys []schemer.ForeignKey, err error) {
@@ -35,6 +35,9 @@ func (s schemaProvider) GetForeignKeys(ctx context.Context, schema, table string
 	for {
 		var fk schemer.ForeignKey
 		if fk, err = r.NextForeignKey(); err != nil {
+			if err == io.EOF {
+				err = nil
+			}
 			return
 		}
 
@@ -53,38 +56,45 @@ type foreignKeysReader struct {
 }
 
 func (r *foreignKeysReader) NextForeignKey() (schemer.ForeignKey, error) {
-	var err error
-	for r.rows.Next() {
-		if err = r.rows.Err(); err != nil {
-			return schemer.ForeignKey{}, err
-		}
-	}
 	var (
+		err                                        error
 		id, seq                                    int
 		table, from, to, onUpdate, onDelete, match string
 	)
-	if err = r.rows.Scan(&id, &seq, &table, &from, &to, &onUpdate, &onDelete, &match); err != nil {
-		return schemer.ForeignKey{}, err
-	}
-	isNewFK := r.fk.To.Name != table
-	if isNewFK {
-		result := r.fk
-		r.fk = schemer.ForeignKey{
-			Name: "", // SQLite has not FK name
-			From: schemer.FKAnchor{
-				Name:    r.table,
-				Columns: []string{from},
-			},
-			To: schemer.FKAnchor{
-				Name:    table,
-				Columns: []string{to},
-			},
+	for r.rows.Next() {
+		if err = r.rows.Scan(&id, &seq, &table, &from, &to, &onUpdate, &onDelete, &match); err != nil {
+			return schemer.ForeignKey{}, err
 		}
-		if result.To.Name != "" {
+		if r.fk.To.Name != "" && (r.fk.To.Name != table || seq == 0) {
+			// We have a finished FK and found the start of a new one
+			result := r.fk
+			r.fk = schemer.ForeignKey{
+				From: schemer.FKAnchor{Name: r.table, Columns: []string{from}},
+				To:   schemer.FKAnchor{Name: table, Columns: []string{to}},
+			}
 			return result, nil
 		}
+		if r.fk.To.Name == "" {
+			// First row for a new FK
+			r.fk = schemer.ForeignKey{
+				From: schemer.FKAnchor{Name: r.table, Columns: []string{from}},
+				To:   schemer.FKAnchor{Name: table, Columns: []string{to}},
+			}
+		} else {
+			// Another column for the same FK
+			r.fk.From.Columns = append(r.fk.From.Columns, from)
+			r.fk.To.Columns = append(r.fk.To.Columns, to)
+		}
 	}
-	return r.fk, io.EOF
+	if err = r.rows.Err(); err != nil {
+		return schemer.ForeignKey{}, err
+	}
+	if r.fk.To.Name != "" {
+		result := r.fk
+		r.fk = schemer.ForeignKey{}
+		return result, nil
+	}
+	return schemer.ForeignKey{}, io.EOF
 }
 
 func (r *foreignKeysReader) Close() error {
