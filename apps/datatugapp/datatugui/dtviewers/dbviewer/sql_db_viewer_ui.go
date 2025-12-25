@@ -12,12 +12,20 @@ type RecentDB struct {
 	Path string
 }
 
-func goDbViewerSelector(tui *sneatnav.TUI, focusTo sneatnav.FocusTo) error {
+func GetDbViewersBreadcrumbs(tui *sneatnav.TUI) sneatnav.Breadcrumbs {
+	breadcrumbs := dtviewers.GetViewersBreadcrumbs(tui)
+	breadcrumbs.Push(sneatv.NewBreadcrumb("DB", func() error {
+		return GoDbViewerSelector(tui, sneatnav.FocusToContent)
+	}))
+	return breadcrumbs
+}
 
-	menu := getDbViewerMenu(tui, focusTo, "SQL DB Viewers")
+func GoDbViewerSelector(tui *sneatnav.TUI, focusTo sneatnav.FocusTo) error {
 
 	breadcrumbs := dtviewers.GetViewersBreadcrumbs(tui)
-	breadcrumbs.Push(sneatv.NewBreadcrumb("SQL DB Viewers", nil))
+	breadcrumbs.Push(sneatv.NewBreadcrumb("DB Viewers", nil))
+
+	menu := getDbViewerMenu(tui, focusTo, "DB Viewers")
 
 	content := sneatnav.NewPanel(tui, sneatnav.WithBox(menu, menu.Box))
 	tui.SetPanels(tui.Menu, content, sneatnav.WithFocusTo(focusTo))

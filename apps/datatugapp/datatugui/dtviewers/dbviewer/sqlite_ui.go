@@ -14,11 +14,15 @@ import (
 	"github.com/datatug/datatug-core/pkg/storage/filestore"
 	"github.com/datatug/datatug/apps/datatugapp/datatugui/dtviewers"
 	"github.com/datatug/datatug/pkg/sneatview/sneatnav"
+	"github.com/datatug/datatug/pkg/sneatview/sneatv"
 	"github.com/gdamore/tcell/v2"
 	"github.com/rivo/tview"
 )
 
 func goSqliteHome(tui *sneatnav.TUI, focusTo sneatnav.FocusTo) error {
+	breadcrumbs := GetDbViewersBreadcrumbs(tui)
+	breadcrumbs.Push(sneatv.NewBreadcrumb("SQLite", nil))
+
 	menu := getDbViewerMenu(tui, focusTo, "")
 	menuPanel := sneatnav.NewPanel(tui, sneatnav.WithBox(menu, menu.Box))
 
@@ -43,6 +47,38 @@ func goSqliteHome(tui *sneatnav.TUI, focusTo sneatnav.FocusTo) error {
 		go openSqliteDemoDb(tui, northwindSqliteDbFileName)
 	})
 	demoNode.AddChild(northwindNode)
+
+	menu.SetInputCapture(func(event *tcell.EventKey) *tcell.EventKey {
+		switch event.Key() {
+		case tcell.KeyRight:
+			tui.App.SetFocus(tree)
+			return nil
+		case tcell.KeyUp:
+			if menu.GetCurrentItem() == 0 {
+				tui.Header.SetFocus(sneatnav.ToBreadcrumbs, menu)
+				return nil
+			}
+			return event
+		default:
+			return event
+		}
+	})
+
+	tree.SetInputCapture(func(event *tcell.EventKey) *tcell.EventKey {
+		switch event.Key() {
+		case tcell.KeyLeft:
+			tui.App.SetFocus(tui.Menu)
+			return nil
+		case tcell.KeyUp:
+			if tree.GetCurrentNode() == openNode {
+				tui.Header.SetFocus(sneatnav.ToBreadcrumbs, tree)
+				return nil
+			}
+			return event
+		default:
+			return event
+		}
+	})
 
 	content := sneatnav.NewPanel(tui, sneatnav.WithBox(tree, tree.Box))
 

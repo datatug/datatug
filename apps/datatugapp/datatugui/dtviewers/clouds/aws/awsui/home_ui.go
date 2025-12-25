@@ -34,8 +34,12 @@ func goAwsHome(cContext *AwsContext, focusTo sneatnav.FocusTo) error {
 	textView.SetInputCapture(func(event *tcell.EventKey) *tcell.EventKey {
 		switch event.Key() {
 		case tcell.KeyUp:
-			cContext.TUI.Header.SetFocus(sneatnav.ToBreadcrumbs, textView)
-			return nil
+			row, _ := textView.GetScrollOffset()
+			if row == 0 {
+				cContext.TUI.Header.SetFocus(sneatnav.ToBreadcrumbs, textView)
+				return nil
+			}
+			return event
 		case tcell.KeyLeft:
 			cContext.TUI.Menu.TakeFocus()
 			return nil

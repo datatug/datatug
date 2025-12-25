@@ -10,12 +10,12 @@ const viewerID dtviewers.ViewerID = "sql"
 func RegisterAsViewer() {
 	dtviewers.RegisterViewer(dtviewers.Viewer{
 		ID:       viewerID,
-		Name:     "SQL DB viewer",
+		Name:     "DB viewer",
 		Shortcut: '1',
 		Action:   goSqlDbHome,
 	})
 }
 
 func goSqlDbHome(tui *sneatnav.TUI, focusTo sneatnav.FocusTo) error {
-	return goDbViewerSelector(tui, focusTo)
+	return GoDbViewerSelector(tui, focusTo)
 }

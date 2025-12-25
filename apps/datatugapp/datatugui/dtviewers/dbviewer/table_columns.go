@@ -50,6 +50,8 @@ func (b columnsBox) SetCollectionContext(ctx context.Context, collectionCtx dtvi
 				if col.PrimaryKeyPosition > 0 {
 					b.Table.SetCell(i+1, 2, tview.NewTableCell(strconv.Itoa(col.PrimaryKeyPosition)).SetTextColor(sneatcolors.TableTertiaryText).SetAlign(tview.AlignRight))
 				}
+				b.ScrollToBeginning()
+				b.Select(1, 0)
 			}
 		})
 	}()
@@ -59,6 +61,7 @@ func (b columnsBox) addHeader() {
 	b.SetCell(0, 0, tview.NewTableCell("Name").SetTextColor(sneatcolors.TableColumnTitle).SetExpansion(1))
 	b.SetCell(0, 1, tview.NewTableCell("Type").SetTextColor(sneatcolors.TableColumnTitle))
 	b.SetCell(0, 2, tview.NewTableCell("PK").SetTextColor(sneatcolors.TableColumnTitle).SetAlign(tview.AlignRight))
+	b.Table.SetFixed(1, 1)
 }
 
 func newColumnsBox(ctx context.Context, dbContext dtviewers.DbContext, tui *sneatnav.TUI) (b *columnsBox) {

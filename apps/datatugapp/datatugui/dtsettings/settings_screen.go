@@ -57,8 +57,12 @@ func goSettingsScreen(tui *sneatnav.TUI, focusTo sneatnav.FocusTo) error {
 			tui.Menu.TakeFocus()
 			return nil
 		case tcell.KeyUp:
-			tui.Header.SetFocus(sneatnav.ToBreadcrumbs, textView)
-			return nil
+			row, _ := textView.GetScrollOffset()
+			if row == 0 {
+				tui.Header.SetFocus(sneatnav.ToBreadcrumbs, textView)
+				return nil
+			}
+			return event
 		default:
 			return event
 		}

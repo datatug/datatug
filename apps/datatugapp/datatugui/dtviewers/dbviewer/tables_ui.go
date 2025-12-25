@@ -100,17 +100,17 @@ func showCollections(tui *sneatnav.TUI, focusTo sneatnav.FocusTo, dbContext dtvi
 		}
 	})
 
-	//setFocusBlurFunc := func(t *tview.Table) {
-	//	t.SetFocusFunc(func() {
-	//		t.SetSelectable(true, false)
-	//	})
-	//	t.SetBlurFunc(func() {
-	//		t.SetSelectable(false, false)
-	//	})
-	//}
-	//setFocusBlurFunc(columns)
-	//setFocusBlurFunc(fks)
-	//setFocusBlurFunc(referrers)
+	setFocusAndBlurFunc := func(t *tview.Table) {
+		t.SetFocusFunc(func() {
+			t.SetSelectable(true, false)
+		})
+		t.SetBlurFunc(func() {
+			t.SetSelectable(false, false)
+		})
+	}
+	setFocusAndBlurFunc(columns.Table)
+	setFocusAndBlurFunc(fks.Table)
+	setFocusAndBlurFunc(referrers.Table)
 
 	columns.SetInputCapture(func(event *tcell.EventKey) *tcell.EventKey {
 		switch event.Key() {
@@ -122,7 +122,7 @@ func showCollections(tui *sneatnav.TUI, focusTo sneatnav.FocusTo, dbContext dtvi
 			return nil
 		case tcell.KeyUp:
 			row, _ := columns.GetSelection()
-			if row == 0 {
+			if row <= 1 {
 				tui.Header.SetFocus(sneatnav.ToBreadcrumbs, columns)
 				return nil
 			}

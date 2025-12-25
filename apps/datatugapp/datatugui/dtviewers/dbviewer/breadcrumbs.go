@@ -7,10 +7,17 @@ import (
 )
 
 func getSqlDbBreadcrumbs(tui *sneatnav.TUI, dbContext dtviewers.DbContext) sneatnav.Breadcrumbs {
-	breadcrumbs := dtviewers.GetViewersBreadcrumbs(tui)
-	breadcrumbs.Push(sneatv.NewBreadcrumb(dbContext.Driver().ShortTitle, nil))
+	breadcrumbs := GetDbViewersBreadcrumbs(tui)
+	driverBreadcrumb := sneatv.NewBreadcrumb(dbContext.Driver().ShortTitle, func() error {
+		return goSqliteHome(tui, sneatnav.FocusToContent)
+	})
+	breadcrumbs.Push(driverBreadcrumb)
+
 	if name := dbContext.Name(); name != "" {
-		breadcrumbs.Push(sneatv.NewBreadcrumb(name, nil))
+		dbBreadcrumb := sneatv.NewBreadcrumb(name, func() error {
+			return GoSqlDbHome(tui, dbContext)
+		})
+		breadcrumbs.Push(dbBreadcrumb)
 	}
 	return breadcrumbs
 }

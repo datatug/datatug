@@ -25,8 +25,11 @@ func goFirestoreIndexes(gcProjCtx *CGProjectContext) error {
 			gcProjCtx.TUI.Menu.TakeFocus()
 			return nil
 		case tcell.KeyUp:
-			gcProjCtx.TUI.Header.SetFocus(sneatnav.ToBreadcrumbs, list)
-			return nil
+			if list.GetCurrentItem() == 0 {
+				gcProjCtx.TUI.Header.SetFocus(sneatnav.ToBreadcrumbs, list)
+				return nil
+			}
+			return event
 		default:
 			return event
 		}
