@@ -42,6 +42,24 @@ func showCollections(tui *sneatnav.TUI, focusTo sneatnav.FocusTo, dbContext dtvi
 	columns := newColumnsBox(ctx, dbContext, tui)
 	if columns != nil {
 		flex.AddItem(columns, 0, 2, true)
+		collectionsBox.SetSelectionChangedFunc(func(row, column int) {
+			if row <= 0 {
+				return
+			}
+			cell := collectionsBox.GetCell(row, 0)
+			if cell == nil {
+				return
+			}
+			ref := cell.GetReference()
+			if ref == nil {
+				return
+			}
+			collectionInfo := ref.(*datatug.CollectionInfo)
+			columns.SetCollectionContext(ctx, dtviewers.CollectionContext{
+				CollectionRef: collectionInfo.Ref,
+				DbContext:     dbContext,
+			})
+		})
 	}
 
 	flex2 := tview.NewFlex()

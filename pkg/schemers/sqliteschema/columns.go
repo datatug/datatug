@@ -60,7 +60,7 @@ func (s *columnsReader) NextColumn() (col schemer.Column, err error) {
 	//col = new(schemer.Column)
 	col.TableName = s.table
 
-	var pk, notNull bool
+	var notNull bool
 	var defaultVal sql.NullString
 
 	if err = s.rows.Scan(
@@ -69,9 +69,9 @@ func (s *columnsReader) NextColumn() (col schemer.Column, err error) {
 		&col.DbType,
 		&notNull,
 		&defaultVal,
-		&pk,
+		&col.PrimaryKeyPosition,
 	); err != nil {
-		return col, fmt.Errorf("failed to scan INFORMATION_SCHEMA.COLUMNS row into TableColumn struct: %w", err)
+		return col, err
 	}
 	col.IsNullable = !notNull
 	return col, nil
