@@ -42,35 +42,39 @@ func showCollections(tui *sneatnav.TUI, focusTo sneatnav.FocusTo, dbContext dtvi
 	columns := newColumnsBox(ctx, dbContext, tui)
 	if columns != nil {
 		flex.AddItem(columns, 0, 2, true)
-		collectionsBox.SetSelectionChangedFunc(func(row, column int) {
-			if row <= 0 {
-				return
-			}
-			cell := collectionsBox.GetCell(row, 0)
-			if cell == nil {
-				return
-			}
-			ref := cell.GetReference()
-			if ref == nil {
-				return
-			}
-			collectionInfo := ref.(*datatug.CollectionInfo)
-			columns.SetCollectionContext(ctx, dtviewers.CollectionContext{
-				CollectionRef: collectionInfo.Ref,
-				DbContext:     dbContext,
-			})
-		})
 	}
 
 	flex2 := tview.NewFlex()
 	flex2.SetDirection(tview.FlexRow)
 	flex.AddItem(flex2, 0, 3, false)
 
-	fks := NewForeignKeysBox()
+	fks := newForeignKeysBox(tui, dbContext.Schema())
 	flex2.AddItem(fks, 0, 1, false)
 
 	referrersBox := NewReferrersBox()
 	flex2.AddItem(referrersBox, 0, 1, true)
+
+	collectionsBox.SetSelectionChangedFunc(func(row, column int) {
+		if row <= 0 {
+			return
+		}
+		cell := collectionsBox.GetCell(row, 0)
+		if cell == nil {
+			return
+		}
+		ref := cell.GetReference()
+		if ref == nil {
+			return
+		}
+		collectionInfo := ref.(*datatug.CollectionInfo)
+		collectionCtx := dtviewers.CollectionContext{
+			CollectionRef: collectionInfo.Ref,
+			DbContext:     dbContext,
+		}
+		columns.SetCollectionContext(ctx, collectionCtx)
+		fks.SetCollectionContext(ctx, collectionCtx)
+
+	})
 
 	content := sneatnav.NewPanel(tui, sneatnav.WithBoxWithoutBorder(flex, flex.Box))
 
