@@ -38,7 +38,7 @@ func (b foreignKeysBox) SetCollectionContext(ctx context.Context, collectionCtx 
 			}
 			for i, fk := range fks {
 				b.Table.SetCell(i, 0, tview.NewTableCell(strings.Join(fk.From.Columns, ",")).SetTextColor(sneatcolors.TableColumnTitle))
-				b.Table.SetCell(i, 1, tview.NewTableCell("=>"))
+				b.Table.SetCell(i, 1, tview.NewTableCell("—>"))
 				b.Table.SetCell(i, 2, tview.NewTableCell(fk.To.Name))
 				if !slices.Equal(fk.To.Columns, fk.From.Columns) {
 					b.Table.SetCell(i, 3, tview.NewTableCell(fmt.Sprintf("(%s)", strings.Join(fk.To.Columns, ","))).SetTextColor(tview.Styles.SecondaryTextColor))

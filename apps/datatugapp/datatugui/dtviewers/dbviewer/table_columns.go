@@ -3,7 +3,9 @@ package dbviewer
 import (
 	"context"
 	"fmt"
+	"slices"
 	"strconv"
+	"strings"
 
 	"github.com/datatug/datatug-core/pkg/schemer"
 	"github.com/datatug/datatug/apps/datatugapp/datatugui/dtviewers"
@@ -16,7 +18,7 @@ import (
 
 type columnsBox struct {
 	collectionCtx dtviewers.CollectionContext
-	schema        schemer.ColumnsProvider
+	schema        schemer.SchemaProvider
 	tui           *sneatnav.TUI
 	*tview.Table
 }
@@ -29,12 +31,29 @@ func (b columnsBox) SetCollectionContext(ctx context.Context, collectionCtx dtvi
 	b.Table.SetTitle(fmt.Sprintf("[LightBlue]%s:[-] Columns", collectionCtx.CollectionRef.Name()))
 
 	go func() {
-		columns, err := b.schema.GetColumns(ctx, "", schemer.ColumnsFilter{
+
+		columns, colsErr := b.schema.GetColumns(ctx, "", schemer.ColumnsFilter{
 			CollectionRef: &collectionCtx.CollectionRef,
 		})
 
+		fks, fkErr := b.schema.GetForeignKeys(ctx, "", collectionCtx.CollectionRef.Name())
+
+		getColFKs := func(colName string) (colFKs []schemer.ForeignKey) {
+			for _, fk := range fks {
+				if slices.Contains(fk.From.Columns, colName) {
+					return append(colFKs, fk)
+				}
+			}
+			return
+		}
 		b.tui.App.QueueUpdateDraw(func() {
 			b.Table.Clear()
+			var err error
+			if colsErr != nil {
+				err = colsErr
+			} else if fkErr != nil {
+				err = fkErr
+			}
 			if err != nil {
 				b.Table.SetCell(0, 0, tview.NewTableCell(err.Error()).SetTextColor(tcell.ColorRed))
 				return
@@ -46,9 +65,28 @@ func (b columnsBox) SetCollectionContext(ctx context.Context, collectionCtx dtvi
 					name.SetTextColor(tview.Styles.SecondaryTextColor)
 				}
 				b.Table.SetCell(i+1, 0, name)
-				b.Table.SetCell(i+1, 1, tview.NewTableCell(col.DbType).SetTextColor(tview.Styles.TertiaryTextColor))
+				b.Table.SetCell(i+1, 1,
+					tview.NewTableCell(col.DbType).
+						SetTextColor(tview.Styles.TertiaryTextColor),
+				)
 				if col.PrimaryKeyPosition > 0 {
-					b.Table.SetCell(i+1, 2, tview.NewTableCell(strconv.Itoa(col.PrimaryKeyPosition)).SetTextColor(sneatcolors.TableTertiaryText).SetAlign(tview.AlignRight))
+					b.Table.SetCell(i+1, 2,
+						tview.NewTableCell(strconv.Itoa(col.PrimaryKeyPosition)).
+							SetTextColor(sneatcolors.TableTertiaryText).
+							SetAlign(tview.AlignRight))
+				} else {
+					b.Table.SetCell(i+1, 2, tview.NewTableCell(""))
+				}
+				colFKs := getColFKs(col.Name)
+				if len(colFKs) == 1 {
+					var cellText = colFKs[0].To.Name
+					if len(colFKs[0].To.Columns) > 1 || colFKs[0].To.Columns[0] != col.Name {
+						cellText += fmt.Sprintf("[grey](%s)", strings.Join(colFKs[0].To.Columns, ","))
+					}
+					fkCell := tview.NewTableCell(cellText)
+					b.Table.SetCell(i+1, 3, fkCell)
+				} else {
+					b.Table.SetCell(i+1, 3, tview.NewTableCell(""))
 				}
 				b.ScrollToBeginning()
 				b.Select(1, 0)
@@ -61,6 +99,7 @@ func (b columnsBox) addHeader() {
 	b.SetCell(0, 0, tview.NewTableCell("Name").SetTextColor(sneatcolors.TableColumnTitle).SetExpansion(1))
 	b.SetCell(0, 1, tview.NewTableCell("Type").SetTextColor(sneatcolors.TableColumnTitle))
 	b.SetCell(0, 2, tview.NewTableCell("PK").SetTextColor(sneatcolors.TableColumnTitle).SetAlign(tview.AlignRight))
+	b.SetCell(0, 3, tview.NewTableCell("FKs").SetTextColor(sneatcolors.TableColumnTitle))
 	b.Table.SetFixed(1, 1)
 }
 

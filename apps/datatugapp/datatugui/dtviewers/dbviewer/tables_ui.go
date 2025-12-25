@@ -32,27 +32,32 @@ func showCollections(tui *sneatnav.TUI, focusTo sneatnav.FocusTo, dbContext dtvi
 
 	menu := newSqlDbMenu(tui, selectedScreen, dbContext)
 
+	const (
+		proportionTables    = 2
+		proportionColumns   = 4
+		proportionReferrers = 3
+	)
 	flex := tview.NewFlex()
 	//flex.SetTitle(title + " @ " + dbContext.Driver().ShortTitle)
 	//flex.SetBorder(true)
 
 	collectionsBox := NewTablesBox(tui, dbContext, collectionType, title)
-	flex.AddItem(collectionsBox, 0, 2, true)
+	flex.AddItem(collectionsBox, 0, proportionTables, true)
 
 	columns := newColumnsBox(ctx, dbContext, tui)
 	if columns != nil {
-		flex.AddItem(columns, 0, 2, true)
+		flex.AddItem(columns, 0, proportionColumns, true)
 	}
 
 	flex2 := tview.NewFlex()
 	flex2.SetDirection(tview.FlexRow)
-	flex.AddItem(flex2, 0, 3, false)
-
-	fks := newForeignKeysBox(tui, dbContext.Schema())
-	flex2.AddItem(fks, 0, 1, false)
+	flex.AddItem(flex2, 0, proportionReferrers, false)
 
 	referrers := newReferrersBox(tui, dbContext.Schema())
 	flex2.AddItem(referrers, 0, 1, true)
+
+	fks := newForeignKeysBox(tui, dbContext.Schema())
+	flex2.AddItem(fks, 0, 1, false)
 
 	collectionsBox.SetSelectionChangedFunc(func(row, column int) {
 		if row <= 0 {
@@ -115,7 +120,7 @@ func showCollections(tui *sneatnav.TUI, focusTo sneatnav.FocusTo, dbContext dtvi
 	columns.SetInputCapture(func(event *tcell.EventKey) *tcell.EventKey {
 		switch event.Key() {
 		case tcell.KeyRight:
-			tui.App.SetFocus(fks)
+			tui.App.SetFocus(flex2)
 			return nil
 		case tcell.KeyLeft:
 			tui.App.SetFocus(collectionsBox)
@@ -140,17 +145,9 @@ func showCollections(tui *sneatnav.TUI, focusTo sneatnav.FocusTo, dbContext dtvi
 		case tcell.KeyUp:
 			row, _ := fks.GetSelection()
 			if row == 0 {
-				tui.Header.SetFocus(sneatnav.ToBreadcrumbs, fks)
+				tui.App.SetFocus(referrers)
 				return nil
 			}
-			return event
-		case tcell.KeyDown:
-			tui.App.SetFocus(referrers)
-			//row, _ := fks.GetSelection()
-			//if row == fks.GetRowCount()-1 {
-			//	tui.App.SetFocus(referrers)
-			//	return nil
-			//}
 			return event
 		default:
 			return event
@@ -163,12 +160,17 @@ func showCollections(tui *sneatnav.TUI, focusTo sneatnav.FocusTo, dbContext dtvi
 			tui.App.SetFocus(columns)
 			return nil
 		case tcell.KeyUp:
-			tui.App.SetFocus(fks)
-			//row, _ := referrers.GetSelection()
-			//if row == 0 {
-			//	tui.App.SetFocus(fks)
-			//	return nil
-			//}
+			if row, _ := referrers.GetSelection(); row == 0 {
+				tui.Header.SetFocus(sneatnav.ToBreadcrumbs, referrers)
+				return nil
+			}
+			return event
+		case tcell.KeyDown:
+			row, _ := referrers.GetSelection()
+			if row == referrers.GetRowCount()-1 {
+				tui.App.SetFocus(fks)
+				return nil
+			}
 			return event
 		default:
 			return event

@@ -41,7 +41,7 @@ func NewTablesBox(tui *sneatnav.TUI, dbContext dtviewers.DbContext, collectionTy
 			colIndex++
 		}
 		addHeader("Name", tview.AlignLeft, 1)
-		addHeader("Records", tview.AlignRight, 0)
+		//addHeader("Records", tview.AlignRight, 0)
 		table.SetFixed(1, 1)
 	}
 
@@ -111,10 +111,10 @@ func NewTablesBox(tui *sneatnav.TUI, dbContext dtviewers.DbContext, collectionTy
 						name.SetReference(collection)
 						table.SetCell(i, 0, name)
 
-						recordsCell := tview.NewTableCell("?").
-							SetAlign(tview.AlignRight).
-							SetTextColor(tcell.ColorGray)
-						table.SetCell(i, 1, recordsCell)
+						//recordsCell := tview.NewTableCell("?").
+						//	SetAlign(tview.AlignRight).
+						//	SetTextColor(tcell.ColorGray)
+						//table.SetCell(i, 1, recordsCell)
 					}
 				}
 

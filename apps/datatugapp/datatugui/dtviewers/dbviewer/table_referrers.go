@@ -36,7 +36,7 @@ func (b *referrersBox) SetCollectionContext(ctx context.Context, collectionCtx d
 				return
 			}
 			for i, referrer := range referrers {
-				b.Table.SetCell(i, 0, tview.NewTableCell("<=").SetTextColor(tcell.ColorGray))
+				b.Table.SetCell(i, 0, tview.NewTableCell("<—"))
 				b.Table.SetCell(i, 1, tview.NewTableCell(referrer.From.Name).SetTextColor(sneatcolors.TableColumnTitle))
 				b.Table.SetCell(i, 2, tview.NewTableCell(fmt.Sprintf("(%s)", strings.Join(referrer.From.Columns, ","))))
 			}
