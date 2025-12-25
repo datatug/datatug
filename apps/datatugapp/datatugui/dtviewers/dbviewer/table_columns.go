@@ -11,43 +11,57 @@ import (
 	"github.com/rivo/tview"
 )
 
-func NewColumnsBox(ctx context.Context, collectionCtx dtviewers.CollectionContext, tui *sneatnav.TUI) *tview.Table {
+type columnsBox struct {
+	collectionCtx dtviewers.CollectionContext
+	schema        schemer.ColumnsProvider
+	tui           *sneatnav.TUI
+	*tview.Table
+}
 
-	table := tview.NewTable()
-	table.SetTitle(`[gray]Categories:[-] Columns`)
-	table.SetFixed(1, 1)
-	sneatv.DefaultBorderWithoutPadding(table.Box)
+func (b columnsBox) SetCollectionContext(ctx context.Context, collectionCtx dtviewers.CollectionContext) {
+	b.Clear()
+	b.collectionCtx = collectionCtx
+	b.addHeader()
+	b.SetCell(1, 0, tview.NewTableCell("Loading...").SetTextColor(tcell.ColorGray))
 
-	addHeader := func() {
-		table.SetCell(0, 0, tview.NewTableCell("Name").SetExpansion(1))
-		table.SetCell(0, 1, tview.NewTableCell("Type"))
-	}
-	addHeader()
-	table.SetCell(1, 0, tview.NewTableCell("Loading...").SetTextColor(tcell.ColorGray))
+	go func() {
+		columns, err := b.schema.GetColumns(ctx, "", schemer.ColumnsFilter{
+			CollectionRef: &collectionCtx.CollectionRef,
+		})
 
-	schema := collectionCtx.Schema()
+		b.tui.App.QueueUpdateDraw(func() {
+			b.Table.Clear()
+			if err != nil {
+				b.Table.SetCell(0, 0, tview.NewTableCell(err.Error()).SetTextColor(tcell.ColorRed))
+				return
+			}
+			b.addHeader()
+			for i, col := range columns {
+				b.Table.SetCell(i+1, 0, tview.NewTableCell(col.Name))
+				b.Table.SetCell(i+1, 1, tview.NewTableCell(col.DbType).SetTextColor(tcell.ColorGray))
+			}
+		})
+	}()
+}
+
+func (b columnsBox) addHeader() {
+	b.SetCell(0, 0, tview.NewTableCell("Name").SetExpansion(1))
+	b.SetCell(0, 1, tview.NewTableCell("Type"))
+}
+
+func newColumnsBox(ctx context.Context, dbContext dtviewers.DbContext, tui *sneatnav.TUI) (b *columnsBox) {
+	schema := dbContext.Schema()
 	if schema == nil {
 		return nil
 	}
 
-	go func() {
-		columns, err := schema.GetColumns(ctx, "", schemer.ColumnsFilter{
-			CollectionRef: &collectionCtx.CollectionRef,
-		})
+	b = &columnsBox{
+		schema: schema,
+		tui:    tui,
+		Table:  tview.NewTable().SetFixed(1, 1),
+	}
+	b.Table.SetTitle(`[gray]Categories:[-] Columns`)
+	sneatv.DefaultBorderWithoutPadding(b.Table.Box)
 
-		tui.App.QueueUpdateDraw(func() {
-			table.Clear()
-			if err != nil {
-				table.SetCell(0, 0, tview.NewTableCell(err.Error()).SetTextColor(tcell.ColorRed))
-				return
-			}
-			addHeader()
-			for i, col := range columns {
-				table.SetCell(i+1, 0, tview.NewTableCell(col.Name))
-				table.SetCell(i+1, 1, tview.NewTableCell(col.DbType).SetTextColor(tcell.ColorGray))
-			}
-		})
-	}()
-
-	return table
+	return
 }

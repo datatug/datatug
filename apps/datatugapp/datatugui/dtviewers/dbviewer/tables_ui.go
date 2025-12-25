@@ -4,7 +4,6 @@ import (
 	"context"
 	"errors"
 
-	"github.com/dal-go/dalgo/dal"
 	"github.com/datatug/datatug-core/pkg/datatug"
 	"github.com/datatug/datatug/apps/datatugapp/datatugui/dtviewers"
 	"github.com/datatug/datatug/pkg/sneatview/sneatnav"
@@ -40,24 +39,19 @@ func showCollections(tui *sneatnav.TUI, focusTo sneatnav.FocusTo, dbContext dtvi
 	collectionsBox := NewTablesBox(tui, dbContext, collectionType, title)
 	flex.AddItem(collectionsBox, 0, 2, true)
 
-	collectionCtx := dtviewers.CollectionContext{
-		DbContext:     dbContext,
-		CollectionRef: dal.NewCollectionRef("Categories", "", nil),
-	}
-
-	columnsBox := NewColumnsBox(ctx, collectionCtx, tui)
-	if columnsBox != nil {
-		flex.AddItem(columnsBox, 0, 2, true)
+	columns := newColumnsBox(ctx, dbContext, tui)
+	if columns != nil {
+		flex.AddItem(columns, 0, 2, true)
 	}
 
 	flex2 := tview.NewFlex()
 	flex2.SetDirection(tview.FlexRow)
 	flex.AddItem(flex2, 0, 3, false)
 
-	fks := NewForeignKeysBox(collectionCtx)
+	fks := NewForeignKeysBox()
 	flex2.AddItem(fks, 0, 1, false)
 
-	referrersBox := NewReferrersBox(collectionCtx)
+	referrersBox := NewReferrersBox()
 	flex2.AddItem(referrersBox, 0, 1, true)
 
 	content := sneatnav.NewPanel(tui, sneatnav.WithBoxWithoutBorder(flex, flex.Box))
@@ -70,7 +64,7 @@ func showCollections(tui *sneatnav.TUI, focusTo sneatnav.FocusTo, dbContext dtvi
 			tui.App.SetFocus(tui.Menu)
 			return nil
 		case tcell.KeyRight:
-			tui.App.SetFocus(columnsBox)
+			tui.App.SetFocus(columns)
 			return nil
 		case tcell.KeyUp:
 			row, _ := collectionsBox.GetSelection()
@@ -92,11 +86,11 @@ func showCollections(tui *sneatnav.TUI, focusTo sneatnav.FocusTo, dbContext dtvi
 	//		t.SetSelectable(false, false)
 	//	})
 	//}
-	//setFocusBlurFunc(columnsBox)
+	//setFocusBlurFunc(columns)
 	//setFocusBlurFunc(fks)
 	//setFocusBlurFunc(referrersBox)
 
-	columnsBox.SetInputCapture(func(event *tcell.EventKey) *tcell.EventKey {
+	columns.SetInputCapture(func(event *tcell.EventKey) *tcell.EventKey {
 		switch event.Key() {
 		case tcell.KeyRight:
 			tui.App.SetFocus(fks)
@@ -105,9 +99,9 @@ func showCollections(tui *sneatnav.TUI, focusTo sneatnav.FocusTo, dbContext dtvi
 			tui.App.SetFocus(collectionsBox)
 			return nil
 		case tcell.KeyUp:
-			row, _ := columnsBox.GetSelection()
+			row, _ := columns.GetSelection()
 			if row == 0 {
-				tui.Header.SetFocus(sneatnav.ToBreadcrumbs, columnsBox)
+				tui.Header.SetFocus(sneatnav.ToBreadcrumbs, columns)
 				return nil
 			}
 			return event
@@ -119,7 +113,7 @@ func showCollections(tui *sneatnav.TUI, focusTo sneatnav.FocusTo, dbContext dtvi
 	fks.SetInputCapture(func(event *tcell.EventKey) *tcell.EventKey {
 		switch event.Key() {
 		case tcell.KeyLeft:
-			tui.App.SetFocus(columnsBox)
+			tui.App.SetFocus(columns)
 			return nil
 		case tcell.KeyUp:
 			row, _ := fks.GetSelection()
@@ -144,7 +138,7 @@ func showCollections(tui *sneatnav.TUI, focusTo sneatnav.FocusTo, dbContext dtvi
 	referrersBox.SetInputCapture(func(event *tcell.EventKey) *tcell.EventKey {
 		switch event.Key() {
 		case tcell.KeyLeft:
-			tui.App.SetFocus(columnsBox)
+			tui.App.SetFocus(columns)
 			return nil
 		case tcell.KeyUp:
 			tui.App.SetFocus(fks)

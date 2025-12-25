@@ -3,13 +3,12 @@ package dbviewer
 import (
 	"fmt"
 
-	"github.com/datatug/datatug/apps/datatugapp/datatugui/dtviewers"
 	"github.com/datatug/datatug/pkg/sneatview/sneatv"
 	"github.com/gdamore/tcell/v2"
 	"github.com/rivo/tview"
 )
 
-func NewForeignKeysBox(_ dtviewers.CollectionContext) *tview.Table {
+func NewForeignKeysBox() *tview.Table {
 	table := tview.NewTable()
 	table.SetTitle("Foreign Keys")
 	sneatv.DefaultBorderWithoutPadding(table.Box)

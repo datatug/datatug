@@ -3,12 +3,11 @@ package dbviewer
 import (
 	"fmt"
 
-	"github.com/datatug/datatug/apps/datatugapp/datatugui/dtviewers"
 	"github.com/datatug/datatug/pkg/sneatview/sneatv"
 	"github.com/rivo/tview"
 )
 
-func NewReferrersBox(_ dtviewers.CollectionContext) *tview.Table {
+func NewReferrersBox() *tview.Table {
 	table := tview.NewTable()
 	table.SetTitle("Referrers")
 	sneatv.DefaultBorderWithoutPadding(table.Box)
