@@ -1,0 +1,157 @@
+package sqliteschema
+
+import (
+	"context"
+	"database/sql"
+	"testing"
+
+	"github.com/datatug/datatug-core/pkg/schemer"
+)
+
+func TestGetReferrers(t *testing.T) {
+	db, err := createTestDB()
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer func() {
+		_ = db.Close()
+	}()
+
+	s := NewSchemaProvider(func() (*sql.DB, error) {
+		return db, nil
+	})
+
+	testCases := []struct {
+		table    string
+		expected []schemer.ForeignKey
+	}{
+		{
+			table: "Country",
+			expected: []schemer.ForeignKey{
+				{
+					From: schemer.FKAnchor{Name: "User", Columns: []string{"MainCountryID"}},
+					To:   schemer.FKAnchor{Name: "Country", Columns: []string{"ID"}},
+				},
+				{
+					From: schemer.FKAnchor{Name: "Order", Columns: []string{"CountryID"}},
+					To:   schemer.FKAnchor{Name: "Country", Columns: []string{"ID"}},
+				},
+			},
+		},
+		{
+			table: "Currency",
+			expected: []schemer.ForeignKey{
+				{
+					From: schemer.FKAnchor{Name: "User", Columns: []string{"DefaultCurrency"}},
+					To:   schemer.FKAnchor{Name: "Currency", Columns: []string{"ID"}},
+				},
+				{
+					From: schemer.FKAnchor{Name: "Order", Columns: []string{"Currency"}},
+					To:   schemer.FKAnchor{Name: "Currency", Columns: []string{"ID"}},
+				},
+				{
+					From: schemer.FKAnchor{Name: "OrderDetails", Columns: []string{"Currency"}},
+					To:   schemer.FKAnchor{Name: "Currency", Columns: []string{"ID"}},
+				},
+			},
+		},
+		{
+			table: "[Order]",
+			expected: []schemer.ForeignKey{
+				{
+					From: schemer.FKAnchor{Name: "OrderDetails", Columns: []string{"ShopID", "OrderID"}},
+					To:   schemer.FKAnchor{Name: "Order", Columns: []string{"ShopID", "OrderID"}},
+				},
+			},
+		},
+		{
+			table: "Order",
+			expected: []schemer.ForeignKey{
+				{
+					From: schemer.FKAnchor{Name: "OrderDetails", Columns: []string{"ShopID", "OrderID"}},
+					To:   schemer.FKAnchor{Name: "Order", Columns: []string{"ShopID", "OrderID"}},
+				},
+			},
+		},
+		{
+			table: "Product",
+			expected: []schemer.ForeignKey{
+				{
+					From: schemer.FKAnchor{Name: "OrderDetails", Columns: []string{"ProductID"}},
+					To:   schemer.FKAnchor{Name: "Product", Columns: []string{"ProductID"}},
+				},
+			},
+		},
+		{table: "User", expected: nil},
+		{table: "Shop", expected: nil},
+		{table: "OrderDetails", expected: nil},
+	}
+
+	for _, tc := range testCases {
+		t.Run(tc.table, func(t *testing.T) {
+			referrers, err := s.GetReferrers(context.Background(), "", tc.table)
+			if err != nil {
+				t.Fatalf("failed to get referrers for %s: %v", tc.table, err)
+			}
+			if len(referrers) != len(tc.expected) {
+				t.Errorf("expected %d referrers for %s, got %d", len(tc.expected), tc.table, len(referrers))
+			}
+
+			for _, expectedFK := range tc.expected {
+				found := false
+				for _, actualFK := range referrers {
+					if actualFK.From.Name == expectedFK.From.Name {
+						// Check columns
+						if len(actualFK.From.Columns) != len(expectedFK.From.Columns) {
+							continue
+						}
+						match := true
+						for i := range actualFK.From.Columns {
+							if actualFK.From.Columns[i] != expectedFK.From.Columns[i] ||
+								actualFK.To.Columns[i] != expectedFK.To.Columns[i] {
+								match = false
+								break
+							}
+						}
+						if match {
+							found = true
+							break
+						}
+					}
+				}
+				if !found {
+					t.Errorf("missing expected referrer for %s from %s with columns %v -> %v", tc.table, expectedFK.From.Name, expectedFK.From.Columns, expectedFK.To.Columns)
+				}
+			}
+		})
+	}
+
+	t.Run("error cases", func(t *testing.T) {
+		s_err := NewSchemaProvider(func() (*sql.DB, error) {
+			return nil, sql.ErrConnDone
+		})
+		_, err := s_err.GetReferrers(context.Background(), "", "User")
+		if err == nil {
+			t.Error("expected error when DB connection fails")
+		}
+
+		// To test db.Query error, we can use a closed DB
+		closedDB, _ := sql.Open("sqlite3", ":memory:")
+		_ = closedDB.Close()
+
+		s_closed := NewSchemaProvider(func() (*sql.DB, error) {
+			return closedDB, nil
+		})
+		_, err = s_closed.GetReferrers(context.Background(), "", "User")
+		if err == nil {
+			t.Error("expected error when querying closed DB")
+		}
+
+		// To test error in GetForeignKeys, we can use a custom provider that returns a DB that fails later
+		// or just call GetForeignKeys with an invalid table name (if that produces an error)
+		_, err = s.GetReferrers(context.Background(), "", "")
+		if err == nil {
+			t.Error("expected error when target table is empty")
+		}
+	})
+}

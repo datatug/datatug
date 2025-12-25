@@ -51,8 +51,8 @@ func showCollections(tui *sneatnav.TUI, focusTo sneatnav.FocusTo, dbContext dtvi
 	fks := newForeignKeysBox(tui, dbContext.Schema())
 	flex2.AddItem(fks, 0, 1, false)
 
-	referrersBox := NewReferrersBox()
-	flex2.AddItem(referrersBox, 0, 1, true)
+	referrers := newReferrersBox(tui, dbContext.Schema())
+	flex2.AddItem(referrers, 0, 1, true)
 
 	collectionsBox.SetSelectionChangedFunc(func(row, column int) {
 		if row <= 0 {
@@ -73,7 +73,7 @@ func showCollections(tui *sneatnav.TUI, focusTo sneatnav.FocusTo, dbContext dtvi
 		}
 		columns.SetCollectionContext(ctx, collectionCtx)
 		fks.SetCollectionContext(ctx, collectionCtx)
-
+		referrers.SetCollectionContext(ctx, collectionCtx)
 	})
 
 	content := sneatnav.NewPanel(tui, sneatnav.WithBoxWithoutBorder(flex, flex.Box))
@@ -110,7 +110,7 @@ func showCollections(tui *sneatnav.TUI, focusTo sneatnav.FocusTo, dbContext dtvi
 	//}
 	//setFocusBlurFunc(columns)
 	//setFocusBlurFunc(fks)
-	//setFocusBlurFunc(referrersBox)
+	//setFocusBlurFunc(referrers)
 
 	columns.SetInputCapture(func(event *tcell.EventKey) *tcell.EventKey {
 		switch event.Key() {
@@ -145,10 +145,10 @@ func showCollections(tui *sneatnav.TUI, focusTo sneatnav.FocusTo, dbContext dtvi
 			}
 			return event
 		case tcell.KeyDown:
-			tui.App.SetFocus(referrersBox)
+			tui.App.SetFocus(referrers)
 			//row, _ := fks.GetSelection()
 			//if row == fks.GetRowCount()-1 {
-			//	tui.App.SetFocus(referrersBox)
+			//	tui.App.SetFocus(referrers)
 			//	return nil
 			//}
 			return event
@@ -157,14 +157,14 @@ func showCollections(tui *sneatnav.TUI, focusTo sneatnav.FocusTo, dbContext dtvi
 		}
 	})
 
-	referrersBox.SetInputCapture(func(event *tcell.EventKey) *tcell.EventKey {
+	referrers.SetInputCapture(func(event *tcell.EventKey) *tcell.EventKey {
 		switch event.Key() {
 		case tcell.KeyLeft:
 			tui.App.SetFocus(columns)
 			return nil
 		case tcell.KeyUp:
 			tui.App.SetFocus(fks)
-			//row, _ := referrersBox.GetSelection()
+			//row, _ := referrers.GetSelection()
 			//if row == 0 {
 			//	tui.App.SetFocus(fks)
 			//	return nil
