@@ -65,6 +65,8 @@ func GoProjectsScreen(tui *sneatnav.TUI, focusTo sneatnav.FocusTo) error {
 //}
 
 func newProjectsPanel(tui *sneatnav.TUI) (*projectsPanel, error) {
+	ctx := context.Background()
+
 	// Create 3 separate trees
 	localTree := tview.NewTreeView()
 	cloudTree := tview.NewTreeView()
@@ -89,17 +91,17 @@ func newProjectsPanel(tui *sneatnav.TUI) (*projectsPanel, error) {
 
 	settings, err := appconfig.GetSettings()
 	if err != nil {
-		logus.Errorf(context.Background(), "Failed to get app settings: %v", err)
+		logus.Errorf(ctx, "Failed to get app settings: %v", err)
 		//return nil, err
 	}
 
 	openProject := func(projectConfig *appconfig.ProjectConfig) {
-		if projectConfig.ID == datatugDemoProjectID {
+		if projectConfig.ID == datatugDemoProjectRepoID {
 			openDatatugDemoProject(tui)
 		} else {
 			loader := filestore.NewProjectsLoader("~/datatug")
-			ctx := NewProjectContext(tui, projectConfig, loader)
-			GoProjectScreen(ctx)
+			projectCtx := NewProjectContext(tui, projectConfig, loader)
+			GoProjectScreen(projectCtx)
 		}
 	}
 
@@ -126,15 +128,11 @@ func newProjectsPanel(tui *sneatnav.TUI) (*projectsPanel, error) {
 	}
 
 	// Add a demo project first
-	localDemoProjectConfig := &appconfig.ProjectConfig{
-		ID:   datatugDemoProjectID,
-		Path: "~/datatug/datatug-demo-project",
-		Url:  "https://github.com/datatug/datatug-demo-project",
-	}
-	localDemoProjectNode := tview.NewTreeNode(fmt.Sprintf(" %s ", localDemoProjectConfig.Path))
-	localDemoProjectNode.SetReference(localDemoProjectConfig)
+	localDemoProjectConfig := newLocalDemoProjectConfig()
 
-	localRoot.AddChild(localDemoProjectNode)
+	localRoot.AddChild(tview.NewTreeNode(
+		fmt.Sprintf(" %s @ %s", localDemoProjectConfig.Title, datatugDemoProjectFullID),
+	).SetReference(localDemoProjectConfig))
 
 	// Add actions to Local projects
 	localAddNode := tview.NewTreeNode(" Add exising ").
@@ -162,7 +160,7 @@ func newProjectsPanel(tui *sneatnav.TUI) (*projectsPanel, error) {
 
 	// DataTug demo project
 	datatugDemoProject := &appconfig.ProjectConfig{
-		ID:  datatugDemoProjectID,
+		ID:  datatugDemoProjectRepoID,
 		Url: "cloud",
 	}
 	cloudDemoProjectNode := tview.NewTreeNode(" DataTug demo project ").
@@ -179,31 +177,35 @@ func newProjectsPanel(tui *sneatnav.TUI) (*projectsPanel, error) {
 	datatugCloud.SetExpanded(true)
 	cloudsRoot.SetExpanded(true)
 
-	// Create selection handler function
+	// Create a selection handler function
 	selectionHandler := func(node *tview.TreeNode) {
 		reference := node.GetReference()
 		if reference != nil {
 			switch ref := reference.(type) {
 			case *appconfig.ProjectConfig:
 				panel.selectProjectID = ref.ID
+				if ref.ID == datatugDemoProjectFullID {
+					openDatatugDemoProject(tui)
+					return
+				}
 				openProject(ref)
 			case string:
 				switch ref {
 				case "login":
 					// Handle login action
-					logus.Infof(context.Background(), "Login action triggered")
+					logus.Infof(ctx, "Login action triggered")
 				case "local-add":
 					// Handle local add action
-					logus.Infof(context.Background(), "Local add action triggered")
+					logus.Infof(ctx, "Local add action triggered")
 				case "local-create":
 					// Handle local create action
-					logus.Infof(context.Background(), "Local create action triggered")
+					logus.Infof(ctx, "Local create action triggered")
 				case "add":
 					// Handle GitHub add action
-					logus.Infof(context.Background(), "GitHub add action triggered")
+					logus.Infof(ctx, "GitHub add action triggered")
 				case "create":
 					// Handle GitHub create action
-					logus.Infof(context.Background(), "GitHub create action triggered")
+					logus.Infof(ctx, "GitHub create action triggered")
 				}
 			}
 		}

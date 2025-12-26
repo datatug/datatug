@@ -11,10 +11,21 @@ import (
 	"github.com/rivo/tview"
 )
 
-const datatugDemoProjectID = "datatug-demo-project"
-const datatugDemoProjectGitHubRepoID = "datatug/datatug-demo-project"
-const datatugDemoProjectGitHubRepoURL = "https://github.com/" + datatugDemoProjectGitHubRepoID
-const datatugDemoProjectDir = "~/datatug/" + datatugDemoProjectID
+const datatugDemoProjectRepoID = "datatug-demo-project"
+const datatugDemoProjectOrg = "datatug"
+const datatugDemoProjectTitle = "Demo Project"
+const datatugDemoProjectFullID = "github.com/" + datatugDemoProjectOrg + "/" + datatugDemoProjectRepoID
+const datatugDemoProjectGitHubURL = "https://" + datatugDemoProjectFullID
+const datatugDemoProjectDir = "~/datatug/" + datatugDemoProjectFullID
+
+func newLocalDemoProjectConfig() *appconfig.ProjectConfig {
+	return &appconfig.ProjectConfig{
+		ID:    datatugDemoProjectFullID,
+		Path:  datatugDemoProjectDir,
+		Url:   datatugDemoProjectGitHubURL,
+		Title: datatugDemoProjectTitle,
+	}
+}
 
 func openDatatugDemoProject(tui *sneatnav.TUI) {
 	// Expand home in path like ~/...
@@ -26,8 +37,8 @@ func openDatatugDemoProject(tui *sneatnav.TUI) {
 	}
 	openDemoProject := func() {
 		pConfig := &appconfig.ProjectConfig{
-			ID:  datatugDemoProjectID,
-			Url: datatugDemoProjectGitHubRepoURL,
+			ID:  datatugDemoProjectRepoID,
+			Url: datatugDemoProjectGitHubURL,
 		}
 		loader := filestore.NewProjectsLoader("~/datatug")
 		ctx := NewProjectContext(tui, pConfig, loader)
@@ -52,7 +63,7 @@ func openDatatugDemoProject(tui *sneatnav.TUI) {
 		}
 		// Clone public GitHub repository datatugDemoProjectGitHubRepoID into datatugDemoProjectDir using go-git
 		if _, err = git.PlainClone(projectDir, false, &git.CloneOptions{
-			URL:      datatugDemoProjectGitHubRepoURL,
+			URL:      datatugDemoProjectGitHubURL,
 			Progress: newTviewProgressWriter(tui, progressText),
 			// Depth: 1, // uncomment for shallow clone if desired
 		}); err != nil {
