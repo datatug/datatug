@@ -96,7 +96,7 @@ func newProjectsPanel(tui *sneatnav.TUI) (*projectsPanel, error) {
 	}
 
 	openProject := func(projectConfig *appconfig.ProjectConfig) {
-		if projectConfig.ID == datatugDemoProjectRepoID {
+		if projectConfig.ID == datatugDemoProjectFullID {
 			openDatatugDemoProject(tui)
 		} else {
 			loader := filestore.NewProjectsLoader("~/datatug")

@@ -37,12 +37,12 @@ func openDatatugDemoProject(tui *sneatnav.TUI) {
 	}
 	openDemoProject := func() {
 		pConfig := &appconfig.ProjectConfig{
-			ID:  datatugDemoProjectRepoID,
+			ID:  datatugDemoProjectFullID,
 			Url: datatugDemoProjectGitHubURL,
 		}
 		loader := filestore.NewProjectsLoader("~/datatug")
-		ctx := NewProjectContext(tui, pConfig, loader)
-		GoProjectScreen(ctx)
+		projectCtx := NewProjectContext(tui, pConfig, loader)
+		GoProjectScreen(projectCtx)
 	}
 
 	if projectDirExists {
