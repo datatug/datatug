@@ -94,7 +94,7 @@ func newRecordsetUI(tui *sneatnav.TUI, collectionCtx dtviewers.CollectionContext
 				WhereField(currentFK.To.Columns[0], dal.Equal, dal.NewConstant(val)).
 				SelectIntoRecordset()
 			if bottomTable != nil {
-				b.Flex.RemoveItem(bottomTable)
+				b.RemoveItem(bottomTable)
 			}
 			bottomTable = newQueryTable(tui, currentFK.To.Name, collectionCtx.DbContext, q, currentFK.To.Columns)
 			bottomTable.SetInputCapture(func(event *tcell.EventKey) *tcell.EventKey {
@@ -104,7 +104,7 @@ func newRecordsetUI(tui *sneatnav.TUI, collectionCtx dtviewers.CollectionContext
 				}
 				return event
 			})
-			b.Flex.AddItem(bottomTable, 4, 0, false)
+			b.AddItem(bottomTable, 4, 0, false)
 		}
 	}
 

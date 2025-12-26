@@ -21,24 +21,24 @@ type referrersBox struct {
 }
 
 func (b *referrersBox) SetCollectionContext(ctx context.Context, collectionCtx dtviewers.CollectionContext) {
-	b.Table.Clear()
-	b.Table.SetCell(0, 0, tview.NewTableCell("Loading...").SetTextColor(tcell.ColorGray))
+	b.Clear()
+	b.SetCell(0, 0, tview.NewTableCell("Loading...").SetTextColor(tcell.ColorGray))
 
 	go func() {
 		referrers, err := b.schema.GetReferrers(ctx, "", collectionCtx.CollectionRef.Name())
 		b.tui.App.QueueUpdateDraw(func() {
 			if err != nil {
-				b.Table.SetCell(0, 0, tview.NewTableCell(fmt.Sprintf("Error: %v", err)).SetTextColor(tcell.ColorRed))
+				b.SetCell(0, 0, tview.NewTableCell(fmt.Sprintf("Error: %v", err)).SetTextColor(tcell.ColorRed))
 				return
 			}
 			if len(referrers) == 0 {
-				b.Table.SetCell(0, 0, tview.NewTableCell("No referrers").SetTextColor(tcell.ColorGray))
+				b.SetCell(0, 0, tview.NewTableCell("No referrers").SetTextColor(tcell.ColorGray))
 				return
 			}
 			for i, referrer := range referrers {
-				b.Table.SetCell(i, 0, tview.NewTableCell("<—"))
-				b.Table.SetCell(i, 1, tview.NewTableCell(referrer.From.Name).SetTextColor(sneatcolors.TableColumnTitle))
-				b.Table.SetCell(i, 2, tview.NewTableCell(fmt.Sprintf("(%s)", strings.Join(referrer.From.Columns, ","))))
+				b.SetCell(i, 0, tview.NewTableCell("<—"))
+				b.SetCell(i, 1, tview.NewTableCell(referrer.From.Name).SetTextColor(sneatcolors.TableColumnTitle))
+				b.SetCell(i, 2, tview.NewTableCell(fmt.Sprintf("(%s)", strings.Join(referrer.From.Columns, ","))))
 			}
 		})
 	}()
@@ -50,8 +50,8 @@ func newReferrersBox(tui *sneatnav.TUI, schema schemer.ReferrersProvider) *refer
 		schema: schema,
 		Table:  tview.NewTable(),
 	}
-	b.Table.SetTitle("Referrers")
-	sneatv.DefaultBorderWithoutPadding(b.Table.Box)
+	b.SetTitle("Referrers")
+	sneatv.DefaultBorderWithoutPadding(b.Box)
 
 	return &b
 }

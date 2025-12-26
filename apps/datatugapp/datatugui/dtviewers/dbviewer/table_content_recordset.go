@@ -44,7 +44,8 @@ func (t TableContentRecordset) GetCell(row, column int) (cell *tview.TableCell) 
 		}
 		length := strconv.Itoa(vVal.Len())
 		cell = tview.NewTableCell(fmt.Sprintf("[]%v - %s", itemType, length))
-		cellStyle = cellStyle.Foreground(tcell.ColorGray)
+		cell.SetStyle(cellStyle.Foreground(tcell.ColorGray))
+		return
 	}
 	switch tVal := v.(type) {
 	case string:
