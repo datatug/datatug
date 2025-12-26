@@ -97,6 +97,13 @@ func newRecordsetUI(tui *sneatnav.TUI, collectionCtx dtviewers.CollectionContext
 				b.Flex.RemoveItem(bottomTable)
 			}
 			bottomTable = newQueryTable(tui, currentFK.To.Name, collectionCtx.DbContext, q, currentFK.To.Columns)
+			bottomTable.SetInputCapture(func(event *tcell.EventKey) *tcell.EventKey {
+				if event.Key() == tcell.KeyUp {
+					tui.App.SetFocus(table)
+					return nil
+				}
+				return event
+			})
 			b.Flex.AddItem(bottomTable, 4, 0, false)
 		}
 	}
@@ -116,6 +123,11 @@ func newRecordsetUI(tui *sneatnav.TUI, collectionCtx dtviewers.CollectionContext
 		}
 
 		switch event.Key() {
+		case tcell.KeyDown:
+			if event.Modifiers()&tcell.ModAlt != 0 && bottomTable != nil {
+				tui.App.SetFocus(bottomTable)
+				return nil
+			}
 		case tcell.KeyUp:
 			row, _ := table.GetSelection()
 			if row <= 1 {

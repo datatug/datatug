@@ -16,11 +16,12 @@ type recordsetTable struct {
 func newQueryTable(tui *sneatnav.TUI, title string, dbContext dtviewers.DbContext, q dal.Query, excludedColumns []string) *recordsetTable {
 	_ = excludedColumns
 	b := &recordsetTable{
-		Table: tview.NewTable(),
+		Table: tview.NewTable().SetSelectable(true, true),
 	}
 	if title != "" {
 		b.SetTitle(title)
 		b.SetBorder(true)
+		b.SetBorderColor(tview.Styles.BorderColor)
 	}
 
 	go func() {
