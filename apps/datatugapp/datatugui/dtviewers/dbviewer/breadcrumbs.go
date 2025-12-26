@@ -1,6 +1,8 @@
 package dbviewer
 
 import (
+	"strings"
+
 	"github.com/datatug/datatug/apps/datatugapp/datatugui/dtviewers"
 	"github.com/datatug/datatug/pkg/sneatview/sneatnav"
 	"github.com/datatug/datatug/pkg/sneatview/sneatv"
@@ -14,6 +16,9 @@ func getSqlDbBreadcrumbs(tui *sneatnav.TUI, dbContext dtviewers.DbContext) sneat
 	breadcrumbs.Push(driverBreadcrumb)
 
 	if name := dbContext.Name(); name != "" {
+		for _, ext := range []string{".sqlite", ".sqlite3"} {
+			name = strings.TrimSuffix(name, ext)
+		}
 		dbBreadcrumb := sneatv.NewBreadcrumb(name, func() error {
 			return GoSqlDbHome(tui, dbContext)
 		})

@@ -87,7 +87,7 @@ func goSqliteHome(tui *sneatnav.TUI, focusTo sneatnav.FocusTo) error {
 }
 
 const demoDbsFolder = "~/datatug/demo-dbs/"
-const northwindSqliteDbFileName = "northwind-sqlite.db"
+const northwindSqliteDbFileName = "northwind.sqlite"
 const northwindSqliteDbUrl = "https://raw.githubusercontent.com/jpwhite3/northwind-SQLite3/refs/heads/main/dist/northwind.db"
 
 func fileExists(path string) bool {
