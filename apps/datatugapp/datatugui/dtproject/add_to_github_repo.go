@@ -279,8 +279,7 @@ func setupDataTugInRepo(tui *sneatnav.TUI, client *github.Client, repo *github.R
 	tui.SetPanels(nil, panel)
 
 	steps := []string{
-		"Create datatug config file",
-		"Create datatug README.md",
+		"Add DataTug project files to repository",
 		"Add DataTug section to /README.md",
 		"Cloning project repository to " + projectDir,
 		"Add project to DataTug app config",
@@ -313,73 +312,98 @@ func setupDataTugInRepo(tui *sneatnav.TUI, client *github.Client, repo *github.R
 			}
 		}
 
-		// 1. Create datatug directory with config and README.md
+		// 1. Create datatug directory with config and README.md in a single commit
 		updateProgress(0, "creating...")
 		if isCancelled() {
 			return
 		}
+
 		configContent := `{
   "id": "` + name + `",
   "title": "` + name + `"
 }`
 		configFilePath := "datatug/" + filestore.ProjectSummaryFileName
-
-		// Check if file exists to get SHA
-		fileContent, _, _, err := client.Repositories.GetContents(ctx, owner, name, configFilePath, &github.RepositoryContentGetOptions{Ref: branch})
-		var sha *string
-		if err == nil && fileContent != nil {
-			sha = fileContent.SHA
-		}
-
-		if sha == nil {
-			_, _, err = client.Repositories.CreateFile(ctx, owner, name, configFilePath, &github.RepositoryContentFileOptions{
-				Message: github.Ptr("chore: adds datatug/config.json"),
-				Content: []byte(configContent),
-				Branch:  github.Ptr(branch),
-			})
-		} else {
-			// File exists, we can either skip or update. Let's skip if we don't want to overwrite.
-			// The user reported 422 because we didn't provide SHA when it exists.
-			// Since we just want to ensure it exists, skipping is fine if it's already there.
-			err = nil
-		}
-
-		if err != nil && !strings.Contains(err.Error(), "already exists") {
-			tui.App.QueueUpdateDraw(func() {
-				sneatnav.ShowErrorModal(tui, fmt.Errorf("failed to create datatug/config.json: %w", err))
-			})
-			return
-		}
-
-		if isCancelled() {
-			return
-		}
-
-		updateProgress(1, "creating...")
 		readmeContent := "# DataTug Project\n\nThis directory contains DataTug project configuration."
+		readmeFilePath := "datatug/README.md"
 
-		// Check if readme exists
-		fileContent, _, _, err = client.Repositories.GetContents(ctx, owner, name, "datatug/README.md", &github.RepositoryContentGetOptions{Ref: branch})
-		sha = nil
-		if err == nil && fileContent != nil {
-			sha = fileContent.SHA
-		}
-
-		if sha == nil {
-			_, _, err = client.Repositories.CreateFile(ctx, owner, name, "datatug/README.md", &github.RepositoryContentFileOptions{
-				Message: github.Ptr("chore: adds datatug/README.md"),
-				Content: []byte(readmeContent),
-				Branch:  github.Ptr(branch),
-			})
-		} else {
-			err = nil
-		}
-
-		if err != nil && !strings.Contains(err.Error(), "already exists") {
+		// We use the Git Data API to create multiple files in a single commit.
+		// 1. Get the latest commit of the branch
+		ref, _, err := client.Git.GetRef(ctx, owner, name, "heads/"+branch)
+		if err != nil {
 			tui.App.QueueUpdateDraw(func() {
-				sneatnav.ShowErrorModal(tui, fmt.Errorf("failed to create datatug/README.md: %w", err))
+				sneatnav.ShowErrorModal(tui, fmt.Errorf("failed to get branch ref: %w", err))
 			})
 			return
+		}
+
+		// 2. Create a tree with the new files
+		entries := []*github.TreeEntry{
+			{
+				Path:    github.Ptr(configFilePath),
+				Type:    github.Ptr("blob"),
+				Mode:    github.Ptr("100644"),
+				Content: github.Ptr(configContent),
+			},
+			{
+				Path:    github.Ptr(readmeFilePath),
+				Type:    github.Ptr("blob"),
+				Mode:    github.Ptr("100644"),
+				Content: github.Ptr(readmeContent),
+			},
+		}
+
+		// Check if files already exist to avoid overwriting or redundant commits
+		// Actually, if we just want to ensure they exist, we can check first.
+		existingConfig, _, _, _ := client.Repositories.GetContents(ctx, owner, name, configFilePath, &github.RepositoryContentGetOptions{Ref: branch})
+		existingReadme, _, _, _ := client.Repositories.GetContents(ctx, owner, name, readmeFilePath, &github.RepositoryContentGetOptions{Ref: branch})
+
+		var entriesToCreate []*github.TreeEntry
+		if existingConfig == nil {
+			entriesToCreate = append(entriesToCreate, entries[0])
+		}
+		if existingReadme == nil {
+			entriesToCreate = append(entriesToCreate, entries[1])
+		}
+
+		if len(entriesToCreate) > 0 {
+			tree, _, err := client.Git.CreateTree(ctx, owner, name, *ref.Object.SHA, entriesToCreate)
+			if err != nil {
+				tui.App.QueueUpdateDraw(func() {
+					sneatnav.ShowErrorModal(tui, fmt.Errorf("failed to create tree: %w", err))
+				})
+				return
+			}
+
+			// 3. Create a commit
+			parent, _, err := client.Git.GetCommit(ctx, owner, name, *ref.Object.SHA)
+			if err != nil {
+				tui.App.QueueUpdateDraw(func() {
+					sneatnav.ShowErrorModal(tui, fmt.Errorf("failed to get parent commit: %w", err))
+				})
+				return
+			}
+
+			commit, _, err := client.Git.CreateCommit(ctx, owner, name, &github.Commit{
+				Message: github.Ptr("chore: add datatug project"),
+				Tree:    tree,
+				Parents: []*github.Commit{parent},
+			}, &github.CreateCommitOptions{})
+			if err != nil {
+				tui.App.QueueUpdateDraw(func() {
+					sneatnav.ShowErrorModal(tui, fmt.Errorf("failed to create commit: %w", err))
+				})
+				return
+			}
+
+			// 4. Update the reference
+			ref.Object.SHA = commit.SHA
+			_, _, err = client.Git.UpdateRef(ctx, owner, name, ref, false)
+			if err != nil {
+				tui.App.QueueUpdateDraw(func() {
+					sneatnav.ShowErrorModal(tui, fmt.Errorf("failed to update ref: %w", err))
+				})
+				return
+			}
 		}
 
 		if isCancelled() {
@@ -387,7 +411,7 @@ func setupDataTugInRepo(tui *sneatnav.TUI, client *github.Client, repo *github.R
 		}
 
 		// 2. Add 'DataTug' section to root README.md
-		updateProgress(2, "updating...")
+		updateProgress(1, "updating...")
 		rootReadme, _, err := client.Repositories.GetReadme(ctx, owner, name, &github.RepositoryContentGetOptions{Ref: branch})
 		if err == nil {
 			content, _ := rootReadme.GetContent()
