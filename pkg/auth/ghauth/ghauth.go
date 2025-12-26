@@ -179,7 +179,7 @@ func requestToken(ctx context.Context, clientID, clientSecret, deviceCode string
 		Error            string `json:"error"`
 		ErrorDescription string `json:"error_description"`
 	}
-	if err := json.Unmarshal(respBody, &errRes); err == nil && errRes.Error != "" {
+	if err = json.Unmarshal(respBody, &errRes); err == nil && errRes.Error != "" {
 		switch errRes.Error {
 		case "authorization_pending":
 			return nil, errAuthorizationPending
@@ -191,7 +191,7 @@ func requestToken(ctx context.Context, clientID, clientSecret, deviceCode string
 	}
 
 	var token oauth2.Token
-	if err := json.Unmarshal(respBody, &token); err != nil {
+	if err = json.Unmarshal(respBody, &token); err != nil {
 		return nil, fmt.Errorf("failed to decode token: %w", err)
 	}
 
