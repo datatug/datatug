@@ -22,7 +22,12 @@ func NewTUI(app *tview.Application, root sneatv.Breadcrumb) *TUI {
 }
 
 func layoutGrid(header, menu, content tview.Primitive) *tview.Grid {
-
+	if menu == nil {
+		menu = tview.NewBox()
+	}
+	if content == nil {
+		content = tview.NewBox()
+	}
 	//footer := NewFooterPanel()
 
 	grid := tview.NewGrid()

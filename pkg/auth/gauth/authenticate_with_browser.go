@@ -6,9 +6,8 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	"os/exec"
-	"runtime"
 
+	"github.com/pkg/browser"
 	"golang.org/x/oauth2"
 )
 
@@ -18,7 +17,7 @@ func getTokenFromWeb(ctx context.Context, config *oauth2.Config) (token *oauth2.
 	authURL := config.AuthCodeURL("state-token", oauth2.AccessTypeOffline)
 
 	// Step 2: Open browser
-	if err = openBrowser(authURL); err != nil {
+	if err = browser.OpenURL(authURL); err != nil {
 		return
 	}
 
@@ -34,25 +33,6 @@ func getTokenFromWeb(ctx context.Context, config *oauth2.Config) (token *oauth2.
 		log.Fatalf("Token exchange error: %v", err)
 	}
 	return
-}
-
-func openBrowser(url string) (err error) {
-	var cmd string
-	var args []string
-	switch runtime.GOOS {
-	case "linux":
-		cmd = "xdg-open"
-	case "windows":
-		cmd = "rundll32"
-		args = append(args, "url.dll,FileProtocolHandler")
-	case "darwin":
-		cmd = "open"
-	default:
-		fmt.Printf("Please open this URL manually: %s\n", url)
-		return
-	}
-	args = append(args, url)
-	return exec.Command(cmd, args...).Start()
 }
 
 // Starts HTTP server to capture OAuth redirect

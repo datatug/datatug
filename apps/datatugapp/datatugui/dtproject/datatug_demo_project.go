@@ -64,7 +64,7 @@ func openDatatugDemoProject(tui *sneatnav.TUI) {
 		// Clone public GitHub repository datatugDemoProjectGitHubRepoID into datatugDemoProjectDir using go-git
 		if _, err = git.PlainClone(projectDir, false, &git.CloneOptions{
 			URL:      datatugDemoProjectGitHubURL,
-			Progress: newTviewProgressWriter(tui, progressText),
+			Progress: NewTviewProgressWriter(tui, progressText),
 			// Depth: 1, // uncomment for shallow clone if desired
 		}); err != nil {
 			panic("git clone failed: " + err.Error())
@@ -75,17 +75,17 @@ func openDatatugDemoProject(tui *sneatnav.TUI) {
 	}()
 }
 
-// tviewProgressWriter implements io.Writer and appends text to a TextView safely via tview.Application.
-type tviewProgressWriter struct {
+// TviewProgressWriter implements io.Writer and appends text to a TextView safely via tview.Application.
+type TviewProgressWriter struct {
 	tui *sneatnav.TUI
 	tv  *tview.TextView
 }
 
-func newTviewProgressWriter(tui *sneatnav.TUI, tv *tview.TextView) *tviewProgressWriter {
-	return &tviewProgressWriter{tui: tui, tv: tv}
+func NewTviewProgressWriter(tui *sneatnav.TUI, tv *tview.TextView) *TviewProgressWriter {
+	return &TviewProgressWriter{tui: tui, tv: tv}
 }
 
-func (w *tviewProgressWriter) Write(p []byte) (n int, err error) {
+func (w *TviewProgressWriter) Write(p []byte) (n int, err error) {
 	// Ensure UI updates happen on the application goroutine
 	w.tui.App.QueueUpdateDraw(func() {
 		w.tv.SetText(string(p))

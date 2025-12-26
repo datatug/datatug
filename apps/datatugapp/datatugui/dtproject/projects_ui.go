@@ -8,6 +8,7 @@ import (
 	"github.com/datatug/datatug-core/pkg/appconfig"
 	"github.com/datatug/datatug-core/pkg/storage/filestore"
 	"github.com/datatug/datatug/apps/datatugapp/datatugui"
+	"github.com/datatug/datatug/pkg/sneatcolors"
 	"github.com/datatug/datatug/pkg/sneatview/sneatnav"
 	"github.com/datatug/datatug/pkg/sneatview/sneatv"
 	"github.com/gdamore/tcell/v2"
@@ -137,12 +138,12 @@ func newProjectsPanel(tui *sneatnav.TUI) (*projectsPanel, error) {
 	// Add actions to Local projects
 	localAddNode := tview.NewTreeNode(" Add exising ").
 		SetReference("local-add").
-		SetColor(tcell.ColorBlue) // TODO: Remove should be set by common styling
+		SetColor(sneatcolors.TreeNodeLink)
 	localRoot.AddChild(localAddNode)
 
 	localCreateNode := tview.NewTreeNode(" Create new ").
 		SetReference("local-create").
-		SetColor(tcell.ColorBlue) // TODO: Remove should be set by common styling
+		SetColor(sneatcolors.TreeNodeLink)
 	localRoot.AddChild(localCreateNode)
 
 	localRoot.SetExpanded(true)
@@ -153,6 +154,19 @@ func newProjectsPanel(tui *sneatnav.TUI) (*projectsPanel, error) {
 		SetColor(tcell.ColorLightBlue).
 		SetSelectable(false)
 	cloudTree.SetRoot(cloudsRoot)
+
+	githubNode := tview.NewTreeNode("GitHub")
+	githubNode.SetSelectable(false)
+	cloudsRoot.AddChild(githubNode)
+
+	addToGithubRepoNode := tview.NewTreeNode(" Add to existing GitHub Repo ").
+		SetReference("local-create").
+		SetColor(sneatcolors.TreeNodeLink).
+		SetSelectedFunc(func() {
+			addToGithubRepo(tui)
+		})
+
+	githubNode.AddChild(addToGithubRepoNode)
 
 	datatugCloud := tview.NewTreeNode("Datatug Cloud")
 	datatugCloud.SetColor(tcell.ColorLightBlue).SetSelectable(false)
@@ -171,7 +185,7 @@ func newProjectsPanel(tui *sneatnav.TUI) (*projectsPanel, error) {
 	// Login to view action (moved to end)
 	loginNode := tview.NewTreeNode(" Login to view personal or work projects ").
 		SetReference("login").
-		SetColor(tcell.ColorBlue)
+		SetColor(sneatcolors.TreeNodeLink)
 	datatugCloud.AddChild(loginNode)
 
 	datatugCloud.SetExpanded(true)
@@ -292,7 +306,6 @@ func newProjectsPanel(tui *sneatnav.TUI) (*projectsPanel, error) {
 		case tcell.KeyUp:
 			// Check if we're on the first non-root item
 			currentNode := currentTree.GetCurrentNode()
-			currentNode.GetChildren()
 			if currentNode != nil && currentNode == currentTree.GetRoot().GetChildren()[0] {
 				tui.Header.SetFocus(sneatnav.ToBreadcrumbs, currentTree)
 				return nil
@@ -369,7 +382,7 @@ func (p *projectsPanel) applyNodeStyling(tree *tview.TreeView, isActive bool) {
 	default:
 		// Action node - all other nodes (string references, etc.)
 		if isActive {
-			currentNode.SetColor(tcell.ColorBlue)
+			currentNode.SetColor(sneatcolors.TreeNodeLink)
 		} else {
 			// Inactive action nodes have different color than project link nodes
 			currentNode.SetColor(dimGray)

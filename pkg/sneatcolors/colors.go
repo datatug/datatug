@@ -6,3 +6,7 @@ var (
 	TableColumnTitle  = tcell.ColorLightBlue
 	TableTertiaryText = tcell.ColorGray
 )
+
+var (
+	TreeNodeLink = tcell.ColorBlue
+)

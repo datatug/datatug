@@ -1,0 +1,535 @@
+package dtproject
+
+import (
+	"context"
+	"fmt"
+	"os"
+	"path/filepath"
+	"sort"
+	"strings"
+	"time"
+
+	"github.com/atotto/clipboard"
+	"github.com/datatug/datatug-core/pkg/appconfig"
+	"github.com/datatug/datatug-core/pkg/storage/filestore"
+	"github.com/datatug/datatug/pkg/auth/ghauth"
+	"github.com/datatug/datatug/pkg/sneatview/sneatnav"
+	"github.com/gdamore/tcell/v2"
+	"github.com/go-git/go-git/v5"
+	"github.com/google/go-github/v69/github"
+	"github.com/rivo/tview"
+	"golang.org/x/oauth2"
+	"gopkg.in/yaml.v3"
+)
+
+/*
+## High level flow:
+Go CLI
+ ├─ Request device code from GitHub
+ ├─ Display user code and verification URL
+ ├─ Poll GitHub for access_token
+ ├─ CLI lists user repositories
+ ├─ User selects repo
+ ├─ CLI creates datatug/README.md via GitHub API
+
+Uses https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/authorizing-oauth-apps#device-flow
+*/
+
+// addToGithubRepo
+// - gets user credentials for GitHub api via OAuth2 Device Flow
+// - selects repository to be used to store datatug project.
+// - adds a `datatug` directory with config and README.md to the root of an existing GitHub repo.
+// - adds a 'DataTug' section to the root README.md files linked to the `datatug` directory.
+func addToGithubRepo(tui *sneatnav.TUI) {
+	ctx := context.Background()
+
+	clientID := "Ov23liAIKfguW2oYiore"
+	clientSecret := os.Getenv("GITHUB_OAUTH_SECRET")
+
+	var startAuth func()
+
+	reauth := func() {
+		_ = ghauth.DeleteToken()
+		startAuth()
+	}
+
+	useToken := func(token *oauth2.Token) {
+		ts := oauth2.StaticTokenSource(token)
+		tc := oauth2.NewClient(ctx, ts)
+		client := github.NewClient(tc)
+
+		// List repositories
+		repos, _, err := client.Repositories.ListByAuthenticatedUser(ctx, nil)
+		if err != nil {
+			// If listing repositories fails, the token might be invalid or expired.
+			// In that case, we might want to delete it and restart auth.
+			_ = ghauth.DeleteToken()
+			startAuth()
+			return
+		}
+
+		showRepoSelection(tui, client, repos, reauth)
+	}
+
+	startAuth = func() {
+		go func() {
+			deviceRes, err := ghauth.RequestDeviceCode(ctx, clientID)
+			if err != nil {
+				tui.App.QueueUpdateDraw(func() {
+					sneatnav.ShowErrorModal(tui, fmt.Errorf("failed to request device code: %w", err))
+				})
+				return
+			}
+
+			tui.App.QueueUpdateDraw(func() {
+				statusText := tview.NewTextView().
+					SetDynamicColors(true).
+					SetTextAlign(tview.AlignCenter).
+					SetText(fmt.Sprintf("\nGo to %s\n\nEnter code: [yellow]%s[-]\n\nWaiting for authorization...", deviceRes.VerificationURI, deviceRes.UserCode))
+
+				copyMessage := tview.NewTextView().
+					SetTextAlign(tview.AlignCenter).
+					SetTextColor(tcell.ColorGreen)
+
+				form := tview.NewForm().
+					AddButton("Copy Code", func() {
+						_ = clipboard.WriteAll(deviceRes.UserCode)
+						copyMessage.SetText("The code has been copied to clipboard.")
+						go func() {
+							time.Sleep(2 * time.Second)
+							tui.App.QueueUpdateDraw(func() {
+								copyMessage.SetText("")
+							})
+						}()
+					}).
+					AddButton("Cancel", func() {
+						_ = GoProjectsScreen(tui, sneatnav.FocusToContent)
+					})
+				form.SetButtonsAlign(tview.AlignCenter).
+					SetButtonBackgroundColor(tcell.ColorDarkBlue).
+					SetButtonTextColor(tcell.ColorWhite)
+
+				flex := tview.NewFlex().
+					SetDirection(tview.FlexRow).
+					AddItem(statusText, 0, 1, false).
+					AddItem(copyMessage, 1, 0, false).
+					AddItem(form, 3, 1, true)
+
+				flex.SetBorder(true).SetTitle("GitHub Device Activation")
+
+				panel := sneatnav.NewPanel(tui, sneatnav.WithBox(flex, flex.Box))
+				tui.SetPanels(nil, panel)
+
+				// Update polling message
+				deviceRes.Interval = deviceRes.Interval // Just a placeholder to use deviceRes if needed
+				updateStatus := func(attempt int) {
+					tui.App.QueueUpdateDraw(func() {
+						statusText.SetText(fmt.Sprintf("\nGo to %s\n\nEnter code: [yellow]%s[-]\n\nWaiting for authorization (attempt %d)...", deviceRes.VerificationURI, deviceRes.UserCode, attempt))
+					})
+				}
+
+				go func() {
+					token, err := ghauth.PollForToken(ctx, clientID, clientSecret, deviceRes.DeviceCode, deviceRes.Interval, updateStatus)
+					tui.App.QueueUpdateDraw(func() {
+						if err != nil {
+							sneatnav.ShowErrorModal(tui, fmt.Errorf("authentication failed: %w", err))
+							return
+						}
+
+						if err := ghauth.SaveToken(token); err != nil {
+							// Log error but proceed
+							fmt.Printf("failed to save token: %v\n", err)
+						}
+
+						useToken(token)
+					})
+				}()
+			})
+		}()
+	}
+
+	// Try to get token from keyring
+	if token, err := ghauth.GetToken(); err == nil && token != nil {
+		useToken(token)
+	} else {
+		startAuth()
+	}
+}
+
+func showRepoSelection(tui *sneatnav.TUI, client *github.Client, repos []*github.Repository, reauth func()) {
+	tree := tview.NewTreeView()
+	tree.SetTitle("Select GitHub Repository").SetBorder(true)
+
+	root := tview.NewTreeNode("Repositories").SetSelectable(false)
+	tree.SetRoot(root)
+
+	// Group repos by owner
+	reposByOwner := make(map[string][]*github.Repository)
+	var owners []string
+	for _, repo := range repos {
+		owner := repo.GetOwner().GetLogin()
+		if _, ok := reposByOwner[owner]; !ok {
+			owners = append(owners, owner)
+		}
+		reposByOwner[owner] = append(reposByOwner[owner], repo)
+	}
+	sort.Strings(owners)
+
+	for _, owner := range owners {
+		ownerNode := tview.NewTreeNode(owner).
+			SetColor(tcell.ColorLightBlue).
+			SetSelectable(true).
+			SetExpanded(false)
+		root.AddChild(ownerNode)
+
+		ownerRepos := reposByOwner[owner]
+		sort.Slice(ownerRepos, func(i, j int) bool {
+			return ownerRepos[i].GetName() < ownerRepos[j].GetName()
+		})
+
+		for _, repo := range ownerRepos {
+			r := repo
+			repoNode := tview.NewTreeNode(repo.GetName()).
+				SetReference(r).
+				SetSelectedFunc(func() {
+					setupDataTugInRepo(tui, client, r, repos, reauth)
+				})
+			ownerNode.AddChild(repoNode)
+		}
+	}
+
+	cancelNode := tview.NewTreeNode("Cancel").
+		SetReference("cancel").
+		SetColor(tcell.ColorRed).
+		SetSelectedFunc(func() {
+			_ = GoProjectsScreen(tui, sneatnav.FocusToContent)
+		})
+	root.AddChild(cancelNode)
+
+	reauthNode := tview.NewTreeNode("Re-authenticate").
+		SetReference("reauth").
+		SetColor(tcell.ColorYellow).
+		SetSelectedFunc(func() {
+			reauth()
+		})
+	root.AddChild(reauthNode)
+
+	tree.SetInputCapture(func(event *tcell.EventKey) *tcell.EventKey {
+		currentNode := tree.GetCurrentNode()
+		if currentNode == nil {
+			return event
+		}
+
+		switch event.Key() {
+		case tcell.KeyEnter, tcell.KeyRune:
+			if event.Key() == tcell.KeyRune && event.Rune() != ' ' {
+				return event
+			}
+			// If it's an owner node (has children and no Repository reference), toggle expansion
+			if len(currentNode.GetChildren()) > 0 && currentNode.GetReference() == nil {
+				currentNode.SetExpanded(!currentNode.IsExpanded())
+				return nil
+			}
+			return event
+		case tcell.KeyLeft:
+			if currentNode.IsExpanded() {
+				currentNode.SetExpanded(false)
+				return nil
+			}
+			return event
+		default:
+			return event
+		}
+	})
+
+	if len(root.GetChildren()) > 0 {
+		tree.SetCurrentNode(root.GetChildren()[0])
+	}
+
+	panel := sneatnav.NewPanel(tui, sneatnav.WithBox(tree, tree.Box))
+	tui.SetPanels(nil, panel)
+}
+
+func setupDataTugInRepo(tui *sneatnav.TUI, client *github.Client, repo *github.Repository, repos []*github.Repository, reauth func()) {
+	owner := repo.GetOwner().GetLogin()
+	name := repo.GetName()
+	branch := repo.GetDefaultBranch()
+
+	projectID := fmt.Sprintf("github.com/%s/%s", owner, name)
+	projectTitle := fmt.Sprintf("%s @ github.com/%s", name, owner)
+	projectDir := "~/datatug/" + projectID
+
+	// UI for progress
+	progressView := tview.NewTextView().SetDynamicColors(true)
+	progressView.SetBorder(true).SetTitle("Setting up DataTug in " + repo.GetFullName())
+
+	ctx, cancel := context.WithCancel(context.Background())
+
+	cancelButton := tview.NewButton("Cancel").SetSelectedFunc(func() {
+		cancel()
+		showRepoSelection(tui, client, repos, reauth)
+	})
+
+	layout := tview.NewFlex().
+		SetDirection(tview.FlexRow).
+		AddItem(progressView, 0, 1, false).
+		AddItem(cancelButton, 1, 0, true)
+
+	panel := sneatnav.NewPanel(tui, sneatnav.WithBox(layout, layout.Box))
+	tui.SetPanels(nil, panel)
+
+	steps := []string{
+		"Create datatug config file",
+		"Create datatug README.md",
+		"Add DataTug section to /README.md",
+		"Cloning project repository to " + projectDir,
+		"Add project to DataTug app config",
+	}
+
+	updateProgress := func(currentStep int, status string) {
+		tui.App.QueueUpdateDraw(func() {
+			var sb strings.Builder
+			for i, step := range steps {
+				if i < currentStep {
+					sb.WriteString(fmt.Sprintf("- %s - [green]done[-]\n", step))
+				} else if i == currentStep {
+					sb.WriteString(fmt.Sprintf("- %s - [yellow]%s[-]\n", step, status))
+				} else {
+					sb.WriteString(fmt.Sprintf("- %s\n", step))
+				}
+			}
+			progressView.SetText(sb.String())
+		})
+	}
+
+	go func() {
+		// Helper to check for cancellation
+		isCancelled := func() bool {
+			select {
+			case <-ctx.Done():
+				return true
+			default:
+				return false
+			}
+		}
+
+		// 1. Create datatug directory with config and README.md
+		updateProgress(0, "creating...")
+		if isCancelled() {
+			return
+		}
+		configContent := `{
+  "id": "` + name + `",
+  "title": "` + name + `"
+}`
+		configFilePath := "datatug/" + filestore.ProjectSummaryFileName
+
+		// Check if file exists to get SHA
+		fileContent, _, _, err := client.Repositories.GetContents(ctx, owner, name, configFilePath, &github.RepositoryContentGetOptions{Ref: branch})
+		var sha *string
+		if err == nil && fileContent != nil {
+			sha = fileContent.SHA
+		}
+
+		if sha == nil {
+			_, _, err = client.Repositories.CreateFile(ctx, owner, name, configFilePath, &github.RepositoryContentFileOptions{
+				Message: github.Ptr("chore: adds datatug/config.json"),
+				Content: []byte(configContent),
+				Branch:  github.Ptr(branch),
+			})
+		} else {
+			// File exists, we can either skip or update. Let's skip if we don't want to overwrite.
+			// The user reported 422 because we didn't provide SHA when it exists.
+			// Since we just want to ensure it exists, skipping is fine if it's already there.
+			err = nil
+		}
+
+		if err != nil && !strings.Contains(err.Error(), "already exists") {
+			tui.App.QueueUpdateDraw(func() {
+				sneatnav.ShowErrorModal(tui, fmt.Errorf("failed to create datatug/config.json: %w", err))
+			})
+			return
+		}
+
+		if isCancelled() {
+			return
+		}
+
+		updateProgress(1, "creating...")
+		readmeContent := "# DataTug Project\n\nThis directory contains DataTug project configuration."
+
+		// Check if readme exists
+		fileContent, _, _, err = client.Repositories.GetContents(ctx, owner, name, "datatug/README.md", &github.RepositoryContentGetOptions{Ref: branch})
+		sha = nil
+		if err == nil && fileContent != nil {
+			sha = fileContent.SHA
+		}
+
+		if sha == nil {
+			_, _, err = client.Repositories.CreateFile(ctx, owner, name, "datatug/README.md", &github.RepositoryContentFileOptions{
+				Message: github.Ptr("chore: adds datatug/README.md"),
+				Content: []byte(readmeContent),
+				Branch:  github.Ptr(branch),
+			})
+		} else {
+			err = nil
+		}
+
+		if err != nil && !strings.Contains(err.Error(), "already exists") {
+			tui.App.QueueUpdateDraw(func() {
+				sneatnav.ShowErrorModal(tui, fmt.Errorf("failed to create datatug/README.md: %w", err))
+			})
+			return
+		}
+
+		if isCancelled() {
+			return
+		}
+
+		// 2. Add 'DataTug' section to root README.md
+		updateProgress(2, "updating...")
+		rootReadme, _, err := client.Repositories.GetReadme(ctx, owner, name, &github.RepositoryContentGetOptions{Ref: branch})
+		if err == nil {
+			content, _ := rootReadme.GetContent()
+			if !strings.Contains(content, "## DataTug") {
+				newContent := content + "\n\n## DataTug\n\nThis project is enhanced with [DataTug](https://datatug.app). See the [datatug](./datatug) directory for details.\n"
+				_, _, err = client.Repositories.UpdateFile(ctx, owner, name, rootReadme.GetPath(), &github.RepositoryContentFileOptions{
+					Message: github.Ptr("chore: add DataTug section to README"),
+					Content: []byte(newContent),
+					SHA:     rootReadme.SHA,
+					Branch:  github.Ptr(branch),
+				})
+				if err != nil {
+					tui.App.QueueUpdateDraw(func() {
+						sneatnav.ShowErrorModal(tui, fmt.Errorf("failed to update root README.md: %w", err))
+					})
+					return
+				}
+			}
+		} else {
+			newContent := "# " + name + "\n\n## DataTug\n\nThis project is enhanced with [DataTug](https://datatug.app). See the [datatug](./datatug) directory for details.\n"
+			_, _, err = client.Repositories.CreateFile(ctx, owner, name, "README.md", &github.RepositoryContentFileOptions{
+				Message: github.Ptr("feat: add README with DataTug section"),
+				Content: []byte(newContent),
+				Branch:  github.Ptr(branch),
+			})
+			if err != nil {
+				tui.App.QueueUpdateDraw(func() {
+					sneatnav.ShowErrorModal(tui, fmt.Errorf("failed to create root README.md: %w", err))
+				})
+				return
+			}
+		}
+
+		if isCancelled() {
+			return
+		}
+
+		// 3. Cloning project repository
+		updateProgress(3, "cloning...")
+		localDir := filestore.ExpandHome(projectDir)
+		dirExists, _ := filestore.DirExists(localDir)
+		if !dirExists {
+			parent := filepath.Dir(localDir)
+			_ = os.MkdirAll(parent, 0o755)
+			cloneUrl := repo.GetCloneURL()
+			if cloneUrl == "" {
+				cloneUrl = fmt.Sprintf("https://github.com/%s/%s.git", owner, name)
+			}
+			_, err = git.PlainClone(localDir, false, &git.CloneOptions{
+				URL:      cloneUrl,
+				Progress: NewTviewProgressWriter(tui, progressView),
+			})
+			if err != nil {
+				tui.App.QueueUpdateDraw(func() {
+					sneatnav.ShowErrorModal(tui, fmt.Errorf("failed to clone repository: %w", err))
+				})
+				return
+			}
+		}
+
+		if isCancelled() {
+			return
+		}
+
+		// 4. Add project to DataTug app config
+		updateProgress(4, "updating...")
+		if err := addRepoToDataTugAppConfig(owner, name, projectDir); err != nil {
+			tui.App.QueueUpdateDraw(func() {
+				sneatnav.ShowErrorModal(tui, fmt.Errorf("failed to add repo to DataTug app config: %w", err))
+			})
+			return
+		}
+
+		updateProgress(5, "") // All done
+
+		time.Sleep(500 * time.Millisecond)
+
+		if isCancelled() {
+			return
+		}
+
+		tui.App.QueueUpdateDraw(func() {
+			loader := filestore.NewProjectsLoader("~/datatug")
+			pConfig := &appconfig.ProjectConfig{
+				ID:    projectID,
+				Title: projectTitle,
+				Path:  projectID,
+			}
+			projectCtx := NewProjectContext(tui, pConfig, loader)
+			GoProjectScreen(projectCtx)
+		})
+	}()
+}
+
+func addRepoToDataTugAppConfig(owner, repo, path string) error {
+	settings, err := appconfig.GetSettings()
+	if err != nil && !os.IsNotExist(err) {
+		return fmt.Errorf("failed to get DataTug app settings: %w", err)
+	}
+
+	projectID := fmt.Sprintf("github.com/%s/%s", owner, repo)
+	projectTitle := fmt.Sprintf("%s @ github.com/%s", repo, owner)
+
+	// Check if already exists
+	var project *appconfig.ProjectConfig
+	for _, p := range settings.Projects {
+		if p.ID == projectID {
+			project = p
+			break
+		}
+	}
+
+	if project == nil {
+		project = &appconfig.ProjectConfig{ID: projectID}
+		settings.Projects = append(settings.Projects, project)
+	}
+	project.Title = projectTitle
+	project.Path = path
+
+	return SaveDataTugAppSettings(settings)
+}
+
+func SaveDataTugAppSettings(settings appconfig.Settings) error {
+	configFilePath := appconfig.GetConfigFilePath()
+	f, err := os.Create(configFilePath)
+	if err != nil {
+		return fmt.Errorf("failed to create settings file: %w", err)
+	}
+	defer func() {
+		_ = f.Close()
+	}()
+
+	if settings.Server != nil && settings.Server.IsEmpty() {
+		settings.Server = nil
+	}
+	if settings.Client != nil && settings.Client.IsEmpty() {
+		settings.Client = nil
+	}
+
+	encoder := yaml.NewEncoder(f)
+	if err := encoder.Encode(settings); err != nil {
+		return fmt.Errorf("failed to encode settings: %w", err)
+	}
+	return nil
+}
