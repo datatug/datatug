@@ -27,7 +27,7 @@ require (
 	github.com/pkg/browser v0.0.0-20180916011732-0a3d74bf9ce4
 	github.com/rivo/tview v0.42.0
 	github.com/stretchr/testify v1.11.1
-	github.com/strongo/logus v0.2.1
+	github.com/strongo/logus v0.4.0
 	github.com/strongo/validation v0.0.7
 	github.com/urfave/cli/v3 v3.6.1
 	github.com/zalando/go-keyring v0.2.6
