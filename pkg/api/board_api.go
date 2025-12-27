@@ -12,39 +12,36 @@ import (
 // CreateBoard creates board
 func CreateBoard(ctx context.Context, ref dto.ProjectRef, board datatug.Board) (*datatug.Board, error) {
 	log.Printf("api.CreateBoard(ref=%+v)", ref)
-	store, err := storage.GetStore(ctx, ref.StoreID)
+	store, err := storage.GetProjectStore(ctx, ref.StoreID, ref.ProjectID)
 	if err != nil {
 		return nil, err
 	}
-	return store.GetProjectStore(ref.ProjectID).Boards().CreateBoard(ctx, board)
+	return &board, store.SaveBoard(ctx, &board)
 }
 
 // GetBoard returns board by ID
 func GetBoard(ctx context.Context, ref dto.ProjectItemRef) (*datatug.Board, error) {
-	store, err := storage.GetStore(ctx, ref.StoreID)
+	store, err := storage.GetProjectStore(ctx, ref.StoreID, ref.ProjectID)
 	if err != nil {
 		return nil, err
 	}
-	//goland:noinspection GoNilness
-	return store.GetProjectStore(ref.ProjectID).Boards().GetBoard(ctx, ref.ID)
+	return store.LoadBoard(ctx, ref.ID)
 }
 
 // DeleteBoard deletes board
 func DeleteBoard(ctx context.Context, ref dto.ProjectItemRef) error {
-	store, err := storage.GetStore(ctx, ref.StoreID)
+	store, err := storage.GetProjectStore(ctx, ref.StoreID, ref.ProjectID)
 	if err != nil {
 		return err
 	}
-	//goland:noinspection GoNilness
-	return store.GetProjectStore(ref.ProjectID).Boards().DeleteBoard(ctx, ref.ID)
+	return store.DeleteBoard(ctx, ref.ID)
 }
 
 // SaveBoard saves board
 func SaveBoard(ctx context.Context, ref dto.ProjectRef, board datatug.Board) (*datatug.Board, error) {
-	store, err := storage.GetStore(ctx, ref.StoreID)
+	store, err := storage.GetProjectStore(ctx, ref.StoreID, ref.ProjectID)
 	if err != nil {
 		return nil, err
 	}
-	//goland:noinspection GoNilness
-	return store.GetProjectStore(ref.ProjectID).Boards().SaveBoard(ctx, board)
+	return &board, store.SaveBoard(ctx, &board)
 }

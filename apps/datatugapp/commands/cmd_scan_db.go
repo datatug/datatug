@@ -12,7 +12,6 @@ import (
 	"github.com/datatug/datatug-core/pkg/storage"
 	"github.com/datatug/datatug-core/pkg/storage/filestore"
 	"github.com/datatug/datatug/pkg/api"
-	"github.com/mitchellh/go-homedir"
 	"github.com/urfave/cli/v3"
 )
 
@@ -28,22 +27,24 @@ func scanCommandAction(_ context.Context, _ *cli.Command) error {
 	}
 
 	if v.Host == "" {
-		envDb, err := v.store.GetProjectStore(v.projectID).Environments().Environment(v.Environment).Servers().Server(v.Host).Catalogs().Catalog(v.Database).LoadEnvironmentCatalog()
-		if err != nil {
-			return err
-		}
-		if v.Driver == "" {
-			if envDb.Server.Driver == "" {
-				return fmt.Errorf("env DB has no driver specified: %v @ %v", v.Database, v.Host)
-			}
-			v.Driver = envDb.Server.Driver
-		} else if envDb.Server.Driver != v.Driver {
-			return fmt.Errorf("requested driver %v is different from one used by DB [%v]: %v", v.Driver, v.Database, envDb.Server.Driver)
-		}
-		v.Host = envDb.Server.Host
-		if v.DbModel == "" {
-			v.DbModel = envDb.DbModel
-		}
+		panic("not implemented yet")
+		//store := v.store.GetProjectStore(v.projectID)
+		//envDb, err := v.store.GetProjectStore(v.projectID).Environments().Environment(v.Environment).Servers().Server(v.Host).Catalogs().Catalog(v.Database).LoadEnvironmentCatalog()
+		//if err != nil {
+		//	return err
+		//}
+		//if v.Driver == "" {
+		//	if envDb.Server.Driver == "" {
+		//		return fmt.Errorf("env DB has no driver specified: %v @ %v", v.Database, v.Host)
+		//	}
+		//	v.Driver = envDb.Server.Driver
+		//} else if envDb.Server.Driver != v.Driver {
+		//	return fmt.Errorf("requested driver %v is different from one used by DB [%v]: %v", v.Driver, v.Database, envDb.Server.Driver)
+		//}
+		//v.Host = envDb.Server.Host
+		//if v.DbModel == "" {
+		//	v.DbModel = envDb.DbModel
+		//}
 	}
 
 	options := []string{"mode=" + dbconnection.ModeReadOnly}
@@ -53,23 +54,24 @@ func scanCommandAction(_ context.Context, _ *cli.Command) error {
 
 	var connParams dbconnection.Params
 
-	ctx := context.Background()
-
 	switch v.Driver {
 	case "sqlite3":
-		serverRef := datatug.ServerReference{Driver: v.Driver, Host: "localhost"}
-		dbCatalog, err := v.store.GetProjectStore(v.projectID).DbServers().DbServer(serverRef).Catalogs().DbCatalog(v.Database).LoadDbCatalogSummary(ctx)
-		if err != nil {
-			return fmt.Errorf("failed to load DB catalog: %w", err)
-		}
-		if dbCatalog == nil {
-			return fmt.Errorf("db catalog not found for server=%+v, catalog=%v", serverRef, v.Database)
-		}
-		fullPath, err := homedir.Expand(dbCatalog.Path)
-		if err != nil {
-			return fmt.Errorf("failed to expand path for SQLite3 connection string: %w", err)
-		}
-		connParams = dbconnection.NewSQLite3ConnectionParams(fullPath, v.Database, dbconnection.ModeReadOnly)
+		panic("not implemented yet")
+		//ctx := context.Background()
+		//serverRef := datatug.ServerReference{Driver: v.Driver, Host: "localhost"}
+		//store := v.store.GetProjectStore(v.projectID)
+		//dbCatalog, err := .DbServers().DbServer(serverRef).Catalogs().DbCatalog(v.Database).LoadDbCatalogSummary(ctx)
+		//if err != nil {
+		//	return fmt.Errorf("failed to load DB catalog: %w", err)
+		//}
+		//if dbCatalog == nil {
+		//	return fmt.Errorf("db catalog not found for server=%+v, catalog=%v", serverRef, v.Database)
+		//}
+		//fullPath, err := homedir.Expand(dbCatalog.Path)
+		//if err != nil {
+		//	return fmt.Errorf("failed to expand path for SQLite3 connection string: %w", err)
+		//}
+		//connParams = dbconnection.NewSQLite3ConnectionParams(fullPath, v.Database, dbconnection.ModeReadOnly)
 	default:
 		if connParams, err = dbconnection.NewConnectionString(v.Driver, v.Host, v.User, v.Password, v.Database, options...); err != nil {
 			return fmt.Errorf("invalid connection string: %v", err)
@@ -94,7 +96,7 @@ func scanCommandAction(_ context.Context, _ *cli.Command) error {
 	if err != nil {
 		return err
 	}
-	if err = dal.GetProjectStore(datatugProject.ID).SaveProject(context.Background(), *datatugProject); err != nil {
+	if err = dal.GetProjectStore(datatugProject.ID).SaveProject(context.Background(), datatugProject); err != nil {
 		return fmt.Errorf("failed to save datatug project [%v]: %w", v.projectID, err)
 	}
 

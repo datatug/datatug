@@ -116,7 +116,8 @@ func initCommandAction(ctx context.Context, c *cli.Command) (err error) {
 	if dal, err = storage.NewDatatugStore(""); err != nil {
 		return err
 	}
-	if err = dal.GetProjectStore(projectID).SaveProject(context.Background(), datatugProject); err != nil {
+	store := dal.GetProjectStore(projectID)
+	if err = store.SaveProject(context.Background(), &datatugProject); err != nil {
 		return err
 	}
 	return err

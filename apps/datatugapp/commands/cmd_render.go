@@ -34,7 +34,7 @@ func renderCommandAction(_ context.Context, _ *cli.Command) error {
 	}
 
 	log.Println("Saving project", datatugProject.ID, "...")
-	if err = projectStore.SaveProject(context.Background(), *datatugProject); err != nil {
+	if err = projectStore.SaveProject(context.Background(), datatugProject); err != nil {
 		err = fmt.Errorf("failed to save datatug project: %w", err)
 		return err
 	}

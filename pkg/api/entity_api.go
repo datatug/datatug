@@ -31,8 +31,8 @@ func GetEntity(ctx context.Context, ref dto.ProjectItemRef) (entity *datatug.Ent
 		return nil, err
 	}
 	//goland:noinspection GoNilness
-	project := store.GetProjectStore(ref.ProjectID)
-	return project.Entities().Entity(ref.ID).LoadEntity(ctx)
+	projectStore := store.GetProjectStore(ref.ProjectID)
+	return projectStore.LoadEntity(ctx, ref.ID)
 }
 
 // GetAllEntities returns all entities
@@ -45,8 +45,8 @@ func GetAllEntities(ctx context.Context, ref dto.ProjectRef) (entity datatug.Ent
 		return nil, err
 	}
 	//goland:noinspection GoNilness
-	project := store.GetProjectStore(ref.ProjectID)
-	return project.Entities().LoadEntities(ctx)
+	projectStore := store.GetProjectStore(ref.ProjectID)
+	return projectStore.LoadEntities(ctx)
 }
 
 // DeleteEntity deletes board
@@ -59,8 +59,8 @@ func DeleteEntity(ctx context.Context, ref dto.ProjectItemRef) error {
 		return err
 	}
 	//goland:noinspection GoNilness
-	project := store.GetProjectStore(ref.ProjectID)
-	return project.Entities().Entity(ref.ID).DeleteEntity(ctx)
+	projectStore := store.GetProjectStore(ref.ProjectID)
+	return projectStore.DeleteEntity(ctx, ref.ID)
 }
 
 // SaveEntity saves board
@@ -83,6 +83,6 @@ func SaveEntity(ctx context.Context, ref dto.ProjectRef, entity *datatug.Entity)
 		return err
 	}
 	//goland:noinspection GoNilness
-	project := store.GetProjectStore(ref.ProjectID)
-	return project.Entities().Entity(entity.ID).SaveEntity(ctx, entity)
+	projectStore := store.GetProjectStore(ref.ProjectID)
+	return projectStore.SaveEntity(ctx, entity)
 }

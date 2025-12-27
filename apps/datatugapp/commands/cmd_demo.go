@@ -333,7 +333,8 @@ func (c demoCommand) updateDemoProject(demoProjectPath string, demoDbFiles []dem
 		return err
 	}
 	ctx := context.Background()
-	if err = dal.GetProjectStore(project.ID).SaveProject(ctx, *project); err != nil {
+	store := dal.GetProjectStore(project.ID)
+	if err = store.SaveProject(ctx, project); err != nil {
 		return fmt.Errorf("faield to save project: %w", err)
 	}
 	return nil

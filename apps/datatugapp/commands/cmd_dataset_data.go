@@ -28,7 +28,8 @@ func datasetDataCommandAction(_ context.Context, _ *cli.Command) error {
 		return err
 	}
 	ctx := context.Background()
-	recordset, err := v.store.GetProjectStore(v.projectID).Recordsets().Recordset(v.Dataset).LoadRecordsetData(ctx, v.File)
+	store := v.store.GetProjectStore(v.projectID)
+	recordset, err := store.LoadRecordsetData(ctx, v.File)
 	if err != nil {
 		return err
 	}
@@ -72,11 +73,11 @@ func datasetDataCommandAction(_ context.Context, _ *cli.Command) error {
 		jsonEncoder.SetIndent("", v.Indent)
 		encoder = jsonEncoder
 	case "GRID":
-		return showRecordsetInGrid(*recordset)
+		return showRecordsetInGrid(recordset)
 	default:
 		return fmt.Errorf("unknown or unsopported format (expected JSON, YAML, GRID): %v", v.Format)
 	}
-	return writeRows(*recordset, encoder)
+	return writeRows(recordset, encoder)
 }
 
 func datasetDataCommandArgs() *cli.Command {

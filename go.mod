@@ -14,7 +14,7 @@ require (
 	github.com/charmbracelet/bubbletea v1.3.10
 	github.com/charmbracelet/lipgloss v1.1.0
 	github.com/dal-go/dalgo2sql v0.4.12
-	github.com/datatug/datatug-core v0.14.5
+	github.com/datatug/datatug-core v0.15.0
 	github.com/datatug/sql2csv v0.0.0-20200927071952-a7fb986d1ec2
 	github.com/denisenkom/go-mssqldb v0.12.3
 	github.com/gdamore/tcell/v2 v2.13.5
@@ -24,12 +24,13 @@ require (
 	github.com/gosuri/uitable v0.0.4
 	github.com/mattn/go-sqlite3 v1.14.32
 	github.com/mitchellh/go-homedir v1.1.0
-	github.com/pkg/browser v0.0.0-20180916011732-0a3d74bf9ce4
+	github.com/pkg/browser v0.0.0-20240102092130-5ac0b6a4141c
 	github.com/rivo/tview v0.42.0
 	github.com/stretchr/testify v1.11.1
-	github.com/strongo/logus v0.2.1
+	github.com/strongo/logus v0.4.0
 	github.com/strongo/validation v0.0.7
 	github.com/urfave/cli/v3 v3.6.1
+	github.com/xo/dburl v0.24.2
 	github.com/zalando/go-keyring v0.2.6
 	golang.org/x/oauth2 v0.34.0
 	google.golang.org/api v0.258.0
@@ -67,7 +68,7 @@ require (
 	github.com/cloudflare/circl v1.6.2 // indirect
 	github.com/crediterra/money v0.3.0 // indirect
 	github.com/cyphar/filepath-securejoin v0.6.1 // indirect
-	github.com/dal-go/dalgo v0.40.1
+	github.com/dal-go/dalgo v0.40.2
 	github.com/danieljoos/wincred v1.2.3 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/dustin/go-humanize v1.0.1 // indirect

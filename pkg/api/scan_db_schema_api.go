@@ -12,7 +12,6 @@ import (
 	"github.com/datatug/datatug-core/pkg/dbconnection"
 	"github.com/datatug/datatug-core/pkg/parallel"
 	"github.com/datatug/datatug-core/pkg/schemer"
-	"github.com/datatug/datatug-core/pkg/storage"
 	"github.com/datatug/datatug/pkg/schemers/mssqlschema"
 	"github.com/strongo/random"
 	"github.com/strongo/slice"
@@ -24,10 +23,10 @@ type ProjectLoader interface {
 	// LoadProjectSummary loads project summary
 	LoadProjectSummary(ctx context.Context) (projectSummary datatug.ProjectSummary, err error)
 	// LoadProject loads the whole project
-	LoadProject(ctx context.Context) (project *datatug.Project, err error)
+	LoadProject(ctx context.Context, o ...datatug.StoreOption) (project *datatug.Project, err error)
 }
 
-var _ ProjectLoader = (storage.ProjectStore)(nil)
+var _ ProjectLoader = (datatug.ProjectStore)(nil)
 
 // UpdateDbSchema updates DB schema
 func UpdateDbSchema(ctx context.Context, projectLoader ProjectLoader, projectID, environment, driver, dbModelID string, dbConnParams dbconnection.Params) (project *datatug.Project, err error) {

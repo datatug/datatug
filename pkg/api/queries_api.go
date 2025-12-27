@@ -25,13 +25,11 @@ func CreateQuery(ctx context.Context, request dto.CreateQuery) (*datatug.QueryDe
 	if err := request.Validate(); err != nil {
 		return nil, err
 	}
-	store, err := storage.GetStore(ctx, request.StoreID)
+	store, err := storage.GetProjectStore(ctx, request.StoreID, request.ProjectID)
 	if err != nil {
 		return nil, err
 	}
-	//goland:noinspection GoNilness
-	project := store.GetProjectStore(request.ProjectID)
-	return project.Queries().CreateQuery(ctx, request.Query)
+	return &request.Query, store.SaveQuery(ctx, &request.Query)
 }
 
 // UpdateQuery updates existing query
@@ -39,13 +37,11 @@ func UpdateQuery(ctx context.Context, request dto.UpdateQuery) (*datatug.QueryDe
 	if err := request.Validate(); err != nil {
 		return nil, validation.NewBadRequestError(err)
 	}
-	store, err := storage.GetStore(ctx, request.StoreID)
+	store, err := storage.GetProjectStore(ctx, request.StoreID, request.ProjectID)
 	if err != nil {
 		return nil, err
 	}
-	//goland:noinspection GoNilness
-	project := store.GetProjectStore(request.ProjectID)
-	return project.Queries().UpdateQuery(ctx, request.Query)
+	return &request.Query, store.SaveQuery(ctx, &request.Query)
 }
 
 // DeleteQuery deletes query
@@ -53,13 +49,11 @@ func DeleteQuery(ctx context.Context, ref dto.ProjectItemRef) error {
 	if err := ref.Validate(); err != nil {
 		return err
 	}
-	store, err := storage.GetStore(ctx, ref.StoreID)
+	store, err := storage.GetProjectStore(ctx, ref.StoreID, ref.ProjectID)
 	if err != nil {
 		return err
 	}
-	//goland:noinspection GoNilness
-	project := store.GetProjectStore(ref.ProjectID)
-	return project.Queries().DeleteQuery(ctx, ref.ID)
+	return store.DeleteQuery(ctx, ref.ID)
 }
 
 // GetQuery returns query definition
@@ -67,11 +61,9 @@ func GetQuery(ctx context.Context, ref dto.ProjectItemRef) (query *datatug.Query
 	if err = ref.Validate(); err != nil {
 		return query, err
 	}
-	store, err := storage.GetStore(ctx, ref.StoreID)
+	store, err := storage.GetProjectStore(ctx, ref.StoreID, ref.ProjectID)
 	if err != nil {
 		return nil, err
 	}
-	//goland:noinspection GoNilness
-	project := store.GetProjectStore(ref.ProjectID)
-	return project.Queries().GetQuery(ctx, ref.ID)
+	return store.LoadQuery(ctx, ref.ID)
 }

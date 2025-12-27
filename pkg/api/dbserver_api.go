@@ -11,36 +11,31 @@ import (
 
 // AddDbServer adds db server to project
 func AddDbServer(ctx context.Context, ref dto.ProjectRef, projDbServer datatug.ProjDbServer) error {
-	store, err := storage.GetStore(ctx, ref.StoreID)
+	store, err := storage.GetProjectStore(ctx, ref.StoreID, ref.ProjectID)
 	if err != nil {
 		return err
 	}
-	//goland:noinspection GoNilness
-	dbServerStore := store.GetProjectStore(ref.ProjectID).DbServers().DbServer(projDbServer.Server)
-	return dbServerStore.SaveDbServer(ctx, projDbServer, datatug.Project{})
+	return store.SaveProjDbServer(ctx, &projDbServer)
 }
 
 // UpdateDbServer adds db server to project
 //
 //goland:noinspection GoUnusedExportedFunction
 func UpdateDbServer(ctx context.Context, ref dto.ProjectRef, projDbServer datatug.ProjDbServer) error {
-	store, err := storage.GetStore(ctx, ref.StoreID)
+	store, err := storage.GetProjectStore(ctx, ref.StoreID, ref.ProjectID)
 	if err != nil {
 		return err
 	}
-	//goland:noinspection GoNilness
-	dbServerStore := store.GetProjectStore(ref.ProjectID).DbServers().DbServer(projDbServer.Server)
-	return dbServerStore.SaveDbServer(ctx, projDbServer, datatug.Project{})
+	return store.SaveProjDbServer(ctx, &projDbServer)
 }
 
 // DeleteDbServer adds db server to project
 func DeleteDbServer(ctx context.Context, ref dto.ProjectRef, dbServer datatug.ServerReference) (err error) {
-	store, err := storage.GetStore(ctx, ref.StoreID)
+	store, err := storage.GetProjectStore(ctx, ref.StoreID, ref.ProjectID)
 	if err != nil {
 		return err
 	}
-	//goland:noinspection GoNilness
-	return store.GetProjectStore(ref.ProjectID).DbServers().DbServer(dbServer).DeleteDbServer(ctx, dbServer)
+	return store.DeleteProjDbServer(ctx, dbServer.ID())
 }
 
 // GetDbServerSummary returns summary on DB server
@@ -49,10 +44,9 @@ func GetDbServerSummary(ctx context.Context, ref dto.ProjectRef, dbServer datatu
 		err = validation.NewBadRequestError(err)
 		return nil, err
 	}
-	store, err := storage.GetStore(ctx, ref.StoreID)
+	store, err := storage.GetProjectStore(ctx, ref.StoreID, ref.ProjectID)
 	if err != nil {
 		return nil, err
 	}
-	//goland:noinspection GoNilness
-	return store.GetProjectStore(ref.ProjectID).DbServers().DbServer(dbServer).LoadDbServerSummary(ctx, dbServer)
+	return store.LoadProjDbServerSummary(ctx, dbServer.ID())
 }

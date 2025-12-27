@@ -11,21 +11,18 @@ import (
 
 // CreateFolder creates a new folder for queries
 func CreateFolder(ctx context.Context, request dto.CreateFolder) (folder *datatug.Folder, err error) {
-	if err := request.ProjectRef.Validate(); err != nil {
+	if err = request.ProjectRef.Validate(); err != nil {
 		return nil, err
 	}
-	store, err := storage.GetStore(ctx, request.StoreID)
+	store, err := storage.GetProjectStore(ctx, request.StoreID, request.ProjectID)
 	if err != nil {
 		return nil, err
 	}
-	//goland:noinspection GoNilness
-	project := store.GetProjectStore(request.ProjectID)
-	createFolderRequest := storage.CreateFolderRequest{
+	folder = &datatug.Folder{
 		Name: request.Name,
-		Path: request.Path,
 		Note: request.Note,
 	}
-	return project.Folders().CreateFolder(ctx, createFolderRequest)
+	return folder, store.SaveFolder(ctx, request.Path, folder)
 }
 
 // DeleteFolder deletes queries folder
@@ -33,11 +30,9 @@ func DeleteFolder(ctx context.Context, ref dto.ProjectItemRef) error {
 	if ref.ProjectID == "" {
 		return validation.NewErrRequestIsMissingRequiredField("projectID")
 	}
-	store, err := storage.GetStore(ctx, ref.StoreID)
+	store, err := storage.GetProjectStore(ctx, ref.StoreID, ref.ProjectID)
 	if err != nil {
 		return err
 	}
-	//goland:noinspection GoNilness
-	project := store.GetProjectStore(ref.ProjectID)
-	return project.Folders().DeleteFolder(ctx, ref.ID)
+	return store.DeleteFolder(ctx, ref.ID)
 }
