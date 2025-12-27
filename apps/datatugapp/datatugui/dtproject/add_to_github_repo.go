@@ -16,7 +16,7 @@ import (
 	"github.com/datatug/datatug/pkg/sneatview/sneatnav"
 	"github.com/gdamore/tcell/v2"
 	"github.com/go-git/go-git/v5"
-	"github.com/google/go-github/v69/github"
+	"github.com/google/go-github/v80/github"
 	"github.com/rivo/tview"
 	"golang.org/x/oauth2"
 	"gopkg.in/yaml.v3"
@@ -383,7 +383,7 @@ func setupDataTugInRepo(tui *sneatnav.TUI, client *github.Client, repo *github.R
 				return
 			}
 
-			commit, _, err := client.Git.CreateCommit(ctx, owner, name, &github.Commit{
+			commit, _, err := client.Git.CreateCommit(ctx, owner, name, github.Commit{
 				Message: github.Ptr("chore: add datatug project"),
 				Tree:    tree,
 				Parents: []*github.Commit{parent},
@@ -397,7 +397,10 @@ func setupDataTugInRepo(tui *sneatnav.TUI, client *github.Client, repo *github.R
 
 			// 4. Update the reference
 			ref.Object.SHA = commit.SHA
-			_, _, err = client.Git.UpdateRef(ctx, owner, name, ref, false)
+			_, _, err = client.Git.UpdateRef(ctx, owner, name, ref.GetRef(), github.UpdateRef{
+				SHA:   commit.GetSHA(),
+				Force: github.Ptr(false),
+			})
 			if err != nil {
 				tui.App.QueueUpdateDraw(func() {
 					sneatnav.ShowErrorModal(tui, fmt.Errorf("failed to update ref: %w", err))
