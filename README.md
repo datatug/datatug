@@ -12,17 +12,17 @@ Free for personal use, DataTug keeps your workflows transparent, versioned, and 
 [![Coverage Status](https://coveralls.io/repos/github/datatug/datatug/badge.svg?branch=main)](https://coveralls.io/github/datatug/datatug?branch=main)
 
 ## What you can do with DataTug
-	•	Explore data everywhere — SQL databases, cloud data sources, logs, and APIs (HTTP / REST)
-	•	CLI-first workflows with a Web UI — dashboards, charts, and shared views
-	•	Create parametrised queries and query sets for repeatable troubleshooting and investigation scenarios
-	•	Automatically navigate related data across tables, views, APIs, and different data sources
-	•	Build data pipelines to transform, combine, and enrich data
-	•	Document schemas and metadata with a built-in wiki
-	•	Version everything with Git — queries, dashboards, pipelines, and settings stored as readable project files
-	•	Choose where your project lives:
-	•	Local directory (fully offline)
-	•	GitHub repository
-	•	DataTug Cloud
+- Explore data everywhere — SQL databases, cloud data sources, logs, and APIs (HTTP / REST)
+- CLI-first workflows with a Web UI — dashboards, charts, and shared views
+- Create parametrised queries and query sets for repeatable troubleshooting and investigation scenarios
+- Automatically navigate related data across tables, views, APIs, and different data sources
+- Build data pipelines to transform, combine, and enrich data
+- Document schemas and metadata with a built-in wiki
+- Version everything with Git — queries, dashboards, pipelines, and settings stored as readable project files
+- Choose where your project lives:
+- Local directory (fully offline)
+- GitHub repository
+- DataTug Cloud
 
 DataTug turns scattered data into a connected, navigable workspace — combining the speed of the CLI with the clarity of a Web UI for exploration, troubleshooting, and collaboration.
 
