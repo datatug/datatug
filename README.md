@@ -20,9 +20,9 @@ Free for personal use, DataTug keeps your workflows transparent, versioned, and 
 - Document schemas and metadata with a built-in wiki
 - Version everything with Git — queries, dashboards, pipelines, and settings stored as readable project files
 - Choose where your project lives:
-- Local directory (fully offline)
-- GitHub repository
-- DataTug Cloud
+  - Local directory (fully offline)
+  - GitHub repository
+  - DataTug Cloud
 
 DataTug turns scattered data into a connected, navigable workspace — combining the speed of the CLI with the clarity of a Web UI for exploration, troubleshooting, and collaboration.
 
