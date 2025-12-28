@@ -1,6 +1,23 @@
-# datatug-agent
+# DataTug CLI & agent for web UI
 
-CLI client and agent for [DataTug.app](https://datatug.app)
+DataTug is an open-source, CLI-first data exploration platform with a Web UI, designed to help you explore, query, and connect data across multiple sources without losing context. It automatically surfaces related data — even across different systems — so you can move naturally between datasets, queries, and results.
+
+Free for personal use, DataTug keeps your workflows transparent, versioned, and portable, whether you work locally, in GitHub, or in the cloud.
+
+## What you can do with DataTug
+	•	Explore data everywhere — SQL databases, cloud data sources, logs, and APIs (HTTP / REST)
+	•	CLI-first workflows with a Web UI — dashboards, charts, and shared views
+	•	Create parametrised queries and query sets for repeatable troubleshooting and investigation scenarios
+	•	Automatically navigate related data across tables, views, APIs, and different data sources
+	•	Build data pipelines to transform, combine, and enrich data
+	•	Document schemas and metadata with a built-in wiki
+	•	Version everything with Git — queries, dashboards, pipelines, and settings stored as readable project files
+	•	Choose where your project lives:
+	•	Local directory (fully offline)
+	•	GitHub repository
+	•	DataTug Cloud
+
+DataTug turns scattered data into a connected, navigable workspace — combining the speed of the CLI with the clarity of a Web UI for exploration, troubleshooting, and collaboration.
 
 ## What it is and why?
 
