@@ -4,6 +4,13 @@ DataTug is an open-source, CLI-first data exploration platform with a Web UI, de
 
 Free for personal use, DataTug keeps your workflows transparent, versioned, and portable, whether you work locally, in GitHub, or in the cloud.
 
+## ♺ Continuous Integration
+
+[![Build and Test](https://github.com/datatug/datatug/actions/workflows/golangci.yml/badge.svg)](https://github.com/datatug/datatug/actions/workflows/golangci.yml)
+[![Go Report Card](https://goreportcard.com/badge/github.com/datatug/datatug?cache=1)](https://goreportcard.com/report/github.com/datatug/datatug)
+[![GoDoc](https://godoc.org/github.com/datatug/datatug?status.svg)](https://godoc.org/github.com/datatug/datatug)
+[![Coverage Status](https://coveralls.io/repos/github/datatug/datatug/badge.svg?branch=main)](https://coveralls.io/github/datatug/datatug?branch=main)
+
 ## What you can do with DataTug
 	•	Explore data everywhere — SQL databases, cloud data sources, logs, and APIs (HTTP / REST)
 	•	CLI-first workflows with a Web UI — dashboards, charts, and shared views
@@ -19,18 +26,14 @@ Free for personal use, DataTug keeps your workflows transparent, versioned, and 
 
 DataTug turns scattered data into a connected, navigable workspace — combining the speed of the CLI with the clarity of a Web UI for exploration, troubleshooting, and collaboration.
 
+
+
 ## What it is and why?
 
 This is an agent service for https://datatug.app that you can run on your local machine, or some server to allow DataTug
 app to scan databases & execute SQL requests.
 
 It can be run with your user account credentials (*e.g. trusted connection*) or under some service account.
-
-## Family of DataTug apps
-
-The `datatug` app has a lot of modules. Some ot that modules can be run as standalone CLI apps:
-
-- [`fsv`](../datatug/apps/firestoreviewer) - A Firestore Viewer, similar to running `datatug firestore`
 
 ## Would you steal my data?
 
