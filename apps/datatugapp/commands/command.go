@@ -34,6 +34,7 @@ func DatatugCommand() *cli.Command {
 			showCommandArgs(),
 			testCommandArgs(),
 			consoleCommandArgs(),
+			dbCommand(),
 		},
 	}
 }

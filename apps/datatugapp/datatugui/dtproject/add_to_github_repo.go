@@ -121,7 +121,6 @@ func addToGithubRepo(tui *sneatnav.TUI) {
 				tui.SetPanels(nil, panel)
 
 				// Update polling message
-				deviceRes.Interval = deviceRes.Interval // Just a placeholder to use deviceRes if needed
 				updateStatus := func(attempt int) {
 					tui.App.QueueUpdateDraw(func() {
 						statusText.SetText(fmt.Sprintf("\nGo to %s\n\nEnter code: [yellow]%s[-]\n\nWaiting for authorization (attempt %d)...", deviceRes.VerificationURI, deviceRes.UserCode, attempt))
