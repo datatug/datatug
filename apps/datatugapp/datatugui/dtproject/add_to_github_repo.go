@@ -35,12 +35,12 @@ Go CLI
 Uses https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/authorizing-oauth-apps#device-flow
 */
 
-// addToGithubRepo
+// ShowAddToGitHubRepo
 // - gets user credentials for GitHub api via OAuth2 Device Flow
 // - selects repository to be used to store datatug project.
 // - adds a `datatug` directory with config and README.md to the root of an existing GitHub repo.
 // - adds a 'DataTug' section to the root README.md files linked to the `datatug` directory.
-func addToGithubRepo(tui *sneatnav.TUI) {
+func ShowAddToGitHubRepo(tui *sneatnav.TUI) {
 	ctx := context.Background()
 
 	clientID := "Ov23liAIKfguW2oYiore"
@@ -191,7 +191,7 @@ func showRepoSelection(tui *sneatnav.TUI, client *github.Client, repos []*github
 			repoNode := tview.NewTreeNode(repo.GetName()).
 				SetReference(r).
 				SetSelectedFunc(func() {
-					setupDataTugInRepo(tui, client, r, repos, reauth)
+					AddToGitHubRepo(tui, client, r, repos, reauth)
 				})
 			ownerNode.AddChild(repoNode)
 		}
@@ -249,7 +249,7 @@ func showRepoSelection(tui *sneatnav.TUI, client *github.Client, repos []*github
 	tui.SetPanels(nil, panel)
 }
 
-func setupDataTugInRepo(tui *sneatnav.TUI, client *github.Client, repo *github.Repository, repos []*github.Repository, reauth func()) {
+func AddToGitHubRepo(tui *sneatnav.TUI, client *github.Client, repo *github.Repository, repos []*github.Repository, reauth func()) {
 	owner := repo.GetOwner().GetLogin()
 	name := repo.GetName()
 	branch := repo.GetDefaultBranch()
@@ -266,7 +266,11 @@ func setupDataTugInRepo(tui *sneatnav.TUI, client *github.Client, repo *github.R
 
 	cancelButton := tview.NewButton("Cancel").SetSelectedFunc(func() {
 		cancel()
-		showRepoSelection(tui, client, repos, reauth)
+		if repos != nil {
+			showRepoSelection(tui, client, repos, reauth)
+		} else {
+			_ = GoProjectsScreen(tui, sneatnav.FocusToContent)
+		}
 	})
 
 	layout := tview.NewFlex().
@@ -329,10 +333,30 @@ func setupDataTugInRepo(tui *sneatnav.TUI, client *github.Client, repo *github.R
 		// 1. Get the latest commit of the branch
 		ref, _, err := client.Git.GetRef(ctx, owner, name, "heads/"+branch)
 		if err != nil {
-			tui.App.QueueUpdateDraw(func() {
-				sneatnav.ShowErrorModal(tui, fmt.Errorf("failed to get branch ref: %w", err))
-			})
-			return
+			// If repository is empty, we need to create the first commit
+			if gerr, ok := err.(*github.ErrorResponse); ok && (gerr.Response.StatusCode == 404 || gerr.Response.StatusCode == 409) {
+				// Create initial README.md to initialize the repository
+				updateProgress(0, "initializing repository...")
+				_, _, err = client.Repositories.CreateFile(ctx, owner, name, "README.md", &github.RepositoryContentFileOptions{
+					Message: github.Ptr("feat: initial commit"),
+					Content: []byte("# " + name + "\n\nDataTug project repository."),
+					Branch:  github.Ptr(branch),
+				})
+				if err != nil {
+					tui.App.QueueUpdateDraw(func() {
+						sneatnav.ShowErrorModal(tui, fmt.Errorf("failed to initialize repository: %w", err))
+					})
+					return
+				}
+				// Retry getting the ref
+				ref, _, err = client.Git.GetRef(ctx, owner, name, "heads/"+branch)
+			}
+			if err != nil {
+				tui.App.QueueUpdateDraw(func() {
+					sneatnav.ShowErrorModal(tui, fmt.Errorf("failed to get branch ref: %w", err))
+				})
+				return
+			}
 		}
 
 		// 2. Create a tree with the new files
@@ -480,7 +504,7 @@ func setupDataTugInRepo(tui *sneatnav.TUI, client *github.Client, repo *github.R
 
 		// 4. Add project to DataTug app config
 		updateProgress(4, "updating...")
-		if err := addRepoToDataTugAppConfig(owner, name, projectDir); err != nil {
+		if err := AddProjectToSettings(projectID, projectTitle, projectDir); err != nil {
 			tui.App.QueueUpdateDraw(func() {
 				sneatnav.ShowErrorModal(tui, fmt.Errorf("failed to add repo to DataTug app config: %w", err))
 			})
@@ -508,29 +532,26 @@ func setupDataTugInRepo(tui *sneatnav.TUI, client *github.Client, repo *github.R
 	}()
 }
 
-func addRepoToDataTugAppConfig(owner, repo, path string) error {
+func AddProjectToSettings(id, title, path string) error {
 	settings, err := appconfig.GetSettings()
 	if err != nil && !os.IsNotExist(err) {
 		return fmt.Errorf("failed to get DataTug app settings: %w", err)
 	}
 
-	projectID := fmt.Sprintf("github.com/%s/%s", owner, repo)
-	projectTitle := fmt.Sprintf("%s @ github.com/%s", repo, owner)
-
 	// Check if already exists
 	var project *appconfig.ProjectConfig
 	for _, p := range settings.Projects {
-		if p.ID == projectID {
+		if p.ID == id {
 			project = p
 			break
 		}
 	}
 
 	if project == nil {
-		project = &appconfig.ProjectConfig{ID: projectID}
+		project = &appconfig.ProjectConfig{ID: id}
 		settings.Projects = append(settings.Projects, project)
 	}
-	project.Title = projectTitle
+	project.Title = title
 	project.Path = path
 
 	return SaveDataTugAppSettings(settings)

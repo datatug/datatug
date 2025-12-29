@@ -121,8 +121,8 @@ func newProjectsPanel(tui *sneatnav.TUI) (*projectsPanel, error) {
 	// Add existing projects under Local projects
 	for _, p := range panel.projects {
 		//title := " 📁 " + GetProjectTitle(p) + " "
-		title := GetProjectTitle(p) + " "
-		projectNode := tview.NewTreeNode(title).
+		title := GetProjectTitle(p)
+		projectNode := tview.NewTreeNode(" " + title + " ").
 			SetReference(p).
 			SetColor(tcell.ColorWhite)
 		localRoot.AddChild(projectNode)
@@ -143,7 +143,27 @@ func newProjectsPanel(tui *sneatnav.TUI) (*projectsPanel, error) {
 
 	localCreateNode := tview.NewTreeNode(" Create new ").
 		SetReference("local-create").
-		SetColor(sneatcolors.TreeNodeLink)
+		SetColor(sneatcolors.TreeNodeLink).
+		SetSelectedFunc(func() {
+			/* TODO: Open modal and ask for project name
+			The modal should be defined in separate file
+			The modal initially consist of 2 fields:
+			Name: string (max 50 chars)
+			Create at: (radio group: local, GitHub)
+			If GitHub is choosen an addiional "Repository name" field shown
+			If Local is choose an additional "Location" text field shown with default value of "~/datatug"
+			At bottom of the modal 2 buttons: "Create" and "Cancel"
+			Cancel closes dialog and nothing happens
+			If "Create" button selected:
+			   1) creates a `datatug.Project` with provided name
+			   2) If local chosen safes to files store,
+			      otherwise create repo using GitHub API `client.Repositories.Create`,
+				  clones it to the "~/datatug/github.com/{owner}/{repo}" directory.
+			      See example at `openDatatugDemoProject` and refactor code to reuse logic.
+			   3) Once project created and if a Github one has local copy open the project (see how in `openDatatugDemoProject`)
+			*/
+			showCreateProjectScreen(tui)
+		})
 	localRoot.AddChild(localCreateNode)
 
 	localRoot.SetExpanded(true)
@@ -163,7 +183,7 @@ func newProjectsPanel(tui *sneatnav.TUI) (*projectsPanel, error) {
 		SetReference("local-create").
 		SetColor(sneatcolors.TreeNodeLink).
 		SetSelectedFunc(func() {
-			addToGithubRepo(tui)
+			ShowAddToGitHubRepo(tui)
 		})
 
 	githubNode.AddChild(addToGithubRepoNode)

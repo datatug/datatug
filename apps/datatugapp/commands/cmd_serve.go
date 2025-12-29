@@ -4,13 +4,12 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"os/exec"
-	"runtime"
 	"strings"
 
 	"github.com/datatug/datatug-core/pkg/appconfig"
 	"github.com/datatug/datatug-core/pkg/storage/filestore"
 	"github.com/datatug/datatug/pkg/server"
+	"github.com/pkg/browser"
 	"github.com/urfave/cli/v3"
 )
 
@@ -65,7 +64,7 @@ func serveCommandAction(_ context.Context, _ *cli.Command) error {
 
 	url := v.ClientURL + "/agent/" + agent
 
-	if err := openBrowser(url); err != nil {
+	if err := browser.OpenURL(url); err != nil {
 		_, _ = fmt.Printf("failed to open browser with URl=%v: %v", url, err)
 	}
 	httpServer := server.NewHttpServer()
@@ -89,19 +88,4 @@ type serveCommand struct {
 	Port      int    `short:"o" long:"port" default:"8989"`
 	Local     bool   `long:"local" description:"opens UI on default localhost:4200"`
 	ClientURL string `long:"client-url" description:"Default is https://datatug.app/pwa/agent/localhost:8989"`
-}
-
-func openBrowser(url string) error {
-	switch runtime.GOOS {
-	case "linux":
-		return exec.Command("xdg-open", url).Start()
-	case "windows":
-		//goland:noinspection SpellCheckingInspection
-		return exec.Command("rundll32", "url.dll,FileProtocolHandler", url).Start()
-	case "darwin":
-		return exec.Command("open", url).Start()
-	default:
-		return fmt.Errorf("unsupported platform")
-
-	}
 }
