@@ -1,4 +1,4 @@
-package datatug
+package datatugapp
 
 import (
 	"github.com/datatug/datatug/apps/datatugapp/datatugui/dtproject"
@@ -12,8 +12,9 @@ func NewDatatugTUI() (tui *sneatnav.TUI) {
 	app.EnableMouse(true)
 
 	tui = sneatnav.NewTUI(app, sneatv.NewBreadcrumb(" ⛴ DataTug", func() error {
-		return dtproject.GoProjectsScreen(tui, sneatnav.FocusToMenu)
+		return goProjectScreen(tui, sneatnav.FocusToMenu)
 	}))
-
-	return tui
+	return
 }
+
+var goProjectScreen = dtproject.GoProjectsScreen

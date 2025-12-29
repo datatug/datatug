@@ -14,6 +14,10 @@ type Breadcrumbs struct {
 	prevFocusTarget   tview.Primitive // optional: where to move focus on Shift+Tab/Up
 }
 
+func (b *Breadcrumbs) GoHome() error {
+	return b.items[0].Action()
+}
+
 func (b *Breadcrumbs) TakeFocus() {
 	//b.selectedItemIndex -= 1
 }

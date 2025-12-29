@@ -22,6 +22,7 @@ type Header struct {
 type Breadcrumbs interface {
 	Clear()
 	Push(bc sneatv.Breadcrumb)
+	GoHome() error
 }
 
 func (h *Header) SetFocus(to HeaderFocusedTo, from tview.Primitive) {
