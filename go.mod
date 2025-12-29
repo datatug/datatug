@@ -13,8 +13,8 @@ require (
 	github.com/charmbracelet/bubbles v0.21.0
 	github.com/charmbracelet/bubbletea v1.3.10
 	github.com/charmbracelet/lipgloss v1.1.0
-	github.com/dal-go/dalgo2sql v0.4.13
-	github.com/datatug/datatug-core v0.15.1
+	github.com/dal-go/dalgo2sql v0.4.14
+	github.com/datatug/datatug-core v0.15.5
 	github.com/datatug/sql2csv v0.0.0-20200927071952-a7fb986d1ec2
 	github.com/denisenkom/go-mssqldb v0.12.3
 	github.com/gdamore/tcell/v2 v2.13.5
@@ -38,7 +38,7 @@ require (
 )
 
 require (
-	github.com/RoaringBitmap/roaring v1.9.4 // indirect
+	github.com/RoaringBitmap/roaring/v2 v2.14.4 // indirect
 	github.com/bits-and-blooms/bitset v1.24.4 // indirect
 	github.com/georgysavva/scany/v2 v2.1.4 // indirect
 	github.com/google/go-querystring v1.1.0 // indirect
@@ -68,7 +68,7 @@ require (
 	github.com/cloudflare/circl v1.6.2 // indirect
 	github.com/crediterra/money v0.3.0 // indirect
 	github.com/cyphar/filepath-securejoin v0.6.1 // indirect
-	github.com/dal-go/dalgo v0.40.2
+	github.com/dal-go/dalgo v0.41.1
 	github.com/danieljoos/wincred v1.2.3 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/dustin/go-humanize v1.0.1 // indirect
