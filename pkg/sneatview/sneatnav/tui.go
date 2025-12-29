@@ -16,12 +16,13 @@ func NewTUI(app *tview.Application, root sneatv.Breadcrumb) *TUI {
 
 	menu := tview.NewTextView().SetText("Menu")
 	content := tview.NewTextView().SetText("Content")
-	tui.Grid = layoutGrid(tui.Header, menu, content)
+	tui.ActionsMenu = newActionsMenu(app)
+	tui.Grid = layoutGrid(tui.Header, menu, content, tui.ActionsMenu.flex)
 	app.SetInputCapture(tui.inputCapture)
 	return tui
 }
 
-func layoutGrid(header, menu, content tview.Primitive) *tview.Grid {
+func layoutGrid(header, menu, content, actionsMenu tview.Primitive) *tview.Grid {
 	if menu == nil {
 		menu = tview.NewBox()
 	}
@@ -33,13 +34,12 @@ func layoutGrid(header, menu, content tview.Primitive) *tview.Grid {
 	grid := tview.NewGrid()
 
 	grid. // Default grid settings
-		SetRows(1, 0).
+		SetRows(1, 0, 1).
 		SetColumns(30, 0).
 		SetBorders(false)
 
 	// Adds header and footer to the grid.
 	grid.AddItem(header, 0, 0, 1, 2, 0, 0, false)
-	//grid.AddItem(footer, 2, 0, 1, 3, 0, 0, false)
 
 	// Layout for screens narrower than 100 cells (menu and sidebar are hidden).
 	grid.
@@ -50,6 +50,8 @@ func layoutGrid(header, menu, content tview.Primitive) *tview.Grid {
 	grid.
 		AddItem(menu, 1, 0, 1, 1, 0, 100, true).
 		AddItem(content, 1, 1, 1, 1, 0, 100, false)
+
+	grid.AddItem(actionsMenu, 2, 0, 1, 1, 0, 0, true)
 
 	return grid
 }
@@ -74,6 +76,7 @@ type TUI struct {
 	Menu    Panel
 	Content Panel
 	stack   []Screen
+	ActionsMenu
 }
 
 func (tui *TUI) StackDepth() int {
@@ -114,7 +117,7 @@ func (tui *TUI) SetPanels(menu, content Panel, options ...func(panelsOptions *se
 		tui.Menu = menu
 		tui.Header.breadcrumbs.SetNextFocusTarget(menu)
 	}
-	tui.Grid = layoutGrid(tui.Header, menu, content)
+	tui.Grid = layoutGrid(tui.Header, menu, content, tui.ActionsMenu.flex)
 	tui.App.SetRoot(tui.Grid, true)
 	spo := &setPanelsOptions{
 		focusTo: FocusToContent,
