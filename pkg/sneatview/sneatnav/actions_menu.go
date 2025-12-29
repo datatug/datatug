@@ -37,7 +37,6 @@ func (m *ActionsMenu) Clear() {
 		ActionMenuItem{
 			ID: "Help", Title: "F1 - Help",
 			SelectedFunc: func() {
-				return
 			},
 		},
 	)
@@ -58,7 +57,7 @@ func (m *ActionsMenu) RegisterActionMenuItems(items ...ActionMenuItem) error {
 		if title == "" {
 			title = item.ID
 		}
-		b := tview.NewButton(item.Title)
+		b := tview.NewButton(title)
 		b.SetSelectedFunc(item.SelectedFunc)
 		m.flex.AddItem(b, len(item.Title)+2, 0, false)
 		m.flex.AddItem(nil, 1, 0, false) // right margin

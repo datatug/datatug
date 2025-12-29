@@ -16,8 +16,8 @@ func NewTUI(app *tview.Application, root sneatv.Breadcrumb) *TUI {
 
 	menu := tview.NewTextView().SetText("Menu")
 	content := tview.NewTextView().SetText("Content")
-	tui.ActionsMenu = newActionsMenu(app)
-	tui.Grid = layoutGrid(tui.Header, menu, content, tui.ActionsMenu.flex)
+	tui.actionsMenu = newActionsMenu(app)
+	tui.Grid = layoutGrid(tui.Header, menu, content, tui.actionsMenu.flex)
 	app.SetInputCapture(tui.inputCapture)
 	return tui
 }
@@ -70,13 +70,13 @@ func (tui *TUI) inputCapture(event *tcell.EventKey) *tcell.EventKey {
 }
 
 type TUI struct {
-	App     *tview.Application
-	Grid    *tview.Grid
-	Header  *Header
-	Menu    Panel
-	Content Panel
-	stack   []Screen
-	ActionsMenu
+	App         *tview.Application
+	Grid        *tview.Grid
+	Header      *Header
+	Menu        Panel
+	Content     Panel
+	stack       []Screen
+	actionsMenu ActionsMenu
 }
 
 func (tui *TUI) StackDepth() int {
@@ -117,7 +117,7 @@ func (tui *TUI) SetPanels(menu, content Panel, options ...func(panelsOptions *se
 		tui.Menu = menu
 		tui.Header.breadcrumbs.SetNextFocusTarget(menu)
 	}
-	tui.Grid = layoutGrid(tui.Header, menu, content, tui.ActionsMenu.flex)
+	tui.Grid = layoutGrid(tui.Header, menu, content, tui.actionsMenu.flex)
 	tui.App.SetRoot(tui.Grid, true)
 	spo := &setPanelsOptions{
 		focusTo: FocusToContent,
