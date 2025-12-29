@@ -1,6 +1,7 @@
 package endpoints
 
 import (
+	"context"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -48,8 +49,9 @@ func executeCommandsHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	ctx := r.Context()
 	storeID := r.URL.Query().Get(urlParamStoreID)
-	response, err := api.ExecuteCommands(storeID, executeRequest)
+	response, err := api.ExecuteCommands(ctx, storeID, executeRequest)
 	returnJSON(w, r, http.StatusOK, err, response)
 }
 
@@ -123,7 +125,8 @@ func executeSelectHandler(w http.ResponseWriter, r *http.Request) {
 	if cols != "" {
 		request.Columns = strings.Split(cols, ",")
 	}
+	ctx := context.Background()
 	storeID := query.Get(urlParamStoreID)
-	response, err := api.ExecuteSelect(storeID, request)
+	response, err := api.ExecuteSelect(ctx, storeID, request)
 	returnJSON(w, r, http.StatusOK, err, response)
 }

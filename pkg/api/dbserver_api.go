@@ -35,7 +35,7 @@ func DeleteDbServer(ctx context.Context, ref dto.ProjectRef, dbServer datatug.Se
 	if err != nil {
 		return err
 	}
-	return store.DeleteProjDbServer(ctx, dbServer.ID())
+	return store.DeleteProjDbServer(ctx, dbServer.GetID())
 }
 
 // GetDbServerSummary returns summary on DB server
@@ -48,5 +48,5 @@ func GetDbServerSummary(ctx context.Context, ref dto.ProjectRef, dbServer datatu
 	if err != nil {
 		return nil, err
 	}
-	return store.LoadProjDbServerSummary(ctx, dbServer.ID())
+	return store.LoadProjDbServerSummary(ctx, dbServer.GetID())
 }

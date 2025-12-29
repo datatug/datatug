@@ -361,7 +361,7 @@ func (c demoCommand) updateDemoProjectDbServer(project *datatug.Project) (projDb
 func (c demoCommand) updateDemoProjectCatalog(projDbServer *datatug.ProjDbServer, catalogID string, demoDb demoDbFile) error {
 	catalog := projDbServer.Catalogs.GetDbByID(catalogID)
 	if catalog == nil {
-		catalog = new(datatug.DbCatalog)
+		catalog = new(datatug.EnvDbCatalog)
 		catalog.ID = catalogID
 		catalog.Driver = "sqlite3"
 		catalog.Path = demoDb.path

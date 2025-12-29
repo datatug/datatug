@@ -1,6 +1,7 @@
 package api
 
 import (
+	"context"
 	"fmt"
 	"strings"
 
@@ -57,7 +58,7 @@ func (v SelectRequest) Validate() error {
 }
 
 // ExecuteSelect executes select command
-func ExecuteSelect(storeID string, selectRequest SelectRequest) (response sqlexecute.Response, err error) {
+func ExecuteSelect(ctx context.Context, storeID string, selectRequest SelectRequest) (response sqlexecute.Response, err error) {
 	if err = selectRequest.Validate(); err != nil {
 		return
 	}
@@ -99,7 +100,7 @@ func ExecuteSelect(storeID string, selectRequest SelectRequest) (response sqlexe
 			command,
 		},
 	}
-	response, err = ExecuteCommands(storeID, request)
+	response, err = ExecuteCommands(ctx, storeID, request)
 	if err != nil {
 		err = fmt.Errorf("failed to execute select command: %w\n%v", err, command.Text)
 	}

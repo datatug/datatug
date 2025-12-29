@@ -47,7 +47,7 @@ func (v *showProjectCommand) Execute(_ []string) error {
 	for _, env := range project.Environments {
 		_, _ = fmt.Fprintln(w, "\t🌎 Environment: ", env.ID)
 		for _, dbServer := range env.DbServers {
-			_, _ = fmt.Fprintln(w, "\t\t🛢️🛢️ DB server: ", dbServer.ID())
+			_, _ = fmt.Fprintln(w, "\t\t🛢️🛢️ DB server: ", dbServer.GetID())
 			for _, db := range dbServer.Catalogs {
 				_, _ = fmt.Fprintln(w, "\t\t\t🛢️ DB: ", db)
 			}

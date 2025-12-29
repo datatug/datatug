@@ -23,8 +23,8 @@ func NewInformationSchema(server datatug.ServerReference /*, db *sql.DB*/) Infor
 }
 
 // GetDatabase returns complete information about a database
-func (s InformationSchema) GetDatabase(name string) (database *datatug.DbCatalog, err error) {
-	database = new(datatug.DbCatalog)
+func (s InformationSchema) GetDatabase(name string) (database *datatug.EnvDbCatalog, err error) {
+	database = new(datatug.EnvDbCatalog)
 	database.ID = name
 	var tables []*datatug.CollectionInfo
 	if tables, err = s.getTables(name); err != nil {

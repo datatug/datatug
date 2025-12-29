@@ -50,7 +50,7 @@ func UpdateDbSchema(ctx context.Context, projectLoader ProjectLoader, projectID,
 		return nil, validation.NewErrRequestIsMissingRequiredField("dbModelId")
 	}
 	var (
-		dbCatalog *datatug.DbCatalog
+		dbCatalog *datatug.EnvDbCatalog
 	)
 	var projSummaryErr error
 	getProjectSummaryWorker := func() error {
@@ -121,7 +121,7 @@ func UpdateDbSchema(ctx context.Context, projectLoader ProjectLoader, projectID,
 	return project, err
 }
 
-func updateProjectWithDbCatalog(project *datatug.Project, envID string, dbServerRef datatug.ServerReference, dbCatalog *datatug.DbCatalog) (err error) {
+func updateProjectWithDbCatalog(project *datatug.Project, envID string, dbServerRef datatug.ServerReference, dbCatalog *datatug.EnvDbCatalog) (err error) {
 	if envID == "" {
 		return validation.NewErrRequestIsMissingRequiredField("envID")
 	}
@@ -174,9 +174,9 @@ func updateProjectWithDbCatalog(project *datatug.Project, envID string, dbServer
 		projDbServer := project.DbServers.GetProjDbServer(dbServerRef)
 		if projDbServer == nil {
 			projDbServer = &datatug.ProjDbServer{
-				ProjectItem: datatug.ProjectItem{ProjItemBrief: datatug.ProjItemBrief{ID: dbServerRef.ID()}},
+				ProjectItem: datatug.ProjectItem{ProjItemBrief: datatug.ProjItemBrief{ID: dbServerRef.GetID()}},
 				Server:      dbServerRef,
-				Catalogs:    datatug.DbCatalogs{dbCatalog},
+				Catalogs:    datatug.EnvDbCatalogs{dbCatalog},
 			}
 			project.DbServers = append(project.DbServers, projDbServer)
 		}
@@ -198,7 +198,7 @@ func updateProjectWithDbCatalog(project *datatug.Project, envID string, dbServer
 	return nil
 }
 
-func newProjectWithDatabase(environment string, dbServer datatug.ServerReference, dbCatalog *datatug.DbCatalog) (project *datatug.Project, err error) {
+func newProjectWithDatabase(environment string, dbServer datatug.ServerReference, dbCatalog *datatug.EnvDbCatalog) (project *datatug.Project, err error) {
 	//var currentUser *user.User
 	//if currentUser, err = user.Current(); err != nil {
 	//	err = fmt.Errorf("failed to get current OS user")
@@ -232,9 +232,9 @@ func newProjectWithDatabase(environment string, dbServer datatug.ServerReference
 		},
 		DbServers: datatug.ProjDbServers{
 			{
-				ProjectItem: datatug.ProjectItem{ProjItemBrief: datatug.ProjItemBrief{ID: dbServer.ID()}},
+				ProjectItem: datatug.ProjectItem{ProjItemBrief: datatug.ProjItemBrief{ID: dbServer.GetID()}},
 				Server:      dbServer,
-				Catalogs: datatug.DbCatalogs{
+				Catalogs: datatug.EnvDbCatalogs{
 					dbCatalog,
 				},
 			},
@@ -244,7 +244,7 @@ func newProjectWithDatabase(environment string, dbServer datatug.ServerReference
 	return project, err
 }
 
-func scanDbCatalog(server datatug.ServerReference, connectionParams dbconnection.Params) (dbCatalog *datatug.DbCatalog, err error) {
+func scanDbCatalog(server datatug.ServerReference, connectionParams dbconnection.Params) (dbCatalog *datatug.EnvDbCatalog, err error) {
 	var db *sql.DB
 
 	if db, err = sql.Open(server.Driver, connectionParams.ConnectionString()); err != nil {
@@ -278,7 +278,7 @@ func scanDbCatalog(server datatug.ServerReference, connectionParams dbconnection
 	return
 }
 
-func updateDbModelWithDbCatalog(envID string, dbModel *datatug.DbModel, dbCatalog *datatug.DbCatalog) (err error) {
+func updateDbModelWithDbCatalog(envID string, dbModel *datatug.DbModel, dbCatalog *datatug.EnvDbCatalog) (err error) {
 	{ // Update dbmodel environments
 		environment := dbModel.Environments.GetByID(envID)
 		if environment == nil {
