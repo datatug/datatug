@@ -13,7 +13,7 @@ require (
 	github.com/charmbracelet/bubbles v0.21.0
 	github.com/charmbracelet/bubbletea v1.3.10
 	github.com/charmbracelet/lipgloss v1.1.0
-	github.com/dal-go/dalgo2sql v0.4.14
+	github.com/dal-go/dalgo2sql v0.4.18
 	github.com/datatug/datatug-core v0.15.8
 	github.com/datatug/sql2csv v0.0.0-20200927071952-a7fb986d1ec2
 	github.com/denisenkom/go-mssqldb v0.12.3
