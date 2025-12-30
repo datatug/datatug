@@ -24,17 +24,20 @@ type schemaProvider struct {
 	db *sql.DB
 }
 
-func (s schemaProvider) GetForeignKeysReader(c context.Context, schema, table string) (schemer.ForeignKeysReader, error) {
+func (s schemaProvider) GetForeignKeysReader(_ context.Context, schema, table string) (schemer.ForeignKeysReader, error) {
+	_, _ = schema, table
 	//TODO implement me
 	panic("implement me")
 }
 
-func (s schemaProvider) GetForeignKeys(c context.Context, schema, table string) ([]schemer.ForeignKey, error) {
+func (s schemaProvider) GetForeignKeys(_ context.Context, schema, table string) ([]schemer.ForeignKey, error) {
+	_, _ = schema, table
 	//TODO implement me
 	panic("implement me")
 }
 
-func (s schemaProvider) GetReferrers(ctx context.Context, schema, table string) ([]schemer.ForeignKey, error) {
+func (s schemaProvider) GetReferrers(_ context.Context, schema, table string) ([]schemer.ForeignKey, error) {
+	_, _ = schema, table
 	//TODO implement me
 	panic("implement me")
 }

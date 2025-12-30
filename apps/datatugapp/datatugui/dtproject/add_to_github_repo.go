@@ -2,6 +2,7 @@ package dtproject
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"os"
 	"path/filepath"
@@ -334,8 +335,9 @@ func AddToGitHubRepo(tui *sneatnav.TUI, client *github.Client, repo *github.Repo
 		// 1. Get the latest commit of the branch
 		ref, _, err := client.Git.GetRef(ctx, repoOwner, repoName, "heads/"+branch)
 		if err != nil {
-			// If repository is empty, we need to create the first commit
-			if gerr, ok := err.(*github.ErrorResponse); ok && (gerr.Response.StatusCode == 404 || gerr.Response.StatusCode == 409) {
+			// If the repository is empty, we need to create the first commit
+			var gErr *github.ErrorResponse
+			if errors.As(err, &gErr) && (gErr.Response.StatusCode == 404 || gErr.Response.StatusCode == 409) {
 				// Create initial README.md to initialize the repository
 				updateProgress(0, "initializing repository...")
 				_, _, err = client.Repositories.CreateFile(ctx, repoOwner, repoName, "README.md", &github.RepositoryContentFileOptions{

@@ -9,7 +9,7 @@ import (
 	"github.com/datatug/datatug-core/pkg/schemer"
 )
 
-func (s schemaProvider) GetForeignKeysReader(c context.Context, schema, table string) (r schemer.ForeignKeysReader, err error) {
+func (s schemaProvider) GetForeignKeysReader(_ context.Context, schema, table string) (r schemer.ForeignKeysReader, err error) {
 	_ = schema
 	var db *sql.DB
 	if db, err = s.getSqliteDB(); err != nil {

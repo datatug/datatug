@@ -16,7 +16,7 @@ import (
 	"github.com/rivo/tview"
 )
 
-type tablesBox struct {
+type TablesBox struct {
 	*tview.Table
 	tui            *sneatnav.TUI
 	dbContext      dtviewers.DbContext
@@ -27,11 +27,11 @@ type tablesBox struct {
 	nextFocus      tview.Primitive
 }
 
-func (b *tablesBox) SetNextFocus(next tview.Primitive) {
+func (b *TablesBox) SetNextFocus(next tview.Primitive) {
 	b.nextFocus = next
 }
 
-func (b *tablesBox) refreshTable() {
+func (b *TablesBox) refreshTable() {
 	headerText := "Name"
 	if b.filter != "" {
 		headerText = fmt.Sprintf("Tables [grey]~ [red]%s", b.filter)
@@ -63,9 +63,9 @@ func (b *tablesBox) refreshTable() {
 	b.ScrollToBeginning()
 }
 
-func NewTablesBox(tui *sneatnav.TUI, dbContext dtviewers.DbContext, collectionType datatug.CollectionType, title string) *tablesBox {
+func NewTablesBox(tui *sneatnav.TUI, dbContext dtviewers.DbContext, collectionType datatug.CollectionType, title string) *TablesBox {
 	table := tview.NewTable()
-	b := &tablesBox{
+	b := &TablesBox{
 		Table:          table,
 		tui:            tui,
 		dbContext:      dbContext,

@@ -127,10 +127,10 @@ func TestGetReferrers(t *testing.T) {
 	}
 
 	t.Run("error cases", func(t *testing.T) {
-		s_err := NewSchemaProvider(func() (*sql.DB, error) {
+		sErr := NewSchemaProvider(func() (*sql.DB, error) {
 			return nil, sql.ErrConnDone
 		})
-		_, err := s_err.GetReferrers(context.Background(), "", "User")
+		_, err := sErr.GetReferrers(context.Background(), "", "User")
 		if err == nil {
 			t.Error("expected error when DB connection fails")
 		}
@@ -139,10 +139,10 @@ func TestGetReferrers(t *testing.T) {
 		closedDB, _ := sql.Open("sqlite3", ":memory:")
 		_ = closedDB.Close()
 
-		s_closed := NewSchemaProvider(func() (*sql.DB, error) {
+		sClosed := NewSchemaProvider(func() (*sql.DB, error) {
 			return closedDB, nil
 		})
-		_, err = s_closed.GetReferrers(context.Background(), "", "User")
+		_, err = sClosed.GetReferrers(context.Background(), "", "User")
 		if err == nil {
 			t.Error("expected error when querying closed DB")
 		}
