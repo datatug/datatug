@@ -84,14 +84,14 @@ func (t *Tabs) renderTabs() {
 
 	for i, tab := range t.tabs {
 		if i == t.active {
-			fmt.Fprintf(
+			_, _ = fmt.Fprintf(
 				t.tabBar,
 				`["%d"][black:white] %s [-:-][""] `,
 				i,
 				tab.Title,
 			)
 		} else {
-			fmt.Fprintf(
+			_, _ = fmt.Fprintf(
 				t.tabBar,
 				`["%d"] %s [""] `,
 				i,
@@ -107,18 +107,16 @@ func (t *Tabs) handleInput(ev *tcell.EventKey) *tcell.EventKey {
 	case tcell.KeyRight:
 		t.SwitchTo((t.active + 1) % len(t.tabs))
 		return nil
-
 	case tcell.KeyLeft:
 		t.SwitchTo((t.active - 1 + len(t.tabs)) % len(t.tabs))
 		return nil
-	}
-
-	if ev.Modifiers() == tcell.ModAlt {
-		if ev.Rune() >= '1' && ev.Rune() <= '9' {
-			t.SwitchTo(int(ev.Rune() - '1'))
-			return nil
+	default:
+		if ev.Modifiers() == tcell.ModAlt {
+			if ev.Rune() >= '1' && ev.Rune() <= '9' {
+				t.SwitchTo(int(ev.Rune() - '1'))
+				return nil
+			}
 		}
+		return ev
 	}
-
-	return ev
 }
