@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"regexp"
 	"sort"
 	"strings"
 	"time"
@@ -250,12 +251,12 @@ func showRepoSelection(tui *sneatnav.TUI, client *github.Client, repos []*github
 }
 
 func AddToGitHubRepo(tui *sneatnav.TUI, client *github.Client, repo *github.Repository, repos []*github.Repository, reauth func()) {
-	owner := repo.GetOwner().GetLogin()
-	name := repo.GetName()
+	repoOwner := repo.GetOwner().GetLogin()
+	repoName := repo.GetName()
 	branch := repo.GetDefaultBranch()
 
-	projectID := fmt.Sprintf("github.com/%s/%s", owner, name)
-	projectTitle := fmt.Sprintf("%s @ github.com/%s", name, owner)
+	projectID := fmt.Sprintf("github.com/%s/%s", repoOwner, repoName)
+	projectTitle := fmt.Sprintf("%s @ github.com/%s", repoName, repoOwner)
 	projectDir := "~/datatug/" + projectID
 
 	// UI for progress
@@ -322,8 +323,8 @@ func AddToGitHubRepo(tui *sneatnav.TUI, client *github.Client, repo *github.Repo
 		}
 
 		configContent := `{
-  "id": "` + name + `",
-  "title": "` + name + `"
+  "id": "` + repoName + `",
+  "title": "` + repoName + `"
 }`
 		configFilePath := "datatug/" + filestore.ProjectSummaryFileName
 		readmeContent := "# DataTug Project\n\nThis directory contains DataTug project configuration."
@@ -331,15 +332,15 @@ func AddToGitHubRepo(tui *sneatnav.TUI, client *github.Client, repo *github.Repo
 
 		// We use the Git Data API to create multiple files in a single commit.
 		// 1. Get the latest commit of the branch
-		ref, _, err := client.Git.GetRef(ctx, owner, name, "heads/"+branch)
+		ref, _, err := client.Git.GetRef(ctx, repoOwner, repoName, "heads/"+branch)
 		if err != nil {
 			// If repository is empty, we need to create the first commit
 			if gerr, ok := err.(*github.ErrorResponse); ok && (gerr.Response.StatusCode == 404 || gerr.Response.StatusCode == 409) {
 				// Create initial README.md to initialize the repository
 				updateProgress(0, "initializing repository...")
-				_, _, err = client.Repositories.CreateFile(ctx, owner, name, "README.md", &github.RepositoryContentFileOptions{
+				_, _, err = client.Repositories.CreateFile(ctx, repoOwner, repoName, "README.md", &github.RepositoryContentFileOptions{
 					Message: github.Ptr("feat: initial commit"),
-					Content: []byte("# " + name + "\n\nDataTug project repository."),
+					Content: []byte("# " + repoName + "\n\nDataTug project repository."),
 					Branch:  github.Ptr(branch),
 				})
 				if err != nil {
@@ -349,7 +350,7 @@ func AddToGitHubRepo(tui *sneatnav.TUI, client *github.Client, repo *github.Repo
 					return
 				}
 				// Retry getting the ref
-				ref, _, err = client.Git.GetRef(ctx, owner, name, "heads/"+branch)
+				ref, _, err = client.Git.GetRef(ctx, repoOwner, repoName, "heads/"+branch)
 			}
 			if err != nil {
 				tui.App.QueueUpdateDraw(func() {
@@ -377,8 +378,8 @@ func AddToGitHubRepo(tui *sneatnav.TUI, client *github.Client, repo *github.Repo
 
 		// Check if files already exist to avoid overwriting or redundant commits
 		// Actually, if we just want to ensure they exist, we can check first.
-		existingConfig, _, _, _ := client.Repositories.GetContents(ctx, owner, name, configFilePath, &github.RepositoryContentGetOptions{Ref: branch})
-		existingReadme, _, _, _ := client.Repositories.GetContents(ctx, owner, name, readmeFilePath, &github.RepositoryContentGetOptions{Ref: branch})
+		existingConfig, _, _, _ := client.Repositories.GetContents(ctx, repoOwner, repoName, configFilePath, &github.RepositoryContentGetOptions{Ref: branch})
+		existingReadme, _, _, _ := client.Repositories.GetContents(ctx, repoOwner, repoName, readmeFilePath, &github.RepositoryContentGetOptions{Ref: branch})
 
 		var entriesToCreate []*github.TreeEntry
 		if existingConfig == nil {
@@ -389,7 +390,7 @@ func AddToGitHubRepo(tui *sneatnav.TUI, client *github.Client, repo *github.Repo
 		}
 
 		if len(entriesToCreate) > 0 {
-			tree, _, err := client.Git.CreateTree(ctx, owner, name, *ref.Object.SHA, entriesToCreate)
+			tree, _, err := client.Git.CreateTree(ctx, repoOwner, repoName, *ref.Object.SHA, entriesToCreate)
 			if err != nil {
 				tui.App.QueueUpdateDraw(func() {
 					sneatnav.ShowErrorModal(tui, fmt.Errorf("failed to create tree: %w", err))
@@ -398,7 +399,7 @@ func AddToGitHubRepo(tui *sneatnav.TUI, client *github.Client, repo *github.Repo
 			}
 
 			// 3. Create a commit
-			parent, _, err := client.Git.GetCommit(ctx, owner, name, *ref.Object.SHA)
+			parent, _, err := client.Git.GetCommit(ctx, repoOwner, repoName, *ref.Object.SHA)
 			if err != nil {
 				tui.App.QueueUpdateDraw(func() {
 					sneatnav.ShowErrorModal(tui, fmt.Errorf("failed to get parent commit: %w", err))
@@ -406,7 +407,7 @@ func AddToGitHubRepo(tui *sneatnav.TUI, client *github.Client, repo *github.Repo
 				return
 			}
 
-			commit, _, err := client.Git.CreateCommit(ctx, owner, name, github.Commit{
+			commit, _, err := client.Git.CreateCommit(ctx, repoOwner, repoName, github.Commit{
 				Message: github.Ptr("chore: add datatug project"),
 				Tree:    tree,
 				Parents: []*github.Commit{parent},
@@ -420,7 +421,7 @@ func AddToGitHubRepo(tui *sneatnav.TUI, client *github.Client, repo *github.Repo
 
 			// 4. Update the reference
 			ref.Object.SHA = commit.SHA
-			_, _, err = client.Git.UpdateRef(ctx, owner, name, ref.GetRef(), github.UpdateRef{
+			_, _, err = client.Git.UpdateRef(ctx, repoOwner, repoName, ref.GetRef(), github.UpdateRef{
 				SHA:   commit.GetSHA(),
 				Force: github.Ptr(false),
 			})
@@ -438,13 +439,23 @@ func AddToGitHubRepo(tui *sneatnav.TUI, client *github.Client, repo *github.Repo
 
 		// 2. Add 'DataTug' section to root README.md
 		updateProgress(1, "updating...")
-		rootReadme, _, err := client.Repositories.GetReadme(ctx, owner, name, &github.RepositoryContentGetOptions{Ref: branch})
+		rootReadme, _, err := client.Repositories.GetReadme(ctx, repoOwner, repoName, &github.RepositoryContentGetOptions{Ref: branch})
+
+		var dataTugSectionTitleRegex = regexp.MustCompile(`\n##\s*DataTug`)
+
+		getDataTugSectionForReadmeMD := func() string {
+			const dataTugSectionTitleText = "DataTug - [github.com/datatug/datatug](https://github.com/datatug/datatug)"
+			appLink := fmt.Sprintf("[DataTug.app](https://datatug.app/#%s)", projectID)
+			msg := fmt.Sprintf("The [/datatug](./datatug) project can be opened and edited in %s.", appLink)
+			return fmt.Sprintf("\n\n## DataTug - %s\n\n%s\n\n", dataTugSectionTitleText, msg)
+		}
+
 		if err == nil {
 			content, _ := rootReadme.GetContent()
-			if !strings.Contains(content, "## DataTug") {
-				newContent := content + "\n\n## DataTug\n\nThis project is enhanced with [DataTug](https://datatug.app). See the [datatug](./datatug) directory for details.\n"
-				_, _, err = client.Repositories.UpdateFile(ctx, owner, name, rootReadme.GetPath(), &github.RepositoryContentFileOptions{
-					Message: github.Ptr("chore: add DataTug section to README"),
+			if !dataTugSectionTitleRegex.Match([]byte(content)) {
+				newContent := content + getDataTugSectionForReadmeMD()
+				_, _, err = client.Repositories.UpdateFile(ctx, repoOwner, repoName, rootReadme.GetPath(), &github.RepositoryContentFileOptions{
+					Message: github.Ptr("chore: adds ##DataTug section to /README.md"),
 					Content: []byte(newContent),
 					SHA:     rootReadme.SHA,
 					Branch:  github.Ptr(branch),
@@ -457,9 +468,9 @@ func AddToGitHubRepo(tui *sneatnav.TUI, client *github.Client, repo *github.Repo
 				}
 			}
 		} else {
-			newContent := "# " + name + "\n\n## DataTug\n\nThis project is enhanced with [DataTug](https://datatug.app). See the [datatug](./datatug) directory for details.\n"
-			_, _, err = client.Repositories.CreateFile(ctx, owner, name, "README.md", &github.RepositoryContentFileOptions{
-				Message: github.Ptr("feat: add README with DataTug section"),
+			newContent := "# " + repoName + getDataTugSectionForReadmeMD()
+			_, _, err = client.Repositories.CreateFile(ctx, repoOwner, repoName, "README.md", &github.RepositoryContentFileOptions{
+				Message: github.Ptr("feat: creates /README.md with ##DataTug section"),
 				Content: []byte(newContent),
 				Branch:  github.Ptr(branch),
 			})
@@ -484,7 +495,7 @@ func AddToGitHubRepo(tui *sneatnav.TUI, client *github.Client, repo *github.Repo
 			_ = os.MkdirAll(parent, 0o755)
 			cloneUrl := repo.GetCloneURL()
 			if cloneUrl == "" {
-				cloneUrl = fmt.Sprintf("https://github.com/%s/%s.git", owner, name)
+				cloneUrl = fmt.Sprintf("https://github.com/%s/%s.git", repoOwner, repoName)
 			}
 			_, err = git.PlainClone(localDir, false, &git.CloneOptions{
 				URL:      cloneUrl,
