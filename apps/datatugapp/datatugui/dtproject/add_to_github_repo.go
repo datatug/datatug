@@ -360,37 +360,25 @@ func AddToGitHubRepo(tui *sneatnav.TUI, client *github.Client, repo *github.Repo
 			}
 		}
 
-		// 2. Create a tree with the new files
-		entries := []*github.TreeEntry{
-			{
-				Path:    github.Ptr(configFilePath),
-				Type:    github.Ptr("blob"),
-				Mode:    github.Ptr("100644"),
-				Content: github.Ptr(configContent),
-			},
-			{
-				Path:    github.Ptr(readmeFilePath),
-				Type:    github.Ptr("blob"),
-				Mode:    github.Ptr("100644"),
-				Content: github.Ptr(readmeContent),
-			},
+		var entries []*github.TreeEntry
+
+		addEntry := func(path string, content string) {
+			// Check if files already exist to avoid overwriting or redundant commits
+			if existing, _, _, _ := client.Repositories.GetContents(ctx, repoOwner, repoName, path, &github.RepositoryContentGetOptions{Ref: branch}); existing == nil {
+				entries = append(entries, &github.TreeEntry{
+					Path:    github.Ptr(path),
+					Type:    github.Ptr("blob"),
+					Mode:    github.Ptr("100644"),
+					Content: github.Ptr(content),
+				})
+			}
 		}
 
-		// Check if files already exist to avoid overwriting or redundant commits
-		// Actually, if we just want to ensure they exist, we can check first.
-		existingConfig, _, _, _ := client.Repositories.GetContents(ctx, repoOwner, repoName, configFilePath, &github.RepositoryContentGetOptions{Ref: branch})
-		existingReadme, _, _, _ := client.Repositories.GetContents(ctx, repoOwner, repoName, readmeFilePath, &github.RepositoryContentGetOptions{Ref: branch})
+		addEntry(configFilePath, configContent)
+		addEntry(readmeFilePath, readmeContent)
 
-		var entriesToCreate []*github.TreeEntry
-		if existingConfig == nil {
-			entriesToCreate = append(entriesToCreate, entries[0])
-		}
-		if existingReadme == nil {
-			entriesToCreate = append(entriesToCreate, entries[1])
-		}
-
-		if len(entriesToCreate) > 0 {
-			tree, _, err := client.Git.CreateTree(ctx, repoOwner, repoName, *ref.Object.SHA, entriesToCreate)
+		if len(entries) > 0 {
+			tree, _, err := client.Git.CreateTree(ctx, repoOwner, repoName, *ref.Object.SHA, entries)
 			if err != nil {
 				tui.App.QueueUpdateDraw(func() {
 					sneatnav.ShowErrorModal(tui, fmt.Errorf("failed to create tree: %w", err))
@@ -408,7 +396,7 @@ func AddToGitHubRepo(tui *sneatnav.TUI, client *github.Client, repo *github.Repo
 			}
 
 			commit, _, err := client.Git.CreateCommit(ctx, repoOwner, repoName, github.Commit{
-				Message: github.Ptr("chore: add datatug project"),
+				Message: github.Ptr("chore: adds datatug project"),
 				Tree:    tree,
 				Parents: []*github.Commit{parent},
 			}, &github.CreateCommitOptions{})
