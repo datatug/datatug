@@ -7,8 +7,8 @@ set the `Eliminate terminal in output console` to true. This is required by `tvi
 
 ## Project structure
 
-- [apps](../datatug/apps) – contains the logic of DataTug and other mini-apps
-    - [datatug](../datatug/apps/datatugapp) – defines `datatug` CLI commands & modules
+- [apps](../apps) – contains the logic of DataTug and other mini-apps
+    - [datatug](../apps/datatugapp) – defines `datatug` CLI commands & modules
 
 ## Contributing
 

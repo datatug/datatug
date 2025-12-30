@@ -116,7 +116,7 @@ We are open for pull requests to support other `sql` DBs.
 
 ## For developers
 
-Read [README-dev.md](README-dev.md) for details on how to setup, debug, and contribute.
+Read [README-dev.md](docs/README-dev.md) for details on how to setup, debug, and contribute.
 
 
 ## Dependencies & Credits
@@ -149,7 +149,7 @@ Read [README-dev.md](README-dev.md) for details on how to setup, debug, and cont
 
 ## Contributing
 
-We welcome contributions to DataTug! Please read our [contributing guidelines](CONTRIBUTING.md) for more information on how to contribute to the project.
+We welcome contributions to DataTug! Please read our [contributing guidelines](docs/CONTRIBUTING.md) for more information on how to contribute to the project.
 
 ## Download
 
