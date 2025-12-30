@@ -4,9 +4,6 @@ import (
 	"github.com/datatug/datatug/apps/datatugapp/datatugui/dtviewers"
 	"github.com/datatug/datatug/apps/datatugapp/datatugui/dtviewers/clouds"
 	"github.com/datatug/datatug/pkg/sneatview/sneatnav"
-	"github.com/datatug/datatug/pkg/sneatview/sneatv"
-	"github.com/gdamore/tcell/v2"
-	"github.com/rivo/tview"
 )
 
 const viewerID dtviewers.ViewerID = "azure"
@@ -24,32 +21,5 @@ func RegisterAsViewer() {
 }
 
 func GoAzureHome(cContext *AzureContext, focusTo sneatnav.FocusTo) error {
-	menu := dtviewers.NewCloudsMenu(cContext.TUI, viewerID)
-
-	textView := tview.NewTextView()
-	sneatv.DefaultBorderWithPadding(textView.Box)
-	textView.SetTitle("Microsoft Azure Viewer")
-	textView.SetText("Azure is not implemented yet.")
-
-	textView.SetInputCapture(func(event *tcell.EventKey) *tcell.EventKey {
-		switch event.Key() {
-		case tcell.KeyUp:
-			row, _ := textView.GetScrollOffset()
-			if row == 0 {
-				cContext.TUI.Header.SetFocus(sneatnav.ToBreadcrumbs, textView)
-				return nil
-			}
-			return event
-		case tcell.KeyLeft:
-			cContext.TUI.Menu.TakeFocus()
-			return nil
-		default:
-			return event
-		}
-	})
-
-	content := sneatnav.NewPanel(cContext.TUI, sneatnav.WithBox(textView, textView.Box))
-	cContext.TUI.SetPanels(menu, content, sneatnav.WithFocusTo(focusTo))
-
-	return nil
+	return clouds.GoCloudPlaceholderHome(cContext, viewerID, "Microsoft Azure Viewer", "Azure is not implemented yet.", focusTo)
 }

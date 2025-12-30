@@ -1,6 +1,7 @@
 package sqlinfoschema
 
 import (
+	"context"
 	"database/sql"
 	"fmt"
 	"log"
@@ -123,9 +124,7 @@ ORDER BY TABLE_SCHEMA, TABLE_NAME`)
 
 func (s InformationSchema) getConstraints(catalog string, tablesFinder schemer.SortedTables) (err error) {
 	log.Println("Getting constraints...")
-	var rows *sql.Rows
-	//goland:noinspection SqlNoDataSourceInspection
-	rows, err = s.db.Query(`SELECT
+	provider := ConstraintsProvider{DB: s.db, SQL: `SELECT
 	tc.TABLE_SCHEMA, tc.TABLE_NAME,
     tc.CONSTRAINT_TYPE, kcu.CONSTRAINT_NAME,
     kcu.COLUMN_NAME,-- kcu.ORDINAL_POSITION,
@@ -136,83 +135,71 @@ FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE AS kcu
 INNER JOIN INFORMATION_SCHEMA.TABLE_CONSTRAINTS AS tc ON tc.CONSTRAINT_CATALOG = kcu.CONSTRAINT_CATALOG AND tc.CONSTRAINT_SCHEMA = kcu.CONSTRAINT_SCHEMA AND tc.CONSTRAINT_NAME = kcu.CONSTRAINT_NAME
 LEFT JOIN INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS AS rc ON tc.CONSTRAINT_TYPE = 'FOREIGN KEY' AND rc.CONSTRAINT_CATALOG = tc.CONSTRAINT_CATALOG AND rc.CONSTRAINT_SCHEMA = tc.CONSTRAINT_SCHEMA AND rc.CONSTRAINT_NAME = tc.CONSTRAINT_NAME
 LEFT JOIN INFORMATION_SCHEMA.KEY_COLUMN_USAGE AS kcu2 ON kcu2.CONSTRAINT_CATALOG = rc.UNIQUE_CONSTRAINT_CATALOG AND kcu2.CONSTRAINT_SCHEMA = rc.UNIQUE_CONSTRAINT_SCHEMA AND kcu2.CONSTRAINT_NAME = rc.UNIQUE_CONSTRAINT_NAME AND kcu2.ORDINAL_POSITION = kcu.ORDINAL_POSITION
-ORDER BY tc.TABLE_SCHEMA, tc.TABLE_NAME, tc.CONSTRAINT_TYPE, kcu.CONSTRAINT_NAME, kcu.ORDINAL_POSITION`)
+ORDER BY tc.TABLE_SCHEMA, tc.TABLE_NAME, tc.CONSTRAINT_TYPE, kcu.CONSTRAINT_NAME, kcu.ORDINAL_POSITION`}
+	reader, err := provider.GetConstraints(context.Background(), "", "", "")
 	if err != nil {
 		return err
 	}
-	defer func() {
-		_ = rows.Close()
-	}()
-	var (
-		tSchema, tName                                                        string
-		constraintType, constraintName                                        string
-		columnName                                                            string
-		uniqueConstraintCatalog, uniqueConstraintSchema, uniqueConstraintName sql.NullString
-		matchOption, updateRule, deleteRule                                   sql.NullString
-		refTableCatalog, refTableSchema, refTableName, refColName             sql.NullString
-	)
 
-	for rows.Next() {
-		if err = rows.Scan(
-			&tSchema, &tName,
-			&constraintType, &constraintName,
-			&columnName,
-			&uniqueConstraintCatalog, &uniqueConstraintSchema, &uniqueConstraintName,
-			&matchOption, &updateRule, &deleteRule,
-			&refTableCatalog, &refTableSchema, &refTableName, &refColName,
-		); err != nil {
-			return fmt.Errorf("failed to scan constraints record: %w", err)
+	for {
+		constraint, err := reader.NextConstraint()
+		if err != nil {
+			return err
 		}
-		if table := tablesFinder.SequentialFind(catalog, tSchema, tName); table != nil {
-			switch constraintType {
+		if constraint == nil {
+			break
+		}
+
+		if table := tablesFinder.SequentialFind(catalog, constraint.SchemaName, constraint.TableName); table != nil {
+			switch constraint.Type {
 			case "PRIMARY KEY":
 				if table.PrimaryKey == nil {
-					table.PrimaryKey = &datatug.UniqueKey{Name: constraintName, Columns: []string{columnName}}
+					table.PrimaryKey = &datatug.UniqueKey{Name: constraint.Name, Columns: []string{constraint.ColumnName}}
 				} else {
-					table.PrimaryKey.Columns = append(table.PrimaryKey.Columns, columnName)
+					table.PrimaryKey.Columns = append(table.PrimaryKey.Columns, constraint.ColumnName)
 				}
 			case "UNIQUE":
-				if len(table.UniqueKeys) > 0 && table.UniqueKeys[len(table.UniqueKeys)-1].Name == constraintName {
+				if len(table.UniqueKeys) > 0 && table.UniqueKeys[len(table.UniqueKeys)-1].Name == constraint.Name {
 					i := len(table.UniqueKeys) - 1
-					table.UniqueKeys[i].Columns = append(table.UniqueKeys[i].Columns, columnName)
+					table.UniqueKeys[i].Columns = append(table.UniqueKeys[i].Columns, constraint.ColumnName)
 				} else {
-					table.UniqueKeys = append(table.UniqueKeys, &datatug.UniqueKey{Name: constraintName, Columns: []string{columnName}})
+					table.UniqueKeys = append(table.UniqueKeys, &datatug.UniqueKey{Name: constraint.Name, Columns: []string{constraint.ColumnName}})
 				}
 			case "FOREIGN KEY":
-				if len(table.ForeignKeys) > 0 && table.ForeignKeys[len(table.ForeignKeys)-1].Name == constraintName {
+				if len(table.ForeignKeys) > 0 && table.ForeignKeys[len(table.ForeignKeys)-1].Name == constraint.Name {
 					i := len(table.ForeignKeys) - 1
-					table.ForeignKeys[i].Columns = append(table.ForeignKeys[i].Columns, columnName)
+					table.ForeignKeys[i].Columns = append(table.ForeignKeys[i].Columns, constraint.ColumnName)
 				} else {
 					//refTable := refTableFinder.FindTable(refTableCatalog, refTableSchema, refTableName)
 					fk := datatug.ForeignKey{
-						Name:     constraintName,
-						Columns:  []string{columnName},
-						RefTable: datatug.NewTableKey(refTableName.String, refTableSchema.String, refTableCatalog.String, nil),
+						Name:     constraint.Name,
+						Columns:  []string{constraint.ColumnName},
+						RefTable: datatug.NewTableKey(constraint.RefTableName, constraint.RefTableSchema, constraint.RefTableCatalog, nil),
 					}
-					if matchOption.Valid {
-						fk.MatchOption = matchOption.String
+					if constraint.MatchOption != "" {
+						fk.MatchOption = constraint.MatchOption
 					}
-					if updateRule.Valid {
-						fk.UpdateRule = updateRule.String
+					if constraint.UpdateRule != "" {
+						fk.UpdateRule = constraint.UpdateRule
 					}
-					if deleteRule.Valid {
-						fk.DeleteRule = deleteRule.String
+					if constraint.DeleteRule != "" {
+						fk.DeleteRule = constraint.DeleteRule
 					}
 					table.ForeignKeys = append(table.ForeignKeys, &fk)
 
 					{ // Update reference table
-						refTable := schemer.FindTable(tablesFinder.Tables, refTableCatalog.String, refTableSchema.String, refTableName.String)
+						refTable := schemer.FindTable(tablesFinder.Tables, constraint.RefTableCatalog, constraint.RefTableSchema, constraint.RefTableName)
 						var refByFk *datatug.RefByForeignKey
 						if refTable == nil {
-							return fmt.Errorf("reference table not found: %v.%v.%v", refTableCatalog.String, refTableSchema.String, refTableName.String)
+							return fmt.Errorf("reference table not found: %v.%v.%v", constraint.RefTableCatalog, constraint.RefTableSchema, constraint.RefTableName)
 						}
 						var refByTable *datatug.TableReferencedBy
 						for _, refByTable = range refTable.ReferencedBy {
-							if refByTable.Catalog() == catalog && refByTable.Schema() == tSchema && refByTable.Name() == tName {
+							if refByTable.Catalog() == catalog && refByTable.Schema() == constraint.SchemaName && refByTable.Name() == constraint.TableName {
 								break
 							}
 						}
-						if refByTable == nil || refByTable.Catalog() != catalog || refByTable.Schema() != tSchema || refByTable.Name() != tName {
+						if refByTable == nil || refByTable.Catalog() != catalog || refByTable.Schema() != constraint.SchemaName || refByTable.Name() != constraint.TableName {
 							refByTable = &datatug.TableReferencedBy{
 								DBCollectionKey: table.DBCollectionKey,
 								ForeignKeys:     make([]*datatug.RefByForeignKey, 0, 1),
@@ -233,24 +220,22 @@ ORDER BY tc.TABLE_SCHEMA, tc.TABLE_NAME, tc.CONSTRAINT_TYPE, kcu.CONSTRAINT_NAME
 						}
 						refByTable.ForeignKeys = append(refByTable.ForeignKeys, refByFk)
 					fkAddedToRefByTable:
-						refByFk.Columns = append(refByFk.Columns, columnName)
+						refByFk.Columns = append(refByFk.Columns, constraint.ColumnName)
 					}
 				}
 			}
 		} else {
-			log.Printf("CollectionInfo not found: %v.%v.%v, table: %+v", catalog, tSchema, tName, table)
+			log.Printf("CollectionInfo not found: %v.%v.%v, table: %+v", catalog, constraint.SchemaName, constraint.TableName, table)
 			continue
 		}
 	}
 
-	return err
+	return nil
 }
 
 func (s InformationSchema) getColumns(catalog string, tablesFinder schemer.SortedTables) (err error) {
 	log.Println("Getting columns...")
-	var rows *sql.Rows
-	//goland:noinspection SqlNoDataSourceInspection
-	rows, err = s.db.Query(`SELECT
+	provider := ColumnsProvider{DB: s.db, SQL: `SELECT
     TABLE_SCHEMA,
     TABLE_NAME,
     COLUMN_NAME,
@@ -266,198 +251,63 @@ func (s InformationSchema) getColumns(catalog string, tablesFinder schemer.Sorte
 	COLLATION_CATALOG,
 	COLLATION_SCHEMA,
     COLLATION_NAME
-FROM INFORMATION_SCHEMA.COLUMNS ORDER BY TABLE_SCHEMA, TABLE_NAME, ORDINAL_POSITION`)
+FROM INFORMATION_SCHEMA.COLUMNS ORDER BY TABLE_SCHEMA, TABLE_NAME, ORDINAL_POSITION`}
+	columns, err := provider.GetColumns(context.Background(), "", schemer.ColumnsFilter{})
 	if err != nil {
-		return fmt.Errorf("failed to query INFORMATION_SCHEMA.COLUMNS: %w", err)
+		return err
 	}
-	defer func() {
-		_ = rows.Close()
-	}()
-	var isNullable string
-	var charSetCatalog, charSetSchema, charSetName sql.NullString
-	var collationCatalog, collationSchema, collationName sql.NullString
-	i := 0
-	for rows.Next() {
-		i++
-		c := new(datatug.ColumnInfo)
-		var tSchema, tName string
-		if err = rows.Scan(
-			&tSchema,
-			&tName,
-			&c.Name,
-			&c.OrdinalPosition,
-			&c.Default,
-			&isNullable,
-			&c.DbType,
-			&c.CharMaxLength,
-			&c.CharOctetLength,
-			&charSetCatalog,
-			&charSetSchema,
-			&charSetName,
-			&collationCatalog,
-			&collationSchema,
-			&collationName,
-		); err != nil {
-			return fmt.Errorf("failed to scan INFORMATION_SCHEMA.COLUMNS row into ColumnInfo struct: %w", err)
-		}
-		switch isNullable {
-		case "YES":
-			c.IsNullable = true
-		case "NO":
-			c.IsNullable = false
-		default:
-			err = fmt.Errorf("unknown value for IS_NULLABLE: %v", isNullable)
-			return
-		}
-		if charSetName.Valid && charSetName.String != "" {
-			c.CharacterSet = &datatug.CharacterSet{Name: charSetName.String}
-			if charSetSchema.Valid {
-				c.CharacterSet.Schema = charSetSchema.String
-			}
-			if charSetCatalog.Valid {
-				c.CharacterSet.Catalog = charSetCatalog.String
-			}
-		}
-		if collationName.Valid && collationName.String != "" {
-			c.Collation = &datatug.Collation{Name: collationName.String}
-			//if collationSchema.Valid {
-			//	c.Collation.schema = collationSchema.String
-			//}
-			//if collationCatalog.Valid {
-			//	c.Collation.catalog = collationCatalog.String
-			//}
-		}
-		/*
-			if table == nil || tName != table.ID || tSchema != table.schema || tCatalog != table.catalog {
-				for _, t := range tables {
-					if t.ID == tName && t.schema == tSchema && t.catalog == tCatalog {
-						//log.Printf("Found table: %+v", t)
-						table = t
-						break
-					}
-				}
-			}
-			if table == nil || table.ID != tName || table.schema != tSchema || table.catalog != tCatalog {
-			}
-		*/
-		if table := tablesFinder.SequentialFind(catalog, tSchema, tName); table != nil {
-			table.Columns = append(table.Columns, c)
+
+	for _, column := range columns {
+		if table := tablesFinder.SequentialFind(catalog, column.SchemaName, column.TableName); table != nil {
+			table.Columns = append(table.Columns, &column.ColumnInfo)
 		} else {
-			log.Printf("CollectionInfo not found: %v.%v.%v, table: %+v", catalog, tSchema, tName, table)
+			log.Printf("CollectionInfo not found: %v.%v.%v", catalog, column.SchemaName, column.TableName)
 			continue
 		}
 	}
-	fmt.Println("Processed columns:", i)
+	fmt.Println("Processed columns:", len(columns))
 	return err
 }
 
 func (s InformationSchema) getIndexes(catalog string, tablesFinder schemer.SortedTables) (err error) {
 	log.Println("Getting indexes...")
-	var rows *sql.Rows
-	//goland:noinspection SqlNoDataSourceInspection
-	rows, err = s.db.Query(`SELECT 
+	provider := IndexesProvider{DB: s.db, SQL: `SELECT 
     SCHEMA_NAME(o.schema_id) AS schema_name,
 	o.name AS object_name,
     CASE WHEN o.type = 'U' THEN 'CollectionInfo'
         WHEN o.type = 'V' THEN 'View'
 		ELSE o.type
         END AS object_type,
-	--i.name as index_name,
-	--column_names,
-	/*
-    case when i.type = 1 then 'IsClustered index'
-        when i.type = 2 then 'Nonclustered unique index'
-        when i.type = 3 then 'XML index'
-        when i.type = 4 then 'Spatial index'
-        when i.type = 5 then 'IsClustered columnstore index'
-        when i.type = 6 then 'Nonclustered columnstore index'
-        when i.type = 7 then 'Nonclustered hash index'
-        end as type_description,*/
-    i.*
+	i.name,
+	i.type,
+	i.type_desc,
+	is_unique,
+	is_primary_key,
+	is_unique_constraint
 FROM sys.indexes AS i
 INNER JOIN sys.objects o ON o.object_id = i.object_id
 WHERE o.is_ms_shipped <> 1 --and index_id > 0
-ORDER BY SCHEMA_NAME(o.schema_id) + '.' + o.name, i.name;`)
+ORDER BY SCHEMA_NAME(o.schema_id) + '.' + o.name, i.name;`}
+	reader, err := provider.GetIndexes(context.Background(), "", "", "")
 	if err != nil {
-		return fmt.Errorf("failed to query INFORMATION_SCHEMA.COLUMNS: %w", err)
+		return err
 	}
-	defer func() {
-		_ = rows.Close()
-	}()
-	var isNullable string
-	var charSetCatalog, charSetSchema, charSetName sql.NullString
-	var collationCatalog, collationSchema, collationName sql.NullString
-	i := 0
-	for rows.Next() {
-		i++
-		c := new(datatug.ColumnInfo)
-		var tSchema, tName string
-		if err = rows.Scan(
-			&tSchema,
-			&tName,
-			&c.Name,
-			&c.OrdinalPosition,
-			&c.Default,
-			&isNullable,
-			&c.DbType,
-			&c.CharMaxLength,
-			&c.CharOctetLength,
-			&charSetCatalog,
-			&charSetSchema,
-			&charSetName,
-			&collationCatalog,
-			&collationSchema,
-			&collationName,
-		); err != nil {
-			return fmt.Errorf("failed to scan INFORMATION_SCHEMA.COLUMNS row into ColumnInfo struct: %w", err)
+
+	for {
+		index, err := reader.NextIndex()
+		if err != nil {
+			return err
 		}
-		switch isNullable {
-		case "YES":
-			c.IsNullable = true
-		case "NO":
-			c.IsNullable = false
-		default:
-			err = fmt.Errorf("unknown value for IS_NULLABLE: %v", isNullable)
-			return
+		if index == nil {
+			break
 		}
-		if charSetName.Valid && charSetName.String != "" {
-			c.CharacterSet = &datatug.CharacterSet{Name: charSetName.String}
-			if charSetSchema.Valid {
-				c.CharacterSet.Schema = charSetSchema.String
-			}
-			if charSetCatalog.Valid {
-				c.CharacterSet.Catalog = charSetCatalog.String
-			}
-		}
-		if collationName.Valid && collationName.String != "" {
-			c.Collation = &datatug.Collation{Name: collationName.String}
-			//if collationSchema.Valid {
-			//	c.Collation.schema = collationSchema.String
-			//}
-			//if collationCatalog.Valid {
-			//	c.Collation.catalog = collationCatalog.String
-			//}
-		}
-		/*
-			if table == nil || tName != table.ID || tSchema != table.schema || tCatalog != table.catalog {
-				for _, t := range tables {
-					if t.ID == tName && t.schema == tSchema && t.catalog == tCatalog {
-						//log.Printf("Found table: %+v", t)
-						table = t
-						break
-					}
-				}
-			}
-			if table == nil || table.ID != tName || table.schema != tSchema || table.catalog != tCatalog {
-			}
-		*/
-		if table := tablesFinder.SequentialFind(catalog, tSchema, tName); table != nil {
-			table.Columns = append(table.Columns, c)
+
+		if table := tablesFinder.SequentialFind(catalog, index.SchemaName, index.TableName); table != nil {
+			table.Indexes = append(table.Indexes, index.Index)
 		} else {
-			log.Printf("CollectionInfo not found: %v.%v.%v, table: %+v", catalog, tSchema, tName, table)
+			log.Printf("CollectionInfo not found: %v.%v.%v", catalog, index.SchemaName, index.TableName)
 			continue
 		}
 	}
-	fmt.Println("Processed columns:", i)
-	return err
+	return nil
 }

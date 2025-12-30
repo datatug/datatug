@@ -6,7 +6,6 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"io"
 	"net/http"
 	"time"
 
@@ -61,20 +60,15 @@ type DeviceCodeResponse struct {
 	Interval        int    `json:"interval"`
 }
 
-// RequestDeviceCode requests a device code from GitHub.
-func RequestDeviceCode(ctx context.Context, clientID string) (*DeviceCodeResponse, error) {
-	data := map[string]string{
-		"client_id": clientID,
-		"scope":     "repo",
-	}
+func postJSON(ctx context.Context, url string, data interface{}, target interface{}) error {
 	body, err := json.Marshal(data)
 	if err != nil {
-		return nil, fmt.Errorf("failed to marshal request body: %w", err)
+		return fmt.Errorf("failed to marshal request body: %w", err)
 	}
 
-	req, err := http.NewRequestWithContext(ctx, "POST", "https://github.com/login/device/code", bytes.NewBuffer(body))
+	req, err := http.NewRequestWithContext(ctx, "POST", url, bytes.NewBuffer(body))
 	if err != nil {
-		return nil, fmt.Errorf("failed to create request: %w", err)
+		return fmt.Errorf("failed to create request: %w", err)
 	}
 	req.Header.Set("Content-Type", "application/json")
 	req.Header.Set("Accept", "application/json")
@@ -82,21 +76,37 @@ func RequestDeviceCode(ctx context.Context, clientID string) (*DeviceCodeRespons
 	client := &http.Client{}
 	resp, err := client.Do(req)
 	if err != nil {
-		return nil, fmt.Errorf("failed to send request: %w", err)
+		return fmt.Errorf("failed to send request: %w", err)
 	}
 	defer func() {
 		_ = resp.Body.Close()
 	}()
 
 	if resp.StatusCode != http.StatusOK {
-		return nil, fmt.Errorf("unexpected status code: %d", resp.StatusCode)
+		return fmt.Errorf("unexpected status code: %d", resp.StatusCode)
 	}
 
+	if target == nil {
+		return nil
+	}
+
+	if err := json.NewDecoder(resp.Body).Decode(target); err != nil {
+		return fmt.Errorf("failed to decode response: %w", err)
+	}
+
+	return nil
+}
+
+// RequestDeviceCode requests a device code from GitHub.
+func RequestDeviceCode(ctx context.Context, clientID string) (*DeviceCodeResponse, error) {
+	data := map[string]string{
+		"client_id": clientID,
+		"scope":     "repo",
+	}
 	var res DeviceCodeResponse
-	if err := json.NewDecoder(resp.Body).Decode(&res); err != nil {
-		return nil, fmt.Errorf("failed to decode response: %w", err)
+	if err := postJSON(ctx, "https://github.com/login/device/code", data, &res); err != nil {
+		return nil, err
 	}
-
 	return &res, nil
 }
 
@@ -149,51 +159,27 @@ func requestToken(ctx context.Context, clientID, clientSecret, deviceCode string
 	if clientSecret != "" {
 		data["client_secret"] = clientSecret
 	}
-	body, err := json.Marshal(data)
-	if err != nil {
-		return nil, fmt.Errorf("failed to marshal request body: %w", err)
-	}
 
-	req, err := http.NewRequestWithContext(ctx, "POST", "https://github.com/login/oauth/access_token", bytes.NewBuffer(body))
-	if err != nil {
-		return nil, fmt.Errorf("failed to create request: %w", err)
-	}
-	req.Header.Set("Content-Type", "application/json")
-	req.Header.Set("Accept", "application/json")
-
-	client := &http.Client{}
-	resp, err := client.Do(req)
-	if err != nil {
-		return nil, fmt.Errorf("failed to send request: %w", err)
-	}
-	defer func() {
-		_ = resp.Body.Close()
-	}()
-
-	respBody, err := io.ReadAll(resp.Body)
-	if err != nil {
-		return nil, fmt.Errorf("failed to read response body: %w", err)
-	}
-
-	var errRes struct {
+	var res struct {
+		oauth2.Token
 		Error            string `json:"error"`
 		ErrorDescription string `json:"error_description"`
 	}
-	if err = json.Unmarshal(respBody, &errRes); err == nil && errRes.Error != "" {
-		switch errRes.Error {
+
+	if err := postJSON(ctx, "https://github.com/login/oauth/access_token", data, &res); err != nil {
+		return nil, err
+	}
+
+	if res.Error != "" {
+		switch res.Error {
 		case "authorization_pending":
 			return nil, errAuthorizationPending
 		case "slow_down":
 			return nil, errSlowDown
 		default:
-			return nil, fmt.Errorf("github error: %s (%s)", errRes.Error, errRes.ErrorDescription)
+			return nil, fmt.Errorf("github error: %s (%s)", res.Error, res.ErrorDescription)
 		}
 	}
 
-	var token oauth2.Token
-	if err = json.Unmarshal(respBody, &token); err != nil {
-		return nil, fmt.Errorf("failed to decode token: %w", err)
-	}
-
-	return &token, nil
+	return &res.Token, nil
 }

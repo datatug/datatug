@@ -48,6 +48,15 @@ func (p *projectMenuPanel) SetProject(project *datatug.Project) {
 	})
 }
 
+func getOrCreateProjectMenuPanel(ctx ProjectContext, currentScreen ProjectScreenID) *projectMenuPanel {
+	if existing := ctx.TUI().Menu; existing != nil {
+		if m, ok := existing.(*projectMenuPanel); ok {
+			return m
+		}
+	}
+	return newProjectMenuPanel(ctx, currentScreen)
+}
+
 func newProjectMenuPanel(ctx ProjectContext, currentScreen ProjectScreenID) *projectMenuPanel {
 	tree := tview.NewTreeView()
 

@@ -1,36 +1,31 @@
 package dtproject
 
-//import (
-//	"github.com/datatug/datatug/pkg/sneatview/sneatnav"
-//	"github.com/datatug/datatug-core/pkg/appconfig"
-//)
-//
-//func newProjectRootScreenBase(
-//	tui *sneatnav.TUI,
-//	project appconfig.ProjectConfig,
-//	screen ProjectScreenID,
-//	main sneatnav.Panel,
-//) sneatnav.ScreenBase {
-//	grid := projectScreenGrid(tui, project, screen, main)
-//
-//	screenBase := sneatnav.NewScreenBase(tui, grid, sneatnav.FullScreen())
-//
-//	screenBase.TakeFocus()
-//
-//	return screenBase
-//}
-//
-//func projectScreenGrid(
-//	tui *sneatnav.TUI,
-//	project appconfig.ProjectConfig,
-//	screenID ProjectScreenID,
-//	main sneatnav.Panel,
-//) (screen sneatnav.Screen) {
-//	_ = NewProjectMenuPanel(tui, project, screenID)
-//
-//	screen = newDefaultLayout(tui, projectsRootScreen, func(tui *sneatnav.TUI) (sneatnav.Panel, error) {
-//		return main, nil
-//	})
-//
-//	return screen
-//}
+import (
+	"fmt"
+
+	"github.com/datatug/datatug/pkg/sneatview/sneatnav"
+	"github.com/gdamore/tcell/v2"
+	"github.com/rivo/tview"
+)
+
+func newListPanel[T any](tui *sneatnav.TUI, title string, items []T, getIDTitle func(T) (string, string), err error) sneatnav.Panel {
+	if err != nil {
+		textView := tview.NewTextView()
+		textView.SetText(err.Error())
+		textView.SetTextColor(tcell.ColorRed)
+		return sneatnav.NewPanel(tui, sneatnav.WithBox(textView, textView.Box))
+	}
+
+	list := tview.NewList()
+	list.SetTitle(fmt.Sprintf("%s (%d)", title, len(items)))
+	list.SetWrapAround(false)
+	for _, item := range items {
+		itemID, itemTitle := getIDTitle(item)
+		if itemTitle == itemID {
+			itemTitle = ""
+		}
+		list.AddItem(itemID, itemTitle, rune(itemID[0]), nil)
+	}
+
+	return sneatnav.NewPanel(tui, sneatnav.WithBox(list, list.Box))
+}

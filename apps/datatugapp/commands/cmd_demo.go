@@ -40,16 +40,20 @@ func demoCommandArgs() *cli.Command {
 		Name:        "demo",
 		Usage:       "Installs & runs demo",
 		Description: "Adds demo DB & creates or update demo DataTug project",
-		Action:      demoCommandAction,
+		Flags: []cli.Flag{
+			&cli.BoolFlag{Name: "reset-db", Usage: "Re-downloads demo DB file from internet"},
+			&cli.BoolFlag{Name: "reset-project", Usage: "Recreates demo project"},
+		},
+		Action: demoCommandAction,
 	}
 }
 
 type demoCommand struct {
-	ResetDB      bool `long:"reset-db" required:"false" description:"Re-downloads demo DB file from internet"`
-	ResetProject bool `long:"reset-project" required:"false" description:"Recreates demo project"`
+	ResetDB      bool
+	ResetProject bool
 }
 
-func (c demoCommand) Execute(_ []string) error {
+func (c demoCommand) Execute() error {
 	datatugUserDirPath, err := c.getDatatugUserDirPath()
 	demoProjectPath := path.Join(datatugUserDirPath, demoProjectDir)
 	if err != nil {
@@ -412,57 +416,10 @@ func (c demoCommand) updateDemoProjectEnvironments(project *datatug.Project, cat
 	return nil
 }
 
-func demoCommandAction(_ context.Context, _ *cli.Command) error {
-	c := demoCommand{}
-	datatugUserDirPath, err := c.getDatatugUserDirPath()
-	demoProjectPath := path.Join(datatugUserDirPath, demoProjectDir)
-	if err != nil {
-		return fmt.Errorf("failed to get datatug user dir: %w", err)
+func demoCommandAction(_ context.Context, cmd *cli.Command) error {
+	c := demoCommand{
+		ResetDB:      cmd.Bool("reset-db"),
+		ResetProject: cmd.Bool("reset-project"),
 	}
-
-	dbFilePaths := []string{
-		path.Join(datatugUserDirPath, demoDbsDirName, chinookSQLiteLocalFileName),
-		path.Join(datatugUserDirPath, demoDbsDirName, chinookSQLiteProdFileName),
-	}
-	if c.ResetDB {
-		if err = c.reDownloadChinookDb(dbFilePaths...); err != nil {
-			return err
-		}
-	} else if _, err := os.Stat(demoProjectPath); os.IsNotExist(err) {
-		if err = c.downloadChinookSQLiteFile(dbFilePaths...); err != nil {
-			return fmt.Errorf("failed to download Chinook db file: %w", err)
-		}
-		if err = c.VerifyChinookDb(dbFilePaths...); err != nil {
-			return fmt.Errorf("failed to verify downloaded demo db: %w", err)
-		}
-	} else if err != nil {
-		return fmt.Errorf("failed to check if demo db file exists: %w", err)
-	}
-
-	log.Println("Demo project folder already exists.")
-	if err = c.VerifyChinookDb(dbFilePaths...); err != nil {
-		log.Println("Failed to verify demo db:", err)
-		if err = c.reDownloadChinookDb(dbFilePaths...); err != nil {
-			return err
-		}
-	}
-
-	if c.ResetProject {
-		if err := os.RemoveAll(demoProjectPath); err != nil {
-			return fmt.Errorf("failed to remove existig demo project: %w", err)
-		}
-	}
-	demoDbFiles := []demoDbFile{
-		{path: dbFilePaths[0], env: "local", model: chinookDbModel},
-		{path: dbFilePaths[1], env: "prod", model: chinookDbModel},
-	}
-	if err = c.createOrUpdateDemoProject(demoProjectPath, demoDbFiles); err != nil {
-		return fmt.Errorf("failed to create or update demo project: %w", err)
-	}
-	if err = c.addDemoProjectToDatatugConfig(datatugUserDirPath, demoProjectPath); err != nil {
-		return fmt.Errorf("failed to update datatug config: %w", err)
-	}
-	log.Println("DataTug demo project is ready!")
-	log.Println("Run `./datatug serve` to see the demo project.")
-	return nil
+	return c.Execute()
 }

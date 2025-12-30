@@ -93,36 +93,7 @@ func TestGetReferrers(t *testing.T) {
 			if err != nil {
 				t.Fatalf("failed to get referrers for %s: %v", tc.table, err)
 			}
-			if len(referrers) != len(tc.expected) {
-				t.Errorf("expected %d referrers for %s, got %d", len(tc.expected), tc.table, len(referrers))
-			}
-
-			for _, expectedFK := range tc.expected {
-				found := false
-				for _, actualFK := range referrers {
-					if actualFK.From.Name == expectedFK.From.Name {
-						// Check columns
-						if len(actualFK.From.Columns) != len(expectedFK.From.Columns) {
-							continue
-						}
-						match := true
-						for i := range actualFK.From.Columns {
-							if actualFK.From.Columns[i] != expectedFK.From.Columns[i] ||
-								actualFK.To.Columns[i] != expectedFK.To.Columns[i] {
-								match = false
-								break
-							}
-						}
-						if match {
-							found = true
-							break
-						}
-					}
-				}
-				if !found {
-					t.Errorf("missing expected referrer for %s from %s with columns %v -> %v", tc.table, expectedFK.From.Name, expectedFK.From.Columns, expectedFK.To.Columns)
-				}
-			}
+			assertForeignKeys(t, tc.table, tc.expected, referrers, true)
 		})
 	}
 

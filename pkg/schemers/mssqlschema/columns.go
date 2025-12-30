@@ -2,11 +2,9 @@ package mssqlschema
 
 import (
 	"context"
-	"database/sql"
-	"fmt"
 
-	"github.com/datatug/datatug-core/pkg/datatug"
 	"github.com/datatug/datatug-core/pkg/schemer"
+	"github.com/datatug/datatug/pkg/schemers/sqlinfoschema"
 )
 
 //goland:noinspection SqlNoDataSourceInspection
@@ -32,101 +30,15 @@ FROM INFORMATION_SCHEMA.COLUMNS ORDER BY TABLE_SCHEMA, TABLE_NAME, ORDINAL_POSIT
 var _ schemer.ColumnsProvider = (*columnsProvider)(nil)
 
 type columnsProvider struct {
-	db *sql.DB
+	sqlinfoschema.ColumnsProvider
 }
 
-func (v columnsProvider) GetColumnsReader(_ context.Context, catalog string, filter schemer.ColumnsFilter) (schemer.ColumnsReader, error) {
-	_, _ = catalog, filter
-	rows, err := v.db.Query(columnsSQL)
-	if err != nil {
-		return nil, fmt.Errorf("failed to retrieve columns: %w", err)
-	}
-	return columnsReader{rows: rows}, nil
+func (v columnsProvider) GetColumnsReader(ctx context.Context, catalog string, filter schemer.ColumnsFilter) (schemer.ColumnsReader, error) {
+	v.SQL = columnsSQL
+	return v.ColumnsProvider.GetColumnsReader(ctx, catalog, filter)
 }
 
 func (v columnsProvider) GetColumns(ctx context.Context, catalog string, filter schemer.ColumnsFilter) ([]schemer.Column, error) {
-	r, err := v.GetColumnsReader(ctx, catalog, filter)
-	if err != nil {
-		return nil, err
-	}
-	return schemer.ReadColumns(ctx, r)
-}
-
-var _ schemer.ColumnsReader = (*columnsReader)(nil)
-
-type columnsReader struct {
-	rows *sql.Rows
-}
-
-func (s columnsReader) NextColumn() (col schemer.Column, err error) {
-	var isNullable string
-	var charSetCatalog, charSetSchema, charSetName sql.NullString
-	var collationCatalog, collationSchema, collationName sql.NullString
-	if !s.rows.Next() {
-		err = s.rows.Err()
-		if err != nil {
-			err = fmt.Errorf("failed to retrieve column row: %w", err)
-		}
-		return col, err
-	}
-	if err = s.rows.Scan(
-		&col.SchemaName,
-		&col.TableName,
-		&col.Name,
-		&col.OrdinalPosition,
-		&col.Default,
-		&isNullable,
-		&col.DbType,
-		&col.CharMaxLength,
-		&col.CharOctetLength,
-		&charSetCatalog,
-		&charSetSchema,
-		&charSetName,
-		&collationCatalog,
-		&collationSchema,
-		&collationName,
-	); err != nil {
-		return col, fmt.Errorf("failed to scan INFORMATION_SCHEMA.COLUMNS row into TableColumn struct: %w", err)
-	}
-	switch isNullable {
-	case "YES":
-		col.IsNullable = true
-	case "NO":
-		col.IsNullable = false
-	default:
-		err := fmt.Errorf("unknown value for IS_NULLABLE: %v", isNullable)
-		return col, err
-	}
-	if charSetName.Valid && charSetName.String != "" {
-		col.CharacterSet = &datatug.CharacterSet{Name: charSetName.String}
-		if charSetSchema.Valid {
-			col.CharacterSet.Schema = charSetSchema.String
-		}
-		if charSetCatalog.Valid {
-			col.CharacterSet.Catalog = charSetCatalog.String
-		}
-	}
-	if collationName.Valid && collationName.String != "" {
-		col.Collation = &datatug.Collation{Name: collationName.String}
-		//if collationSchema.Valid {
-		//	c.Collation.schema = collationSchema.String
-		//}
-		//if collationCatalog.Valid {
-		//	c.Collation.catalog = collationCatalog.String
-		//}
-	}
-	/*
-		if table == nil || tName != table.ID || tSchema != table.schema || tCatalog != table.catalog {
-			for _, t := range tables {
-				if t.ID == tName && t.schema == tSchema && t.catalog == tCatalog {
-					//log.Printf("Found table: %+v", t)
-					table = t
-					break
-				}
-			}
-		}
-		if table == nil || table.ID != tName || table.schema != tSchema || table.catalog != tCatalog {
-		}
-	*/
-	return col, nil
+	v.SQL = columnsSQL
+	return v.ColumnsProvider.GetColumns(ctx, catalog, filter)
 }

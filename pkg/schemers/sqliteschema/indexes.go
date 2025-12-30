@@ -2,44 +2,21 @@ package sqliteschema
 
 import (
 	"context"
-	"database/sql"
-	"fmt"
 
-	"github.com/datatug/datatug-core/pkg/datatug"
 	"github.com/datatug/datatug-core/pkg/schemer"
+	"github.com/datatug/datatug/pkg/schemers/sqlinfoschema"
 )
 
 var _ schemer.IndexesProvider = (*indexesProvider)(nil)
 
 type indexesProvider struct {
-	db *sql.DB
+	sqlinfoschema.IndexesProvider
 }
 
-func (v indexesProvider) GetIndexes(_ context.Context, catalog, schema, table string) (schemer.IndexesReader, error) {
-	_, _, _ = catalog, schema, table
-	rows, err := v.db.Query(indexesSQL)
-	if err != nil {
-		return nil, fmt.Errorf("failed to retrieve indexes: %w", err)
-	}
-	return indexesReader{rows: rows}, nil
+func (v indexesProvider) GetIndexes(ctx context.Context, catalog, schema, table string) (schemer.IndexesReader, error) {
+	v.SQL = indexesSQL
+	return v.IndexesProvider.GetIndexes(ctx, catalog, schema, table)
 }
-
-var _ = (schemer.IndexesReader)(nil)
-
-type indexesReader struct {
-	rows *sql.Rows
-}
-
-/*
-case when i.type = 1 then 'Clustered index'
-when i.type = 2 then 'Nonclustered unique index'
-when i.type = 3 then 'XML index'
-when i.type = 4 then 'Spatial index'
-when i.type = 5 then 'Clustered columnstore index'
-when i.type = 6 then 'Nonclustered columnstore index'
-when i.type = 7 then 'Nonclustered hash index'
-end as type_description,
-*/
 
 //goland:noinspection SqlNoDataSourceInspection
 const indexesSQL = `
@@ -58,44 +35,3 @@ INNER JOIN sys.objects o ON o.object_id = i.object_id
 WHERE o.is_ms_shipped <> 1 AND i.type > 0
 ORDER BY SCHEMA_NAME(o.schema_id) + '.' + o.name, i.name
 `
-
-func (s indexesReader) NextIndex() (index *schemer.Index, err error) {
-	if !s.rows.Next() {
-		err = s.rows.Err()
-		if err != nil {
-			err = fmt.Errorf("failed to retrieve index row: %w", s.rows.Err())
-		}
-		return index, err
-	}
-	index = &schemer.Index{
-		Index: new(datatug.Index),
-	}
-	var iType int
-	if err = s.rows.Scan(
-		&index.SchemaName,
-		&index.TableName,
-		&index.TableType,
-		&index.Name,
-		&iType,
-		&index.Type,
-		&index.IsUnique,
-		&index.IsPrimaryKey,
-		&index.IsUniqueConstraint,
-	); err != nil {
-		return index, fmt.Errorf("failed to scan index row: %w", err)
-	}
-	switch iType {
-	case 1:
-		index.IsClustered = true
-	case 3:
-		index.IsXML = true
-	case 5:
-		index.IsClustered = true
-		index.IsColumnStore = true
-	case 6:
-		index.IsColumnStore = true
-	case 7:
-		index.IsHash = true
-	}
-	return index, nil
-}

@@ -24,24 +24,38 @@ func updateUrlConfigCommandArgs() *cli.Command {
 		Name:        "updateUrlConfig",
 		Usage:       "Executes query or a consoleCommand",
 		Description: "The `updateUrlConfig` consoleCommand executes consoleCommand or query. Like an SQL query or an SQL stored procedure.",
-		Action:      updateUrlConfigCommandAction,
+		Flags: []cli.Flag{
+			&cli.StringFlag{Name: "driver", Aliases: []string{"D"}, Usage: "SQL driver"},
+			&cli.StringFlag{Name: "host", Aliases: []string{"h"}, Usage: "Database host", Value: "localhost"},
+			&cli.StringFlag{Name: "mode", Usage: "rw - ReadWrite, ro - ReadOnly (default for SQLite)"},
+			&cli.StringFlag{Name: "port", Usage: "Database port"},
+			&cli.StringFlag{Name: "user", Aliases: []string{"U"}, Usage: "Database user"},
+			&cli.StringFlag{Name: "password", Aliases: []string{"P"}, Usage: "Database password"},
+			&cli.StringFlag{Name: "project", Aliases: []string{"p"}, Usage: "DataTug project ID"},
+			&cli.StringFlag{Name: "schema", Aliases: []string{"s"}, Usage: "Database schema"},
+			&cli.StringFlag{Name: "query", Aliases: []string{"q"}, Usage: "SQL query"},
+			&cli.StringFlag{Name: "consoleCommand-text", Aliases: []string{"t"}, Usage: "SQL command text"},
+			&cli.StringFlag{Name: "output-path", Aliases: []string{"o"}, Usage: "Output path"},
+			&cli.StringFlag{Name: "output-format", Aliases: []string{"f"}, Usage: "Output format (csv)", Value: "csv"},
+		},
+		Action: updateUrlConfigCommandAction,
 	}
 }
 
 // executeSQLCommand defines parameters for updateUrlConfig SQL consoleCommand
 type executeSQLCommand struct {
-	Driver       string `short:"D" long:"driver" required:"true"`
-	Host         string `short:"h" long:"host" required:"true" default:"localhost"`
-	Mode         string `long:"mode" description:"rw - ReadWrite, ro - ReadOnly (default for SQLite)"`
-	Port         string `long:"port"`
-	User         string `short:"U" long:"user"`
-	Password     string `short:"P" long:"password"`
-	Project      string `short:"p" long:"project"`
-	Schema       string `short:"s" long:"schema"`
-	Query        string `short:"q" long:"query"`
-	CommandText  string `short:"t" long:"consoleCommand-text" required:"true"`
-	OutputPath   string `short:"o" long:"output-path"`
-	OutputFormat string `short:"f" long:"output-format" choice:"csv" default:"csv"`
+	Driver       string
+	Host         string
+	Mode         string
+	Port         string
+	User         string
+	Password     string
+	Project      string
+	Schema       string
+	Query        string
+	CommandText  string
+	OutputPath   string
+	OutputFormat string
 }
 
 func (v *executeSQLCommand) Validate() error {
@@ -52,8 +66,8 @@ func (v *executeSQLCommand) Validate() error {
 }
 
 // Execute - executes SQL consoleCommand
-func (v *executeSQLCommand) Execute(args []string) error {
-	fmt.Printf("Validating (%+v): %v\n", v, args)
+func (v *executeSQLCommand) Execute() error {
+	fmt.Printf("Executing (%+v)\n", v)
 	var err error
 
 	var options []string
@@ -211,83 +225,23 @@ func (handler writerHandler) Process(columnTypes []*sql.ColumnType, rows *sql.Ro
 	return err
 }
 
-func updateUrlConfigCommandAction(_ context.Context, _ *cli.Command) error {
-	v := &executeSQLCommand{}
-	fmt.Printf("Validating (%+v): %v\n", v, nil)
-	var err error
-
-	var options []string
-
-	if v.Port != "" {
-		options = append(options, "port="+v.Port)
+func updateUrlConfigCommandAction(_ context.Context, cmd *cli.Command) error {
+	v := &executeSQLCommand{
+		Driver:       cmd.String("driver"),
+		Host:         cmd.String("host"),
+		Mode:         cmd.String("mode"),
+		Port:         cmd.String("port"),
+		User:         cmd.String("user"),
+		Password:     cmd.String("password"),
+		Project:      cmd.String("project"),
+		Schema:       cmd.String("schema"),
+		Query:        cmd.String("query"),
+		CommandText:  cmd.String("consoleCommand-text"),
+		OutputPath:   cmd.String("output-path"),
+		OutputFormat: cmd.String("output-format"),
 	}
-
-	if v.Mode != "" {
-		options = append(options, "mode="+v.Mode)
-	}
-
-	connString, err := dbconnection.NewConnectionString(v.Driver, v.Host, v.User, v.Password, v.Schema, options...)
-	if err != nil {
+	if err := v.Validate(); err != nil {
 		return err
 	}
-
-	var db *sql.DB
-
-	log.Printf("Connecting to: %v\n", regexp.MustCompile("password=.+?(;|$)").ReplaceAllString(connString.String(), "password=******"))
-
-	// Create connection pool
-
-	if db, err = sql.Open(v.Driver, connString.String()); err != nil {
-		log.Fatal("Error creating connection pool: " + err.Error())
-	}
-	// Close the database connection pool after consoleCommand executes
-	defer func() {
-		if err := db.Close(); err != nil {
-			log.Printf("Failed to close DB: %v", err)
-		}
-	}()
-	log.Println("Connected")
-
-	if strings.HasPrefix(v.CommandText, "*=") {
-		v.CommandText = "SELECT * FROM " + strings.TrimLeft(v.CommandText, "*=")
-	}
-
-	var rows *sql.Rows
-	if rows, err = db.Query(v.CommandText); err != nil {
-		log.Printf("Failed to updateUrlConfig %v: %v", v.CommandText, err)
-		return err
-	}
-	defer func() {
-		if err := rows.Close(); err != nil {
-			log.Printf("Failed to close rows reader: %v", err)
-		}
-	}()
-
-	var columnTypes []*sql.ColumnType
-	if columnTypes, err = rows.ColumnTypes(); err != nil {
-		return err
-	}
-	colNames := make([]interface{}, len(columnTypes))
-	colSpec := make([]string, len(columnTypes))
-	colTypeNames := make([]string, len(columnTypes))
-	for i, colType := range columnTypes {
-		colNames[i] = colType.Name()
-		colTypeNames[i] = colType.DatabaseTypeName()
-		colSpec[i] = fmt.Sprintf("%v: %v", colNames[i], colTypeNames[i])
-	}
-	log.Printf(`
-----------
-%v
-----------
---	GetColumns:
---		%v
-`, v.CommandText, strings.Join(colSpec, "\n--\t\t"))
-
-	var handler rowsHandler
-	if v.OutputPath != "" {
-		handler = csvHandler{path: v.OutputPath}
-	} else {
-		handler = writerHandler{os.Stdout}
-	}
-	return handler.Process(columnTypes, rows)
+	return v.Execute()
 }

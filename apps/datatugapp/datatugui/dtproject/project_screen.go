@@ -26,7 +26,7 @@ func GoProjectScreen(projectCtx ProjectContext) {
 		title = parts[len(parts)-1]
 	}
 	breadcrumbs.Push(sneatv.NewBreadcrumb(title, nil))
-	menu := newProjectMenuPanel(projectCtx, "project")
+	menu := getOrCreateProjectMenuPanel(projectCtx, "project")
 	content := NewProjectPanel(tui, pConfig)
 	tui.SetPanels(menu, content, sneatnav.WithFocusTo(sneatnav.FocusToMenu))
 

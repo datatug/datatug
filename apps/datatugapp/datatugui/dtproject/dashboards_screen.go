@@ -5,7 +5,7 @@ import (
 )
 
 func goProjectDashboards(ctx ProjectContext) {
-	menu := newProjectMenuPanel(ctx, "dashboards")
+	menu := getOrCreateProjectMenuPanel(ctx, "dashboards")
 	content := newDashboardsPanel(ctx)
 	ctx.TUI().SetPanels(menu, content, sneatnav.WithFocusTo(sneatnav.FocusToMenu))
 }

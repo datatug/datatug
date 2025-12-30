@@ -2,29 +2,21 @@ package mssqlschema
 
 import (
 	"context"
-	"database/sql"
-	"fmt"
 
-	"github.com/datatug/datatug-core/pkg/datatug"
 	"github.com/datatug/datatug-core/pkg/schemer"
+	"github.com/datatug/datatug/pkg/schemers/sqlinfoschema"
 )
 
 var _ schemer.ConstraintsProvider = (*constraintsProvider)(nil)
 
 type constraintsProvider struct {
-	db *sql.DB
+	sqlinfoschema.ConstraintsProvider
 }
 
 func (v constraintsProvider) GetConstraints(c context.Context, catalog, schema, table string) (schemer.ConstraintsReader, error) {
-	_, _, _, _ = c, catalog, schema, table
-	rows, err := v.db.Query(constraintsSQL)
-	if err != nil {
-		return nil, fmt.Errorf("failed to retrieve constraints: %w", err)
-	}
-	return constraintsReader{rows: rows}, nil
+	v.SQL = constraintsSQL
+	return v.ConstraintsProvider.GetConstraints(c, catalog, schema, table)
 }
-
-var _ schemer.ConstraintsReader = (*constraintsReader)(nil)
 
 //goland:noinspection SqlNoDataSourceInspection
 const constraintsSQL = `
@@ -41,31 +33,3 @@ LEFT JOIN INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS AS rc ON tc.CONSTRAINT_TYPE
 LEFT JOIN INFORMATION_SCHEMA.KEY_COLUMN_USAGE AS kcu2 ON kcu2.CONSTRAINT_CATALOG = rc.UNIQUE_CONSTRAINT_CATALOG AND kcu2.CONSTRAINT_SCHEMA = rc.UNIQUE_CONSTRAINT_SCHEMA AND kcu2.CONSTRAINT_NAME = rc.UNIQUE_CONSTRAINT_NAME AND kcu2.ORDINAL_POSITION = kcu.ORDINAL_POSITION
 ORDER BY tc.TABLE_SCHEMA, tc.TABLE_NAME, tc.CONSTRAINT_TYPE, kcu.CONSTRAINT_NAME, kcu.ORDINAL_POSITION
 `
-
-type constraintsReader struct {
-	rows *sql.Rows
-}
-
-func (s constraintsReader) NextConstraint() (constraint *schemer.Constraint, err error) {
-	if !s.rows.Next() {
-		err = s.rows.Err()
-		if err != nil {
-			err = fmt.Errorf("failed to retrive constraints record: %w", err)
-		}
-		return
-	}
-	constraint = new(schemer.Constraint)
-	constraint.Constraint = new(datatug.Constraint)
-	if err = s.rows.Scan(
-		&constraint.SchemaName, &constraint.TableName,
-		&constraint.Type, &constraint.Name,
-		&constraint.ColumnName,
-		&constraint.UniqueConstraintCatalog, &constraint.UniqueConstraintSchema, &constraint.UniqueConstraintName,
-		&constraint.MatchOption, &constraint.UpdateRule, &constraint.DeleteRule,
-		&constraint.RefTableCatalog, &constraint.RefTableSchema, &constraint.RefTableName, &constraint.RefColName,
-	); err != nil {
-		err = fmt.Errorf("failed to scan constraints record: %w", err)
-		return
-	}
-	return
-}

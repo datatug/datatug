@@ -2,32 +2,20 @@ package sqliteschema
 
 import (
 	"context"
-	"database/sql"
-	"fmt"
 
-	"github.com/datatug/datatug-core/pkg/datatug"
 	"github.com/datatug/datatug-core/pkg/schemer"
+	"github.com/datatug/datatug/pkg/schemers/sqlinfoschema"
 )
 
 var _ schemer.IndexColumnsProvider = (*indexColumnsProvider)(nil)
 
 type indexColumnsProvider struct {
-	db *sql.DB
+	sqlinfoschema.IndexColumnsProvider
 }
 
-func (v indexColumnsProvider) GetIndexColumns(_ context.Context, catalog, schema, table, index string) (schemer.IndexColumnsReader, error) {
-	_, _, _, _ = catalog, schema, table, index
-	rows, err := v.db.Query(indexColumnsSQL)
-	if err != nil {
-		return nil, fmt.Errorf("failed to retrieve index columns: %w", err)
-	}
-	return indexColumnsReader{rows: rows}, nil
-}
-
-var _ schemer.IndexColumnsReader = (*indexColumnsReader)(nil)
-
-type indexColumnsReader struct {
-	rows *sql.Rows
+func (v indexColumnsProvider) GetIndexColumns(ctx context.Context, catalog, schema, table, index string) (schemer.IndexColumnsReader, error) {
+	v.SQL = indexColumnsSQL
+	return v.IndexColumnsProvider.GetIndexColumns(ctx, catalog, schema, table, index)
 }
 
 //goland:noinspection SqlNoDataSourceInspection
@@ -51,34 +39,3 @@ INNER JOIN sys.objects o ON o.object_id = ic.object_id
 WHERE o.is_ms_shipped <> 1 --and i.index_id > 0
 ORDER BY SCHEMA_NAME(o.schema_id), o.name, i.name, ic.key_ordinal
 `
-
-func (s indexColumnsReader) NextIndexColumn() (indexColumn *schemer.IndexColumn, err error) {
-	if !s.rows.Next() {
-		err = s.rows.Err()
-		if err != nil {
-			err = fmt.Errorf("failed to retrieve index row: %w", err)
-		}
-		return indexColumn, err
-	}
-	indexColumn = &schemer.IndexColumn{
-		IndexColumn: new(datatug.IndexColumn),
-	}
-	//var objType string
-	var keyOrdinal, partitionOrdinal, columnStoreOrderOrdinal int
-	if err = s.rows.Scan(
-		&indexColumn.SchemaName,
-		&indexColumn.TableName,
-		//&objType,
-		//&indexColumn.TableType,
-		&indexColumn.IndexName,
-		&indexColumn.Name,
-		&keyOrdinal,
-		&partitionOrdinal,
-		&indexColumn.IsDescending,
-		&indexColumn.IsIncludedColumn,
-		&columnStoreOrderOrdinal,
-	); err != nil {
-		return indexColumn, fmt.Errorf("failed to scan index column row: %w", err)
-	}
-	return indexColumn, nil
-}
