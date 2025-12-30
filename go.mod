@@ -14,7 +14,7 @@ require (
 	github.com/charmbracelet/bubbletea v1.3.10
 	github.com/charmbracelet/lipgloss v1.1.0
 	github.com/dal-go/dalgo2sql v0.4.14
-	github.com/datatug/datatug-core v0.15.7
+	github.com/datatug/datatug-core v0.15.8
 	github.com/datatug/sql2csv v0.0.0-20200927071952-a7fb986d1ec2
 	github.com/denisenkom/go-mssqldb v0.12.3
 	github.com/gdamore/tcell/v2 v2.13.5
@@ -41,7 +41,7 @@ require (
 	github.com/RoaringBitmap/roaring/v2 v2.14.4 // indirect
 	github.com/bits-and-blooms/bitset v1.24.4 // indirect
 	github.com/georgysavva/scany/v2 v2.1.4 // indirect
-	github.com/google/go-querystring v1.1.0 // indirect
+	github.com/google/go-querystring v1.2.0 // indirect
 	github.com/mschoch/smat v0.2.0 // indirect
 )
 
@@ -81,7 +81,7 @@ require (
 	github.com/go-git/go-billy/v5 v5.7.0 // indirect
 	github.com/go-logr/logr v1.4.3 // indirect
 	github.com/go-logr/stdr v1.2.2 // indirect
-	github.com/godbus/dbus/v5 v5.2.1 // indirect
+	github.com/godbus/dbus/v5 v5.2.2 // indirect
 	github.com/golang-sql/civil v0.0.0-20220223132316-b832511892a9 // indirect
 	github.com/golang-sql/sqlexp v0.1.0 // indirect
 	github.com/golang/groupcache v0.0.0-20241129210726-2c02b8208cf8 // indirect
@@ -109,12 +109,12 @@ require (
 	github.com/sahilm/fuzzy v0.1.1 // indirect
 	github.com/sergi/go-diff v1.4.0 // indirect
 	github.com/skeema/knownhosts v1.3.2 // indirect
-	github.com/sneat-co/sneat-go-core v0.54.9
+	github.com/sneat-co/sneat-go-core v0.54.10
 	github.com/strongo/analytics v0.2.3 // indirect
 	github.com/strongo/decimal v0.1.1 // indirect
 	github.com/strongo/random v0.0.1
 	github.com/strongo/slice v0.3.3
-	github.com/strongo/strongoapp v0.31.12 // indirect
+	github.com/strongo/strongoapp v0.31.13 // indirect
 	github.com/xanzy/ssh-agent v0.3.3 // indirect
 	github.com/xo/terminfo v0.0.0-20220910002029-abceb7e1c41e // indirect
 	go.opentelemetry.io/auto/sdk v1.2.1 // indirect
