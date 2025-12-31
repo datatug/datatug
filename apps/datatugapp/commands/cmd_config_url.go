@@ -10,7 +10,7 @@ package commands
 //}
 //
 ////nolint:unused // used only by legacy commands
-//func (v *urlConfigCommand) updateUrlConfig(urlConfig *appconfig.UrlConfig) (changed bool) {
+//func (v *urlConfigCommand) updateUrlConfig(urlConfig *dtconfig.UrlConfig) (changed bool) {
 //	if v.Reset {
 //		urlConfig.Host = ""
 //		urlConfig.Port = 0

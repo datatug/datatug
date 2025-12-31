@@ -7,7 +7,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/datatug/datatug-core/pkg/appconfig"
+	"github.com/datatug/datatug-core/pkg/dtconfig"
 	"github.com/urfave/cli/v3"
 	"gopkg.in/yaml.v3"
 )
@@ -33,7 +33,7 @@ func projectsAddCommandArgs() *cli.Command {
 // Execute executes "projects add" consoleCommand
 func (v *addProjectCommand) Execute(_ []string) error {
 	_, _ = fmt.Println("Reading settings file...")
-	settings, err := appconfig.GetSettings()
+	settings, err := dtconfig.GetSettings()
 	if err != nil && !errors.Is(err, os.ErrNotExist) {
 		return fmt.Errorf("failed to read settings file: %v", err)
 	}
@@ -45,7 +45,7 @@ func (v *addProjectCommand) Execute(_ []string) error {
 		}
 		return fmt.Errorf("project with name [%v] already added to settings with path: %v", projectID, project.Url)
 	}
-	projectConfig := appconfig.ProjectConfig{ID: projectID, Path: v.ProjectDir}
+	projectConfig := dtconfig.ProjectRef{ID: projectID, Path: v.ProjectDir}
 
 	settings.Projects = append(settings.Projects, &projectConfig)
 
@@ -56,7 +56,7 @@ func (v *addProjectCommand) Execute(_ []string) error {
 	return nil
 }
 
-func saveConfig(config appconfig.Settings) error {
+func saveConfig(config dtconfig.Settings) error {
 	configFilePath := "~/.datatug.yaml"
 	f, err := os.Create(configFilePath)
 	if err != nil {

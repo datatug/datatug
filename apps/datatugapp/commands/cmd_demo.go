@@ -11,8 +11,8 @@ import (
 	"path"
 	"strings"
 
-	"github.com/datatug/datatug-core/pkg/appconfig"
 	"github.com/datatug/datatug-core/pkg/datatug"
+	"github.com/datatug/datatug-core/pkg/dtconfig"
 	"github.com/datatug/datatug-core/pkg/dto"
 	"github.com/datatug/datatug-core/pkg/parallel"
 	"github.com/datatug/datatug-core/pkg/storage"
@@ -265,7 +265,7 @@ func (c demoCommand) createOrUpdateDemoProject(demoProjectPath string, demoDbFil
 
 func (c demoCommand) addDemoProjectToDatatugConfig(datatugUserDir, demoProjectPath string) error {
 	log.Printf("Adding demo project to DataTug settings into %v...", datatugUserDir)
-	settings, err := appconfig.GetSettings()
+	settings, err := dtconfig.GetSettings()
 	if err != nil {
 		if !os.IsNotExist(err) {
 			return fmt.Errorf("failed to read datatug settings: %w", err)

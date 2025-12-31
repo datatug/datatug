@@ -4,7 +4,7 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/datatug/datatug-core/pkg/appconfig"
+	"github.com/datatug/datatug-core/pkg/dtconfig"
 	"github.com/datatug/datatug-core/pkg/storage/filestore"
 	"github.com/datatug/datatug/pkg/sneatview/sneatnav"
 	"github.com/go-git/go-git/v5"
@@ -18,8 +18,8 @@ const datatugDemoProjectFullID = "github.com/" + datatugDemoProjectOrg + "/" + d
 const datatugDemoProjectGitHubURL = "https://" + datatugDemoProjectFullID
 const datatugDemoProjectDir = "~/datatug/" + datatugDemoProjectFullID
 
-func newLocalDemoProjectConfig() *appconfig.ProjectConfig {
-	return &appconfig.ProjectConfig{
+func newLocalDemoProjectConfig() *dtconfig.ProjectRef {
+	return &dtconfig.ProjectRef{
 		ID:    datatugDemoProjectFullID,
 		Path:  datatugDemoProjectDir,
 		Url:   datatugDemoProjectGitHubURL,
@@ -36,12 +36,12 @@ func openDatatugDemoProject(tui *sneatnav.TUI) {
 		panic(err)
 	}
 	openDemoProject := func() {
-		pConfig := &appconfig.ProjectConfig{
+		pConfig := dtconfig.ProjectRef{
 			ID:  datatugDemoProjectFullID,
 			Url: datatugDemoProjectGitHubURL,
 		}
 		loader := filestore.NewProjectsLoader("~/datatug")
-		projectCtx := NewProjectContext(tui, pConfig, loader)
+		projectCtx := NewProjectContext(tui, loader, pConfig)
 		GoProjectScreen(projectCtx)
 	}
 

@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/datatug/datatug-core/pkg/appconfig"
+	"github.com/datatug/datatug-core/pkg/dtconfig"
 	"github.com/datatug/datatug-core/pkg/storage/filestore"
 	"github.com/datatug/datatug/pkg/server"
 	"github.com/pkg/browser"
@@ -18,8 +18,8 @@ import (
 
 func serveCommandAction(_ context.Context, _ *cli.Command) error {
 	v := &serveCommand{}
-	var config appconfig.Settings
-	config, err := appconfig.GetSettings()
+	var config dtconfig.Settings
+	config, err := dtconfig.GetSettings()
 	if err != nil {
 		return err
 	}

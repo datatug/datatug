@@ -4,13 +4,13 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/datatug/datatug-core/pkg/appconfig"
+	"github.com/datatug/datatug-core/pkg/dtconfig"
 	"github.com/datatug/datatug/pkg/sneatview/sneatnav"
 	"github.com/datatug/datatug/pkg/sneatview/sneatv"
 	"github.com/rivo/tview"
 )
 
-func NewProjectPanel(tui *sneatnav.TUI, projectConfig *appconfig.ProjectConfig) sneatnav.Panel {
+func NewProjectPanel(tui *sneatnav.TUI, projectConfig *dtconfig.ProjectRef) sneatnav.Panel {
 	content := tview.NewTextView().SetTextAlign(tview.AlignCenter)
 	projectTitle := GetProjectTitle(projectConfig)
 	sneatv.SetPanelTitle(content.Box, fmt.Sprintf("Project: %s", projectTitle))
@@ -41,7 +41,7 @@ func GoProjectScreen(projectCtx ProjectContext) {
 
 }
 
-func GetProjectTitle(p *appconfig.ProjectConfig) (projectTitle string) {
+func GetProjectTitle(p *dtconfig.ProjectRef) (projectTitle string) {
 	projectTitle = p.Title
 	if projectTitle == "" {
 		projectTitle = p.ID
@@ -52,7 +52,7 @@ func GetProjectTitle(p *appconfig.ProjectConfig) (projectTitle string) {
 	return projectTitle
 }
 
-func GetProjectShortTitle(p *appconfig.ProjectConfig) (projectTitle string) {
+func GetProjectShortTitle(p *dtconfig.ProjectRef) (projectTitle string) {
 	projectTitle = GetProjectTitle(p)
 	if parts := strings.Split(projectTitle, "/"); len(parts) > 1 {
 		projectTitle = parts[len(parts)-1]

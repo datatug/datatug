@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"sort"
 
-	"github.com/datatug/datatug-core/pkg/appconfig"
+	"github.com/datatug/datatug-core/pkg/dtconfig"
 	"github.com/datatug/datatug-core/pkg/storage/filestore"
 	"github.com/datatug/datatug/apps/datatugapp/datatugui"
 	"github.com/datatug/datatug/pkg/sneatcolors"
@@ -22,7 +22,7 @@ var _ sneatnav.Cell = (*projectsPanel)(nil)
 type projectsPanel struct {
 	sneatnav.PanelBase
 	tui              *sneatnav.TUI
-	projects         []*appconfig.ProjectConfig
+	projects         []*dtconfig.ProjectRef
 	selectProjectID  string
 	localTree        *tview.TreeView
 	cloudTree        *tview.TreeView
@@ -90,18 +90,18 @@ func newProjectsPanel(tui *sneatnav.TUI) (*projectsPanel, error) {
 
 	sneatv.SetPanelTitle(panel.GetBox(), "Projects")
 
-	settings, err := appconfig.GetSettings()
+	settings, err := dtconfig.GetSettings()
 	if err != nil {
 		logus.Errorf(ctx, "Failed to get app settings: %v", err)
 		//return nil, err
 	}
 
-	openProject := func(projectConfig *appconfig.ProjectConfig) {
+	openProjectByRef := func(projectConfig dtconfig.ProjectRef) {
 		if projectConfig.ID == datatugDemoProjectFullID {
 			openDatatugDemoProject(tui)
 		} else {
 			loader := filestore.NewProjectsLoader("~/datatug")
-			projectCtx := NewProjectContext(tui, projectConfig, loader)
+			projectCtx := NewProjectContext(tui, loader, projectConfig)
 			GoProjectScreen(projectCtx)
 		}
 	}
@@ -193,7 +193,7 @@ func newProjectsPanel(tui *sneatnav.TUI) (*projectsPanel, error) {
 	cloudsRoot.AddChild(datatugCloud)
 
 	// DataTug demo project
-	datatugDemoProject := &appconfig.ProjectConfig{
+	datatugDemoProject := &dtconfig.ProjectRef{
 		ID:  datatugDemoProjectRepoID,
 		Url: "cloud",
 	}
@@ -216,13 +216,13 @@ func newProjectsPanel(tui *sneatnav.TUI) (*projectsPanel, error) {
 		reference := node.GetReference()
 		if reference != nil {
 			switch ref := reference.(type) {
-			case *appconfig.ProjectConfig:
+			case *dtconfig.ProjectRef:
 				panel.selectProjectID = ref.ID
 				if ref.ID == datatugDemoProjectFullID {
 					openDatatugDemoProject(tui)
 					return
 				}
-				openProject(ref)
+				openProjectByRef(*ref)
 			case string:
 				switch ref {
 				case "login":
@@ -341,7 +341,7 @@ func newProjectsPanel(tui *sneatnav.TUI) (*projectsPanel, error) {
 			//	reference := currentNode.GetReference()
 			//	if reference != nil {
 			//		switch ref := reference.(type) {
-			//		case *appconfig.ProjectConfig:
+			//		case *dtconfig.ProjectRef:
 			//			// Call goProjectDashboards when ENTER is pressed on a project node
 			//			GoProjectScreen(tui, ref)
 			//			return nil
@@ -386,10 +386,10 @@ func (p *projectsPanel) applyNodeStyling(tree *tview.TreeView, isActive bool) {
 		return
 	}
 
-	// Check node reference for *appconfig.ProjectConfig to determine node type
+	// Check node reference for *dtconfig.ProjectRef to determine node type
 	switch reference.(type) {
-	case *appconfig.ProjectConfig:
-		// Project link node - has *appconfig.ProjectConfig reference
+	case *dtconfig.ProjectRef:
+		// Project link node - has *dtconfig.ProjectRef reference
 		if isActive {
 			currentNode.SetColor(tcell.ColorWhite)
 			currentNode.SetSelectedTextStyle(currentNode.GetSelectedTextStyle().Foreground(tcell.ColorBlack))

@@ -93,32 +93,37 @@ func addRowsToRecordset(w http.ResponseWriter, r *http.Request) {
 
 // deleteRowsFromRecordset deletes rows from a recordset
 func deleteRowsFromRecordset(w http.ResponseWriter, r *http.Request) {
-	params, err := getRecordsetDataParams(r)
-	if err != nil {
-		handleError(err, w, r)
-		return
-	}
-	count, err := strconv.Atoi(r.URL.Query().Get("count"))
-	if err != nil {
-		log.Println(fmt.Errorf("WARNING: count parameter is not supplied or invalid: %w", err))
-	}
-	rows := make([]api.RowWithIndex, 0, count)
-	numberOfRecords, err := api.RemoveRowsFromRecordset(params, rows)
-	returnJSON(w, r, http.StatusCreated, err, numberOfRecords)
+	executeRecordsetCommand(w, r, func(params api.RecordsetDataRequestParams, count int) (numberOfRecords int, err error) {
+		rows := make([]api.RowWithIndex, 0, count)
+		return api.RemoveRowsFromRecordset(params, rows)
+	})
 }
 
 // updateRowsInRecordset updates rows in a recordset
 func updateRowsInRecordset(w http.ResponseWriter, r *http.Request) {
+	executeRecordsetCommand(w, r, func(params api.RecordsetDataRequestParams, count int) (numberOfRecords int, err error) {
+		rows := make([]api.RowWithIndexAndNewValues, 0, count)
+		return api.UpdateRowsInRecordset(params, rows)
+	})
+}
+
+func executeRecordsetCommand(w http.ResponseWriter, r *http.Request, f func(params api.RecordsetDataRequestParams, count int) (numberOfRecords int, err error)) {
 	params, err := getRecordsetDataParams(r)
 	if err != nil {
 		handleError(err, w, r)
 		return
 	}
-	count, err := strconv.Atoi(r.URL.Query().Get("count"))
-	if err != nil {
-		log.Println(fmt.Errorf("WARNING: count parameter is not supplied or invalid: %w", err))
+	var count int
+	if countStr := r.URL.Query().Get("count"); countStr != "" {
+		if count, err = strconv.Atoi(countStr); err == nil {
+			handleError(fmt.Errorf("invalid count: %v", count), w, r)
+			return
+		}
 	}
-	rows := make([]api.RowWithIndexAndNewValues, 0, count)
-	numberOfRecords, err := api.UpdateRowsInRecordset(params, rows)
-	returnJSON(w, r, http.StatusCreated, err, numberOfRecords)
+	var numberOfRecordsAffected int
+	numberOfRecordsAffected, err = f(params, count)
+	if err != nil {
+		handleError(err, w, r)
+	}
+	returnJSON(w, r, http.StatusOK, err, numberOfRecordsAffected)
 }

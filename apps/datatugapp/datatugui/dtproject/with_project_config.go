@@ -1,17 +1,17 @@
 package dtproject
 
 import (
-	"github.com/datatug/datatug-core/pkg/appconfig"
+	"github.com/datatug/datatug-core/pkg/dtconfig"
 )
 
 type WithProjectConfig interface {
-	GetProjectConfig() *appconfig.ProjectConfig
+	GetProjectConfig() *dtconfig.ProjectRef
 }
 
 //type withProjectConfig struct {
-//	projectConfig *appconfig.ProjectConfig
+//	projectConfig *dtconfig.ProjectRef
 //}
 //
-//func (v withProjectConfig) GetProjectConfig() *appconfig.ProjectConfig {
+//func (v withProjectConfig) GetProjectConfig() *dtconfig.ProjectRef {
 //	return v.projectConfig
 //}

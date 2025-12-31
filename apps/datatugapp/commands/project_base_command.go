@@ -4,7 +4,7 @@ import (
 	"errors"
 	"strings"
 
-	"github.com/datatug/datatug-core/pkg/appconfig"
+	"github.com/datatug/datatug-core/pkg/dtconfig"
 	"github.com/datatug/datatug-core/pkg/storage"
 	"github.com/datatug/datatug-core/pkg/storage/filestore"
 )
@@ -35,7 +35,7 @@ func (v *projectBaseCommand) initProjectCommand(o projectCommandOptions) error {
 	if o.projNameOrDirRequired && v.ProjectName == "" && v.ProjectDir == "" {
 		return errors.New("either project name or project directory is required")
 	}
-	config, err := appconfig.GetSettings()
+	config, err := dtconfig.GetSettings()
 	if err != nil {
 		return err
 	}

@@ -161,7 +161,7 @@ func AddRowsToRecordset(params RecordsetDataRequestParams, _ []RowValues) (numbe
 }
 
 // RemoveRowsFromRecordset removes rows from a recordset
-func RemoveRowsFromRecordset(params RecordsetDataRequestParams, rows []RowWithIndex) (numberOfRecords int, err error) {
+func RemoveRowsFromRecordset(params RecordsetDataRequestParams, rows []RowWithIndex) (numberOfRecordsAffected int, err error) {
 	if err = params.Validate(); err != nil {
 		return 0, err
 	}
@@ -170,11 +170,11 @@ func RemoveRowsFromRecordset(params RecordsetDataRequestParams, rows []RowWithIn
 			return 0, fmt.Errorf("invalid row at index=%v: %w", i, err)
 		}
 	}
-	return 0, errNotImplementedYet
+	return numberOfRecordsAffected, errNotImplementedYet
 }
 
 // UpdateRowsInRecordset updates rows in a recordset
-func UpdateRowsInRecordset(params RecordsetDataRequestParams, rows []RowWithIndexAndNewValues) (numberOfRecords int, err error) {
+func UpdateRowsInRecordset(params RecordsetDataRequestParams, rows []RowWithIndexAndNewValues) (numberOfRecordsAffected int, err error) {
 	if err = params.Validate(); err != nil {
 		return 0, err
 	}
@@ -183,5 +183,5 @@ func UpdateRowsInRecordset(params RecordsetDataRequestParams, rows []RowWithInde
 			return 0, fmt.Errorf("invalid row at index=%v: %w", i, err)
 		}
 	}
-	return 0, errNotImplementedYet
+	return numberOfRecordsAffected, errNotImplementedYet
 }

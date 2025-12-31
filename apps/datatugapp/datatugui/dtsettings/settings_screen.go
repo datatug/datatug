@@ -1,7 +1,7 @@
 package dtsettings
 
 import (
-	"github.com/datatug/datatug-core/pkg/appconfig"
+	"github.com/datatug/datatug-core/pkg/dtconfig"
 	"github.com/datatug/datatug/apps/datatugapp/datatugui"
 	"github.com/datatug/datatug/pkg/sneatview/sneatnav"
 	"github.com/datatug/datatug/pkg/sneatview/sneatv"
@@ -28,7 +28,7 @@ func goSettingsScreen(tui *sneatnav.TUI, focusTo sneatnav.FocusTo) error {
 
 	textView := tview.NewTextView()
 	var settingsStr string
-	setting, err := appconfig.GetSettings()
+	setting, err := dtconfig.GetSettings()
 	if err != nil {
 		settingsStr = err.Error()
 	}

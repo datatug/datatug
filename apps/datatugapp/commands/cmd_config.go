@@ -5,16 +5,16 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/datatug/datatug-core/pkg/appconfig"
+	"github.com/datatug/datatug-core/pkg/dtconfig"
 	"github.com/urfave/cli/v3"
 )
 
 func configCommandAction(_ context.Context, _ *cli.Command) error {
-	settings, err := appconfig.GetSettings()
+	settings, err := dtconfig.GetSettings()
 	if err != nil {
 		return fmt.Errorf("failed to get config: %w", err)
 	}
-	if err = appconfig.PrintSettings(settings, appconfig.FormatYaml, os.Stdout); err != nil {
+	if err = dtconfig.PrintSettings(settings, dtconfig.FormatYaml, os.Stdout); err != nil {
 		return err
 	}
 	return nil

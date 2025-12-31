@@ -5,13 +5,13 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/datatug/datatug-core/pkg/appconfig"
+	"github.com/datatug/datatug-core/pkg/dtconfig"
 	"github.com/urfave/cli/v3"
 )
 
 func projectsCommandAction(_ context.Context, _ *cli.Command) error {
 	v := &projectsCommand{}
-	settings, err := appconfig.GetSettings()
+	settings, err := dtconfig.GetSettings()
 	if err != nil {
 		return fmt.Errorf("failed to get settings: %w", err)
 	}
@@ -64,7 +64,7 @@ type projectsCommand struct {
 	List []string `short:"f" long:"fields" description:"Comma separate list of fields to output, default is 'id'. Possible values: id, path, title"`
 }
 
-func getProjPathsByID(config appconfig.Settings) (pathsByID map[string]string) {
+func getProjPathsByID(config dtconfig.Settings) (pathsByID map[string]string) {
 	pathsByID = make(map[string]string, len(config.Projects))
 	for _, p := range config.Projects {
 		pathsByID[p.ID] = p.Url

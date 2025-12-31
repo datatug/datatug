@@ -7,7 +7,7 @@ package commands
 //
 ////nolint:unused // legacy consoleCommand entrypoint retained for reference
 //func (v *configServerCommand) Execute(_ []string) error {
-//	settings, err := appconfig.GetSettings()
+//	settings, err := dtconfig.GetSettings()
 //	if err != nil {
 //		return fmt.Errorf("failed to get settings: %w", err)
 //	}
@@ -16,5 +16,5 @@ package commands
 //			return fmt.Errorf("failed to save settings: %w", err)
 //		}
 //	}
-//	return appconfig.PrintSection(settings.Server, appconfig.FormatYaml, os.Stdout)
+//	return dtconfig.PrintSection(settings.Server, dtconfig.FormatYaml, os.Stdout)
 //}

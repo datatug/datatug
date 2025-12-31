@@ -7,9 +7,11 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/datatug/datatug-core/pkg/appconfig"
+	"github.com/datatug/datatug-core/pkg/datatug"
+	"github.com/datatug/datatug-core/pkg/dtconfig"
 	"github.com/datatug/datatug-core/pkg/storage/filestore"
 	"github.com/datatug/datatug/pkg/auth/ghauth"
+	"github.com/datatug/datatug/pkg/dtgithub"
 	"github.com/datatug/datatug/pkg/sneatview/sneatnav"
 	"github.com/datatug/datatug/pkg/sneatview/sneatv"
 	"github.com/google/go-github/v80/github"
@@ -181,7 +183,15 @@ func showCreateProjectScreen(tui *sneatnav.TUI) {
 			if createAt == "GitHub" {
 				repoName = normalizeRepoName(name)
 			}
-			handleCreateProject(tui, name, createAt, location, visibility, repoName)
+			var projectVisibility datatug.ProjectVisibility
+			switch visibility {
+			case "Private":
+				projectVisibility = datatug.PrivateProject
+			case "Public":
+				projectVisibility = datatug.PublicProject
+			default:
+			}
+			handleCreateProject(tui, name, createAt, location, repoName, projectVisibility)
 		})
 		form.AddButton("Cancel", func() {
 			_ = GoProjectsScreen(tui, sneatnav.FocusToContent)
@@ -256,25 +266,33 @@ func authenticateGitHub(tui *sneatnav.TUI, onSuccess func(owner string)) {
 	}()
 }
 
-func handleCreateProject(tui *sneatnav.TUI, name, createAt, location, visibility, repoName string) {
+func handleCreateProject(tui *sneatnav.TUI, title, createAt, location, repoName string, visibility datatug.ProjectVisibility) {
+	var projectRef dtconfig.ProjectRef
+	var err error
 	if createAt == "Local" {
-		createLocalProject(tui, name, location)
+		projectRef, err = createLocalProject(tui, title, location)
 	} else {
-		createGitHubProject(tui, repoName, visibility)
+		projectRef, err = createGitHubProject(tui, repoName, visibility)
 	}
+	if err != nil {
+		sneatnav.ShowErrorModal(tui, fmt.Errorf("failed to create project: %w", err))
+		return
+	}
+	// Open project
+	openProject(tui, projectRef)
 }
 
-func createLocalProject(tui *sneatnav.TUI, name, location string) {
+func createLocalProject(tui *sneatnav.TUI, name, location string) (projectRef dtconfig.ProjectRef, err error) {
 	fullPath := filestore.ExpandHome(location)
 	projectPath := filepath.Join(fullPath, name)
 
-	if err := os.MkdirAll(projectPath, 0755); err != nil {
+	if err = os.MkdirAll(projectPath, 0755); err != nil {
 		sneatnav.ShowErrorModal(tui, fmt.Errorf("failed to create project directory: %w", err))
 		return
 	}
 
 	datatugDir := filepath.Join(projectPath, "datatug")
-	if err := os.MkdirAll(datatugDir, 0755); err != nil {
+	if err = os.MkdirAll(datatugDir, 0755); err != nil {
 		sneatnav.ShowErrorModal(tui, fmt.Errorf("failed to create datatug directory: %w", err))
 		return
 	}
@@ -285,33 +303,28 @@ func createLocalProject(tui *sneatnav.TUI, name, location string) {
   "title": "%s"
 }`, name, name)
 	configFilePath := filepath.Join(datatugDir, filestore.ProjectSummaryFileName)
-	if err := os.WriteFile(configFilePath, []byte(configContent), 0644); err != nil {
+	if err = os.WriteFile(configFilePath, []byte(configContent), 0644); err != nil {
 		sneatnav.ShowErrorModal(tui, fmt.Errorf("failed to create project config: %w", err))
 		return
 	}
 
 	// Add to app settings
-	if err := AddProjectToSettings(name, name, projectPath); err != nil {
+	if err = dtconfig.AddProjectToSettings(dtconfig.ProjectRef{
+		Path: projectPath,
+	}); err != nil {
 		sneatnav.ShowErrorModal(tui, fmt.Errorf("failed to update app settings: %w", err))
 		return
 	}
-
-	// Open project
-	openProject(tui, name, projectPath)
+	return projectRef, err
 }
 
-func openProject(tui *sneatnav.TUI, id, path string) {
-	loader := filestore.NewProjectsLoader(filepath.Dir(path))
-	pConfig := &appconfig.ProjectConfig{
-		ID:    id,
-		Title: id,
-		Path:  path,
-	}
-	projectCtx := NewProjectContext(tui, pConfig, loader)
+func openProject(tui *sneatnav.TUI, projectRef dtconfig.ProjectRef) {
+	loader := filestore.NewProjectsLoader(filepath.Dir(projectRef.Path))
+	projectCtx := NewProjectContext(tui, loader, projectRef)
 	GoProjectScreen(projectCtx)
 }
 
-func createGitHubProject(tui *sneatnav.TUI, name, visibility string) {
+func createGitHubProject(tui *sneatnav.TUI, title string, visibility datatug.ProjectVisibility) (projectRef dtconfig.ProjectRef, err error) {
 	ctx := context.Background()
 	token, err := ghauth.GetToken()
 	if err != nil || token == nil {
@@ -323,17 +336,24 @@ func createGitHubProject(tui *sneatnav.TUI, name, visibility string) {
 	tc := oauth2.NewClient(ctx, ts)
 	client := github.NewClient(tc)
 
-	// Create repository
-	repo := &github.Repository{
-		Name:    github.Ptr(name),
-		Private: github.Ptr(visibility == "Private"),
-	}
+	var projectID string
+	projectsStore := dtgithub.NewRepoProjectsStore(client, "")
+	_, err = projectsStore.CreateNewProject(ctx, projectID, title, visibility, func(steps []*datatug.Step) {
 
-	createdRepo, _, err := client.Repositories.Create(ctx, "", repo)
-	if err != nil {
-		sneatnav.ShowErrorModal(tui, fmt.Errorf("failed to create GitHub repository: %w", err))
-		return
-	}
-
-	AddToGitHubRepo(tui, client, createdRepo, nil, nil)
+	})
+	openProject(tui, projectRef)
+	//// Create repository
+	//repo := &github.Repository{
+	//	Name:    github.Ptr(title),
+	//	Private: github.Ptr(visibility == datatug.PrivateProject),
+	//}
+	//
+	//repo, _, err = client.Repositories.Create(ctx, "", repo)
+	//if err != nil {
+	//	sneatnav.ShowErrorModal(tui, fmt.Errorf("failed to create GitHub repository: %w", err))
+	//	return
+	//}
+	//
+	//err = AddToGitHubRepo(tui, client, repo, nil, nil)
+	return projectRef, err
 }

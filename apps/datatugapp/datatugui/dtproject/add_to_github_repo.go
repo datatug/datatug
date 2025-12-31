@@ -12,7 +12,7 @@ import (
 	"time"
 
 	"github.com/atotto/clipboard"
-	"github.com/datatug/datatug-core/pkg/appconfig"
+	"github.com/datatug/datatug-core/pkg/dtconfig"
 	"github.com/datatug/datatug-core/pkg/storage/filestore"
 	"github.com/datatug/datatug/pkg/auth/ghauth"
 	"github.com/datatug/datatug/pkg/sneatview/sneatnav"
@@ -21,7 +21,6 @@ import (
 	"github.com/google/go-github/v80/github"
 	"github.com/rivo/tview"
 	"golang.org/x/oauth2"
-	"gopkg.in/yaml.v3"
 )
 
 /*
@@ -193,7 +192,10 @@ func showRepoSelection(tui *sneatnav.TUI, client *github.Client, repos []*github
 			repoNode := tview.NewTreeNode(repo.GetName()).
 				SetReference(r).
 				SetSelectedFunc(func() {
-					AddToGitHubRepo(tui, client, r, repos, reauth)
+					err := AddToGitHubRepo(tui, client, r, repos, reauth)
+					if err != nil {
+						sneatnav.ShowErrorModal(tui, err)
+					}
 				})
 			ownerNode.AddChild(repoNode)
 		}
@@ -251,7 +253,7 @@ func showRepoSelection(tui *sneatnav.TUI, client *github.Client, repos []*github
 	tui.SetPanels(nil, panel)
 }
 
-func AddToGitHubRepo(tui *sneatnav.TUI, client *github.Client, repo *github.Repository, repos []*github.Repository, reauth func()) {
+func AddToGitHubRepo(tui *sneatnav.TUI, client *github.Client, repo *github.Repository, repos []*github.Repository, reauth func()) error {
 	repoOwner := repo.GetOwner().GetLogin()
 	repoName := repo.GetName()
 	branch := repo.GetDefaultBranch()
@@ -505,7 +507,11 @@ func AddToGitHubRepo(tui *sneatnav.TUI, client *github.Client, repo *github.Repo
 
 		// 4. Add project to DataTug app config
 		updateProgress(4, "updating...")
-		if err := AddProjectToSettings(projectID, projectTitle, projectDir); err != nil {
+		if err := dtconfig.AddProjectToSettings(dtconfig.ProjectRef{
+			ID:    projectID,
+			Title: projectTitle,
+			Path:  projectDir,
+		}); err != nil {
 			tui.App.QueueUpdateDraw(func() {
 				sneatnav.ShowErrorModal(tui, fmt.Errorf("failed to add repo to DataTug app config: %w", err))
 			})
@@ -522,62 +528,14 @@ func AddToGitHubRepo(tui *sneatnav.TUI, client *github.Client, repo *github.Repo
 
 		tui.App.QueueUpdateDraw(func() {
 			loader := filestore.NewProjectsLoader("~/datatug")
-			pConfig := &appconfig.ProjectConfig{
+			projectRef := dtconfig.ProjectRef{
 				ID:    projectID,
 				Title: projectTitle,
 				Path:  projectID,
 			}
-			projectCtx := NewProjectContext(tui, pConfig, loader)
+			projectCtx := NewProjectContext(tui, loader, projectRef)
 			GoProjectScreen(projectCtx)
 		})
 	}()
-}
-
-func AddProjectToSettings(id, title, path string) error {
-	settings, err := appconfig.GetSettings()
-	if err != nil && !os.IsNotExist(err) {
-		return fmt.Errorf("failed to get DataTug app settings: %w", err)
-	}
-
-	// Check if already exists
-	var project *appconfig.ProjectConfig
-	for _, p := range settings.Projects {
-		if p.ID == id {
-			project = p
-			break
-		}
-	}
-
-	if project == nil {
-		project = &appconfig.ProjectConfig{ID: id}
-		settings.Projects = append(settings.Projects, project)
-	}
-	project.Title = title
-	project.Path = path
-
-	return SaveDataTugAppSettings(settings)
-}
-
-func SaveDataTugAppSettings(settings appconfig.Settings) error {
-	configFilePath := appconfig.GetConfigFilePath()
-	f, err := os.Create(configFilePath)
-	if err != nil {
-		return fmt.Errorf("failed to create settings file: %w", err)
-	}
-	defer func() {
-		_ = f.Close()
-	}()
-
-	if settings.Server != nil && settings.Server.IsEmpty() {
-		settings.Server = nil
-	}
-	if settings.Client != nil && settings.Client.IsEmpty() {
-		settings.Client = nil
-	}
-
-	encoder := yaml.NewEncoder(f)
-	if err := encoder.Encode(settings); err != nil {
-		return fmt.Errorf("failed to encode settings: %w", err)
-	}
 	return nil
 }
