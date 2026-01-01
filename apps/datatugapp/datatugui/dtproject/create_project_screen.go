@@ -9,6 +9,7 @@ import (
 
 	"github.com/datatug/datatug-core/pkg/datatug"
 	"github.com/datatug/datatug-core/pkg/dtconfig"
+	"github.com/datatug/datatug-core/pkg/storage"
 	"github.com/datatug/datatug-core/pkg/storage/filestore"
 	"github.com/datatug/datatug/pkg/auth/ghauth"
 	"github.com/datatug/datatug/pkg/dtgithub"
@@ -302,7 +303,7 @@ func createLocalProject(tui *sneatnav.TUI, name, location string) (projectRef dt
   "id": "%s",
   "title": "%s"
 }`, name, name)
-	configFilePath := filepath.Join(datatugDir, filestore.ProjectSummaryFileName)
+	configFilePath := filepath.Join(datatugDir, storage.ProjectSummaryFileName)
 	if err = os.WriteFile(configFilePath, []byte(configContent), 0644); err != nil {
 		sneatnav.ShowErrorModal(tui, fmt.Errorf("failed to create project config: %w", err))
 		return
@@ -338,22 +339,10 @@ func createGitHubProject(tui *sneatnav.TUI, title string, visibility datatug.Pro
 
 	var projectID string
 	projectsStore := dtgithub.NewRepoProjectsStore(client, "")
-	_, err = projectsStore.CreateNewProject(ctx, projectID, title, visibility, func(steps []*datatug.Step) {
+
+	_, err = projectsStore.CreateNewProject(ctx, projectID, title, visibility, func(step string, status string) {
 
 	})
-	openProject(tui, projectRef)
-	//// Create repository
-	//repo := &github.Repository{
-	//	Name:    github.Ptr(title),
-	//	Private: github.Ptr(visibility == datatug.PrivateProject),
-	//}
-	//
-	//repo, _, err = client.Repositories.Create(ctx, "", repo)
-	//if err != nil {
-	//	sneatnav.ShowErrorModal(tui, fmt.Errorf("failed to create GitHub repository: %w", err))
-	//	return
-	//}
-	//
-	//err = AddToGitHubRepo(tui, client, repo, nil, nil)
+
 	return projectRef, err
 }

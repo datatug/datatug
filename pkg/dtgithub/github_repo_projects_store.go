@@ -9,14 +9,12 @@ import (
 	"path/filepath"
 	"regexp"
 	"strings"
-	"sync"
-	"time"
 
 	"github.com/datatug/datatug-core/pkg/datatug"
 	"github.com/datatug/datatug-core/pkg/dtconfig"
+	"github.com/datatug/datatug-core/pkg/storage/dtprojcreator"
 	"github.com/datatug/datatug-core/pkg/storage/filestore"
 	"github.com/google/go-github/v80/github"
-	"gopkg.in/yaml.v3"
 )
 
 func NewRepoProjectsStore(client *github.Client, branch string) *GithubRepoProjectsStore {
@@ -50,96 +48,27 @@ func (g GithubRepoProjectsStore) CreateNewProject(
 
 	pathToProjectFromRepoRoot := path.Join(projectDir)
 
-	var entries []*github.TreeEntry
-
-	addEntry := func(path string, content string) {
-		// Check if files already exist to avoid overwriting or redundant commits
-		if existing, _, _, _ := g.client.Repositories.GetContents(ctx, repoOwner, repoName, path, &github.RepositoryContentGetOptions{Ref: g.branch}); existing == nil {
-			entries = append(entries, &github.TreeEntry{
-				Path:    github.Ptr(path),
-				Type:    github.Ptr("blob"),
-				Mode:    github.Ptr("100644"),
-				Content: github.Ptr(content),
-			})
-		}
-	}
-
-	creator := newProjectCreator(g.client, report, addEntry)
+	creator := newProjectCreator(g.client, report)
 	if err = creator.CreateProject(ctx, title, pathToProjectFromRepoRoot, visibility); err != nil {
 		return
 	}
 
-	if len(entries) > 0 {
-		//var tree *github.Tree
-		//tree, _, err = g.client.Git.CreateTree(ctx, repoOwner, repoName, *ref.Object.SHA, entries)
-		//if err != nil {
-		//	err = fmt.Errorf("failed to create tree: %w", err)
-		//	return
-		//}
-		panic("not implemented")
-	}
-
-	if isCancelled(ctx) {
-		return
-	}
-
-	time.Sleep(500 * time.Millisecond)
-
-	if isCancelled(ctx) {
-		return
-	}
-
-	//tui.App.QueueUpdateDraw(func() {
-	//	loader := filestore.NewProjectsLoader("~/datatug")
-	//	pConfig := dtconfig.ProjectRef{
-	//		ID:    projectID,
-	//		Title: title,
-	//		Path:  projectID,
-	//	}
-	//	projectCtx := dtproject.NewProjectContext(tui, loader, &pConfig)
-	//	GoProjectScreen(projectCtx)
-	//})
 	return
 }
 
 type projectCreator struct {
-	client         *github.Client
-	branch         string
-	repoName       string
-	repoOwner      string
-	repo           *github.Repository
-	addEntry       func(path, content string)
-	report         datatug.StatusReporter
-	steps          []*datatug.Step
-	stepRepo       *datatug.Step
-	stepRootFile   *datatug.Step
-	stepRootReadme *datatug.Step
-	stepProjFile   *datatug.Step
-	stepClone      *datatug.Step
+	client    *github.Client
+	branch    string
+	repoName  string
+	repoOwner string
+	repo      *github.Repository
+	report    datatug.StatusReporter
 }
 
-func (c *projectCreator) reportStatus() {
-	c.report(c.steps)
-}
-
-func newProjectCreator(ghClient *github.Client, report datatug.StatusReporter, addEntry func(path, content string)) (creator *projectCreator) {
-	creator = &projectCreator{
-		client:         ghClient,
-		addEntry:       addEntry,
-		report:         report,
-		stepRepo:       &datatug.Step{Name: "Create repository", Status: "pending"},
-		stepProjFile:   &datatug.Step{Name: "Create .datatug-project.json", Status: "pending"},
-		stepRootFile:   &datatug.Step{Name: "Update /.datatug.yaml", Status: "pending"},
-		stepRootReadme: &datatug.Step{Name: "Update /README.md", Status: "pending"},
-		stepClone:      &datatug.Step{Name: "Clone repo", Status: "pending"},
-	}
-	creator.steps = []*datatug.Step{
-		creator.stepRepo,
-		creator.stepRootFile,
-	}
-	report(creator.steps)
+func newProjectCreator(ghClient *github.Client, report datatug.StatusReporter) (creator *projectCreator) {
 	return &projectCreator{
-		steps: []*datatug.Step{},
+		client: ghClient,
+		report: report,
 	}
 }
 
@@ -157,21 +86,18 @@ func (c *projectCreator) CreateProject(
 		return fmt.Errorf("failed to clone GitHub repository '%s/%s': %w", c.repoOwner, c.repoName, err)
 	}
 
-	var project *datatug.Project
+	storage := NewStorage(c.client, c.repoOwner, c.repoName, c.branch)
 
 	// We use the Git Data API to create multiple files in a single commit.
 	// 1. Get the latest commit of the branch
-	var ref *github.Reference
-	ref, _, err = c.client.Git.GetRef(ctx, c.repoOwner, c.repoName, "heads/"+c.branch)
-	_ = ref
-	if err != nil {
+	if storage.ref, _, err = c.client.Git.GetRef(ctx, c.repoOwner, c.repoName, "heads/"+c.branch); err != nil {
 		// If the repository is empty, we need to create the first commit
 		var gErr *github.ErrorResponse
 		if errors.As(err, &gErr) && (gErr.Response.StatusCode == 404 || gErr.Response.StatusCode == 409) {
 			// Create initial README.md to initialize the repository
 			_, _, err = c.client.Repositories.CreateFile(ctx, c.repoOwner, c.repoName, "README.md", &github.RepositoryContentFileOptions{
 				Message: github.Ptr("feat: initial commit"),
-				Content: []byte("# " + c.repoName + "\n\nDataTug project repository."),
+				Content: []byte("# " + c.repoName),
 				Branch:  github.Ptr(c.branch),
 			})
 			if err != nil {
@@ -179,8 +105,7 @@ func (c *projectCreator) CreateProject(
 				return
 			}
 			// Retry getting the ref
-			ref, _, err = c.client.Git.GetRef(ctx, c.repoOwner, c.repoName, "heads/"+c.branch)
-			_ = ref
+			storage.ref, _, err = c.client.Git.GetRef(ctx, c.repoOwner, c.repoName, "heads/"+c.branch)
 		}
 		if err != nil {
 			err = fmt.Errorf("failed to get branch ref: %w", err)
@@ -188,39 +113,16 @@ func (c *projectCreator) CreateProject(
 		}
 	}
 
+	var project *datatug.Project
+	err = dtprojcreator.CreateProjectFiles(ctx, project, pathToProjectFromRepoRoot, storage, c.report)
+	if err != nil {
+		err = fmt.Errorf("failed to create project files: %w", err)
+		return
+	}
+
 	if err = c.addProjectToDataTugConfig(pathToProjectFromRepoRoot, title); err != nil {
 		return fmt.Errorf("failed to add project to DataTug config: %w", err)
 	}
-
-	var wg sync.WaitGroup
-	var mutex sync.Mutex
-	var errs []error
-
-	execute := func(f ...func() error) {
-		wg.Add(len(f))
-		for _, fn := range f {
-			go func() {
-				if fErr := fn(); fErr != nil {
-					mutex.Lock()
-					errs = append(errs, fErr)
-					mutex.Unlock()
-				}
-			}()
-		}
-	}
-	execute( // TODO: reuse parallel runner or document why not?
-		func() error {
-			return c.addProjectToRootRepoFile(ctx, pathToProjectFromRepoRoot)
-		},
-		func() error {
-			return c.createProjectReadme(pathToProjectFromRepoRoot)
-		},
-		func() error {
-			return c.createProjectSummaryFile(pathToProjectFromRepoRoot, project)
-		},
-	)
-
-	wg.Wait()
 
 	if err = c.addDatatugSectionToRootReadmeFile(ctx, pathToProjectFromRepoRoot); err != nil {
 		err = fmt.Errorf("failed to add DataTug section to repo's root README.md: %w", err)
@@ -228,27 +130,6 @@ func (c *projectCreator) CreateProject(
 	}
 
 	return
-}
-
-func (c *projectCreator) addProjectToRootRepoFile(_ context.Context, projPath string) error {
-	c.stepRootFile.Status = "updating..."
-	c.reportStatus()
-	if projPath == "" {
-		projPath = "."
-	}
-	var repoRootFile datatug.RepoRootFile
-	repoRootFile.Projects = append(repoRootFile.Projects, projPath)
-	content, err := yaml.Marshal(repoRootFile)
-	if err != nil {
-		c.stepRootFile.Status = "[red]error: " + err.Error()
-		c.reportStatus()
-		return fmt.Errorf("failed to marshal repoRootFile: %w", err)
-	}
-	filePath := path.Join(projPath, filestore.RepoRootDataTugFileName)
-	c.addEntry(filePath, string(content))
-	c.stepRootFile.Status = "[green]updated[-]."
-	c.reportStatus()
-	return nil
 }
 
 func (c *projectCreator) createRepo(ctx context.Context, visibility datatug.ProjectVisibility) (err error) {
@@ -266,8 +147,8 @@ func (c *projectCreator) createRepo(ctx context.Context, visibility datatug.Proj
 }
 
 func (c *projectCreator) addDatatugSectionToRootReadmeFile(ctx context.Context, projPath string) error {
-	c.stepRootReadme.Status = "updating..."
-	c.reportStatus()
+	const stepName = "Adding Datatug section to /README.md"
+	c.report(stepName, "...")
 
 	// 2. Add 'DataTug' section to root README.md
 	rootReadme, _, err := c.client.Repositories.GetReadme(ctx, c.repoOwner, c.repoName, &github.RepositoryContentGetOptions{Ref: c.branch})
@@ -307,27 +188,7 @@ func (c *projectCreator) addDatatugSectionToRootReadmeFile(ctx context.Context, 
 		}
 	}
 
-	c.stepRootReadme.Status = "updated."
-	c.reportStatus()
-	return nil
-}
-
-func (c *projectCreator) createProjectSummaryFile(pathToProjectFromRepoRoot string, project *datatug.Project) (err error) {
-	projectFile := datatug.ProjectFile{
-		ProjectItem: project.ProjectItem,
-		Created: &datatug.ProjectCreated{
-			At: time.Now().UTC(),
-		},
-	}
-
-	filePath := path.Join(pathToProjectFromRepoRoot, filestore.ProjectSummaryFileName)
-
-	return fmt.Errorf("createProjectFile is not implemented %v %v", filePath, projectFile)
-}
-
-func (c *projectCreator) createProjectReadme(pathToProjectFromRepoRoot string) error {
-	filePath := path.Join(pathToProjectFromRepoRoot, "datatug/README.md")
-	c.addEntry(filePath, "# DataTug Project\n\nThis directory contains DataTug project configuration.")
+	c.report(stepName, " [green]Done![-]")
 	return nil
 }
 
@@ -399,14 +260,4 @@ func (c *projectCreator) addProjectToDataTugConfig(pathToProjectFromRepoRoot, pr
 		return
 	}
 	return
-}
-
-// Helper to check for cancellation
-func isCancelled(ctx context.Context) bool {
-	select {
-	case <-ctx.Done():
-		return true
-	default:
-		return false
-	}
 }

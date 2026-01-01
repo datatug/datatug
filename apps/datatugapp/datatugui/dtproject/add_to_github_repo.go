@@ -13,6 +13,7 @@ import (
 
 	"github.com/atotto/clipboard"
 	"github.com/datatug/datatug-core/pkg/dtconfig"
+	"github.com/datatug/datatug-core/pkg/storage"
 	"github.com/datatug/datatug-core/pkg/storage/filestore"
 	"github.com/datatug/datatug/pkg/auth/ghauth"
 	"github.com/datatug/datatug/pkg/sneatview/sneatnav"
@@ -329,7 +330,7 @@ func AddToGitHubRepo(tui *sneatnav.TUI, client *github.Client, repo *github.Repo
   "id": "` + repoName + `",
   "title": "` + repoName + `"
 }`
-		configFilePath := "datatug/" + filestore.ProjectSummaryFileName
+		configFilePath := "datatug/" + storage.ProjectSummaryFileName
 		readmeContent := "# DataTug Project\n\nThis directory contains DataTug project configuration."
 		readmeFilePath := "datatug/README.md"
 
