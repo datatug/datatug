@@ -6,7 +6,7 @@ Feature specifications for this project.
 
 | Feature | Status | Description |
 |---------|--------|-------------|
-| [ai-query-builder](ai-query-builder/README.md) | Under Review | Platform-agnostic in-app conversational query builder: a current query held as session state that natural-language requests progressively transform, with inspectable query + re-runnable results. |
+| [ai-query-builder](ai-query-builder/README.md) | Approved | Platform-agnostic in-app conversational query builder: a current query held as session state that natural-language requests progressively transform, with inspectable query + re-runnable results. |
 
 ## Open Questions
 

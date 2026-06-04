@@ -2,11 +2,12 @@
 
 > [SpecScore.**Studio**](https://specscore.studio): | [Explore](https://specscore.studio/app/github.com/datatug/datatug/spec/features/ai-query-builder?op=explore) | [Edit](https://specscore.studio/app/github.com/datatug/datatug/spec/features/ai-query-builder?op=edit) | [Ask question](https://specscore.studio/app/github.com/datatug/datatug/spec/features/ai-query-builder?op=ask) | [Request change](https://specscore.studio/app/github.com/datatug/datatug/spec/features/ai-query-builder?op=request-change) |
 
-**Status:** Under Review
+**Status:** Approved
 **Date:** 2026-06-04
 **Owner:** alexander.trakhimenok
 **Source Ideas:** ai-query-builder
 **Supersedes:** —
+**Grade:** A
 
 ## Summary
 

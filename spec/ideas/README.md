@@ -6,7 +6,7 @@ Pre-spec one-pagers. Each Idea is a lint-clean problem-direction-MVP one-pager t
 
 | Idea | Status | Date | Owner | Promotes To |
 |------|--------|------|-------|-------------|
-| [ai-query-builder](ai-query-builder.md) | Specifying | 2026-06-04 | alexander.trakhimenok | ai-query-builder |
+| [ai-query-builder](ai-query-builder.md) | Specified | 2026-06-04 | alexander.trakhimenok | ai-query-builder |
 
 ## Open Questions
 
