@@ -1,9 +1,9 @@
 # Idea: Serve-Brokered AI Query Builder
 
-**Status:** Approved
+**Status:** Specified
 **Date:** 2026-06-04
 **Owner:** alexander.trakhimenok
-**Promotes To:** —
+**Promotes To:** serve-brokered-query-builder
 **Supersedes:** —
 **Related Ideas:** alternative_to:ai-query-builder
 
