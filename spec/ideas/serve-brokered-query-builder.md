@@ -1,0 +1,77 @@
+# Idea: Serve-Brokered AI Query Builder
+
+**Status:** Approved
+**Date:** 2026-06-04
+**Owner:** alexander.trakhimenok
+**Promotes To:** —
+**Supersedes:** —
+**Related Ideas:** alternative_to:ai-query-builder
+
+## Problem Statement
+
+How might we let a user build and refine one query two ways at once — conversationally in their AI-agent terminal and by direct point-and-click edits in a Web UI — over a single current query held by a `datatug serve` backend that keeps both surfaces *and the agent's own context* in sync, so we deliver the experience without building an AI-chat panel into either surface?
+
+## Context
+
+Reframes the approved in-app `ai-query-builder` Capability (Grade A), which puts a conversational chat panel in-app on each surface. This is a separate concern: a delivery/runtime architecture with two complementary editing modalities over one shared query. The conversation lives in the user's existing AI-agent terminal (any external agent wielding DataTug tools); the Web UI — the hosted app at https://datatug.app by default (overridable to a custom URL), connecting to the local daemon from the user's browser — offers deterministic point-and-click editing (apply filters, add/remove/select columns, change ordering) plus live results; and the DataTug CLI runs as a local daemon (`serve`) that holds each named query (tab) as the single source of truth for that tab, serving an **MCP face to the agent** and an **HTTP/WS face to the Web UI**, applying edits from either side and keeping both surfaces in sync — including relaying Web-UI edits back to the agent so its context reflects changes the user made by hand. No AI-chat panel is built in either surface — the only conversational surface is the terminal — which is the central simplification. Reuses the CLI's existing query execution and result model. Internal dogfood, one connection.
+
+## Recommended Direction
+
+The DataTug CLI runs as a local daemon that owns a set of named queries (tabs) — each one a current query that is the single source of truth for its tab — and serves two faces over one shared query-session engine: an **MCP server for the AI-agent** and an **HTTP/WS endpoint** the **hosted Web UI (https://datatug.app, or a custom URL)** connects to from the user's browser over loopback. The agent integration is firmly *Option A* — the LLM stays in the terminal and `serve` exposes a single structured `apply_change` MCP tool; the agent interprets the user's English itself and calls it. Each call targets a tab by its id and carries three things: the **prose** (e.g. "add exchange rate"), for human-readable display and the Web-UI history; the **structured delta** the change represents; and the **full resulting query**. `serve` adopts the agent's full query as that tab's new current version — a DataTug query model/AST (the *dalgo* representation), rendered on execution to the SQL dialect of the tab's connection driver (the agent selects the connection when it creates the tab, which fixes that tab's dialect) — and forwards the prose + delta to the Web UI as the change description; the daemon keeps only the current version of each tab — no history — and does not re-interpret the prose. By default the agent does **not** echo the query in the terminal — it sends each change straight to the daemon and the user reads the query in the Web UI; on request the agent shows the query in its **dalgo** query-model form or as **native** dialect SQL, either once or on every change.
+
+The user starts in the agent terminal; to open the Web UI the agent creates a tab, picks its connection, and hands back a deep link carrying the query id, the local backend host, and a one-time code (in the link's fragment) that the Web UI exchanges for the session token — clicking it attaches the hosted Web UI to that daemon and tab over a CORS-allowlisted loopback connection. The Web UI is a deterministic editor plus a live view: point-and-click controls (apply filter, add/remove/select columns, change ordering) post *structured* edits over HTTP — never prose — which `serve` applies to the tab's current version; the one canonical dalgo AST is the sole representation — the agent full-replaces it, the Web UI's deltas are applied to it, and both update models land on the same model; alongside the live query and results the Web UI holds the change history (the daemon does not — history is in-page only, lost on reload, with the current query rehydrated from the daemon) — the running list of prose change-descriptions so the user can see how the query was built — and can revert to any prior step, which sends that version to the daemon as the new current query; plus tabs for switching between named queries. Sync is two-way: `serve` streams agent-made changes to the Web UI over WebSocket, and on a Web-UI edit it pushes a lightweight "changed" signal that the agent picks up by re-reading the current query as an MCP resource on its next turn — so neither surface nor the agent drifts. No AI-chat panel is built anywhere — the only conversational surface is the terminal — which is the central simplification; `serve` plus its two faces is the only genuinely new component, reusing the CLI's existing query execution and result model.
+
+When the agent is confident, it commits one change. When it sees several plausible interpretations and is not confident which to pick, it instead sends **multiple candidate options** (no fixed cap — the agent decides how many) to `serve`; the Web UI presents them all and the user switches between options — with auto-run on, each option's results run lazily as it is selected; otherwise the option shows its query and the user clicks Run — then commits the chosen option as the new current query, at which point the unchosen options are discarded and the agent reconciles via the same signal + resource re-read. This turns agent uncertainty into a fast visual comparison rather than a guess, and it is where most of the MVP's complexity (running and caching results per candidate) honestly lands. MVP dogfoods against a real connection.
+
+## Alternatives Considered
+
+**Read-only Web viewer** (the user only watches; every edit flows through the agent). Rejected: it forces a round-trip through the agent for trivial, precise edits — toggle a filter, drop a column — that are faster done by hand. The deterministic Web UI earns its place by handling exactly those, leaving the agent for high-level or complex transforms.
+
+**In-app conversational chat panel per surface** (the approved `ai-query-builder` Capability). Not wrong — a different, complementary bet — but it costs a chat-UX build on *each* surface and is the work this Idea removes. Here the only conversation is the terminal; the Web UI is deterministic controls, not prose.
+
+**A bespoke DataTug agent/LLM loop in the CLI** (DataTug ships its own conversation engine in the terminal). Rejected: it reinvents what external agents (Claude Code, Cursor, etc.) already do well and adds an LLM-integration surface to maintain. The leverage is to expose a clean MCP tool API and let any agent drive it.
+
+**Backend reconstructs the query from deltas** (the agent sends only the structured delta and `serve` re-derives the full query). Rejected: it makes `serve` re-compute state and risks diverging from what the agent actually intended. Instead the agent sends the full resulting query as canonical truth, with the prose and delta kept only for history — `serve` stays a dumb, authoritative store.
+
+## MVP Scope
+
+One cycle, internal dogfood. Build the DataTug CLI daemon (bound to loopback with a shared token) holding only the current version of one or more named queries (tabs) in memory, each the single source of truth for its tab (history lives in the Web UI, not the daemon); the agent selects each tab's connection when it creates the tab, which fixes that tab's SQL dialect. It serves: (a) an **MCP server** (streamable HTTP) for the agent with tools to create a tab (selecting its connection, returning a deep link with the query id, backend host, and a one-time code in the fragment that the Web UI exchanges for the session token), `apply_change` (addressing a tab by explicit id; each change carries prose + structured delta + the full resulting query as a DataTug query model/AST — prose + delta forwarded to the Web UI for history, not stored by the daemon), and inspect (dalgo or native form) / run; the agent stays quiet by default, echoes the query only on request, and reports refusals or unresolvable requests in the terminal; (b) an **HTTP + WebSocket endpoint** the Web UI (the hosted app at https://datatug.app by default, or a custom URL) opens from the agent's deep link and connects from localhost over a CORS-allowlisted origin, offering deterministic controls (apply filter, add/remove/select columns, set ordering), a live view of the current query + results (row limit configurable in the Web UI, default 1000, with "Load next N" / "Load all" controls rather than paging), the Web-UI-held prose change-history with revert-to-any-step (in-page only, lost on reload), and tabs for multiple named queries; (c) two-way sync — a Web-UI edit pushes a "changed" signal the agent reconciles by re-reading the current query as an MCP resource on its next turn; and (d) the disambiguation flow — when the agent is unsure it sends multiple candidate options and the user switches between them (results run lazily on select when auto-run is on, otherwise via a Run button) before committing one. Success = the motivating chain runs end-to-end from the agent terminal, the user can make a deterministic edit in the Web UI and resolve a multi-option suggestion by previewing results, and the live results and the agent's view reflect every change — on a real connection (each tab binds its own). Single-source add-column / add-filter / order are guaranteed; complex ops (cross-source/computed columns, anti-joins) and rich multi-option preview may ship Partial. No AI-chat panel is built anywhere. Embarrassing-but-shippable beats a polished build.
+
+## Not Doing (and Why)
+
+- In-app AI-chat panel in the CLI or Web — the defining simplification; the agent terminal is the only conversational surface, and the Web UI uses deterministic controls, not prose
+- Conflict resolution for truly simultaneous edits from the agent and the Web UI — single local user, last-write-wins on the current query this cycle; real concurrency control is deferred
+- Remote multi-user serve and link-sharing — this cycle is local single-session (the daemon binds loopback with a shared token); exposing the API via a reverse proxy (ngrok / Cloudflare) so a colleague can open a shared link is a deliberate post-MVP follow-on the token model anticipates
+- A bespoke DataTug agent/LLM loop — drive via external agents plus DataTug tools rather than building a conversation engine
+- Persisting sessions across daemon restarts — the daemon holds only current query versions in memory (history lives in the Web UI); a restart starts fresh
+- Seeding a tab from an existing saved DataTug query or a table/entity pick — MVP seeds tabs from natural language only; importing existing queries is a follow-on
+- Mutating or DDL queries — the builder produces read-only queries only
+- Multi-connection sessions — one source per session, matching the Capability
+
+## Key Assumptions to Validate
+
+| Tier | Assumption | How to validate |
+|------|------------|-----------------|
+| Must-be-true | An external AI-agent can drive the MCP tools and, per change, emit a faithful triple — prose (for history), the structured delta, and the full resulting query — that `serve` can adopt as canonical state without the query drifting from the user's intent. | Dogfood the example chain via an external agent against the daemon. Acceptance: each change's full query matches its prose/delta and applies cleanly, leaving untouched parts intact, on a real connection. |
+| Must-be-true | `datatug serve` can hold the current query as the single source of truth and keep both surfaces *and the agent* in sync two-way — Web-UI edits stream to results and are relayed back to the agent's context; agent deltas stream to the Web UI — reliably for a single local session. | Build `serve` plus both surfaces; make an edit in each. Acceptance: an edit in either surface is reflected in the other surface and in the agent's view of the current query, with no manual refresh. |
+| Should-be-true | Deterministic point-and-click editing in the Web UI is worth building alongside conversational editing — users reach for the UI for precise, fiddly edits and the agent for high-level or complex ones. | Dogfood one cycle. Acceptance: the team uses the Web UI for quick filter/column edits rather than round-tripping every change through the agent. |
+| Should-be-true | The CLI's existing query execution + result model can be reused behind `serve` without re-architecting it. | Wire `serve` to the existing engine. Acceptance: `serve` runs queries through the existing execution path, not a parallel reimplementation. |
+| Should-be-true | When unsure, the agent can produce a small set of *distinct, meaningful* candidate options (not noise) that the user disambiguates by previewing each option's results. | Dogfood ambiguous requests (e.g. "add exchange rate" with several rate sources). Acceptance: the agent offers a few genuinely different candidates and the user resolves them faster by comparing results than by re-prompting. |
+| Might-be-true | This daemon backend can later become the shared engine the approved Capability's Web Implementation consumes. | Sketch that Web Implementation against the daemon's API. Acceptance: it is additive, not a redesign. |
+
+
+## SpecScore Integration
+
+- **New Features this would create:**
+  - In `datatug-cli/`: a DataTug CLI daemon Feature (`serve`: per-tab dalgo-AST state, an **MCP server** for the agent, an **HTTP/WS endpoint** for the web, two-way sync, and the multi-option disambiguation flow).
+  - In `datatug-apps/`: **two** Features — **`query-builder`** (the web UI screen; references `ai-terminal-query-builder`) and **`ai-terminal-query-builder`** (defines how the Query Builder communicates with the DAL backend daemon).
+  - In `datatug-ai-skills/`: a **`query-builder`** skill that teaches the agent to drive the conversational builder via the daemon's MCP (distinct from the existing `queries` and `serve` skills).
+- **Existing Features affected:** `datatug-cli`'s query/execute/console/UI features (`cli/queries`, `cli/execute`, `cli/console`, `cli/ui`) — reused behind `serve` rather than reinvented; the approved `ai-query-builder` Capability — complementary, and this backend may later feed its `Planned` Web Implementation.
+- **Dependencies:** the CLI's existing query execution + result rendering (the DAL / dalgo backend); an external AI-agent terminal plus the new `query-builder` skill (`datatug-ai-skills`) that drives `serve` over MCP; `specscore` CLI ≥ 0.6.0.
+
+## Open Questions
+
+None at this time.
+
+---
+*This document follows the https://specscore.md/idea-specification*
