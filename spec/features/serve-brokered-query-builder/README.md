@@ -106,6 +106,7 @@ This Capability MUST own an `## Implementation Matrix` recording every realizati
 |----------|--------|-------|------|
 | CLI (daemon) | Planned | `serve` daemon: per-tab dalgo-AST state, MCP + HTTP/WS faces, two-way sync, disambiguation | specscore:feature/serve-brokered-query-builder@github.com/datatug/datatug-cli |
 | Web | Planned | `query-builder` screen + `ai-terminal-query-builder` comms to the DAL backend | specscore:feature/query-builder@github.com/datatug/datatug-apps |
+| Agent | Planned | `query-builder` skill driving the daemon's MCP tools from the terminal | specscore:feature/query-builder@github.com/datatug/datatug-ai-skills |
 
 ## Acceptance Criteria
 
