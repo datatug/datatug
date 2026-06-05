@@ -13,11 +13,11 @@ How might we define DTQL — a 1:1, human-readable YAML serialization of the dal
 
 ## Context
 
-Promotes the datatug sidekick seed at spec/ideas/seeds/dtql-datatug-query-lanaguage-needs-definition-and.md. The just-merged serve-brokered query builder (Capability in datatug plus Implementations in datatug-cli/datatug-apps/datatug-ai-skills) already depends on DTQL-YAML as the textual form of the dalgo AST: REQ:dtql-yaml-form mandates a lossless AST↔YAML round-trip, and REQ:canonical-ast renders that AST to each connection's native query language. But DTQL is referenced, not defined — no schema, no validator, no owning artifact. During the dual-mode work we settled that GraphQL is a native language (a target/source), not the meta layer; DTQL stays the relational+document AST serialization. Note: the dalgo repo currently has no query AST and is not SpecScore-initialized, so this also presupposes establishing a query model in dalgo.
+Promotes the datatug sidekick seed at spec/ideas/seeds/dtql-datatug-query-lanaguage-needs-definition-and.md. The just-merged serve-brokered query builder (Capability in datatug plus Implementations in datatug-cli/datatug-apps/datatug-ai-skills) already depends on DTQL-YAML as the textual form of the dalgo AST: REQ:dtql-yaml-form mandates a lossless AST↔YAML round-trip, and REQ:canonical-ast renders that AST to each connection's native query language. But DTQL is referenced, not defined — no schema, no validator, no owning artifact. During the dual-mode work we settled that GraphQL is a native language (a target/source), not the meta layer; DTQL stays the relational+document AST serialization. Crucially, `github.com/dal-go/dalgo` is **already SpecScore-managed** and its `dal` package **already models the query**: `dal.StructuredQuery` (`From`/`Where`/`GroupBy`/`OrderBy`/`Columns`/`StartFrom`) is the structured AST DTQL serializes, and `dal.TextQuery` (`Text` + `Args`) already represents the native-text form — a near-exact match to the serve-brokered native/DTQL mode split. So this Idea serializes an existing model rather than inventing one.
 
 ## Recommended Direction
 
-Define DTQL in the dalgo repo as the canonical, human-readable, 1:1 lossless YAML serialization of dalgo's query AST — structural, hierarchical, plain off-the-shelf YAML with no bespoke grammar or parser. dalgo owns the query AST (model), the DTQL YAML schema, (de)serialization, and a round-trip validator proving AST→YAML→AST identity. DataTug consumes DTQL two ways: as the serve-brokered builder's internal exchange form (the agent and web UI inspect and edit it) and as a user-facing saved query format (.dtql.yaml stored in projects, version-controlled, diffable, shared). Because the AST spans relational and nested/document (Firestore-style) shapes, DTQL is not SQL-shaped; it renders to each connection driver's native query language on execution. GraphQL is recorded as settled: a native language DTQL can target, not a competing meta representation — a GraphQL-as-meta approach would still have to build the dalgo AST underneath. Advantages over the alternatives: structure, hierarchy, and human-readability for free via YAML; deterministic point-and-click editability in the web UI because DTQL is the AST; one model rendered to many dialects; saved, versioned, diffable queries as plain text; and zero new parser to design or maintain.
+Define DTQL in the dalgo repo as the canonical, human-readable, 1:1 lossless YAML serialization of dalgo's query AST — structural, hierarchical, plain off-the-shelf YAML with no bespoke grammar or parser. dalgo **already owns the query AST** — its `dal.StructuredQuery` interface (`From`/`Where`/`GroupBy`/`OrderBy`/`Columns`/`StartFrom`); this Idea adds the DTQL YAML schema, (de)serialization, and a round-trip validator proving `StructuredQuery`→YAML→`StructuredQuery` identity. dalgo's existing `dal.TextQuery` (`Text` + `Args`) already represents the native-text form, so DTQL serializes the *structured* side of a split dalgo already makes. DataTug consumes DTQL two ways: as the serve-brokered builder's internal exchange form (the agent and web UI inspect and edit it) and as a user-facing saved query format (.dtql.yaml stored in projects, version-controlled, diffable, shared). Because the AST spans relational and nested/document (Firestore-style) shapes, DTQL is not SQL-shaped; it renders to each connection driver's native query language on execution. GraphQL is recorded as settled: a native language DTQL can target, not a competing meta representation — a GraphQL-as-meta approach would still have to build the dalgo AST underneath. Advantages over the alternatives: structure, hierarchy, and human-readability for free via YAML; deterministic point-and-click editability in the web UI because DTQL is the AST; one model rendered to many dialects; saved, versioned, diffable queries as plain text; and zero new parser to design or maintain.
 
 ## Alternatives Considered
 
@@ -29,7 +29,7 @@ Define DTQL in the dalgo repo as the canonical, human-readable, 1:1 lossless YAM
 
 ## MVP Scope
 
-A timeboxed spike in dalgo that (1) establishes the minimal dalgo query AST for the relational, read-only subset the serve-brokered builder needs first (source/select, filter, order, parameters), (2) defines the DTQL YAML schema for that subset plus a short purpose/advantages/scope doc, and (3) ships a round-trip test proving AST→DTQL-YAML→AST is lossless on that subset. Nested/document shapes, per-driver native rendering, and the saved-.dtql.yaml project-file UX are explicitly deferred to follow-ons once the relational core round-trips. Embarrassing-but-shippable: a tiny AST plus schema plus one green round-trip test beats a complete grammar.
+A timeboxed spike in dalgo that (1) covers the relational, read-only subset of the existing `dal.StructuredQuery` the serve-brokered builder needs first (`From`→source, `Columns`→select, `Where`→filter, `OrderBy`→order, `Args`→parameters), (2) defines the DTQL YAML schema for that subset plus a short purpose/advantages/scope doc, and (3) ships a round-trip test proving `StructuredQuery`→DTQL-YAML→`StructuredQuery` is lossless on that subset. Nested/document shapes, per-driver native rendering, and the saved-.dtql.yaml project-file UX are explicitly deferred to follow-ons once the relational core round-trips. Embarrassing-but-shippable: a tiny AST plus schema plus one green round-trip test beats a complete grammar.
 
 ## Not Doing (and Why)
 
@@ -44,7 +44,7 @@ A timeboxed spike in dalgo that (1) establishes the minimal dalgo query AST for 
 
 | Tier | Assumption | How to validate |
 |------|------------|-----------------|
-| Must-be-true | dalgo will own a query AST for DTQL to serialize — today dalgo has no query model and is not SpecScore-initialized. | Confirm with the dalgo owner that a query AST belongs in dalgo (vs `datatug-go-models`); initialize SpecScore in dalgo; define the minimal AST in the MVP spike. |
+| Must-be-true (confirmed) | dalgo owns a query AST for DTQL to serialize. **Confirmed**: dalgo is SpecScore-managed and its `dal` package already defines `dal.StructuredQuery` (and `dal.TextQuery` for native). | Verified by inspecting `dal-go/dalgo/dal/query.go`; the MVP serializes the existing `StructuredQuery` — no new AST required. |
 | Must-be-true | A 1:1 lossless AST↔YAML round-trip is achievable with off-the-shelf YAML for the relational subset (no semantic loss, stable key ordering). | The MVP round-trip test (AST→DTQL-YAML→AST) passes byte-for-AST on a representative relational query set. |
 | Should-be-true | DTQL-YAML is human-readable and hand-editable enough that users edit saved queries by hand rather than only through the UI. | Dogfood: hand-edit a saved `.dtql.yaml`, reload it, and confirm the team finds it tolerable versus raw AST/JSON. |
 | Should-be-true | One AST renders faithfully to multiple native dialects — the serve-brokered daemon's premise. | Render the MVP subset to ≥2 dialects (e.g. SQLite + Postgres) and compare result sets on a sample database. |
@@ -53,15 +53,14 @@ A timeboxed spike in dalgo that (1) establishes the minimal dalgo query AST for 
 
 ## SpecScore Integration
 
-- **New Features this would create:** in `dalgo/` — a **DTQL** Feature (query AST model + DTQL YAML schema + AST↔YAML round-trip validator). Requires `dalgo` to be SpecScore-initialized first.
+- **New Features this would create:** in `dal-go/dalgo` (already SpecScore-managed) — a **DTQL** Feature: DTQL YAML schema + (de)serialization of the existing `dal.StructuredQuery` + an AST↔YAML round-trip validator.
 - **Existing Features affected:** `datatug`'s `serve-brokered-query-builder` Capability (`REQ:dtql-yaml-form`, `REQ:canonical-ast`) and its `datatug-cli` / `datatug-apps` / `datatug-ai-skills` Implementations — they reference DTQL-YAML and would consume dalgo's definition rather than restating it.
-- **Dependencies:** the just-merged serve-brokered dual-mode specs; SpecScore initialization of the `dalgo` repo; the new dalgo query AST.
+- **Dependencies:** the just-merged serve-brokered dual-mode specs; dalgo's existing `dal` query model (`StructuredQuery` / `TextQuery`).
 
 ## Open Questions
 
-- Does the dalgo query AST belong in `dalgo` (chosen) or in `datatug-go-models`? Confirm with the dalgo owner before the Feature lands — `dalgo` is not SpecScore-initialized today.
-- Is this Idea artifact correctly homed in `datatug` (next to the seed and the consuming Capability), or should it be relocated to `dalgo` once that repo is SpecScore-managed?
-- How much of the dalgo AST does the relational MVP cover — joins, aggregates, computed columns — before nested/document work begins?
+- Is this Idea artifact correctly homed in `datatug` (next to the seed and the consuming Capability), or should it be relocated to `dal-go/dalgo` (confirmed SpecScore-managed) where the Feature will live?
+- How much of the existing `dal.StructuredQuery` does the relational MVP cover — `GroupBy`, joins/`From` composition, computed columns — before nested/document work begins?
 - What is the versioning/compatibility policy for DTQL once queries are saved to disk (schema evolution, forward/backward compatibility)?
 
 ---
