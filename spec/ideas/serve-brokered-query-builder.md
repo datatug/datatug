@@ -1,6 +1,6 @@
 # Idea: Serve-Brokered AI Query Builder
 
-**Status:** Specifying
+**Status:** Specified
 **Date:** 2026-06-04
 **Owner:** alexander.trakhimenok
 **Promotes To:** serve-brokered-query-builder
