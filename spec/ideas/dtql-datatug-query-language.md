@@ -1,3 +1,8 @@
+---
+format: https://specscore.md/idea-specification
+status: Approved
+---
+
 # Idea: DTQL — DataTug Query Language
 
 **Status:** Approved
