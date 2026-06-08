@@ -1,3 +1,8 @@
+---
+format: https://specscore.md/idea-specification
+status: Specified
+---
+
 # Idea: Serve-Brokered AI Query Builder
 
 **Status:** Specified
