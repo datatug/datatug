@@ -347,10 +347,12 @@ Reuse dalgo2http and descriptor/snapshot assets. Execute HTTP saved queries thro
 **Verifies:** core-investigation-loop#ac:typed-context-isolation, core-investigation-loop#ac:bound-from-selection, core-investigation-loop#ac:context-carries
 **Depends-On:** 12
 **Status:** in_progress
-**Note:** In progress: lane S75, datatug-apps, WB claim phase1-task15-context, started 2026-09-09 ~20:45 UTC.
+**Note:** In progress: lane S75 landed datatug-apps#73 (typed scope-keyed context, binding resolver with origin tiers/conflict/ambiguous/missing blocking, late-response discard, golden fixtures from datatug-core v0.26.0 with manifest drift test). Status stays in_progress until the J1 journey e2e walks bound-from-selection and context-carries without crutches (lane S79 fixes the J1 deep-link blocker; Task 17 owns the journey run).
+**Evidence:** datatug/datatug-apps#73@1bb8406
 
 Adapt grid/panel/query-page components to exact envelopes. Scope context and reactive agent selection by agent/project/environment/securityContextId. Implement typed equality, conflicts, missing inputs, visible overrides and late-response rejection. Selection cannot silently replace an open query binding. Test no facts cross project/principal boundaries and a new tab does not inherit prior context implicitly.
 
+**Annotation Amendment:** actor=projects-c5 (Claude Fable 5.1); at=2026-09-09T18:32:01Z; reason=Record the Task 15 client implementation landing; before_sha256=88ec7fc81dbdd89b5cf7e6b151288cc2204a15bb3336bf0d76ce1545dd763fb8
 ### Task 16: Correct fixture policies and real transport acceptance
 
 **Id:** task-16
