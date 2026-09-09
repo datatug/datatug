@@ -145,7 +145,10 @@ produce needs-target, with target options exposed on the candidate; selecting on
 passes its source ID to execution. TARGET_REQUIRED errors return the same authorized
 target options in error.targets, never hidden source IDs. Unauthorized queries and
 targets are omitted entirely; direct execution is independently authorized. Candidates
-sort by queryId for deterministic tests. Chain explanations distinguish declared,
+sort by queryId for deterministic tests. A `queryId` is the saved query's folder-qualified id
+(`customers/customer-invoices`), the same id `get_query` and `run_query` accept; a bare
+id is accepted on input only when it resolves to exactly one query across folders,
+otherwise INVALID_REQUEST names the candidates, and a missing query is NOT_FOUND. Chain explanations distinguish declared,
 inferred and manual inputs; a missing parameter still has an explanation.
 
 For ad-hoc DTQL, source is required. For saved queries, source obeys target resolution
