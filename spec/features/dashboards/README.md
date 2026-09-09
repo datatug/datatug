@@ -150,22 +150,55 @@ or layout work into DataTug's web UI."*
   branch `feat/board-models-reconcile` of the same repo. `sneat-co/dashboardius` still has to
   switch to the package (see that package's README, "What Dashboardius must change"), so
   AC:schema-published-once-consumed-twice is not yet satisfied.
-- **Does `Board` need `parameters`?** `boards.go`'s `Board` is `ProjectItem` + `Rows` and carries no
-  parameters, while `ProjBoardBrief` in the same file carries `Parameters` and `RequiredParams`. A
-  `board.json` holding `parameters` is therefore silently dropped on a `LoadBoard`/`SaveBoard`
-  round trip: Go's JSON decoder ignores the unknown field and the encoder never writes it back. The
-  web UI renders its board parameter card from the brief instead. Should `Board` carry
-  `parameters`/`requiredParams` too (a `datatug-core` change), or are board parameters brief-only
-  by design? *Raised by the coding agent from reconciling the TypeScript copy against `boards.go`
-  on 2026-09-09 — an agent observation, not a founder ruling.*
-- **How is a board SQL widget executed?** `SQLWidgetSettings` is `{ query }` only, so a SQL widget
-  names no db or environment to run against, even though `ParameterLookup` right beside it in
-  `boards.go` does carry `db`. The TypeScript copy had invented `db`/`env` on the widget; both were
-  dead code and were dropped rather than added to Go. Under REQ:board-persistence-and-query-binding
-  each widget binds to a library query plus parameters, which may make db/env a property of the
-  bound query rather than of the widget. Until this is answered, DataTug's own web UI renders a SQL
-  widget's query text only and never executes it. *Raised by the coding agent on 2026-09-09 — an
-  agent observation, not a founder ruling.*
+- ~~**Does `Board` need `parameters`?**~~ `boards.go`'s `Board` was `ProjectItem` + `Rows` and
+  carried no parameters, while `ProjBoardBrief` in the same file carries `Parameters` and
+  `RequiredParams`. A `board.json` holding `parameters` was therefore silently dropped on a
+  `LoadBoard`/`SaveBoard` round trip: Go's JSON decoder ignores the unknown field and the encoder
+  never writes it back. **Ruled by the founder 2026-09-09 (verbatim): *"1 - yes"*** — `Board` MUST
+  carry them. `Parameters` and `RequiredParams` are added to `Board`, mirroring `ProjBoardBrief`
+  field for field, so a board and its brief stay in step and a saved board keeps its parameters.
+- **How is a board SQL widget executed?** *Open. Raised by the coding agent on 2026-09-09; the
+  founder asked for more context before deciding, which this entry supplies. Nothing below is a
+  founder ruling.*
+
+  **The gap.** A board SQL widget stores `SQLWidgetSettings{ Query string }` and nothing else. It
+  holds the SQL text but names no database and no environment, so nothing can decide where to run
+  it. `ParameterLookup` right beside it in `boards.go` does carry a `db`, which makes the omission
+  look accidental rather than deliberate. The TypeScript copy had invented `db` and `env` on the
+  widget; both were dead code and were dropped in 2026-09-09's reconciliation rather than added to
+  Go, precisely because inventing a wire field ahead of this decision is what caused the drift.
+
+  **What already exists, and why it matters.** A saved library query is not missing this. `QueryDef`
+  (`datatug-core/pkg/datatug/query.go`) carries `Type`, `Text`, `Parameters` and
+  `Targets []QueryDefTarget`, where a target is driver, catalog, protocol, host, port and
+  credentials. So DataTug already has a modelled answer to "where does this query run" — just not
+  on boards. Meanwhile the execute API (`SelectRequest`) takes `Project`, `Environment`, `Database`
+  and `SQL` per call, and the board page already renders an environment selector, so environment is
+  in practice chosen by the viewer at view time, not stored.
+
+  **Why this is really a binding question.** REQ:board-persistence-and-query-binding already says
+  each widget binds to a library query plus parameters. A widget holding inline SQL text is that
+  requirement's opposite: it duplicates the query instead of referencing it, which is why it has
+  nowhere to inherit a target from. Deciding the execution target and deciding whether a widget
+  references a query are the same decision.
+
+  **Options.**
+  1. *Widget references a library query.* `SQLWidgetSettings` becomes a query reference plus
+     parameter bindings; the target comes from the referenced `QueryDef.Targets`, and environment
+     stays a view-time choice. Satisfies the existing REQ, keeps one definition of every query, and
+     makes board access control identical to query access control. Costs a migration for any
+     inline-SQL widget and makes a board unable to hold an ad-hoc query.
+  2. *Board declares the target, widgets inherit it.* One db/env per board, alongside the board's
+     parameters. Simple, matches how a viewer thinks about a dashboard, and needs no query library.
+     Prevents one board from drawing on two databases.
+  3. *Widget declares its own db, environment stays view-time.* Closest to what the TypeScript copy
+     had invented. Most flexible, but re-introduces the duplication the reconciliation removed and
+     leaves each widget's target unvalidated against the project's environments.
+
+  **What is blocked until this is answered.** DataTug's own web UI renders a SQL widget's query
+  text and never executes it. AC:board-round-trips-through-server cannot be written against a real
+  binding, and AC:pin-result-creates-board-entry has nowhere to record which database the pinned
+  result came from.
 
 ---
 *This document follows the https://specscore.md/feature-specification*
