@@ -274,9 +274,10 @@ to the project.
 **Id:** task-10
 **Verifies:** core-investigation-loop#ac:journey-walks
 **Depends-On:** 3, 8, 9, 11, 12, 13, 14, 15, 16
-**Status:** in_progress
-**Note:** J1, J2 and J3 pass end to end (single worker) against a real datatug-cli built from main (743b8d9) and the real web client (datatug-apps 5bee04e) — lanes S96/S99, 2026-09-10. J3: the test now asserts the contract (a cleared required value blocks Run; datatug-apps#78). Saved-query ids are folder-qualified on both sides (datatug-cli#219 canonical ids in applicable/get_query/run_query; datatug-apps#79 encodes the route segment) — S99 proved the round trip. J4 now has its own --as support --role support agent fixture and a real test (datatug-apps#80); it fails at the grid because the support agent denies from=main.Customer while the policy declares path /Customer (exact match) and exec/select carries no limitations — lane S101 (datatug-cli) normalizes the default-schema resource path and adds limitations/provenance to exec/select; lane S102 (datatug-apps) renders the limitation header on the table page. Status stays in_progress until J4 walks the journey.
-**Evidence:** datatug/datatug-apps#80@5bee04e, datatug/datatug-apps#79@f5873b2, datatug/datatug-apps#78@8e0149c, datatug/datatug-apps#77@2dfd683, datatug/datatug-cli#219@743b8d9, datatug/datatug-cli#216@292de5e
+**Status:** complete
+**Implemented-by:** datatug/datatug-apps@438f1dc4 (main)
+**Note:** Complete 2026-09-10: J1, J2, J3 and J4 pass single-worker against datatug-cli built from main aba31f6 (PR #221) and datatug-apps main 438f1dc (PR #82) — lanes S103/S104. J4 runs against its own --as support --role support agent (no intercepted responses, no deep-link shortcuts): only Canadian rows, Email hidden, limitation header on the table and query pages, Brazilian id → no rows, Canadian id → only its 7 invoices, hidden-column selection refused. Journey harness: apps/datatug-app/e2e/journey (README documents DATATUG_BIN/DATATUG_CLI_DIR/DATATUG_DEMO_DIR). Follow-up: the journey project is not yet a CI job (PR #48 being revived, lane S105); task 17 owns the release candidate and publication.
+**Evidence:** datatug/datatug-apps#82@438f1dc, datatug/datatug-cli#221@aba31f6, datatug/datatug-apps#80@5bee04e, datatug/datatug-apps#81@814c104, datatug/datatug-cli#219@743b8d9, datatug/datatug-apps#79@f5873b2
 
 Complete J1–J4 in the real-agent harness after corrective transport, executor,
 HTTP, context and fixture integration. Cover the revised Feature mechanisms without
