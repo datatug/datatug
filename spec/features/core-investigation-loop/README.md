@@ -176,7 +176,7 @@ before the run. The results header MUST list the bindings that were applied.
 
 #### REQ: dtql-query-type
 
-`QueryDef.Type` MUST accept `DTQL`, stored as `<id>.dtql.yaml` beside the `.query.json`
+`QueryDef.Type` MUST accept `DTQL`, stored as `<id>.query.dtql` beside `<id>.query.json` (the filestore's existing `<id>.query.<type>` sidecar rule, landed in datatug-core PR #302)
 sidecar; the server MUST execute it through DALgo (`dtql.Deserialize` → policy path).
 Existing `SQL` queries keep working.
 
@@ -348,7 +348,7 @@ with the policy name and never the hidden value.
 
 ### AC: dtql-query-runs (verifies REQ:dtql-query-type)
 
-**Given** `customer-invoices.dtql.yaml` exists in the demo project
+**Given** `customer-invoices.query.dtql` exists in the demo project
 **When** it is run with `Customer.ID = 5`
 **Then** rows return through the policy path and the query is listed with type `DTQL`.
 
