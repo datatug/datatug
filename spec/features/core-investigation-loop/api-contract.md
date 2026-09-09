@@ -108,10 +108,10 @@ no recordset, sample, true count, SQL text or hidden value.
 | Method/path | Request | Exact success envelope |
 |---|---|---|
 | GET `agent-info` | None | `{version:string, principal:{id:string,roles:string[],groups:string[]}, securityContextId:string, projects:[{id:string}], capabilities:{protectedQueries:boolean,opaqueReadOnly:boolean}}` |
-| GET `semantic/columns` | Scope + SourceRef | `{columns:[{column:string, entity:string, field:string, provenance:'declared'|'inferred'}]}`; unmapped columns omitted |
-| POST `semantic/related` | Scope + `{fact:Fact,limit?:number}`` | `{related:[{lookupId:string,label:string,source:string,collection:string,count:number|null}],truncated:boolean}` |
-| POST `semantic/related/rows` | Scope + `{lookupId:string,value:TypedValue,limit?:number}`` | `Result` |
-| POST `queries/applicable` | Scope + `{values:Fact[]}`` | `{applicable:Candidate[],notYet:Candidate[]}` |
+| GET `semantic/columns` | Scope + SourceRef | `{columns:[{column:string, entity:string, field:string, provenance:'declared'\|'inferred'}]}`; unmapped columns omitted |
+| POST `semantic/related` | Scope + `{fact:Fact,limit?:number}` | `{related:[{lookupId:string,label:string,source:string,collection:string,count:number\|null}],truncated:boolean}` |
+| POST `semantic/related/rows` | Scope + `{lookupId:string,value:TypedValue,limit?:number}` | `Result` |
+| POST `queries/applicable` | Scope + `{values:Fact[]}` | `{applicable:Candidate[],notYet:Candidate[]}` |
 | POST `exec/run_query` | ExecutionRequest below | `Result` |
 
 Related operations use POST so semantic values are not automatically copied into
