@@ -275,6 +275,8 @@ to the project.
 **Verifies:** core-investigation-loop#ac:journey-walks
 **Depends-On:** 3, 8, 9, 11, 12, 13, 14, 15, 16
 **Status:** in_progress
+**Note:** J1 passes end to end against a real datatug-cli built from main (292de5e, PR #216) and the real web client (datatug-apps 0b9e58b, PR #75) — lane S89 report, 2026-09-10. Fixes on the way: DI provider on the project deep link (#74), store default and CORS on the success path (cli #216), parameter aliases and SOURCE_UNAVAILABLE (cli #214), table page row fetch / flat exec-select shape / zoneless signal (#75), journey fixture passes --role admin. Still failing: J2 (journey.spec.ts:201) and J3 (:267) — the semantic context panel never appears after a cell click (lane S90); J4 remains test.fixme. Status stays in_progress.
+**Evidence:** datatug/datatug-apps#75@0b9e58b, datatug/datatug-cli#216@292de5e, datatug/datatug-apps#74@1cf770c, datatug/datatug-cli#214@d29cc70
 
 Complete J1–J4 in the real-agent harness after corrective transport, executor,
 HTTP, context and fixture integration. Cover the revised Feature mechanisms without
@@ -282,6 +284,7 @@ interception, missing-prerequisite skips or direct-entry shortcuts. This task pr
 journey evidence only; it does not release or deploy. Task 17 owns final candidate,
 epilogue, publication and remote receipt checks.
 
+**Annotation Amendment:** actor=projects-c5 (Claude Fable 5.1); at=2026-09-09T20:16:49Z; reason=Record the first J1 end-to-end pass; before_sha256=de609446bc90d9cd53833aedc398394f8c3f56608698f28a2e94af2f6bd5bc8e
 ### Task 11: HTTP reference-data source executor
 
 **Id:** task-11
