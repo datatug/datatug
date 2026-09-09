@@ -41,10 +41,10 @@ the missing resolver, endpoints and screens, and forbids everything else. It is 
   MVP: inGitDB, SQLite, HTTP endpoint. Regards HTTP - some public sources like countries
   or currency rates or something that is common and is understandable and can looks good
   in demos."* The demo therefore has three sources. What remains the lead's assumption
-  is the concrete choice: **REST Countries** (`https://restcountries.com/v3.1/name/{name}`,
-  no key) joined from Chinook's `Customer.Country` through a `Country.Name` semantic
-  field, and **Frankfurter** (`https://api.frankfurter.app/latest?from=USD&to={currency}`,
-  no key) for the country's currency rate. Both are read-only JSON GET; the demo ships a
+  is the concrete choice: **CountriesNow** (`https://countriesnow.space/api/v0.1/countries/currency/q?country={name}`,
+  no key; REST Countries was found deprecated on 2026-09-09 — every route redirects to a notice) joined from Chinook's `Customer.Country` through a `Country.Name` semantic
+  field, and **Frankfurter** (`https://api.frankfurter.dev/v1/latest?base=USD&symbols={currency}`,
+  no key; the old `.app` host now redirects) for the country's currency rate. Both are read-only JSON GET; the demo ships a
   recorded snapshot fixture so the loop still works offline. Reason for these two: common,
   understandable, and they give the loop a third hop (customer → country → currency).
 - **A2.** Opaque SQL text is executed under source-level ACL in a read-only session only;
@@ -72,7 +72,7 @@ else. Good result: rows are visible within two clicks; the server log shows the 
 **J2 — From a value to related knowledge.** On the *Customer* table the user clicks a
 `CustomerId` cell. The context panel shows *Customer.ID = 5*, *Related: Invoices (12)
 from chinook.sqlite, Support notes (2) from support-notes (inGitDB), Country facts (1)
-from REST Countries (HTTP)*, and *Applicable queries: "Customer invoices" (Customer.ID
+from CountriesNow (HTTP)*, and *Applicable queries: "Customer invoices" (Customer.ID
 bound → 5), "Customer purchases by genre", "Exchange rate for the customer's currency"
 (Country.Currency bound → CAD)*.
 They click *Customer invoices*; the query page opens with the parameter already filled

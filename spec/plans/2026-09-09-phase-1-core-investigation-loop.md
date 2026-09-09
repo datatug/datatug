@@ -107,6 +107,8 @@ walks J1 (open demo → Album → rows) asserting the agent log line. Non-goals:
 **Depends-On:** —
 **Status:** planning
 
+*Progress 2026-09-09:* datatug-demo-projects PR #8 landed the project (entities incl. `Country`, queries, support-notes, HTTP query defs + snapshot fixtures, policies); the credential rule landed in datatug-core PR #302; declared `Mappings` on the demo's fields are a follow-up once the CLI consumes that model version.
+
 In `datatug-demo-projects/demo-project-1`: add `Customer` and `Invoice` entities with
 declared mappings (`Customer.ID → chinook.Customer.CustomerId`, `Customer.Email →
 chinook.Customer.Email`, `Invoice.ID → chinook.Invoice.InvoiceId`, plus
@@ -116,7 +118,7 @@ chinook.Customer.Email`, `Invoice.ID → chinook.Invoice.InvoiceId`, plus
 set; an inGitDB `support-notes` collection (8 records keyed by `CustomerId`, 2 for
 customer 5); `policies/` with `admin` and `support` (Canada rows on `Customer`, `Email`
 hidden); a `Country` entity with `Country.Name → chinook.Customer.Country` and
-`Country.Currency`; an HTTP `QueryDef` for REST Countries (`name` parameter tagged
+`Country.Currency`; an HTTP `QueryDef` for CountriesNow (`name` parameter tagged
 `Country.Name`) and one for Frankfurter (`to` parameter tagged `Country.Currency`), each
 with a recorded snapshot fixture under `fixtures/http/`; README updated with the real
 datatug.app link. In `datatug-core` +
@@ -259,7 +261,8 @@ None — every acceptance criterion of the Feature is covered by a task above.
   served when unreachable, labelled as such; the journey harness runs with the network
   disabled so the demo never depends on a third party being up.
 - **Founder assumptions A2–A3** default to the Feature's recommendations; the concrete
-  public endpoints (REST Countries, Frankfurter) are the lead's choice and swap freely.
+  public endpoints (CountriesNow, Frankfurter) are the lead's choice and swap freely —
+  REST Countries was already dead when task 4 recorded fixtures.
 
 ## Open Questions
 
