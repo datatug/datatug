@@ -127,7 +127,7 @@ Capabilities with cross-repo Implementations) sit under P14.
 | `datatug serve` enforcement: every read passes `accesspolicies.Run`; principal from the serving user or an authenticated caller | planned | 1 | strategic | `serve` enforces nothing today; legacy `pkg/sqlexecute` path bypasses policies. |
 | Source-level allow/deny per principal | planned | 1 | strategic | Policy path scope per source/collection. |
 | Opaque SQL text under ACL: source-level only, read-only session; row/column restrictions apply to structured (DTQL) queries | planned (explicit limitation) | 1 | hygiene | Consistent with the layered-ACL design ("native routes unsupported under the protected profile"). |
-| Layered multi-owner policies, structured blockers, Explain Access, policy UI | specified/documented + implementing on the VM branch (dalgo plan tasks 1–10 complete) | 4 | strategic | `datatug/dtql` `layered-acl-design`; dalgo `spec/plans/layered-acl-mvp.md` task 21 is the DataTug integration. |
+| Layered multi-owner policies, structured blockers, Explain Access, policy UI | specified/documented + implementing on branch `layered-acl-query` (on origin since 2026-09-09) (dalgo plan tasks 1–10 complete) | 4 | strategic | `datatug/dtql` `layered-acl-design`; dalgo `spec/plans/layered-acl-mvp.md` task 21 is the DataTug integration. |
 
 ## P11 — Three surfaces, one project · Feature `surfaces`
 

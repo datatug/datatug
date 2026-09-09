@@ -43,7 +43,7 @@ cannot deliver yet.
 | `datatug serve` enforcement: every read passes `accesspolicies.Run`; principal from the serving user or an authenticated caller | planned | 1 | strategic |
 | Source-level allow/deny per principal | planned | 1 | strategic |
 | Opaque SQL text under ACL: source-level only, read-only session; row/column restrictions apply to structured (DTQL) queries | planned (explicit limitation) | 1 | hygiene |
-| Layered multi-owner policies, structured blockers, Explain Access, policy UI | specified/documented + implementing on the VM branch (dalgo plan tasks 1–10 complete) | 4 | strategic |
+| Layered multi-owner policies, structured blockers, Explain Access, policy UI | specified/documented + implementing on branch `layered-acl-query` (on origin since 2026-09-09) (dalgo plan tasks 1–10 complete) | 4 | strategic |
 
 #### REQ: dalgo-access-policies-external
 
@@ -85,7 +85,7 @@ different one.
 
 Layered multi-owner policies, structured blockers, Explain Access and a policy-authoring UI MUST
 follow the already-approved layered-ACL MVP plan (`dal-go/dalgo` `spec/plans/layered-acl-mvp.md`)
-rather than being redesigned here. That plan records tasks 1–10 complete on the VM branch
+rather than being redesigned here. That plan records tasks 1–10 complete on branch `layered-acl-query` (on origin since 2026-09-09)
 `layered-acl-query` (policy loader, scoped field/collection masks, typed principals, execution
 gates, mirrored into `dalgo2sql`, `dalgo2ingitdb` and `openvaultdb-go`), with task 21, "DataTug
 query/write and Explain Access integration," as the point where this Feature's Phase 4 work begins.
