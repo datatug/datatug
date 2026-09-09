@@ -141,8 +141,31 @@ or layout work into DataTug's web UI."*
   founder 2026-09-09 (verbatim): *"board belongs to DataTug project. Project can be shared across
   Sneat spaces"*. Boards are project files; who can see a board follows the project's grants to
   spaces (Feature `sharing-scopes`), never a board-level owner.
-- Home of the DataTug↔Dashboardius board contract: publish `@datatug/board-models` from
-  `datatug-apps`, or keep the documented copy until Phase 3? (`product/README.md` Open Questions.)
+- ~~Home of the DataTug↔Dashboardius board contract: publish `@datatug/board-models` from
+  `datatug-apps`, or keep the documented copy until Phase 3?~~ (`product/README.md` Open
+  Questions.) Resolved by delivery 2026-09-09: `@datatug/board-models` lives in
+  `datatug/datatug-apps` under `libs/datatug/board-models` (PR datatug/datatug-apps#49, merged
+  2026-09-09), with types generated field-for-field from `datatug-core/pkg/datatug/boards.go`.
+  `datatug-apps`' own pre-existing copy of the schema in `libs/datatug/main` is being removed on
+  branch `feat/board-models-reconcile` of the same repo. `sneat-co/dashboardius` still has to
+  switch to the package (see that package's README, "What Dashboardius must change"), so
+  AC:schema-published-once-consumed-twice is not yet satisfied.
+- **Does `Board` need `parameters`?** `boards.go`'s `Board` is `ProjectItem` + `Rows` and carries no
+  parameters, while `ProjBoardBrief` in the same file carries `Parameters` and `RequiredParams`. A
+  `board.json` holding `parameters` is therefore silently dropped on a `LoadBoard`/`SaveBoard`
+  round trip: Go's JSON decoder ignores the unknown field and the encoder never writes it back. The
+  web UI renders its board parameter card from the brief instead. Should `Board` carry
+  `parameters`/`requiredParams` too (a `datatug-core` change), or are board parameters brief-only
+  by design? *Raised by the coding agent from reconciling the TypeScript copy against `boards.go`
+  on 2026-09-09 — an agent observation, not a founder ruling.*
+- **How is a board SQL widget executed?** `SQLWidgetSettings` is `{ query }` only, so a SQL widget
+  names no db or environment to run against, even though `ParameterLookup` right beside it in
+  `boards.go` does carry `db`. The TypeScript copy had invented `db`/`env` on the widget; both were
+  dead code and were dropped rather than added to Go. Under REQ:board-persistence-and-query-binding
+  each widget binds to a library query plus parameters, which may make db/env a property of the
+  bound query rather than of the widget. Until this is answered, DataTug's own web UI renders a SQL
+  widget's query text only and never executes it. *Raised by the coding agent on 2026-09-09 — an
+  agent observation, not a founder ruling.*
 
 ---
 *This document follows the https://specscore.md/feature-specification*
