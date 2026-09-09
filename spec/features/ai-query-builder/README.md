@@ -16,7 +16,9 @@ status: Approved
 
 ## Summary
 
-The AI Query Builder is a platform-agnostic **Capability**: an in-app conversational query builder where a user seeds a query in natural language and then progressively refines it through a chain of plain-English requests. The *current query* is held as inspectable session state; each request is applied as a transformation against it. This Feature is a Capability per SpecScore's [capability-and-platform-implementations](https://specscore.md/feature-specification) pattern — it defines only behavior that must hold on every surface and owns the Implementation Matrix tracking the CLI and Web realizations.
+The AI Query Builder is a platform-agnostic **Capability**: an in-app conversational query builder where a user seeds a query in natural language and then progressively refines it through a chain of plain-English requests.
+
+The *current query* is held as inspectable session state; each request is applied as a transformation against it. This Feature is a Capability per SpecScore's [capability-and-platform-implementations](https://specscore.md/feature-specification) pattern — it defines only behavior that must hold on every surface and owns the Implementation Matrix tracking the CLI and Web realizations.
 
 ## Problem
 
