@@ -62,6 +62,27 @@ The old model dependency is now external. Never revive the deleted vendored core
 copy or mirror fixes into two authorities. Port pending configuration changes upstream
 and converge consumers to published provider revisions before release acceptance.
 
+### Execution tracking and claims
+
+Task status below is the shared progress record, maintained with `specscore task
+change-status --plan 2026-09-09-phase-1-core-investigation-loop`. It is not updated
+automatically from agent activity or GitHub merges. Completed tasks must carry
+implementation evidence; an active task's Note identifies its owner, bounded scope
+and remaining dependencies. Publish status changes so another machine can read them.
+
+Before starting, inspect current Mac/VM worktrees and open PRs, then acquire the shared
+WB claim `datatug-phase1-task<N>` without force or takeover. Different historical
+worktree names can cover the same task, so an absent claim alone does not prove that
+the work is free. Preserve existing owners and their pending changes. WB Work Logs
+record worktree/session ownership; the plan Note connects that ownership to this
+plan's task ID. Release the claim only after the lane's work is handed off or closed.
+
+Independent preparation may start while dependencies remain open, but it must name
+that boundary in its Note. It does not close the task's dependent acceptance. When
+only predecessor work remains, record `blocked` with the precise missing evidence;
+resume through the lifecycle command after the dependency is available. Never count
+a policy fixture or isolated test as the complete browser/agent journey.
+
 ### Definition of done
 
 Every revised Feature AC passes against recorded immutable client/server/core/provider/
@@ -324,7 +345,9 @@ Adapt grid/panel/query-page components to exact envelopes. Scope context and rea
 **Id:** task-16
 **Verifies:** core-investigation-loop#ac:demo-project-shape, core-investigation-loop#ac:related-respects-policy, core-investigation-loop#ac:real-transport-and-parameter-effect
 **Depends-On:** 13, 14, 15
-**Status:** planning
+**Status:** in_progress
+**Note:** Codex owns datatug-phase1-task16: correcting demo policies and pinned-data expectations in datatug/datatug-demo-projects. Existing Fable server/browser work remains separately owned. Final browser-shaped transport acceptance is still gated by tasks 13–15.
+**Evidence:** wb-claim:datatug-phase1-task16
 
 Keep the real demo assets. Declare policies for Customer, Invoice and support-notes independently; choose Brazilian/Canadian IDs and expected counts from the pinned dataset. Use selected Country and retrieved currency facts rather than guessing from CustomerId. Preserve pending semantic demo tests. Exercise actual browser-shaped requests against the real server, including forged lookup IDs, policy-safe counts and unauthorized query metadata omission.
 
