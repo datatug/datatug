@@ -502,7 +502,17 @@ bounded and cancellation releases resources. Unavailable exact counts return nul
 
 ## Open Questions
 
-None blocking the corrected local Phase 1 slice. Internal `basket` naming is an
+1. **Which Customer ID do the J1 ACs use for the support principal?** The ACs
+   `bound-from-selection` and `context-carries` bind `Customer.ID = 5`, but in the
+   pinned Chinook data customer 5 is in the Czech Republic, and the support fixture
+   policy (`demo-project-1/policies/customers.yaml`) restricts Customer and Invoice
+   rows to Canada, so the support principal sees zero rows for it; customer 3
+   (Canada) returns 7 invoices (lane S77 live smoke, 2026-09-09, datatug-cli 7fc6efb).
+   Either the ACs name a Canadian customer, or the fixture policy admits customer 5,
+   or J1 runs as a different principal. Owner: Phase 1 task 16 (fixture policies and
+   pinned-data expectations). Not a founder ruling; recorded by the lead session.
+
+None of the remaining items blocks the corrected local Phase 1 slice. Internal `basket` naming is an
 engineering detail; the user-facing label is Investigation Context. Concrete HTTP
 descriptors are maintained in the demo project and acceptance manifest, with no
 claim that a specific provider was founder-selected. Broader hosting, HTTP credentials
