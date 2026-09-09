@@ -1,10 +1,10 @@
 ---
 format: https://specscore.md/plan-specification
-status: Draft
+status: Approved
 ---
 # Plan: Phase 1 — core investigation loop
 
-**Status:** Draft
+**Status:** Approved
 **Source Feature:** core-investigation-loop
 **Date:** 2026-09-09
 **Owner:** alex
