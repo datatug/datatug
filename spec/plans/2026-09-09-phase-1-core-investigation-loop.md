@@ -275,8 +275,8 @@ to the project.
 **Verifies:** core-investigation-loop#ac:journey-walks
 **Depends-On:** 3, 8, 9, 11, 12, 13, 14, 15, 16
 **Status:** in_progress
-**Note:** J1 and J2 pass end to end against a real datatug-cli built from main (292de5e+) and the real web client (datatug-apps 2dfd683, PR #77) — lanes S89/S90/S92, 2026-09-10. Fixes on the way: DI providers on the project and query deep links (#74, #77), store default + CORS on the success path (cli #216), parameter aliases + SOURCE_UNAVAILABLE (cli #214), table page row fetch / flat exec-select shape / zoneless signal (#75), Fact.physical + late securityContextId on the context panel (#76), get_query folder-qualified ids worked around via project_full and last environment persisted per store+project (#77). J3 passes every step to its final assertion, which expects an empty binding list after clearing a required parameter while the contract says a cleared required value blocks Run (lane S96 reconciles test and UI). J4 remains test.fixme (needs the second --as support agent, plan task 6). Server follow-up: applicable emits bare query ids while get_query expects folder-qualified ones (lane S97). Status stays in_progress.
-**Evidence:** datatug/datatug-apps#77@2dfd683, datatug/datatug-apps#76@8a71b89, datatug/datatug-apps#75@0b9e58b, datatug/datatug-apps#74@1cf770c, datatug/datatug-cli#216@292de5e, datatug/datatug-cli#214@d29cc70
+**Note:** J1, J2 and J3 pass end to end (single worker) against a real datatug-cli built from main (743b8d9) and the real web client (datatug-apps 5bee04e) — lanes S96/S99, 2026-09-10. J3: the test now asserts the contract (a cleared required value blocks Run; datatug-apps#78). Saved-query ids are folder-qualified on both sides (datatug-cli#219 canonical ids in applicable/get_query/run_query; datatug-apps#79 encodes the route segment) — S99 proved the round trip. J4 now has its own --as support --role support agent fixture and a real test (datatug-apps#80); it fails at the grid because the support agent denies from=main.Customer while the policy declares path /Customer (exact match) and exec/select carries no limitations — lane S101 (datatug-cli) normalizes the default-schema resource path and adds limitations/provenance to exec/select; lane S102 (datatug-apps) renders the limitation header on the table page. Status stays in_progress until J4 walks the journey.
+**Evidence:** datatug/datatug-apps#80@5bee04e, datatug/datatug-apps#79@f5873b2, datatug/datatug-apps#78@8e0149c, datatug/datatug-apps#77@2dfd683, datatug/datatug-cli#219@743b8d9, datatug/datatug-cli#216@292de5e
 
 Complete J1–J4 in the real-agent harness after corrective transport, executor,
 HTTP, context and fixture integration. Cover the revised Feature mechanisms without
@@ -286,6 +286,7 @@ epilogue, publication and remote receipt checks.
 
 **Annotation Amendment:** actor=projects-c5 (Claude Fable 5.1); at=2026-09-09T20:16:49Z; reason=Record the first J1 end-to-end pass; before_sha256=de609446bc90d9cd53833aedc398394f8c3f56608698f28a2e94af2f6bd5bc8e
 **Annotation Amendment:** actor=projects-c5 (Claude Fable 5.1); at=2026-09-09T21:24:53Z; reason=Record the J2 end-to-end pass and the J3 state; before_sha256=f16e13bd37c65c99c84fd98ef99bb1b4eedce6c9cdd1389ab7fe3706d18c6e84
+**Annotation Amendment:** actor=projects-c5 (Claude Fable 5.1); at=2026-09-09T22:18:55Z; reason=Record the J3 pass, the canonical query-id convention and the J4 harness with its first failure; before_sha256=a1148755786cd6a853fca8379ca5f2babc4d25cf33059dd9e42b354abc6ffde7
 ### Task 11: HTTP reference-data source executor
 
 **Id:** task-11
