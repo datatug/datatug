@@ -229,7 +229,8 @@ as a source (founder ruling 2026-09-09: *"HTTP endpoint ... some public sources 
 countries or currency rates"*), declared as a `QueryDef` of type HTTP with a parameter
 carrying a semantic tag, so that the server can execute it for related lookups and
 applicable queries exactly like the other two sources. Execution MUST be server-side
-(`datatug serve`), read-only GET, with response rows shaped as a recordset; the project
+(`datatug serve`) through the DALgo adapter `dal-go/dalgo2http` (founder ruling 2026-09-09:
+*"dalgo2http - yes"*), read-only GET, with response rows shaped as a recordset; the project
 MUST carry a recorded snapshot fixture used when the endpoint is unreachable, and the
 result header MUST say which of live or snapshot was served. No write, no auth header,
 no secret in project files.
