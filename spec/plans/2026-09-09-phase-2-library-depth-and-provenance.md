@@ -21,6 +21,22 @@ and time-window semantics; those remain explicit deferred work below, not prereq
 for this smaller useful outcome. This draft is not authority to start Phase 2 before
 Phase 1 acceptance or to treat draft feature scope as implicitly approved implementation.
 
+### Current implementation reservation
+
+On 9 September the founder asked Codex to pick up something more substantial,
+possibly from Phase 2, using a faster-model implementation agent. Codex selected the
+storage foundation of task 2 as independent preparatory work: existing query-store
+reuse, safe atomic persistence, revision conflicts, and reload/failure tests. This
+selection is the implementation lead's scope decision, not approval of every draft
+Feature or a waiver of Phase 1 acceptance. No new server write endpoint or browser
+capture flow is activated by this reservation. The full plan remains Draft and its
+Phase 1 prerequisite remains unchanged.
+
+Task 2's Note records the responsible Codex task and shared WB claim. Maintain status
+with SpecScore and publish changes; file status does not automatically follow agent
+activity. Claim ownership before implementation and retain explicit predecessor gates
+when reporting partial delivery. Storage tests cannot close the capture journey AC.
+
 ## Journey
 
 **Start, nobody else acts:** an authorized local/Git project user opens the accepted
@@ -86,7 +102,9 @@ Preserve this work as a separately planned semantic-types extension. Phase 1 typ
 **Id:** task-2
 **Verifies:** executable-knowledge-library#ac:capture-lands-as-git-diff
 **Depends-On:** —
-**Status:** planning
+**Status:** queued
+**Note:** Codex task 01a08675-7b77-7d41-9477-ad8168d80a19 reserves the query-capture storage foundation; shared WB claim datatug-phase2-task2. Full capture journey awaits Phase1 acceptance.
+**Evidence:** wb-claim:datatug-phase2-task2
 **Activation:** Phase 2
 
 Implement authorized atomic query capture from existing executed lookups. Persist <id>.query.json and <id>.query.dtql with purpose and explicit typed parameters. Refuse path traversal, credentials, unauthorized writes and stale revisions; preserve browser draft on failure. No automatic commit or hosted team grant.
