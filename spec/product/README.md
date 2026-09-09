@@ -118,6 +118,6 @@ Each pillar is a top-level Capability Feature. The state column is the audited s
 
 ## Open Questions
 
-- **UI kit for DataTug and Dashboardius (Ionic, PrimeNG, or both).** The fleet standard (founder, 2026-08-19) makes Ionic primary with PrimeNG islands for data surfaces in Sneat apps; Dashboardius shipped as a standalone PrimeNG app. DataTug is a Tier-3 desktop-first data tool whose current Ionic shell is thin. Recommendation and trade-offs are in [ROADMAP.md](../../ROADMAP.md#ui-kit-decision); the founder decides.
+- ~~UI kit for DataTug and Dashboardius.~~ Ruled 2026-09-09 (verbatim): *"UI-kit rule - confirmed"* — Ionic frame + islands (`ROADMAP.md`, UI kit decision). Original question kept for context: The fleet standard (founder, 2026-08-19) makes Ionic primary with PrimeNG islands for data surfaces in Sneat apps; Dashboardius shipped as a standalone PrimeNG app. DataTug is a Tier-3 desktop-first data tool whose current Ionic shell is thin. Recommendation and trade-offs are in [ROADMAP.md](../../ROADMAP.md#ui-kit-decision); the founder decides.
 - **Home of the DataTug↔Dashboardius board contract** — publish `@datatug/board-models` from `datatug-apps`, or keep the documented copy until Phase 3?
-- **Does a Dashboardius board belong to a DataTug project or to a Sneat space?** (raised in the Dashboardius Idea; must be settled before board persistence is built.)
+- ~~Does a Dashboardius board belong to a DataTug project or to a Sneat space?~~ Ruled 2026-09-09 (verbatim): *"board belongs to DataTug project. Project can be shared across Sneat spaces"*.

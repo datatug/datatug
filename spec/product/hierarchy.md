@@ -28,7 +28,7 @@ Capabilities with cross-repo Implementations) sit under P14.
 |---|---|---|---|---|
 | DTQL YAML serialization of the DALgo query AST | usable (external, Stable in `dal-go/dalgo/dtql`) | — | enabler | Lossless round-trip tests; JSON Schema published. Joins, group-by, cursors out of DTQL scope. |
 | DTQL as a saved-query type in projects (`queries/**/*.dtql.yaml`, `QueryDef.Type = DTQL`) | planned | 1 | strategic | `QueryDef.Type` enum has SQL/HTTP/StructuredSQL only (`datatug-core/pkg/datatug/query.go:124-137`). |
-| Native query escape hatch (SQL text, HTTP request) | usable (SQL) / backend-only (HTTP) | 1 (SQL), 2 (HTTP) | enabler | SQL runs through legacy `pkg/sqlexecute`; HTTP executor throws in web. |
+| Native query escape hatch (SQL text, HTTP request) | usable (SQL) / backend-only (HTTP) | 1 (SQL; read-only HTTP GET per founder ruling 2026-09-09), 2 (rest of HTTP) | enabler | SQL runs through legacy `pkg/sqlexecute`; HTTP executor throws in web. |
 | Rendering to backends through DALgo adapters | partial | 0–1 | enabler | sqlite + ingitdb wired in `pkg/dbcopy/url.go`; postgres explicitly stubbed; mssql/mysql/firestore not in the dispatcher. |
 | Standalone `dtql*` repositories and dtql.org claims | obsolete / contradicted | 0 | hygiene | Real code is `dal-go/dalgo/dtql`; retire or redirect the stubs. |
 
@@ -39,7 +39,7 @@ Capabilities with cross-repo Implementations) sit under P14.
 | SQL sources (SQLite, SQL Server, MySQL, Postgres) — scan + query | partial | 0–1 | enabler | Scan via `pkg/schemers/*`; released binaries are `CGO_ENABLED=0` so SQLite via mattn is absent; use `dalgo2sqlite` (pure Go) for structured queries. |
 | inGitDB (Git-backed data) as a source | usable (local paths) | 1 | strategic | `ingitdb://` scheme; proven in `query run` tests. The cheapest second source for a cross-source demo. |
 | Firestore as a source | partial | 3 | enabler | Scan display only in TUI; `dalgo2firestore` rejects OR groups and GroupBy. |
-| HTTP / GraphQL API requests as queries | backend-only | 2 | strategic | `QueryDef` HTTP type + `HTTPWidgetDef` modeled; no executor in web, untested in CLI. |
+| HTTP / GraphQL API requests as queries | backend-only | 1 (read-only JSON GET reference data, founder ruling 2026-09-09) / 2 (rest) | strategic | `QueryDef` HTTP type + `HTTPWidgetDef` modeled; no executor in web, untested in CLI. |
 | Logs as a source | planned | 5 | strategic | No model. |
 | Source registry and connection secrets outside project files | partial (gap) | 0–1 | hygiene | `QueryDefTarget.Credentials` can be committed; `AuthCredential` stores no secret. |
 
@@ -103,7 +103,7 @@ Capabilities with cross-repo Implementations) sit under P14.
 | Capability | State | Phase | Kind | Evidence / note |
 |---|---|---|---|---|
 | Personal / team / project / organization scopes | planned | 3 | strategic | Marketed on datatug.io; nothing implemented. |
-| Project membership through Sneat space membership and roles | planned | 3 | enabler | `datatug_projects` uses flat `userIDs[]`; `@sneat/space-*` declared, unused; `spaceID` typed, unwired. |
+| Project membership through Sneat space membership and roles | planned | 3 | enabler | `datatug_projects` uses flat `userIDs[]`; `@sneat/space-*` declared, unused; `spaceID` typed, unwired. Founder ruling 2026-09-09: a project is a standalone entity granted to multiple spaces. |
 | Hosted team workspace on datatug.app | partial | 3 | strategic | Nearest monetizable wedge per backstage B2B strategy (2026-07-01). |
 
 ## P9 — Git-native projects · Feature `git-native-projects`
@@ -170,7 +170,7 @@ Capabilities with cross-repo Implementations) sit under P14.
 | Capability | State | Phase | Kind | Evidence / note |
 |---|---|---|---|---|
 | Board schema (Go + TS) | usable (model) | — | enabler | `datatug-core/pkg/datatug/boards.go`; copied field-for-field into Dashboardius. |
-| Board persistence and query binding through the DataTug server | planned | 3 | strategic | `DatatugBoardService.getBoard()` not implemented; Dashboardius MVP needs it. |
+| Board persistence and query binding through the DataTug server | planned | 3 | strategic | `DatatugBoardService.getBoard()` not implemented; Dashboardius MVP needs it. Founder ruling 2026-09-09: boards belong to the DataTug project. |
 | Board emerging from exploration ("pin this result") | planned | 3 | strategic | The DataTug-side entry point into Dashboardius. |
 | Shared board-model package (`@datatug/board-models`) | planned | 3 | enabler | Removes the documented copy in `sneat-co/dashboardius`. |
 | Charts in DataTug's own web UI | planned | — | — | Not building; Dashboardius presents. |

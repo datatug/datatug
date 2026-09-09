@@ -19,12 +19,13 @@ status: Draft
 ## Summary
 
 Phase 1 makes DataTug's defining loop work end to end, at a basic but coherent level, in
-the web UI over the local agent (`datatug serve`), on one demo project with two sources:
+the web UI over the local agent (`datatug serve`), on one demo project with three sources
+(SQLite, inGitDB and a public HTTP endpoint — founder ruling, see A1):
 
 ```text
 open DataTug → open the demo project → open a table or saved query
 → rows in a dense grid, mapped columns carry a semantic marker
-→ select a cell → context panel: meaning · related records (both sources) · applicable queries (parameters bound)
+→ select a cell → context panel: meaning · related records (all three sources) · applicable queries (parameters bound)
 → run an applicable query through the server → results, ACL-limited if the principal is restricted
 → add the value to the Investigation Context → open another query: parameter bound from context
 → follow a related record → continue
@@ -36,9 +37,16 @@ the missing resolver, endpoints and screens, and forbids everything else. It is 
 
 ### Assumptions made by the lead (not founder rulings — challenge freely)
 
-- **A1.** The second source is an inGitDB collection (`support-notes`) keyed by
-  `CustomerId`, not an HTTP endpoint. Reason: `ingitdb://` is already wired into the
-  query path and tested; HTTP execution does not exist in the web.
+- **A1 (superseded by a founder ruling, 2026-09-09, verbatim):** *"I want to have in
+  MVP: inGitDB, SQLite, HTTP endpoint. Regards HTTP - some public sources like countries
+  or currency rates or something that is common and is understandable and can looks good
+  in demos."* The demo therefore has three sources. What remains the lead's assumption
+  is the concrete choice: **REST Countries** (`https://restcountries.com/v3.1/name/{name}`,
+  no key) joined from Chinook's `Customer.Country` through a `Country.Name` semantic
+  field, and **Frankfurter** (`https://api.frankfurter.app/latest?from=USD&to={currency}`,
+  no key) for the country's currency rate. Both are read-only JSON GET; the demo ships a
+  recorded snapshot fixture so the loop still works offline. Reason for these two: common,
+  understandable, and they give the loop a third hop (customer → country → currency).
 - **A2.** Opaque SQL text is executed under source-level ACL in a read-only session only;
   row and column policies apply to structured (DTQL) queries and to every server-built
   lookup. Reason: DALgo cannot rewrite text it does not parse; the layered-ACL design
@@ -63,8 +71,10 @@ else. Good result: rows are visible within two clicks; the server log shows the 
 
 **J2 — From a value to related knowledge.** On the *Customer* table the user clicks a
 `CustomerId` cell. The context panel shows *Customer.ID = 5*, *Related: Invoices (12)
-from chinook.sqlite, Support notes (2) from support-notes (inGitDB)*, and *Applicable
-queries: "Customer invoices" (Customer.ID bound → 5), "Customer purchases by genre"*.
+from chinook.sqlite, Support notes (2) from support-notes (inGitDB), Country facts (1)
+from REST Countries (HTTP)*, and *Applicable queries: "Customer invoices" (Customer.ID
+bound → 5), "Customer purchases by genre", "Exchange rate for the customer's currency"
+(Country.Currency bound → CAD)*.
 They click *Customer invoices*; the query page opens with the parameter already filled
 and runs through the server. Good result: the results grid shows invoices for customer 5,
 and the query page states "Customer.ID bound from selection".
@@ -208,8 +218,21 @@ declared mappings and semantic fields `Customer.ID`, `Customer.Email`, `Invoice.
 three parameterized queries (`customer-invoices` requires `Customer.ID`; `invoice-lines`
 requires `Invoice.ID`; `customer-purchases-by-genre` requires `Customer.ID`), at least
 one as DTQL; an inGitDB `support-notes` collection (5–10 records keyed by `CustomerId`)
-with a mapping to `Customer.ID`; and a policy set with principals `admin` (all) and
+with a mapping to `Customer.ID`; an HTTP reference source (REQ:http-reference-source)
+mapped to `Country.Name`; and a policy set with principals `admin` (all) and
 `support` (Canada rows, `Email` hidden).
+
+#### REQ: http-reference-source
+
+The demo project MUST include at least one public, keyless, read-only HTTP JSON endpoint
+as a source (founder ruling 2026-09-09: *"HTTP endpoint ... some public sources like
+countries or currency rates"*), declared as a `QueryDef` of type HTTP with a parameter
+carrying a semantic tag, so that the server can execute it for related lookups and
+applicable queries exactly like the other two sources. Execution MUST be server-side
+(`datatug serve`), read-only GET, with response rows shaped as a recordset; the project
+MUST carry a recorded snapshot fixture used when the endpoint is unreachable, and the
+result header MUST say which of live or snapshot was served. No write, no auth header,
+no secret in project files.
 
 ### Surfaces and repair
 
@@ -242,8 +265,8 @@ datatug serve (datatug-cli pkg/server + pkg/api)
 - The resolver is pure over project data + scanned schema; it is reusable by the TUI and
   by a future `datatug context` verb / MCP resource (Phase 2).
 - No new storage. No WebSocket. No auth beyond the fixed principal (loopback).
-- Secrets: the demo uses a local SQLite file and a local inGitDB directory; the
-  validator refuses committed credentials (Phase 0).
+- Secrets: the demo uses a local SQLite file, a local inGitDB directory and keyless
+  public HTTP endpoints; the validator refuses committed credentials (Phase 0).
 
 ## API contracts (behaviour, not code)
 
@@ -276,7 +299,7 @@ with the policy name and never the hidden value.
 |----------|--------|-------|------|
 | CLI / server (`datatug serve`) | Planned | store wiring, resolver, ACL on all reads, DTQL query type, principal flags, demo project | specscore:feature/core-investigation-loop@github.com/datatug/datatug-cli |
 | Web (`datatug-apps`) | Planned | agent client contract, semantic markers, context panel, applicable queries, auto-binding, Investigation Context, limitation header, journey e2e | specscore:feature/core-investigation-loop@github.com/datatug/datatug-apps |
-| Demo project (`datatug-demo-projects`) | Planned | Customer/Invoice entities, mappings, three parameterized queries, inGitDB support-notes, policy set | — |
+| Demo project (`datatug-demo-projects`) | Planned | Customer/Invoice/Country entities, mappings, parameterized queries, inGitDB support-notes, HTTP reference source with snapshot fixture, policy set | — |
 
 ## Acceptance Criteria
 
@@ -356,7 +379,13 @@ with the policy name and never the hidden value.
 
 **Given** the demo project on `main`
 **When** `datatug validate` runs
-**Then** it passes, and `datatug entity list` shows `Customer` and `Invoice` with declared mappings, and the inGitDB collection loads through `ingitdb://`.
+**Then** it passes, and `datatug entity list` shows `Customer`, `Invoice` and `Country` with declared mappings, and the inGitDB collection loads through `ingitdb://`.
+
+### AC: http-source-in-demo (verifies REQ:http-reference-source)
+
+**Given** the demo project and a running agent
+**When** the user selects a `Country` cell on the Customer table, or runs the "Exchange rate for the customer's currency" query
+**Then** the server executes the HTTP reference source read-only, returns rows shaped like any other source, and the result header states "live" or "snapshot"; with the network disabled the same request succeeds from the snapshot fixture.
 
 ### AC: journey-walks (verifies REQ:journey-e2e)
 
@@ -419,7 +448,7 @@ with the policy name and never the hidden value.
 
 ## Open Questions
 
-- Confirm assumptions A1–A3 above (second source, opaque-SQL limitation, `basket` name).
+- A1 is ruled (three sources); confirm the lead's concrete endpoint choice (REST Countries + Frankfurter) and assumptions A2–A3 (opaque-SQL limitation, `basket` name).
 - Should the serving principal default to `admin` when `--as` is omitted, or should `serve` refuse to start without a principal when a policy set exists? Recommendation: default `admin` only when no policy set exists; otherwise require `--as`.
 
 ---

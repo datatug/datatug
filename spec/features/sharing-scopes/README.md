@@ -51,10 +51,14 @@ gate on what a principal can actually read or run.
 #### REQ: project-membership-through-sneat-spaces
 
 Project membership MUST be derived from Sneat space membership and roles, not a hand-rolled
-`userIDs[]` field. `datatug_projects` records MUST move under `/spaces/{spaceID}/ext/datatug/` per
-the space-bounded convention, with `ICreateProjectData.spaceID` actually read and enforced rather
-than declared and ignored. This is a founder decision to confirm before implementation (see Open
-Questions).
+`userIDs[]` field. Founder ruling 2026-09-09 (verbatim): *"DataTug project is standalone entity
+that can be shared (granted) between multiple spaces (teams)"* — an explicit exception to the
+space-bounded default. A project record therefore stays a top-level entity and MUST carry a list
+of grants, each naming a Sneat space and the role members of that space get on the project; a
+principal's project permission is derived from their role in any granted space, never from a
+hand-rolled per-user list. `ICreateProjectData.spaceID` becomes the first grant, actually read
+and enforced rather than declared and ignored. The grant shape (space ID + role) is the lead's
+modelling of the ruling and is open to change; the ruling itself is not.
 
 #### REQ: hosted-team-workspace
 
@@ -82,13 +86,13 @@ or membership system.
 
 **Given** a Sneat space with an admin and a viewer role
 **When** each opens the same DataTug project under that space
-**Then** their DataTug project permissions match their Sneat space role, with no separate `userIDs[]` entry required.
+**Then** their DataTug project permissions match their Sneat space role through the project's grant to that space, with no separate `userIDs[]` entry required.
 
 ### AC: spaceid-field-actually-used (verifies REQ:project-membership-through-sneat-spaces)
 
 **Given** a new project created with `ICreateProjectData.spaceID` set
 **When** the project record is written
-**Then** it is stored under `/spaces/{spaceID}/ext/datatug/` and readable by that space's members, not as a flat top-level `datatug_projects` document.
+**Then** the project is stored as a standalone entity whose grants include that space, readable by that space's members, and a second space granted later reads the same project without a copy.
 
 ### AC: hosted-workspace-uses-sneat-identity (verifies REQ:hosted-team-workspace)
 
@@ -108,10 +112,10 @@ or membership system.
 
 ## Open Questions
 
-- Should `datatug_projects` move to the space-bounded model
-  (`/spaces/{spaceID}/ext/datatug/`), or keep a project-level `userIDs[]` with a space link? This
-  is a founder decision (per the space-bounded standing rule, the recommended answer is the
-  space-bounded model, but it is not yet a founder ruling for this repository).
+- ~~Should `datatug_projects` move to the space-bounded model?~~ Ruled 2026-09-09 (verbatim):
+  *"DataTug project is standalone entity that can be shared (granted) between multiple spaces
+  (teams)"*. Open instead: the grant record's shape (space ID + role, or space ID + per-asset
+  scope) — the lead's assumption above is the simplest one.
 
 ---
 *This document follows the https://specscore.md/feature-specification*

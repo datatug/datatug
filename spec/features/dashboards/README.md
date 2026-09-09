@@ -137,9 +137,10 @@ or layout work into DataTug's web UI."*
 
 ## Open Questions
 
-- Does a Dashboardius board belong to a DataTug project or to a Sneat space? Raised in the
-  Dashboardius Idea; must be settled before board persistence is built (`product/README.md` Open
-  Questions; `ROADMAP.md` Open Question 5).
+- ~~Does a Dashboardius board belong to a DataTug project or to a Sneat space?~~ Ruled by the
+  founder 2026-09-09 (verbatim): *"board belongs to DataTug project. Project can be shared across
+  Sneat spaces"*. Boards are project files; who can see a board follows the project's grants to
+  spaces (Feature `sharing-scopes`), never a board-level owner.
 - Home of the DataTug↔Dashboardius board contract: publish `@datatug/board-models` from
   `datatug-apps`, or keep the documented copy until Phase 3? (`product/README.md` Open Questions.)
 
