@@ -63,6 +63,8 @@ Current-state references a coding agent needs first: [current-state audit](../re
 **Depends-On:** —
 **Status:** planning
 
+*Progress 2026-09-09:* Audit evidence: datatug-cli PR [#192](https://github.com/datatug/datatug-cli/pull/192) and [#195](https://github.com/datatug/datatug-cli/pull/195) merged; related CI/dependency fixes are in [#191](https://github.com/datatug/datatug-cli/pull/191), [#188](https://github.com/datatug/datatug-cli/pull/188), and [#189](https://github.com/datatug/datatug-cli/pull/189). The required module-dependency restoration remains open in [#197](https://github.com/datatug/datatug-cli/pull/197), so this task is not complete.
+
 Fix the go-github v91 imports so `main` builds; add a CI gate that runs `go build ./...`
 on dependency PRs. Make `datatug serve` start: nil-check `config.Server`, bind
 `--host/--port/--project/--as/--role/--group` flags, pass a real `Handler` to
@@ -80,6 +82,8 @@ endpoints, TUI.
 **Depends-On:** 1
 **Status:** planning
 
+*Progress 2026-09-09:* datatug-apps PR [#43](https://github.com/datatug/datatug-apps/pull/43) merged the `/datatug` client paths, host:port parsing, providers, demo link, route fix, and shell feature flag. The real-agent contract/journey verification is tracked separately in task 3, so this task remains in progress pending the complete acceptance path.
+
 In `datatug-apps`: prefix every agent call with `/datatug` and use the registered
 endpoint names; accept `localhost:8989`-style store ids; provide `DatatugFoldersService`
 and `DatatugNavService` on the routes that lack them; fix the demo project link to
@@ -95,6 +99,8 @@ resolves (no `localhost:8989` interception). Non-goals: new screens.
 **Depends-On:** 1, 4
 **Status:** planning
 
+*Progress 2026-09-09:* datatug-apps PR [#46](https://github.com/datatug/datatug-apps/pull/46) merged the real-agent Playwright harness and J1 skeleton, but its validation reports J1 failing against current CLI `main`; follow-up PR [#48](https://github.com/datatug/datatug-apps/pull/48) is open. Task remains in progress.
+
 Playwright fixture that builds/launches `datatug serve --project <demo> --as admin` on
 a free port, starts the web dev server pointed at it, and tears both down; a first test
 walks J1 (open demo → Album → rows) asserting the agent log line. Non-goals: J2–J4
@@ -105,9 +111,12 @@ walks J1 (open demo → Album → rows) asserting the agent log line. Non-goals:
 **Id:** task-4
 **Verifies:** core-investigation-loop#ac:demo-project-shape
 **Depends-On:** —
-**Status:** planning
+**Status:** complete
+**Implemented-by:** datatug/datatug-demo-projects@6ca9ddd1452ab1179a6c1e019b400b18bcf4a844 (main)
 
 *Progress 2026-09-09:* datatug-demo-projects PR #8 landed the project (entities incl. `Country`, queries, support-notes, HTTP query defs + snapshot fixtures, policies); the credential rule landed in datatug-core PR #302; declared `Mappings` on the demo's fields are a follow-up once the CLI consumes that model version.
+
+*Progress 2026-09-09:* Reconciliation evidence: datatug-demo-projects PR [#8](https://github.com/datatug/datatug-demo-projects/pull/8) and mapping/DTQL follow-up [#9](https://github.com/datatug/datatug-demo-projects/pull/9) are merged, and datatug-core PR [#302](https://github.com/datatug/datatug-core/pull/302) is merged. The project shape, mappings, queries, support-notes collection, policies, HTTP definitions, fixtures, and validation tests are evidenced; task is complete.
 
 In `datatug-demo-projects/demo-project-1`: add `Customer` and `Invoice` entities with
 declared mappings (`Customer.ID → chinook.Customer.CustomerId`, `Customer.Email →
@@ -133,6 +142,8 @@ collection through `ingitdb://`. Uses the model from task 5 (coordinate branches
 **Depends-On:** —
 **Status:** planning
 
+*Progress 2026-09-09:* datatug-core PRs [#302](https://github.com/datatug/datatug-core/pull/302) and [#303](https://github.com/datatug/datatug-core/pull/303) are merged for the model and pure resolver foundations. The CLI semantic endpoint and module integration are not evidenced by merged work yet; task remains in progress.
+
 In `datatug-core/pkg/datatug`: `EntityField.Mappings []PhysicalRef{Source, Collection,
 Column}` with validation and filestore round-trip; `QueryDef.Type` gains `DTQL`. In
 `datatug-cli`: a `pkg/semantic` resolver that, for a source/collection, returns per
@@ -147,6 +158,8 @@ endpoint test with the demo project. Non-goals: suggestions beyond name patterns
 **Verifies:** core-investigation-loop#ac:restricted-rows-and-columns-server, core-investigation-loop#ac:hidden-column-refused, core-investigation-loop#ac:native-sql-labelled, core-investigation-loop#ac:dtql-query-runs
 **Depends-On:** 1
 **Status:** planning
+
+*Progress 2026-09-09:* datatug-cli PR [#193](https://github.com/datatug/datatug-cli/pull/193) merged the policy-enforced executor and security tests. Serve-path wiring/principal integration is still open in [#199](https://github.com/datatug/datatug-cli/pull/199); task remains in progress.
 
 Route `exec/select`, saved-query runs and the new `POST /datatug/exec/run_query`
 through `accesspolicies.Run` with the project policy set (`<project>/policies/` then
@@ -168,6 +181,8 @@ principal accepted from the request); `serve` refuses to start with a policy set
 **Depends-On:** 5, 6
 **Status:** planning
 
+*Progress 2026-09-09:* datatug-core PR [#304](https://github.com/datatug/datatug-core/pull/304) merged related/applicable model logic and tests. The datatug-cli HTTP endpoint wiring is still in progress with no merged PR evidenced; task remains in progress.
+
 `GET /datatug/semantic/related` computes lookups from the FK graph (`ForeignKeys`,
 `ReferencedBy`) and from mappings of the same field in other sources; `GET
 /datatug/semantic/related/rows` builds a DALgo `StructuredQuery` and runs it through
@@ -184,6 +199,8 @@ restricted principal sees zero rows and no true count.
 **Depends-On:** 2, 7
 **Status:** planning
 
+*Progress 2026-09-09:* datatug-apps PR [#47](https://github.com/datatug/datatug-apps/pull/47) merged the semantic library, context-panel primitives, context service, and limitation-header foundation. Existing page/grid wiring remains a follow-up; task remains in progress.
+
 Grid column headers consume `semantic/columns` (marker + tooltip with provenance); a
 cell click opens the context panel (Ionic side panel in `ion-split-pane`; grid remains
 the `@sneat/datagrid` island) showing the semantic value, related lookups with counts and
@@ -197,6 +214,8 @@ responses; keyboard reachability. Non-goals: hover mechanics beyond the tooltip.
 **Verifies:** core-investigation-loop#ac:bound-from-selection, core-investigation-loop#ac:context-carries, core-investigation-loop#ac:restricted-rows-and-columns
 **Depends-On:** 2, 6
 **Status:** planning
+
+*Progress 2026-09-09:* datatug-apps PR [#47](https://github.com/datatug/datatug-apps/pull/47) merged the Investigation Context service and reusable UI foundation, but query-page binding and project/page integration are not evidenced as merged. Task remains in progress.
 
 An `InvestigationContextService` (signals, session-scoped) holding
 `{entity, field, value, origin, enabled}` items and the environment; the "Variables"
@@ -215,6 +234,8 @@ to the project.
 **Depends-On:** 3, 8, 9
 **Status:** planning
 
+*Progress 2026-09-09:* No merged PR or passing J1–J4 journey evidence was found. PR [#46](https://github.com/datatug/datatug-apps/pull/46) leaves J2–J4 as fixme and reports J1 failing; the implementation matrix remains Planned. Task remains in progress.
+
 Extend the harness with J2 (cell → related + applicable → run bound), J3 (context
 carries, chip disable), J4 (`--as support`: rows filtered, `Email` hidden, header
 states limitation, hand-crafted request refused), asserting mechanism (server log
@@ -226,7 +247,10 @@ entries, `limitations`, chip origins). Update the Implementation Matrix rows, re
 **Id:** task-11
 **Verifies:** core-investigation-loop#ac:http-source-in-demo
 **Depends-On:** 4, 6
-**Status:** planning
+**Status:** complete
+**Implemented-by:** datatug/datatug-cli@2dd8afee2e44b66df0a49dedfbb4239856965357 (main)
+
+*Progress 2026-09-09:* dal-go/dalgo2http PR [#2](https://github.com/dal-go/dalgo2http/pull/2), datatug-cli PR [#196](https://github.com/datatug/datatug-cli/pull/196), and the demo definitions/fixtures in datatug-demo-projects PR [#8](https://github.com/datatug/datatug-demo-projects/pull/8) are merged. The adapter, snapshot fallback, HTTP source registration, and unit/demo fixture validation satisfy this task; task is complete.
 
 Founder ruling 2026-09-09 (verbatim): *"I want to have in MVP: inGitDB, SQLite, HTTP
 endpoint."* Executor: the generic DALgo adapter **`dal-go/dalgo2http`** (founder 2026-09-09:
