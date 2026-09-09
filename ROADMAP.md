@@ -45,8 +45,11 @@ semantic engine, adapters and stronger VM ACL implementation.
 
 **State:** partial implementation; whole journey not accepted. The review found wire
 mismatches, missing HTTP browser dispatch, parameter echoes without application, and
-disabled restricted acceptance. Completed task IDs remain component history; plan
-corrective tasks 12–17 close the gaps. Refresh remote state before implementing.
+disabled restricted acceptance. Completed task IDs remain component history; corrective
+task 12 (freeze the transport, one source resolver) has landed on all three sides —
+server (datatug-cli), client (datatug-apps), schema authority (datatug-core v0.26.0) —
+with two named follow-ups already dispatched. Plan corrective tasks 13–17 close the
+remaining gaps. Refresh remote state before implementing.
 
 **Dependencies:** core/provider revisions first, then server and browser convergence,
 then pinned demo/transport/journey acceptance. Layered security is integrated where

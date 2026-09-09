@@ -309,7 +309,9 @@ HTTP steps in playbooks (Phase 2–3). Wave B, runs beside task 7.
 **Id:** task-12
 **Verifies:** core-investigation-loop#ac:real-transport-and-parameter-effect
 **Depends-On:** 5
-**Status:** planning
+**Status:** complete
+**Note:** Landed on all three sides: server (datatug-cli PR #212, exact envelopes for agent-info/exec/run_query/semantic/columns/semantic/related(GET->POST)/semantic/related/rows(GET->POST)/queries/applicable, one source resolver pkg/api/resolver.go, deleted the query-param session, --allow-writes gate off by default, --allow-opaque-sql operator grant, driver-bound SQL parameters proven with two CustomerId values), client (datatug-apps PR #72, libs/datatug/semantic/src/contract types+strict decoders+fixtures, SemanticApiService on POST with Scope, AgentContextService owns securityContextId, target selector, snapshot-retry, STALE_CONTEXT handling), and schema authority (datatug-core PR #312, tag v0.26.0, pkg/apicontract). Named follow-up debt, both already dispatched: datatug-cli still carries a provisional pkg/apicontract_local copy (lane S78 swaps it for core v0.26.0); datatug-apps fixtures are a hand-authored copy (lane S75 swaps them for the golden set).
+**Evidence:** datatug/datatug-cli#212@7fc6efb, datatug/datatug-apps#72@8d27338, datatug/datatug-core#312@v0.26.0
 
 Inventory every semantic/execute caller and choose one schema authority. Implement the exact Feature appendix on server and client contract fixtures; unify existing project environment/catalog targets behind a source resolver shared by semantic lookup and execution. Cut over all callers and remove superseded adapters. Do not create a competing source store. Verify empty/error envelopes and source resolution for SQLite, inGitDB and HTTP.
 
@@ -319,27 +321,33 @@ Inventory every semantic/execute caller and choose one schema authority. Impleme
 **Verifies:** core-investigation-loop#ac:restricted-rows-and-columns-server, core-investigation-loop#ac:native-sql-labelled, core-investigation-loop#ac:hidden-column-refused
 **Depends-On:** 12
 **Status:** planning
-**Note:** Reconciliation inventory + port plan: spec/research/2026-09-09-layered-acl-reconciliation.md. dalgo PR #158 is merged (8dece8b); the remaining provider/SDK/CLI/apps branches are landed by the implementer (codex) agent, not this task.
 **Evidence:** spec/research/2026-09-09-layered-acl-reconciliation.md, dal-go/dalgo#158@8dece8b
+**Note:** Reconciliation inventory + port plan: spec/research/2026-09-09-layered-acl-reconciliation.md. dalgo PR #158 is merged (8dece8b); the remaining provider/SDK/CLI/apps branches are landed by the implementer (codex) agent, not this task. Update: Task 12 already delivered driver-bound SQL parameters (proven with two CustomerId values, datatug-cli PR #212); what remains for Task 13 is the protected-execution convergence with that layered-ACL chain.
 
 Reconcile pending VM provider/SDK/server changes and staged CLI SQL arguments. Port configuration to external core. Protected reads fail closed for unsupported shapes; explicit privileged opaque grants remain separate. Apply driver-bound parameters on the server path and return only confirmed bindings. Test current and legacy routes, principal tampering, forbidden source/field access and actual row changes between two parameter values. Publish/converge provider dependencies before final acceptance.
 
 **Annotation Amendment:** actor=S70 (Claude Sonnet 5); at=2026-09-09T17:08:31Z; reason=Link the layered-ACL reconciliation inventory/port-plan note for Task 13; before_sha256=0b52e35f4c56f8bd7dc0bead2c27c1f61b33608d91c8b6d37c03ce96803f6739
+**Annotation Amendment:** actor=lead-session; at=2026-09-09T17:45:04Z; reason=Record what Task 12 already delivered toward Task 13's scope and what remains.; before_sha256=afecb9b4164f7b4274050b03785fb4a741f9d19ce8656df35a01f00caaa47932
+**Annotation Amendment:** actor=lead-session; at=2026-09-09T17:45:21Z; reason=Preserve the prior reconciliation-inventory note's content while adding what Task 12 delivered toward Task 13's scope.; before_sha256=548f1762fa5d0f5f2ea684956be5fe43b7cdef9109ceedbd6c47e08afca221cc
 ### Task 14: Complete bounded HTTP browser execution
 
 **Id:** task-14
 **Verifies:** core-investigation-loop#ac:http-source-in-demo, core-investigation-loop#ac:safe-http-and-lookups
 **Depends-On:** 12, 13
 **Status:** planning
+**Note:** Provider-side HTTP bounds landed in dal-go/dalgo2http PR #3 (lane S72): https-only descriptors, guarded dialer (private/loopback/link-local/metadata-service addresses + DNS rebinding refused), redirects refused, 2 MiB response body cap with a RESPONSE_TOO_LARGE-style error, projection applied at the adapter boundary, no secrets sent in query strings. Status unchanged: this is the provider/adapter half only; the browser-side bounded HTTP execution (task-14's own Depends-On 12, 13) still needs wiring through the exec/run_query endpoint.
+**Evidence:** dal-go/dalgo2http#3@ac48296
 
 Reuse dalgo2http and descriptor/snapshot assets. Execute HTTP saved queries through the same browser endpoint and registry without dummy SQL target fields. Enforce configured hosts, address/redirect limits, time/size budgets, capability checks and cancellation. Live failure is an error; snapshot is a distinct explicit user request with recorded provenance. Verify a real public response and deterministic isolated negative tests separately.
 
+**Annotation Amendment:** actor=lead-session; at=2026-09-09T17:45:00Z; reason=Record provider-side HTTP bounds landed upstream (lane S72), status unchanged pending browser-side wiring.; before_sha256=4808250aa8258a78217199c1476f383928887c7141d5a26d5b13647169718925
 ### Task 15: Converge browser semantics and isolated context
 
 **Id:** task-15
 **Verifies:** core-investigation-loop#ac:typed-context-isolation, core-investigation-loop#ac:bound-from-selection, core-investigation-loop#ac:context-carries
 **Depends-On:** 12
-**Status:** planning
+**Status:** in_progress
+**Note:** In progress: lane S75, datatug-apps, WB claim phase1-task15-context, started 2026-09-09 ~20:45 UTC.
 
 Adapt grid/panel/query-page components to exact envelopes. Scope context and reactive agent selection by agent/project/environment/securityContextId. Implement typed equality, conflicts, missing inputs, visible overrides and late-response rejection. Selection cannot silently replace an open query binding. Test no facts cross project/principal boundaries and a new tab does not inherit prior context implicitly.
 
