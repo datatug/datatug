@@ -227,11 +227,12 @@ entries, `limitations`, chip origins). Update the Implementation Matrix rows, re
 **Status:** planning
 
 Founder ruling 2026-09-09 (verbatim): *"I want to have in MVP: inGitDB, SQLite, HTTP
-endpoint."* In `datatug-cli` `pkg/server`: execute a `QueryDef` of type HTTP as a
-read-only GET with parameters substituted into the URL, map the JSON response (object or
-array; a documented `rows` path) into the same recordset shape the other sources return,
-and serve the recorded snapshot fixture when the endpoint is unreachable, stamping the
-result header `live` or `snapshot`. Related lookups (task 7) and applicable queries treat
+endpoint."* Executor: the generic DALgo adapter **`dal-go/dalgo2http`** (founder 2026-09-09:
+*"dalgo2http - yes"*): declarative per-collection descriptors, GET only, equality pushdown on
+declared parameters, fail-closed on anything else, recorded snapshots with `live`/`snapshot`
+provenance. In `datatug-cli`: register `http://`/`https://` in `pkg/dbcopy/url.go` to open a
+`dalgo2http` database from the project's HTTP `QueryDef`s, and surface the adapter's
+provenance in the result header. Related lookups (task 7) and applicable queries treat
 the HTTP source like any other. Tests: unit tests with a local `httptest` server and the
 snapshot path; the demo's Country cell → Country facts and the exchange-rate query pass
 in the journey harness with the network disabled. Non-goals: POST, auth headers, GraphQL,
