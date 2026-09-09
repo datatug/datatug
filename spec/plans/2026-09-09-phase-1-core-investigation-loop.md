@@ -319,9 +319,12 @@ Inventory every semantic/execute caller and choose one schema authority. Impleme
 **Verifies:** core-investigation-loop#ac:restricted-rows-and-columns-server, core-investigation-loop#ac:native-sql-labelled, core-investigation-loop#ac:hidden-column-refused
 **Depends-On:** 12
 **Status:** planning
+**Note:** Reconciliation inventory + port plan: spec/research/2026-09-09-layered-acl-reconciliation.md. dalgo PR #158 is merged (8dece8b); the remaining provider/SDK/CLI/apps branches are landed by the implementer (codex) agent, not this task.
+**Evidence:** spec/research/2026-09-09-layered-acl-reconciliation.md, dal-go/dalgo#158@8dece8b
 
 Reconcile pending VM provider/SDK/server changes and staged CLI SQL arguments. Port configuration to external core. Protected reads fail closed for unsupported shapes; explicit privileged opaque grants remain separate. Apply driver-bound parameters on the server path and return only confirmed bindings. Test current and legacy routes, principal tampering, forbidden source/field access and actual row changes between two parameter values. Publish/converge provider dependencies before final acceptance.
 
+**Annotation Amendment:** actor=S70 (Claude Sonnet 5); at=2026-09-09T17:08:31Z; reason=Link the layered-ACL reconciliation inventory/port-plan note for Task 13; before_sha256=0b52e35f4c56f8bd7dc0bead2c27c1f61b33608d91c8b6d37c03ce96803f6739
 ### Task 14: Complete bounded HTTP browser execution
 
 **Id:** task-14
