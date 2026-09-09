@@ -11,22 +11,23 @@ status: Draft
 
 ## Summary
 
-P6 is the Investigation Context: portable state (semantic values, environment, time window) that follows the user across screens and automatically binds compatible query parameters, always visibly and never as a hidden filter.
+Investigation Context is the typed, scoped set of facts an investigator carries
+between queries. It gives Shared Executable Knowledge its inputs while keeping every
+binding visible and overridable. This is a product hypothesis to test with reuse, not
+proven competitive white space.
 
-It is the thesis's second differentiating claim made concrete — "the context basket can be a first-class Investigation Context rather than a filter bar" (hypothesis H2, confirmed with a scope rule: it must never become a hidden filter). Audited state on 2026-09-09: not implemented. The web "Variables" page is an empty shell (`VariablesPageComponent`/`VariableService` — header plus empty `<ion-content>`, zero methods), and the audit found no dedicated context/basket page and no matching commits (`git log -S"basket"` returns nothing in `datatug-cli`); the closest data shape is the inert `Variables{Vars map[string] VarInfo}` model. Phase 1 (`core-investigation-loop`) builds the first real slice: add/remove/ disable a value, visible bindings, no hidden filters. Phase 2 adds environment/time auto-narrowing and conflict handling; Phase 3 adds saved/shareable investigations. This is a Capability; per-repo Implementations (`datatug-apps`, `datatug-core`) link to it.
+The initial empty Variables page is historical. The independent review found context
+components and navigation on current main, with isolation and transport gaps. Phase 1
+must complete add/remove/disable, typed conflicts and project/environment/principal
+isolation. Time-window semantics and saved shared investigations are later extensions.
 
 ## Problem
 
-An investigation is rarely one query: the user picks a customer, checks their invoices, checks
-their support notes, then runs a purchases-by-genre query — all about the same customer. Without a
-carried context, the user re-enters `Customer.ID = 5` into every screen by hand, and there is no
-way to see, at a glance, "everything I'm currently looking at is scoped to this customer, this
-environment." Competitor research the thesis leans on found the closest analogues all stop short:
-"Datadog saved views, Splunk workflow actions and Grafana variables all stop at 'filter'; none
-carries semantic values across query assets" (product thesis, H2 evidence). DataTug's own web UI
-has the placeholder for this — the Variables page — but it is UI-only with nothing behind it
-(current-state audit, P6 capability rows), and no runtime concept of a context basket exists in any
-audited repo today.
+An investigator repeatedly copies the same customer or invoice values between tools.
+DataTug should carry meaningful facts without silently changing the question being run.
+Other tools have substantial notebook variables and context reuse; the opportunity to
+test is whether semantic meaning plus reusable cross-source queries reduces effort.
+See the competitor review rather than claiming that every alternative stops at filters.
 
 ## Behavior
 
@@ -34,12 +35,12 @@ audited repo today.
 
 | Capability | State | Phase | Kind |
 |---|---|---|---|
-| Context basket: add a semantic value from a cell, remove, temporarily disable | planned | 1 | strategic |
-| Automatic binding of semantic parameters from context and selection | planned | 1 | strategic |
-| Visible "why this query is constrained" and no hidden filters | planned | 1 | strategic |
+| Context basket: add a semantic value from a cell, remove, temporarily disable | partial; acceptance pending | 1 | strategic |
+| Automatic binding of semantic parameters from context and selection | partial; acceptance pending | 1 | strategic |
+| Visible "why this query is constrained" and no hidden filters | partial; acceptance pending | 1 | strategic |
 | Auto-narrowing compatible queries by environment/time | planned | 2 | strategic |
-| Conflicting values, propagation between related queries | planned | 2 | strategic |
-| Saved / shareable investigations and history | planned | 3 | strategic |
+| Typed conflicts and scope isolation | partial; acceptance pending | 1 | strategic |
+| Saved / shareable investigations and history | planned | 4 | strategic |
 
 #### REQ: context-basket-add-remove-disable
 
@@ -72,18 +73,19 @@ same no-hidden-filters rule as value bindings.
 
 #### REQ: conflicting-values-and-propagation
 
-When two related queries would receive incompatible bound values for the same semantic field (for
-example a query already scoped to one customer receiving a second, different customer's value from
-a fresh selection), the user MUST be shown the conflict rather than have one value silently
-overwrite the other. Propagation of a new value to related open queries MUST be an explicit,
-visible action, not an automatic side effect.
+Conflict handling and store/project/environment/principal isolation MUST ship in
+Phase 1. Follow the [normative binding contract](../core-investigation-loop/api-contract.md#binding-and-context-behavior)
+for typed equality, precedence and explicit confirmation. No first-match heuristic or
+late response may silently rebind an open query. Rich time-window semantics can follow
+later; the security/context boundary cannot.
 
 #### REQ: saved-shareable-investigations
 
-A trail of queries, selections and pivots (an investigation) SHOULD be saveable and shareable, and
-SHOULD be convertible into a playbook (P7) once playbooks exist. A shared investigation link MUST
-carry project, screen and selection state, and MUST NOT carry credentials, matching the
-epilogue-branch guarantee in `core-investigation-loop`'s user journeys.
+A saved investigation MAY carry an explicitly selected safe subset of facts and query
+references. Default links carry navigation identifiers only. Before values are shared,
+the user MUST preview/approve them; credentials, inaccessible values and cached
+results MUST NOT travel in the URL. The recipient independently authorizes and
+re-executes references under their own principal. Sharing confers no execution rights.
 
 ## Acceptance Criteria
 
@@ -119,9 +121,11 @@ epilogue-branch guarantee in `core-investigation-loop`'s user journeys.
 
 ### AC: shared-investigation-link-carries-state-not-secrets (verifies REQ:saved-shareable-investigations)
 
-**Given** a saved investigation covering two queries and a context value
-**When** its link is opened by a different signed-in user
-**Then** project, screen and selection state are restored and no credential travels in the URL, matching `core-investigation-loop`'s epilogue branch (b).
+**Given** an investigation containing customer facts and restricted result data
+**When** a navigation link is shared and opened by another user
+**Then** the link contains no raw facts/results by default; optional explicit fact
+sharing requires preview, and the recipient reauthorizes and re-executes rather than
+inheriting the sender's access.
 
 ## Not Doing / Out of Scope
 
@@ -136,8 +140,9 @@ epilogue-branch guarantee in `core-investigation-loop`'s user journeys.
 
 ## Open Questions
 
-- Is the internal name `basket` kept for the Investigation Context, with only the user-facing label
-  changed? Recommendation from the hierarchy: yes — matches `core-investigation-loop` assumption A3.
+None blocking Phase 1. Internal `basket` naming is an engineering choice; the public
+label remains Investigation Context. Define saved-investigation retention and sharing
+controls in this Feature before activating that later work.
 
 ---
 *This document follows the https://specscore.md/feature-specification*

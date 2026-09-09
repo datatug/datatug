@@ -13,25 +13,35 @@ status: Draft
 
 P5 is related-data navigation: a selected value becomes a navigation point to related records, across sources, using declared foreign keys and semantic mappings, beyond what a single table's schema can show on its own.
 
-It is one half of the concrete evidence for the thesis's central claim that "a value on screen is a navigation point" — the other half is P6's Investigation Context, which carries a selected value forward. Audited state on 2026-09-09: the foreign-key graph is usable and scanned bidirectionally; the web UI's FK-driven related cards are real, working navigation components, but they depend on the agent connection that is broken end to end (P11); there is no runtime "fetch rows related to this value" execution anywhere in `datatug-core` — only a value-picker shape, `ParameterLookup`. Phase 1 (`core-investigation-loop`) builds the missing server-executed lookup and the cell-to-context-panel flow for the demo project's two sources; Phase 5/X considers automatic relationship discovery beyond declared foreign keys. This is a Capability; per-repo Implementations (`datatug-core`, `datatug-cli`, `datatug-apps`) link to it.
+**Evidence boundary:** initial-audit observations below are historical. Current integration
+status is summarized in the [hierarchy](../../product/hierarchy.md) and the
+[independent review](../../research/2026-09-09-independent-review.md); no historical
+state label is a present completion or absence claim. The [roadmap](../../../ROADMAP.md)
+owns phase sequencing; capability tables below retain original audit grouping.
+
+It is one half of the concrete evidence for the thesis's central claim that "a value on screen is a navigation point" — the other half is P6's Investigation Context, which carries a selected value forward. Initial audit snapshot (before later 9 September landings): the foreign-key graph is usable and scanned bidirectionally; the web UI's FK-driven related cards are real, working navigation components, but they depend on the agent connection that is broken end to end (P11); there is no runtime "fetch rows related to this value" execution anywhere in `datatug-core` — only a value-picker shape, `ParameterLookup`. Phase 1 (`core-investigation-loop`) builds the missing server-executed lookup and the cell-to-context-panel flow for the demo project's two sources; Phase 5/X considers automatic relationship discovery beyond declared foreign keys. This is a Capability; per-repo Implementations (`datatug-core`, `datatug-cli`, `datatug-apps`) link to it.
 
 ## Problem
 
-A record rarely stands alone: a customer has invoices, an invoice has line items, a customer might
-have support notes in an entirely different, non-relational source. Seeing only the current table
-forces the user to already know which other tables to check and to write the join or lookup by
-hand. DataTug's schema scan already builds a complete FK graph (`ForeignKey`/`ReferencedBy`,
-`pkg/schemer/scan_constraints.go:57-100`) and the web UI already has real click-through FK cards
-(`env-db-table.page.html` "Record" tab, `foreign-key-card`/`ref-by-card` components) — but the audit
-found "no runtime 'fetch related rows for this value' query execution" anywhere in `datatug-core`
-(a `grep` for "related" across `pkg/**` returned zero hits beyond FK/schema plumbing), and the FK
-cards themselves "depend on the broken agent path" (current-state audit, P5 capability rows). The
-TUI's equivalent panels are read-only, with no click-to-navigate (`table_fks.go`, `table_referrers.go`
-— real data, no `SetSelectedFunc`). None of this reaches across a source boundary at all today.
+The following initial-audit diagnosis explains why this capability was proposed.
+It is historical evidence, not a claim about current code; consult the capability
+hierarchy and revised Phase 1 plan for current integration work.
+
+> A record rarely stands alone: a customer has invoices, an invoice has line items, a customer might
+> have support notes in an entirely different, non-relational source. Seeing only the current table
+> forces the user to already know which other tables to check and to write the join or lookup by
+> hand. DataTug's schema scan already builds a complete FK graph (`ForeignKey`/`ReferencedBy`,
+> `pkg/schemer/scan_constraints.go:57-100`) and the web UI already has real click-through FK cards
+> (`env-db-table.page.html` "Record" tab, `foreign-key-card`/`ref-by-card` components) — but the audit
+> found "no runtime 'fetch related rows for this value' query execution" anywhere in `datatug-core`
+> (a `grep` for "related" across `pkg/**` returned zero hits beyond FK/schema plumbing), and the FK
+> cards themselves "depend on the broken agent path" (current-state audit, P5 capability rows). The
+> TUI's equivalent panels are read-only, with no click-to-navigate (`table_fks.go`, `table_referrers.go`
+> — real data, no `SetSelectedFunc`). None of this reaches across a source boundary at all today.
 
 ## Behavior
 
-### Capabilities and phases
+### Initial audit capability inventory (historical)
 
 | Capability | State | Phase | Kind |
 |---|---|---|---|

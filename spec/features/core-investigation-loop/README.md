@@ -32,7 +32,7 @@ open DataTug → open the demo project → open a table or saved query
 ```
 
 Everything the loop needs already has a partial implementation; this Feature specifies
-the missing resolver, endpoints and screens, and forbids everything else. It is a
+the remaining integration, contracts and acceptance, without expanding the product scope. It is a
 **vertical slice**, not feature completeness.
 
 ### Assumptions made by the lead (not founder rulings — challenge freely)
@@ -47,56 +47,61 @@ the missing resolver, endpoints and screens, and forbids everything else. It is 
   no key; the old `.app` host now redirects) for the country's currency rate. Both are read-only JSON GET; the demo ships a
   recorded snapshot fixture so the loop still works offline. Reason for these two: common,
   understandable, and they give the loop a third hop (customer → country → currency).
-- **A2.** Opaque SQL text is executed under source-level ACL in a read-only session only;
-  row and column policies apply to structured (DTQL) queries and to every server-built
-  lookup. Reason: DALgo cannot rewrite text it does not parse; the layered-ACL design
-  takes the same position.
+- **A2 (corrected engineering rule):** protected execution refuses native SQL it cannot constrain. A separately granted privileged opaque-query profile may run native SQL read-only, without a row/column enforcement claim. The support principal never receives that grant. See REQ:opaque-sql-limitation.
+
 - **A3.** The internal name `basket` stays; the user-facing label is "Investigation
   Context".
 
 ## Problem
 
-Today the web UI cannot reach the agent, the agent cannot start, the demo project link is
-broken, and no screen shows a semantic meaning, a related record across sources, an
-applicable query, or an investigation context. The concepts exist as data types
-(`Entity`, `EntityField.NamePatterns`, `EntityFieldRef` on parameters and columns, the
-FK graph, typed `ParameterDef`, `accesspolicies.Run`) with no runtime that connects
-them. A knowledgeable observer cannot see why DataTug is different.
+The initial audit found a disconnected prototype. The later independent review found
+landed models, server execution, semantic endpoints and browser components, but
+incompatible serialized contracts and incomplete protected-user/browser acceptance.
+The remaining problem is to make those pieces one coherent investigation. Consult
+[the dated review](../../research/2026-09-09-independent-review.md) for evidence;
+component existence is not proof that this Feature's acceptance criteria pass.
 
 ## User journeys (the Feature must support all four)
 
-**J1 — First useful result (the null-action path).** The user runs `datatug demo`,
-the browser opens the demo project, they click *Album* and see rows. Nobody does anything
-else. Good result: rows are visible within two clicks; the server log shows the request.
+**J1 — First useful result (null-action path).** Run `datatug demo`; the browser
+opens the registered project. Click the source and Album table, at most two clicks,
+and see real rows. Nobody supplies a hidden URL or performs another setup action.
+Good result: the grid contains rows and the server records the authorized request.
 
-**J2 — From a value to related knowledge.** On the *Customer* table the user clicks a
-`CustomerId` cell. The context panel shows *Customer.ID = 5*, *Related: Invoices (12)
-from chinook.sqlite, Support notes (2) from support-notes (inGitDB), Country facts (1)
-from CountriesNow (HTTP)*, and *Applicable queries: "Customer invoices" (Customer.ID
-bound → 5), "Customer purchases by genre", "Exchange rate for the customer's currency"
-(Country.Currency bound → CAD)*.
-They click *Customer invoices*; the query page opens with the parameter already filled
-and runs through the server. Good result: the results grid shows invoices for customer 5,
-and the query page states "Customer.ID bound from selection".
+**J2 — From facts to related knowledge.** Open Customer and select CustomerId 5.
+The panel shows Customer.ID, authorized invoice/support-note lookups and applicable
+queries with the chosen value and explanation. Open Customer invoices, inspect the
+binding, and run. Good result: only that customer's invoices return. Separately select
+a Customer row's Country value, retrieve its country facts over live HTTP, then add
+an actually returned currency value to context and run its reference-rate query.
+Good result: the three-source path uses facts actually selected or retrieved, never
+CAD inferred from an unrelated customer ID. Counts come from the pinned demo dataset,
+not conflicting handwritten expectations; restricted counts may be unavailable.
 
-**J3 — Carrying context.** The user presses *Add to context* on `Customer.ID = 5`, then
-opens the saved query *Customer purchases by genre*. Its `Customer.ID` parameter is
-bound from context, shown as a chip with the origin. They disable the chip; the
-parameter empties and the run button asks for a value. Good result: the binding is
-visible, reversible, and never silent.
+**J3 — Carrying context.** Add Customer.ID to context and open another saved query.
+The compatible parameter is visibly bound from context. Disable the fact: an untouched
+automatic binding clears and required input blocks Run. Select a conflicting customer:
+show a choice instead of silently rebinding. Good result: only confirmed bindings
+constrain execution. Switch project/environment/principal: no previous scope's facts
+or late response enter the new context.
 
-**J4 — Restricted principal.** The user switches the serving principal to `support` (a
-policy allows `Customer` rows where `Country == 'Canada'` and hides `Email`). The same
-*Customer invoices* run returns only Canadian customers' invoices, the `Email` column is
-absent, and the results header shows "Limited by policy customers-support: rows
-filtered, 1 column hidden". A direct request from the browser for the hidden column is
-refused by the server. Good result: the browser can display limitations but cannot lift
-them.
+**J4 — Restricted investigator.** Restart the agent as `--as support --role support`.
+Browse Customer with an allowed projection: only Canadian rows return, Email is absent,
+and the header states the applied limitations. Run customer-invoices for a Brazilian
+and a Canadian fixture ID: the former yields no rows and the latter only authorized
+invoices. Test support notes under their own policy. Good result: policies cover every
+source/table used; there is no assumed Customer→Invoice policy inheritance. Explicit
+selection of Email and opaque native SQL are refused server-side without row data.
 
-Epilogue branches: (a) the user closes the browser; the CLI agent keeps running and
-`datatug serve` prints the URL to reopen the same screen; (b) the user copies the
-screen URL to a colleague who runs the same demo — the URL carries project, table and
-selection, never credentials.
+**Epilogue A — close/reopen.** Closing a tab does not stop the agent. Reopen its
+project URL to resume browsing; a new browser session starts with empty context.
+Persisted project assets remain, but unsaved context is not promised durable.
+
+**Epilogue B — share/replay.** Copy a navigation link containing only authorized
+project/screen identifiers by default. A colleague opens it under their own agent or
+authenticated access, supplies/reselects needed values and re-executes. Good result:
+no credentials, hidden values or prior authorized results travel in the URL. Optional
+value sharing requires explicit preview/consent and recipient reauthorization.
 
 ## Behavior
 
@@ -161,11 +166,12 @@ parameters; the server MUST NOT bind values on its own.
 
 #### REQ: context-basket
 
-The web UI MUST keep an Investigation Context per browser session: an ordered set of
-semantic values (`entity.field = value`, origin, enabled flag) plus the current
-environment. Users MUST be able to add a value from a cell, remove it, and disable it
-temporarily without removing it. The context MUST be visible on every project screen
-(collapsed by default, count shown).
+The browser MUST maintain typed context scoped by normalized agent URL, project,
+environment and server-issued securityContextId, following the
+[transport and context contract](api-contract.md#binding-and-context-behavior).
+Users add/remove/disable facts; every project screen exposes the context count and
+panel. Scope changes, conflicts, missing values, manual overrides and late responses
+MUST follow that contract. Session storage alone is not an isolation boundary.
 
 #### REQ: no-hidden-filters
 
@@ -192,17 +198,20 @@ server with a structured limitation, not silently emptied.
 
 #### REQ: principal-selection
 
-`datatug serve` MUST accept `--as <user> --role <r> --group <g>` (the same flags as
-`query run`) to fix the serving principal for the session; the web UI MUST display the
-principal and MUST NOT be able to change it. (Authenticated multi-user principals are
-Phase 3/4.)
+`datatug serve` fixes its principal using `--as <user> --role <r> --group <g>`;
+a user ID does not imply a role. With a policy set, startup MUST require an explicit
+principal. The browser displays but cannot change it. The Phase 1 fixed-principal
+profile binds loopback; non-loopback requires a separately authenticated profile.
+CORS is not authentication. Unneeded write endpoints MUST fail closed.
 
 #### REQ: opaque-sql-limitation
 
-For `SQL`-type queries executed as text, the server MUST apply source-level policy
-(allow/deny for the source) and execute in a read-only session; it MUST label the result
-"row/column policies not applied to native SQL" when any row or column rule exists for
-that source. (Assumption A2.)
+The protected profile MUST refuse opaque native SQL before execution with
+UNSUPPORTED_PROTECTED_EXECUTION. An explicit privileged opaque-query grant MAY allow
+read-only native SQL in a separate profile; the result MUST disclose that row/column
+enforcement does not apply. Source read permission alone MUST NOT imply that grant.
+The browser cannot choose a profile, and the support demo has no opaque grant.
+All legacy execution routes MUST obey the same boundary.
 
 #### REQ: limitation-visible
 
@@ -231,8 +240,8 @@ carrying a semantic tag, so that the server can execute it for related lookups a
 applicable queries exactly like the other two sources. Execution MUST be server-side
 (`datatug serve`) through the DALgo adapter `dal-go/dalgo2http` (founder ruling 2026-09-09:
 *"dalgo2http - yes"*), read-only GET, with response rows shaped as a recordset; the project
-MUST carry a recorded snapshot fixture used when the endpoint is unreachable, and the
-result header MUST say which of live or snapshot was served. No write, no auth header,
+MUST carry a recorded snapshot fixture offered after a live failure; the user explicitly
+selects snapshot mode in a separate request. The result MUST label mode and recorded time. No write, no auth header,
 no secret in project files.
 
 ### Surfaces and repair
@@ -259,8 +268,8 @@ datatug serve (datatug-cli pkg/server + pkg/api)
   ├─ project store  → filestore (project files; Git-native)
   ├─ resolver       → semantic mappings, related lookups, applicable queries   (new package, e.g. pkg/semantic)
   ├─ executor       → accesspolicies.Run(ctx, db, query, opts)  ← policy set + principal
-  │                     └─ access.SecureReadSession → DALgo adapters (dalgo2sqlite, dalgo2ingitdb)
-  └─ legacy text SQL → read-only session, source-level policy only (labelled)
+  │                     └─ access.SecureReadSession → DALgo adapters (SQLite, inGitDB, HTTP)
+  └─ native SQL → refused for protected profile; explicit privileged opaque grant only
 ```
 
 - The resolver is pure over project data + scanned schema; it is reusable by the TUI and
@@ -271,17 +280,27 @@ datatug serve (datatug-cli pkg/server + pkg/api)
 
 ## API contracts (behaviour, not code)
 
-| Endpoint | Input | Output |
-|---|---|---|
-| `GET /datatug/semantic/columns` | project, source, collection | `[{column, entity, field, provenance}]` |
-| `GET /datatug/semantic/related` | project, entity, field, value, limit | `[{label, source, collection, count|null, lookupId}]` |
-| `GET /datatug/semantic/related/rows` | project, lookupId, value, limit | recordset + limitations |
-| `POST /datatug/queries/applicable` | project, values `[{entity, field, value, origin}]` | `{applicable:[{queryId, bindings, chain}], notYet:[{queryId, missing}]}` |
-| `POST /datatug/exec/run_query` | project, queryId or DTQL document, parameters | recordset + `limitations` + `bindingsApplied` |
-| `GET /datatug/agent-info` | — | version, principal, project ids |
+The normative [transport appendix](api-contract.md) defines exact JSON envelopes,
+typed values, request placement, source resolution, binding precedence, error codes,
+budgets and migration. Server/client implementations MUST conform to it together.
+This supersedes the earlier sketch table; tests must not accept both incompatible
+shapes as equally valid.
 
-Errors are structured (`code`, `message`, `field`); access refusals use `code: ACCESS_DENIED`
-with the policy name and never the hidden value.
+#### REQ: exact-transport-and-source-contract
+
+Semantic and execution endpoints MUST use the same authorized project source registry,
+exact request/response schemas and target-resolution rules in the appendix. Real
+consumer/provider tests MUST prove serialization and actual parameter effects.
+
+#### REQ: context-isolation-and-input-resolution
+
+All Phase 1 context and binding behavior MUST follow the appendix, including typed
+identity, scope isolation, ambiguity, explicit overrides and required-input blocking.
+
+#### REQ: bounded-policy-safe-http-and-lookups
+
+HTTP and relationship operations MUST obey the appendix's authorization, SSRF,
+redirect, size/time/count bounds, cancellation and explicit snapshot rules.
 
 ## Security
 
@@ -291,16 +310,15 @@ with the policy name and never the hidden value.
   (select, related rows, saved query, DTQL); related lookup and applicable-query
   sampling respect the same policies; a hand-crafted browser request for the hidden
   column is refused; no endpoint accepts a principal from the request.
-- Not implemented in Phase 1 (recorded, not claimed): row/column rules on native SQL
-  text; multi-user authenticated principals; layered multi-owner policies; Explain Access.
+- Not implemented in Phase 1 (recorded, not claimed): execution of native SQL in the protected profile; multi-user authenticated principals; layered multi-owner policies; Explain Access.
 
 ## Implementation Matrix
 
 | Platform | Status | Brief | Link |
 |----------|--------|-------|------|
-| CLI / server (`datatug serve`) | Planned | store wiring, resolver, ACL on all reads, DTQL query type, principal flags, demo project | specscore:feature/core-investigation-loop@github.com/datatug/datatug-cli |
-| Web (`datatug-apps`) | Planned | agent client contract, semantic markers, context panel, applicable queries, auto-binding, Investigation Context, limitation header, journey e2e | specscore:feature/core-investigation-loop@github.com/datatug/datatug-apps |
-| Demo project (`datatug-demo-projects`) | Planned | Customer/Invoice/Country entities, mappings, parameterized queries, inGitDB support-notes, HTTP reference source with snapshot fixture, policy set | — |
+| CLI / server (`datatug serve`) | Partial | store wiring, resolver, ACL on all reads, DTQL query type, principal flags, demo project | [corrective plan](../../plans/2026-09-09-phase-1-core-investigation-loop.md) |
+| Web (`datatug-apps`) | Partial | agent client contract, semantic markers, context panel, applicable queries, auto-binding, Investigation Context, limitation header, journey e2e | [corrective plan](../../plans/2026-09-09-phase-1-core-investigation-loop.md) |
+| Demo project (`datatug-demo-projects`) | Partial | Customer/Invoice/Country entities, mappings, parameterized queries, inGitDB support-notes, HTTP reference source with snapshot fixture, policy set | — |
 
 ## Acceptance Criteria
 
@@ -326,7 +344,7 @@ with the policy name and never the hidden value.
 
 **Given** a `CustomerId` cell with value 5 is selected
 **When** the context panel loads
-**Then** it lists *Invoices* (source `chinook`, count 7) and *Support notes* (source `support-notes`, count 2), and expanding either fetches rows from the server, not the browser.
+**Then** it lists *Invoices* (source `chinook`, count from pinned fixture) and *Support notes* (source `support-notes`, count 2), and expanding either fetches rows from the server, not the browser.
 
 ### AC: applicable-with-chain (verifies REQ:applicable-queries)
 
@@ -354,9 +372,13 @@ with the policy name and never the hidden value.
 
 ### AC: restricted-rows-and-columns (verifies REQ:server-acl-all-reads, REQ:principal-selection, REQ:limitation-visible)
 
-**Given** `datatug serve --as support`
-**When** *Customer invoices* runs for `Customer.ID = 5` (a Brazilian customer) and then for a Canadian customer
-**Then** the first returns no rows with limitation `customers-support: rows filtered`, the second returns rows without `Email`, and the header reads `1 column hidden`.
+**Given** `datatug serve --as support --role support` and explicit policies for Customer,
+Invoice and support-notes
+**When** Customer is browsed with its allowed projection and customer-invoices runs for
+a Brazilian then Canadian fixture customer
+**Then** Customer exposes only Canadian rows without Email; the first invoice run
+returns no rows and the second only authorized invoices; each result names its applied
+limitations. No test expects an Invoice result to hide a Customer column it never selected.
 
 ### AC: hidden-column-refused (verifies REQ:server-acl-all-reads)
 
@@ -372,9 +394,14 @@ with the policy name and never the hidden value.
 
 ### AC: native-sql-labelled (verifies REQ:opaque-sql-limitation)
 
-**Given** the `support` principal
-**When** the SQL-text query *albums_by_title* runs
-**Then** it executes read-only and the header states "row/column policies not applied to native SQL".
+**Given** support has the protected profile and no opaque-query grant
+**When** native SQL is requested through any current or legacy endpoint
+**Then** execution is refused before adapter dispatch with UNSUPPORTED_PROTECTED_EXECUTION.
+**And** an independently tested explicit privileged grant can execute read-only SQL,
+returning `opaque-privileged` provenance and the row/column-enforcement warning.
+
+The existing AC ID is retained for traceability; its earlier label-only behavior is
+superseded by fail-closed protected execution.
 
 ### AC: demo-project-shape (verifies REQ:demo-knowledge-project)
 
@@ -386,7 +413,7 @@ with the policy name and never the hidden value.
 
 **Given** the demo project and a running agent
 **When** the user selects a `Country` cell on the Customer table, or runs the "Exchange rate for the customer's currency" query
-**Then** the server executes the HTTP reference source read-only, returns rows shaped like any other source, and the result header states "live" or "snapshot"; with the network disabled the same request succeeds from the snapshot fixture.
+**Then** the server executes the HTTP reference source read-only, returns rows shaped like any other source, and the result header states "live" or "snapshot"; with the network disabled the live request fails honestly; only an explicit subsequent snapshot request succeeds, retaining its recorded timestamp and policy checks.
 
 ### AC: journey-walks (verifies REQ:journey-e2e)
 
@@ -396,7 +423,7 @@ with the policy name and never the hidden value.
 
 ### AC: agent-path-contract-server (verifies REQ:agent-path-contract)
 
-**Given** `datatug serve --project <demo> --as admin` is running
+**Given** `datatug serve --project <demo> --as admin --role admin` is running
 **When** the route table is listed and `GET /datatug/agent-info` is called
 **Then** every route the web client uses exists under `/datatug/` and the response carries version, principal and project ids.
 
@@ -420,37 +447,66 @@ with the policy name and never the hidden value.
 
 ### AC: restricted-rows-and-columns-server (verifies REQ:server-acl-all-reads, REQ:principal-selection, REQ:limitation-visible)
 
-**Given** `datatug serve --as support`
-**When** `POST /datatug/exec/run_query` runs `customer-invoices` for a Brazilian and then a Canadian customer
-**Then** the first returns zero rows with `limitations.rowsFiltered = true`, the second returns rows without `Email` and `limitations.hiddenColumns = ["Email"]`, and `agent-info` reports principal `support`.
+**Given** `datatug serve --as support --role support` and explicit policies for each source
+**When** real execution requests run customer-invoices for Brazilian and Canadian
+fixture customers, and an allowed Customer projection is requested
+**Then** unauthorized invoice rows are absent; Customer excludes Email; applied
+`limitations[]` correspond to each result's actual source. agent-info reports support.
+No request can elevate the serving principal.
 
 ### AC: related-across-sources-server (verifies REQ:related-lookup-model, REQ:related-lookup-execution)
 
 **Given** the demo project and principal `admin`
-**When** `GET /datatug/semantic/related` is called for `Customer.ID = 5` and the *Invoices* lookup rows are fetched
-**Then** the lookups list *Invoices* (`chinook`, count 7) and *Support notes* (`support-notes`, count 2), and the rows come from a server-built structured query executed through the policy path.
+**When** `POST /datatug/semantic/related` is called for `Customer.ID = 5` and the *Invoices* lookup rows are fetched
+**Then** the lookups list *Invoices* (`chinook`, count from pinned fixture) and *Support notes* (`support-notes`, count 2), and the rows come from a server-built structured query executed through the policy path.
 
 ### AC: applicable-with-chain-server (verifies REQ:applicable-queries)
 
 **Given** the demo project
 **When** `POST /datatug/queries/applicable` is called with `Customer.ID = 5`
-**Then** `customer-invoices` and `customer-purchases-by-genre` are applicable with a resolution chain, and `invoice-lines` is listed as not yet applicable with `missing: [Invoice.ID]`.
+**Then** `customer-invoices` and `customer-purchases-by-genre` are applicable with a resolution chain, and `invoice-lines` is listed as not yet applicable with `missing` containing the query’s invoice parameter ID and a chain explaining that Invoice.ID is unavailable.
+
+### AC: typed-context-isolation (verifies REQ:context-isolation-and-input-resolution)
+
+**Given** distinct typed values 5 and "5", two conflicting Customer.ID facts, and a
+request in flight
+**When** binding is attempted and the user changes project/environment/principal
+**Then** types stay distinct, conflict blocks an unconfirmed run, old scope facts do
+not bind and its late response is discarded; false/zero/null follow declared types.
+
+### AC: real-transport-and-parameter-effect (verifies REQ:exact-transport-and-source-contract)
+
+**Given** pinned server/client/demo revisions and two authorized customer IDs
+**When** actual browser-shaped requests exercise each endpoint, empty/error cases and
+saved SQL/DTQL parameters
+**Then** exact envelopes deserialize, changed parameters change the selected rows,
+HTTP targets resolve without a fake database, and only actually applied bindings return.
+
+### AC: safe-http-and-lookups (verifies REQ:bounded-policy-safe-http-and-lookups)
+
+**Given** protected sources, a forged/cross-scope lookup, and disallowed HTTP targets
+**When** requests attempt forbidden addresses, redirects, excessive size/time or counts
+**Then** they fail at the server without protected data; authorized results remain
+bounded and cancellation releases resources. Unavailable exact counts return null.
 
 ## Not Doing / Out of Scope
 
 - Playbooks, collections beyond folders, capture-from-exploration, knowledge promotion (Phase 2–3).
-- HTTP/GraphQL execution, logs, Firestore as a source (Phase 2–3).
-- Probabilistic inference, automatic relationship discovery (Phase 5 / experiments).
+- HTTP beyond configured keyless JSON GET reference data; GraphQL, authenticated HTTP, logs and Firestore query depth (separate later plans).
+- Probabilistic inference, automatic relationship discovery (separate experiments).
 - Cross-source joins; only lookups.
-- Sneat spaces, hosted multi-user principals, layered ACL, Explain Access (Phase 3–4).
-- MCP / serve-brokered builder (Phase 4).
-- TUI parity for the loop (Phase 2).
+- Hosted multi-user principals, collaboration grants and policy-authoring UI (later plans). Existing layered ACL implementation is reused where required for this protected slice, not redesigned or prohibited.
+- MCP / serve-brokered builder (separate extension plan).
+- TUI parity for the loop (separate surfaces plan).
 - Any UI-kit migration; boards/charts.
 
 ## Open Questions
 
-- A1 is ruled (three sources); confirm the lead's concrete endpoint choice (REST Countries + Frankfurter) and assumptions A2–A3 (opaque-SQL limitation, `basket` name).
-- Should the serving principal default to `admin` when `--as` is omitted, or should `serve` refuse to start without a principal when a policy set exists? Recommendation: default `admin` only when no policy set exists; otherwise require `--as`.
+None blocking the corrected local Phase 1 slice. Internal `basket` naming is an
+engineering detail; the user-facing label is Investigation Context. Concrete HTTP
+descriptors are maintained in the demo project and acceptance manifest, with no
+claim that a specific provider was founder-selected. Broader hosting, HTTP credentials
+and Dashboardius query-binding choices remain in their owning Features.
 
 ---
 *This document follows the https://specscore.md/feature-specification*

@@ -13,24 +13,34 @@ status: Draft
 
 P14 is the claim that AI agents use the same model people do: the same entities, mappings, library queries, investigation context and access decisions, exposed through CLI verbs and MCP resources rather than a disconnected chat architecture (deliberate non-goal: "a text-to-SQL chat box...
 
-AI enters through the same knowledge model as people"). This Feature, `agent-context`, is P14's own capability — a resolver an agent can call to learn what a human would see in the context panel — distinct from the two existing, separately-specified Approved Features under this same pillar: `ai-query-builder` (in-app conversational query building) and `serve-brokered-query-builder` (a daemon brokering a query between an MCP face and a web UI). Audited state on 2026-09-09: the skills plugin genuinely drives the CLI (8 of 9 skills verified against real commands); agent-readable project context as a CLI/MCP resource is planned, unbuilt; both sibling Features are specified/documented with zero shipped code. Phase 2 builds `datatug context`, reusing the same resolver `core-investigation-loop` builds for the web UI. This is a Capability; per-repo Implementations (`datatug-cli`) link to it.
+**Evidence boundary:** initial-audit observations below are historical. Current integration
+status is summarized in the [hierarchy](../../product/hierarchy.md) and the
+[independent review](../../research/2026-09-09-independent-review.md); no historical
+state label is a present completion or absence claim. The [roadmap](../../../ROADMAP.md)
+owns phase sequencing; capability tables below retain original audit grouping.
+
+AI enters through the same knowledge model as people"). This Feature, `agent-context`, is P14's own capability — a resolver an agent can call to learn what a human would see in the context panel — distinct from the two existing, separately-specified Approved Features under this same pillar: `ai-query-builder` (in-app conversational query building) and `serve-brokered-query-builder` (a daemon brokering a query between an MCP face and a web UI). Initial audit snapshot (before later 9 September landings): the skills plugin genuinely drives the CLI (8 of 9 skills verified against real commands); agent-readable project context as a CLI/MCP resource is planned, unbuilt; both sibling Features are specified/documented with zero shipped code. Phase 2 builds `datatug context`, reusing the same resolver `core-investigation-loop` builds for the web UI. This is a Capability; per-repo Implementations (`datatug-cli`) link to it.
 
 ## Problem
 
-An AI agent guessing SQL from a raw physical schema repeats every mistake a human would make
-without the semantic layer, and cannot benefit from a team's accumulated library or from an active
-Investigation Context a human started. DataTug's skills plugin already proves the model works for
-CLI-wrapping skills — "the skills plugin (`ai-plugin`, 9 skills, 8 wrapping real commands) is
-genuine" (current-state audit, ecosystem findings) — but nothing today lets an agent ask "what does
-this value mean, what's related, what queries apply" the way `core-investigation-loop`'s context
-panel answers that for a human. Without this Feature, an agent's only options are the same
-unstructured schema dump every text-to-SQL tool already offers, or waiting for the still-unbuilt MCP
-daemon (`serve-brokered-query-builder`) — which itself "depends on a `datatug serve` that cannot
-currently start" (current-state audit, capability table, MCP row).
+The following initial-audit diagnosis explains why this capability was proposed.
+It is historical evidence, not a claim about current code; consult the capability
+hierarchy and revised Phase 1 plan for current integration work.
+
+> An AI agent guessing SQL from a raw physical schema repeats every mistake a human would make
+> without the semantic layer, and cannot benefit from a team's accumulated library or from an active
+> Investigation Context a human started. DataTug's skills plugin already proves the model works for
+> CLI-wrapping skills — "the skills plugin (`ai-plugin`, 9 skills, 8 wrapping real commands) is
+> genuine" (current-state audit, ecosystem findings) — but nothing today lets an agent ask "what does
+> this value mean, what's related, what queries apply" the way `core-investigation-loop`'s context
+> panel answers that for a human. Without this Feature, an agent's only options are the same
+> unstructured schema dump every text-to-SQL tool already offers, or waiting for the still-unbuilt MCP
+> daemon (`serve-brokered-query-builder`) — which itself "depends on a `datatug serve` that cannot
+> currently start" (current-state audit, capability table, MCP row).
 
 ## Behavior
 
-### Capabilities and phases
+### Initial audit capability inventory (historical)
 
 | Capability | State | Phase | Kind |
 |---|---|---|---|

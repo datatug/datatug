@@ -13,26 +13,36 @@ status: Draft
 
 P9 is Git-native projects: every knowledge asset is a readable, versioned, diffable, portable file — no secrets in project files — and the project store itself, wherever it lives, is explorable inside DataTug.
 
-It is the pillar that makes P7's compounding library real rather than aspirational: a captured query is worthless as an accumulating asset if it cannot be reviewed, diffed and moved between local, hosted and Git-backed stores. Audited state on 2026-09-09: the local filestore is the only fully working `Store` backend; `--git=stage` only covers `entity add`; secrets can still land in committed query files because `Project.Validate()` never validates `Queries` at all; GitHub- hosted projects can write but not reliably read back (`GhStorage.FileExists`/`OpenFile` panic). Two founder additions from 2026-09-09 extend this pillar: a remote OpenVaultDB project store, and making the project store itself explorable as a source inside DataTug. Phase 0–1 add the secrets guard; Phase 2–3 build the pluggable store backends and self-exploration; Phase 4 adds diff/review affordances. This is a Capability; per-repo Implementations (`datatug-core`, `datatug-cli`) link to it.
+**Evidence boundary:** initial-audit observations below are historical. Current integration
+status is summarized in the [hierarchy](../../product/hierarchy.md) and the
+[independent review](../../research/2026-09-09-independent-review.md); no historical
+state label is a present completion or absence claim. The [roadmap](../../../ROADMAP.md)
+owns phase sequencing; capability tables below retain original audit grouping.
+
+It is the pillar that makes P7's compounding library real rather than aspirational: a captured query is worthless as an accumulating asset if it cannot be reviewed, diffed and moved between local, hosted and Git-backed stores. Initial audit snapshot (before later 9 September landings): the local filestore is the only fully working `Store` backend; `--git=stage` only covers `entity add`; secrets can still land in committed query files because `Project.Validate()` never validates `Queries` at all; GitHub- hosted projects can write but not reliably read back (`GhStorage.FileExists`/`OpenFile` panic). Two founder additions from 2026-09-09 extend this pillar: a remote OpenVaultDB project store, and making the project store itself explorable as a source inside DataTug. Phase 0–1 add the secrets guard; Phase 2–3 build the pluggable store backends and self-exploration; Phase 4 adds diff/review affordances. This is a Capability; per-repo Implementations (`datatug-core`, `datatug-cli`) link to it.
 
 ## Problem
 
-A knowledge asset that cannot be reviewed before it changes team behaviour is a liability, not an
-asset — this is why DataTug commits to Git-native storage over a database-backed catalog
-(hypothesis H6, "confirmed by competitor behaviour... Bruno, DataGrip, dbt, Grafana-as-code and
-Lightdash all moved toward files"). Today the promise is only partly kept: the filestore layout is
-real and the demo project lives on GitHub as proof (`datatug-core/pkg/storage/filestore`), but
-`--git=commit` is explicitly rejected (exit 2) and only `entity add` stages its own changes
-(`git_integration.go`). Secrets modeling is a live gap: `QueryDefTarget.Credentials` can be
-committed to a git-tracked query file and `Project.Validate()` never checks `Queries` at all
-(current-state audit, datatug-core findings). GitHub-hosted projects are "write-only" — the audit
-found `GhStorage.FileExists`/`OpenFile` both `panic("implement me")`
-(`pkg/dtgithub/github_storage.go:40-48`), so a write path exists that cannot read its own output
-back through the same interface.
+The following initial-audit diagnosis explains why this capability was proposed.
+It is historical evidence, not a claim about current code; consult the capability
+hierarchy and revised Phase 1 plan for current integration work.
+
+> A knowledge asset that cannot be reviewed before it changes team behaviour is a liability, not an
+> asset — this is why DataTug commits to Git-native storage over a database-backed catalog
+> (hypothesis H6, "supported as a hypothesis by competitor behaviour... Bruno, DataGrip, dbt, Grafana-as-code and
+> Lightdash all moved toward files"). Today the promise is only partly kept: the filestore layout is
+> real and the demo project lives on GitHub as proof (`datatug-core/pkg/storage/filestore`), but
+> `--git=commit` is explicitly rejected (exit 2) and only `entity add` stages its own changes
+> (`git_integration.go`). Secrets modeling is a live gap: `QueryDefTarget.Credentials` can be
+> committed to a git-tracked query file and `Project.Validate()` never checks `Queries` at all
+> (current-state audit, datatug-core findings). GitHub-hosted projects are "write-only" — the audit
+> found `GhStorage.FileExists`/`OpenFile` both `panic("implement me")`
+> (`pkg/dtgithub/github_storage.go:40-48`), so a write path exists that cannot read its own output
+> back through the same interface.
 
 ## Behavior
 
-### Capabilities and phases
+### Initial audit capability inventory (historical)
 
 | Capability | State | Phase | Kind |
 |---|---|---|---|

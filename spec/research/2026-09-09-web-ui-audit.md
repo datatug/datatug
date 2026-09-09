@@ -1,5 +1,11 @@
 # DataTug Web UI audit (2026-09-09)
 
+> Historical evidence: observations below describe the audit's inspected revisions,
+> not current shipping state. The later [independent review](2026-09-09-independent-review.md)
+> records subsequent landings and integration gaps. Implementation instructions live
+> in the corrected owning Features and Phase 1 plan; do not treat this audit's
+> old panic, absent-component or label-only SQL statements as current requirements.
+
 Repo: `/Users/alex/projects/datatug/datatug-apps`, commit `5d54b40` (2026-09-08, "enable enterprise OIDC SSO"; main advanced past this to that commit after the source `web-ui.md` report was written on an earlier commit). Method: source audit (routes, services, package.json, grep for `ion-*`/PrimeNG/Tabulator usage) plus a hands-on dev-server walk by the lead on 2026-09-09 — `pnpm nx serve datatug-app`, navigated by URL, read console/network state. Read-only throughout; nothing in the repo was modified.
 
 ---

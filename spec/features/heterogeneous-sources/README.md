@@ -11,9 +11,11 @@ status: Draft
 
 ## Summary
 
-P2 is the promise that DataTug explores data where it lives: SQL databases, Git-backed data (inGitDB), document stores (Firestore), HTTP/GraphQL APIs and, eventually, logs — all through DALgo adapters, with connection secrets kept outside project files.
-
-It is the pillar that makes P1 (the portable query model) and P5 (cross-source related data) mean something concrete: without at least two working, heterogeneous sources, "navigate across sources" is a slogan, not a demonstrable path. Audited state on 2026-09-09: SQL scan/query is partial (SQLite/MySQL/Postgres scan works, but released binaries are `CGO_ENABLED=0` so mattn's SQLite driver is absent from structured query execution); inGitDB is usable for local paths and already proven in `query run` tests; Firestore is scan-only in the TUI with query execution rejecting OR-groups and GroupBy; HTTP is modeled but not executed anywhere; logs have no model at all. Phase 0 fixes SQLite in release binaries via `dalgo2sqlite`; Phase 1 wires inGitDB as the demo project's second source; Phase 2 adds HTTP execution and Firestore query depth; Phase 5 considers logs. This is a Capability; per-repo Implementations (`datatug-cli`, `dal-go/dalgo2*` adapters) link to it.
+The approved Phase 1 source set is SQLite, inGitDB and public keyless HTTP JSON GET.
+The HTTP adapter and CLI path exist; the independent review found browser dispatch
+and shared source-resolution gaps. Complete all three through one registry and the
+same protected server boundary. GraphQL, authenticated HTTP, Firestore query depth
+and logs need separate later plans, not implicit Phase 1 support.
 
 ## Problem
 
@@ -40,7 +42,8 @@ explicitly as fixable by switching to the pure-Go `dalgo2sqlite`.
 | SQL sources (SQLite, SQL Server, MySQL, Postgres) — scan + query | partial | 0–1 | enabler |
 | inGitDB (Git-backed data) as a source | usable (local paths) | 1 | strategic |
 | Firestore as a source | partial | 3 | enabler |
-| HTTP / GraphQL API requests as queries | backend-only | 1 (read-only JSON GET reference data via `dal-go/dalgo2http`, founder ruling 2026-09-09) / 2 (rest) | strategic |
+| HTTP JSON GET reference queries | adapter/CLI exist; browser acceptance pending | 1 | strategic |
+| Authenticated HTTP / GraphQL | future, separately scoped | extension | strategic |
 | Logs as a source | planned | 5 | strategic |
 | Source registry and connection secrets outside project files | partial (gap) | 0–1 | hygiene |
 
@@ -68,10 +71,11 @@ silently, matching the DALgo adapter's own `ErrNotSupported` behaviour.
 
 #### REQ: http-graphql-source
 
-An HTTP or GraphQL `QueryDef` MUST be executable in both the CLI and the web UI, not just modeled.
-Requests MUST carry no secret in the project file (see REQ:secrets-outside-project-files); a
-response MUST be shaped into the same recordset structure other sources use so the rest of the loop
-(semantic markers, related lookups) works unmodified.
+Phase 1 MUST execute configured keyless JSON GET queries through dalgo2http in both
+CLI and browser, with common typed recordsets and source identity. Follow the core
+transport appendix for target allowlisting, policy capability checks, time/size bounds,
+SSRF/redirect handling, explicit snapshot selection and errors. Authenticated HTTP and
+GraphQL remain future capabilities requiring a credential authority and their own plan.
 
 #### REQ: logs-source
 
@@ -132,9 +136,10 @@ consistent rather than defining the rule twice.
 
 ## Open Questions
 
-- Which second source proves heterogeneity in Phase 1: an inGitDB collection (cheapest, already
-  wired) or an HTTP endpoint (closer to the shipping-status example, needs the executor)?
-  Recommendation from the hierarchy: inGitDB in Phase 1, HTTP in Phase 2.
+- Authenticated HTTP: which existing server credential authority and descriptor
+  policy should a later slice consume? Decide here before implementing secret-bearing
+  requests; never put credentials in project files.
+The three Phase 1 source types are already approved and are not an either/or choice.
 
 ---
 *This document follows the https://specscore.md/feature-specification*

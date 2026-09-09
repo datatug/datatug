@@ -13,35 +13,45 @@ status: Draft
 
 P1 is the portable query model: one logical query AST (DALgo `StructuredQuery`), serialized losslessly as DTQL YAML, rendered to each backend's native query language, with native text kept as an explicit escape hatch.
 
-It is the pillar every other pillar leans on: P10's server-enforced ACL can only rewrite a query it can parse as structure, and P7's shared library can only diff and review a query in Git if it is data, not opaque text. Audited state on 2026-09-09: DTQL serialization and the DALgo `access` policy engine are Stable and well tested in `dal-go/dalgo`, but DataTug itself consumes them at exactly one call site, `datatug query run` (`datatug-cli/apps/datatugapp/commands/cmd_query.go`); `QueryDef.Type` has no `DTQL` value yet (`datatug-core/pkg/datatug/query.go:124-137`); and the standalone `dtql`/`dtql-go`/`dtql-backstage` repositories and the `dtql.org` site are obsolete stubs that contradict the real implementation. Phase 0 retires the obsolete repos; Phase 1 (`core-investigation-loop`) adds `DTQL` as a saved-query type; Phase 2 completes the HTTP escape hatch and the remaining backend adapters. This is a Capability; per-repo Implementations (`datatug-cli`, `dal-go/dalgo`) link to it.
+**Evidence boundary:** initial-audit observations below are historical. Current integration
+status is summarized in the [hierarchy](../../product/hierarchy.md) and the
+[independent review](../../research/2026-09-09-independent-review.md); no historical
+state label is a present completion or absence claim. The [roadmap](../../../ROADMAP.md)
+owns phase sequencing; capability tables below retain original audit grouping.
+
+It is the pillar every other pillar leans on: P10's server-enforced ACL can only rewrite a query it can parse as structure, and P7's shared library can only diff and review a query in Git if it is data, not opaque text. Initial audit snapshot (before later 9 September landings): DTQL serialization and the DALgo `access` policy engine are Stable and well tested in `dal-go/dalgo`, but DataTug itself consumes them at exactly one call site, `datatug query run` (`datatug-cli/apps/datatugapp/commands/cmd_query.go`); `QueryDef.Type` has no `DTQL` value yet (`datatug-core/pkg/datatug/query.go:124-137`); and the standalone `dtql`/`dtql-go`/`dtql-backstage` repositories and the `dtql.org` site are obsolete stubs that contradict the real implementation. Phase 0 retires the obsolete repos; Phase 1 (`core-investigation-loop`) adds `DTQL` as a saved-query type; Phase 2 completes the HTTP escape hatch and the remaining backend adapters. This is a Capability; per-repo Implementations (`datatug-cli`, `dal-go/dalgo`) link to it.
 
 ## Problem
 
-Query text is source-language-specific: T-SQL, a Firestore query, an inGitDB filter and an HTTP
-request body share no common shape. A query written for one source cannot move to another, cannot
-be structurally rewritten by the server to enforce row/column policy, and cannot be diffed
-meaningfully in Git the way a data file can. DataTug's thesis depends on queries being executable
-knowledge assets, not opaque strings. Today that promise is only kept at one call site: DTQL
-serialization is "usable" and the DALgo `access` package is "usable, spec Stable"
-(`dal-go/dalgo/dtql/README.md`; `dal-go/dalgo/access/*`), but `QueryDef.Type` in DataTug's own
-project model still only accepts `SQL`/`HTTP`/`StructuredSQL`
-(`datatug-core/pkg/datatug/query.go:124-137`), so no project file can hold a DTQL document. Backend
-rendering is likewise partial: `sqlite://` and `ingitdb://` are fully wired but `postgres://`
-`Open()` always returns `ErrPostgresNotWired` (`pkg/dbcopy/url.go:34-37,164-165`), and `mssql`/
-`mysql`/`firestore` are not in the dispatcher at all. Marketing on `datatug.io` and the standalone
-`dtql.org` site present DTQL as an installable product independent of `dal-go/dalgo`; the audit
-found the `dtql`/`dtql-go`/`dtql-backstage` repos are one-line-README stubs with a single 2026-06-09
-commit and zero `.go` files, while the real implementation lives under a different module path
-entirely (current-state audit, "Contradictions" table, DTQL row).
+The following initial-audit diagnosis explains why this capability was proposed.
+It is historical evidence, not a claim about current code; consult the capability
+hierarchy and revised Phase 1 plan for current integration work.
+
+> Query text is source-language-specific: T-SQL, a Firestore query, an inGitDB filter and an HTTP
+> request body share no common shape. A query written for one source cannot move to another, cannot
+> be structurally rewritten by the server to enforce row/column policy, and cannot be diffed
+> meaningfully in Git the way a data file can. DataTug's thesis depends on queries being executable
+> knowledge assets, not opaque strings. Today that promise is only kept at one call site: DTQL
+> serialization is "usable" and the DALgo `access` package is "usable, spec Stable"
+> (`dal-go/dalgo/dtql/README.md`; `dal-go/dalgo/access/*`), but `QueryDef.Type` in DataTug's own
+> project model still only accepts `SQL`/`HTTP`/`StructuredSQL`
+> (`datatug-core/pkg/datatug/query.go:124-137`), so no project file can hold a DTQL document. Backend
+> rendering is likewise partial: `sqlite://` and `ingitdb://` are fully wired but `postgres://`
+> `Open()` always returns `ErrPostgresNotWired` (`pkg/dbcopy/url.go:34-37,164-165`), and `mssql`/
+> `mysql`/`firestore` are not in the dispatcher at all. Marketing on `datatug.io` and the standalone
+> `dtql.org` site present DTQL as an installable product independent of `dal-go/dalgo`; the audit
+> found the `dtql`/`dtql-go`/`dtql-backstage` repos are one-line-README stubs with a single 2026-06-09
+> commit and zero `.go` files, while the real implementation lives under a different module path
+> entirely (current-state audit, "Contradictions" table, DTQL row).
 
 ## Behavior
 
-### Capabilities and phases
+### Initial audit capability inventory (historical)
 
 | Capability | State | Phase | Kind |
 |---|---|---|---|
 | DTQL YAML serialization of the DALgo query AST | usable (external, Stable in `dal-go/dalgo/dtql`) | — | enabler |
-| DTQL as a saved-query type in projects (`queries/**/*.dtql.yaml`, `QueryDef.Type = DTQL`) | planned | 1 | strategic |
+| DTQL as a saved-query type in projects (`queries/**/*.query.dtql`, `QueryDef.Type = DTQL`) | planned | 1 | strategic |
 | Native query escape hatch (SQL text, HTTP request) | usable (SQL) / backend-only (HTTP) | 1 (SQL), 2 (HTTP) | enabler |
 | Rendering to backends through DALgo adapters | partial | 0–1 | enabler |
 | Standalone `dtql*` repositories and dtql.org claims | obsolete / contradicted | 0 | hygiene |
@@ -56,7 +66,7 @@ so the server can apply row/column policy uniformly (see `server-enforced-access
 
 #### REQ: dtql-saved-query-type
 
-A project MUST be able to store a query as a `.dtql.yaml` sidecar with `QueryDef.Type = DTQL`,
+A project MUST be able to store a query as a `<id>.query.dtql` sidecar with `QueryDef.Type = DTQL`,
 loaded and executed the same way as a `SQL`-type query. This is specified in full by
 `core-investigation-loop` REQ:dtql-query-type; this Feature only asserts it as a P1 capability and
 does not restate the mechanics.
@@ -93,7 +103,7 @@ their URLs.
 
 ### AC: dtql-query-type-saves (verifies REQ:dtql-saved-query-type)
 
-**Given** the demo project and a `customer-invoices.dtql.yaml` document
+**Given** the demo project and a `customer-invoices.query.dtql` document
 **When** `datatug entity list` and `datatug query run` load the project
 **Then** the query loads with `Type: DTQL` and runs through the same policy path as a `SQL` query (see `core-investigation-loop` AC:dtql-query-runs).
 

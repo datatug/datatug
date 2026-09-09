@@ -1,5 +1,11 @@
 # DataTug current-state audit (2026-09-09)
 
+> Historical evidence: observations below describe the audit's inspected revisions,
+> not current shipping state. The later [independent review](2026-09-09-independent-review.md)
+> records subsequent landings and integration gaps. Implementation instructions live
+> in the corrected owning Features and Phase 1 plan; do not treat this audit's
+> old panic, absent-component or label-only SQL statements as current requirements.
+
 Method: read-only archaeology of five prior audit passes (`datatug-cli`, `datatug-core` + demo/validator repos, `datatug-apps`, `dal-go/dalgo` + adapters + DTQL + ACL, ecosystem/marketing/Sneat) plus a lead-verified sixth pass — building the CLI at tag `v0.13.0`, running `datatug serve`/`demo`/`init` live, and a hands-on browser walk of `datatug-apps` on 2026-09-08/09 — consolidated and reconciled here. Every claim below cites a `path:line`, a command actually run, or a URL actually visited; nothing is invented. Classification vocabulary (one per capability row): **usable** (works as built, end to end) · **implemented-but-poorly-exposed** (real, but no UI/CLI path reaches it, or the path is broken) · **partial** (some paths/backends/scopes work, others don't) · **prototype** (code exists, does not function or is a stub) · **backend-only** (server/library exists, no consuming UI) · **ui-only/mock** (UI exists, no real data behind it) · **specified/documented** (spec/design exists, zero shipped code) · **planned** (roadmap intent, nothing built) · **obsolete** (superseded or dead) · **unclear** (not resolved by evidence gathered).
 
 Facts newly established by the lead after the five source reports were written are folded in and, where they conflict with a source report, they override it — flagged inline as "(lead, 2026-09-09)".

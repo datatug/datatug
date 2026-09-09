@@ -35,7 +35,7 @@ And the claim about what compounds:
 
 ## Fundamental abstraction
 
-Competitors are built around one abstraction: Retool around the *app*, Metabase around
+Useful comparison abstractions (not exhaustive descriptions of these products) include: Retool around the *app*, Metabase around
 the *question/dashboard*, DBeaver around the *connection*, Atlan around the *catalog
 asset*, Grafana around the *time series panel*, Postman around the *request collection*,
 Databricks Genie around the *agent*.
@@ -49,34 +49,35 @@ DataTug's fundamental abstraction is the **executable knowledge project**:
 | **Executable** | Parameterized queries with semantic parameters, query collections, investigation playbooks | project files (`queries/`, playbooks) |
 | **Session** | Investigation context (the values, filters and time window the user is currently carrying) | the surface (web/CLI/agent), optionally saved to the project |
 
-The **project** is the unit of accumulation and sharing (Git-native, promotable from
-personal → team → project → organization). The **investigation** is the unit of use: a
+The **project** is the unit of accumulation and sharing (Git-native, standalone and shareable through explicit grants to multiple spaces). The **investigation** is the unit of use: a
 context-carrying session that moves through the graph. The **trusted server** (the
 DataTug CLI in `serve` mode, or a hosted DataTug service) is the unit of enforcement:
 every read and write passes through it, and access policies are decided there.
 
 ## Pillars
 
-Each pillar is a top-level Capability Feature. The state column is the audited state on
-2026-09-09 (see the [hierarchy](hierarchy.md) for capability-level detail).
+P1–P15 are stable capability IDs, not equal-priority product pillars. P6 and P7
+organize the primary user value; other capabilities, enablers and surfaces support it.
+See the [hierarchy](hierarchy.md) for current evidence, classification and old-idea
+reconciliation. The initial-audit absence claims are not current implementation state.
 
-| # | Pillar | One-line definition | Audited state |
-|---|---|---|---|
-| P1 | **Portable query model (DTQL + DALgo)** | One logical query AST (DALgo `StructuredQuery`), serialized as DTQL YAML, rendered to each backend's native language; native text as an escape hatch. | DTQL + DALgo access are Stable in `dal-go/dalgo`; DataTug consumes them only in `datatug query run`. |
-| P2 | **Heterogeneous operational sources** | Explore data where it lives: SQL, document stores, Git-backed data (inGitDB), HTTP/GraphQL APIs, logs. | SQL Server/SQLite/MySQL/Postgres scan via CLI; Firestore and inGitDB via DALgo; HTTP modeled, not executed in web. |
-| P3 | **Semantic entities and fields** | Entities and typed fields distinct from tables/columns; explicit, inspectable mappings from physical locations. | Model exists (`Entity`, `EntityField.NamePatterns`, `EntityFieldRef` tags); no runtime resolves mappings. |
-| P4 | **Meaning inference** | Suggest field meaning from names, types, neighbours and conventions; suggestions are inspectable and correctable, never silently authoritative. | Modeled as data; no inference engine. |
-| P5 | **Relationships and related-data navigation** | A selected value becomes a navigation point to related records, across sources, beyond declared foreign keys. | FK graph scanned bidirectionally; web table page shows FK-driven related cards; no cross-source or semantic lookup. |
-| P6 | **Investigation Context** | Portable investigation state (`Customer.ID=C123`, `Environment=prod`, time window) that follows the user and binds compatible query parameters automatically. | Not implemented (web "Variables" page is an empty shell; `Variables` model exists in core). |
-| P7 | **Shared executable knowledge library** (primary) | Parameterized queries with semantic parameters, query applicability ("useful right now"), collections, playbooks, entry points; the explore→capture→share→reuse loop. | Queries + typed parameters + folders exist and are Git files; applicability, auto-binding and playbooks do not exist. |
-| P8 | **Sharing scopes (Sneat spaces)** | Personal → team → project → organization scopes and promotion, reusing Sneat's space membership model. | Not implemented; `datatug_projects` uses a flat `userIDs[]`; Sneat space packages are declared but unused. |
-| P9 | **Git-native projects** | Every knowledge asset is a readable file: versioned, diffable, reviewable, portable; no secrets in project files. Project stores: local directory, GitHub repository, remote OpenVaultDB vault, DataTug Cloud — and the project store itself is explorable inside DataTug. | Filestore is the only storage; `--git` flag on mutating CLI commands; credentials can still land in query files; OpenVaultDB store and self-exploration are founder additions of 2026-09-09, not started. |
-| P10 | **Server-enforced access control** | Source, row and column policies decided by the DataTug server through DALgo; the browser is never trusted. | Real in the CLI (`query run` through `access.SecureReadSession`); absent from `serve` and the web UI; layered multi-owner ACL is designed and implementing in DALgo/OpenVaultDB/InGitDB. |
-| P11 | **Three surfaces, one project** | TUI, web (via `datatug serve` or hosted), AI agent (skills, MCP) over the same project with screen-level hand-off. | TUI shipped; web builds but the agent link is broken at both ends; skills plugin shipped; MCP unbuilt though marketed. |
-| P12 | **Provenance** | Every value can say where it came from: source, table/endpoint, field, query, transformation, mapping, policy. | Not implemented beyond schema docs. |
-| P13 | **Infrastructure inventory** | Servers, environments, databases, endpoints and services linked to sources so context can climb from a record to its infrastructure. | Environments/servers/catalogs modeled and scanned; no services/endpoints inventory. |
-| P14 | **AI uses the same model** | Agents consume the same entities, mappings, library, playbooks, context and ACL as humans; no disconnected chat architecture. | Skills plugin drives the CLI; `serve-brokered-query-builder` Capability approved, unbuilt. |
-| P15 | **Dashboards as a surface** (Dashboardius) | Boards emerge from exploration and are preserved as project files; the standalone Dashboardius product presents DataTug boards. | Board schema modeled in Go and TS; web board service unimplemented; Dashboardius demo live on its own domain. |
+| ID | Capability | Role |
+|---|---|---|
+| P1 | [Portable query model](../features/portable-query-model/README.md) | enabler |
+| P2 | [Heterogeneous sources](../features/heterogeneous-sources/README.md) | capability |
+| P3 | [Semantic layer](../features/semantic-layer/README.md) | capability |
+| P4 | [Meaning inference](../features/meaning-inference/README.md) | capability/experiment |
+| P5 | [Related-data navigation](../features/related-data-navigation/README.md) | core interaction |
+| P6 | [Investigation Context](../features/investigation-context/README.md) | core capability |
+| P7 | [Shared executable knowledge](../features/executable-knowledge-library/README.md) | primary capability |
+| P8 | [Project grants and sharing](../features/sharing-scopes/README.md) | collaboration capability |
+| P9 | [Git-native projects](../features/git-native-projects/README.md) | storage enabler |
+| P10 | [Server-enforced access](../features/server-enforced-access/README.md) | security enabler |
+| P11 | [Surfaces](../features/surfaces/README.md) | distribution/surface |
+| P12 | [Provenance](../features/provenance/README.md) | explainability capability |
+| P13 | [Infrastructure inventory](../features/infrastructure-inventory/README.md) | extension |
+| P14 | [AI consumes the same model](../features/agent-context/README.md) | consumer/extension |
+| P15 | [Dashboardius dashboards](../features/dashboards/README.md) | presentation surface |
 
 ## Deliberate non-goals
 
@@ -89,24 +90,33 @@ Each pillar is a top-level Capability Feature. The state column is the audited s
 - A BI/warehouse tool. DataTug explores operational data where it lives; it does not
   centralize.
 - Connector breadth as a growth lever. The minimum set that proves the architecture
-  (SQL via DALgo, inGitDB, Firestore, HTTP) comes first.
+  (SQLite via DALgo, inGitDB, keyless HTTP JSON GET) comes first.
 - Client-direct database access for protected sources. All reads go through the server.
 - A text-to-SQL chat box. AI enters through the same knowledge model as people.
 
 ## Hypotheses tested against evidence
 
-| # | Hypothesis (from the planning brief) | Verdict | Evidence |
-|---|---|---|---|
-| H1 | The strongest differentiation is the *combination* of semantic understanding, contextual exploration and reusable executable team knowledge — not any single query technology. | **Confirmed.** No product researched combines P3–P7; each pillar individually has a stronger incumbent. | competitor research: closest per-pillar competitors differ (Datasette/Azimutt for P5, Splunk/Kibana for P6/P7, Atlan for P3, Bruno/Postman for P9-style files). |
-| H2 | The context basket can be a first-class Investigation Context rather than a filter bar. | **Confirmed, with a scope rule.** It is portable state with explicit constraints; it must never become a hidden filter. | Datadog saved views, Splunk workflow actions and Grafana variables all stop at "filter"; none carries semantic values across query assets. |
-| H3 | Parameterized queries become substantially more valuable when parameters have semantic meaning and bind automatically. | **Confirmed and cheap.** `ParameterDef.Meta` (an `EntityFieldRef`) already exists in the model; only the resolver and UI are missing. | `datatug-core/pkg/datatug/parameters.go`. |
-| H4 | Collections can evolve into human-guided playbooks without a workflow engine. | **Plausible; unproven.** Keep playbooks as a later phase; the folder tree already exists. | `QueriesFolder` recursion; no product researched offers human-guided branching playbooks over data. |
-| H5 | Sneat team/project organization gives a natural sharing structure. | **Confirmed for the model, not for the code.** Space membership/roles exist in Sneat; DataTug does not use them yet. | ecosystem audit §5. |
-| H6 | Git-native storage attracts technical teams. | **Confirmed by competitor behaviour.** Bruno, DataGrip, dbt, Grafana-as-code and Lightdash all moved toward files; Retool/Superblocks gate Git behind Enterprise tiers. | competitor research. |
-| H7 | The web UI should expose the data itself as navigable, not require an internal app. | **Confirmed.** This is the line against the internal-tool category. | internal-tools research. |
-| H8 | A trusted server enforcing source/row/column ACL differentiates from browser-centric tools and enables self-hosting. | **Confirmed in DALgo, unproven in the web path.** The CLI already enforces; `serve` does not. | DALgo/ACL audit. |
-| H9 | DataTug can bridge DB exploration, catalog concepts, troubleshooting, internal-tool UX and agent context without replacing those categories. | **Confirmed as positioning; risk is scope.** The roadmap holds the line with explicit non-goals. | this page. |
-| H10 | The compounding moat is the organization-specific graph of mappings + relationships + contextual queries + playbooks. | **Confirmed as the bet; not yet demonstrable.** Nothing today captures or reuses that graph at runtime. | audits. |
+Desk research tests plausibility and overlap, not demand or defensibility. None of
+these rows is a completed customer experiment.
+
+| ID | Hypothesis | Evidence-qualified assessment |
+|---|---|---|
+| H1 | The combination is more valuable than isolated features | Plausible; overlapping competitors exist. Test complete repeated investigations against current workflows. |
+| H2 | Semantic context improves on repeated manual filtering | Plausible; notebook variables and query reuse are meaningful comparators. No hidden filters is a product rule, not market proof. |
+| H3 | Semantic parameters make reuse easier | Model/resolver infrastructure exists; integration and second-user reuse must demonstrate value. |
+| H4 | Collections can support human-guided playbooks | Plausible extension; prove a short sequence before adding orchestration. |
+| H5 | Space membership can support project sharing | Existing platform primitives help; standalone-project grants and revocation still require acceptance. |
+| H6 | Git-native storage attracts technical teams | Competitor adoption is supporting evidence; it does not establish DataTug demand. |
+| H7 | Direct data navigation avoids app-building overhead | Deliberate UX direction to test with time to first useful result. |
+| H8 | A trusted execution boundary enables safe operational access | Architectural requirement; partial implementation and pending ACL convergence need end-to-end proof. |
+| H9 | DataTug can bridge adjacent categories without replacing them | Positioning choice with significant scope risk; roadmap keeps a bounded investigation first. |
+| H10 | Team mappings and executable knowledge compound | Retention/defensibility hypothesis; measure capture cost and another engineer's actual reuse. |
+
+Run a bounded customer/support investigation experiment. One engineer captures a
+useful query/mapping; a second repeats and extends the investigation. Record time to
+useful result, manual copying, incorrect bindings, capture effort and repeat reuse.
+Compare with the team's present SQL/API/notebook/chat workflow. Agree success/failure
+thresholds before the experiment; no thresholds or results are currently established.
 
 ## Brand and product boundaries
 
@@ -118,6 +128,8 @@ Each pillar is a top-level Capability Feature. The state column is the audited s
 
 ## Open Questions
 
-- ~~UI kit for DataTug and Dashboardius.~~ Ruled 2026-09-09 (verbatim): *"UI-kit rule - confirmed"* — Ionic frame + islands (`ROADMAP.md`, UI kit decision). Original question kept for context: The fleet standard (founder, 2026-08-19) makes Ionic primary with PrimeNG islands for data surfaces in Sneat apps; Dashboardius shipped as a standalone PrimeNG app. DataTug is a Tier-3 desktop-first data tool whose current Ionic shell is thin. Recommendation and trade-offs are in [ROADMAP.md](../../ROADMAP.md#ui-kit-decision); the founder decides.
-- **Home of the DataTug↔Dashboardius board contract** — publish `@datatug/board-models` from `datatug-apps`, or keep the documented copy until Phase 3?
-- ~~Does a Dashboardius board belong to a DataTug project or to a Sneat space?~~ Ruled 2026-09-09 (verbatim): *"board belongs to DataTug project. Project can be shared across Sneat spaces"*.
+- Board query-target/binding choice: [dashboards Feature](../features/dashboards/README.md#open-questions).
+- Hosted grant and identity details: [sharing-scopes](../features/sharing-scopes/README.md#open-questions).
+- Web privacy/license interpretation before visibility changes: [surfaces](../features/surfaces/README.md#open-questions).
+The Ionic frame/islands rule, standalone project ownership, three MVP sources and CLI
+Apache 2.0 direction are already recorded in the roadmap; do not reopen them implicitly.

@@ -13,24 +13,34 @@ status: Draft
 
 P13 is infrastructure inventory: environments, servers, databases, endpoints and services linked to sources, so an investigation can climb from a record to the infrastructure that produced it — "this order came from `prod`'s `orders-service` on `db-primary-3`." It is a later-phase extension of the navigation loop P5 establishes for data records, applied one level up to the systems that host the data.
 
-Audited state on 2026-09-09: environments, servers and DB catalogs are usable and scanned (`environment.go`, `server.go`, `dbcatalog.go`, populated by `datatug scan`); services and endpoints are "prototype (vestigial `ApiService`/`ApiEndpoint`)," not persisted by any store; the climb from a record to its infrastructure does not exist at all. Phase 5 (experiments) is where services/ endpoints and the climb are planned — this pillar deliberately trails the core loop rather than competing with it for Phase 1 attention. This is a Capability; per-repo Implementations (`datatug-core`, `datatug-cli`) link to it.
+**Evidence boundary:** initial-audit observations below are historical. Current integration
+status is summarized in the [hierarchy](../../product/hierarchy.md) and the
+[independent review](../../research/2026-09-09-independent-review.md); no historical
+state label is a present completion or absence claim. The [roadmap](../../../ROADMAP.md)
+owns phase sequencing; capability tables below retain original audit grouping.
+
+Initial audit snapshot (before later 9 September landings): environments, servers and DB catalogs are usable and scanned (`environment.go`, `server.go`, `dbcatalog.go`, populated by `datatug scan`); services and endpoints are "prototype (vestigial `ApiService`/`ApiEndpoint`)," not persisted by any store; the climb from a record to its infrastructure does not exist at all. Phase 5 (experiments) is where services/ endpoints and the climb are planned — this pillar deliberately trails the core loop rather than competing with it for Phase 1 attention. This is a Capability; per-repo Implementations (`datatug-core`, `datatug-cli`) link to it.
 
 ## Problem
 
-Once P5 lets a user follow a `Customer.ID` to its invoices and support notes, the natural next
-question in a real troubleshooting session is infrastructural: which environment, which server,
-which service produced this record, and is that service healthy. DataTug already models and scans
-environments, servers and catalogs (`environment.go`, `server.go`, `dbcatalog.go`; `pkg/schemer`),
-so a source is never disconnected from its hosting context in the data model — but the audit found
-the services/endpoints layer is "vestigial" (`ApiService`/`ApiEndpoint` types exist, "not persisted
-by any store") and there is no code anywhere that climbs from a record to the server or service that
-produced it. This pillar is explicitly a Phase 5 experiment, not a Phase 1 gap: the core
-investigation loop does not depend on it, and building it early would pull attention from the
-pillars the demo needs to prove first.
+The following initial-audit diagnosis explains why this capability was proposed.
+It is historical evidence, not a claim about current code; consult the capability
+hierarchy and revised Phase 1 plan for current integration work.
+
+> Once P5 lets a user follow a `Customer.ID` to its invoices and support notes, the natural next
+> question in a real troubleshooting session is infrastructural: which environment, which server,
+> which service produced this record, and is that service healthy. DataTug already models and scans
+> environments, servers and catalogs (`environment.go`, `server.go`, `dbcatalog.go`; `pkg/schemer`),
+> so a source is never disconnected from its hosting context in the data model — but the audit found
+> the services/endpoints layer is "vestigial" (`ApiService`/`ApiEndpoint` types exist, "not persisted
+> by any store") and there is no code anywhere that climbs from a record to the server or service that
+> produced it. This pillar is explicitly a Phase 5 experiment, not a Phase 1 gap: the core
+> investigation loop does not depend on it, and building it early would pull attention from the
+> pillars the demo needs to prove first.
 
 ## Behavior
 
-### Capabilities and phases
+### Initial audit capability inventory (historical)
 
 | Capability | State | Phase | Kind |
 |---|---|---|---|

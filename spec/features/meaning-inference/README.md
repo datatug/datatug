@@ -13,25 +13,35 @@ status: Draft
 
 P4 is meaning inference: suggesting a field's semantic meaning from column names, types, neighbouring columns and conventions (and, later, safe data sampling), with every suggestion inspectable and correctable — never silently authoritative.
 
-It exists so that mapping a physical schema onto the semantic layer (P3) does not require hand-declaring every field before the loop becomes useful; it is what lets a new project reach "mostly mapped" quickly while keeping a human (or an audit trail, see P12) in charge of what is actually declared. Audited state on 2026-09-09: `EntityField.NamePatterns` (regexp/exact rules) exist as data, but the audit found no code in `datatug-core` that executes pattern matching against a scanned schema — it is "implemented-but-poorly-exposed (data only)". Probabilistic suggestion from type/neighbours/ sampling and a review-and-correct workflow are both planned, unbuilt. Phase 1 (`core-investigation-loop`) takes the first, deliberately narrow step: the field-mapping resolver MAY derive an inferred mapping from `NamePatterns` and MUST label it. Phase 2 adds review/correct/ provenance; Phase 5 adds probabilistic suggestion. This is a Capability; per-repo Implementations (`datatug-core`, `datatug-cli`) link to it.
+**Evidence boundary:** initial-audit observations below are historical. Current integration
+status is summarized in the [hierarchy](../../product/hierarchy.md) and the
+[independent review](../../research/2026-09-09-independent-review.md); no historical
+state label is a present completion or absence claim. The [roadmap](../../../ROADMAP.md)
+owns phase sequencing; capability tables below retain original audit grouping.
+
+It exists so that mapping a physical schema onto the semantic layer (P3) does not require hand-declaring every field before the loop becomes useful; it is what lets a new project reach "mostly mapped" quickly while keeping a human (or an audit trail, see P12) in charge of what is actually declared. Initial audit snapshot (before later 9 September landings): `EntityField.NamePatterns` (regexp/exact rules) exist as data, but the audit found no code in `datatug-core` that executes pattern matching against a scanned schema — it is "implemented-but-poorly-exposed (data only)". Probabilistic suggestion from type/neighbours/ sampling and a review-and-correct workflow are both planned, unbuilt. Phase 1 (`core-investigation-loop`) takes the first, deliberately narrow step: the field-mapping resolver MAY derive an inferred mapping from `NamePatterns` and MUST label it. Phase 2 adds review/correct/ provenance; Phase 5 adds probabilistic suggestion. This is a Capability; per-repo Implementations (`datatug-core`, `datatug-cli`) link to it.
 
 ## Problem
 
-Hand-declaring a mapping for every field in every table does not scale past a handful of entities,
-and a new project with an unmapped schema cannot yet benefit from P5's related-data navigation or
-P7's applicable-query resolution. The gap is not the rule format — `EntityField.NamePatterns`
-already exists and is well-typed (`datatug-core/pkg/datatug/entities.go:67-104`) — it is that
-nothing runs those rules against a live scanned schema (current-state audit, capability table,
-`NamePatterns` row: "No code in `datatug-core` executes pattern matching against a scanned
-schema"). Marketing on `datatug.io` claims an "AI-built knowledge base, auto-classify" capability
-(`datatug.io/knowledge-base.astro:18`) that the audit found "unclear/likely aspirational" with no
-corresponding classifier code in any audited repo. Without an inference step that is honest about
-its confidence and always correctable, a "meaning suggestion engine" risks becoming a black box that
-silently mislabels a field — the opposite of DataTug's inspectability thesis.
+The following initial-audit diagnosis explains why this capability was proposed.
+It is historical evidence, not a claim about current code; consult the capability
+hierarchy and revised Phase 1 plan for current integration work.
+
+> Hand-declaring a mapping for every field in every table does not scale past a handful of entities,
+> and a new project with an unmapped schema cannot yet benefit from P5's related-data navigation or
+> P7's applicable-query resolution. The gap is not the rule format — `EntityField.NamePatterns`
+> already exists and is well-typed (`datatug-core/pkg/datatug/entities.go:67-104`) — it is that
+> nothing runs those rules against a live scanned schema (current-state audit, capability table,
+> `NamePatterns` row: "No code in `datatug-core` executes pattern matching against a scanned
+> schema"). Marketing on `datatug.io` claims an "AI-built knowledge base, auto-classify" capability
+> (`datatug.io/knowledge-base.astro:18`) that the audit found "unclear/likely aspirational" with no
+> corresponding classifier code in any audited repo. Without an inference step that is honest about
+> its confidence and always correctable, a "meaning suggestion engine" risks becoming a black box that
+> silently mislabels a field — the opposite of DataTug's inspectability thesis.
 
 ## Behavior
 
-### Capabilities and phases
+### Initial audit capability inventory (historical)
 
 | Capability | State | Phase | Kind |
 |---|---|---|---|

@@ -13,26 +13,36 @@ status: Draft
 
 P12 is provenance: every value and every mapping can say where it came from — source, table or endpoint, field, query, transformation, mapping and any policy limitation applied.
 
-It is what makes DataTug's inspectability claims verifiable rather than asserted: a "declared" mapping or a "limited by policy" result only means something if the user can trace exactly why. Audited state on 2026-09-09: not implemented beyond schema docs, though two seeds exist — Phase 1's `limitation-visible` requirement (every result carries policy limitations) and the layered-ACL design's Explain-Access reason-code/`blockers[]` taxonomy, which is specified but not shipped; the CLI's own current access-denial explanation is "implemented-but-poorly-exposed," deriving attribution by splitting an English sentence on `" via "` rather than returning structured data (`pkg/accesspolicies/explain.go`) — a gap the layered-ACL design packet itself flags. Phase 2 builds result provenance on top of Phase 1's limitation seed; mapping provenance ties into P4's review/ correct workflow. This is a Capability; per-repo Implementations (`datatug-core`, `datatug-cli`, `dal-go/dalgo`) link to it.
+**Evidence boundary:** initial-audit observations below are historical. Current integration
+status is summarized in the [hierarchy](../../product/hierarchy.md) and the
+[independent review](../../research/2026-09-09-independent-review.md); no historical
+state label is a present completion or absence claim. The [roadmap](../../../ROADMAP.md)
+owns phase sequencing; capability tables below retain original audit grouping.
+
+It is what makes DataTug's inspectability claims verifiable rather than asserted: a "declared" mapping or a "limited by policy" result only means something if the user can trace exactly why. Initial audit snapshot (before later 9 September landings): not implemented beyond schema docs, though two seeds exist — Phase 1's `limitation-visible` requirement (every result carries policy limitations) and the layered-ACL design's Explain-Access reason-code/`blockers[]` taxonomy, which is specified but not shipped; the CLI's own current access-denial explanation is "implemented-but-poorly-exposed," deriving attribution by splitting an English sentence on `" via "` rather than returning structured data (`pkg/accesspolicies/explain.go`) — a gap the layered-ACL design packet itself flags. Phase 2 builds result provenance on top of Phase 1's limitation seed; mapping provenance ties into P4's review/ correct workflow. This is a Capability; per-repo Implementations (`datatug-core`, `datatug-cli`, `dal-go/dalgo`) link to it.
 
 ## Problem
 
-"Where did this value come from" and "why can't I see this column" are the two questions a
-troubleshooting tool must answer precisely, or the user stops trusting the tool the first time an
-answer feels arbitrary. DataTug already produces the raw material for both answers — every result
-Phase 1 returns carries `limitations` (policy name, rows filtered, hidden columns; `core-
-investigation-loop` REQ:limitation-visible) and the access-policy evaluator already computes a
-decision — but the explanation itself is currently "derived by splitting the English
-`Decision.Explanation` string on `' via '`" (`pkg/accesspolicies/explain.go`), which the layered-ACL
-design's own review flagged as a gap to close with structured reason codes
-(`vm/layered-acl-design` `04-authorization-contract.md`, specified/documented, not shipped). Mapping
-provenance has even less today: nothing records who or what declared or inferred a `Customer.ID`
-mapping, so a wrong mapping cannot be traced back to its source once it has propagated through the
-library.
+The following initial-audit diagnosis explains why this capability was proposed.
+It is historical evidence, not a claim about current code; consult the capability
+hierarchy and revised Phase 1 plan for current integration work.
+
+> "Where did this value come from" and "why can't I see this column" are the two questions a
+> troubleshooting tool must answer precisely, or the user stops trusting the tool the first time an
+> answer feels arbitrary. DataTug already produces the raw material for both answers — every result
+> Phase 1 returns carries `limitations` (policy name, rows filtered, hidden columns; `core-
+> investigation-loop` REQ:limitation-visible) and the access-policy evaluator already computes a
+> decision — but the explanation itself is currently "derived by splitting the English
+> `Decision.Explanation` string on `' via '`" (`pkg/accesspolicies/explain.go`), which the layered-ACL
+> design's own review flagged as a gap to close with structured reason codes
+> (`vm/layered-acl-design` `04-authorization-contract.md`, specified/documented, not shipped). Mapping
+> provenance has even less today: nothing records who or what declared or inferred a `Customer.ID`
+> mapping, so a wrong mapping cannot be traced back to its source once it has propagated through the
+> library.
 
 ## Behavior
 
-### Capabilities and phases
+### Initial audit capability inventory (historical)
 
 | Capability | State | Phase | Kind |
 |---|---|---|---|
@@ -45,7 +55,7 @@ Every result MUST be able to state, on demand, its full provenance chain: the so
 collection/endpoint, the query or lookup that produced it, any transformation applied, and any
 policy limitation. This builds directly on `core-investigation-loop` REQ:limitation-visible, which
 already requires the policy-limitation half of this chain; this Feature extends it to the source/
-query/transformation half that Phase 1 does not cover.
+richer query/transformation history beyond the source/query/mode provenance required by Phase 1.
 
 #### REQ: mapping-provenance
 

@@ -11,23 +11,24 @@ status: Draft
 
 ## Summary
 
-P7 is the primary pillar of the thesis: a shared, executable knowledge library — parameterized queries with semantic parameters, query applicability ("useful right now"), collections, capture from exploration, investigation playbooks, and a promotion lifecycle — the explore → capture → share → reuse loop meant to make DataTug get more useful the longer a team uses it (hypothesis H10, "the compounding moat").
+Shared Executable Knowledge is the primary product capability: meaningful parameterized
+queries become discoverable from context, explain their bindings and can be reused by
+another investigator. Collections and human-guided scenarios compose those same assets.
+The expected compounding value is a hypothesis, not established retention or a moat.
 
-Audited state on 2026-09-09: queries, typed parameters and folders exist and are Git files (usable); `ParameterDef.Meta` semantic tagging exists but nothing reads it at runtime; applicability, explainability, capture-from-exploration, playbooks and promotion do not exist at all. Phase 1 (`core-investigation-loop`) builds applicability, its resolution chain, and parameter auto-binding; Phase 2 adds capture and richer collections; Phase 3 adds playbooks and promotion (needs P8's sharing scopes). This is a Capability; per-repo Implementations (`datatug-core`, `datatug-cli`, `datatug-apps`) link to it.
+Queries, folders, semantic metadata and resolver code exist. The independent review
+found mismatched browser/server contracts and incomplete journey acceptance. Phase 1
+converges discovery and binding; Phase 2 adds project-file capture and useful provenance;
+Phase 3 guides a bounded sequence; Phase 4 adds hosted project grants/promotion.
 
 ## Problem
 
-Most tools help a user ask an arbitrary question; almost none help an organization accumulate and
-resurface its proven answers to recurring questions. DataTug's differentiating bet (hypothesis H1,
-"confirmed — no product researched combines P3–P7") depends on this pillar actually compounding: a
-query someone wrote last month should surface itself again when today's investigation matches its
-shape, not sit unfound in a folder. Today the `QueryDef`/folder model is real and Git-native
-(`datatug-core/pkg/datatug/query.go`; `datatug-demo-projects/demo-project-1/queries/**`), and the
-web UI's Active/Bookmarked/Personal/Shared tabs render live — but the audit found zero applicability
-logic and confirmed the tabs shell has "nothing behind it" because the agent connection is broken
-(current-state audit, "Journey to first useful result" table, "First shared-query reuse" row).
-`datatug queries` itself is a stub that panics (`cmd_queries.go:16-19`, reproduced live). Playbooks
-and promotion have no code at all.
+Teams often repeat investigations but cannot readily find and reuse the query and
+context that answered the previous question. DataTug should reduce that reconstruction
+cost. Existing query libraries, notebooks and trusted AI query assets overlap this
+capability; measure whether semantic discovery and explicit bindings improve second-user
+reuse. Historical CLI panic/empty-tab findings are dated audit evidence, not proof of
+current code state.
 
 ## Behavior
 
@@ -37,19 +38,21 @@ and promotion have no code at all.
 |---|---|---|---|
 | Parameterized queries with typed parameters | usable (model, CLI) / partial (web) | 1 | strategic |
 | Semantic parameters (`requires Customer.ID`) | implemented-but-poorly-exposed | 1 | strategic |
-| Query applicability ("useful right now") from selection/context | planned | 1 | strategic |
-| Explainability of a suggestion (selected column → maps to → query requires) | planned | 1 | strategic |
+| Query applicability ("useful right now") from selection/context | partial; acceptance pending | 1 | strategic |
+| Explainability of a suggestion (selected column → maps to → query requires) | partial; acceptance pending | 1 | strategic |
 | Query collections (folders with meaning) | usable (folders) | 2 | strategic |
 | Capture from exploration (save the current query/lookup as a library asset) | planned | 2 | strategic |
 | Investigation playbooks (entry points, branches, HTTP steps) | specified here only | 3 | strategic |
-| Knowledge promotion lifecycle (personal → team → project → org) | planned | 3 | strategic |
+| Knowledge promotion lifecycle (personal → team → project → org) | planned | 4 | strategic |
 | Templates / public knowledge packs | planned | X | strategic |
 
 #### REQ: parameterized-queries-typed-parameters
 
-A query MUST be able to declare typed parameters, editable and runnable from the CLI and the web UI
-consistently. Already usable in the model and CLI, partial in the web (`input-parameters`,
-`ParameterLookupService`); this REQ pins cross-surface consistency as a standing guarantee.
+Parameters MUST use declared types and identical server/CLI/browser validation.
+Required/default/null semantics, conflicts, target selection and explicit overrides
+follow the [core transport contract](../core-investigation-loop/api-contract.md).
+A missing non-semantic required parameter also blocks Run. Values must actually bind
+at execution, not merely appear in an echoed result header.
 
 #### REQ: semantic-parameters
 
@@ -80,16 +83,22 @@ name — owner, domain, description — once proven necessary. Folders are alrea
 
 #### REQ: capture-from-exploration
 
-A user MUST be able to save the query or lookup they just ran as a library asset directly from the
-result screen. Captured queries MUST land as ordinary project files (a visible Git diff) with
-semantic parameters and applicability already populated from the context that produced them.
+A user with project-write permission MUST be able to save an executed query/lookup as
+an ordinary project query, with editable semantic parameters and no captured result rows
+or secrets. The server validates authorization, path/ID and content, writes atomically,
+and rejects a conflicting revision rather than overwriting another author's query.
+On denial/failure the browser preserves the draft; it reports success only after a
+persisted response. Capture defaults to a draft Git diff, not an implicit commit or
+hosted team grant. Query author, purpose and source/binding provenance are inspectable.
 
 #### REQ: investigation-playbooks
 
-A playbook MUST represent a human-guided investigation path with named entry points and ordered or
-branching steps, including HTTP steps alongside query steps. It MUST NOT introduce automation
-semantics (unattended conditional execution, scheduled runs, retries) — it guides a person through
-steps they still choose, distinguishing it from a generic workflow engine.
+The Phase 3 slice MUST guide a person through named entry points and explicit ordered
+or branching steps referencing existing queries, including configured HTTP queries.
+Each step requires a deliberate action and has an observable next/terminal state.
+No separate execution or ACL engine is introduced. Unattended conditional execution,
+scheduling and retries are outside this slice; future automation requires a separate
+plan and evidence, not a permanent product prohibition.
 
 #### REQ: knowledge-promotion-lifecycle
 
@@ -138,8 +147,8 @@ without an explicit import step.
 ### AC: capture-lands-as-git-diff (verifies REQ:capture-from-exploration)
 
 **Given** an ad-hoc related-record lookup the user just ran for `Customer.ID = 5`
-**When** the user clicks "Save as team query"
-**Then** a new `.query.json`/`.dtql.yaml` pair appears as an uncommitted Git change with the semantic parameter already populated.
+**When** the user clicks "Save as project query"
+**Then** a new `<id>.query.json`/`<id>.query.dtql` pair appears as an uncommitted Git change with the semantic parameter already populated.
 
 ### AC: playbook-guides-without-automating (verifies REQ:investigation-playbooks)
 
@@ -159,19 +168,29 @@ without an explicit import step.
 **When** an organization imports it
 **Then** the imported queries land as a distinct, labelled set, never silently merged into the organization's own private library entries.
 
+### AC: captured-query-explains-provenance (verifies REQ:capture-from-exploration, REQ:semantic-parameters)
+
+**Given** a captured query with semantic parameters and a suggested mapping
+**When** another authorized investigator inspects its source and accepts or corrects
+that mapping, then reopens the project
+**Then** source/query/capture provenance remains inspectable, declared/inferred origin
+is accurate, and the persisted correction binds subsequent runs explicitly. Read-only
+principals cannot modify it; conflict/failure retains the draft. Verify the detailed
+provenance and meaning-inference ACs alongside this library outcome.
+
 ## Not Doing / Out of Scope
 
-- A generic workflow engine: playbooks guide a human through chosen steps; they never execute
-  unattended, on a schedule, or with conditional branching a human did not choose.
+- A generic workflow engine in the initial playbook slice; future automation is not decided by this scope limit.
 - A no-code app builder: the library holds queries and playbooks, not application screens.
 - A data catalog or governance suite: applicability and capture make reuse fast, not "approved."
 - Public knowledge packs mixed silently into an organization's private library.
 
 ## Open Questions
 
-- Should `queries/`-level collections gain semantics beyond folders (owner, domain, entry points),
-  or is a folder plus a README the simplest useful model? Recommendation: keep folders simple until
-  Phase 2 proves the need for more.
+- Rich collection metadata beyond folders and README descriptions requires evidence;
+  Phase 2 uses those existing primitives rather than inventing domain/owner tag schemas.
+- Public knowledge packs and later automated playbooks require separately scoped plans.
+Neither question blocks Phase 1 discovery or Phase 2 file-based capture.
 
 ---
 *This document follows the https://specscore.md/feature-specification*

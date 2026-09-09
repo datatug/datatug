@@ -13,27 +13,37 @@ status: Draft
 
 P3 is DataTug's semantic layer: entities and typed fields distinct from tables and columns, with explicit, inspectable mappings from physical locations, and semantic tags carried on query parameters and result columns.
 
-It is the pillar that turns "a column named `CustomerId`" into "`Customer.ID`, the same concept everywhere it appears" — the foundation P4 (inference), P5 (related-data navigation), P6 (investigation context) and P7 (the knowledge library) all build on. Audited state on 2026-09-09: the `Entity`/`EntityField` model is usable and well tested (`datatug-core/pkg/datatug/entities.go`, 99%+ coverage), `datatug entity` CLI and the web entities CRUD pages are usable, and `EntityFieldRef` semantic tagging exists on parameters and result columns — but nothing at runtime resolves a mapping or reads those tags; the model is data without a resolver. Phase 1 (`core-investigation-loop`) builds the missing field→column mapping resolver and the endpoint that reads `EntityFieldRef`; Phase 2 adds richer semantic field types. This is a Capability; per-repo Implementations (`datatug-core`, `datatug-cli`, `datatug-apps`) link to it.
+**Evidence boundary:** initial-audit observations below are historical. Current integration
+status is summarized in the [hierarchy](../../product/hierarchy.md) and the
+[independent review](../../research/2026-09-09-independent-review.md); no historical
+state label is a present completion or absence claim. The [roadmap](../../../ROADMAP.md)
+owns phase sequencing; capability tables below retain original audit grouping.
+
+It is the pillar that turns "a column named `CustomerId`" into "`Customer.ID`, the same concept everywhere it appears" — the foundation P4 (inference), P5 (related-data navigation), P6 (investigation context) and P7 (the knowledge library) all build on. Initial audit snapshot (before later 9 September landings): the `Entity`/`EntityField` model is usable and well tested (`datatug-core/pkg/datatug/entities.go`, 99%+ coverage), `datatug entity` CLI and the web entities CRUD pages are usable, and `EntityFieldRef` semantic tagging exists on parameters and result columns — but nothing at runtime resolves a mapping or reads those tags; the model is data without a resolver. Phase 1 (`core-investigation-loop`) builds the missing field→column mapping resolver and the endpoint that reads `EntityFieldRef`; Phase 2 adds richer semantic field types. This is a Capability; per-repo Implementations (`datatug-core`, `datatug-cli`, `datatug-apps`) link to it.
 
 ## Problem
 
-A physical schema (tables, columns, foreign keys) only tells you what storage looks like; it does
-not tell you that `CustomerId` in one table and `cust_id` in another mean the same business
-concept, or that a query parameter named `id` requires a `Customer.ID` value. Without an explicit
-semantic layer, every screen and every query has to re-derive meaning from naming conventions, and
-an AI agent has nothing more reliable than the same guesswork. DataTug's `Entity`/`EntityField`
-model already captures typed fields and entity→table mappings (`datatug-core/pkg/datatug/
-entities.go`; `Entity.Tables []DBCollectionKey`), and `ParameterDef.Meta`/`RecordsetColumnDef.Meta`
-already carry an `EntityFieldRef` tag on parameters and result columns
-(`datatug-core/pkg/datatug/parameters.go:20`; `recordset_def.go:65`) — but the audit found "no code
-in `datatug-core` executes pattern matching against a scanned schema" and nothing reads those
-`Meta` tags at runtime (current-state audit, verdict line 4). The demo project itself is short two
-entities a customer-support pitch needs: `Customer` and `Employee` have tables but no `Entity`
-wrapper yet (hierarchy.md P3 row 6).
+The following initial-audit diagnosis explains why this capability was proposed.
+It is historical evidence, not a claim about current code; consult the capability
+hierarchy and revised Phase 1 plan for current integration work.
+
+> A physical schema (tables, columns, foreign keys) only tells you what storage looks like; it does
+> not tell you that `CustomerId` in one table and `cust_id` in another mean the same business
+> concept, or that a query parameter named `id` requires a `Customer.ID` value. Without an explicit
+> semantic layer, every screen and every query has to re-derive meaning from naming conventions, and
+> an AI agent has nothing more reliable than the same guesswork. DataTug's `Entity`/`EntityField`
+> model already captures typed fields and entity→table mappings (`datatug-core/pkg/datatug/
+> entities.go`; `Entity.Tables []DBCollectionKey`), and `ParameterDef.Meta`/`RecordsetColumnDef.Meta`
+> already carry an `EntityFieldRef` tag on parameters and result columns
+> (`datatug-core/pkg/datatug/parameters.go:20`; `recordset_def.go:65`) — but the audit found "no code
+> in `datatug-core` executes pattern matching against a scanned schema" and nothing reads those
+> `Meta` tags at runtime (current-state audit, verdict line 4). The demo project itself is short two
+> entities a customer-support pitch needs: `Customer` and `Employee` have tables but no `Entity`
+> wrapper yet (hierarchy.md P3 row 6).
 
 ## Behavior
 
-### Capabilities and phases
+### Initial audit capability inventory (historical)
 
 | Capability | State | Phase | Kind |
 |---|---|---|---|

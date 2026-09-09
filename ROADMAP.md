@@ -1,144 +1,181 @@
-# DataTug roadmap — fast start, quick wins, compounding capability
+# DataTug roadmap
 
-**Status:** Draft for founder review · **Date:** 2026-09-09 · **Owner:** alex
-**Reads with:** [product thesis](spec/product/README.md) · [feature hierarchy](spec/product/hierarchy.md) · [current-state audit](spec/research/2026-09-09-current-state-audit.md) · [Phase 1 Feature](spec/features/core-investigation-loop/README.md) · [Phase 1 plan](spec/plans/2026-09-09-phase-1-core-investigation-loop.md) · [competitor research](https://github.com/datatug/marketing/tree/main/competitors)
+**Evidence baseline:** 9 September 2026 [independent review](spec/research/2026-09-09-independent-review.md).
+**Authority:** [product thesis](spec/product/README.md), owning [Features](spec/features/README.md), and the founder decisions below.
 
-The roadmap optimises for **product value per unit of implementation complexity** and
-for **visible progress an autonomous coding agent can deliver without product
-decisions**. Phases 0–2 are almost entirely completion of partial work already in the
-repositories. Every item traces to a pillar in the hierarchy; nothing is here because a
-competitor has it.
+## Journey and sequencing rule
 
-## The ladder
+An investigator opens a project, gets a useful result, understands a selected fact,
+discovers reusable knowledge, confirms bindings and executes safely across sources.
+The next investigator can reuse that knowledge. Start with this loop, then deepen
+reuse, guide a short sequence, share it under grants, and present persisted dashboards.
+Every phase names an observable result and its own end-to-end gate. A component,
+merged branch or local test is not a completed journey or release.
 
-| Rung | What it holds | Phases |
-|---|---|---|
-| **No-brainers** | Broken things in the spine that block every demo: the CLI build, `datatug serve`, the web↔agent path prefix, the demo project link, hiding empty pages, secrets guard. | 0 |
-| **Quick differentiators** | The core investigation loop end to end on one demo project with two sources: semantic mapping, cell → context panel, applicable queries with auto-bound parameters, Investigation Context, related lookups, server-enforced ACL. | 1 |
-| **Strategic foundations** | Library depth (collections, capture, explainability), provenance, HTTP queries, agent-readable context, CLI/web hand-off registry, TUI parity for the loop. | 2 |
-| **Larger strategic bets** | Playbooks, sharing scopes on Sneat spaces, hosted team workspace, board persistence + Dashboardius round trip, UI-kit consolidation. | 3 |
-| **Bets that need other tracks** | Layered multi-owner ACL with Explain Access (DALgo plan task 21), serve-brokered query builder / MCP. | 4 |
-| **Experiments** | Automatic relationship discovery by value sampling, probabilistic meaning suggestions, AI-assisted playbook capture, public knowledge packs, in-app AI builder. | 5 / X |
-| **Explicitly not building** | Workflow engine, app builder, catalog/governance suite, warehouse, connector race, client-direct DB access, disconnected text-to-SQL, charts inside DataTug's own UI. | — |
+## Phase 0 — existing spine and delivery repair
 
-## Phase 0 — Repair the spine (no-brainers)
+**Outcome:** `datatug demo` opens the actual project; source → Album gives real rows
+without hidden setup. The CLI builds, validates project credentials and serves a
+registered project. Historical build/store/path/auth fixes are implementation evidence,
+not remaining greenfield tasks. The review built current CLI and opened the local app;
+project summary returned 200. Do not continue blaming the old auth-hook panic without
+reproducing it on the candidate.
 
-- **Objective.** A fresh clone builds, `datatug serve` starts, the web UI talks to it, and the demo project opens. Nothing new is designed.
-- **User outcome.** `datatug demo` → browser opens the demo project → a table renders rows. Today none of these three steps works.
-- **Why now.** Every later phase runs through `serve`; three "first contact" commands (`init`, `demo`, `serve`) currently panic and `main` does not compile (go-github v90→v91 bump without import rewrite).
-- **Included.** (1) Fix imports for go-github v91 and add a build gate that fails a dependency PR when it breaks `go build ./...`. (2) Wire `storage.NewDatatugStore`/`GetStore` to the working `filestore` path already used by `project_base_command.go`; pass a real handler to `RegisterDatatugHandlers`; nil-check `config.Server`; bind `--host/--port/--project` flags on `serve`. (3) Add the `/datatug` prefix (and the real endpoint names) to the web agent client; accept `localhost:8989`-style store ids. (4) Point the demo link at `datatug/datatug-demo-projects/main/demo-project-1/datatug-project.json`; provide `DatatugFoldersService`. (5) Hide the six empty shell pages (Widgets, Tags, Resources, Variables, DB models, Diff) behind a feature flag. (6) A Playwright e2e that boots the real agent (no `localhost:8989` interception) and asserts one grid renders. (7) Validator rule: a `QueryDefTarget` with credentials fails `datatug validate`. (8) Use `dalgo2sqlite` (pure Go) for structured queries so release binaries keep SQLite without CGO.
-- **State on 2026-09-09 (evidence).** (1)–(5), (7)–(8) landed: build fixed and a required `go build`/`go test` CI gate is green on `main` (datatug-cli PR [#192](https://github.com/datatug/datatug-cli/pull/192), [#197](https://github.com/datatug/datatug-cli/pull/197)); `serve` starts with a real store/handler and bound flags, and never opens a browser by default — `--open-browser` opts in, the link carries scheme/host/port (datatug-cli PR #192, [#195](https://github.com/datatug/datatug-cli/pull/195), [#198](https://github.com/datatug/datatug-cli/pull/198)); the `/datatug` agent-path prefix and scheme-carrying store ids are wired (datatug-apps PR [#43](https://github.com/datatug/datatug-apps/pull/43), [#63](https://github.com/datatug/datatug-apps/pull/63)); the demo link resolves and `datatug demo` clones `datatug-demo-projects`, downloads Chinook, registers `demo-project-1`, and serves as admin (datatug-apps PR #43; datatug-cli PR [#201](https://github.com/datatug/datatug-cli/pull/201)); the six empty shells are hidden behind a feature flag (datatug-apps PR #43); `datatug validate` rejects a credentialed `QueryDefTarget` (datatug-core PR [#302](https://github.com/datatug/datatug-core/pull/302)); structured queries run through pure-Go `dalgo2sqlite`, and the sqlite3 `ServerRef.Validate()` bug that rejected every valid sqlite3 ref is fixed (datatug-cli PR [#199](https://github.com/datatug/datatug-cli/pull/199); datatug-core issue #307 closed by PR [#308](https://github.com/datatug/datatug-core/pull/308), v0.22.0). **Not landed:** (6) — the Playwright harness exists (datatug-apps PR [#46](https://github.com/datatug/datatug-apps/pull/46)) but its own journey, J1, still fails on a server panic (`GetAuthTokenFromHttpRequest is nil`), root-caused in datatug-apps PR [#57](https://github.com/datatug/datatug-apps/pull/57); the fix is in progress, unpushed (lane S36, `datatug-cli/.worktrees/phase1-cli-auth-hook`). The `--help` shorthand-collision guard also landed (datatug-cli PR [#203](https://github.com/datatug/datatug-cli/pull/203)).
-- **Excluded.** Any new concept. TUI changes. Fixing the six `show`/`dataset*`/`queries` unbound-flag commands (deprecate or fix in Phase 2).
-- **Hygiene (founder rulings 2026-09-09).** datatug.io keeps the ahead-of-code claims (MCP, `snapshot`/`diff`/`schema`/`transform`, DTQL repos) *"with planned label"*; the site and cask licence text changes to Apache-2.0 for the CLI; the web UI (`datatug-apps`) states its licence position per the founder: *"Web UI private for now, will be AGPL or something like that"* (the repository is public today with no LICENSE file — whether "private" means the repository visibility or only the licence is still to confirm).
-- **Dependencies.** None.
-- **Risks.** `pkg/api`'s storage indirection may be simpler to delete than to fix; the implementer decides and records it.
-- **Impact.** Removes the single biggest credibility gap (nothing demoable). No competitive movement by itself.
-- **Complexity.** Low–medium. **Autonomy.** Very high — no product decisions.
-- **Acceptance.** `go build ./... && go test ./...` green on `main`; `datatug serve` serves `/datatug/ping`; e2e boots agent + web and sees Chinook rows; `datatug demo` completes; `datatug validate` rejects committed credentials.
-- **Test strategy.** Unit tests for the store wiring (replace the `recover()`-around-the-panic test); e2e against the real agent.
-- **Demo.** `brew install datatug && datatug demo` opens the browser on the demo project's Album table.
+**Gate:** real entry-point browser test plus an exact client/server/demo revision
+manifest. Phase 1 corrective tasks retain unfinished navigation/deployment work.
+**Scope:** no new product concepts, no unrelated command cleanup or UI-kit migration.
 
-## Phase 1 — The core investigation loop (quick differentiators)
+## Phase 1 — converge the core investigation loop
 
-Specified in full in the [Phase 1 Feature](spec/features/core-investigation-loop/README.md) and [plan](spec/plans/2026-09-09-phase-1-core-investigation-loop.md).
+[Feature](spec/features/core-investigation-loop/README.md) ·
+[transport contract](spec/features/core-investigation-loop/api-contract.md) ·
+[plan](spec/plans/2026-09-09-phase-1-core-investigation-loop.md).
 
-- **Objective.** Make DataTug's defining concepts work at a basic, coherent, demonstrable level in the web UI, backed by the server for execution and access control.
-- **User outcome.** Open the demo project → open a table or query → see rows in a dense grid with semantic markers on mapped columns → select a `CustomerId` cell → the context panel shows *Customer.ID = 5*, related records (invoices from SQLite, support notes from an inGitDB collection, country facts from a public HTTP endpoint), and applicable library queries with parameters already bound → run one through the server → add the value to the Investigation Context → open another query and see the parameter bound from context → switch to a restricted principal and see rows filtered and a column hidden, with the limitation explained.
-- **Why now.** Every piece has a partial implementation: `EntityFieldRef` tags, `NamePatterns`, the FK graph, typed parameters, `input-parameters`, the Tabulator grid with FK cards, `accesspolicies.Run`. Wiring them is cheaper than any new subsystem and it is the demo that shows *why DataTug is different*.
-- **Included.** Field→column mapping resolver (explicit mappings + `NamePatterns`); semantic markers in the grid; context panel; related lookups via server-built DALgo queries; applicable-query resolution with explanation; parameter auto-binding; Investigation Context (add/remove/disable, visible bindings); `serve` running every read through `accesspolicies.Run` with a project policy set and a chosen principal; DTQL saved-query type; demo project extended (Customer/Invoice entities, semantic fields, three parameterized queries, an inGitDB `support-notes` collection, a policy file with two principals); journey e2e.
-- **Excluded.** Playbooks, collections semantics, HTTP execution beyond read-only JSON GET reference data, provenance UI beyond ACL limitations, inference beyond deterministic patterns, cross-source joins, Sneat scopes, MCP, TUI parity, any UI-kit migration.
-- **Dependencies.** Phase 0.
-- **Risks.** Opaque SQL text cannot be row/column-filtered by DALgo → Phase 1 states the limitation explicitly (source-level ACL + read-only session for SQL text; row/column ACL for structured/DTQL queries and for all server-built lookups). Ionic density for the context panel → keep it a plain list first.
-- **Impact.** After Phase 1 a knowledgeable observer can see the semantic + contextual + reusable-knowledge combination that no researched competitor offers in one place.
-- **Sources (founder ruling 2026-09-09, verbatim).** *"I want to have in MVP: inGitDB, SQLite, HTTP endpoint. Regards HTTP - some public sources like countries or currency rates or something that is common and is understandable and can looks good in demos."* Phase 1 therefore carries three sources; read-only HTTP JSON execution moves from Phase 2 into Phase 1 (plan task 11) through a generic DALgo adapter, `dal-go/dalgo2http` (founder 2026-09-09, verbatim: *"dalgo2http - yes"*; repository bootstrapped the same day), and the concrete public endpoints are the lead's assumption in the Feature.
-- **Complexity.** Medium. **Autonomy.** High — the Feature fixes every product choice; the remaining lead assumptions are flagged as the lead's, not the founder's.
-- **Acceptance / tests / demo.** See the Feature's acceptance criteria and the plan's journey e2e.
-- **State on 2026-09-09 (~13:15 UTC).** A new user can already run `datatug demo` to get a served, secured demo project (datatug-cli PR [#201](https://github.com/datatug/datatug-cli/pull/201)); `query run` executes SQLite, inGitDB and now HTTP reference-data queries with `live`/`snapshot` provenance in the result header (datatug-cli PR [#196](https://github.com/datatug/datatug-cli/pull/196), [#204](https://github.com/datatug/datatug-cli/pull/204); `dal-go/dalgo2http` v0.1.0); every server read runs through `accesspolicies.Run` under a fixed principal, with DTQL execution and `agent-info` wired (datatug-cli PR [#199](https://github.com/datatug/datatug-cli/pull/199)); semantic markers, related lookups and applicable-query resolution are live server-side (datatug-cli PR [#200](https://github.com/datatug/datatug-cli/pull/200)) and wired into the grid/context panel/query page in the web UI (datatug-apps PR [#59](https://github.com/datatug/datatug-apps/pull/59)). **Still blocked:** the journey e2e (J1–J4) is red — the server panics with `GetAuthTokenFromHttpRequest is nil` on every `handle()`-routed endpoint, root-caused in datatug-apps PR [#57](https://github.com/datatug/datatug-apps/pull/57); the fix is in progress, unpushed, in `datatug-cli/.worktrees/phase1-cli-auth-hook` (lane S36). The hosted `datatug.app` deploy has no confirmed path: datatug-apps PR [#54](https://github.com/datatug/datatug-apps/pull/54) (Cloudflare Workers deploy workflow) is open, pending the founder's Cloudflare check.
+**Outcome:** browse → semantic selection → related data/applicable query → explicit
+bindings → authorized execution → context → continued investigation. SQLite, inGitDB
+and keyless HTTP JSON GET all participate. Country/currency facts must actually be
+selected or retrieved; they are not guessed from an ID. The support principal gets
+only allowed rows/columns on every participating source; native SQL fails closed for
+that protected profile. Closing/reopening and safe share/replay have separate ACs.
 
-## Phase 2 — Library depth and provenance (strategic foundations)
+**Included:** exact transport, one source resolver, typed scoped context, missing and
+ambiguous inputs, policy-safe lookups/counts, actual SQL/DTQL binding, HTTP browser
+execution, explicit live/snapshot choice and J1–J4 real-agent acceptance. Preserve the
+semantic engine, adapters and stronger VM ACL implementation.
 
-Plan drafted: [spec/plans/2026-09-09-phase-2-library-depth-and-provenance.md](spec/plans/2026-09-09-phase-2-library-depth-and-provenance.md) (Draft, awaiting founder review).
+**State:** partial implementation; whole journey not accepted. The review found wire
+mismatches, missing HTTP browser dispatch, parameter echoes without application, and
+disabled restricted acceptance. Completed task IDs remain component history; plan
+corrective tasks 12–17 close the gaps. Refresh remote state before implementing.
 
-- **Objective.** Turn the loop into a compounding library: capture from exploration, collections with meaning, explainable suggestions, provenance, HTTP queries, and the agent reading the same context.
-- **User outcome.** "Save this lookup as a team query", "why was this suggested", "where did this value come from", "run the shipping-status HTTP request for this order", "`datatug context` prints what the agent should know".
-- **Why now.** These are the second half of the explore → capture → share loop, and they make the AI story honest before the MCP face exists.
-- **Included.** Capture-from-exploration; collection README + domain tags; explanation chain UI; provenance record on every result (source, collection, query, policy limitations); HTTP `QueryDef` execution in CLI and web; `datatug context` CLI verb (agent-readable entities, mappings, applicable queries for a value); Ctrl+W registry covering the loop's screens; TUI "Queries" panel bound to real data; fix-or-delete the unbound-flag commands; environment/time semantic fields for auto-narrowing.
-- **Excluded.** Playbooks, scopes, boards, layered ACL.
-- **Dependencies.** Phase 1.
-- **Risks.** HTTP execution needs secret handling (Phase 0's guard + `~/.datatug` credentials).
-- **Impact.** Closes the "shared query library" baseline gap against DataGrip/DBeaver/Navicat while keeping the semantic edge.
-- **Complexity.** Medium. **Autonomy.** High.
-- **Acceptance.** A captured query appears in Git as a diff; provenance visible on a result; HTTP query runs from the demo; `datatug context --value Customer.ID=5` lists applicable queries.
+**Dependencies:** core/provider revisions first, then server and browser convergence,
+then pinned demo/transport/journey acceptance. Layered security is integrated where
+needed now; it is not deferred past protected execution.
+**Non-goals:** boards/charts, hosted tenancy, GraphQL/authenticated HTTP, TUI parity,
+workflow engine, cross-source joins and new UI shell.
+**Autonomy:** high after reading the corrected contracts; engineering defaults are
+explicit and no Dashboardius binding decision blocks this slice.
+**Delivery gate:** exact candidate CI, all real journeys, dependency convergence,
+authoritative remote receipts, a named DataTug CLI release and app deployment with
+smoke evidence. Record each separately; required CI cannot succeed by skipping setup.
 
-## Phase 3 — Playbooks, scopes, dashboards (larger strategic bets)
+## Phase 2 — executable library quality and provenance
 
-- **Objective.** Knowledge that is organised, shared and presented: investigation playbooks, Sneat-space sharing scopes, board persistence with the Dashboardius round trip, hosted team workspace, UI-kit consolidation.
-- **User outcome.** Follow "Checkout failure investigation" from an Order ID with branches; promote a query from personal to team; pin a result to a board and open it on dashboardius.com.
-- **Why now.** Requires a working loop and library; also the first monetizable surface (hosted workspace).
-- **Included.** Playbook model (entry points, steps, branches, HTTP steps) + guided runner; project store backends — a remote **OpenVaultDB** vault as a first-class project store (read and write through the OVDB API, OVDB's own policies composing with DataTug's) and the **project store explorable inside DataTug** (entities, queries, mappings and policies browsable as a source through the same loop; founder additions 2026-09-09); scope model on Sneat spaces (space membership → project access; `datatug_projects` under `/spaces/{spaceID}/ext/datatug/` per the space-bounded rule — founder decision required); promotion lifecycle; board persistence in `serve` + `@datatug/board-models` package + Dashboardius query binding; execute the UI-kit decision (see below).
-- **Excluded.** Layered ACL, MCP.
-- **Dependencies.** Phase 2; scopes and board ownership are now founder-ruled (see Open Questions 5–6, resolved 2026-09-09); for the OpenVaultDB project store, the `layered-acl-query` branches landing (OVDB HTTP query integration is task 5 of that plan, already complete; the codex agent on the VM is driving the plan to completion per the founder's 2026-09-09 ruling).
-- **Risks.** Playbooks drifting toward a workflow engine — the Feature must forbid automation semantics.
-- **Impact.** The moat starts compounding; Dashboardius gets real data.
-- **Complexity.** High. **Autonomy.** Medium — needs founder decisions listed in the Open Questions.
+[Draft plan](spec/plans/2026-09-09-phase-2-library-depth-and-provenance.md).
 
-## Phase 4 — Layered access control and agents
+**Outcome:** one engineer captures a useful query; another authorized user of the same
+Git/local project can find, understand and rerun it with correct bindings and provenance.
+The first delivery writes ordinary project query files; it does not claim hosted team
+membership or a promotion lifecycle. A read-only principal cannot save.
+**Included:** save as project query, folders plus README descriptions, result source/
+query provenance, explainable mappings and a bounded accept/correct flow.
+**Dependencies:** Phase 1 accepted; explicit server project-write authorization and
+atomic conflict-aware persistence. No credential-bearing query is committed.
+**Gate:** capture → diff → close → reopen → rerun, with read-only denial and write
+failure preserving the draft. Measure reuse in an actual team experiment.
+**Excluded:** credential vault design, new HTTP verbs, TUI/agent parity, rich collection
+metadata and time-window semantics. These remain named future work in owning Features,
+not silently deleted and not required to fit an arbitrary task count.
+**Autonomy:** high for the bounded file/Git journey; hosted sharing has its own phase.
 
-- **Objective.** DataTug consumes the layered-ACL MVP (DALgo plan task 21: query/write + Explain Access in DataTug) and ships the serve-brokered query builder's MCP face.
-- **Dependencies.** The DALgo/OpenVaultDB/InGitDB `layered-acl-query` branches (tasks 11–20) landing; Phase 0's working `serve`.
-- **Autonomy.** Medium — contracts frozen by the ACL packet; implementation follows its work packages.
+## Phase 3 — human-guided investigations
 
-## Phase 5 / experiments
+**Outcome:** from an entry ID, a person follows a short sequence of existing library
+queries, chooses a branch, and reaches an explicit terminal summary. A second person
+can replay the sequence with their own values and permissions.
+**Included:** named entry points, query references, explicit transitions and context
+handoff; preserve provenance and authorization at every step.
+**Dependencies:** Phase 2 library reuse; an owning executable-knowledge Feature plan
+must define the concrete sequence before implementation.
+**Gate:** all branches and both close/replay endings run end to end. No duplicated SQL
+inside a second workflow executor.
+**Non-goal:** unattended execution for this phase. Future automation remains a later
+evidence-based decision, not a permanent product prohibition.
+**Autonomy:** high for the bounded human-guided slice; do not bundle hosting or boards.
 
-- Automatic relationship discovery by value sampling (experiment: precision on the demo project before any UI).
-- Probabilistic meaning suggestions (types, neighbours, sampling) with review UI.
-- Infrastructure inventory: services/endpoints, record → infrastructure climb.
-- Cross-source joins on the server (only if a real investigation needs a join rather than a lookup).
-- AI-assisted playbook capture from investigation history; public knowledge packs; in-app AI builder (behind the serve-brokered path).
+## Phase 4 — project grants and distribution
+
+**Outcome:** an authorized colleague opens the same standalone DataTug project through
+a granted team space; revocation removes access. Project identity survives sharing to
+multiple spaces, and a denied space cannot recover data through a shared link.
+**Included:** project grants using space membership/roles and explicit identity binding.
+A hosted or remote-store lane requires its own bounded plan and authenticated server
+contract; deployment topology is not chosen implicitly by this roadmap.
+**Dependencies:** accepted protected execution, published/converged layered ACL where
+required, and sharing-scopes acceptance. There is one project, not duplicate
+`/spaces/{spaceID}/ext/datatug/` project records masquerading as shared ownership.
+**Gate:** grant, second actor read, revoke, denied replay and cross-project isolation.
+**Autonomy:** medium until hosting/storage choices are specified in their owning
+Features. OpenVaultDB project storage is retained as approved future capability, not
+silently removed or treated as already shipped.
+
+## Phase 5 — Dashboardius real persistence
+
+**Outcome:** real query → card → save → reload → authorized colleague. DataTug owns
+sources/execution/security/project assets; Dashboardius owns dense presentation,
+widgets, editing, Undo/Reset and links.
+**Dependencies:** [dashboards Feature](spec/features/dashboards/README.md), lossless
+shared board contract, explicit query-target binding decision, server write and
+concurrent-edit policy, and recipient authorization.
+**Gate:** a genuine cross-language board round trip and real persisted two-actor
+journey; scripted sample cards do not satisfy it.
+**Autonomy:** blocked only for dependent work by the explicit SQL-widget binding
+question in the Feature. Presentation-only refinements may proceed independently.
+
+## Independently planned extensions and experiments
+
+Retain these opportunities without pretending they are one autonomous phase:
+
+- OpenVaultDB project-store round trip and project-store self-exploration: owning
+  git-native-projects Feature; bounded after its policy and record contract is ready.
+- Agent context, MCP/brokered builder and TUI handoff: same semantic/execution boundary;
+  no alternative authorization path. Separate parity plans.
+- Authenticated HTTP/GraphQL: credential authority, descriptors and SSRF contract first.
+- Time-window semantics and richer collections: user evidence before new metadata.
+- Relationship/meaning suggestions: measure precision and correction cost before UI;
+  manual declarations remain authoritative.
+- Infrastructure inventory and cross-source joins: demonstrate a concrete investigation
+  that needs them; reject unsupported query shapes rather than weakening policy.
+- AI-assisted capture and public knowledge packs: reuse existing library contracts.
 
 ## Dashboardius and DataTug
 
-Founder direction (2026-09-08 Idea, verbatim): *"A Dashboardius board IS a DataTug board; what Dashboardius adds is widget kinds and an editing experience."* This roadmap keeps that split:
-
-- **DataTug owns** the board schema, board persistence in the project (Git file), query execution and access control, and the "pin this result to a board" entry point from exploration (Phase 3).
-- **Dashboardius owns** presentation and editing (widgets, layout, charts, sharing links) and consumes DataTug through the server API: list projects/queries, execute a bound query with parameters, read/write a board. It never queries a database directly.
-- **Contract work** (Phase 3): publish `@datatug/board-models`; add `GET/PUT /datatug/boards/*` + execute endpoints with ACL to `serve`/hosted API; board ownership is founder-ruled (2026-09-09, verbatim): *"board belongs to DataTug project. Project can be shared across Sneat spaces"*.
-- **Selling it separately** is compatible with this split: Dashboardius is the presentation product with its own domain and pricing; DataTug remains free and open source (marketing/MONETIZATION.md). The competitor research records how Metabase, Superset/Preset, Lightdash and Evidence price viewers and embedding — viewer seats and embedding are where those products charge; a DataTug-backed board with link sharing for signed-in colleagues is the cheapest "share a live board" path found.
-- **Guard rail.** Phase 1 does not build boards. Dashboardius work must not pull chart or layout work into DataTug's web UI.
+Founder words: "A Dashboardius board IS a DataTug board; what Dashboardius adds is
+widget kinds and an editing experience." The board belongs to the DataTug project.
+Dashboardius may be sold separately; it must not become a second data platform.
+The shared renderer may be embedded later if useful; no independent second renderer
+is planned. No charts or boards are added to the Phase 1 investigation task.
+DataTug CLI is Apache 2.0; the web UI is private for now, with future licensing not
+selected. Do not market all DataTug surfaces as already open source.
 
 ## UI kit decision
 
-**Founder leaning (2026-09-09, verbatim):** *"We probably should PrimeNG as base without ionic only if we think ionic is limiting us. Otherwise we probably should use ionic as app frame and base components and use PrimeNG or other libs like ag grid where ionic lack components/functionality."*
+Founder words, 9 September: "UI-kit rule - confirmed". DataTug keeps the Ionic frame
+and bounded islands for data surfaces it lacks, reusing the existing shared grid.
+Dashboardius keeps its standalone Angular/PrimeNG presentation. Neither journey
+requires a UI-kit migration. Shared presentation libraries may serve both products;
+product ownership does not dictate a permanent ban on embedding.
 
-**Confirmed by the founder 2026-09-09, verbatim:** *"UI-kit rule - confirmed"* — Ionic frame + islands is the standing rule for DataTug's web UI.
+## Recorded founder decisions
 
-This matches the fleet standard (`sneat-specs/standards/frontend-ux/ionic-and-primeng.md`, founder decision 2026-08-19): Ionic is primary; PrimeNG only inside bounded islands for data surfaces Ionic lacks; `@sneat/datagrid` (Tabulator) before `p-table`.
-
-**Assessment — is Ionic limiting DataTug?** Evidence from the Web UI audit:
-
-| Need on the core loop | Ionic has it? | What DataTug uses / would use |
-|---|---|---|
-| App frame, menu, header, tabs, lists, modals, popovers, toasts | Yes | Ionic (already in place) |
-| Dense result grid with cell selection, sort, filter | No | `@sneat/datagrid` (Tabulator) — already used by the table page; add Tabulator's range/cell modules in the published package |
-| Schema/collection tree | No | PrimeNG `p-tree` island |
-| Resizable side panel for the context panel | No (layout) | CSS/CDK resize inside `ion-split-pane`; no library needed |
-| Charts | No | Not in DataTug (Dashboardius) |
-| Keyboard command palette | No | Custom component |
-
-Nothing on the loop needs a component Ionic lacks *and* PrimeNG islands cannot provide. The Ionic shell in `datatug-apps` is thin (menu + headers + lists); the risk the standard names — mixing overlays — does not arise because islands never own overlays. **Recommendation:** keep Ionic as the frame, adopt the island rule for the grid and tree in Phase 1, and revisit only if a Phase-2/3 screen (playbook runner, board editor) needs desktop density Ionic cannot give. Dashboardius stays a standalone PrimeNG app (already shipped); the two products share the board schema and, later, published islands (`@sneat/prime-*` in `sneat-libs/libs/prime/*` per the standard) rather than a shell. This is an assumption by the lead until the founder confirms.
+- MVP sources: "I want to have in MVP: inGitDB, SQLite, HTTP endpoint. Regards HTTP -
+  some public sources like countries or currency rates or something that is common
+  and is understandable and can looks good in demos."
+- Scope approval: "I approve all artefacts - including Phase 1 + addition of HTTP data sources".
+- HTTP adapter: "dalgo2http - yes".
+- Layered ACL: "It was authorised and is being implement on VM by codex agent. I've
+  asked it to drive it to completion." Authorization is not a remote landing receipt.
+- Board ownership: "board belongs to DataTug project. Project can be shared across Sneat spaces".
+- Project scope: "DataTug project is standalone entity that can be shared (granted)
+  between multiple spaces (teams)". This is an explicit exception to the platform's
+  usual space-bounded record default.
+- Licensing: "CLI - Apache 2.0. Web UI private for now, will be AGPL or something like that".
+- Ahead-of-code marketing claims: "keep with planned label".
 
 ## Open Questions
 
-Numbered for the founder; answers unblock the phases named.
-
-1. ~~Confirm the Phase 1 scope as specified.~~ Ruled 2026-09-09 (verbatim): *"I approve all artefacts - including Phase 1 + addition of HTTP data sources"*. Feature `core-investigation-loop` and its plan are Approved; implementation streams started the same day (Phase 0 spine/web/demo/site, Phase 1 model). Lead assumptions A2–A3 and the concrete HTTP endpoints stand unless the founder objects. — Phase 1
-2. ~~Second source for the demo: inGitDB collection or HTTP endpoint?~~ Ruled 2026-09-09 (verbatim): *"I want to have in MVP: inGitDB, SQLite, HTTP endpoint. Regards HTTP - some public sources like countries or currency rates or something that is common and is understandable and can looks good in demos."* Recorded in the Phase 1 Feature and plan (task 11). — Phase 1
-3. ~~UI kit: confirm "Ionic frame + islands".~~ Ruled 2026-09-09 (verbatim): *"UI-kit rule - confirmed"*. — Phase 1
-4. ~~Layered-ACL status: which record is true?~~ Ruled 2026-09-09 (verbatim): *"It was authorised and is being implement on VM by codex agent. I've asked it to drive it to completion."* The dalgo plan (`spec/plans/layered-acl-mvp.md`, Executing, tasks 1–10 complete) is the current record; the design packet's "no implementation authorized" line is superseded. Branches are on origin (see the audit's update note). — Phase 4 dependency, in progress
-5. ~~Board ownership: DataTug project or Sneat space?~~ Ruled 2026-09-09 (verbatim): *"board belongs to DataTug project. Project can be shared across Sneat spaces"*. Recorded in Feature `dashboards`. — Phase 3
-6. ~~Scopes: space-bounded or project-level?~~ Ruled 2026-09-09 (verbatim): *"DataTug project is standalone entity that can be shared (granted) between multiple spaces (teams)"*. This is an explicit exception to the space-bounded default; recorded in Feature `sharing-scopes`. — Phase 3
-7. ~~Licence: Apache-2.0 or MIT?~~ Ruled 2026-09-09 (verbatim): *"CLI - Apache 2.0. Web UI private for now, will be AGPL or something like that"*. Still to confirm: whether "private" means making `datatug-apps` a private repository or only withholding an open-source licence (it is public today with no LICENSE file). — Phase 0 hygiene
-8. ~~Marketing claims ahead of code: retract or label?~~ Ruled 2026-09-09 (verbatim): *"keep with planned label"*. — Phase 0 hygiene
-9. Phase 2 plan approval — [spec/plans/2026-09-09-phase-2-library-depth-and-provenance.md](spec/plans/2026-09-09-phase-2-library-depth-and-provenance.md) is Draft, awaiting founder review. — Phase 2
-10. `datatug-cli` release — no release has been cut carrying the Phase 0/1 work landed today; the plan's definition of done calls for "a release of `datatug-cli` and a deploy of `datatug.app`" (Phase 1 plan, task 10). — Phase 0/1
-11. Cloudflare deploy path for `datatug.app` — datatug-apps PR [#54](https://github.com/datatug/datatug-apps/pull/54) adds a GitHub Actions workflow to deploy to Cloudflare Workers; open, pending the founder's Cloudflare check. Hosted `datatug.app` stays stale until this lands. — Phase 1 acceptance / hosted app
+Product choices live beside their owning Feature: board SQL-widget binding in
+[dashboards](spec/features/dashboards/README.md#open-questions), hosted identity and
+sharing in [sharing-scopes](spec/features/sharing-scopes/README.md#open-questions),
+and distribution/privacy interpretation in [surfaces](spec/features/surfaces/README.md#open-questions).
+No release version, provider change or deployment success is inferred from this plan.

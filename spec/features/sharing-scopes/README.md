@@ -13,52 +13,59 @@ status: Draft
 
 P8 is sharing scopes: personal → team → project → organization scopes for knowledge assets, reusing Sneat's existing space membership and role model rather than inventing a parallel one.
 
-It is the enabler P7's knowledge-promotion lifecycle depends on (hypothesis H5, "confirmed for the model, not for the code" — Sneat's space membership/roles exist, DataTug does not use them yet). Audited state on 2026-09-09: not implemented. `datatug_projects` uses a flat `userIDs[]` field rather than Sneat's space-bounded convention, `@sneat/space-models`/`@sneat/space-services` are declared dependencies with zero import sites, and `ICreateProjectData.spaceID` is a typed field that is never populated or read. Phase 3 builds the scope model and project-membership wiring; it is also the nearest monetizable wedge (a hosted team workspace) per the backstage B2B strategy. This is a Capability; per-repo Implementations (`datatug-apps`, `sneat-go`) link to it.
+**Evidence boundary:** initial-audit observations below are historical. Current integration
+status is summarized in the [hierarchy](../../product/hierarchy.md) and the
+[independent review](../../research/2026-09-09-independent-review.md); no historical
+state label is a present completion or absence claim. The [roadmap](../../../ROADMAP.md)
+owns phase sequencing; capability tables below retain original audit grouping.
+
+It is the enabler P7's knowledge-promotion lifecycle depends on (hypothesis H5, plausible integration with an explicit standalone-project boundary — Sneat's space membership/roles exist, DataTug does not use them yet). Initial audit snapshot (before later 9 September landings): not implemented. `datatug_projects` uses a flat `userIDs[]` field rather than Sneat's space-bounded convention, `@sneat/space-models`/`@sneat/space-services` are declared dependencies with zero import sites, and `ICreateProjectData.spaceID` is a typed field that is never populated or read. Phase 4 builds the scope model and project-membership wiring; it is also the nearest monetizable wedge (a hosted team workspace) per the backstage B2B strategy. This is a Capability; per-repo Implementations (`datatug-apps`, `sneat-go`) link to it.
 
 ## Problem
 
-A knowledge library only compounds if the right people can find what other people captured, at the
-right granularity — a personal scratch query should not clutter a team's shared library, but a
-proven investigation should promote cleanly from personal to team to the whole organization.
-DataTug already sits on Sneat's production Firebase project and could reuse Sneat's space
-membership/role model directly, but instead keeps "its own parallel `datatug_projects` membership
-model rather than Sneat's space-bounded convention" (current-state audit, ecosystem-claims
-findings). The founder's standing rule is that "almost everything in Sneat is space bounded" — a
-new entity's records belong under `/spaces/{spaceID}/ext/<ext>/` and get their ownership from that
-space's member-role model, not a hand-rolled owner field. `datatug_projects`' flat `userIDs[]`
-(`sneat-firebase/firestore.rules:71-114`) is exactly the pattern that rule warns against, and the
-`spaceID` field DataTug already declared on `ICreateProjectData` sits unused
-(`project.service.ts:193-197`).
+The following initial-audit diagnosis explains why this capability was proposed.
+It is historical evidence, not a claim about current code; consult the capability
+hierarchy and revised Phase 1 plan for current integration work.
+
+> A knowledge library only compounds if the right people can find what other people captured, at the
+> right granularity — a personal scratch query should not clutter a team's shared library, but a
+> proven investigation should promote cleanly from personal to team to the whole organization.
+> DataTug already sits on Sneat's production Firebase project and could reuse Sneat's space
+> membership/role model directly, but instead keeps "its own parallel `datatug_projects` membership
+> model rather than Sneat's space-bounded convention" (current-state audit, ecosystem-claims
+> findings). The founder's standing rule is that "almost everything in Sneat is space bounded" — a
+> new entity's records belong under `/spaces/{spaceID}/ext/<ext>/` and get their ownership from that
+> space's member-role model, not a hand-rolled owner field. `datatug_projects`' flat `userIDs[]`
+> (`sneat-firebase/firestore.rules:71-114`) is exactly the pattern that rule warns against, and the
+> `spaceID` field DataTug already declared on `ICreateProjectData` sits unused
+> (`project.service.ts:193-197`).
 
 ## Behavior
 
-### Capabilities and phases
+### Initial audit capability inventory (historical)
 
 | Capability | State | Phase | Kind |
 |---|---|---|---|
-| Personal / team / project / organization scopes | planned | 3 | strategic |
-| Project membership through Sneat space membership and roles | planned | 3 | enabler |
-| Hosted team workspace on datatug.app | partial | 3 | strategic |
+| Personal / team / project / organization scopes | planned | 4 | strategic |
+| Project membership through Sneat space membership and roles | planned | 4 | enabler |
+| Hosted team workspace on datatug.app | partial | 4 | strategic |
 
 #### REQ: personal-team-project-org-scopes
 
-A knowledge asset (query, collection, playbook) MUST be assignable to exactly one of personal,
-team, project or organization scope at a time, and promotable between them per `executable-
+Proposed future promotion model (Draft, not a founder ruling): a knowledge asset may be assigned to personal,
+team, project or organization visibility, and promoted between them per `executable-
 knowledge-library` REQ:knowledge-promotion-lifecycle. Scope MUST determine visibility and
 discoverability, never execution rights — access policy (P10) remains the separate, authoritative
 gate on what a principal can actually read or run.
 
 #### REQ: project-membership-through-sneat-spaces
 
-Project membership MUST be derived from Sneat space membership and roles, not a hand-rolled
-`userIDs[]` field. Founder ruling 2026-09-09 (verbatim): *"DataTug project is standalone entity
-that can be shared (granted) between multiple spaces (teams)"* — an explicit exception to the
-space-bounded default. A project record therefore stays a top-level entity and MUST carry a list
-of grants, each naming a Sneat space and the role members of that space get on the project; a
-principal's project permission is derived from their role in any granted space, never from a
-hand-rolled per-user list. `ICreateProjectData.spaceID` becomes the first grant, actually read
-and enforced rather than declared and ignored. The grant shape (space ID + role) is the lead's
-modelling of the ruling and is open to change; the ruling itself is not.
+Founder words: "DataTug project is standalone entity that can be shared (granted)
+between multiple spaces (teams)". Project identity MUST remain standalone and grants
+MUST compose with existing space membership/roles and server policies; no duplicate
+project per space or competing membership system. Exact persisted grant fields,
+role-composition precedence and any mapping of legacy ICreateProjectData.spaceID to
+an initial grant are design questions below, not founder-selected schemas.
 
 #### REQ: hosted-team-workspace
 
@@ -112,10 +119,16 @@ or membership system.
 
 ## Open Questions
 
-- ~~Should `datatug_projects` move to the space-bounded model?~~ Ruled 2026-09-09 (verbatim):
-  *"DataTug project is standalone entity that can be shared (granted) between multiple spaces
-  (teams)"*. Open instead: the grant record's shape (space ID + role, or space ID + per-asset
-  scope) — the lead's assumption above is the simplest one.
+- Confirm the personal/team/project/organization promotion ladder and its relationship
+  to project grants before implementing promotion; current founder words establish
+  standalone multi-space project sharing, not this complete visibility model.
+- Define persisted grant shape, role composition and legacy spaceID migration against
+  existing platform contracts; no inferred first-grant schema is normative yet.
+
+- Select the authenticated hosting/deployment profile before the collaboration slice;
+  keep DataTug projects standalone and derive access from explicit grants to spaces.
+- Define grant conflict/revocation behavior in the collaboration plan using the
+  existing platform membership and policy model, not a per-user ownership substitute.
 
 ---
 *This document follows the https://specscore.md/feature-specification*

@@ -11,24 +11,21 @@ status: Draft
 
 ## Summary
 
-P15 is dashboards as a surface: boards emerge from exploration and are preserved as project files, with DataTug owning the board schema, persistence and query execution while the separate, standalone Dashboardius product owns presentation and editing.
-
-Founder direction (2026-09-08 Idea, verbatim): *"A Dashboardius board IS a DataTug board; what Dashboardius adds is widget kinds and an editing experience."* Audited state on 2026-09-09: the `Board`/`BoardRow`/`BoardCard`/`BoardWidget` schema is usable as a Go+TS model, copied field-for-field into Dashboardius; board persistence and query binding through the DataTug server is unimplemented (`DatatugBoardService.getBoard()` is not implemented); Dashboardius itself is a live, separate Sneat product on sample data only. Phase 3 builds board persistence, the "pin this result" entry point, and the shared `@datatug/board-models` package; DataTug's own web UI deliberately never grows chart rendering. This is a Capability; per-repo Implementations (`datatug-core`, `datatug-cli`, `sneat-co/dashboardius`) link to it.
+Dashboards are a presentation surface over DataTug projects. DataTug owns durable
+board/query contracts, storage, execution and ACL; Dashboardius owns presentation and
+editing and can be sold separately. The latest Go board model already preserves
+parameters, but Dashboardius's row IDs/widget payloads still differ and its sample
+interactions do not establish persisted round-trip compatibility. The bounded real
+persistence journey is Phase 5, dependent on the explicit query-binding decision below.
+No dashboards are added to Phase 1; later embedding of the shared renderer is not banned.
 
 ## Problem
 
-A board that cannot be traced back to the queries and access policy that produced it is just a
-picture; DataTug's thesis requires a board to stay a first-class, executable, Git-native asset like
-every other library item. The schema for this already exists and is genuinely shared —
-Dashboardius "re-exports DataTug's own `Board`/`BoardRow`/`BoardCard`/`BoardWidget` schema
-field-for-field into a PrimeNG app with Chart.js" (current-state audit, verdict line 9) — but the
-DataTug side of the contract, board persistence through the server, does not exist:
-`DatatugBoardService.getBoard()` throws not-implemented, and boards in the web UI hard-code
-`localhost:8989` (current-state audit, capability table, P15 rows). Dashboardius is live at
-dashboardius.com on sample data only, "while DataTug's own web UI board rendering remains
-unimplemented" — so the product that is supposed to present DataTug boards has nothing real to
-present yet. Without a published `@datatug/board-models` package, the schema also risks drifting
-between the two repos as a documented copy rather than a single source of truth.
+A useful sample-data dashboard does not yet prove a query-backed, shared durable
+board. Copied TypeScript types can differ from Go serialization: the current Go row
+model does not retain Dashboardius row IDs, and sample SQL widget data is not the
+canonical durable query definition. One contract must preserve identifiers, bindings,
+parameters, layout and widget configuration through the actual server store.
 
 ## Behavior
 
@@ -36,18 +33,21 @@ between the two repos as a documented copy rather than a single source of truth.
 
 | Capability | State | Phase | Kind |
 |---|---|---|---|
-| Board schema (Go + TS) | usable (model) | — | enabler |
-| Board persistence and query binding through the DataTug server | planned | 3 | strategic |
-| Board emerging from exploration ("pin this result") | planned | 3 | strategic |
-| Shared board-model package (`@datatug/board-models`) | planned | 3 | enabler |
-| Charts in DataTug's own web UI | planned | — | — |
+| Board schema (Go + TS) | partial; cross-language acceptance pending | — | enabler |
+| Board persistence and query binding through the DataTug server | planned | 5 | strategic |
+| Board emerging from exploration ("pin this result") | planned | 5 | strategic |
+| Shared board-model package (`@datatug/board-models`) | added in apps; Dashboardius adoption pending | 5 | enabler |
+| Embedding shared Dashboardius presentation | undecided; outside Phase 1 | later | surface |
 
 #### REQ: board-schema-shared-source-of-truth
 
-The `Board`/`BoardRow`/`BoardCard`/`BoardWidget` schema MUST have exactly one source of truth. This
-capability is already usable as a Go+TS model; the risk this REQ guards against is drift between
-DataTug's copy and Dashboardius's field-for-field re-export, which REQ:shared-board-model-package
-below resolves.
+The durable board schema MUST have one declared authority and real server/Go/browser
+conformance tests. Preserve canonical card IDs, parameters, requiredParams, layout and widget
+configuration. Row identity must remain stable for supported edits after reload, either
+through canonical persisted IDs or explicitly defined derived view keys. Migrate the
+prototype row IDs deliberately; never silently drop supported durable identity. Runtime query results/provenance are separate from durable query bindings;
+saving a board must not serialize cached restricted rows as a portable asset. Unknown
+widget compatibility/migration must be explicit, never silent data loss.
 
 #### REQ: datatug-owns-schema-persistence-execution
 
@@ -68,10 +68,13 @@ MUST hold so Dashboardius never needs a direct data connection.
 
 #### REQ: board-persistence-and-query-binding
 
-A board MUST be persistable through the DataTug server as a project file, with each widget bound to
-a library query and its parameters. `GET/PUT /datatug/boards/*` and an execute endpoint MUST apply
-the same access control as every other server read (`server-enforced-access` REQ:serve-acl-all-
-reads) — a board never bypasses row/column policy because it is "just a widget."
+A board MUST be persistable through the DataTug server as a project file, with an
+explicit executable binding and parameters for each query-backed widget. A library
+query reference is the recommended design, not a recorded founder decision; the
+SQL-widget alternatives below must be resolved before its wire shape is implemented. `GET/PUT /datatug/boards/*` MUST authorize the project asset and metadata, validate
+writes and reject cached protected rows in the durable board. Each widget execution
+separately applies source/row/column policies through the common executor. Reading
+board JSON does not filter data rows that are not stored in that asset.
 
 #### REQ: board-from-exploration
 
@@ -81,16 +84,17 @@ This is DataTug's entry point into Dashboardius, not a DataTug-side charting fea
 
 #### REQ: shared-board-model-package
 
-The board schema MUST be published as `@datatug/board-models`, consumed by both `datatug-apps` and
-`sneat-co/dashboardius`, removing Dashboardius's current documented copy. Until this package is
-published, any schema change MUST be applied to both repos in the same session to avoid drift.
+`@datatug/board-models` MUST be consumed by both apps, replacing independently evolving
+copies. Existing package work is preserved, but adoption alone does not prove Go
+compatibility. A test must load a browser-written board through the actual Go store,
+save it and reopen in Dashboardius with all supported durable fields intact and deterministic row view identity. Test migration from the prototype shape explicitly.
 
 #### REQ: no-charts-in-datatug-web-ui
 
-DataTug's own web UI MUST NOT grow chart rendering or board-layout editing; Dashboardius presents,
-DataTug executes and persists. This is an explicit non-goal, not a temporary gap — the guard rail
-the roadmap states directly: *"Phase 1 does not build boards. Dashboardius work must not pull chart
-or layout work into DataTug's web UI."*
+Phase 1 MUST NOT add board rendering/layout work. Dashboardius owns the reusable
+presentation implementation. A later embedded shared renderer may be specified when
+useful; DataTug MUST NOT create an independent second renderer. The REQ ID is retained,
+but its earlier permanent embedding prohibition was an unsupported scope inference.
 
 ## Acceptance Criteria
 
@@ -110,7 +114,7 @@ or layout work into DataTug's web UI."*
 
 **Given** a board with two widgets bound to `customer-invoices` and `customer-purchases-by-genre`
 **When** it is saved via `PUT /datatug/boards/*` and reopened via `GET`
-**Then** both widgets' query bindings and parameters are restored exactly, and a restricted principal's board read is limited the same way `core-investigation-loop` AC:restricted-rows-and-columns-server limits a direct query run.
+**Then** both widgets' query bindings and parameters are restored exactly, board metadata access is authorized independently, and each widget's re-execution applies that recipient's source/row/column policy. No sender-authorized result rows are restored from board JSON.
 
 ### AC: pin-result-creates-board-entry (verifies REQ:board-from-exploration)
 
@@ -120,14 +124,13 @@ or layout work into DataTug's web UI."*
 
 ### AC: datatug-ui-has-no-chart-widget (verifies REQ:no-charts-in-datatug-web-ui)
 
-**Given** DataTug's own web UI codebase
-**When** it is checked for a charting library (`echarts`/`ngx-charts`/`chart.js`/`d3`) or a board-layout editor
-**Then** none is found, matching the current-state audit's finding and the guard rail this REQ states.
+**Given** the Phase 1 implementation candidate
+**When** its scope is reviewed
+**Then** it adds no board/chart implementation; later embedding decisions reuse Dashboardius presentation instead of introducing a second renderer.
 
 ## Not Doing / Out of Scope
 
-- Charts, layout editing, or widget-kind design inside DataTug's own web UI — permanently, not just
-  in Phase 1; that is Dashboardius's scope.
+- Chart/layout implementation in Phase 1. Later embedding may reuse Dashboardius presentation; an independent second renderer remains outside scope.
 - A BI/warehouse tool: boards bind to DataTug's own queries and access control, not to a
   centralized warehouse Dashboardius or DataTug maintains separately.
 - Dashboardius's own sharing-link or embedding pricing model; this Feature specifies the DataTug-
@@ -176,16 +179,16 @@ or layout work into DataTug's web UI."*
   and `SQL` per call, and the board page already renders an environment selector, so environment is
   in practice chosen by the viewer at view time, not stored.
 
-  **Why this is really a binding question.** REQ:board-persistence-and-query-binding already says
-  each widget binds to a library query plus parameters. A widget holding inline SQL text is that
-  requirement's opposite: it duplicates the query instead of referencing it, which is why it has
+  **Why this is really a binding question.** REQ:board-persistence-and-query-binding requires
+  an explicit executable binding and recommends a library query plus parameters. A widget holding inline SQL text departs from that
+  recommendation: it duplicates the query instead of referencing it, which is why it has
   nowhere to inherit a target from. Deciding the execution target and deciding whether a widget
   references a query are the same decision.
 
   **Options.**
   1. *Widget references a library query.* `SQLWidgetSettings` becomes a query reference plus
      parameter bindings; the target comes from the referenced `QueryDef.Targets`, and environment
-     stays a view-time choice. Satisfies the existing REQ, keeps one definition of every query, and
+     stays a view-time choice. Satisfies the recommended approach, keeps one definition of every query, and
      makes board access control identical to query access control. Costs a migration for any
      inline-SQL widget and makes a board unable to hold an ad-hoc query.
   2. *Board declares the target, widgets inherit it.* One db/env per board, alongside the board's

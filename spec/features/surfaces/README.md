@@ -13,26 +13,36 @@ status: Draft
 
 P11 is the "three surfaces, one project" claim: TUI, web (local agent or hosted) and AI agents all work over the same project files, with screen-level hand-off between them, and no surface holds private state the others cannot see.
 
-Audited state on 2026-09-09: the TUI is usable for schema browsing (Queries/Dashboards panels remain placeholders); the web UI through the local agent is "prototype (broken both ends)" — `datatug serve` panics before it listens and the web client is missing the server's `/datatug` URL prefix at 8+ call sites; the hosted web UI just landed enterprise OIDC/SAML SSO but the one canonical demo-project link is broken; Ctrl+W hand-off maps exactly one route; the agent skills plugin is usable (8 of 9 skills verified); MCP is specified, zero code. Phase 0 repairs the agent connection and hides six empty-shell pages; Phase 2 extends hand-off and TUI parity; Phase 4 depends on a working `serve` for MCP. This is a Capability; per-repo Implementations (`datatug-cli`, `datatug-apps`) link to it.
+**Evidence boundary:** initial-audit observations below are historical. Current integration
+status is summarized in the [hierarchy](../../product/hierarchy.md) and the
+[independent review](../../research/2026-09-09-independent-review.md); no historical
+state label is a present completion or absence claim. The [roadmap](../../../ROADMAP.md)
+owns phase sequencing; capability tables below retain original audit grouping.
+
+Initial audit snapshot (before later 9 September landings): the TUI is usable for schema browsing (Queries/Dashboards panels remain placeholders); the web UI through the local agent is "prototype (broken both ends)" — `datatug serve` panics before it listens and the web client is missing the server's `/datatug` URL prefix at 8+ call sites; the hosted web UI just landed enterprise OIDC/SAML SSO but the one canonical demo-project link is broken; Ctrl+W hand-off maps exactly one route; the agent skills plugin is usable (8 of 9 skills verified); MCP is specified, zero code. Phase 0 repairs the agent connection and hides six empty-shell pages; Phase 2 extends hand-off and TUI parity; Phase 4 depends on a working `serve` for MCP. This is a Capability; per-repo Implementations (`datatug-cli`, `datatug-apps`) link to it.
 
 ## Problem
 
-DataTug's differentiation depends on every surface reaching the same project, the same semantic
-layer, the same library — not three separate products that happen to read the same files. Today
-the connection between the two most-used surfaces does not exist: "every web-client call to
-`datatug serve` is missing the server's hard-coded `/datatug` URL prefix... a mechanical, total
-mismatch across 8+ call sites, not a typo in one place" (current-state audit, verdict line 3), and
-`datatug serve` itself panics before it opens a socket (`cmd_serve.go:43`, confirmed live). The
-"click here for the demo" path the hosted web UI markets as the on-ramp is broken independently: a
-`No provider found for _DatatugFoldersService` error and a 404 against the wrong repository name
-(current-state audit, capability table, "Live demo-project navigation" row). Six routed web pages
-(Widgets/Tags/Resources/Variables/DB-Models/Diff) are one click away and completely empty. Ctrl+W
-hand-off from the TUI to the web only maps the `"projects"` screen; every other TUI screen falls
-back to the bare web origin (`webui_handoff.go:26-28`).
+The following initial-audit diagnosis explains why this capability was proposed.
+It is historical evidence, not a claim about current code; consult the capability
+hierarchy and revised Phase 1 plan for current integration work.
+
+> DataTug's differentiation depends on every surface reaching the same project, the same semantic
+> layer, the same library — not three separate products that happen to read the same files. Today
+> the connection between the two most-used surfaces does not exist: "every web-client call to
+> `datatug serve` is missing the server's hard-coded `/datatug` URL prefix... a mechanical, total
+> mismatch across 8+ call sites, not a typo in one place" (current-state audit, verdict line 3), and
+> `datatug serve` itself panics before it opens a socket (`cmd_serve.go:43`, confirmed live). The
+> "click here for the demo" path the hosted web UI markets as the on-ramp is broken independently: a
+> `No provider found for _DatatugFoldersService` error and a 404 against the wrong repository name
+> (current-state audit, capability table, "Live demo-project navigation" row). Six routed web pages
+> (Widgets/Tags/Resources/Variables/DB-Models/Diff) are one click away and completely empty. Ctrl+W
+> hand-off from the TUI to the web only maps the `"projects"` screen; every other TUI screen falls
+> back to the bare web origin (`webui_handoff.go:26-28`).
 
 ## Behavior
 
-### Capabilities and phases
+### Initial audit capability inventory (historical)
 
 | Capability | State | Phase | Kind |
 |---|---|---|---|
@@ -116,7 +126,7 @@ MUST NOT be an empty shell a user can stumble into.
 
 **Given** the TUI's *Customer* table screen with row 5 highlighted
 **When** the user presses Ctrl+W
-**Then** the web UI opens the same table with the same row selected, not the bare web origin.
+**Then** the web UI opens the same table with the same table opens; selecting a sensitive row requires explicit safe-state transfer and authorization rather than silently serializing its value into a URL.
 
 ### AC: skill-marks-unready-dependency (verifies REQ:agent-skills-plugin)
 
@@ -149,9 +159,12 @@ MUST NOT be an empty shell a user can stumble into.
 
 ## Open Questions
 
-- UI kit for DataTug and Dashboardius (Ionic, PrimeNG, or both): the roadmap's recommendation is
-  "keep Ionic as the frame, adopt the island rule for the grid and tree," pending founder
-  confirmation (`ROADMAP.md`, "UI kit decision").
+- The founder selected Ionic frame plus bounded islands for DataTug; Dashboardius
+  remains Angular/PrimeNG. This is not awaiting another UI-kit confirmation.
+- Clarify repository visibility versus license restrictions for "Web UI private for
+  now" before changing visibility or selecting a future open-source license.
+- Before hosted publication, verify one Cloudflare deploy owner/path and authenticated
+  principal contract, with candidate-specific journey gates.
 
 ---
 *This document follows the https://specscore.md/feature-specification*
