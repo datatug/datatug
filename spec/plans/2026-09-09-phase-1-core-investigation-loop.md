@@ -111,7 +111,8 @@ walks J1 (open demo → Album → rows) asserting the agent log line. Non-goals:
 **Id:** task-4
 **Verifies:** core-investigation-loop#ac:demo-project-shape
 **Depends-On:** —
-**Status:** in_progress
+**Status:** complete
+**Implemented-by:** datatug/datatug-demo-projects@6ca9ddd1452ab1179a6c1e019b400b18bcf4a844 (main)
 
 *Progress 2026-09-09:* datatug-demo-projects PR #8 landed the project (entities incl. `Country`, queries, support-notes, HTTP query defs + snapshot fixtures, policies); the credential rule landed in datatug-core PR #302; declared `Mappings` on the demo's fields are a follow-up once the CLI consumes that model version.
 
@@ -246,7 +247,8 @@ entries, `limitations`, chip origins). Update the Implementation Matrix rows, re
 **Id:** task-11
 **Verifies:** core-investigation-loop#ac:http-source-in-demo
 **Depends-On:** 4, 6
-**Status:** in_progress
+**Status:** complete
+**Implemented-by:** datatug/datatug-cli@2dd8afee2e44b66df0a49dedfbb4239856965357 (main)
 
 *Progress 2026-09-09:* dal-go/dalgo2http PR [#2](https://github.com/dal-go/dalgo2http/pull/2), datatug-cli PR [#196](https://github.com/datatug/datatug-cli/pull/196), and the demo definitions/fixtures in datatug-demo-projects PR [#8](https://github.com/datatug/datatug-demo-projects/pull/8) are merged. The adapter, snapshot fallback, HTTP source registration, and unit/demo fixture validation satisfy this task; task is complete.
 
