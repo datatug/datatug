@@ -6,6 +6,8 @@ Facts newly established by the lead after the five source reports were written a
 
 ---
 
+> **Update, later on 2026-09-09:** the layered-ACL branches named below as `vm/*` refs were pushed to origin on the founder's approval (`datatug/dtql` `layered-acl-design` c2d0487; `layered-acl-query` in dal-go/dalgo 65c4824, dalgo2sql 45fe36c, dalgo2ingitdb de6f64c, openvaultdb-go 7998895). The `vm/*` names remain valid as the local evidence refs this audit read. The design-packet-versus-plan status question is carried in the hub `ROADMAP.md`, open question 4.
+
 ## Verdict in ten lines
 
 1. **The single most functional, most secured path in the whole ecosystem is `datatug query run`**: DTQL parsing (`dal-go/dalgo/dtql`) → `pkg/accesspolicies` → `access.SecureReadSession` (`dal-go/dalgo/access`), live-verified against a real SQLite Chinook DB with both `--no-policies` and policy-enforced runs (`datatug-cli/apps/datatugapp/commands/cmd_query.go`). Nothing else in the stack is this solid.
@@ -76,7 +78,7 @@ Facts newly established by the lead after the five source reports were written a
 | `datatug serve` / `pkg/api` ACL enforcement | P10 | none | no auth/token/ACL check found in `pkg/server`/`pkg/api` | Legacy `pkg/sqlexecute` exec endpoints enforce nothing |
 | OpenVaultDB own capability auth (`records:read`) | P10 | usable, coarse, uncoordinated | `openvaultdb-go/pkg/auth/auth.go:1-45` | Pinned to stale `dal-go/dalgo v0.64.4`, predates the Sept `access` work |
 | InGitDB own ACL (shipped code) | P10 | none in shipped code | no policy code in `ingitdb-go`/`ingitdb`/`ingitdb-specs` | Design + first implementation commits exist on the VM (see row below) |
-| Layered ACL MVP implementation (VM branches, unpushed) | P10 | implementation underway, unmerged | `dal-go/dalgo` `layered-acl-query` 65c4824 (9 commits: policy loader, scoped field/collection masks, typed principals, execution gates); `dalgo2sql` 45fe36c (2 commits); `dalgo2ingitdb` de6f64c (3 commits); `openvaultdb-go` 7998895 (5 commits) | Not pushed to GitHub (auto-mode classifier blocked remote push, per lead) — foundation more advanced than a shipped-code-only read suggests |
+| Layered ACL MVP implementation (branch `layered-acl-query`, on origin since 2026-09-09, unmerged) | P10 | implementation underway, unmerged | `dal-go/dalgo` `layered-acl-query` 65c4824 (9 commits: policy loader, scoped field/collection masks, typed principals, execution gates); `dalgo2sql` 45fe36c (2 commits); `dalgo2ingitdb` de6f64c (3 commits); `openvaultdb-go` 7998895 (5 commits) | Not pushed to GitHub (auto-mode classifier blocked remote push, per lead) — foundation more advanced than a shipped-code-only read suggests |
 | TUI screens (databases/environments/entities/settings/viewers) | P11 | usable | `pkg/sneatview/sneatnav` framework, live schema browsing | |
 | TUI Queries/Dashboards screens | P7, P11, P15 | ui-only/mock | `dtproject/queries_screen.go:9-22`, `dashboards_screen.go:9-21` — hard-coded strings | Real backend models/routes exist for both |
 | Ctrl+W TUI→web hand-off | P11 | partial (single route mapped) | `webui_handoff.go:26-28` — only `"projects": "/my"` | Every other screen falls back to the bare web origin |
@@ -190,7 +192,7 @@ Builds and unit-tests cleanly (`pnpm nx build datatug-app`; 115/115 tests pass, 
 1. Is the `a913de4` build break (go-github v90→v91) fixed anywhere, or does every fresh `git clone && go build` of `datatug-cli` main currently fail? Blocks any new contributor or CI run from main.
 2. Is `storage.NewDatatugStore`/`storage.GetStore` dead scaffolding that should be deleted in favor of `filestore.New*` (the path that actually works), or was it built for a specific future consumer (the MCP daemon?) and simply never finished? Determines whether fixing `serve` means "wire the existing indirection" or "remove it."
 3. Are `show`/`dataset*`/`datasets`/`queries` intentionally deprioritized in favor of `entity`/`query run`, or simply unnoticed? Determines whether Phase-1 effort should fix or delete them.
-4. Should the layered-ACL MVP packet and its implementation branches (`vm/*` refs) be pushed to `origin` now, independent of the Phase-1 decision — given it is currently one lost disk away from having to be regenerated from the VM?
+4. ~~Should the layered-ACL MVP packet and its implementation branches (`vm/*` refs) be pushed to `origin` now?~~ Answered: pushed on 2026-09-09 (see the update note at the top). Open instead: whether implementation sign-off was given after the packet (ROADMAP open question 4).
 5. Given Task 21 of the layered-ACL plan ("DataTug query/write and Explain Access integration") is queued and not started, should Phase-1 prioritize landing tasks 11-24 of that plan before building new DataTug-side ACL UI from scratch?
 6. Is Firestore-as-a-project-store a live near-term goal, or were the `firestore:` struct tags on every `datatug-core` type added speculatively and since abandoned?
 7. Is `datatug-cli`'s vendored, byte-identical copy of `datatug-core/pkg/datatug` intentional, or drift that should be fixed by restoring the module dependency? Affects whether "the project model" is one thing or two slowly-diverging things.
