@@ -55,6 +55,8 @@ Specified in full in the [Phase 1 Feature](spec/features/core-investigation-loop
 
 ## Phase 2 — Library depth and provenance (strategic foundations)
 
+Plan drafted: [spec/plans/2026-09-09-phase-2-library-depth-and-provenance.md](spec/plans/2026-09-09-phase-2-library-depth-and-provenance.md) (Draft, awaiting founder review).
+
 - **Objective.** Turn the loop into a compounding library: capture from exploration, collections with meaning, explainable suggestions, provenance, HTTP queries, and the agent reading the same context.
 - **User outcome.** "Save this lookup as a team query", "why was this suggested", "where did this value come from", "run the shipping-status HTTP request for this order", "`datatug context` prints what the agent should know".
 - **Why now.** These are the second half of the explore → capture → share loop, and they make the AI story honest before the MCP face exists.
