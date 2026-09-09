@@ -40,7 +40,7 @@ explicitly as fixable by switching to the pure-Go `dalgo2sqlite`.
 | SQL sources (SQLite, SQL Server, MySQL, Postgres) — scan + query | partial | 0–1 | enabler |
 | inGitDB (Git-backed data) as a source | usable (local paths) | 1 | strategic |
 | Firestore as a source | partial | 3 | enabler |
-| HTTP / GraphQL API requests as queries | backend-only | 2 | strategic |
+| HTTP / GraphQL API requests as queries | backend-only | 1 (read-only JSON GET reference data, founder ruling 2026-09-09) / 2 (rest) | strategic |
 | Logs as a source | planned | 5 | strategic |
 | Source registry and connection secrets outside project files | partial (gap) | 0–1 | hygiene |
 

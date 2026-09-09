@@ -43,7 +43,7 @@ Current-state references a coding agent needs first: [current-state audit](../re
 - **Security is tested, not asserted.** Task 6 ships the negative tests; task 10 walks
   the journey with a restricted principal.
 - **Parallel waves.** Wave A: tasks 1, 4, 5 (three repos, independent). Wave B: tasks
-  2, 3, 6, 7 (after 1; 7 also after 5). Wave C: tasks 8, 9 (after 2, 6, 7). Wave D:
+  2, 3, 6, 7, 11 (after 1; 7 also after 5; 11 after 4 and 6). Wave C: tasks 8, 9 (after 2, 6, 7). Wave D:
   task 10. One WB worktree per task; the landing owner batches compatible branches
   onto one integration branch per repository and validates once.
 - **Integration order.** Land `datatug-core` model change → `datatug-cli` (tasks 1, 5,
@@ -115,7 +115,11 @@ chinook.Customer.Email`, `Invoice.ID → chinook.Invoice.InvoiceId`, plus
 `invoice-lines` as SQL, `customer-purchases-by-genre` as SQL) with `Parameters[].Meta`
 set; an inGitDB `support-notes` collection (8 records keyed by `CustomerId`, 2 for
 customer 5); `policies/` with `admin` and `support` (Canada rows on `Customer`, `Email`
-hidden); README updated with the real datatug.app link. In `datatug-core` +
+hidden); a `Country` entity with `Country.Name → chinook.Customer.Country` and
+`Country.Currency`; an HTTP `QueryDef` for REST Countries (`name` parameter tagged
+`Country.Name`) and one for Frankfurter (`to` parameter tagged `Country.Currency`), each
+with a recorded snapshot fixture under `fixtures/http/`; README updated with the real
+datatug.app link. In `datatug-core` +
 `datatug-project-validator`: a validation rule that fails when any `QueryDefTarget`
 carries credentials. Tests: `datatug validate` green; a fixture test loads the inGitDB
 collection through `ingitdb://`. Uses the model from task 5 (coordinate branches).
@@ -215,6 +219,24 @@ states limitation, hand-crafted request refused), asserting mechanism (server lo
 entries, `limitations`, chip origins). Update the Implementation Matrix rows, release
 `datatug-cli`, deploy `datatug.app`, and update `datatug-demo-projects` README.
 
+### Task 11: HTTP reference-data source executor
+
+**Id:** task-11
+**Verifies:** core-investigation-loop#ac:http-source-in-demo
+**Depends-On:** 4, 6
+**Status:** planning
+
+Founder ruling 2026-09-09 (verbatim): *"I want to have in MVP: inGitDB, SQLite, HTTP
+endpoint."* In `datatug-cli` `pkg/server`: execute a `QueryDef` of type HTTP as a
+read-only GET with parameters substituted into the URL, map the JSON response (object or
+array; a documented `rows` path) into the same recordset shape the other sources return,
+and serve the recorded snapshot fixture when the endpoint is unreachable, stamping the
+result header `live` or `snapshot`. Related lookups (task 7) and applicable queries treat
+the HTTP source like any other. Tests: unit tests with a local `httptest` server and the
+snapshot path; the demo's Country cell → Country facts and the exchange-rate query pass
+in the journey harness with the network disabled. Non-goals: POST, auth headers, GraphQL,
+HTTP steps in playbooks (Phase 2–3). Wave B, runs beside task 7.
+
 ## Deferred AC Coverage
 
 None — every acceptance criterion of the Feature is covered by a task above.
@@ -232,8 +254,11 @@ None — every acceptance criterion of the Feature is covered by a task above.
 - **`dalgo2sqlite` vs `mattn/go-sqlite3` behaviour differences** (task 6). Mitigation:
   structured queries go through `dalgo2sqlite`; native SQL keeps the legacy driver in
   dev builds; release builds document the CGO limitation until Phase 2 removes it.
-- **Founder decisions A1–A3** default to the Feature's recommendations; reversing A1
-  (HTTP second source) moves work to Phase 2 rather than blocking.
+- **Public HTTP endpoints in a demo** (task 11). Mitigation: recorded snapshot fixture
+  served when unreachable, labelled as such; the journey harness runs with the network
+  disabled so the demo never depends on a third party being up.
+- **Founder assumptions A2–A3** default to the Feature's recommendations; the concrete
+  public endpoints (REST Countries, Frankfurter) are the lead's choice and swap freely.
 
 ## Open Questions
 
