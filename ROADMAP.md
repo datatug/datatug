@@ -43,13 +43,21 @@ ambiguous inputs, policy-safe lookups/counts, actual SQL/DTQL binding, HTTP brow
 execution, explicit live/snapshot choice and J1–J4 real-agent acceptance. Preserve the
 semantic engine, adapters and stronger VM ACL implementation.
 
-**State:** partial implementation; whole journey not accepted. The review found wire
-mismatches, missing HTTP browser dispatch, parameter echoes without application, and
-disabled restricted acceptance. Completed task IDs remain component history; corrective
-task 12 (freeze the transport, one source resolver) has landed on all three sides —
-server (datatug-cli), client (datatug-apps), schema authority (datatug-core v0.26.0) —
-with two named follow-ups already dispatched. Plan corrective tasks 13–17 close the
-remaining gaps. Refresh remote state before implementing.
+**State:** the whole journey now walks end to end. Corrective task 12 (freeze the
+transport, one source resolver) landed on all three sides — server (datatug-cli),
+client (datatug-apps), schema authority (datatug-core `pkg/apicontract`, v0.26.0 and
+later) — and task 10 (journey e2e J1–J4) is complete as of 2026-09-10: J1–J4 pass
+single-worker against a datatug-cli built from main and the real web client, J4
+against its own `--as support --role support` agent, and the `journey e2e` CI job runs
+them on every datatug-apps pull request against a pinned datatug-cli release. The
+review's wire mismatches, the parameter echo without application, the hardcoded
+store default, the schema-qualified policy path and the missing table-page
+limitation header are all fixed. Still open: task 13 (protected-execution
+convergence with the implementer agent's layered-ACL chain — ownership to be
+settled), task 14 (browser-side bounded HTTP execution; the provider-side bounds
+landed in dalgo2http v0.2.0), task 16 (fixture policies, Codex) and task 17 (one
+reproducible release candidate and publication, after 16). Refresh remote state
+before implementing.
 
 **Dependencies:** core/provider revisions first, then server and browser convergence,
 then pinned demo/transport/journey acceptance. Layered security is integrated where
