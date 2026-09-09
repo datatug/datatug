@@ -10,7 +10,7 @@ Canonical index of all plans in this repository. Each plan is a single Markdown 
 
 | Plan | Status | Source | Date | Owner |
 |---|---|---|---|---|
-| [2026-09-09-phase-1-core-investigation-loop](2026-09-09-phase-1-core-investigation-loop.md) | Draft | core-investigation-loop | 2026-09-09 | alex |
+| [2026-09-09-phase-1-core-investigation-loop](2026-09-09-phase-1-core-investigation-loop.md) | Approved | core-investigation-loop | 2026-09-09 | alex |
 
 ## Recently Closed
 
