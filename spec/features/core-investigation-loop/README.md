@@ -512,6 +512,19 @@ bounded and cancellation releases resources. Unavailable exact counts return nul
    or J1 runs as a different principal. Owner: Phase 1 task 16 (fixture policies and
    pinned-data expectations). Not a founder ruling; recorded by the lead session.
 
+2. **Is OpenVaultDB a Phase 1 source, and on what contract?** The layered-ACL
+   worktrees carried an OpenVaultDB proxy (server) and a second client protocol
+   (`/datatug/ovdb/*` with an agent token, a URL-fragment session token and
+   `pwa/repo/:repo/agent/:agentId` routes). Neither was ported (lanes S107/S108,
+   2026-09-10): OpenVaultDB's row/column response schema is undocumented (the old
+   proxy relayed raw bytes), so an `apicontract.Result` adapter would be guesswork,
+   and its database-owned policies do not compose with the single local YAML policy
+   enforcement point every current source goes through. Reusable when it is decided:
+   the bearer-token client (`pkg/openvaultdb/client.go` in the parked worktree) and
+   the server-side `TokenEnv`-per-target pattern (never a browser-supplied token).
+   Owner: this Feature; a decision names the documented OpenVaultDB response schema
+   and how its policies layer under the serve session. Not a founder ruling.
+
 None of the remaining items blocks the corrected local Phase 1 slice. Internal `basket` naming is an
 engineering detail; the user-facing label is Investigation Context. Concrete HTTP
 descriptors are maintained in the demo project and acceptance manifest, with no
