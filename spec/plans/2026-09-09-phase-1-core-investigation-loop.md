@@ -352,9 +352,10 @@ Reuse dalgo2http and descriptor/snapshot assets. Execute HTTP saved queries thro
 **Id:** task-15
 **Verifies:** core-investigation-loop#ac:typed-context-isolation, core-investigation-loop#ac:bound-from-selection, core-investigation-loop#ac:context-carries
 **Depends-On:** 12
-**Status:** in_progress
-**Note:** In progress: lane S75 landed datatug-apps#73 (typed scope-keyed context, binding resolver with origin tiers/conflict/ambiguous/missing blocking, late-response discard, golden fixtures from datatug-core v0.26.0 with manifest drift test). Status stays in_progress until the J1 journey e2e walks bound-from-selection and context-carries without crutches (lane S79 fixes the J1 deep-link blocker; Task 17 owns the journey run).
-**Evidence:** datatug/datatug-apps#73@1bb8406
+**Status:** complete
+**Implemented-by:** datatug/datatug-apps@3c13cb0 (main)
+**Note:** Complete 2026-09-10: exit condition met — the real-agent journey e2e (apps#83 CI job 'journey e2e (real datatug-cli agent)', datatug-cli v0.20.6) walks J1 bound-from-selection ('from selection' binding, clear, run sends the plain parameter) and J3 context-carries ('from context', chip disable empties, bindings listed in the results header) without intercepted responses or deep links; typed-context-isolation proven by datatug-apps#73 unit tests (typed 5 vs "5", conflict blocks unconfirmed run, scope switch opens an empty basket, isCurrentScope late-response-discard gate) plus J4 against a separate support principal. Task 17 still owns the full candidate/epilogue run.
+**Evidence:** datatug/datatug-apps#73@1bb8406, datatug/datatug-apps#79@f5873b2, datatug/datatug-apps#82@438f1dc, datatug/datatug-apps#83@3c13cb0
 
 Adapt grid/panel/query-page components to exact envelopes. Scope context and reactive agent selection by agent/project/environment/securityContextId. Implement typed equality, conflicts, missing inputs, visible overrides and late-response rejection. Selection cannot silently replace an open query binding. Test no facts cross project/principal boundaries and a new tab does not inherit prior context implicitly.
 
