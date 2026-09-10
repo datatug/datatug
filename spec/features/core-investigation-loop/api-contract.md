@@ -210,6 +210,23 @@ and a configured snapshotId. Snapshot responses retain recorded time and identit
 and pass the same policy boundary. No silent fallback or production-acceptance claim
 based on a fixture is allowed.
 
+Snapshot discovery (lead assumption 2026-09-10, pending founder confirmation): a
+SOURCE_UNAVAILABLE response for a query with a recorded fixture carries a sibling
+top-level `details` key alongside `error` — `{error:{...}, details:{availableSnapshots:
+[{snapshotId, recordedAt}]}}`, never nested inside `error` itself. This shape was
+forced by an implementation constraint, not chosen freely: datatug-core's
+`apicontract.ErrorBody` has no generic extension field, and its own validation
+restricts `targets` to TARGET_REQUIRED only, so neither existing field can carry
+snapshot metadata without a datatug-core release. `snapshotId` is
+`<queryId>@<recordedAt RFC3339>` (e.g. `country-facts@2026-09-09T00:00:00Z`), derived
+from the project's own `fixtures/http/<queryId>.json` file, never invented client-side.
+No other field belongs in `details`. `datatug serve --http-offline` (lead assumption
+2026-09-10, pending founder confirmation) is an operator-facing switch, documented in
+`serve --help`, that makes every live HTTP fetch fail SOURCE_UNAVAILABLE without ever
+touching the network — for offline demos and for deterministic CI proof of "network
+disabled → honest failure → explicit snapshot"; it is not a test-only hook and never
+substitutes a snapshot silently.
+
 ## Security and errors
 
 Phase 1 serve binds loopback, fixes the principal from `--as` with explicit role/group
