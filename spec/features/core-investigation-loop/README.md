@@ -375,7 +375,7 @@ redirect, size/time/count bounds, cancellation and explicit snapshot rules.
 **Given** `datatug serve --as support --role support` and explicit policies for Customer,
 Invoice and support-notes
 **When** Customer is browsed with its allowed projection and customer-invoices runs for
-a Brazilian then Canadian fixture customer
+Brazilian customer 1 then Canadian customer 3
 **Then** Customer exposes only Canadian rows without Email; the first invoice run
 returns no rows and the second only authorized invoices; each result names its applied
 limitations. No test expects an Invoice result to hide a Customer column it never selected.
@@ -388,7 +388,7 @@ limitations. No test expects an Invoice result to hide a Customer column it neve
 
 ### AC: related-respects-policy (verifies REQ:related-lookup-execution, REQ:server-acl-all-reads)
 
-**Given** the `support` principal and a Brazilian customer selected
+**Given** the `support` principal and Brazilian customer 1 selected
 **When** the related *Invoices* lookup runs
 **Then** it returns zero rows with the limitation shown, and the count reads "count unavailable" rather than the true count.
 
@@ -448,8 +448,8 @@ superseded by fail-closed protected execution.
 ### AC: restricted-rows-and-columns-server (verifies REQ:server-acl-all-reads, REQ:principal-selection, REQ:limitation-visible)
 
 **Given** `datatug serve --as support --role support` and explicit policies for each source
-**When** real execution requests run customer-invoices for Brazilian and Canadian
-fixture customers, and an allowed Customer projection is requested
+**When** real execution requests run customer-invoices for Brazilian customer 1 and
+Canadian customer 3, and an allowed Customer projection is requested
 **Then** unauthorized invoice rows are absent; Customer excludes Email; applied
 `limitations[]` correspond to each result's actual source. agent-info reports support.
 No request can elevate the serving principal.
@@ -502,17 +502,7 @@ bounded and cancellation releases resources. Unavailable exact counts return nul
 
 ## Open Questions
 
-1. **Which Customer ID do the J1 ACs use for the support principal?** The ACs
-   `bound-from-selection` and `context-carries` bind `Customer.ID = 5`, but in the
-   pinned Chinook data customer 5 is in the Czech Republic, and the support fixture
-   policy (`demo-project-1/policies/customers.yaml`) restricts Customer and Invoice
-   rows to Canada, so the support principal sees zero rows for it; customer 3
-   (Canada) returns 7 invoices (lane S77 live smoke, 2026-09-09, datatug-cli 7fc6efb).
-   Either the ACs name a Canadian customer, or the fixture policy admits customer 5,
-   or J1 runs as a different principal. Owner: Phase 1 task 16 (fixture policies and
-   pinned-data expectations). Not a founder ruling; recorded by the lead session.
-
-2. **Is OpenVaultDB a Phase 1 source, and on what contract?** The layered-ACL
+1. **Is OpenVaultDB a Phase 1 source, and on what contract?** The layered-ACL
    worktrees carried an OpenVaultDB proxy (server) and a second client protocol
    (`/datatug/ovdb/*` with an agent token, a URL-fragment session token and
    `pwa/repo/:repo/agent/:agentId` routes). Neither was ported (lanes S107/S108,
