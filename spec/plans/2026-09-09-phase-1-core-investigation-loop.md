@@ -326,9 +326,9 @@ Inventory every semantic/execute caller and choose one schema authority. Impleme
 **Id:** task-13
 **Verifies:** core-investigation-loop#ac:restricted-rows-and-columns-server, core-investigation-loop#ac:native-sql-labelled, core-investigation-loop#ac:hidden-column-refused
 **Depends-On:** 12
-**Status:** planning
+**Status:** in_progress
+**Note:** In progress under the lead session claim datatug-phase1-task13 (2026-09-10). Founder ruling, verbatim: "Yes, claim Task 13 and reconcile the ACL branches yourself". Lanes: S106 lands the provider layered-ACL branches (dalgo2sql, dalgo2ingitdb; openvaultdb-go if reachable) onto their mains; S107 ports the datatug-cli layered-ACL worktree (a7e1f62) onto today's main, resolving the five conflicts against the Task 12 transport freeze with the contract as authority; the datatug-apps route conflict follows. dal-go/dalgo #158 is merged (v0.80.0 of dal-go/dalgo). Reconciliation inventory: spec/research/2026-09-09-layered-acl-reconciliation.md.
 **Evidence:** spec/research/2026-09-09-layered-acl-reconciliation.md, dal-go/dalgo#158@8dece8b
-**Note:** Reconciliation inventory + port plan: spec/research/2026-09-09-layered-acl-reconciliation.md. dalgo PR #158 is merged (8dece8b); the remaining provider/SDK/CLI/apps branches are landed by the implementer (codex) agent, not this task. Update: Task 12 already delivered driver-bound SQL parameters (proven with two CustomerId values, datatug-cli PR #212); what remains for Task 13 is the protected-execution convergence with that layered-ACL chain.
 
 Reconcile pending VM provider/SDK/server changes and staged CLI SQL arguments. Port configuration to external core. Protected reads fail closed for unsupported shapes; explicit privileged opaque grants remain separate. Apply driver-bound parameters on the server path and return only confirmed bindings. Test current and legacy routes, principal tampering, forbidden source/field access and actual row changes between two parameter values. Publish/converge provider dependencies before final acceptance.
 
