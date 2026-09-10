@@ -365,11 +365,12 @@ Adapt grid/panel/query-page components to exact envelopes. Scope context and rea
 **Verifies:** core-investigation-loop#ac:demo-project-shape, core-investigation-loop#ac:related-respects-policy, core-investigation-loop#ac:real-transport-and-parameter-effect
 **Depends-On:** 13, 14, 15
 **Status:** in_progress
-**Note:** Codex owns datatug-phase1-task16: correcting demo policies and pinned-data expectations in datatug/datatug-demo-projects. Existing Fable server/browser work remains separately owned. Final browser-shaped transport acceptance is still gated by tasks 13–15.
-**Evidence:** wb-claim:datatug-phase1-task16
+**Note:** Reclaimed by the lead session on 2026-09-10 — founder, verbatim: "Codex run out of limits so Task 16 got stuck. Can you check worktrees on this machine and VM find the WIP, reclaim and continue it work?" No uncommitted Codex WIP existed on either machine; Codex's landed Task 16 work is datatug-demo-projects 09407c3 (per-source support policy). Lane S109 continues: explicit per-source policies, pinned Brazilian/Canadian ids and counts, selected-country/retrieved-currency facts, forged-lookup and cross-scope transport acceptance against the real server, and the Open Question 1 decision (support journey uses pinned Canadian/Brazilian ids). Final browser-shaped acceptance is the J1–J4 journey CI job (datatug-apps#83).
+**Evidence:** wb-claim:datatug-phase1-task16 (reclaimed), datatug/datatug-demo-projects@09407c3
 
 Keep the real demo assets. Declare policies for Customer, Invoice and support-notes independently; choose Brazilian/Canadian IDs and expected counts from the pinned dataset. Use selected Country and retrieved currency facts rather than guessing from CustomerId. Preserve pending semantic demo tests. Exercise actual browser-shaped requests against the real server, including forged lookup IDs, policy-safe counts and unauthorized query metadata omission.
 
+**Annotation Amendment:** actor=projects-c5 (Claude Fable 5.1); at=2026-09-10T07:03:54Z; reason=Reclaim Task 16 from Codex (out of limits) for the lead session; before_sha256=0e0e210e02ce3c21a6e4c4c2ee04063cde7a2a197a7a4a4b0fffb64b351e53c5
 ### Task 17: Prove J1–J4 and finish one reproducible release candidate
 
 **Id:** task-17
