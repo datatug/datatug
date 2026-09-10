@@ -1,10 +1,10 @@
 ---
 format: https://specscore.md/plan-specification
-status: Executing
+status: Implemented
 ---
 # Plan: Phase 1 — core investigation loop
 
-**Status:** Executing
+**Status:** Implemented
 **Source Feature:** core-investigation-loop
 **Date:** 2026-09-09
 **Owner:** alex
@@ -149,8 +149,10 @@ resolves (no `localhost:8989` interception). Non-goals: new screens.
 **Id:** task-3
 **Verifies:** core-investigation-loop#ac:journey-harness
 **Depends-On:** 1, 4
-**Status:** in_progress
-**Note:** Open defect, 2026-09-10: the journey title-load assertion, the Title textbox value that J1 and Epilogue A both check, intermittently stays "Loading..." until its 15 s timeout. It failed main's journey CI job, single worker, in Epilogue A in datatug-apps runs 34453639702 (4d242ad) and 34457418273 attempt 1 (03b6f16, which passed on re-run), and J1 once locally under fullyParallel against datatug-cli main 5be73b7. In that local failure the Playwright trace shows both GET /datatug/projects/project_summary calls answered 200 in about 5 ms and 1 ms with the correct CORS header and no console error: the agent answers promptly and the page never commits the title, so the fault is client-side in datatug-apps. Host load does not explain it; root cause not established. Until it is fixed, the J1 walk this task delivers is not reliably green. This Note is the single account of the defect: datatug-apps journey.spec.ts's header and journey/README.md point here, so record each finding here.
+**Status:** complete
+**Implemented-by:** datatug/datatug-apps@76cdd6a (main)
+**Note:** Complete 2026-09-11. The journey e2e harness runs against the real datatug-cli agent in CI on every PR and on main and is a required check on datatug-apps main since 2026-09-11 (build, test, e2e, journey e2e). The open defect recorded here (Title textbox stuck at 'Loading…' in J1/Epilogue A) is fixed by datatug-apps#100 (lane S126): the app runs zoneless change detection and ProjectPageComponent.project was a plain field written from subscribe callbacks, so nothing scheduled a repaint; it is now a signal, with a Subject-driven spec that fails without the fix. Validation: J1 4 workers × 15 and 6 × 25 green, Epilogue A 4 × 8 green, full journey suite single-worker 3× and 10× green; CI run 34489621799 all four jobs success. Bisection also showed that root-providing ProjectService exposes a second zoneless gap (QueryPageComponent's scope effect never flushed → J3 fails); that change is deliberately excluded and owned by datatug-apps#96. A repo-wide detector for this bug class (tools/check-zoneless-fields.mjs + CI check) and the remaining conversions are lane S138 and follow-up batches.
+**Evidence:** datatug/datatug-apps#100@76cdd6a, datatug/datatug-apps#83@3c13cb0, datatug/datatug-apps#91@8653bd9
 
 Playwright fixture that builds/launches `datatug serve --project <demo> --as admin --role admin` on
 a free port, starts the web dev server pointed at it, and tears both down; a first test
