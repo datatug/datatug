@@ -131,7 +131,10 @@ endpoints, TUI.
 **Id:** task-2
 **Verifies:** core-investigation-loop#ac:agent-path-contract-client, core-investigation-loop#ac:first-result-two-clicks
 **Depends-On:** 1
-**Status:** in_progress
+**Status:** complete
+**Implemented-by:** datatug/datatug-apps@8653bd9 (main)
+**Note:** Complete 2026-09-11 (lead session, historical task closed on final evidence). The web client speaks the frozen transport (datatug-core v0.27.3 apicontract envelopes, golden fixtures with manifest drift test, datatug-apps#73 and later) and the demo entry is the project URL: the required journey CI job on datatug-apps main (run 34477823015, datatug-cli v0.23.0) walks J1 from the project page to a first result by clicking through project → environments → catalog → Album (agent-path-contract-client, first-result-two-clicks).
+**Evidence:** datatug/datatug-apps#91@8653bd9, datatug/datatug-apps#83@3c13cb0, datatug/datatug-apps#73@1bb8406, datatug/datatug-cli@v0.23.0
 
 In `datatug-apps`: prefix every agent call with `/datatug` and use the registered
 endpoint names; accept `localhost:8989`-style store ids; provide `DatatugFoldersService`
@@ -245,7 +248,10 @@ restricted principal sees zero rows and no true count.
 **Id:** task-8
 **Verifies:** core-investigation-loop#ac:mapped-columns-marked, core-investigation-loop#ac:related-across-sources, core-investigation-loop#ac:applicable-with-chain
 **Depends-On:** 2, 7
-**Status:** in_progress
+**Status:** complete
+**Implemented-by:** datatug/datatug-apps@8653bd9 (main)
+**Note:** Complete 2026-09-11 (lead session, historical task closed on final evidence). Semantic column markers, the context panel with related lookups across sources and applicable queries with binding chains are live in datatug-apps (#73, #79, #85) and proven by J2 in the required journey CI job on main (run 34477823015): clicking a CustomerId cell shows related records (Customer/Invoice/support-notes) and applicable queries, and running one binds the parameter (mapped-columns-marked, related-across-sources, applicable-with-chain).
+**Evidence:** datatug/datatug-apps#91@8653bd9, datatug/datatug-apps#83@3c13cb0, datatug/datatug-apps#73@1bb8406, datatug/datatug-cli@v0.23.0, datatug/datatug-apps#79@f5873b2, datatug/datatug-apps#85@fc84ada
 
 Grid column headers consume `semantic/columns` (marker + tooltip with provenance); a
 cell click opens the context panel (Ionic side panel in `ion-split-pane`; grid remains
@@ -259,7 +265,10 @@ responses; keyboard reachability. Non-goals: hover mechanics beyond the tooltip.
 **Id:** task-9
 **Verifies:** core-investigation-loop#ac:bound-from-selection, core-investigation-loop#ac:context-carries, core-investigation-loop#ac:restricted-rows-and-columns
 **Depends-On:** 2, 6
-**Status:** in_progress
+**Status:** complete
+**Implemented-by:** datatug/datatug-apps@8653bd9 (main)
+**Note:** Complete 2026-09-11 (lead session, historical task closed on final evidence). Query page auto-binding from selection, the Investigation Context basket with from-context binding and chip clearing, and the limitation header are live (datatug-apps#73, #81, #82) and proven by J1/J3/J4 in the required journey CI job on main (run 34477823015): Customer.ID binds 'from selection' and runs as a plain parameter, a context value binds 'from context' on another query and disabling the chip empties it, and the support principal sees Canada-only rows with Email hidden and the limitation stated (bound-from-selection, context-carries, restricted-rows-and-columns).
+**Evidence:** datatug/datatug-apps#91@8653bd9, datatug/datatug-apps#83@3c13cb0, datatug/datatug-apps#73@1bb8406, datatug/datatug-cli@v0.23.0, datatug/datatug-apps#81@814c104, datatug/datatug-apps#82@438f1dc
 
 An `InvestigationContextService` (signals, session-scoped) holding
 `{entity, field, value, origin, enabled}` items and the environment; the "Variables"
