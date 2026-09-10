@@ -50,6 +50,16 @@ selection, remove it, and disable it temporarily without losing it. This is spec
 enabled flag, visible on every project screen); this Feature owns the concept across every surface
 the context basket must eventually reach, not only the web UI Phase 1 ships first.
 
+#### REQ: context-variable-conditions
+
+A context variable MAY carry a comparison condition, not only equality: the Variables
+page MUST offer a form to add a variable for a selected `entity.field` with a condition and
+a value (founder, 2026-09-10: "should have form to add context variable for selected
+Entity.Field with conditions like ==, >, >=, etc."). Operator set (lead assumption, pending
+founder confirmation): `==`, `!=`, `>`, `>=`, `<`, `<=`. A variable added this way has origin
+`manual` and obeys REQ:context-basket-add-remove-disable like any cell-selected value; the
+`entity.field = value` form in `core-investigation-loop` REQ:context-basket is the `==` case.
+
 #### REQ: automatic-parameter-binding-from-context
 
 A query parameter whose semantic tag matches an active context value MUST be pre-filled when the
