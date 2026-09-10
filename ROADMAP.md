@@ -22,7 +22,7 @@ project summary returned 200. Do not continue blaming the old auth-hook panic wi
 reproducing it on the candidate.
 
 **Gate:** real entry-point browser test plus an exact client/server/demo revision
-manifest. Phase 1 corrective tasks retain unfinished navigation/deployment work.
+manifest. Phase 1 corrective tasks 12–16 are complete (2026-09-11); Task 17 holds the pinned release candidate (datatug-cli v0.23.0, datatug-apps 8653bd9) pending the live-site receipt.
 **Scope:** no new product concepts, no unrelated command cleanup or UI-kit migration.
 
 ## Phase 1 — converge the core investigation loop
