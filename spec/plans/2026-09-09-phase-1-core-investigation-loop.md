@@ -147,12 +147,14 @@ resolves (no `localhost:8989` interception). Non-goals: new screens.
 **Verifies:** core-investigation-loop#ac:journey-harness
 **Depends-On:** 1, 4
 **Status:** in_progress
+**Note:** Open defect, 2026-09-10: the journey title-load assertion, the Title textbox value that J1 and Epilogue A both check, intermittently stays "Loading..." until its 15 s timeout. It failed main's journey CI job, single worker, in Epilogue A in datatug-apps runs 34453639702 (4d242ad) and 34457418273 attempt 1 (03b6f16, which passed on re-run), and J1 once locally under fullyParallel against datatug-cli main 5be73b7. In that local failure the Playwright trace shows both GET /datatug/projects/project_summary calls answered 200 in about 5 ms and 1 ms with the correct CORS header and no console error: the agent answers promptly and the page never commits the title, so the fault is client-side in datatug-apps. Host load does not explain it; root cause not established. Until it is fixed, the J1 walk this task delivers is not reliably green. This Note is the single account of the defect: datatug-apps journey.spec.ts's header and journey/README.md point here, so record each finding here.
 
 Playwright fixture that builds/launches `datatug serve --project <demo> --as admin --role admin` on
 a free port, starts the web dev server pointed at it, and tears both down; a first test
 walks J1 (open demo → Album → rows) asserting the agent log line. Non-goals: J2–J4
 (task 10).
 
+**Annotation Amendment:** actor=claude-code (Claude Opus 5); at=2026-09-10T10:46:14Z; reason=Record the open journey title-load flake and its evidence as its single account; datatug-apps docs point here; before_sha256=58d044f81d34d92db015aaffff122ddaf91c855d3ef4bb4c3505ef9afee9a2de
 ### Task 4: Demo knowledge project and credential guard
 
 **Id:** task-4
@@ -276,8 +278,8 @@ to the project.
 **Depends-On:** 3, 8, 9, 11, 12, 13, 14, 15, 16
 **Status:** complete
 **Implemented-by:** datatug/datatug-apps@438f1dc4 (main)
-**Note:** Complete 2026-09-10: J1, J2, J3 and J4 pass single-worker against datatug-cli built from main aba31f6 (PR #221) and datatug-apps main 438f1dc (PR #82) — lanes S103/S104. J4 runs against its own --as support --role support agent (no intercepted responses, no deep-link shortcuts): only Canadian rows, Email hidden, limitation header on the table and query pages, Brazilian id → no rows, Canadian id → only its 7 invoices, hidden-column selection refused. Journey harness: apps/datatug-app/e2e/journey (README documents DATATUG_BIN/DATATUG_CLI_DIR/DATATUG_DEMO_DIR). Follow-up: the journey project is not yet a CI job (PR #48 being revived, lane S105); task 17 owns the release candidate and publication.
 **Evidence:** datatug/datatug-apps#82@438f1dc, datatug/datatug-cli#221@aba31f6, datatug/datatug-apps#80@5bee04e, datatug/datatug-apps#81@814c104, datatug/datatug-cli#219@743b8d9, datatug/datatug-apps#79@f5873b2
+**Note:** Complete 2026-09-10: J1, J2, J3 and J4 pass single-worker against datatug-cli built from main aba31f6 (PR #221) and datatug-apps main 438f1dc (PR #82) — lanes S103/S104. J4 runs against its own --as support --role support agent (no intercepted responses, no deep-link shortcuts): only Canadian rows, Email hidden, limitation header on the table and query pages, Brazilian id → no rows, Canadian id → only its 7 invoices, hidden-column selection refused. Journey harness: apps/datatug-app/e2e/journey (README documents DATATUG_BIN/DATATUG_CLI_DIR/DATATUG_DEMO_DIR). Follow-up: the journey project is not yet a CI job (PR #48 being revived, lane S105); task 17 owns the release candidate and publication. Update 2026-09-10: that follow-up is done. datatug-apps PR #83 (merged 2026-09-09) added the "journey e2e (real datatug-cli agent)" CI job, pinned to datatug-cli v0.22.0 on main as of 2026-09-10; PR #48 was closed unmerged.
 
 Complete J1–J4 in the real-agent harness after corrective transport, executor,
 HTTP, context and fixture integration. Cover the revised Feature mechanisms without
@@ -288,6 +290,7 @@ epilogue, publication and remote receipt checks.
 **Annotation Amendment:** actor=projects-c5 (Claude Fable 5.1); at=2026-09-09T20:16:49Z; reason=Record the first J1 end-to-end pass; before_sha256=de609446bc90d9cd53833aedc398394f8c3f56608698f28a2e94af2f6bd5bc8e
 **Annotation Amendment:** actor=projects-c5 (Claude Fable 5.1); at=2026-09-09T21:24:53Z; reason=Record the J2 end-to-end pass and the J3 state; before_sha256=f16e13bd37c65c99c84fd98ef99bb1b4eedce6c9cdd1389ab7fe3706d18c6e84
 **Annotation Amendment:** actor=projects-c5 (Claude Fable 5.1); at=2026-09-09T22:18:55Z; reason=Record the J3 pass, the canonical query-id convention and the J4 harness with its first failure; before_sha256=a1148755786cd6a853fca8379ca5f2babc4d25cf33059dd9e42b354abc6ffde7
+**Annotation Amendment:** actor=claude-code (Claude Opus 5); at=2026-09-10T10:46:14Z; reason=Mark the journey-CI follow-up done: datatug-apps PR #83 added the journey CI job; before_sha256=c6e9f74183f94c634d28fa4079b9c4cda68f7d9327caaf6c153891e1ccfa5c24
 ### Task 11: HTTP reference-data source executor
 
 **Id:** task-11
