@@ -186,8 +186,9 @@ Track C  Dashboardius         C1 = Phase 5 ───┘    C2 (incident boards) 
   task is sequenced first in the implementation round.
 - **B2** needs Phase 4 (project grants, authenticated server) for live multi-user incidents and
   Phase 5 (board persistence) for incident dashboards.
-- **C3** (moving the Dashboardius app into the workspace) can start any time; it is
-  mechanical but must be a complete cutover.
+- **C3** (rebuilding the Dashboardius shell in Ionic inside the single app and retiring the
+  PrimeNG shell) can start once the renderer library exists (Dashboardius plan task 1); it is
+  not mechanical and must be a complete cutover.
 
 ## 7. Ecosystem integration map — integrate deeply, depend loosely
 

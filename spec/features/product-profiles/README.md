@@ -72,7 +72,7 @@ move is a cutover with a real inventory, not a file copy.
 | Profile selection confers no authority | planned | MVP (B1) | strategic |
 | Brand and domain honesty (no unregistered domain claimed) | planned | MVP (B1) | surface |
 | Build-info footer per profile (`@sneat/components` AppVersionComponent) | exists in Sneat apps; adoption planned | MVP (B1) | enabler |
-| Dashboardius app moved into the workspace (full cutover) | planned | NEXT | enabler |
+| Dashboardius shell rebuilt in Ionic inside the single app (cutover) (full cutover) | planned | NEXT | enabler |
 | Dashboardius-owned board renderer library embedded as an island | planned | NEXT | strategic |
 | Per-profile marketing sites and demo content | planned | NEXT | surface |
 
