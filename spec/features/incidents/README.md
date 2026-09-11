@@ -1,12 +1,12 @@
 ---
 format: https://specscore.md/feature-specification
-status: Amending
+status: Approved
 ---
 
 # Feature: Incidents (Incidentius core)
 
 > [SpecScore.**Studio**](https://specscore.studio): | [Explore](https://specscore.studio/app/github.com/datatug/datatug/spec/features/incidents?op=explore) | [Edit](https://specscore.studio/app/github.com/datatug/datatug/spec/features/incidents?op=edit) | [Ask question](https://specscore.studio/app/github.com/datatug/datatug/spec/features/incidents?op=ask) | [Request change](https://specscore.studio/app/github.com/datatug/datatug/spec/features/incidents?op=request-change) |
-**Status:** Amending
+**Status:** Approved
 **Source Ideas:** [Incidentius](https://github.com/sneat-co/backstage/blob/main/spec/ideas/incidentius.md)
 **Kind:** Capability (implementations in `datatug-core`, `datatug-cli`, `datatug-apps`, `datatug-demo-projects`)
 **Family:** [product-family](../../product/product-family.md) · P16 in the [hierarchy](../../product/hierarchy.md)
