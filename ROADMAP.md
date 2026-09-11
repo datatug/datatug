@@ -23,7 +23,7 @@ Phase 5 in this document and depend on Track A as drawn:
 Track A  DataTug spine        0 ── 1 ── 2 ── 3 ── 4 ── 5
                                     │         │    │    │
 Track B  Incidentius          B1 ───┘         │    B2 ─┘    B3 ── B4
-Track C  Dashboardius         C1 = Phase 5 ───┘    C2 ────── C3 (any time; full cutover)
+Track C  Dashboardius         C1 = Phase 5 ───┘    C2 ────── C3 (shell rebuild; full cutover)
 ```
 
 ## Phase 0 — existing spine and delivery repair
@@ -208,9 +208,13 @@ Resolution Record documents and stories. Every item requires evidence from B1–
   workspace library embedded by DataTug/Incidentius pages. Owning Feature:
   `sneat-co/dashboardius` `incident-dashboards` and its plan. Depends on C1, B1 and the
   Incidentius MVP plan's task 13 (board widget extension boundary).
-- **C3 — workspace cutover:** the Dashboardius app moves into the `datatug/datatug-apps` Nx
-  workspace as a complete cutover (inventory in [product-profiles](spec/features/product-profiles/README.md)).
-  Can start any time; mechanical, not gated by C1.
+- **C3 — one-app cutover:** Dashboardius becomes the `dashboardius` profile of the single
+  configurable app in `datatug/datatug-apps` (founder, 2026-09-11: *"one configurable app."*).
+  Its shell — cards, lists, toolbars, menus, forms — is rebuilt with Ionic components; PrimeNG,
+  AG Grid, Chart.js and CDK drag-drop survive only as leaf widgets in the board renderer
+  library; the PrimeNG shell in `sneat-co/dashboardius` is retired. A complete cutover under
+  the migrate-means-migrate rule (inventory in [product-profiles](spec/features/product-profiles/README.md)).
+  Can start after the renderer library exists (Dashboardius plan task 1); not gated by C1.
 
 ## Independently planned extensions and experiments
 
@@ -239,8 +243,9 @@ is planned. No charts or boards are added to the Phase 1 investigation task.
 Founder words, 2026-09-11: "Not sure if it's part of the spec your read but I think DataTug,
 Incidentius, Dashbaordius apps code should be in same repo (nx workspace with shared libs and
 either separate or single configurable app)". The three apps' code therefore lives in the
-`datatug/datatug-apps` Nx workspace; the separate-versus-configurable choice is the founder's
-(lead recommendation in [product-family](spec/product/product-family.md) §2). This supersedes
+`datatug/datatug-apps` Nx workspace, and the founder settled the second half the same day:
+*"one configurable app."* — all three profiles in one Ionic-framed app, PrimeNG and friends
+as leaf components only ([product-family](spec/product/product-family.md) §2). This supersedes
 the standalone-repository part of the 2026-09-08 Dashboardius Idea, not its schema decisions.
 DataTug CLI is Apache 2.0; the web UI is private for now, with future licensing not
 selected. Do not market all DataTug surfaces as already open source.
@@ -249,9 +254,12 @@ selected. Do not market all DataTug surfaces as already open source.
 
 Founder words, 9 September: "UI-kit rule - confirmed". DataTug keeps the Ionic frame
 and bounded islands for data surfaces it lacks, reusing the existing shared grid.
-Dashboardius keeps its standalone Angular/PrimeNG presentation. Neither journey
-requires a UI-kit migration. Shared presentation libraries may serve both products;
-product ownership does not dictate a permanent ban on embedding.
+Amended 2026-09-11 (founder: *"one configurable app."*; *"We should migrate PrimeNG cards
+and other components that we can migrate to Ionic and use PrimeNG just as components if
+Ionic misses functionality"*): Dashboardius's shell is rebuilt with Ionic components inside
+the single app, and PrimeNG, AG Grid, Chart.js and CDK drag-drop remain only as leaf widgets
+in the board renderer library — the one UI-kit migration the family makes (Track C3).
+Shared presentation libraries serve all three profiles.
 
 ## Recorded founder decisions
 
@@ -270,6 +278,15 @@ product ownership does not dictate a permanent ban on embedding.
 - Ahead-of-code marketing claims: "keep with planned label".
 - Apps workspace (2026-09-11): "DataTug, Incidentius, Dashbaordius apps code should be in same
   repo (nx workspace with shared libs and either separate or single configurable app)".
+- One app (2026-09-11): "one configurable app." — all three profiles; on the frame: "We should
+  migrate PrimeNG cards and other components that we can migrate to Ionic and use PrimeNG just
+  as components if Ionic misses functionality".
+- Multi-project incidents (2026-09-11): "yes it can."
+- Demo story (2026-09-11): "Chinook first, our own inGitDB second, maybe a copy of Chinook or
+  our own use case".
+- Incident access approver (2026-09-11): "Someone with appropriate role. By default project
+  admin has this role but can move it to someone else. It's part of Sneat contactius role
+  management".
 - Incidentius positioning (vision document, 2026-09-11): "Incidentius is an incident-resolution
   workspace." MVP: "do not build three applications. Build Incidents inside DataTug".
 

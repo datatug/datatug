@@ -102,9 +102,13 @@ implement in it's simplest form and can be part of MVP"*. Everything below about
 is the lead's simplest form, not the founder's. A temporary investigation grant MAY widen a
 participant's **read** access for the duration of an incident (vision §35). A participant
 requests, inside the incident, read access to named sources and collections of a project the
-incident references, with a reason and an optional time limit. An approver decides: an owner
-of that project, or a principal the project's policy names as incident approver (lead
-assumption for who approves; open question below). The requester MUST NOT approve their own
+incident references, with a reason and an optional time limit. An approver decides: the
+holder of the project's incident-approver role — by default the project admin, who may move
+it to someone else; the role is part of Sneat contactius role management (founder,
+2026-09-11, verbatim: *"Someone with appropriate role. By default project
+admin has this role but can move it to someone else. It's part of Sneat contactius role
+management"*); in a locally served project the served admin principal holds it (lead
+assumption for the local mapping). The requester MUST NOT approve their own
 request, and an approver MUST NOT grant beyond what the approver may read. The server then
 evaluates the active grant as one additional allow policy in `accesspolicies.Run` for that
 principal only, on requests that carry that incident — `ExecutionRequest.incident` in the
@@ -205,10 +209,6 @@ remote receipts distinguish landed components from the complete dependency chain
 
 ## Open Questions
 
-- **Who approves an incident access request.** Lead assumption: a project owner, or a
-  principal the project's policy names as incident approver. Alternatives: the incident
-  coordinator role (rejected for now: incident roles confer no data access), or any principal
-  who already holds the requested access. Founder to confirm.
 - **Whether hosted use of incident grants waits for Phase 4.** In the MVP the approval step
   is a recorded workflow control (see REQ:incident-scoped-grants); the lead's assumption is
   that hosted multi-user incidents (Track B2) require authenticated principals before grants

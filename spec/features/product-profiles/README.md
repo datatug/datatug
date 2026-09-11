@@ -12,9 +12,10 @@ status: Draft
 
 A product profile is the presentation layer that turns an application in the workspace into
 DataTug, Incidentius or Dashboardius: home route, brand, navigation order, entry points and
-demo defaults, selected by hostname or configuration. One build serves `datatug` and
-`incidentius`; `dashboardius` is served by the sibling Dashboardius app unless the founder
-chooses the single configurable app (open question).
+demo defaults, selected by hostname or configuration. One build serves all three profiles
+(founder, 2026-09-11: *"one configurable app."*); the frame is Ionic everywhere, and PrimeNG,
+AG Grid, Chart.js and CDK drag-drop appear only as leaf components where Ionic lacks the
+widget.
 
 A profile changes what a user sees first and nothing else — every route stays reachable, every
 deep link works across profiles, and no profile holds private data or private authority.
@@ -44,16 +45,15 @@ move is a cutover with a real inventory, not a file copy.
 ```text
   https://datatug.app         https://incidentius.…         https://dashboardius.com
           │                            │                             │
-          └──────────── profile resolution (hostname) ───────────────┘
+          └──────── profile resolution (hostname / configuration) ───┘
                                   │
-            ┌─────────────────────┴──────────────────────┐
-            ▼                                            ▼
-   apps/datatug-app                             apps/dashboardius
-   profile: datatug | incidentius               profile: dashboardius
-   home = project / incidents                   home = boards
-            │                                            │
-            └──── shared libs: @datatug/board-models, board renderer,
-                  agent client, auth, build-info ────────┘
+                                  ▼
+                    apps/datatug-app — one Ionic-framed build
+              profile: datatug | incidentius | dashboardius
+              home    = project | incidents   | boards
+                                  │
+        shared libs: @datatug/board-models, board renderer (chart, grid and
+        drag-drop leaf widgets), agent client, auth, build-info
                                   │
                         one server, one model, one policy
 ```
@@ -72,7 +72,7 @@ move is a cutover with a real inventory, not a file copy.
 | Profile selection confers no authority | planned | MVP (B1) | strategic |
 | Brand and domain honesty (no unregistered domain claimed) | planned | MVP (B1) | surface |
 | Build-info footer per profile (`@sneat/components` AppVersionComponent) | exists in Sneat apps; adoption planned | MVP (B1) | enabler |
-| Dashboardius app moved into the workspace (full cutover) | planned | NEXT | enabler |
+| Dashboardius shell rebuilt in Ionic inside the single app (cutover) (full cutover) | planned | NEXT | enabler |
 | Dashboardius-owned board renderer library embedded as an island | planned | NEXT | strategic |
 | Per-profile marketing sites and demo content | planned | NEXT | surface |
 
@@ -80,10 +80,11 @@ move is a cutover with a real inventory, not a file copy.
 
 The family MUST define three profiles — `datatug`, `incidentius`, `dashboardius` — each
 declaring: home route, brand (name, logo, colours, copy), navigation order, entry points, and
-demo defaults. One build of `apps/datatug-app` serves `datatug` and `incidentius`; the
-`dashboardius` profile is served by the Dashboardius app in the same workspace unless the
-founder chooses the single configurable app (open question), in which case the same build
-serves all three.
+demo defaults. One build of `apps/datatug-app` serves all three (founder, 2026-09-11: *"one
+configurable app."*). The Dashboardius home is an Ionic page; its cards, lists, toolbars,
+menus and forms are Ionic components; PrimeNG, AG Grid, Chart.js and CDK drag-drop remain
+only as leaf widgets inside the board renderer library, with their theme CSS scoped to those
+components and never loaded globally.
 
 | | `datatug` | `incidentius` | `dashboardius` |
 |---|---|---|---|
@@ -125,8 +126,10 @@ All three apps MUST live in the `datatug/datatug-apps` Nx workspace. Founder rul
 > apps code should be in same repo (nx workspace with shared libs and either separate or single
 > configurable app)"*
 
-This settles the repository and leaves "separate apps versus one configurable app" to the
-founder (Open Questions). The shared libraries MUST carry the reuse: `@datatug/board-models`
+This settles the repository; the founder settled the second half on the same day (*"one
+configurable app."*, and on the frame: *"We should migrate PrimeNG cards and other components
+that we can migrate to Ionic and use PrimeNG just as components if Ionic misses
+functionality"*). The shared libraries MUST carry the reuse: `@datatug/board-models`
 (exists, in `libs/datatug/board-models`), a **Dashboardius-owned board renderer library** that
 DataTug/Incidentius pages embed as an island under the founder's UI-kit rule (ruled 2026-09-09,
 verbatim: *"UI-kit rule - confirmed"* — Ionic frame with PrimeNG/AG Grid islands only where
@@ -134,14 +137,24 @@ Ionic lacks components), the agent client, auth, and build-info.
 
 No app may fork a shared library, and no app may introduce a second board renderer
 (`dashboards` REQ:no-charts-in-datatug-web-ui), a second agent client or a second auth path.
-Dashboardius keeps PrimeNG as its own kit inside the workspace; the workspace does not force a
-UI-kit migration on anybody, which is the same conclusion the roadmap's UI kit section reaches.
+Dashboardius's shell is rebuilt with Ionic components, and PrimeNG, AG Grid, Chart.js and CDK
+drag-drop remain only as leaf widgets in the renderer library (founder, 2026-09-11); the
+roadmap's UI-kit section carries the same amendment.
 
 #### REQ: dashboardius-app-cutover
 
 Moving `sneat-co/dashboardius/web` into the workspace MUST be a **full cutover**, not an
-addition (rule `cutover-verbs-mean-full-cutover`). The inventory, read from that repository on
-2026-09-11, is:
+addition (rule `cutover-verbs-mean-full-cutover`), and — since the founder ruled *"one
+configurable app."* (2026-09-11) — a **rebuild of the shell, not a move**: Dashboardius
+becomes the `dashboardius` profile of `apps/datatug-app`; its layout, cards, lists, toolbars,
+menus and forms are rebuilt with Ionic components (founder, 2026-09-11: *"We should migrate
+PrimeNG cards and other components that we can migrate to Ionic and use PrimeNG just as
+components if Ionic misses functionality"*); PrimeNG, AG Grid, Chart.js and CDK drag-drop
+survive only as leaf widgets inside the board renderer library, with their theme CSS scoped
+to those components and never loaded globally; the PrimeNG shell in `sneat-co/dashboardius`
+is retired. Scroll and gesture behaviour of AG Grid and CDK drag-drop inside `ion-content`
+is an acceptance criterion, not an assumption. The deployment inventory, read from that
+repository on 2026-09-11, is:
 
 | Artefact | Path today | Cutover action |
 |---|---|---|
@@ -151,6 +164,8 @@ addition (rule `cutover-verbs-mean-full-cutover`). The inventory, read from that
 | Playwright e2e | `web/playwright.config.ts`, `web/e2e/{auth,landing,prerender,responsive}.spec.ts` | move all four specs; keep the prerender assertion running against the built HTML |
 | Post-deploy smoke | `web/scripts/post-deploy-smoke.mjs https://dashboardius.com` | move; keep the live-domain smoke |
 | PrimeNG palette and licence | `web/scripts/generate-primeng-palette.mjs`, `web/scripts/write-primeui-license.mjs`, `PRIMEUI_LICENSE` secret | move both scripts; keep the licence optional so its absence is a visible banner, not a build failure |
+| PrimeNG shell: pages, layout, cards, menus, forms | `web/src/app/**` | **rebuild** with Ionic components in `apps/datatug-app` under the `dashboardius` profile (founder, 2026-09-11); retire the PrimeNG shell |
+| PrimeNG theme CSS | `web/src/styles*` (loaded globally today) | scope to the renderer's leaf components; never loaded globally |
 | OG image generation | `web/scripts/generate-og-image.mjs` | move |
 | Renovate | `.github/renovate.json` | fold into the workspace's Renovate configuration |
 
@@ -218,14 +233,20 @@ today, but so that it never becomes the thing somebody later tries to gate a fea
 ### AC: one-build-serves-both-profiles (verifies REQ:profile-config-is-declarative)
 
 **Given** the CI pipeline for `apps/datatug-app`
-**When** the DataTug and Incidentius deployments are produced
-**Then** both are served from the same build artefact with different configuration, the pipeline runs no second build for the second profile, and a test renders a shared screen under every profile token that build serves (`datatug` and `incidentius`; all three only if the single configurable app is chosen) without a hostname.
+**When** the DataTug, Incidentius and Dashboardius deployments are produced (the AC slug predates the one-app ruling and is kept for traceability)
+**Then** all three are served from the same build artefact with different configuration, the pipeline runs no second build for a second profile, and a test renders a shared screen under each of the three profile tokens without a hostname.
+
+### AC: dashboardius-shell-is-ionic (verifies REQ:dashboardius-app-cutover)
+
+**Given** the single app served under the `dashboardius` profile
+**When** the boards list and a board page render
+**Then** the frame, cards, lists, toolbars, menus and forms are Ionic components, PrimeNG, AG Grid, Chart.js and CDK drag-drop appear only inside board renderer widgets, no global PrimeNG theme stylesheet is loaded, and a board with a grid widget scrolls and a card drags correctly inside `ion-content`.
 
 ### AC: dashboardius-app-in-workspace-cutover-complete (verifies REQ:dashboardius-app-cutover)
 
 **Given** the cutover of `sneat-co/dashboardius/web` into `datatug/datatug-apps`
 **When** the cutover is declared complete
-**Then** `https://dashboardius.com` is served by the workspace build through the moved Worker and `wrangler.jsonc` with the `cf-deploy.yml` call re-pointed, all four Playwright specs and the post-deploy smoke run from the workspace, the PrimeNG palette and licence scripts are in the workspace with `PRIMEUI_LICENSE` still optional, Renovate covers the moved app, and the old `web/` app path no longer exists or deploys.
+**Then** `https://dashboardius.com` is served by the workspace build through the moved Worker and `wrangler.jsonc` with the `cf-deploy.yml` call re-pointed, all four Playwright specs and the post-deploy smoke run from the workspace, the PrimeNG palette and licence scripts are in the workspace with `PRIMEUI_LICENSE` still optional, Renovate covers the moved app, and the old `web/` app path no longer exists or deploys. The Dashboardius shell renders as Ionic components with PrimeNG, AG Grid, Chart.js and CDK drag-drop only inside renderer widgets, and no global PrimeNG theme stylesheet is loaded (AC:dashboardius-shell-is-ionic).
 
 ### AC: profile-override-grants-nothing (verifies REQ:profile-selection-is-not-authorization)
 
@@ -239,24 +260,13 @@ today, but so that it never becomes the thing somebody later tries to gate a fea
   (`sharing-scopes`) are the only boundary.
 - Per-profile feature flags, entitlements or paywalls. Pricing separates viewing from
   contributing (product-family D13), not one profile from another.
-- Deciding **separate apps versus one configurable app** — that is the founder's, and this
-  Feature specifies the profile mechanism either way (Open Questions).
 - Choosing or registering an Incidentius domain, or resolving its brand tier.
-- A UI-kit migration in either direction. Ionic stays Ionic, PrimeNG stays PrimeNG; the
-  workspace shares libraries, not kits.
 - Marketing sites. `datatug/marketing` owns the public story; a profile owns in-app copy.
 - Moving Dashboardius **specs**. Only the app moves in the cutover; the spec-hub question is a
   separate founder decision.
 
 ## Open Questions
 
-- **Separate apps or one configurable app.** The founder's ruling explicitly leaves this open
-  (*"either separate or single configurable app"*). The lead recommendation in
-  [product-family §2](../../product/product-family.md#2-what-one-application-means) is: DataTug
-  and Incidentius as one configurable app (`apps/datatug-app`) because they share the Ionic
-  frame, the agent client, the Investigation Context and every project screen; Dashboardius a
-  sibling app (`apps/dashboardius`) because folding it in would put two UI kits and two bundles
-  behind one entry point for no shared code beyond the libraries. Founder decision.
 - **Incidentius domain and brand tier.** No domain is registered. Tier-3 independent like
   DataTug, or a DataTug sub-brand? Until this is decided, the profile ships behind a
   configuration override and claims no domain.

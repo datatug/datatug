@@ -108,14 +108,12 @@ store-scoped sequence assigned by the server, plus a `uid` (UUID).
 
 #### REQ: multi-project-incidents
 
-Lead assumption, pending founder confirmation (the founder asked on 2026-09-11, verbatim:
-*"Can/should incident use multiple datatug projects maintained by different teams for for
-different apps?"*, and has not yet ruled; see Open Questions): an incident MAY reference one
-or more DataTug projects (`projects: [{storeId, projectId, environment?}]`), on the lead's
-reading that a real incident spans systems maintained by different teams. What the founder
-did rule is the converse relation, *"A DataTug project can be used by multiple incidentius
-instances"* (2026-09-11), which REQ:incident-store and REQ:incident-references-and-back-links
-carry. Every fact, execution record, check run and compare run carries its own project and
+Founder ruling (2026-09-11, verbatim, answering the lead's question whether one incident
+may reference several DataTug projects): *"yes it can."* An incident MAY reference one or more DataTug projects
+(`projects: [{storeId, projectId, environment?}]`), because a real incident spans systems
+maintained by different teams. The converse relation, *"A DataTug project can be used by
+multiple incidentius instances"* (founder, 2026-09-11), is carried by REQ:incident-store and
+REQ:incident-references-and-back-links. Every fact, execution record, check run and compare run carries its own project and
 environment scope; because the transport appendix `Scope` is `{project, environment,
 securityContextId}` with no store, the plan's model task adds an optional `Scope.storeId`
 (lead assumption) so evidence from a second store stays attributable and each reader sees
@@ -123,7 +121,7 @@ each project's evidence under that project's grants. The incident itself belongs
 (one team or space); people from other teams join as invited participants. Entities with the
 same name in two projects are not assumed identical; cross-project semantic identity is a
 later capability of the semantic layer. The MVP journey exercises one project; the model MUST
-NOT hard-code one, so that a founder "yes" costs no migration.
+NOT hard-code one.
 
 #### REQ: incident-references-and-back-links
 
@@ -239,8 +237,11 @@ merging an already-merged incident is refused with the transport appendix's `INV
 
 A participant MUST be able to request, inside the incident, temporary read access to named
 sources and collections of a referenced project, with a reason and an optional time limit,
-and an approver MUST be able to approve, decline or revoke it there (founder, 2026-09-11:
-privileged-access request and approval in its simplest form is part of the MVP). The
+and an approver — the holder of the project's incident-approver role (founder, 2026-09-11,
+verbatim: *"Someone with appropriate role. By default project admin has this role but can
+move it to someone else. It's part of Sneat contactius role management"*) — MUST be able to
+approve, decline or revoke it there (founder, 2026-09-11: privileged-access request and
+approval in its simplest form is part of the MVP). The
 request, decision, use (the grant id on every execution record produced under it), expiry
 and revocation are events (`access.*`), so the audit question "who could read what, when,
 and who allowed it" is answered by the same stream as everything else. The projection MUST
@@ -392,8 +393,13 @@ herrings, affected and control cohorts, an environment comparison, an external c
 recorded executions and snapshots, annotations, checks, metrics, mitigation, verified recovery
 and a resolution — and a second, "post-credits" fixture incident that is a recurrence resolved
 in minutes (vision §53–§54). The same fixtures MUST serve the whole-journey e2e, the
-interactive demo, onboarding and the marketing story. The story itself is not locked by this
-Feature (open question below).
+interactive demo, onboarding and the marketing story. The story's setting is ruled (founder,
+2026-09-11, verbatim: *"Chinook first, our own inGitDB second, maybe a copy of Chinook or our
+own use case"*; lead reading: the canonical story is built on `demo-project-1` — Chinook plus
+the inGitDB `support-notes` and the HTTP sources — a second demo project on our own inGitDB
+data follows, and a Chinook copy or our own use case is a possible third). The story text
+itself is authored during the plan's fixture task and reviewed by the founder before fixtures
+are written.
 
 ## Not Doing / Out of Scope
 
@@ -562,20 +568,14 @@ Feature (open question below).
 
 ## Open Questions
 
-- **Canonical story.** Lead recommendation: build it on `demo-project-1` (Chinook + inGitDB
-  `support-notes` + the CountriesNow/Frankfurter HTTP sources): "Canadian invoices stuck",
-  cohorts by `Customer.Country`, the FX-rate provider as the external counterparty, a
-  deployment as the red herring. If Chinook cannot carry a detective story, a second
-  orders/shipping demo project is needed. Founder to confirm the direction; the story text is
-  authored during the plan's fixture task, not here.
+- **Canonical story text.** Setting ruled (REQ:canonical-demo-incident); the lead's candidate
+  on `demo-project-1` is "Canadian invoices stuck", cohorts by `Customer.Country`, the FX-rate
+  provider as the external counterparty, a deployment as the red herring. The founder reviews
+  the written story before fixtures are authored (plan task 11).
 - **Store routing key and default.** Lead assumption: `stores.incidents` in machine-local or
   served-project configuration, defaulting to the project's own repository; evidence records
   follow it. Confirm the key name and whether the hosted default is the space store.
 - **Id scheme** `INC-<n>` per store plus `uid` — lead assumption.
-- **May one incident reference several DataTug projects?** The founder asked the question
-  (2026-09-11) and has not ruled; REQ:multi-project-incidents is the lead's "yes", kept as a
-  MAY so the model does not hard-code one project either way. A "no" removes the `projects`
-  list and `Scope.storeId`; a "yes" confirms both.
 - **Incidentius brand and domain** — [product-profiles](../product-profiles/README.md).
 
 ---
