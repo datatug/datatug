@@ -431,7 +431,7 @@ Residuals from the 2026-09-11 Amending round. Each waits for an Implementation t
 - The grant-scoped read in `access-request-approval-and-expiry-are-events` is made on the CLI with `datatug query run --incident <id>`; that flag's REQ and AC are a follow-up in `datatug-cli` `cli/query`, as `cli/incident` REQ:access-verbs records.
 - REQ:api-and-cli and REQ:watch-event-cursor still name CLI surface. REQ:capability-role binds acceptance criteria only, so moving that text into `cli/incident` is an open follow-up.
 
-Every other acceptance criterion below is platform-neutral, and its CLI-specific checks are acceptance criteria in `datatug-cli` `cli/incident`.
+Every other acceptance criterion below is platform-neutral. Where one carried CLI-specific wording before this round, that check is now an acceptance criterion in `datatug-cli` `cli/incident`.
 
 ## Acceptance Criteria
 
