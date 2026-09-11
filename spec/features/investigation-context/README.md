@@ -65,8 +65,8 @@ founder confirmation): `==`, `!=`, `>`, `>=`, `<`, `<=`. A variable added this w
 #### REQ: cohort-roles
 
 A fact MAY carry an investigation `role` orthogonal to its `origin`: `affected`,
-`healthy_control`, `suspected`, `excluded` or `recovered` (vision §11; lead assumption for the
-exact set). A role never changes binding precedence or authorization; it lets a query be bound
+`healthy_control`, `suspected`, `excluded` or `recovered` (the set is verbatim from vision
+§11). A role never changes binding precedence or authorization; it lets a query be bound
 against "the affected set" versus "the control set" and lets [compare](../compare/README.md)
 treat the two as cohorts. The wire shape is the optional `Fact.role` in the
 [transport appendix](../core-investigation-loop/api-contract.md); agents that do not know a

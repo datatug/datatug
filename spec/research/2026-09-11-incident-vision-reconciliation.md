@@ -12,7 +12,7 @@ contract, `datatug-core`, `datatug-cli`, `datatug-apps`, `sneat-co/dashboardius`
 
 | Area | Evidence | State |
 |---|---|---|
-| Investigation Context | Feature `investigation-context`; `api-contract.md` `Fact{entity,field,value,condition?,origin,physical?,mapping?,enabled}`; scope keyed by agent URL/project/environment/securityContextId; conflict and no-hidden-filters rules; `datatug-apps` Investigation Context page (PR #65, #119) | usable; roles and overlays absent |
+| Investigation Context | Feature `investigation-context`; `api-contract.md` `Fact{entity,field,value,origin,physical?,mapping?,enabled}` with `condition?` specified as a pending lead assumption (not yet in `datatug-core/pkg/apicontract/fact.go`); scope keyed by agent URL/project/environment/securityContextId; conflict and no-hidden-filters rules; `datatug-apps` Investigation Context page (PR #65, #119) | usable; conditions pending; roles and overlays absent |
 | Logical model | Feature `semantic-layer`; `EntityField.Mappings []PhysicalRef{Source,Collection,Column}`; `pkg/semantic.Resolve`; declared/inferred provenance | usable; per-source mappings cover per-environment physical differences because a source is environment-scoped in the registry |
 | Environments / infrastructure | `environment.go`, `server.go`, `dbcatalog.go`, `datatug scan`; Feature `infrastructure-inventory` (services/endpoints vestigial; climb planned) | partial |
 | DALgo / data sources | Feature `heterogeneous-sources`: SQLite, inGitDB, keyless HTTP GET through `dalgo2http`; logs = REQ:logs-source (planned, no model) | usable for three sources; logs planned |
@@ -58,7 +58,7 @@ contract, `datatug-core`, `datatug-cli`, `datatug-apps`, `sneat-co/dashboardius`
 | §25 | Search and similarity; knowledge decay | **new** | incidents (search), provenance (staleness) | MVP (deterministic overlap) · NEXT (ranking) · FUTURE (decay) |
 | §26 | Voice capture | **new** | incidents (capture channels) | FUTURE |
 | §27 | Slack/Teams connectors | **new** | incidents (capture channels) | NEXT (read-only) · FUTURE (commands) |
-| §28 | Parse text into typed context | **new** (seed: `VarSetting.ValuePattern`, `NamePatterns`) | investigation-context, incidents | NEXT |
+| §28 | Parse text into typed context | **new** (seeds: `VarSetting.ValuePattern`, `EntityField.NamePatterns`) | investigation-context, incidents | NEXT |
 | §29 | Self-learning extraction skills | **new** | agent-context | FUTURE |
 | §30 | AI Troubleshooter vs Coordinator | **new** | agent-context, incidents | FUTURE |
 | §31 | Generated status views | **new**; deterministic projection first | incidents | MVP (troubleshooter text) · NEXT (AI, leadership, support) |
@@ -90,7 +90,8 @@ contract, `datatug-core`, `datatug-cli`, `datatug-apps`, `sneat-co/dashboardius`
 | Vision §1/§4 "one application/repository" vs the 2026-09-08 Dashboardius Idea (standalone repo, *"Build dashboards inside DataTug … Rejected"*) and the 2026-09-09 UI-kit ruling | Founder ruling 2026-09-11 (one Nx workspace) settles the repository; the UI-kit ruling settles the kits. Resolution: profiles for DataTug/Incidentius in one app, Dashboardius a sibling app in the same workspace, shared libs and an embeddable renderer. The Idea's repo argument is superseded; its schema argument stands. |
 | Vision §4 "Dashboardius capabilities / dashboards" inside the MVP app vs hub REQ:no-charts-in-datatug-web-ui and Phase 5 not built | MVP incident metrics are numeric series tables in DataTug; boards and charts arrive with Track C (Phase 5 persistence + renderer library). The REQ is kept: no *independent* second renderer. |
 | Vision §57 Q2 immutable events vs mutable state | Event-sourced with a derived projection (D3). Mutable state exists only as a cache of the fold. |
-| Incidents as project assets vs the platform's space-bounded default | Founder precedent for boards (*"board belongs to DataTug project. Project can be shared across Sneat spaces"*) and the explicit standalone-project exception apply to incidents identically. |
+| Where incidents live: project files vs the platform's space-bounded default | The first draft made incidents project assets by analogy with boards. Founder ruling 2026-09-11 (*"Agree on ability of incidents to be stored in dedicated repo. But it should be able to store in same repo as datatug or even in the application repo if users want (can be OK for small projects)"*) makes the store location configurable: project repository by default, dedicated repository, application repository, or the hosted space-bounded store; one server-owned write path; one project may serve many incidents (*"A DataTug project can be used by multiple incidentius instances"*); whether one incident may reference several projects is the founder's open question of the same day, kept as a MAY (lead assumption); assets link back by store id + incident id. Execution records and snapshots follow the same routing. |
+| Vision §59 "basic annotations/context linkage using existing capabilities" vs a full `annotations` Feature | No annotation capability exists to reuse, so the MVP slice of the new Feature (entity values and execution records) is the "basic" form; row sets, relationships and fields stay NEXT. |
 | Vision §18 `Check` abstraction vs existing `checks.go` dataset checks | Extend, do not replace: the existing `Check{Type: options\|regexp\|sql}` becomes one evaluation kind; a check gains purpose, expected condition, scope, cost/risk, privilege and recorded runs. |
 | Vision §15 snapshots vs `db snapshot` Idea (Approved, bulk copy to inGitDB) | Different things: a result snapshot is the recorded output of one execution; `db snapshot` copies tables. Both keep their names; evidence-records links to the Idea. |
 | Vision §13 compare vs `pkg/comparator` | Different things: schema compare stays; a new recordset compare primitive is specified. |
@@ -103,7 +104,10 @@ contract, `datatug-core`, `datatug-cli`, `datatug-apps`, `sneat-co/dashboardius`
 Inside DataTug, on a local or Git project, under the single `serve` principal, hosted
 multi-user deferred:
 
-- incident asset, event stream, projection, list/detail/create ("Houston, we've got a problem");
+- incident store with configurable location (project repository by default), event stream,
+  projection, list/detail/create ("Houston, we've got a problem"); incidents referencing one or
+  many projects; back-links from queries, checks and boards by store id + incident id;
+- every read of events, projection and watch stream re-checked against the reader's policy;
 - lifecycle open → investigating → mitigating → recovering → resolved → watching → closed with
   only open/resolved/closed mandatory; the five outcomes; duplicates merge;
 - canonical Investigation Context with cohort roles; hypothesis overlays with promote/reject;

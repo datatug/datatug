@@ -10,20 +10,22 @@ status: Draft
 
 ## Summary
 
-A product profile is the presentation layer that turns one application into DataTug,
-Incidentius or Dashboardius: home route, brand, navigation order, entry points and demo
-defaults, selected by hostname from one build.
+A product profile is the presentation layer that turns an application in the workspace into
+DataTug, Incidentius or Dashboardius: home route, brand, navigation order, entry points and
+demo defaults, selected by hostname or configuration. One build serves `datatug` and
+`incidentius`; `dashboardius` is served by the sibling Dashboardius app unless the founder
+chooses the single configurable app (open question).
 
 A profile changes what a user sees first and nothing else — every route stays reachable, every
 deep link works across profiles, and no profile holds private data or private authority.
 
 ## Problem
 
-The founder's requirement (vision §4) is one application with three shells, stated twice and
-negatively once:
+The founder's requirement (vision §4: *"Build capabilities once. Expose them through
+different product shells."*, restated in vision §61) is one application with three shells:
 
 > **Build capabilities once. Expose them through DataTug, Incidentius and Dashboardius product
-> profiles.**
+> profiles.** (vision §61)
 
 > Do not create a separate Incidentius frontend/repository.
 
@@ -76,9 +78,12 @@ move is a cutover with a real inventory, not a file copy.
 
 #### REQ: profile-table
 
-The application MUST define exactly three profiles — `datatug`, `incidentius`, `dashboardius` —
-each declaring: home route, brand (name, logo, colours, copy), navigation order, entry points,
-and demo defaults.
+The family MUST define three profiles — `datatug`, `incidentius`, `dashboardius` — each
+declaring: home route, brand (name, logo, colours, copy), navigation order, entry points, and
+demo defaults. One build of `apps/datatug-app` serves `datatug` and `incidentius`; the
+`dashboardius` profile is served by the Dashboardius app in the same workspace unless the
+founder chooses the single configurable app (open question), in which case the same build
+serves all three.
 
 | | `datatug` | `incidentius` | `dashboardius` |
 |---|---|---|---|
@@ -180,7 +185,7 @@ three implementations grow back inside one build.
 
 Profile resolution MUST happen once at application bootstrap and be exposed as an injectable
 token (lead assumption), so tests can instantiate any profile without a hostname and a screen
-can be rendered in all three profiles in one test run.
+can be rendered under every profile token that build serves in one test run.
 
 #### REQ: profile-selection-is-not-authorization
 
@@ -214,7 +219,7 @@ today, but so that it never becomes the thing somebody later tries to gate a fea
 
 **Given** the CI pipeline for `apps/datatug-app`
 **When** the DataTug and Incidentius deployments are produced
-**Then** both are served from the same build artefact with different configuration, the pipeline runs no second build for the second profile, and a test renders a shared screen under all three profile tokens without a hostname.
+**Then** both are served from the same build artefact with different configuration, the pipeline runs no second build for the second profile, and a test renders a shared screen under every profile token that build serves (`datatug` and `incidentius`; all three only if the single configurable app is chosen) without a hostname.
 
 ### AC: dashboardius-app-in-workspace-cutover-complete (verifies REQ:dashboardius-app-cutover)
 

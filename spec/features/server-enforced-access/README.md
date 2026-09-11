@@ -84,11 +84,14 @@ publish providers before release acceptance in consumers; no parallel evaluator.
 
 #### REQ: recorded-evidence-rechecked
 
-Recorded executions, result snapshots and annotations ([evidence-records](../evidence-records/README.md),
-[annotations](../annotations/README.md)) MUST be read through the same policy path as live
-data: the current principal's source/row/column policy is re-evaluated on every read, hidden
-columns are never returned from a snapshot, and a principal without current access receives a
-non-disclosing denial. Historical evidence is never a backdoor (vision §15).
+Recorded executions, result snapshots, annotations, and incident events, projections and watch
+streams ([evidence-records](../evidence-records/README.md), [annotations](../annotations/README.md),
+[incidents](../incidents/README.md) REQ:events-and-projection-policy-rechecked) MUST be read
+through the same policy path as live data: the current principal's source/row/column policy is
+re-evaluated on every read, hidden columns are never returned from a snapshot, a fact value in
+an event whose column the principal may not read is redacted at read time, and a principal
+without current access receives a non-disclosing denial. Historical evidence is never a
+backdoor (vision §15).
 
 #### REQ: incident-scoped-grants
 
