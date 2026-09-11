@@ -340,6 +340,91 @@ not count — a project file has no rows or fields to evaluate it against. A den
 the deciding policy (when one decided), the operation, the resource and a reason, never
 the policy file's server path.
 
+Project-write authorization compares a saved query's id in one canonical spelling on
+both sides — the resource being written, and every query id a loaded policy's rule
+paths name — full Unicode case folding applied after canonical decomposition, with
+every invisible (default-ignorable) character dropped. Two ids that name the same file
+on any file system DataTug serves from (`Revenue`, `revenue`, `REVENUE`; NFC and NFD
+`café`) always get the same write decision, whichever spelling the policy's rule or the
+request's query id uses. A loaded policy that names a rule no query write could ever
+be decided by — one scoped below a query id (a folder rule such as
+`.../queries/reports/**`, which can only ever match a query literally named `reports`,
+never the queries inside a folder named `reports`), one whose nested scopes cannot be
+reassembled into `/datatug_projects/{project}/queries/{queryId}`, or one naming a
+literal query id no write could ever produce — refuses every project query write while
+that policy is loaded, naming the unusable rule in the denial. Reads are unaffected;
+they still run through the policy as loaded.
+
+None of that decision's detail reaches the client. `queries/capture` answers a refused
+write with 403 ACCESS_DENIED and a fixed message naming neither policy, rule, role nor
+resource; the one exception is a refusal no policy decided at all (no configured serve
+session, no `--allow-writes`, or no policy loaded), whose message says only which of
+those three applies, never anything about the query. The legacy
+`queries/create_query`, `queries/update_query` and `queries/delete_query` routes
+answer a permission denial the same way, with 403 ACCESS_DENIED and their own fixed
+message naming neither policy, rule, role nor resource. On these legacy routes a write
+that cannot take the project store's write lock before a bounded deadline ends 504
+TIMEOUT, and a write that keeps losing to another write of the same query ends 409
+REVISION_CONFLICT once retries are exhausted — both with nothing written; any other
+unclassified failure is a 500. These four outcomes share one fixed
+`{error:{code,message,requestId}}` body, the message naming no server path, store
+text, policy, rule or role, and a `requestId` the agent log carries the full detail
+under. An ordinary validation failure on a legacy route (a missing parameter, an
+invalid query) stays a plain 400 whose free-text message, not a structured `code` or
+`field`, names what was wrong.
+
+A query id and each folder-path segment refuse the same names on every write path,
+since all of them become a file or directory name in the project's queries tree: an
+invisible (default-ignorable) character such as a zero-width joiner, byte-order mark
+or variation selector; an unassigned, private-use or line/paragraph-separator code
+point; and a name shaped like a Windows 8.3 short name (`REPORT~1`), which NTFS can
+resolve to a different long name than the one it spells. These stand alongside the
+existing refusal of control and bidirectional-text control characters, a path
+separator, `.` or `..`, a leading `.`, a trailing `.` or space, and the
+Windows-reserved device names. `queries/capture` refuses with 400 INVALID_REQUEST
+naming `query.id` or `query.folderPath`; the legacy `create_query`, `update_query` and
+`delete_query` routes refuse with a plain 400 whose message names the offending
+segment.
+
+Every write path also refuses an embedded credential — a password or token inside a
+URL or connection-string-shaped value, a secret-named key/value pair (`password=`,
+`token=`, `api_key=`, an Azure
+`AccountKey=`/`SharedAccessKey=`/`SharedAccessSignature=`, ...), a JSON member such as
+`{"password":"..."}`, or a literal HTTP credential header (`Authorization:`,
+`X-API-Key:`, ...) — in the query's title, its query text and every parameter's
+declared default value, on `queries/capture` and the legacy
+`create_query`/`update_query` routes alike. A value that is empty, or a placeholder
+rather than a literal secret, is allowed: `?`, a positional bind such as `$1`, a named
+bind such as `:new_password`, a bare or braced environment reference such as
+`$PGPASSWORD` or `${PGPASSWORD}`, a double-brace template such as `{{token}}`, or an
+angle-bracket placeholder such as `<password>`. `queries/capture` refuses with 400
+INVALID_REQUEST naming `query.<field>`; the legacy routes refuse with a plain 400
+whose message names the field.
+
+A query's capture provenance — that it was saved through `queries/capture`, and by
+whom, in which environment, reading which collection, with which binding origins — is
+the server's own record on the legacy routes too, never a client's claim.
+`create_query` refuses a request whose query carries a capture block at all, with a
+400 whose message names the field. `update_query` accepts one only when it is exactly
+the stored query's own (its bindings compared regardless of order); a capture block
+that differs, or that appears where the stored query has none, is refused the same
+way, with 400. Omitting the block on `update_query` keeps the stored capture unchanged
+— omission never clears it. Because the decision is made against whatever is currently
+stored, a write that raced another write to the same query retries against the freshly
+stored value, and can still end in 409 REVISION_CONFLICT with nothing written once
+retries are exhausted.
+
+A folder-qualified write on the legacy `create_query`, `update_query` or
+`delete_query` routes (a `folderPath` other than the queries root, or an id containing
+`/`) is refused with 400 against the currently released datatug-core: its project
+store writes and deletes every query at the queries root regardless of the folder a
+request names, so authorizing the folder the caller asked for would authorize a
+decision the store does not act on, silently touching the root query of the same name
+instead. The legacy routes accept and delete root queries only in this build. This is
+a version-dependent limitation, not a shape the contract endorses: it is lifted, with
+no wire-format change, once the CLI is built against a datatug-core release whose
+project store honours `folderPath`.
+
 Protected execution refuses opaque native SQL before dispatch. A separate explicit
 opaque-query grant may allow read-only native SQL for a privileged principal, but
 the actual native SQL execution result must say `opaque-privileged` and the UI must state row/column enforcement
@@ -358,11 +443,13 @@ parameters, an unrecognized binding origin, or an embedded credential (400
 INVALID_REQUEST naming `query.<field>`); an unknown project (404 NOT_FOUND); the
 serving principal not authorized for this write (403 ACCESS_DENIED, the rule above); a
 `source` that is not a catalog source of `environment` a saved query can target (400
-INVALID_REQUEST on `query.source`). Only then is the conditional store write attempted;
-it fails 400 INVALID_REQUEST for an unsafe stored location or an incomplete stored
-pair, or 409 REVISION_CONFLICT for a failed `ifNoneMatch`/`ifMatch` condition. Any
-other store failure is a 500 whose message names no server path, outside this
-appendix's closed code set.
+INVALID_REQUEST on `query.source`). Only then is the conditional store write attempted,
+bounded by a fixed write deadline; it fails 400 INVALID_REQUEST for an unsafe stored
+location or an incomplete stored pair, 409 REVISION_CONFLICT for a failed
+`ifNoneMatch`/`ifMatch` condition, or 504 TIMEOUT — nothing written — when the store's
+write lock cannot be taken before the deadline. Any other store failure is a 500 whose
+message names no server path or store text and carries the response's own `requestId`,
+outside this appendix's closed code set.
 
 Errors use `{error:{code:string,message:string,field?:string,requestId:string,targets?:{source:string,label:string}[]}}`.
 Only TARGET_REQUIRED may include authorized target options.
@@ -391,6 +478,13 @@ and calling `agent-info` again can never fix a failed write condition.
 - Whether writes are allowed: not yet provided. `agent-info`'s `capabilities` do not
   say whether the server was started with `--allow-writes`, so a client cannot tell
   before attempting a write.
+- A stored query file that does not parse: `create_query` and `update_query` read the
+  stored query first, to decide its capture provenance, and a parse failure there is
+  indistinguishable from any other store failure, so it answers 500 like any other
+  unclassified failure, not a distinct 4xx.
+- A query id the newer name rules refuse (one stored before those rules took effect)
+  can still be read; it cannot be updated or deleted through the legacy routes, which
+  apply the same id rule to every write.
 
 ## Acceptance and migration
 
