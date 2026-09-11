@@ -101,7 +101,7 @@ Preserve this work as a separately planned semantic-types extension. Phase 1 typ
 ### Task 2: Capture as project query
 
 **Id:** task-2
-**Verifies:** executable-knowledge-library#ac:capture-lands-as-git-diff
+**Verifies:** executable-knowledge-library#ac:capture-lands-as-git-diff, executable-knowledge-library#ac:query-pair-storage-guards-writes
 **Depends-On:** —
 **Status:** queued
 **Note:** Codex task 01a08675-7b77-7d41-9477-ad8168d80a19 reserves the query-capture storage foundation; shared WB claim datatug-phase2-task2. Full capture journey awaits Phase1 acceptance.
