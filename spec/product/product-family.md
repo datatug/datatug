@@ -206,8 +206,8 @@ hard requirement of any profile (vision §3.6, §45, §46).
 
 | ID | Decision | Why |
 |---|---|---|
-| D1 | One workspace, profiles for DataTug/Incidentius, Dashboardius a sibling app sharing libs | founder ruling above; UI-kit rule; no second renderer or data platform |
-| D2 | Incidents live in a configurable incident store: the project's own repository by default, a dedicated repository, the application's repository, or the hosted space-bounded store; one layout, one server-owned write path; an incident references one or many projects; assets link back by `storeId` + `incidentId` | founder, 2026-09-11: *"Agree on ability of incidents to be stored in dedicated repo. But it should be able to store in same repo as datatug or even in the application repo if users want (can be OK for small projects)"*; *"A DataTug project can be used by multiple incidentius instances"*; a curated knowledge project must not become an operational log; hosted projects read from GitHub cannot take an event per second |
+| D1 | One Nx workspace for all three apps' code (founder ruling above); separate-vs-single-configurable app is open (§9), the lead recommends DataTug+Incidentius as one configurable app and Dashboardius as a sibling app sharing libs | founder ruling above (*"either separate or single configurable app"*); UI-kit rule; no second renderer or data platform |
+| D2 | Incidents live in a configurable incident store: the project's own repository by default, a dedicated repository, the application's repository, or the hosted space-bounded store; one layout, one server-owned write path; the hosted location is NEXT (B2); assets link back by `storeId` + `incidentId`; an incident referencing several projects is a lead assumption pending the founder's answer (§9) | founder, 2026-09-11: *"Agree on ability of incidents to be stored in dedicated repo. But it should be able to store in same repo as datatug or even in the application repo if users want (can be OK for small projects)"*; *"A DataTug project can be used by multiple incidentius instances"*; a curated knowledge project must not become an operational log; hosted projects read from GitHub cannot take an event per second |
 | D3 | Event-sourced incident, projection derived, replay at T | vision §57 Q2–Q3, Q11; one stream powers watch/timeline/AI/connectors; wrong theories are never lost (§3.3) |
 | D4 | Context roles and overlays extend investigation-context | vision §5 firm boundary; useful speculation usable without becoming truth (§11.1) |
 | D5 | Execution records + snapshots are DataTug evidence | historical evidence, shared cache, collaboration, comparison over time (§15); no permission backdoor |
@@ -215,7 +215,7 @@ hard requirement of any profile (vision §3.6, §45, §46).
 | D7 | Checks generalise library queries | executable knowledge; deterministic before AI (§18–19) |
 | D8 | Compare as an execution primitive | "compare something that works with something that does not" (§13) |
 | D9 | Metrics are check series; criteria are explicit predicates | measure the problem and the recovery (§20, §22) |
-| D10 | Profiles by hostname/config, one build | simplest mechanism (§4) |
+| D10 | Profiles by hostname/config; one build serves `datatug` and `incidentius`, and `dashboardius` too only if the single configurable app is chosen (§9) | simplest mechanism (§4) |
 | D11 | CLI/API-first, structured `watch` | humans, scripts and agents on one model (§50–52) |
 | D12 | Assertion kinds separate fact, claim, hypothesis, inference | AI trust boundary (§12, §31, §57 Q12) |
 | D13 | Knowledge spreads for free; collaboration creates the bill | growth mechanism; never a paywall during an outage (§47) |
@@ -226,6 +226,7 @@ hard requirement of any profile (vision §3.6, §45, §46).
 Owner-routed; each also appears in its owning Feature.
 
 - **Separate apps or one configurable app** for the workspace (founder; §2 recommendation).
+- **May one incident reference several DataTug projects?** Asked by the founder 2026-09-11, not yet ruled; the lead's "yes" is a MAY in [incidents](../features/incidents/README.md) REQ:multi-project-incidents.
 - **Incidentius domain and brand tier** — no domain is registered (checked `sneat-ops/data/domains.json`); Tier-3 independent like DataTug, or a DataTug sub-brand? (founder)
 - **Does Chinook carry the canonical demo story**, or does the family need a second demo project (orders/shipping)? ([incidents](../features/incidents/README.md) open questions; lead recommends trying Chinook first.)
 - **Snapshot retention and masking defaults** ([evidence-records](../features/evidence-records/README.md)).

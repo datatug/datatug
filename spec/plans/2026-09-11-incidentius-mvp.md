@@ -7,7 +7,7 @@ status: Draft
 **Status:** Draft
 **Source Feature:** incidents
 **Related Features:** evidence-records, checks, annotations, compare, product-profiles, investigation-context, dashboards, server-enforced-access, provenance, executable-knowledge-library
-**Prerequisite Plans:** 2026-09-09-phase-1-core-investigation-loop
+**Prerequisite Plans:** 2026-09-09-phase-1-core-investigation-loop, 2026-09-09-phase-2-library-depth-and-provenance
 **Date:** 2026-09-11
 **Owner:** alex
 **Supersedes:** —
@@ -30,8 +30,10 @@ records and snapshots are written to the incident/evidence store through the ser
 store path (`incidents` REQ:incident-store) and do not wait for anything. Checks and
 annotations are knowledge assets written into the project, so tasks 5 and 7 (and therefore
 the parts of tasks 9, 11 and 12 that use them) need the authorized project-write path that
-`2026-09-09-phase-2-library-depth-and-provenance` task 2 delivers; sequence that task first in
-the implementation round. No task may add a second context model, executor, policy evaluator,
+`2026-09-09-phase-2-library-depth-and-provenance` task 2 introduces for captured queries;
+tasks 5 and 7 generalise it to `checks/` and `annotations/` files (a lead assumption: that
+task writes query files only). Phase 2 is therefore a prerequisite plan, and tasks 5 and 7
+name its task 2 as an external dependency. No task may add a second context model, executor, policy evaluator,
 renderer or storage path.
 
 ## Journey
@@ -116,9 +118,10 @@ resume from the cursor printed on stderr.
   stream, policy re-check on reads, CLI verbs. Browser third, in `datatug-apps`: incident pages,
   context roles/overlays, evidence and metrics tables, the `incidentius` profile. Demo last:
   fixtures and the whole-journey e2e that gates the release candidate.
-- Contract amendments (optional `Fact.role`, `Fact.layer`; `record`/`snapshot` flags on
-  execution; the incident endpoints; `Board.incidentRef` as an `IncidentRef`; the opened board
-  widget name boundary) are frozen as fixtures in `datatug-core/pkg/apicontract` before server
+- Contract amendments (optional `Fact.role`, `Fact.layer`; optional `Scope.storeId`;
+  `record`/`snapshot` flags on execution; `Result.provenance.incident` as an `IncidentRef`;
+  the incident endpoints; `Board.incidentRef` as an `IncidentRef`; the opened board widget
+  name boundary) are frozen as fixtures in `datatug-core/pkg/apicontract` before server
   or client work, as Phase 1 task 12 did.
 - Independent tasks run in separate WB worktrees with one landing owner per repository; each
   repository lands one candidate per task, never independent declarations of a finished journey.
@@ -288,7 +291,7 @@ incident store layout.
 
 **Id:** task-12
 **Verifies:** incidents#ac:demo-incident-journey-e2e, incidents#ac:recurrence-epilogue-boring, incidents#ac:houston-creates-incident-with-context, incidents#ac:investigation-becomes-incident, incidents#ac:watch-streams-events-with-cursor, incidents#ac:events-redacted-under-policy
-**Depends-On:** 3, 4, 6, 7, 8, 9, 10, 11, 13
+**Depends-On:** 3, 4, 6, 7, 8, 9, 10, 11
 **Status:** planning
 
 Playwright + CLI journey from `datatug demo` through the Resolution Record, the null-action
@@ -300,12 +303,15 @@ datatug.app deployment receipt.
 ### Task 13: Board widget extension boundary and incident reference
 
 **Id:** task-13
-**Verifies:** incidents#ac:query-lists-its-incidents
+**Verifies:** incidents#ac:board-lists-its-incidents-by-ref
 **Supporting ACs:** dashboards#ac:incident-board-round-trips-widget-names
 **Depends-On:** 1
 **Status:** planning
+**Activation:** Track C enabler; not on the MVP journey path (task 12 does not depend on it)
 
-Open the board contract for Track C without building any renderer: `Board.incidentRef` as an
+Open the board contract for Track C without building any renderer. The AC's `PUT
+/datatug/boards/*` round trip needs the boards API that Track C1 delivers, so this task proves
+the contract half (Go ↔ TypeScript fixture round trip) and the AC completes when C1 lands. `Board.incidentRef` as an
 `IncidentRef`; the Go validator (`BoardWidget.Validate` in `datatug-core/pkg/datatug/boards.go`
 today accepts only `SQL`, `HTTP`, `tabs`) and the `@datatug/board-models` `BoardWidgetName`
 union gain an explicit extension boundary that preserves registered Dashboardius widget names

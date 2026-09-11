@@ -288,6 +288,13 @@ sides MUST NOT be required to share an environment.
 
 ## Open Questions
 
+- **How a scope of many same-field facts binds one query parameter.** A cohort is N facts
+  for one field (fifty `Order.ID` values with role `affected`), but `Binding.value` is a single
+  `TypedValue` and the transport appendix defines no set binding. Lead assumption: for an
+  equality parameter the executor expands the set to an `IN`-list (or the source's
+  equivalent) and records the expansion in the execution record's bindings; a non-equality
+  parameter with a set scope is a hard error. The Incidentius MVP plan's compare task MUST fix
+  this before the cohort ACs can pass; the articles and demo depend on it.
 - **Key resolution when a query's columns are unmapped.** Lead assumption: explicit `--key` is
   always accepted, semantic entity keys are used when available, and anything else is a hard
   error. Whether a single obviously-unique column should be auto-adopted is undecided; the safe

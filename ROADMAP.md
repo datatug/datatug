@@ -66,12 +66,8 @@ against its own `--as support --role support` agent, and the `journey e2e` CI jo
 them on every datatug-apps pull request against a pinned datatug-cli release. The
 review's wire mismatches, the parameter echo without application, the hardcoded
 store default, the schema-qualified policy path and the missing table-page
-limitation header are all fixed. Still open: task 13 (protected-execution
-convergence with the implementer agent's layered-ACL chain — ownership to be
-settled), task 14 (browser-side bounded HTTP execution; the provider-side bounds
-landed in dalgo2http v0.2.0), task 16 (fixture policies, Codex) and task 17 (one
-reproducible release candidate and publication, after 16). Refresh remote state
-before implementing.
+limitation header are all fixed. Tasks 13–17 landed 2026-09-11 (the plan's status is Implemented; the release candidate is
+named in the Phase 0 gate line above).
 
 **Dependencies:** core/provider revisions first, then server and browser convergence,
 then pinned demo/transport/journey acceptance. Layered security is integrated where
@@ -206,7 +202,8 @@ Resolution Record documents and stories. Every item requires evidence from B1–
 - **C2 — incident and investigation dashboards:** `metric-series`, comparison, criteria and
   replay widgets over the incident event stream and execution records; the board renderer as a
   workspace library embedded by DataTug/Incidentius pages. Owning Feature:
-  `sneat-co/dashboardius` `incident-dashboards` and its plan. Depends on C1 and B1.
+  `sneat-co/dashboardius` `incident-dashboards` and its plan. Depends on C1, B1 and the
+  Incidentius MVP plan's task 13 (board widget extension boundary).
 - **C3 — workspace cutover:** the Dashboardius app moves into the `datatug/datatug-apps` Nx
   workspace as a complete cutover (inventory in [product-profiles](spec/features/product-profiles/README.md)).
   Can start any time; mechanical, not gated by C1.

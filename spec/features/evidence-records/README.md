@@ -296,8 +296,9 @@ goes through the same server.
 
 ## Open Questions
 
-- **Snapshot storage location and Git.** Records are specified above as project assets so they
-  travel with the Resolution Record. Snapshot **bytes** are the awkward half: committing
+- **Snapshot storage location and Git.** Records are specified above as operational records in
+  the evidence store, which follows the incident-store routing and so may be the project's own
+  repository, a dedicated or application repository, or the hosted store. Snapshot **bytes** are the awkward half: committing
   production rows to a Git project is a data-exfiltration surface, so the lead assumption is a
   server-side store outside the Git working tree, referenced by `snapshotRef`, with an explicit
   per-project opt-in to commit them. Founder decision needed on whether snapshots may ever be

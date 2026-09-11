@@ -10,9 +10,11 @@ status: Draft
 
 ## Summary
 
-A product profile is the presentation layer that turns one application into DataTug,
-Incidentius or Dashboardius: home route, brand, navigation order, entry points and demo
-defaults, selected by hostname from one build.
+A product profile is the presentation layer that turns an application in the workspace into
+DataTug, Incidentius or Dashboardius: home route, brand, navigation order, entry points and
+demo defaults, selected by hostname or configuration. One build serves `datatug` and
+`incidentius`; `dashboardius` is served by the sibling Dashboardius app unless the founder
+chooses the single configurable app (open question).
 
 A profile changes what a user sees first and nothing else — every route stays reachable, every
 deep link works across profiles, and no profile holds private data or private authority.
@@ -183,7 +185,7 @@ three implementations grow back inside one build.
 
 Profile resolution MUST happen once at application bootstrap and be exposed as an injectable
 token (lead assumption), so tests can instantiate any profile without a hostname and a screen
-can be rendered in all three profiles in one test run.
+can be rendered under every profile token that build serves in one test run.
 
 #### REQ: profile-selection-is-not-authorization
 

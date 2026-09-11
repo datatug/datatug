@@ -93,36 +93,47 @@ should be able to store in same repo as datatug or even in the application repo 
 project's own repository, under `incidents/` (the default for local and small setups), (b) a
 dedicated incidents repository, (c) the application's own repository, or (d) the hosted store,
 space-bounded like every other Sneat record (lead assumption: `/spaces/{spaceID}/ext/incidentius/…`).
-All four sit behind one store interface backed by DALgo, with inGitDB for Git-backed locations,
-so the layout is identical: `incidents/<id>/events.jsonl` (append-only, monotonic `seq`) and
+All four sit behind one store interface backed by DALgo, with inGitDB for Git-backed locations;
+the MVP delivers (a)–(c), and (d) is NEXT (Track B2, hosted multi-user incidents) behind the
+same interface. The layout is identical: `incidents/<id>/events.jsonl` (append-only, monotonic `seq`) and
 `incidents/<id>/incident.json` (the projection, regenerable). A store has a `storeId` following
 DataTug's existing store-id scheme; the routing key lives in machine-local or served-project
 configuration, never as a credential in a committed file (lead assumption for the key name:
 `stores.incidents`). Execution records and snapshots ([evidence-records](../evidence-records/README.md))
-follow the same routing by default. Writes to the incident store do not use, and do not wait
+follow the same routing unless `stores.evidence` (lead assumption for the key name) names
+another configured store. Writes to the incident store do not use, and do not wait
 for, the Phase 2 project-write path for knowledge assets; checks and annotations created from an
 incident are knowledge assets and do use it. Lead assumption: the human id is `INC-<n>` from a
 store-scoped sequence assigned by the server, plus a `uid` (UUID).
 
 #### REQ: multi-project-incidents
 
-An incident MUST reference one or more DataTug projects (`projects: [{storeId, projectId,
-environment?}]`), because a real incident spans systems maintained by different teams (vision
-§6, §34; founder, 2026-09-11: *"A DataTug project can be used by multiple incidentius
-instances"*). Every fact, execution record, check run and compare run carries its own project
-and environment scope (the transport appendix `Scope`), so evidence stays attributable and each
-reader sees each project's evidence under that project's grants. The incident itself belongs to
-one store (one team or space); people from other teams join as invited participants. Entities
-with the same name in two projects are not assumed identical; cross-project semantic identity
-is a later capability of the semantic layer. The MVP journey exercises one project; the model
-MUST NOT hard-code one.
+Lead assumption, pending founder confirmation (the founder asked on 2026-09-11, verbatim:
+*"Can/should incident use multiple datatug projects maintained by different teams for for
+different apps?"*, and has not yet ruled; see Open Questions): an incident MAY reference one
+or more DataTug projects (`projects: [{storeId, projectId, environment?}]`), on the lead's
+reading that a real incident spans systems maintained by different teams. What the founder
+did rule is the converse relation, *"A DataTug project can be used by multiple incidentius
+instances"* (2026-09-11), which REQ:incident-store and REQ:incident-references-and-back-links
+carry. Every fact, execution record, check run and compare run carries its own project and
+environment scope; because the transport appendix `Scope` is `{project, environment,
+securityContextId}` with no store, the plan's model task adds an optional `Scope.storeId`
+(lead assumption) so evidence from a second store stays attributable and each reader sees
+each project's evidence under that project's grants. The incident itself belongs to one store
+(one team or space); people from other teams join as invited participants. Entities with the
+same name in two projects are not assumed identical; cross-project semantic identity is a
+later capability of the semantic layer. The MVP journey exercises one project; the model MUST
+NOT hard-code one, so that a founder "yes" costs no migration.
 
 #### REQ: incident-references-and-back-links
 
 An incident is addressed globally by `IncidentRef = {storeId, incidentId}` (founder,
-2026-09-11: *"link queries and resources of DataTug to incidents (storeID+incidentID)"*); the
-canonical string form mirrors DataTug's project-ref convention and is fixed by the plan's
-model task. Back-links MUST exist in two forms: **derived** — the server answers "which
+2026-09-11: *"link queries and resources of DataTug to incidents (storeID+incidentID)"*). The
+canonical string form is `<storeId>/<incidentId>` (lead assumption): store ids MUST NOT
+contain `/`, which the plan's model task validates. The wire spelling of the two fields is
+reconciled by that task with the existing `datatug-core` `dto.ProjectRef` (JSON `storage`,
+`project`), which today has no string form or parser; the logical names in every spec stay
+`storeId` and `incidentId`. Back-links MUST exist in two forms: **derived** — the server answers "which
 incidents touched query, check, board, execution record or entity value X" from the events of
 every configured store (`GET /datatug/incidents?query=<id>|check=<id>|board=<id>`, `datatug
 incident list --query <id>`); and **recorded provenance** — a knowledge asset created from an
@@ -218,8 +229,10 @@ vision §22 (*"These do not all need to become bureaucratic mandatory statuses"*
 MUST record exactly one outcome: `resolved`, `false-alarm`, `accepted` (known issue),
 `handed-off`, or `unresolved` (investigation stopped) (vision §23). Duplicate is not an outcome:
 `POST …/merge` and `datatug incident merge` MUST append the duplicate's events into the
-surviving incident with `incident.merged` refs and close the duplicate with `mergedInto` set. A
-recurrence stays a separate incident linked to the earlier one (REQ:recurrence-and-links).
+surviving incident with `incident.merged` refs and close the duplicate with `mergedInto` set;
+merging an already-merged incident is refused with the transport appendix's `INVALID_REQUEST`
+(no new error code). A recurrence stays a separate incident linked to the earlier one
+(REQ:recurrence-and-links).
 
 ### Investigation Context
 
@@ -395,6 +408,12 @@ Feature (open question below).
 **When** `datatug incident list --query customers/customer-invoices` runs and the promoted check file is inspected
 **Then** INC-1 is listed with its `storeId`, and the check file carries `origin.incident` equal to INC-1's `IncidentRef`.
 
+### AC: board-lists-its-incidents-by-ref (verifies REQ:incident-references-and-back-links)
+
+**Given** a board file whose `incidentRef` is `{storeId: <demo store>, incidentId: INC-1}` and an `INC-1` event that references that board id
+**When** `datatug incident list --board <boardId> --json` runs, and the board is round-tripped through the Go validator and the `@datatug/board-models` types
+**Then** the list contains `INC-1` and no other incident, and the `incidentRef` survives the round trip unchanged in both directions.
+
 ### AC: investigation-becomes-incident (verifies REQ:houston-creation, REQ:attached-investigation-context)
 
 **Given** an Investigation Context holding `Customer.ID = 5` and `Customer.Country = Canada`
@@ -416,8 +435,8 @@ Feature (open question below).
 ### AC: inference-requires-refs (verifies REQ:event-stream-append-only)
 
 **Given** an agent principal
-**When** it appends an `inference` event without refs, or an `observation` without an execution reference
-**Then** both are refused with a structured error and nothing is appended.
+**When** it appends an `inference` event without refs, or an `observation` without an execution reference, or a `question` whose asserter is not a human principal
+**Then** all three are refused with a structured error and nothing is appended.
 
 ### AC: events-redacted-under-policy (verifies REQ:events-and-projection-policy-rechecked)
 
@@ -521,6 +540,10 @@ Feature (open question below).
   served-project configuration, defaulting to the project's own repository; evidence records
   follow it. Confirm the key name and whether the hosted default is the space store.
 - **Id scheme** `INC-<n>` per store plus `uid` — lead assumption.
+- **May one incident reference several DataTug projects?** The founder asked the question
+  (2026-09-11) and has not ruled; REQ:multi-project-incidents is the lead's "yes", kept as a
+  MAY so the model does not hard-code one project either way. A "no" removes the `projects`
+  list and `Scope.storeId`; a "yes" confirms both.
 - **Incidentius brand and domain** — [product-profiles](../product-profiles/README.md).
 
 ---
