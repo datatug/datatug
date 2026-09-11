@@ -56,6 +56,7 @@ type TypedValue =
 type PhysicalRef = {source: string; collection: string; column: string};
 type Fact = {
   id: string; entity: string; field: string; value: TypedValue;
+  condition?: '==' | '!=' | '>' | '>=' | '<' | '<='; // OPTIONAL; absent means '=='
   origin: 'selection' | 'context' | 'manual';
   physical?: PhysicalRef;
   mapping?: 'declared' | 'inferred';
@@ -96,6 +97,18 @@ unsupported types fail validation rather than being converted silently.
 Facts are suggestions, not access credentials. The server revalidates physical
 references and mapping declarations against authorized project metadata. Manual
 facts are labeled manual and cannot impersonate a selected protected record.
+
+`Fact.condition` (OPTIONAL; lead assumption 2026-09-10, pending founder confirmation)
+names the comparison the fact expresses against `Fact.value`: one of `==`, `!=`, `>`,
+`>=`, `<`, `<=`, following `investigation-context` REQ:context-variable-conditions.
+Absent `condition` means `==`, matching every fact produced before this field existed,
+so no existing caller or fixture changes shape. An agent that does not implement
+conditions MUST NOT apply a non-`==` fact as equality; it MUST leave the parameter
+unbound and report it unbound in the response (`Candidate.missing`, and a `chain`
+entry whose `explanation` says the fact was skipped for an unsupported condition),
+never silently narrow or misstate the query. This keeps the "why this query is
+constrained" view (`investigation-context` REQ:no-hidden-filters) truthful even when
+client and server disagree on condition support.
 
 Limitations report applied restrictions, not the number of rejected rows or their
 values. Only names visible in authorized metadata may appear in `hiddenColumns` or
