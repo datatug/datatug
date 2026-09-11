@@ -33,7 +33,7 @@ Feature specifications for this project.
 | [Annotations](annotations/README.md) | Draft | An annotation is a note attached to the data it is actually about — an entity value, an execution record, later a row set or a relationship — so that what one investigator learned resurfaces automatically the next time that same data appears, in any authorized query. |
 | [Executable checks](checks/README.md) | Draft | A check is a library query plus an expected condition: executable knowledge that answers one yes/no question about a system, carries a purpose and a scope, and whose every run is an execution record. |
 | [Compare](compare/README.md) | Draft | Compare executes one library query or check under two scopes and diffs the two recordsets by key. |
-| [Product profiles](product-profiles/README.md) | Draft | A product profile is the presentation layer that turns an application in the workspace into DataTug, Incidentius or Dashboardius: home route, brand, navigation order, entry points and demo defaults, selected by hostname or configuration. One build serves `datatug` and `incidentius`; `dashboardius` is served by the sibling Dashboardius app unless the founder chooses the single configurable app (open question). |
+| [Product profiles](product-profiles/README.md) | Draft | A product profile is the presentation layer that turns an application in the workspace into DataTug, Incidentius or Dashboardius: home route, brand, navigation order, entry points and demo defaults, selected by hostname or configuration. One build serves all three profiles (founder, 2026-09-11: *"one configurable app."*); the frame is Ionic everywhere, and PrimeNG, AG Grid, Chart.js and CDK drag-drop appear only as leaf components where Ionic lacks the widget. |
 
 ## Open Questions
 

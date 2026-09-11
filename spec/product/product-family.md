@@ -57,17 +57,23 @@ think DataTug, Incidentius, Dashbaordius apps code should be in same repo (nx wo
 shared libs and either separate or single configurable app)"*.
 
 This supersedes the repository half of the 2026-09-08 Dashboardius Idea, which chose a
-standalone repository for the Dashboardius app. It does not decide "separate apps" versus
-"one configurable app"; that remains the founder's choice. The lead's recommendation
-(assumption, not a ruling):
+standalone repository for the Dashboardius app. The second half was ruled later the same day
+(founder, 2026-09-11, verbatim: *"one configurable app."*, confirmed after the reading below
+was spelled out: *"All sounds right now"*):
 
-- **DataTug and Incidentius are one configurable app** (`apps/datatug-app`) selected by
-  profile. They share the Ionic frame, the agent client, the Investigation Context and every
-  project screen; an incident page is a project page with a different home.
-- **Dashboardius is a separate app in the same workspace** (`apps/dashboardius`). It is
-  PrimeNG with Chart.js and CDK drag-drop, deploys to its own domain on its own cadence, and
-  keeps the "instrument panel" design. Folding it into the Ionic shell would put two UI kits
-  and two bundles behind one entry point for no shared code beyond the libraries below.
+- **All three profiles are one configurable app** (`apps/datatug-app`), selected by hostname
+  or configuration. DataTug, Incidentius and Dashboardius share one Ionic frame, the agent
+  client, the Investigation Context and every project screen; an incident page is a project
+  page with a different home, and the Dashboardius home (the boards list) is an Ionic page
+  like every other.
+- **Ionic everywhere; PrimeNG and friends as leaf components only.** Dashboardius's cards,
+  lists, toolbars, menus and forms are rebuilt with Ionic components (founder, 2026-09-11:
+  *"We should migrate PrimeNG cards and other components that we can migrate to Ionic and use
+  PrimeNG just as components if Ionic misses functionality"*). PrimeNG, AG Grid, Chart.js and
+  CDK drag-drop remain only as leaf widgets inside those pages — the chart, the data grid,
+  the dragging of cards — under the 2026-09-09 UI-kit rule. The PrimeNG theme is scoped to
+  those components, never loaded globally. The `dashboardius` profile may still be served on
+  its own hostname from the same build.
 - **Shared libraries** carry the reuse: `@datatug/board-models` (exists), a Dashboardius-owned
   **board renderer library** that DataTug/Incidentius pages embed as an island (the founder's
   UI-kit rule, 2026-09-09: Ionic frame plus PrimeNG/AG Grid islands only where Ionic lacks
@@ -206,7 +212,7 @@ hard requirement of any profile (vision §3.6, §45, §46).
 
 | ID | Decision | Why |
 |---|---|---|
-| D1 | One Nx workspace for all three apps' code (founder ruling above); separate-vs-single-configurable app is open (§9), the lead recommends DataTug+Incidentius as one configurable app and Dashboardius as a sibling app sharing libs | founder ruling above (*"either separate or single configurable app"*); UI-kit rule; no second renderer or data platform |
+| D1 | One Nx workspace and **one configurable app** for all three profiles, Ionic frame everywhere, PrimeNG/AG Grid/Chart.js/CDK as leaf components only | founder rulings 2026-09-11 (*"same repo (nx workspace …)"*, *"one configurable app."*, migrate PrimeNG cards to Ionic); UI-kit rule; no second renderer or data platform |
 | D2 | Incidents live in a configurable incident store: the project's own repository by default, a dedicated repository, the application's repository, or the hosted space-bounded store; one layout, one server-owned write path; the hosted location is NEXT (B2); assets link back by `storeId` + `incidentId`; an incident may reference several projects (founder, 2026-09-11: *"yes it can."*) | founder, 2026-09-11: *"Agree on ability of incidents to be stored in dedicated repo. But it should be able to store in same repo as datatug or even in the application repo if users want (can be OK for small projects)"*; *"A DataTug project can be used by multiple incidentius instances"*; a curated knowledge project must not become an operational log; hosted projects read from GitHub cannot take an event per second |
 | D3 | Event-sourced incident, projection derived, replay at T | vision §57 Q2–Q3, Q11; one stream powers watch/timeline/AI/connectors; wrong theories are never lost (§3.3) |
 | D4 | Context roles and overlays extend investigation-context | vision §5 firm boundary; useful speculation usable without becoming truth (§11.1) |
@@ -215,7 +221,7 @@ hard requirement of any profile (vision §3.6, §45, §46).
 | D7 | Checks generalise library queries | executable knowledge; deterministic before AI (§18–19) |
 | D8 | Compare as an execution primitive | "compare something that works with something that does not" (§13) |
 | D9 | Metrics are check series; criteria are explicit predicates | measure the problem and the recovery (§20, §22) |
-| D10 | Profiles by hostname/config; one build serves `datatug` and `incidentius`, and `dashboardius` too only if the single configurable app is chosen (§9) | simplest mechanism (§4) |
+| D10 | Profiles by hostname/config; one build serves `datatug`, `incidentius` and `dashboardius` | simplest mechanism (§4); D1 |
 | D11 | CLI/API-first, structured `watch` | humans, scripts and agents on one model (§50–52) |
 | D12 | Assertion kinds separate fact, claim, hypothesis, inference | AI trust boundary (§12, §31, §57 Q12) |
 | D13 | Knowledge spreads for free; collaboration creates the bill | growth mechanism; never a paywall during an outage (§47) |
@@ -225,7 +231,6 @@ hard requirement of any profile (vision §3.6, §45, §46).
 
 Owner-routed; each also appears in its owning Feature.
 
-- **Separate apps or one configurable app** for the workspace (founder; §2 recommendation).
 - **Incidentius domain and brand tier** — no domain is registered (checked `sneat-ops/data/domains.json`); Tier-3 independent like DataTug, or a DataTug sub-brand? (founder)
 - **Snapshot retention and masking defaults** ([evidence-records](../features/evidence-records/README.md)).
 - **Whether `sneat-co/dashboardius` is kept as spec hub or archived after the cutover** (founder; recommendation: keep).

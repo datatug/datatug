@@ -23,10 +23,11 @@ No dashboards are added to Phase 1; later embedding of the shared renderer is no
 
 Founder ruling 2026-09-11 (verbatim): *"Not sure if it's part of the spec your read but I
 think DataTug, Incidentius, Dashbaordius apps code should be in same repo (nx workspace with
-shared libs and either separate or single configurable app)"*. The Dashboardius app therefore
-moves into the `datatug/datatug-apps` workspace (cutover owned by
-[product-profiles](../product-profiles/README.md)); the board renderer becomes a shared library
-that DataTug and Incidentius pages embed. Incident and investigation dashboards are specified
+shared libs and either separate or single configurable app)"*, settled the same day as *"one
+configurable app."*. Dashboardius therefore becomes the `dashboardius` profile of the single
+app: its shell is rebuilt with Ionic components (cutover owned by
+[product-profiles](../product-profiles/README.md)), and the board renderer becomes a shared
+library whose chart, grid and drag-drop leaf widgets DataTug and Incidentius pages embed. Incident and investigation dashboards are specified
 by Dashboardius in its `incident-dashboards` Feature; this Feature owns only the DataTug-side
 contract they need (REQ:incident-boards-and-shared-renderer).
 

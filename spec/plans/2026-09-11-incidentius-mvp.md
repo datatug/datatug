@@ -380,8 +380,6 @@ back-link UI badges) after Phases 4 and 5.
 
 ## Open Questions
 
-- Founder: separate apps or one configurable app in the workspace (owning Feature
-  `product-profiles`); task 9 assumes one configurable app for DataTug/Incidentius.
 - Founder: the store routing key name and the hosted default (owning Feature `incidents`).
 
 ---
