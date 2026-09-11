@@ -30,6 +30,9 @@ Track B  Incidentius          B1 ────────┘    │    B2 ─┘
 Track C  Dashboardius         C1 = Phase 5 ───┘    C2 ────── C3 (shell rebuild; full cutover)
 ```
 
+The one part of B1 running beside Phase 2 is the `incidentius` profile scaffold (Incidentius plan
+Task 16).
+
 ## Phase 0 — existing spine and delivery repair
 
 **Outcome:** `datatug demo` opens the actual project; source → Album gives real rows

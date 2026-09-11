@@ -262,7 +262,7 @@ sides MUST NOT be required to share an environment.
 
 **Given** execution record `exec-7f3` captured at peak impact with a stored snapshot of 847 stuck orders
 **When** it is compared against a live run of the same query in the same environment after mitigation
-**Then** the diff reports the rows that are no longer stuck as `removed` with a summary reflecting the recovery, both sides carry their own record id and timestamp, and comparing against a record whose snapshot has expired fails with an explicit "expired" error rather than an empty left side.
+**Then** the diff reports the rows that are no longer stuck as `removed` with a summary reflecting the recovery, both sides carry their own record id and timestamp, and comparing against a record whose snapshot has expired fails with an explicit `SNAPSHOT_EXPIRED` error rather than an empty left side.
 
 ### AC: compare-respects-limitations (verifies REQ:compare-is-policy-bound)
 

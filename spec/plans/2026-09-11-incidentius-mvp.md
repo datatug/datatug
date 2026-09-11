@@ -14,6 +14,10 @@ status: Executing
 
 ## Summary
 
+**Execution scope (2026-09-11):** only Task 16, the `incidentius` profile scaffold, is running;
+every other task is `planning` and waits for the Core coherent-experience review gate (see
+"Execution waits for the core review gate" below).
+
 Deliver roadmap Track B1: incidents as a DataTug capability, inside the existing application
 and CLI, on a local or Git project under the single `serve` principal. The plan proves the
 thesis with the smallest coherent slice (vision §59): the incident store and its event stream,
@@ -272,9 +276,9 @@ Task 15.
 **Depends-On:** 3, 4, 6, 16
 **Status:** planning
 
-In `datatug-apps`: incident list/detail/create pages, timeline, hypotheses and evidence
-panels, participants with roles, referenced projects, status view with refs, Resolution Record
-page, built on Task 16's profile scaffold. Ionic frame; no chart islands in this task.
+In `datatug-apps`: extend Task 16's incident list/detail/create pages with the timeline,
+hypotheses and evidence panels, participants with roles, referenced projects, status view with
+refs, and the Resolution Record page. Ionic frame; no chart islands in this task.
 
 ### Task 10: Recurrence, related links, search, similarity and back-links
 
@@ -410,42 +414,45 @@ Findings from the [external roadmap/plans review](../research/2026-09-11-externa
 (2026-09-11) that must be resolved before task execution starts (see "Execution waits for the
 core review gate" above) — one-line fix direction per finding, taken from the review:
 
-- **F1 — metric history cannot produce its promised values (tasks 2, 6):** define retained,
+- **F1 (blocker, confirmed) — metric history cannot produce its promised values (tasks 2, 6):** define retained,
   policy-governed scalar measurements at execution time (projection identity, source scope,
-  query revision, completeness), specify unavailable/expired evidence explicitly, and add an
-  observation-window rule for the "zero for 30 minutes" criterion.
-- **F2 — target authorization does not protect a note's other contents (task 7,
+  query revision, completeness), specify unavailable/expired evidence explicitly, keep series from different environments,
+  revisions or policy scopes separate, and add an observation-window rule for the "zero for 30 minutes" criterion.
+- **F2 (blocker, plausible) — target authorization does not protect a note's other contents (task 7,
   `events-redacted-under-policy`):** define sensitivity/authorization for referenced facts and
   free-text annotation bodies, including search, projections and streams, and add the exact
   public-ID/hidden-email negative scenario.
-- **F3 — cohort and cross-store evidence contracts remain incomplete (tasks 1, 4, 8):** freeze
+- **F3 (blocker, confirmed) — cohort and cross-store evidence contracts remain incomplete (tasks 1, 4, 8):** freeze
   bounded set-binding semantics and source-refusal behavior before browser work, define
-  qualified store/project/incident-scoped execution references, and prove two stores with
+  qualified store/project/incident-scoped execution references propagated through checks,
+  annotations and compare, and prove two stores with
   colliding short IDs cannot cross-resolve evidence.
-- **F4 — incident durability assumes fewer writers than the CLI permits (task 1, the CLI's
+- **F4 (blocker, plausible) — incident durability assumes fewer writers than the CLI permits (task 1, the CLI's
   in-process server path):** require one store writer or cross-process exclusion, idempotent
   mutation IDs, durable append/recovery rules and recoverable merge semantics; test simultaneous
-  CLI mutations and an interrupted merge.
-- **F5 — immutable records are later mutated by retention (task 2):** keep execution receipts
+  CLI mutations and an interrupted merge; imported events must not retrospectively alter
+  pre-merge belief or reactivate copied grants.
+- **F5 (should-fix, confirmed) — immutable records are later mutated by retention (task 2):** keep execution receipts
   immutable and model snapshot availability/expiry as separate state rather than clearing a
   field on an "immutable" record; preserve annotation revision bodies explicitly or require a
   real history mechanism.
-- **F7, the Incidentius parts — dependency metadata contradicts the intended parallel work:**
+- **F7, the Incidentius parts (should-fix, confirmed) — dependency metadata contradicts the intended parallel work:**
   encode task 4 → task 3's event API and task 8 → the resolved cohort contract (F3); represent
   Phase 2 as the bounded dependency already named in Summary (tasks 5/7 need only its task 2)
   rather than gating the whole plan's `**Prerequisite Plans:**` on all of Phase 2.
-- **F8 — C3 has a cutover inventory but no executable owner plan:** task 9 implements only the
+- **F8 (should-fix, confirmed) — C3 has a cutover inventory but no executable owner plan:** task 9 implements only the
   two-profile (`datatug`/`incidentius`) milestone; keep that acceptance separate from the
   three-profile (`dashboardius`) family-cutover acceptance, which needs its own plan (roadmap
   Track C3) before it starts.
-- **F9, tasks 2/7/8/11/13 — valid AC identifiers hide partial proof:** each of these tasks names
+- **F9, tasks 2/7/8/11/13/15 (should-fix, confirmed) — valid AC identifiers hide partial proof:** each of these tasks names
   a Feature AC it does not independently complete (2 and 7 both cite
-  `hypothesis-rejected-keeps-evidence`; 8 and 11 both cite `demo-incident-journey-e2e`; 13 cites
+  `hypothesis-rejected-keeps-evidence`; 8, 11 and 15 all cite `demo-incident-journey-e2e`; 13 cites
   `board-lists-its-incidents-by-ref`); keep integrated proof of the whole-journey AC on task 12
   and distinguish component contribution from final verification, or add component ACs, before
   treating any of them as complete on their own.
 - **Traceability gaps:** personal-query storage, the Resolution Record, and the API/CLI
-  requirements in evidence-records/checks/annotations/compare have no direct AC; the two C3
+  requirements in evidence-records/checks/annotations/compare, preserving schema comparison,
+  profile workspace reuse and the brand/build-info requirements have no direct AC; the two C3
   cutover ACs, `surfaces#profile-does-not-hide-a-surface` and the eleven `cli/incident` ACs have
   no explicit cross-repository task reference; record the equivalence links that context,
   access-control, provenance and board sibling ACs rely on to Phase 1/product ACs, rather than
