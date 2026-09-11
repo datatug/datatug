@@ -1,10 +1,10 @@
 ---
 format: https://specscore.md/plan-specification
-status: Draft
+status: Approved
 ---
 # Plan: Incidentius MVP inside DataTug
 
-**Status:** Draft
+**Status:** Approved
 **Source Feature:** incidents
 **Related Features:** evidence-records, checks, annotations, compare, product-profiles, investigation-context, dashboards, server-enforced-access, provenance, executable-knowledge-library
 **Prerequisite Plans:** 2026-09-09-phase-1-core-investigation-loop, 2026-09-09-phase-2-library-depth-and-provenance
