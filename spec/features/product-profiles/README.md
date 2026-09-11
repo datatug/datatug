@@ -95,7 +95,11 @@ components and never loaded globally.
 | Demo default | the demo knowledge project | the canonical demo incident | the demo board |
 
 The entry-point wording for `incidentius` is the founder's own (vision §23: *"Houston, we've got
-a problem"*); the navigation orders and demo defaults are lead assumptions. Brand colours, logo
+a problem"*), and the *Incidents* item in the `datatug` side menu is fixed by the founder
+(2026-09-11, verbatim: *"DataTug app should always have Incidents menu item in side menu."*):
+it MUST be present under the `datatug` profile. Lead assumptions, not the founder's words:
+it is present whether or not a project is open, and no feature flag or project setting removes
+it. The rest of the navigation orders and the demo defaults are lead assumptions. Brand colours, logo
 and copy per profile are lead assumptions pending the brand decision in Open Questions.
 
 A profile MUST be selected by **hostname**, with an environment/configuration override for
@@ -223,6 +227,12 @@ today, but so that it never becomes the thing somebody later tries to gate a fea
 **Given** one deployed build served on the DataTug hostname and on an Incidentius hostname
 **When** an authenticated user opens each root URL
 **Then** the DataTug hostname lands on the project/investigation workspace and the Incidentius hostname lands on the incidents list with the "Houston, we've got a problem" entry point, each with its own brand name and navigation order — and an unrecognised hostname lands on the DataTug home rather than failing to boot.
+
+### AC: incidents-always-in-datatug-menu (verifies REQ:profile-table)
+
+**Given** the build served under the `datatug` profile, once with a project open and once with no project open
+**When** the side menu renders in each state
+**Then** an *Incidents* item is present both times and opens the incident list, and no feature flag or project setting offered by the app can remove it.
 
 ### AC: deep-link-works-in-other-profile (verifies REQ:no-profile-private-data)
 
