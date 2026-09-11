@@ -420,6 +420,10 @@ are written.
 |----------|--------|-------|------|
 | CLI / server (`datatug-cli`, `datatug serve`) | Planned | incident store routing, event stream and projection, policy-rechecked reads, `datatug incident` verbs, `watch`, access requests | specscore://github.com/datatug/datatug-cli/feature/cli/incident |
 | Web (`datatug-apps`) | Planned | incident pages, `incidentius` profile home, context roles and overlays, evidence and metrics tables, access request and approval controls | — |
+| Core (`datatug-core`) | Planned | `IncidentRef`, event and projection types, `ExecutionRequest.incident`, `Scope.storeId`, board widget extension boundary and round-trip fixtures | — |
+| Demo projects (`datatug-demo-projects`) | Planned | canonical demo incident and its recurrence fixture in `demo-project-1` | — |
+
+Several acceptance criteria below are phrased through `datatug incident …` or the incident page. Under REQ:capability-role they belong in the CLI and web Implementations or must be reworded platform-neutral; that move is an Amending round tracked as a follow-up, not part of this matrix.
 
 ## Acceptance Criteria
 
