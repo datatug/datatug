@@ -305,13 +305,15 @@ datatug.app deployment receipt.
 **Id:** task-13
 **Verifies:** incidents#ac:board-lists-its-incidents-by-ref
 **Supporting ACs:** dashboards#ac:incident-board-round-trips-widget-names
-**Depends-On:** 1
+**Depends-On:** 1, 10
 **Status:** planning
 **Activation:** Track C enabler; not on the MVP journey path (task 12 does not depend on it)
 
-Open the board contract for Track C without building any renderer. The AC's `PUT
-/datatug/boards/*` round trip needs the boards API that Track C1 delivers, so this task proves
-the contract half (Go ↔ TypeScript fixture round trip) and the AC completes when C1 lands. `Board.incidentRef` as an
+Open the board contract for Track C without building any renderer. The AC needs the derived
+`--board` back-link filter from task 10, so this task follows it. The supporting Dashboardius
+AC's `PUT /datatug/boards/*` round trip needs the boards API that Track C1 delivers; this task
+proves the contract half (Go ↔ TypeScript fixture round trip) and that AC completes when C1
+lands. `Board.incidentRef` as an
 `IncidentRef`; the Go validator (`BoardWidget.Validate` in `datatug-core/pkg/datatug/boards.go`
 today accepts only `SQL`, `HTTP`, `tabs`) and the `@datatug/board-models` `BoardWidgetName`
 union gain an explicit extension boundary that preserves registered Dashboardius widget names

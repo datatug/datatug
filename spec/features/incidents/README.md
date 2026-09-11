@@ -435,8 +435,8 @@ Feature (open question below).
 ### AC: inference-requires-refs (verifies REQ:event-stream-append-only)
 
 **Given** an agent principal
-**When** it appends an `inference` event without refs, or an `observation` without an execution reference, or a `question` whose asserter is not a human principal
-**Then** all three are refused with a structured error and nothing is appended.
+**When** it appends an `inference` event without refs, or an `observation` without an execution reference
+**Then** both are refused with a structured error and nothing is appended.
 
 ### AC: events-redacted-under-policy (verifies REQ:events-and-projection-policy-rechecked)
 
