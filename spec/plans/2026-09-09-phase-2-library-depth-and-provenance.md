@@ -1,10 +1,10 @@
 ---
 format: https://specscore.md/plan-specification
-status: Draft
+status: Approved
 ---
 # Plan: Phase 2 — Library depth and provenance
 
-**Status:** Draft
+**Status:** Approved
 **Source Feature:** executable-knowledge-library
 **Related Features:** provenance, meaning-inference
 **Prerequisite Plans:** 2026-09-09-phase-1-core-investigation-loop
