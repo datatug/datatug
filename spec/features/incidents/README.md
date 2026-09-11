@@ -380,8 +380,13 @@ agent-only path.
 #### REQ: profile-home
 
 Under the `incidentius` product profile the home route MUST be the incident list with the
-"Houston" entry point; under the `datatug` profile incidents are reachable from the project
-menu and any investigation ([product-profiles](../product-profiles/README.md)).
+"Houston" entry point. Under the `datatug` profile the side menu MUST always carry an
+*Incidents* item (founder, 2026-09-11, verbatim: *"DataTug app should always have Incidents
+menu item in side menu."*) — present whether or not a project is open, never hidden behind a
+feature flag or a project setting, leading to the incident list — and incidents are also
+reachable from any investigation ([product-profiles](../product-profiles/README.md)). From
+the Incidentius MVP onward this item is the one exception to the rule that unbuilt pages stay
+out of navigation ([surfaces](../surfaces/README.md)): it is built with the MVP and stays.
 
 ### Canonical demo
 
