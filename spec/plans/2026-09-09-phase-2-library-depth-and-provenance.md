@@ -18,7 +18,7 @@ Deliver a bounded executable-library quality journey after Phase 1 is accepted.
 The [roadmap](../../ROADMAP.md) and owning Features define capture, provenance and
 mapping review. The earlier plan bundled HTTP credentials, TUI/agent parity, rich types
 and time-window semantics; those remain explicit deferred work below, not prerequisites
-for this smaller useful outcome. This draft is not authority to start Phase 2 before
+for this smaller useful outcome. This plan is not authority to start Phase 2 before
 Phase 1 acceptance or to treat draft feature scope as implicitly approved implementation.
 
 ### Current implementation reservation
@@ -27,10 +27,11 @@ On 9 September the founder asked Codex to pick up something more substantial,
 possibly from Phase 2, using a faster-model implementation agent. Codex selected the
 storage foundation of task 2 as independent preparatory work: existing query-store
 reuse, safe atomic persistence, revision conflicts, and reload/failure tests. This
-selection is the implementation lead's scope decision, not approval of every draft
-Feature or a waiver of Phase 1 acceptance. No new server write endpoint or browser
-capture flow is activated by this reservation. The full plan remains Draft and its
-Phase 1 prerequisite remains unchanged.
+selection was the implementation lead's scope decision, made before Phase 1
+acceptance, not approval of every draft Feature. No new server write endpoint or
+browser capture flow is activated by this reservation alone. Phase 1 is now
+Implemented — Task 17 of its plan records the acceptance evidence — so this plan's
+Phase 1 prerequisite is satisfied.
 
 Task 2's Note records the responsible Codex task and shared WB claim. Maintain status
 with SpecScore and publish changes; file status does not automatically follow agent
@@ -146,7 +147,7 @@ Show the source, query, mapping origin and capture lineage from actual server re
 **Id:** task-6
 **Verifies:** executable-knowledge-library#ac:captured-query-explains-provenance
 **Supporting ACs:** meaning-inference#ac:accept-promotes-to-declared, meaning-inference#ac:correction-overrides-suggestion, provenance#ac:mapping-shows-declarer-and-time
-**Depends-On:** —
+**Depends-On:** 2
 **Status:** planning
 **Activation:** Phase 2
 
@@ -216,7 +217,7 @@ Typed scope and conflict handling are mandatory Phase 1 behavior. Rich time sema
 **Status:** planning
 **Activation:** Phase 2
 
-Run the complete journey from actual Phase 1 entry with real server/store, including denied saves, conflicts, failure draft retention, closing/reopening and another authorized investigator rerunning. Required setup failures fail CI. Record exact dependency revisions; do not claim hosted sharing or deferred capability acceptance.
+Run the complete browser journey from actual Phase 1 entry with real server/store: capture → reopen → rerun, including denied saves, conflicts, failure draft retention, closing/reopening in the browser and another authorized investigator reusing the saved query. Required setup failures fail CI. Record exact dependency revisions; do not claim hosted sharing or deferred capability acceptance. Completing this task hands the DataTug core to the roadmap's Core coherent-experience review gate, which decides what comes next.
 
 ## Deferred AC Coverage
 
