@@ -296,13 +296,17 @@ goes through the same server.
 
 ## Open Questions
 
-- **Snapshot storage location and Git.** Records are specified above as operational records in
-  the evidence store, which follows the incident-store routing and so may be the project's own
-  repository, a dedicated or application repository, or the hosted store. Snapshot **bytes** are the awkward half: committing
-  production rows to a Git project is a data-exfiltration surface, so the lead assumption is a
-  server-side store outside the Git working tree, referenced by `snapshotRef`, with an explicit
-  per-project opt-in to commit them. Founder decision needed on whether snapshots may ever be
-  committed at all.
+- ~~**Snapshot storage location and Git.**~~ Records are specified above as operational records
+  in the evidence store, which follows the incident-store routing and so may be the project's
+  own repository, a dedicated or application repository, or the hosted store. Snapshot **bytes**
+  were the awkward half: committing production rows to a Git project is a data-exfiltration
+  surface. **Ruled by the founder, 2026-09-11 (verbatim): *"Not in MVP"*** — in MVP, snapshot
+  bytes never enter a Git-tracked path; no per-project opt-in to commit them exists this phase.
+- **Snapshot byte storage backend.** The ruling above says only that snapshot bytes never enter
+  Git in MVP; it does not specify where they actually live (a dedicated server-side store, a
+  blob store, or something else), referenced by `snapshotRef`. That design is not settled here
+  and is left as an explicit open question for the Incidentius rework rather than invented in
+  this evidence-records draft.
 - **Retention and masking defaults** (30 days, 2 MiB) are engineering assumptions carried over
   from the transport contract's own bounds, not founder rulings — also listed in
   [product-family §9](../../product/product-family.md#9-open-questions).
