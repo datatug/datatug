@@ -424,7 +424,14 @@ are written.
 | Core (`datatug-core`) | Planned | `IncidentRef`, event and projection types, `ExecutionRequest.incident`, `Scope.storeId`, board widget extension boundary and round-trip fixtures | — |
 | Demo projects (`datatug-demo-projects`) | Planned | canonical demo incident and its recurrence fixture in `demo-project-1` | — |
 
-Two acceptance criteria below (`checks-run-at-start-recorded`, `incidentius-profile-home`) still carry web-specific wording ("the incident page", "side menu") because `datatug-apps` has no incidents Implementation Feature yet to receive them; move those two once that Implementation exists. Every other acceptance criterion's CLI-specific wording was reworded platform-neutral in the 2026-09-11 Amending round, with the CLI assertions relocated to `datatug-cli` `cli/incident`.
+Residuals from the 2026-09-11 Amending round. Each waits for an Implementation that does not exist yet:
+
+- `checks-run-at-start-recorded` and `incidentius-profile-home` keep web wording ("the incident page", "side menu") until `datatug-apps` has an incidents Implementation Feature to receive it.
+- The board round trip in `board-lists-its-incidents-by-ref` is concretely the Go `BoardWidget.Validate` in `datatug-core` and the `@datatug/board-models` TypeScript types; that check moves to the Core and Web Implementations once they exist.
+- The grant-scoped read in `access-request-approval-and-expiry-are-events` is made on the CLI with `datatug query run --incident <id>`; that flag's REQ and AC are a follow-up in `datatug-cli` `cli/query`, as `cli/incident` REQ:access-verbs records.
+- REQ:api-and-cli and REQ:watch-event-cursor still name CLI surface. REQ:capability-role binds acceptance criteria only, so moving that text into `cli/incident` is an open follow-up.
+
+Every other acceptance criterion below is platform-neutral, and its CLI-specific checks are acceptance criteria in `datatug-cli` `cli/incident`.
 
 ## Acceptance Criteria
 
