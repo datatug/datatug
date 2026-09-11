@@ -1,6 +1,6 @@
 ---
 format: https://specscore.md/plan-specification
-status: Approved
+status: Executing
 ---
 # Plan: Incidentius MVP inside DataTug
 
