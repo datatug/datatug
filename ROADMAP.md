@@ -17,12 +17,15 @@ merged branch or local test is not a completed journey or release.
 The roadmap now carries three tracks for one product family
 ([product-family](spec/product/product-family.md)). Phases 0–5 below are **Track A, the
 DataTug spine**, unchanged. **Track B, Incidentius** and **Track C, Dashboardius** follow
-Phase 5 in this document and depend on Track A as drawn:
+Phase 5 in this document and depend on Track A as drawn. Track B no longer starts beside
+Phase 2: it starts only after the **Core coherent-experience review** gate below (founder,
+2026-09-11: *"complete library refinement - e.g. DataTug improvements first. complete Phase
+2 and review the core as a coherent experience before prioritizing Incidentius."*):
 
 ```text
 Track A  DataTug spine        0 ── 1 ── 2 ── 3 ── 4 ── 5
-                                    │         │    │    │
-Track B  Incidentius          B1 ───┘         │    B2 ─┘    B3 ── B4
+                                         │    │    │    │
+Track B  Incidentius          B1 ────────┘    │    B2 ─┘    B3 ── B4
 Track C  Dashboardius         C1 = Phase 5 ───┘    C2 ────── C3 (shell rebuild; full cutover)
 ```
 
@@ -82,7 +85,7 @@ smoke evidence. Record each separately; required CI cannot succeed by skipping s
 
 ## Phase 2 — executable library quality and provenance
 
-[Draft plan](spec/plans/2026-09-09-phase-2-library-depth-and-provenance.md).
+[plan](spec/plans/2026-09-09-phase-2-library-depth-and-provenance.md).
 
 **Outcome:** one engineer captures a useful query; another authorized user of the same
 Git/local project can find, understand and rerun it with correct bindings and provenance.
@@ -98,6 +101,18 @@ failure preserving the draft. Measure reuse in an actual team experiment.
 metadata and time-window semantics. These remain named future work in owning Features,
 not silently deleted and not required to fit an arbitrary task count.
 **Autonomy:** high for the bounded file/Git journey; hosted sharing has its own phase.
+
+## Core coherent-experience review (gate)
+
+**Trigger:** Phase 2's gate is met (capture → diff → close → reopen → rerun, with read-only
+denial and write failure preserving the draft).
+**Process:** the founder reviews the DataTug core — Phases 0–2 — as one coherent experience,
+not as separate merged components.
+**Outcome:** the review decides what comes next. Track B (Incidentius) does not start before
+this gate passes (founder, 2026-09-11: *"complete library refinement - e.g. DataTug
+improvements first. complete Phase 2 and review the core as a coherent experience before
+prioritizing Incidentius."*). This supersedes Track B's earlier "runs beside Phase 2"
+sequencing.
 
 ## Phase 3 — human-guided investigations
 
@@ -136,12 +151,14 @@ silently removed or treated as already shipped.
 sources/execution/security/project assets; Dashboardius owns dense presentation,
 widgets, editing, Undo/Reset and links.
 **Dependencies:** [dashboards Feature](spec/features/dashboards/README.md), lossless
-shared board contract, explicit query-target binding decision, server write and
-concurrent-edit policy, and recipient authorization.
+shared board contract, server write and concurrent-edit policy, and recipient
+authorization. The SQL-widget binding is already ruled (founder, 2026-09-09: *"I'm Ok
+with the suggested option 1"*) — a widget references a library query by `queryId` plus
+bindings.
 **Gate:** a genuine cross-language board round trip and real persisted two-actor
 journey; scripted sample cards do not satisfy it.
-**Autonomy:** blocked only for dependent work by the explicit SQL-widget binding
-question in the Feature. Presentation-only refinements may proceed independently.
+**Autonomy:** high; no unresolved Feature decision blocks this phase. Presentation-only
+refinements may proceed independently.
 
 ## Track B — Incidentius (incident-resolution workspace inside DataTug)
 
@@ -168,7 +185,9 @@ the canonical demo incident and its boring
 recurrence walk end to end.
 **Dependencies:** Phase 1 accepted (done). Incidents and evidence write to the routed incident
 store through the server; checks and annotations are project knowledge assets and need
-Phase 2 task 2 (the authorized project-write path), sequenced first. Runs beside Phase 2.
+Phase 2 task 2 (the authorized project-write path), sequenced first. Track B does not start
+until Phase 2 completes and the [Core coherent-experience review](#core-coherent-experience-review-gate)
+gate passes and prioritizes it (founder, 2026-09-11).
 **Non-goals:** hosted multi-user incidents, boards/charts, AI narratives, capture channels,
 production writes (approved mutating actions are FUTURE).
 **Gate:** the whole-journey e2e with both epilogues, pinned revisions, a named CLI release and
@@ -215,6 +234,9 @@ Resolution Record documents and stories. Every item requires evidence from B1–
   library; the PrimeNG shell in `sneat-co/dashboardius` is retired. A complete cutover under
   the migrate-means-migrate rule (inventory in [product-profiles](spec/features/product-profiles/README.md)).
   Can start after the renderer library exists (Dashboardius plan task 1); not gated by C1.
+  **No executable owner plan exists yet (F8):** the inventory names the work, but deployment
+  transfer, old-shell removal and domain smoke have no task chain. C3 needs its own plan,
+  with deployment-before-removal acceptance, before it starts.
 
 ## Independently planned extensions and experiments
 
@@ -289,11 +311,22 @@ Shared presentation libraries serve all three profiles.
   management".
 - Incidentius positioning (vision document, 2026-09-11): "Incidentius is an incident-resolution
   workspace." MVP: "do not build three applications. Build Incidents inside DataTug".
+- Pilot order, external roadmap/plans review (2026-09-11): "complete library refinement -
+  e.g. DataTug improvements first. complete Phase 2 and review the core as a coherent
+  experience before prioritizing Incidentius."
+- Snapshots in Git, external roadmap/plans review (2026-09-11): "Not in MVP".
+- Web compare scope, external roadmap/plans review (2026-09-11): "compare - A".
 
 ## Open Questions
 
-Product choices live beside their owning Feature: board SQL-widget binding in
-[dashboards](spec/features/dashboards/README.md#open-questions), hosted identity and
-sharing in [sharing-scopes](spec/features/sharing-scopes/README.md#open-questions),
-and distribution/privacy interpretation in [surfaces](spec/features/surfaces/README.md#open-questions).
-No release version, provider change or deployment success is inferred from this plan.
+Product choices live beside their owning Feature: hosted identity and sharing in
+[sharing-scopes](spec/features/sharing-scopes/README.md#open-questions), and
+distribution/privacy interpretation in
+[surfaces](spec/features/surfaces/README.md#open-questions). No release version, provider
+change or deployment success is inferred from this plan.
+
+- **C3 owner plan (F8):** Track C3 has a cutover inventory but no executable owner plan yet
+  (deployment transfer, old-shell removal, domain smoke). See Track C3 above.
+- **Personal-query storage acceptance owner:** personal-query storage has no acceptance
+  owner and is outside Phase 2's project-query-only scope; it must not silently expand
+  that scope. An owning Feature/plan needs to claim it explicitly.
