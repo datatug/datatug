@@ -424,21 +424,21 @@ are written.
 | Core (`datatug-core`) | Planned | `IncidentRef`, event and projection types, `ExecutionRequest.incident`, `Scope.storeId`, board widget extension boundary and round-trip fixtures | — |
 | Demo projects (`datatug-demo-projects`) | Planned | canonical demo incident and its recurrence fixture in `demo-project-1` | — |
 
-Several acceptance criteria below are phrased through `datatug incident …` or the incident page. Under REQ:capability-role they belong in the CLI and web Implementations or must be reworded platform-neutral; that move is an Amending round tracked as a follow-up, not part of this matrix.
+Two acceptance criteria below (`checks-run-at-start-recorded`, `incidentius-profile-home`) still carry web-specific wording ("the incident page", "side menu") because `datatug-apps` has no incidents Implementation Feature yet to receive them; move those two once that Implementation exists. Every other acceptance criterion's CLI-specific wording was reworded platform-neutral in the 2026-09-11 Amending round, with the CLI assertions relocated to `datatug-cli` `cli/incident`.
 
 ## Acceptance Criteria
 
 ### AC: houston-creates-incident-with-context (verifies REQ:houston-creation, REQ:incident-store)
 
-**Given** the demo project served with `--as admin` and the default store routing
-**When** the user creates an incident titled "Canadian invoices stuck" with the text "customer 5 and invoice 42 affected"
+**Given** the demo project served under the admin principal and the default store routing
+**When** a user creates an incident titled "Canadian invoices stuck" with the text "customer 5 and invoice 42 affected"
 **Then** `incidents/INC-1/events.jsonl` in the project's own repository holds an `incident.created` event, the description is kept, the reporter is a participant, and the canonical context layer exists.
 
 ### AC: incident-store-routes-to-configured-location (verifies REQ:incident-store)
 
 **Given** the served project configured with a dedicated incidents repository as its store
 **When** an incident is created and the project's repository is inspected
-**Then** the events and projection exist only in the dedicated repository, the project repository is untouched, `datatug incident show` resolves the incident by `storeId` + `INC-1`, and the same test passes with the application-repository location.
+**Then** the events and projection exist only in the dedicated repository, the project repository is untouched, the incident is resolvable by `storeId` + `INC-1`, and the same test passes with the application-repository location.
 
 ### AC: incident-spans-two-projects (verifies REQ:multi-project-incidents)
 
@@ -449,13 +449,13 @@ Several acceptance criteria below are phrased through `datatug incident …` or 
 ### AC: query-lists-its-incidents (verifies REQ:incident-references-and-back-links)
 
 **Given** `customer-invoices` was recorded during INC-1 and a check was promoted from it during INC-1
-**When** `datatug incident list --query customers/customer-invoices` runs and the promoted check file is inspected
+**When** incidents are listed filtered by that query's back-link and the promoted check file is inspected
 **Then** INC-1 is listed with its `storeId`, and the check file carries `origin.incident` equal to INC-1's `IncidentRef`.
 
 ### AC: board-lists-its-incidents-by-ref (verifies REQ:incident-references-and-back-links)
 
 **Given** a board file whose `incidentRef` is `{storeId: <demo store>, incidentId: INC-1}` and an `INC-1` event that references that board id
-**When** `datatug incident list --board <boardId> --json` runs, and the board is round-tripped through the Go validator and the `@datatug/board-models` types
+**When** incidents are listed filtered by that board's back-link, and the board is round-tripped through every consuming platform's own validator and types
 **Then** the list contains `INC-1` and no other incident, and the `incidentRef` survives the round trip unchanged in both directions.
 
 ### AC: investigation-becomes-incident (verifies REQ:houston-creation, REQ:attached-investigation-context)
@@ -473,7 +473,7 @@ Several acceptance criteria below are phrased through `datatug incident …` or 
 ### AC: show-at-reconstructs-belief (verifies REQ:projection-and-replay)
 
 **Given** the fixture incident in which hypothesis H1 is rejected at 14:43
-**When** `datatug incident show INC-1 --at 14:42:00Z` runs
+**When** the incident is shown as of 14:42:00Z
 **Then** H1 is `investigating`, its later rejection and evidence are absent, and the status view matches the 14:42 state.
 
 ### AC: inference-requires-refs (verifies REQ:event-stream-append-only)
@@ -490,14 +490,14 @@ Several acceptance criteria below are phrased through `datatug incident …` or 
 
 ### AC: watch-streams-events-with-cursor (verifies REQ:watch-event-cursor)
 
-**Given** `datatug incident watch INC-1 --json` running
-**When** another actor appends two events and the watcher restarts with `--since <cursor>` taken from its stderr
-**Then** exactly the two events were streamed as NDJSON on stdout before the restart and nothing is duplicated after it.
+**Given** INC-1's event stream being watched from its start
+**When** another actor appends two events and the watch is resumed from the cursor emitted when it stopped
+**Then** exactly the two events were streamed before the restart, and nothing already seen is re-emitted after it.
 
 ### AC: outcomes-and-duplicate-merge (verifies REQ:lifecycle-and-outcomes)
 
 **Given** INC-3 is a duplicate of INC-1
-**When** `datatug incident merge INC-3 --into INC-1` runs
+**When** INC-3 is merged into INC-1
 **Then** INC-1 gains INC-3's events with `incident.merged` refs, INC-3 is closed with `mergedInto: INC-1` and no outcome, and resolving INC-1 later requires exactly one of the five outcomes.
 
 ### AC: overlay-promotion-updates-canonical (verifies REQ:attached-investigation-context)
@@ -533,7 +533,7 @@ Several acceptance criteria below are phrased through `datatug incident …` or 
 ### AC: search-finds-similar-by-entities (verifies REQ:search-and-similarity)
 
 **Given** INC-1 resolved and INC-2 open with overlapping `Invoice` facts, the same failed check and the same environment
-**When** `datatug incident similar INC-2` runs
+**When** incidents similar to INC-2 are requested
 **Then** INC-1 ranks first with the matched signals listed, and an unrelated incident with only a shared word in its title ranks below it.
 
 ### AC: status-projection-carries-provenance (verifies REQ:status-projection)
@@ -545,8 +545,8 @@ Several acceptance criteria below are phrased through `datatug incident …` or 
 ### AC: access-request-approval-and-expiry-are-events (verifies REQ:access-requests-in-incident)
 
 **Given** `support` is an investigator on INC-1, which references the demo project, and may not read `Invoice`
-**When** `support` runs `datatug incident access request INC-1 --source chinook --collection Invoice --reason "stuck invoices"`, `admin` runs `datatug incident access approve INC-1 <requestId>`, `support` reads `Invoice` with `--incident INC-1`, and INC-1 is later closed
-**Then** the stream carries `access.requested`, `access.approved` and `access.expired` in that order with their actors, the execution record of the read (made with `--incident INC-1`) names the grant id, `datatug incident show INC-1` listed the grant as active before closure and absent after it, and a read after closure is limited as before.
+**When** `support` requests temporary read access to `Invoice` with a reason, `admin` approves the request, `support` reads `Invoice` under the resulting grant, and INC-1 is later closed
+**Then** the stream carries `access.requested`, `access.approved` and `access.expired` in that order with their actors, the execution record of the grant-scoped read names the grant id, the projection listed the grant as active before closure and absent after it, and a read after closure is limited as before.
 
 ### AC: participant-role-separate-from-permission (verifies REQ:participants-and-roles)
 
@@ -554,11 +554,11 @@ Several acceptance criteria below are phrased through `datatug incident …` or 
 **When** they open an execution record containing `Customer.Email`
 **Then** the column is absent under their policy regardless of the role, matching `core-investigation-loop` AC:hidden-column-refused.
 
-### AC: cli-json-matches-api (verifies REQ:api-and-cli)
+### AC: output-matches-api-envelope (verifies REQ:api-and-cli)
 
-**Given** the incident API and `datatug incident show INC-1 --json`
+**Given** the incident API and any Implementation's structured read of the same incident
 **When** both are called for the same incident
-**Then** the CLI output equals the API envelope byte for byte, and every CLI verb maps to one API operation.
+**Then** the Implementation's structured output equals the API envelope byte for byte, and every Implementation action maps to one API operation.
 
 ### AC: incidentius-profile-home (verifies REQ:profile-home)
 

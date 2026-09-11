@@ -172,7 +172,7 @@ without current access to the recorded columns gets a non-disclosing denial.
 ### Task 3: Incident endpoints, policy-rechecked reads, CLI verbs and watch stream
 
 **Id:** task-3
-**Verifies:** incidents#ac:houston-creates-incident-with-context, incidents#ac:watch-streams-events-with-cursor, incidents#ac:cli-json-matches-api, incidents#ac:events-redacted-under-policy
+**Verifies:** incidents#ac:houston-creates-incident-with-context, incidents#ac:watch-streams-events-with-cursor, incidents#ac:output-matches-api-envelope, incidents#ac:events-redacted-under-policy
 **Supporting ACs:** evidence-records#ac:record-referenced-from-incident
 **Depends-On:** 1, 2
 **Status:** planning
