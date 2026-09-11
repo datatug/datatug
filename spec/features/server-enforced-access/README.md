@@ -37,6 +37,7 @@ profile. The prior label-only exception was inconsistent with that guarantee.
 | Source-level allow/deny per principal | partial; acceptance pending | 1 | strategic |
 | Native SQL under protected access | refusal required; privileged opaque grant separate | 1 | security |
 | Layered multi-owner policies and Explain Access | pending VM stack; refresh delivery receipts | prerequisite when used; broader UI later | enabler |
+| Incident-scoped temporary read grants with request and approval | planned | B1 (incidents MVP) | security |
 
 #### REQ: dalgo-access-policies-external
 
@@ -95,13 +96,23 @@ backdoor (vision §15).
 
 #### REQ: incident-scoped-grants
 
-NEXT (Track B2), not MVP: a temporary investigation grant MAY widen a principal's read access
-for the duration of an assigned incident — named sources and collections, masked sensitive
-fields, an expiry tied to the incident's resolution or a time limit — issued and revoked
-through the server and recorded as incident events (vision §35). It composes with the layered
-ACL contract; it MUST NOT bypass masking, and sensitive-field escalation MUST be narrow,
-justified and temporary. Controlled production modifications with approval (vision §36) are
-FUTURE and require their own Feature.
+MVP (founder, 2026-09-11: privileged-access request and approval in its simplest form is
+part of the Incidentius MVP): a temporary investigation grant MAY widen a participant's
+**read** access for the duration of an incident (vision §35). Simplest form, lead assumptions
+marked: a participant requests, inside the incident, read access to named sources and
+collections of a project the incident references, with a reason and an optional time limit;
+an approver decides — an owner of that project, or a principal the project's policy names as
+incident approver (lead assumption for who approves); the server then evaluates the active
+grant as one additional allow policy in `accesspolicies.Run` for that principal only, on
+requests made under that incident, until the incident is resolved or the time limit passes,
+whichever comes first (lead assumption for the mechanism: grants are projected from incident
+events and merged into the policy set per request, so no second evaluator exists and the
+layered ACL contract is composed with when it lands, not depended on). A grant MUST NOT widen
+field allow-lists or unmask sensitive fields, MUST NOT permit opaque native SQL, and MUST NOT
+grant writes; every execution record produced under a grant carries the grant id. Request,
+approval or decline, expiry and revocation are incident events
+([incidents](../incidents/README.md) REQ:access-requests-in-incident). Controlled production
+modifications with approval (vision §36) are FUTURE and require their own Feature.
 
 ## Acceptance Criteria
 
@@ -113,9 +124,21 @@ FUTURE and require their own Feature.
 
 ### AC: incident-grant-expires (verifies REQ:incident-scoped-grants)
 
-**Given** an investigation grant for `support` on `Invoice` tied to INC-1
+**Given** a grant on `Invoice` for `support`, requested by `support` inside INC-1 and approved by `admin`
 **When** INC-1 is resolved
-**Then** the next read under `support` is limited as before the grant, and the grant's issue and expiry are events on INC-1.
+**Then** the next read under `support` is limited as before the grant, and the request, the approval and the expiry are events on INC-1.
+
+### AC: incident-grant-needs-approval (verifies REQ:incident-scoped-grants)
+
+**Given** `support` has requested read access to `Invoice` for INC-1 and nobody has approved it
+**When** `support` reads `Invoice` under INC-1
+**Then** the read is denied exactly as before the request, the request is an event on INC-1, and after `admin` approves, the same read succeeds and its execution record names the grant id.
+
+### AC: incident-grant-never-unmasks (verifies REQ:incident-scoped-grants)
+
+**Given** an approved grant on `Customer` for `support` under INC-1 and a policy hiding `Customer.Email`
+**When** `support` reads `Customer` under INC-1
+**Then** rows the source-level policy previously denied are returned, `Email` is still absent, a native SQL route is still refused, and a read of `Customer` outside INC-1 is limited as before the grant.
 
 ### AC: dalgo-access-is-the-only-evaluator (verifies REQ:dalgo-access-policies-external)
 

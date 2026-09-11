@@ -175,7 +175,8 @@ types: incident.created · incident.status · incident.outcome · incident.merge
        hypothesis.proposed · hypothesis.state ·
        evidence.attached · execution.recorded · check.run · compare.run · annotation.added ·
        metric.observed · criterion.added · criterion.evaluated ·
-       note.added · message.captured · link.added · deployment.noted · credit.given
+       note.added · message.captured · link.added · deployment.noted · credit.given ·
+       access.requested · access.approved · access.declined · access.revoked · access.expired
 ```
 
 `assertion.kind` separates fact from belief (vision §12, §31, §57 Q12): a recorded execution
@@ -233,6 +234,21 @@ surviving incident with `incident.merged` refs and close the duplicate with `mer
 merging an already-merged incident is refused with the transport appendix's `INVALID_REQUEST`
 (no new error code). A recurrence stays a separate incident linked to the earlier one
 (REQ:recurrence-and-links).
+
+#### REQ: access-requests-in-incident
+
+A participant MUST be able to request, inside the incident, temporary read access to named
+sources and collections of a referenced project, with a reason and an optional time limit,
+and an approver MUST be able to approve, decline or revoke it there (founder, 2026-09-11:
+privileged-access request and approval in its simplest form is part of the MVP). The
+request, decision, use (the grant id on every execution record produced under it), expiry
+and revocation are events (`access.*`), so the audit question "who could read what, when,
+and who allowed it" is answered by the same stream as everything else. The projection MUST
+list pending requests and active grants with their scope and expiry; expiry MUST be applied
+by the server at resolution or at the time limit without a human action. What a grant may
+and may not widen is fixed by [server-enforced-access](../server-enforced-access/README.md)
+REQ:incident-scoped-grants; this Feature owns only the workflow and its events. Exposed as
+`datatug incident access request|approve|decline|revoke|list` and on the incident page.
 
 ### Investigation Context
 
@@ -327,8 +343,10 @@ Persona, incident role and permission MUST stay separate (vision §42–§43). I
 `reporter | investigator | coordinator | observer`, recorded as events; they confer no data
 access. Permission comes from each referenced project's grants and policies; the incident
 store's own read access follows its location (project grant when co-located, the dedicated
-repository's or the space's membership otherwise). Incident-scoped temporary grants are NEXT in
-`server-enforced-access`. Business users and external counterparties appear as participants
+repository's or the space's membership otherwise). Incident-scoped temporary read grants with
+request and approval are MVP in `server-enforced-access` REQ:incident-scoped-grants
+(REQ:access-requests-in-incident below); approval authority comes from the project's policy,
+not from an incident role. Business users and external counterparties appear as participants
 of kind `external` with no access.
 
 #### REQ: resolution-record
@@ -497,6 +515,12 @@ Feature (open question below).
 **Given** the fixture incident at its peak
 **When** the status view renders
 **Then** every sentence carries refs resolving to existing events and no hypothesis is worded as a fact.
+
+### AC: access-request-approval-and-expiry-are-events (verifies REQ:access-requests-in-incident)
+
+**Given** `support` is an investigator on INC-1, which references the demo project, and may not read `Invoice`
+**When** `support` runs `datatug incident access request INC-1 --source chinook --collection Invoice --reason "stuck invoices"`, `admin` runs `datatug incident access approve INC-1 <requestId>`, `support` reads `Invoice` under INC-1, and INC-1 is later resolved
+**Then** the stream carries `access.requested`, `access.approved` and `access.expired` in that order with their actors, the execution record of the read names the grant id, `datatug incident show INC-1` listed the grant as active before resolution and absent after it, and a read after resolution is limited as before.
 
 ### AC: participant-role-separate-from-permission (verifies REQ:participants-and-roles)
 
