@@ -26,7 +26,7 @@ phase unless the founder explicitly made a permanent product decision.
 
 The table summarizes the 9 September independent review, not continuously refreshed
 remote state. Refresh its receipts before implementation; component presence is not
-journey acceptance. [Roadmap](../../ROADMAP.md) owns sequencing; [Phase 1 plan](../plans/2026-09-09-phase-1-core-investigation-loop.md)
+journey acceptance. [Roadmap](../../ROADMAP.md) owns sequencing; [Phase 1 plan](https://github.com/sneat-co/workbench/blob/main/spec/plans/github.com/datatug/datatug/2026-09-09-phase-1-core-investigation-loop/README.md)
 owns corrective tasks. Earlier detailed audit tables remain historical evidence in
 [research](../research/README.md), not an alternative live state matrix.
 

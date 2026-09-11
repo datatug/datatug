@@ -14,7 +14,7 @@ remote refs and the accompanying delivery report before choosing an implementati
 
 1. Read the corrected [Phase 1 Feature](../features/core-investigation-loop/README.md),
    its [normative API/context contract](../features/core-investigation-loop/api-contract.md),
-   and [Phase 1 corrective tasks 12–17](../plans/2026-09-09-phase-1-core-investigation-loop.md).
+   and [Phase 1 corrective tasks 12–17](https://github.com/sneat-co/workbench/blob/main/spec/plans/github.com/datatug/datatug/2026-09-09-phase-1-core-investigation-loop/README.md).
 2. Refresh the review's Mac/VM reconciliation table against current remote refs and
    working-tree status. Preserve staged CLI follow-ups and pending ACL/provider work.
    Do not reset, clean or blindly merge a branch based on its old name or reported status.

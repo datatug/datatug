@@ -2,7 +2,6 @@
 spec/features/README.md merge=specscore-index
 spec/ideas/README.md merge=specscore-index
 spec/ideas/archived/README.md merge=specscore-index
-spec/plans/README.md merge=specscore-index
 spec/tasks/README.md merge=specscore-index
 spec/lessons/README.md merge=specscore-index
 spec/decisions/README.md merge=specscore-index

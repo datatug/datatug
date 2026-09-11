@@ -10,7 +10,7 @@ status: Approved
 **Source Ideas:** [Incidentius](https://github.com/sneat-co/backstage/blob/main/spec/ideas/incidentius.md)
 **Kind:** Capability (implementations in `datatug-core`, `datatug-cli`, `datatug-apps`, `datatug-demo-projects`)
 **Family:** [product-family](../../product/product-family.md) · P16 in the [hierarchy](../../product/hierarchy.md)
-**Plan:** [2026-09-11-incidentius-mvp](../../plans/2026-09-11-incidentius-mvp.md)
+**Plan:** [2026-09-11-incidentius-mvp](https://github.com/sneat-co/workbench/blob/main/spec/plans/github.com/datatug/datatug/2026-09-11-incidentius-mvp/README.md)
 **Vision:** [incident-resolution vision](../../research/2026-09-11-incident-resolution-vision.md) §1–§5, §11, §17–§25, §30–§31, §38–§39, §41–§43, §50–§54
 
 ## Summary

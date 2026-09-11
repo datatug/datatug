@@ -13,7 +13,7 @@ status: Stable
 **Source Ideas:** —
 **Supersedes:** —
 **Kind:** Capability (implementations in `datatug-cli` and `datatug-apps`)
-**Plan:** [2026-09-09-phase-1-core-investigation-loop](../../plans/2026-09-09-phase-1-core-investigation-loop.md)
+**Plan:** [2026-09-09-phase-1-core-investigation-loop](https://github.com/sneat-co/workbench/blob/main/spec/plans/github.com/datatug/datatug/2026-09-09-phase-1-core-investigation-loop/README.md)
 **Pillars:** P3 semantic layer · P5 related-data navigation · P6 investigation context · P7 executable knowledge library · P10 server-enforced access · P11 surfaces (see [hierarchy](../../product/hierarchy.md))
 
 ## Summary
@@ -316,8 +316,8 @@ redirect, size/time/count bounds, cancellation and explicit snapshot rules.
 
 | Platform | Status | Brief | Link |
 |----------|--------|-------|------|
-| CLI / server (`datatug serve`) | Partial | store wiring, resolver, ACL on all reads, DTQL query type, principal flags, demo project | [corrective plan](../../plans/2026-09-09-phase-1-core-investigation-loop.md) |
-| Web (`datatug-apps`) | Partial | agent client contract, semantic markers, context panel, applicable queries, auto-binding, Investigation Context, limitation header, journey e2e | [corrective plan](../../plans/2026-09-09-phase-1-core-investigation-loop.md) |
+| CLI / server (`datatug serve`) | Partial | store wiring, resolver, ACL on all reads, DTQL query type, principal flags, demo project | [corrective plan](https://github.com/sneat-co/workbench/blob/main/spec/plans/github.com/datatug/datatug/2026-09-09-phase-1-core-investigation-loop/README.md) |
+| Web (`datatug-apps`) | Partial | agent client contract, semantic markers, context panel, applicable queries, auto-binding, Investigation Context, limitation header, journey e2e | [corrective plan](https://github.com/sneat-co/workbench/blob/main/spec/plans/github.com/datatug/datatug/2026-09-09-phase-1-core-investigation-loop/README.md) |
 | Demo project (`datatug-demo-projects`) | Partial | Customer/Invoice/Country entities, mappings, parameterized queries, inGitDB support-notes, HTTP reference source with snapshot fixture, policy set | — |
 
 ## Acceptance Criteria
