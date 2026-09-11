@@ -97,9 +97,9 @@ components and never loaded globally.
 The entry-point wording for `incidentius` is the founder's own (vision §23: *"Houston, we've got
 a problem"*), and the *Incidents* item in the `datatug` side menu is fixed by the founder
 (2026-09-11, verbatim: *"DataTug app should always have Incidents menu item in side menu."*):
-it MUST be present under the `datatug` profile whether or not a project is open, and no
-feature flag or project setting may remove it. The rest of the navigation orders and the demo
-defaults are lead assumptions. Brand colours, logo
+it MUST be present under the `datatug` profile. Lead assumptions, not the founder's words:
+it is present whether or not a project is open, and no feature flag or project setting removes
+it. The rest of the navigation orders and the demo defaults are lead assumptions. Brand colours, logo
 and copy per profile are lead assumptions pending the brand decision in Open Questions.
 
 A profile MUST be selected by **hostname**, with an environment/configuration override for

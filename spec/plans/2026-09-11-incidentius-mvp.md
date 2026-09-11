@@ -42,7 +42,7 @@ Written in the user's own sentences; each stage names its observable good result
 performs hidden setup between stages.
 
 **Start, null action.** "I run `datatug demo`, the browser opens the demo project, and I see an
-*Incidents* entry in the project menu; under the Incidentius profile it is the home page."
+*Incidents* item in the side menu; under the Incidentius profile it is the home page."
 Good result: the incident list renders (empty or with the fixture) with no error and no
 hidden URL.
 
@@ -258,7 +258,7 @@ compare step is part of it.
 
 **Id:** task-9
 **Verifies:** incidents#ac:status-projection-carries-provenance, incidents#ac:participant-role-separate-from-permission, incidents#ac:incidentius-profile-home
-**Supporting ACs:** product-profiles#ac:hostname-selects-home, product-profiles#ac:deep-link-works-in-other-profile, product-profiles#ac:one-build-serves-both-profiles, product-profiles#ac:profile-override-grants-nothing
+**Supporting ACs:** product-profiles#ac:hostname-selects-home, product-profiles#ac:deep-link-works-in-other-profile, product-profiles#ac:one-build-serves-both-profiles, product-profiles#ac:profile-override-grants-nothing, product-profiles#ac:incidents-always-in-datatug-menu
 **Depends-On:** 3, 4, 6
 **Status:** planning
 

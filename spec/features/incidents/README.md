@@ -382,11 +382,7 @@ agent-only path.
 Under the `incidentius` product profile the home route MUST be the incident list with the
 "Houston" entry point. Under the `datatug` profile the side menu MUST always carry an
 *Incidents* item (founder, 2026-09-11, verbatim: *"DataTug app should always have Incidents
-menu item in side menu."*) — present whether or not a project is open, never hidden behind a
-feature flag or a project setting, leading to the incident list — and incidents are also
-reachable from any investigation ([product-profiles](../product-profiles/README.md)). From
-the Incidentius MVP onward this item is the one exception to the rule that unbuilt pages stay
-out of navigation ([surfaces](../surfaces/README.md)): it is built with the MVP and stays.
+menu item in side menu."*), leading to the incident list, and incidents are also reachable from any investigation ([product-profiles](../product-profiles/README.md)). Lead assumptions, not the founder's words: the item is present whether or not a project is open, and no feature flag or project setting removes it. With no project open, the list shows the incidents of every incident store configured for this machine or served setup that the reader may see; with none configured it shows an empty state that explains how to open a project and create one, so the page is never a dead page ([surfaces](../surfaces/README.md) REQ:hide-dead-pages).
 
 ### Canonical demo
 
@@ -557,7 +553,7 @@ are written.
 
 **Given** the app served under the `incidentius` profile
 **When** it opens
-**Then** the incident list with the "Houston, we've got a problem" entry point is the home route, and the same route is reachable under the `datatug` profile from the project menu.
+**Then** the incident list with the "Houston, we've got a problem" entry point is the home route, and the same route is reachable under the `datatug` profile from the *Incidents* item in the side menu.
 
 ### AC: demo-incident-journey-e2e (verifies REQ:canonical-demo-incident)
 
