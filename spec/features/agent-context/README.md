@@ -86,7 +86,24 @@ The in-app conversational query-building experience is owned by the separate, Ap
 contract. It remains an experiment behind the serve-brokered path per the roadmap, not a competing
 default.
 
+#### REQ: agent-incident-watch
+
+An agent MUST be able to consume incidents through the same model as people: `datatug
+incident watch --json --since <cursor>` and the incident API ([incidents](../incidents/README.md)
+REQ:watch-event-cursor, REQ:api-and-cli) are the agent surface for "a new incident appeared,
+read its context, search similar, run permitted safe checks, propose hypotheses" (vision §52).
+Every event an agent appends is an `inference` with refs unless it references a recorded
+execution or check; an agent is a principal under the same policies and MUST NOT receive an
+event, fact or record a human under the same principal could not see. A skill for this
+workflow MUST wrap the real `datatug incident` verbs once they exist, per REQ:skills-plugin-drives-cli.
+
 ## Acceptance Criteria
+
+### AC: agent-watch-same-policy (verifies REQ:agent-incident-watch)
+
+**Given** `datatug incident watch --json` run under the `support` principal
+**When** an `execution.recorded` event references a record containing `Customer.Email`
+**Then** the event is delivered without the hidden column's values and opening the record returns the same limitation a human `support` session sees.
 
 ### AC: skills-still-wrap-real-commands (verifies REQ:skills-plugin-drives-cli)
 

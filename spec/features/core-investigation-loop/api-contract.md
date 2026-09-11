@@ -58,6 +58,8 @@ type Fact = {
   id: string; entity: string; field: string; value: TypedValue;
   condition?: '==' | '!=' | '>' | '>=' | '<' | '<='; // OPTIONAL; absent means '=='
   origin: 'selection' | 'context' | 'manual';
+  role?: 'affected' | 'healthy_control' | 'suspected' | 'excluded' | 'recovered'; // OPTIONAL, see below
+  layer?: string; // OPTIONAL: 'canonical' (default when absent) or an overlay id such as 'hypothesis:H17'
   physical?: PhysicalRef;
   mapping?: 'declared' | 'inferred';
   enabled: boolean;
@@ -109,6 +111,15 @@ entry whose `explanation` says the fact was skipped for an unsupported condition
 never silently narrow or misstate the query. This keeps the "why this query is
 constrained" view (`investigation-context` REQ:no-hidden-filters) truthful even when
 client and server disagree on condition support.
+
+`Fact.role` and `Fact.layer` (OPTIONAL; lead assumption 2026-09-11, pending founder
+confirmation) carry the cohort role and the context layer defined by `investigation-context`
+REQ:cohort-roles and REQ:context-layers-and-promotion. Absent `layer` means `canonical`.
+Neither field changes binding precedence, typing or authorization: a fact in an overlay layer
+binds only when the request names that layer, a role is display and cohort metadata, and an
+agent that does not implement them MUST ignore `role` and treat a non-canonical `layer` as
+"do not bind automatically" rather than binding it as canonical. No existing caller or fixture
+changes shape.
 
 Limitations report applied restrictions, not the number of rejected rows or their
 values. Only names visible in authorized metadata may appear in `hiddenColumns` or

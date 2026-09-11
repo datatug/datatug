@@ -21,6 +21,15 @@ the founder ruled 2026-09-09 that a SQL widget references a library query rather
 carrying query text or an execution target of its own.
 No dashboards are added to Phase 1; later embedding of the shared renderer is not banned.
 
+Founder ruling 2026-09-11 (verbatim): *"Not sure if it's part of the spec your read but I
+think DataTug, Incidentius, Dashbaordius apps code should be in same repo (nx workspace with
+shared libs and either separate or single configurable app)"*. The Dashboardius app therefore
+moves into the `datatug/datatug-apps` workspace (cutover owned by
+[product-profiles](../product-profiles/README.md)); the board renderer becomes a shared library
+that DataTug and Incidentius pages embed. Incident and investigation dashboards are specified
+by Dashboardius in its `incident-dashboards` Feature; this Feature owns only the DataTug-side
+contract they need (REQ:incident-boards-and-shared-renderer).
+
 ## Problem
 
 A useful sample-data dashboard does not yet prove a query-backed, shared durable
@@ -100,6 +109,20 @@ presentation implementation. A later embedded shared renderer may be specified w
 useful; DataTug MUST NOT create an independent second renderer. The REQ ID is retained,
 but its earlier permanent embedding prohibition was an unsupported scope inference.
 
+#### REQ: incident-boards-and-shared-renderer
+
+A board MAY carry an optional `incidentRef` (a project-scoped incident id) so that an incident
+can open, create and list its boards; access still follows the project's grants, never the
+incident. Widget kinds needed by incident dashboards (`metric-series`, comparison, criteria,
+replay) are Dashboardius widget *names* inside the existing `{name, data}` envelope, whose
+`data` references execution records, compare results and checks by id through the server API
+(`evidence-records`, `compare`, `checks`, `incidents`); a board never stores result rows. The
+Go validator MUST preserve unknown Dashboardius widget names losslessly (an explicit extension
+boundary, not silent acceptance of arbitrary fields). The board renderer used by the
+Dashboardius app MUST be the same workspace library a DataTug/Incidentius page embeds as an
+island, so one board renders identically in both. Lead assumption: `incidentRef` is a
+string field on `Board`, mirrored in `@datatug/board-models`.
+
 ## Acceptance Criteria
 
 ### AC: schema-published-once-consumed-twice (verifies REQ:board-schema-shared-source-of-truth, REQ:shared-board-model-package)
@@ -131,6 +154,12 @@ but its earlier permanent embedding prohibition was an unsupported scope inferen
 **Given** the Phase 1 implementation candidate
 **When** its scope is reviewed
 **Then** it adds no board/chart implementation; later embedding decisions reuse Dashboardius presentation instead of introducing a second renderer.
+
+### AC: incident-board-round-trips-widget-names (verifies REQ:incident-boards-and-shared-renderer)
+
+**Given** a board with `incidentRef: INC-1` and a `metric-series` widget referencing check `stuck-invoices`
+**When** it is saved through `PUT /datatug/boards/*`, loaded by the Go store and reopened in Dashboardius and in the embedded island on the incident page
+**Then** `incidentRef`, the widget name and its `data` survive unchanged, no result rows were stored, and both surfaces render the same points fetched from `/datatug/executions`.
 
 ## Not Doing / Out of Scope
 

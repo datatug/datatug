@@ -41,6 +41,8 @@ See the competitor review rather than claiming that every alternative stops at f
 | Auto-narrowing compatible queries by environment/time | planned | 2 | strategic |
 | Typed conflicts and scope isolation | partial; acceptance pending | 1 | strategic |
 | Saved / shareable investigations and history | planned | 4 | strategic |
+| Cohort roles on facts (affected, healthy control, suspected, excluded, recovered) | planned | B1 (incidents MVP) | strategic |
+| Layered context: canonical layer plus hypothesis/participant/question overlays with promote/reject | planned | B1 (incidents MVP) | strategic |
 
 #### REQ: context-basket-add-remove-disable
 
@@ -59,6 +61,29 @@ Entity.Field with conditions like ==, >, >=, etc."). Operator set (lead assumpti
 founder confirmation): `==`, `!=`, `>`, `>=`, `<`, `<=`. A variable added this way has origin
 `manual` and obeys REQ:context-basket-add-remove-disable like any cell-selected value; the
 `entity.field = value` form in `core-investigation-loop` REQ:context-basket is the `==` case.
+
+#### REQ: cohort-roles
+
+A fact MAY carry an investigation `role` orthogonal to its `origin`: `affected`,
+`healthy_control`, `suspected`, `excluded` or `recovered` (vision §11; lead assumption for the
+exact set). A role never changes binding precedence or authorization; it lets a query be bound
+against "the affected set" versus "the control set" and lets [compare](../compare/README.md)
+treat the two as cohorts. The wire shape is the optional `Fact.role` in the
+[transport appendix](../core-investigation-loop/api-contract.md); agents that do not know a
+role ignore it.
+
+#### REQ: context-layers-and-promotion
+
+Context MUST support named layers: one `canonical` layer and zero or more overlays keyed by
+kind and owner (`hypothesis:<id>`, `participant:<id>`, `question:<id>`). Every layer is visible;
+only canonical facts bind automatically by default, and an overlay's facts bind only when the
+user explicitly selects that layer for a run (no hidden filters, vision §11.1). Promoting a fact
+copies it into the canonical layer while the overlay keeps the original and the promotion is
+recorded; rejecting an overlay keeps its facts attached to it, historically visible, never
+canonical. An already-open query MUST show a re-binding choice after a promotion, never
+rebind silently (matches REQ:conflicting-values-and-propagation). This is the model
+[incidents](../incidents/README.md) attaches to; the Investigation Context owns it so a plain
+investigation and an incident share one implementation.
 
 #### REQ: automatic-parameter-binding-from-context
 
@@ -136,6 +161,18 @@ re-executes references under their own principal. Sharing confers no execution r
 **Then** the link contains no raw facts/results by default; optional explicit fact
 sharing requires preview, and the recipient reauthorizes and re-executes rather than
 inheriting the sender's access.
+
+### AC: cohort-role-visible-and-bindable (verifies REQ:cohort-roles)
+
+**Given** `Customer.ID = 5` with role `affected` and `Customer.ID = 3` with role `healthy_control` in the canonical layer
+**When** the user opens *Customer invoices* and chooses the affected cohort
+**Then** the parameter binds to 5 labelled `from context · affected`, the results header names the role, and the control value is offered as the other side of a compare, never applied silently.
+
+### AC: promotion-moves-fact-with-history (verifies REQ:context-layers-and-promotion)
+
+**Given** overlay `hypothesis:H17` holding `Customer.ID = 11` with role `suspected` and an open query bound from canonical facts
+**When** H17 is confirmed and its fact promoted
+**Then** the canonical layer contains `Customer.ID = 11` with role `affected`, the overlay still shows the original fact and the promotion record, and the open query displays a re-binding choice rather than changing on its own.
 
 ## Not Doing / Out of Scope
 

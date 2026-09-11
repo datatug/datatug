@@ -33,6 +33,16 @@ And the claim about what compounds:
 > uses it — and so an AI agent can follow the same proven paths instead of guessing
 > SQL from a physical schema.
 
+## One product family
+
+Since 2026-09-11 DataTug is the technical backbone of a three-profile family: **DataTug**
+(investigation home), **Incidentius** (incident-resolution workspace) and **Dashboardius**
+(dashboards). One domain model, one trusted server, one Nx workspace, three product shells.
+[product-family.md](product-family.md) defines the shared capabilities, the profile-specific
+experience, the ownership boundaries and the ecosystem map; the founder's vision is preserved
+as a [research record](../research/2026-09-11-incident-resolution-vision.md). Incidents attach
+to the Investigation Context defined here; they never reimplement it.
+
 ## Fundamental abstraction
 
 Useful comparison abstractions (not exhaustive descriptions of these products) include: Retool around the *app*, Metabase around
@@ -78,6 +88,14 @@ reconciliation. The initial-audit absence claims are not current implementation 
 | P13 | [Infrastructure inventory](../features/infrastructure-inventory/README.md) | extension |
 | P14 | [AI consumes the same model](../features/agent-context/README.md) | consumer/extension |
 | P15 | [Dashboardius dashboards](../features/dashboards/README.md) | presentation surface |
+| P16 | [Incidents (Incidentius core)](../features/incidents/README.md) | product capability (Incidentius profile) |
+| P17 | [Evidence records and result snapshots](../features/evidence-records/README.md) | explainability/evidence enabler |
+| P18 | [Annotations](../features/annotations/README.md) | knowledge capability |
+| P19 | [Executable checks](../features/checks/README.md) | executable-knowledge capability |
+| P20 | [Compare](../features/compare/README.md) | execution primitive |
+
+Product shells (home, brand, navigation, entry points) are specified once in
+[product-profiles](../features/product-profiles/README.md) under P11.
 
 ## Deliberate non-goals
 
@@ -93,6 +111,9 @@ reconciliation. The initial-audit absence claims are not current implementation 
   (SQLite via DALgo, inGitDB, keyless HTTP JSON GET) comes first.
 - Client-direct database access for protected sources. All reads go through the server.
 - A text-to-SQL chat box. AI enters through the same knowledge model as people.
+- An incident-management platform. Incidentius integrates with paging, on-call, ticketing and
+  status pages; it answers "what is happening and how do we resolve it", never "who should
+  respond and what process do we follow" (vision §3.1).
 
 ## Hypotheses tested against evidence
 

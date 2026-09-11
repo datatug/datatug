@@ -82,7 +82,37 @@ VM branches, tested with local dependencies; it is not proof of a published chai
 Policy format, evaluator and Explain Access taxonomy stay upstream. Reconcile and
 publish providers before release acceptance in consumers; no parallel evaluator.
 
+#### REQ: recorded-evidence-rechecked
+
+Recorded executions, result snapshots and annotations ([evidence-records](../evidence-records/README.md),
+[annotations](../annotations/README.md)) MUST be read through the same policy path as live
+data: the current principal's source/row/column policy is re-evaluated on every read, hidden
+columns are never returned from a snapshot, and a principal without current access receives a
+non-disclosing denial. Historical evidence is never a backdoor (vision §15).
+
+#### REQ: incident-scoped-grants
+
+NEXT (Track B2), not MVP: a temporary investigation grant MAY widen a principal's read access
+for the duration of an assigned incident — named sources and collections, masked sensitive
+fields, an expiry tied to the incident's resolution or a time limit — issued and revoked
+through the server and recorded as incident events (vision §35). It composes with the layered
+ACL contract; it MUST NOT bypass masking, and sensitive-field escalation MUST be narrow,
+justified and temporary. Controlled production modifications with approval (vision §36) are
+FUTURE and require their own Feature.
+
 ## Acceptance Criteria
+
+### AC: snapshot-read-under-current-policy (verifies REQ:recorded-evidence-rechecked)
+
+**Given** a snapshot recorded by `admin` that includes `Customer.Email`
+**When** `support` reads it
+**Then** `Email` is absent, the limitation names the policy, and a request for the raw snapshot bytes is refused without data.
+
+### AC: incident-grant-expires (verifies REQ:incident-scoped-grants)
+
+**Given** an investigation grant for `support` on `Invoice` tied to INC-1
+**When** INC-1 is resolved
+**Then** the next read under `support` is limited as before the grant, and the grant's issue and expiry are events on INC-1.
 
 ### AC: dalgo-access-is-the-only-evaluator (verifies REQ:dalgo-access-policies-external)
 

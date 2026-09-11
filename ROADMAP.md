@@ -12,6 +12,20 @@ reuse, guide a short sequence, share it under grants, and present persisted dash
 Every phase names an observable result and its own end-to-end gate. A component,
 merged branch or local test is not a completed journey or release.
 
+## Tracks (2026-09-11)
+
+The roadmap now carries three tracks for one product family
+([product-family](spec/product/product-family.md)). Phases 0–5 below are **Track A, the
+DataTug spine**, unchanged. **Track B, Incidentius** and **Track C, Dashboardius** follow
+Phase 5 in this document and depend on Track A as drawn:
+
+```text
+Track A  DataTug spine        0 ── 1 ── 2 ── 3 ── 4 ── 5
+                                    │         │    │    │
+Track B  Incidentius          B1 ───┘         │    B2 ─┘    B3 ── B4
+Track C  Dashboardius         C1 = Phase 5 ───┘    C2 ────── C3 (any time; full cutover)
+```
+
 ## Phase 0 — existing spine and delivery repair
 
 **Outcome:** `datatug demo` opens the actual project; source → Album gives real rows
@@ -133,6 +147,69 @@ journey; scripted sample cards do not satisfy it.
 **Autonomy:** blocked only for dependent work by the explicit SQL-widget binding
 question in the Feature. Presentation-only refinements may proceed independently.
 
+## Track B — Incidentius (incident-resolution workspace inside DataTug)
+
+Owning Feature: [incidents](spec/features/incidents/README.md) with
+[evidence-records](spec/features/evidence-records/README.md),
+[checks](spec/features/checks/README.md), [annotations](spec/features/annotations/README.md),
+[compare](spec/features/compare/README.md) and
+[product-profiles](spec/features/product-profiles/README.md). Vision:
+[research record](spec/research/2026-09-11-incident-resolution-vision.md); mapping:
+[reconciliation](spec/research/2026-09-11-incident-vision-reconciliation.md).
+
+### B1 — Incidentius MVP
+
+[Plan](spec/plans/2026-09-11-incidentius-mvp.md).
+
+**Outcome:** on a local or Git project, "Houston, we've got a problem" creates an incident
+attached to an Investigation Context with cohorts and hypothesis overlays; checks run and are
+recorded; hypotheses carry evidence by reference to execution records, snapshots and
+annotations; metrics form series with explicit resolution criteria; recurrence and search work;
+`datatug incident` and `watch` expose the same event stream to agents; the canonical demo
+incident and its boring recurrence walk end to end.
+**Dependencies:** Phase 1 accepted (done); Phase 2 task 2 only for "promote query → check".
+Runs beside Phase 2.
+**Non-goals:** hosted multi-user incidents, boards/charts, AI narratives, capture channels,
+privileged access, production writes.
+**Gate:** the whole-journey e2e with both epilogues, pinned revisions, a named CLI release and
+a deployment receipt.
+
+### B2 — collaboration and incident dashboards
+
+**Outcome:** several authenticated people work one incident live under project grants;
+incident dashboards (impact, recovery, watch) render in Dashboardius and embedded in the
+incident page; compare has a UI; AI status projections for troubleshooters, leadership and
+support are generated as `inference` events with refs; appreciation credits; replay UI.
+**Dependencies:** Phase 4 (grants, authenticated server) for live collaboration; Phase 5 (board
+persistence) and Track C2 for dashboards. Incident-scoped temporary grants belong to
+`server-enforced-access`.
+
+### B3 — capture channels and coordination
+
+**Outcome:** pasted text and messages become typed facts with provenance and confidence
+(deterministic extractors first); read-only Slack/Teams capture into the same stream; manual
+deployment events and deployment correlation; SpecScore and Codegrapher links where present.
+Autonomous agents watch new incidents and propose hypotheses and safe checks through the same
+API. **Dependencies:** B2; agent-context parity.
+
+### B4 — the knowledge flywheel
+
+**Outcome:** AI-proposed checks tested against history and promoted cautiously; self-learning
+extraction skills; AI Coordinator; ownership and expertise from artefacts; controlled
+production modifications with approval; masking policy for AI-visible data; generated
+Resolution Record documents and stories. Every item requires evidence from B1–B3 before a plan.
+
+## Track C — Dashboardius
+
+- **C1 = Phase 5** (real persistence), unchanged.
+- **C2 — incident and investigation dashboards:** `metric-series`, comparison, criteria and
+  replay widgets over the incident event stream and execution records; the board renderer as a
+  workspace library embedded by DataTug/Incidentius pages. Owning Feature:
+  `sneat-co/dashboardius` `incident-dashboards` and its plan. Depends on C1 and B1.
+- **C3 — workspace cutover:** the Dashboardius app moves into the `datatug/datatug-apps` Nx
+  workspace as a complete cutover (inventory in [product-profiles](spec/features/product-profiles/README.md)).
+  Can start any time; mechanical, not gated by C1.
+
 ## Independently planned extensions and experiments
 
 Retain these opportunities without pretending they are one autonomous phase:
@@ -156,6 +233,13 @@ widget kinds and an editing experience." The board belongs to the DataTug projec
 Dashboardius may be sold separately; it must not become a second data platform.
 The shared renderer may be embedded later if useful; no independent second renderer
 is planned. No charts or boards are added to the Phase 1 investigation task.
+
+Founder words, 2026-09-11: "Not sure if it's part of the spec your read but I think DataTug,
+Incidentius, Dashbaordius apps code should be in same repo (nx workspace with shared libs and
+either separate or single configurable app)". The three apps' code therefore lives in the
+`datatug/datatug-apps` Nx workspace; the separate-versus-configurable choice is the founder's
+(lead recommendation in [product-family](spec/product/product-family.md) §2). This supersedes
+the standalone-repository part of the 2026-09-08 Dashboardius Idea, not its schema decisions.
 DataTug CLI is Apache 2.0; the web UI is private for now, with future licensing not
 selected. Do not market all DataTug surfaces as already open source.
 
@@ -182,6 +266,10 @@ product ownership does not dictate a permanent ban on embedding.
   usual space-bounded record default.
 - Licensing: "CLI - Apache 2.0. Web UI private for now, will be AGPL or something like that".
 - Ahead-of-code marketing claims: "keep with planned label".
+- Apps workspace (2026-09-11): "DataTug, Incidentius, Dashbaordius apps code should be in same
+  repo (nx workspace with shared libs and either separate or single configurable app)".
+- Incidentius positioning (vision document, 2026-09-11): "Incidentius is an incident-resolution
+  workspace." MVP: "do not build three applications. Build Incidents inside DataTug".
 
 ## Open Questions
 

@@ -102,7 +102,23 @@ A web page with no real data behind it (Widgets, Tags, Resources, Variables, DB 
 be hidden from navigation, behind a feature flag, until it is built. A page reachable by a click
 MUST NOT be an empty shell a user can stumble into.
 
+#### REQ: product-profiles-and-workspace
+
+The web surface MUST be one build that presents itself as the `datatug` or `incidentius`
+product profile by hostname or configuration, and every app of the family MUST live in the
+`datatug/datatug-apps` Nx workspace (founder, 2026-09-11, quoted in
+[product-profiles](../product-profiles/README.md)). Profiles change home, brand, navigation and
+entry points only; every screen, the TUI hand-off and the agent skills reach the same routes
+under either profile. The mechanism itself is specified in `product-profiles`; this REQ pins
+the P11 guarantee that a profile never becomes a private surface.
+
 ## Acceptance Criteria
+
+### AC: profile-does-not-hide-a-surface (verifies REQ:product-profiles-and-workspace)
+
+**Given** the app served under the `incidentius` profile
+**When** a TUI hand-off link for the *Customer* table and an agent skill deep link are opened
+**Then** both resolve to the same screens they reach under the `datatug` profile, with the Incidentius home and branding.
 
 ### AC: tui-browses-real-schema (verifies REQ:tui-schema-browsing)
 

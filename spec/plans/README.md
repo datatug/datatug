@@ -12,6 +12,7 @@ Canonical index of all plans in this repository. Each plan is a single Markdown 
 |---|---|---|---|---|
 | [2026-09-09-phase-1-core-investigation-loop](2026-09-09-phase-1-core-investigation-loop.md) | Implemented | core-investigation-loop | 2026-09-09 | alex |
 | [2026-09-09-phase-2-library-depth-and-provenance](2026-09-09-phase-2-library-depth-and-provenance.md) | Draft | executable-knowledge-library | 2026-09-09 | alex |
+| [2026-09-11-incidentius-mvp](2026-09-11-incidentius-mvp.md) | Draft | incidents | 2026-09-11 | alex |
 
 ## Recently Closed
 
