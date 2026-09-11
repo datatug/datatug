@@ -286,8 +286,9 @@ values/queries/checks/failed checks/environments/projects/outcome, derived back-
 **Depends-On:** 1, 2, 4, 5, 6, 7, 8
 **Status:** planning
 
-In `datatug-demo-projects`: author the story (open question in the Feature: Chinook first;
-founder reviews the written story before fixture authoring), the fixture
+In `datatug-demo-projects`: author the story (founder ruling 2026-09-11: *"Chinook first,
+our own inGitDB second, maybe a copy of Chinook or our own use case"*; the founder reviews
+the written story before fixture authoring), the fixture
 `incidents/INC-1/events.jsonl` in the project's own store with several actors, useful wrong
 theories, red herrings, cohorts, an environment comparison, the FX-rate provider as external
 counterparty, recorded executions and snapshots, annotations, checks, compare runs, metrics,
@@ -342,7 +343,8 @@ incident into the policy set handed to `accesspolicies.Run` (no second evaluator
 widening field allow-lists, masks, native SQL or writes; the grant id on every execution
 record produced under it; expiry applied by the server at closure or at the time limit; merge revokes the duplicate's
 grants; `ExecutionRequest.incident` on reads (`datatug query run --incident`);
-approver = project owner or policy-named incident approver (lead assumption); endpoints
+approver = holder of the project's incident-approver role (project admin by default,
+transferable; Sneat contactius roles when hosted — founder 2026-09-11); endpoints
 `POST /datatug/incidents/{id}/access/*`, verbs `datatug incident access request|approve|
 decline|revoke|list`, and the request/approve controls on the incident page; negative tests
 for unapproved, expired and out-of-incident reads.
@@ -378,8 +380,6 @@ back-link UI badges) after Phases 4 and 5.
 
 ## Open Questions
 
-- Founder: confirm the Chinook-based canonical story direction before task 11 (owning
-  Feature `incidents`).
 - Founder: separate apps or one configurable app in the workspace (owning Feature
   `product-profiles`); task 9 assumes one configurable app for DataTug/Incidentius.
 - Founder: the store routing key name and the hosted default (owning Feature `incidents`).
