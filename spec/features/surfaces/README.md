@@ -104,8 +104,9 @@ MUST NOT be an empty shell a user can stumble into.
 
 #### REQ: product-profiles-and-workspace
 
-The web surface MUST be one build that presents itself as the `datatug` or `incidentius`
-product profile by hostname or configuration, and every app of the family MUST live in the
+The web surface MUST be one build that presents itself as the `datatug`, `incidentius` or
+`dashboardius` product profile by hostname or configuration — one configurable app for the
+whole family (founder, 2026-09-11: *"one configurable app."*) — and that app MUST live in the
 `datatug/datatug-apps` Nx workspace (founder, 2026-09-11, quoted in
 [product-profiles](../product-profiles/README.md)). Profiles change home, brand, navigation and
 entry points only; every screen, the TUI hand-off and the agent skills reach the same routes

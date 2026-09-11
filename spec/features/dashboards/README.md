@@ -124,7 +124,7 @@ result rows. Today that envelope is closed: `BoardWidget.Validate` in
 `@datatug/board-models` types `BoardWidgetName` as that three-value union. Both MUST gain an
 explicit extension boundary that preserves registered Dashboardius widget names losslessly
 (not silent acceptance of arbitrary fields); the Incidentius MVP plan task 13 owns that change
-and the Go ↔ TypeScript round-trip fixture. The board renderer used by the Dashboardius app
+and the Go ↔ TypeScript round-trip fixture. The board renderer used under the `dashboardius` profile
 MUST be the same workspace library a DataTug/Incidentius page embeds as an island, so one
 board renders identically in both. Lead assumption: `incidentRef` is a structured field on
 `Board`, mirrored in `@datatug/board-models`.

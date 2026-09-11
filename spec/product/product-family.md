@@ -72,8 +72,8 @@ was spelled out: *"All sounds right now"*):
   PrimeNG just as components if Ionic misses functionality"*). PrimeNG, AG Grid, Chart.js and
   CDK drag-drop remain only as leaf widgets inside those pages — the chart, the data grid,
   the dragging of cards — under the 2026-09-09 UI-kit rule. The PrimeNG theme is scoped to
-  those components, never loaded globally. The `dashboardius` profile may still be served on
-  its own hostname from the same build.
+  those components, never loaded globally. Lead assumption: the `dashboardius` profile may
+  still be served on its own hostname from the same build.
 - **Shared libraries** carry the reuse: `@datatug/board-models` (exists), a Dashboardius-owned
   **board renderer library** that DataTug/Incidentius pages embed as an island (the founder's
   UI-kit rule, 2026-09-09: Ionic frame plus PrimeNG/AG Grid islands only where Ionic lacks

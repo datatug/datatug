@@ -108,8 +108,8 @@ store-scoped sequence assigned by the server, plus a `uid` (UUID).
 
 #### REQ: multi-project-incidents
 
-Founder ruling (2026-09-11, verbatim, answering "May one incident reference several DataTug
-projects?"): *"yes it can."* An incident MAY reference one or more DataTug projects
+Founder ruling (2026-09-11, verbatim, answering the lead's question whether one incident
+may reference several DataTug projects): *"yes it can."* An incident MAY reference one or more DataTug projects
 (`projects: [{storeId, projectId, environment?}]`), because a real incident spans systems
 maintained by different teams. The converse relation, *"A DataTug project can be used by
 multiple incidentius instances"* (founder, 2026-09-11), is carried by REQ:incident-store and

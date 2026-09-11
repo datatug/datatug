@@ -104,8 +104,8 @@ participant's **read** access for the duration of an incident (vision §35). A p
 requests, inside the incident, read access to named sources and collections of a project the
 incident references, with a reason and an optional time limit. An approver decides: the
 holder of the project's incident-approver role — by default the project admin, who may move
-it to someone else; in hosted projects the role is managed by Sneat contactius role
-management (founder, 2026-09-11, verbatim: *"Someone with appropriate role. By default project
+it to someone else; the role is part of Sneat contactius role management (founder,
+2026-09-11, verbatim: *"Someone with appropriate role. By default project
 admin has this role but can move it to someone else. It's part of Sneat contactius role
 management"*); in a locally served project the served admin principal holds it (lead
 assumption for the local mapping). The requester MUST NOT approve their own
