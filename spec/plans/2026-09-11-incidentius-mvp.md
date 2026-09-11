@@ -42,7 +42,8 @@ passes: the founder reviews the DataTug core (Phases 0-2) as one coherent experi
 review decides whether Track B is prioritized next (founder, 2026-09-11: *"complete library
 refinement - e.g. DataTug improvements first. complete Phase 2 and review the core as a coherent
 experience before prioritizing Incidentius."*). Preparation and the review-findings work below
-may continue; dependent task execution may not start before the gate passes.
+may continue; dependent task execution may not start before the gate passes. The one exception is Task 16,
+the `incidentius` profile scaffold, which runs now (founder, 2026-09-11: *"I actually would prefer if you do in parallel scaffolding of the incidentius app"*).
 
 ## Journey
 
@@ -266,15 +267,14 @@ Task 15.
 ### Task 9: Incident pages and the incidentius profile
 
 **Id:** task-9
-**Verifies:** incidents#ac:status-projection-carries-provenance, incidents#ac:participant-role-separate-from-permission, incidents#ac:incidentius-profile-home
-**Supporting ACs:** product-profiles#ac:hostname-selects-home, product-profiles#ac:deep-link-works-in-other-profile, product-profiles#ac:one-build-serves-both-profiles, product-profiles#ac:profile-override-grants-nothing, product-profiles#ac:incidents-always-in-datatug-menu
-**Depends-On:** 3, 4, 6
+**Verifies:** incidents#ac:status-projection-carries-provenance, incidents#ac:participant-role-separate-from-permission
+**Supporting ACs:** product-profiles#ac:deep-link-works-in-other-profile, product-profiles#ac:one-build-serves-both-profiles
+**Depends-On:** 3, 4, 6, 16
 **Status:** planning
 
 In `datatug-apps`: incident list/detail/create pages, timeline, hypotheses and evidence
 panels, participants with roles, referenced projects, status view with refs, Resolution Record
-page; the profile table and hostname/config selection for the two profiles one build serves;
-menu entry under the `datatug` profile. Ionic frame; no chart islands in this task.
+page, built on Task 16's profile scaffold. Ionic frame; no chart islands in this task.
 
 ### Task 10: Recurrence, related links, search, similarity and back-links
 
@@ -372,6 +372,25 @@ the summary; changed, added and removed rows; per-side limitations; the distribu
 2026-09-11, ruling *"compare - A"*). Side-by-side grids and diff highlighting stay NEXT
 (`compare` Feature, REQ:two-scope-execution capability table). This is B1's only browser compare
 surface; Task 12's whole-journey e2e exercises it.
+
+### Task 16: Incidentius profile scaffold
+
+**Id:** task-16
+**Verifies:** incidents#ac:incidentius-profile-home
+**Supporting ACs:** product-profiles#ac:hostname-selects-home, product-profiles#ac:profile-override-grants-nothing, product-profiles#ac:incidents-always-in-datatug-menu
+**Depends-On:** —
+**Status:** in_progress
+**Evidence:** wb-claim:incidentius-app-scaffold
+
+In `datatug-apps`, ahead of the backend (founder, 2026-09-11: *"I actually would prefer if you do in parallel scaffolding of the incidentius app"*):
+- the declarative profile table for `datatug` and `incidentius`;
+- profile selection by configuration, then hostname, then `?profile=`, falling back to `datatug`;
+- the incident list as the `incidentius` home, with the "Houston, we've got a problem" entry point and the planned label;
+- the *Incidents* item in the `datatug` side menu;
+- list, detail and create pages wired to the real incident endpoints. Until Task 3 ships those endpoints, the pages show an explicit "not available on this server yet" state, and create keeps the user's draft on failure;
+- build info under both profiles.
+
+No mock data and no local-only writes. Task 9 builds the full incident pages on top.
 
 ## Deferred AC Coverage
 
