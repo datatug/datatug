@@ -414,6 +414,13 @@ are written.
 - Voice capture, Slack/Teams commands, self-learning extractors, AI Coordinator, generated
   videos, training mode, controlled production writes (FUTURE tiers; see the reconciliation).
 
+## Implementation Matrix
+
+| Platform | Status | Brief | Link |
+|----------|--------|-------|------|
+| CLI / server (`datatug-cli`, `datatug serve`) | Planned | incident store routing, event stream and projection, policy-rechecked reads, `datatug incident` verbs, `watch`, access requests | specscore://github.com/datatug/datatug-cli/feature/cli/incident |
+| Web (`datatug-apps`) | Planned | incident pages, `incidentius` profile home, context roles and overlays, evidence and metrics tables, access request and approval controls | — |
+
 ## Acceptance Criteria
 
 ### AC: houston-creates-incident-with-context (verifies REQ:houston-creation, REQ:incident-store)
