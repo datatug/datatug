@@ -111,7 +111,7 @@ confirmed"*, and the SQL-widget binding ruling (*"I'm Ok with the suggested opti
 | Compare | compare | env/env, snapshot/snapshot | affected vs control, PROD vs UAT, before vs after | comparison boards |
 | Incident model, event stream, `datatug incident` | incidents | an investigation may become an incident | **home**: list, "Houston, we've got a problem", timeline, hypotheses, metrics, status | incident boards read the same events/records |
 | Boards | dashboards (+ Dashboardius Features) | "pin this result"; embedded renderer island | incident dashboard: impact, diagnostic, recovery, watch, replay | **home**: authoring and editing |
-| Access control, grants | server-enforced-access, sharing-scopes | per project | incident participants are project members; incident-scoped grants later | board readers follow project grants |
+| Access control, grants | server-enforced-access, sharing-scopes | per project | incident participants are project members; temporary read grants requested and approved inside the incident (MVP, founder 2026-09-11) | board readers follow project grants |
 | CLI/API/agents | surfaces, agent-context | `datatug …` | `datatug incident …`, `watch` event stream | board API only |
 
 Profile-specific by design: the **home route**, **brand** (name, logo, colours, copy, domain),

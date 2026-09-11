@@ -37,6 +37,7 @@ profile. The prior label-only exception was inconsistent with that guarantee.
 | Source-level allow/deny per principal | partial; acceptance pending | 1 | strategic |
 | Native SQL under protected access | refusal required; privileged opaque grant separate | 1 | security |
 | Layered multi-owner policies and Explain Access | pending VM stack; refresh delivery receipts | prerequisite when used; broader UI later | enabler |
+| Incident-scoped temporary read grants with request and approval | planned | B1 (incidents MVP) | security |
 
 #### REQ: dalgo-access-policies-external
 
@@ -95,13 +96,36 @@ backdoor (vision §15).
 
 #### REQ: incident-scoped-grants
 
-NEXT (Track B2), not MVP: a temporary investigation grant MAY widen a principal's read access
-for the duration of an assigned incident — named sources and collections, masked sensitive
-fields, an expiry tied to the incident's resolution or a time limit — issued and revoked
-through the server and recorded as incident events (vision §35). It composes with the layered
-ACL contract; it MUST NOT bypass masking, and sensitive-field escalation MUST be narrow,
-justified and temporary. Controlled production modifications with approval (vision §36) are
-FUTURE and require their own Feature.
+MVP. The founder's words (2026-09-11, verbatim, answering whether privileged-access requests
+should move into the MVP): *"yes, priviledged-access request/approval is not that hard to
+implement in it's simplest form and can be part of MVP"*. Everything below about how it works
+is the lead's simplest form, not the founder's. A temporary investigation grant MAY widen a
+participant's **read** access for the duration of an incident (vision §35). A participant
+requests, inside the incident, read access to named sources and collections of a project the
+incident references, with a reason and an optional time limit. An approver decides: an owner
+of that project, or a principal the project's policy names as incident approver (lead
+assumption for who approves; open question below). The requester MUST NOT approve their own
+request, and an approver MUST NOT grant beyond what the approver may read. The server then
+evaluates the active grant as one additional allow policy in `accesspolicies.Run` for that
+principal only, on requests that carry that incident — `ExecutionRequest.incident` in the
+transport appendix, set by `datatug query run --incident <id>`, by check runs started from
+the incident, and by the incident pages — until the incident is **closed** or the time limit
+passes, whichever comes first; a read without the incident reference is evaluated exactly as
+before the grant. Lead assumption for the mechanism: grants are projected from incident
+events and merged into the policy set per request, so no second evaluator exists and the
+layered ACL contract is composed with when it lands, not depended on. A grant MUST NOT widen
+field allow-lists or unmask sensitive fields (vision §35 allows narrow, justified sensitive-
+field escalation; the MVP deliberately does not, and that escalation is NEXT), MUST NOT
+permit opaque native SQL, and MUST NOT grant writes; every execution record produced under a
+grant carries the grant id. Revocation and expiry bind from the next request (an in-flight
+read completes); merging an incident revokes the duplicate's grants; reopening a closed
+incident does not revive expired grants. Request, approval or decline, expiry and revocation
+are incident events ([incidents](../incidents/README.md) REQ:access-requests-in-incident).
+Honesty about the MVP boundary: `datatug serve` fixes one principal per session and the CLI
+selects one per invocation (`--as`), so in the MVP the approval step is a recorded workflow
+control, not an adversarial boundary against someone who can already choose their principal;
+it becomes an enforcement boundary with Phase 4 authenticated principals. Controlled
+production modifications with approval (vision §36) are FUTURE and require their own Feature.
 
 ## Acceptance Criteria
 
@@ -113,9 +137,21 @@ FUTURE and require their own Feature.
 
 ### AC: incident-grant-expires (verifies REQ:incident-scoped-grants)
 
-**Given** an investigation grant for `support` on `Invoice` tied to INC-1
-**When** INC-1 is resolved
-**Then** the next read under `support` is limited as before the grant, and the grant's issue and expiry are events on INC-1.
+**Given** a grant on `Invoice` for `support`, requested by `support` inside INC-1 and approved by `admin`
+**When** INC-1 is closed
+**Then** the next read under `support` is limited as before the grant, and the request, the approval and the expiry are events on INC-1.
+
+### AC: incident-grant-needs-approval (verifies REQ:incident-scoped-grants)
+
+**Given** `support` has requested read access to `Invoice` for INC-1 and nobody has approved it
+**When** `support` reads `Invoice` under INC-1
+**Then** the read is denied exactly as before the request, the request is an event on INC-1, and after `admin` approves, the same read succeeds and its execution record names the grant id.
+
+### AC: incident-grant-never-unmasks (verifies REQ:incident-scoped-grants)
+
+**Given** an approved grant on `Customer` for `support` under INC-1 and a policy hiding `Customer.Email`
+**When** `support` reads `Customer` under INC-1
+**Then** a read carrying `incident: INC-1` returns rows the source-level policy previously denied, `Email` is still absent, a native SQL route is still refused, and the same read without the incident reference is limited as before the grant.
 
 ### AC: dalgo-access-is-the-only-evaluator (verifies REQ:dalgo-access-policies-external)
 
@@ -169,7 +205,14 @@ remote receipts distinguish landed components from the complete dependency chain
 
 ## Open Questions
 
-None at this time.
+- **Who approves an incident access request.** Lead assumption: a project owner, or a
+  principal the project's policy names as incident approver. Alternatives: the incident
+  coordinator role (rejected for now: incident roles confer no data access), or any principal
+  who already holds the requested access. Founder to confirm.
+- **Whether hosted use of incident grants waits for Phase 4.** In the MVP the approval step
+  is a recorded workflow control (see REQ:incident-scoped-grants); the lead's assumption is
+  that hosted multi-user incidents (Track B2) require authenticated principals before grants
+  are offered there.
 
 ---
 *This document follows the https://specscore.md/feature-specification*

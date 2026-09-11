@@ -161,13 +161,16 @@ Owning Feature: [incidents](spec/features/incidents/README.md) with
 attached to an Investigation Context with cohorts and hypothesis overlays; checks run and are
 recorded; hypotheses carry evidence by reference to execution records, snapshots and
 annotations; metrics form series with explicit resolution criteria; recurrence and search work;
-`datatug incident` and `watch` expose the same event stream to agents; the canonical demo
-incident and its boring recurrence walk end to end.
+`datatug incident` and `watch` expose the same event stream to agents; a participant requests
+temporary read access inside the incident and an approver grants it, recorded as events and
+expired at closure (MVP inclusion is the founder's, 2026-09-11; the mechanism is the lead's);
+the canonical demo incident and its boring
+recurrence walk end to end.
 **Dependencies:** Phase 1 accepted (done). Incidents and evidence write to the routed incident
 store through the server; checks and annotations are project knowledge assets and need
 Phase 2 task 2 (the authorized project-write path), sequenced first. Runs beside Phase 2.
 **Non-goals:** hosted multi-user incidents, boards/charts, AI narratives, capture channels,
-privileged access, production writes.
+production writes (approved mutating actions are FUTURE).
 **Gate:** the whole-journey e2e with both epilogues, pinned revisions, a named CLI release and
 a deployment receipt.
 
@@ -178,8 +181,9 @@ incident dashboards (impact, recovery, watch) render in Dashboardius and embedde
 incident page; compare has a UI; AI status projections for troubleshooters, leadership and
 support are generated as `inference` events with refs; appreciation credits; replay UI.
 **Dependencies:** Phase 4 (grants, authenticated server) for live collaboration; Phase 5 (board
-persistence) and Track C2 for dashboards. Incident-scoped temporary grants belong to
-`server-enforced-access`.
+persistence) and Track C2 for dashboards. Incident-scoped temporary read grants are B1
+(`server-enforced-access` REQ:incident-scoped-grants); B2 adds them for authenticated
+multi-user sessions.
 
 ### B3 — capture channels and coordination
 

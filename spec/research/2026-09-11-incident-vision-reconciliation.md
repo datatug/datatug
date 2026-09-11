@@ -65,7 +65,7 @@ contract, `datatug-core`, `datatug-cli`, `datatug-apps`, `sneat-co/dashboardius`
 | §32 | Deployment / code / SpecScore correlation | **new** | incidents (deployment events), infrastructure-inventory | NEXT (manual deployment events) · FUTURE (correlation) |
 | §33 | Codegrapher | **new** optional | incidents integration | FUTURE |
 | §34 | Ownership and expertise | **new** | infrastructure-inventory / sharing-scopes | FUTURE |
-| §35 | Incident-scoped privileged access | **extend** | server-enforced-access, sharing-scopes | NEXT |
+| §35 | Incident-scoped privileged access (request, approval, expiry) | **extend** | server-enforced-access, incidents | MVP (founder 2026-09-11: simplest form) |
 | §36 | Controlled production modifications | **new** | server-enforced-access | FUTURE |
 | §37 | Masking and AI-visible data | **extend** | server-enforced-access | FUTURE (policy dimensions) |
 | §38 | Incident Resolution Record as a mini-site | **new** projection over the event stream | incidents | MVP (record page) · NEXT (RCA/postmortem generation) |

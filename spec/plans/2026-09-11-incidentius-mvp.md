@@ -61,6 +61,12 @@ facts and lists the bindings in its results header (no hidden filters).
 I run them." Good result: each run is recorded as an execution record and a `check.run` event;
 one check fails ("invoice totals present") and shows its predicate and rows count.
 
+**Access.** "The invoice query I need says *Invoice: not visible to you*. I click *Request
+access*, name the collection and the reason, and the lead approves it from the incident
+page." Good result: `access.requested` and `access.approved` are events with their actors,
+the query now returns rows with `Customer.Email` still masked, its execution record names
+the grant, and `datatug incident show INC-1` lists the grant as active with its expiry.
+
 **Hypotheses.** "John proposes 'the FX-rate provider is down' with the five Canadian invoices as
 its scope; Jack proposes 'the 14:17 deployment changed rounding'." Good result: two hypotheses
 in `proposed`, each with an overlay layer, each visible in the timeline with its actor.
@@ -119,6 +125,7 @@ resume from the cursor printed on stderr.
   context roles/overlays, evidence and metrics tables, the `incidentius` profile. Demo last:
   fixtures and the whole-journey e2e that gates the release candidate.
 - Contract amendments (optional `Fact.role`, `Fact.layer`; optional `Scope.storeId`;
+  optional `ExecutionRequest.incident`;
   `record`/`snapshot` flags on execution; `Result.provenance.incident` as an `IncidentRef`;
   the incident endpoints; `Board.incidentRef` as an `IncidentRef`; the opened board widget
   name boundary) are frozen as fixtures in `datatug-core/pkg/apicontract` before server
@@ -291,7 +298,7 @@ incident store layout.
 
 **Id:** task-12
 **Verifies:** incidents#ac:demo-incident-journey-e2e, incidents#ac:recurrence-epilogue-boring, incidents#ac:houston-creates-incident-with-context, incidents#ac:investigation-becomes-incident, incidents#ac:watch-streams-events-with-cursor, incidents#ac:events-redacted-under-policy
-**Depends-On:** 3, 4, 6, 7, 8, 9, 10, 11
+**Depends-On:** 3, 4, 6, 7, 8, 9, 10, 11, 14
 **Status:** planning
 
 Playwright + CLI journey from `datatug demo` through the Resolution Record, the null-action
@@ -320,6 +327,26 @@ union gain an explicit extension boundary that preserves registered Dashboardius
 (`metric-series`, `comparison`, `resolution-criteria`, `replay`) losslessly; a Go ↔ TypeScript
 round-trip fixture; back-links from boards to incidents through the derived index.
 
+### Task 14: Incident-scoped read grants — request, approval, expiry
+
+**Id:** task-14
+**Verifies:** incidents#ac:access-request-approval-and-expiry-are-events
+**Supporting ACs:** server-enforced-access#ac:incident-grant-expires, server-enforced-access#ac:incident-grant-needs-approval, server-enforced-access#ac:incident-grant-never-unmasks
+**Depends-On:** 3, 9
+**Status:** planning
+
+The lead's simplest form, under the founder's 2026-09-11 MVP inclusion: `access.requested` / `access.approved` /
+`access.declined` / `access.revoked` / `access.expired` events; the projection lists pending
+requests and active grants; the server merges active grants for the calling principal and
+incident into the policy set handed to `accesspolicies.Run` (no second evaluator), never
+widening field allow-lists, masks, native SQL or writes; the grant id on every execution
+record produced under it; expiry applied by the server at closure or at the time limit; merge revokes the duplicate's
+grants; `ExecutionRequest.incident` on reads (`datatug query run --incident`);
+approver = project owner or policy-named incident approver (lead assumption); endpoints
+`POST /datatug/incidents/{id}/access/*`, verbs `datatug incident access request|approve|
+decline|revoke|list`, and the request/approve controls on the incident page; negative tests
+for unapproved, expired and out-of-incident reads.
+
 ## Deferred AC Coverage
 
 None: every acceptance criterion of `incidents` is verified by a task above.
@@ -329,7 +356,7 @@ plan): the compare UI (NEXT), the Dashboardius app cutover into the workspace
 (`product-profiles` AC dashboardius-app-in-workspace-cutover-complete, Track C3), Dashboardius
 `incident-dashboards` (its own plan in `sneat-co/dashboardius`), and the Track B2/B3 incident
 capabilities (hosted multi-user incidents, AI narratives, replay UI, credits, capture channels,
-incident-scoped grants, back-link UI badges) after Phases 4 and 5.
+back-link UI badges) after Phases 4 and 5.
 
 ## Risks
 
