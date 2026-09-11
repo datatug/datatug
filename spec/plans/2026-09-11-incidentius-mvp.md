@@ -36,6 +36,14 @@ task writes query files only). Phase 2 is therefore a prerequisite plan, and tas
 name its task 2 as an external dependency. No task may add a second context model, executor, policy evaluator,
 renderer or storage path.
 
+**Execution waits for the core review gate.** Beyond the task-level dependencies above, this
+plan's task *execution* does not start until the roadmap's Core coherent-experience review gate
+passes: the founder reviews the DataTug core (Phases 0-2) as one coherent experience, and that
+review decides whether Track B is prioritized next (founder, 2026-09-11: *"complete library
+refinement - e.g. DataTug improvements first. complete Phase 2 and review the core as a coherent
+experience before prioritizing Incidentius."*). Preparation and the review-findings work below
+may continue; dependent task execution may not start before the gate passes.
+
 ## Journey
 
 Written in the user's own sentences; each stage names its observable good result. Nobody
@@ -250,9 +258,10 @@ task 2 for the write endpoint; read-side resurfacing over fixture annotations do
 `POST /datatug/compare` and `datatug compare` for environment-vs-environment, fact-set-vs-
 fact-set (cohorts) and record-vs-record, keyed recordset diff and categorical distribution,
 each side its own recorded execution under its own policy; a `compare.run` event with
-`deterministic-result` when invoked under an incident; attachable as evidence. Compare UI is
-NEXT; this task's contribution to the journey is verified by the whole-journey AC because the
-compare step is part of it.
+`deterministic-result` when invoked under an incident; attachable as evidence. This task's
+contribution to the journey (the API/CLI compare primitive) is verified by the whole-journey AC
+because the compare step is part of it; the incident page's minimal web compare action is
+Task 15.
 
 ### Task 9: Incident pages and the incidentius profile
 
@@ -299,14 +308,15 @@ incident store layout.
 
 **Id:** task-12
 **Verifies:** incidents#ac:demo-incident-journey-e2e, incidents#ac:recurrence-epilogue-boring, incidents#ac:houston-creates-incident-with-context, incidents#ac:investigation-becomes-incident, incidents#ac:watch-streams-events-with-cursor, incidents#ac:events-redacted-under-policy
-**Depends-On:** 3, 4, 6, 7, 8, 9, 10, 11, 14
+**Depends-On:** 3, 4, 6, 7, 8, 9, 10, 11, 14, 15
 **Status:** planning
 
 Playwright + CLI journey from `datatug demo` through the Resolution Record, the null-action
-hour and both epilogues, against the real server with no intercepted responses, asserting
-events, records, redaction and cursors; required CI job on `datatug-apps` and `datatug-cli`;
-pinned revision set (core, cli, apps, demo, providers); a named datatug-cli release and
-datatug.app deployment receipt.
+hour and both epilogues — including clicking the incident page's **Compare affected vs
+control** action (Task 15) and asserting its rendered `CompareResult` tables — against the
+real server with no intercepted responses, asserting events, records, redaction and cursors;
+required CI job on `datatug-apps` and `datatug-cli`; pinned revision set (core, cli, apps,
+demo, providers); a named datatug-cli release and datatug.app deployment receipt.
 
 ### Task 13: Board widget extension boundary and incident reference
 
@@ -349,16 +359,78 @@ transferable; Sneat contactius roles when hosted — founder 2026-09-11); endpoi
 decline|revoke|list`, and the request/approve controls on the incident page; negative tests
 for unapproved, expired and out-of-incident reads.
 
+### Task 15: Minimal web compare on the incident page
+
+**Id:** task-15
+**Verifies:** incidents#ac:demo-incident-journey-e2e
+**Depends-On:** 8, 9
+**Status:** planning
+
+In `datatug-apps`: add one **Compare affected vs control** action to the incident page, calling
+Task 8's `POST /datatug/compare` and rendering the returned `CompareResult` as plain tables —
+the summary; changed, added and removed rows; per-side limitations; the distribution (founder,
+2026-09-11, ruling *"compare - A"*). Side-by-side grids and diff highlighting stay NEXT
+(`compare` Feature, REQ:two-scope-execution capability table). This is B1's only browser compare
+surface; Task 12's whole-journey e2e exercises it.
+
 ## Deferred AC Coverage
 
 None: every acceptance criterion of `incidents` is verified by a task above.
 
 Sibling-Feature work this plan deliberately leaves to other plans (not acceptance of this
-plan): the compare UI (NEXT), the Dashboardius app cutover into the workspace
-(`product-profiles` AC dashboardius-app-in-workspace-cutover-complete, Track C3), Dashboardius
-`incident-dashboards` (its own plan in `sneat-co/dashboardius`), and the Track B2/B3 incident
-capabilities (hosted multi-user incidents, AI narratives, replay UI, credits, capture channels,
-back-link UI badges) after Phases 4 and 5.
+plan): the rich compare UI — side-by-side grids and diff highlighting (NEXT, `compare` Feature;
+the minimal plain-table compare action is this plan's Task 15), the Dashboardius app cutover
+into the workspace (`product-profiles` AC dashboardius-app-in-workspace-cutover-complete, Track
+C3), Dashboardius `incident-dashboards` (its own plan in `sneat-co/dashboardius`), and the Track
+B2/B3 incident capabilities (hosted multi-user incidents, AI narratives, replay UI, credits,
+capture channels, back-link UI badges) after Phases 4 and 5.
+
+## Review findings to resolve before execution
+
+Findings from the [external roadmap/plans review](../research/2026-09-11-external-roadmap-plans-review.md)
+(2026-09-11) that must be resolved before task execution starts (see "Execution waits for the
+core review gate" above) — one-line fix direction per finding, taken from the review:
+
+- **F1 — metric history cannot produce its promised values (tasks 2, 6):** define retained,
+  policy-governed scalar measurements at execution time (projection identity, source scope,
+  query revision, completeness), specify unavailable/expired evidence explicitly, and add an
+  observation-window rule for the "zero for 30 minutes" criterion.
+- **F2 — target authorization does not protect a note's other contents (task 7,
+  `events-redacted-under-policy`):** define sensitivity/authorization for referenced facts and
+  free-text annotation bodies, including search, projections and streams, and add the exact
+  public-ID/hidden-email negative scenario.
+- **F3 — cohort and cross-store evidence contracts remain incomplete (tasks 1, 4, 8):** freeze
+  bounded set-binding semantics and source-refusal behavior before browser work, define
+  qualified store/project/incident-scoped execution references, and prove two stores with
+  colliding short IDs cannot cross-resolve evidence.
+- **F4 — incident durability assumes fewer writers than the CLI permits (task 1, the CLI's
+  in-process server path):** require one store writer or cross-process exclusion, idempotent
+  mutation IDs, durable append/recovery rules and recoverable merge semantics; test simultaneous
+  CLI mutations and an interrupted merge.
+- **F5 — immutable records are later mutated by retention (task 2):** keep execution receipts
+  immutable and model snapshot availability/expiry as separate state rather than clearing a
+  field on an "immutable" record; preserve annotation revision bodies explicitly or require a
+  real history mechanism.
+- **F7, the Incidentius parts — dependency metadata contradicts the intended parallel work:**
+  encode task 4 → task 3's event API and task 8 → the resolved cohort contract (F3); represent
+  Phase 2 as the bounded dependency already named in Summary (tasks 5/7 need only its task 2)
+  rather than gating the whole plan's `**Prerequisite Plans:**` on all of Phase 2.
+- **F8 — C3 has a cutover inventory but no executable owner plan:** task 9 implements only the
+  two-profile (`datatug`/`incidentius`) milestone; keep that acceptance separate from the
+  three-profile (`dashboardius`) family-cutover acceptance, which needs its own plan (roadmap
+  Track C3) before it starts.
+- **F9, tasks 2/7/8/11/13 — valid AC identifiers hide partial proof:** each of these tasks names
+  a Feature AC it does not independently complete (2 and 7 both cite
+  `hypothesis-rejected-keeps-evidence`; 8 and 11 both cite `demo-incident-journey-e2e`; 13 cites
+  `board-lists-its-incidents-by-ref`); keep integrated proof of the whole-journey AC on task 12
+  and distinguish component contribution from final verification, or add component ACs, before
+  treating any of them as complete on their own.
+- **Traceability gaps:** personal-query storage, the Resolution Record, and the API/CLI
+  requirements in evidence-records/checks/annotations/compare have no direct AC; the two C3
+  cutover ACs, `surfaces#profile-does-not-hide-a-surface` and the eleven `cli/incident` ACs have
+  no explicit cross-repository task reference; record the equivalence links that context,
+  access-control, provenance and board sibling ACs rely on to Phase 1/product ACs, rather than
+  creating duplicate tasks.
 
 ## Risks
 
