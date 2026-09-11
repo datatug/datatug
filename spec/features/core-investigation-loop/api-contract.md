@@ -136,11 +136,28 @@ no recordset, sample, true count, SQL text or hidden value.
 | POST `semantic/related` | Scope + `{fact:Fact,limit?:number}` | `{related:[{lookupId:string,label:string,source:string,collection:string,count:number\|null}],truncated:boolean}` |
 | POST `semantic/related/rows` | Scope + `{lookupId:string,value:TypedValue,limit?:number}` | `Result` |
 | POST `queries/applicable` | Scope + `{values:Fact[]}` | `{applicable:Candidate[],notYet:Candidate[]}` |
+| GET `queries/all_queries` | `{project:string, root?:'shared'\|'personal'}` | `{id:string,title?:string,folders:QueriesFolder[],items:QueryDef[]}` (datatug-core's existing recursive shape, unchanged); `root` missing/blank defaults to `'shared'` |
 | POST `exec/run_query` | ExecutionRequest below | `Result` |
 
 Related operations use POST so semantic values are not automatically copied into
 URLs, browser history or access logs. Source/project metadata GET queries contain
 identifiers only. Server logs record a correlation ID and operation, not raw facts.
+
+`queries/all_queries` lists the project's saved-query tree rooted at `~` (shared; the
+default, and byte-identical to the pre-existing response when no `root` param is
+present at all) or at the serving principal's own `user:<principalId>` root
+(`root=personal`, additive — implemented by datatug-cli PR #230). An anonymous
+principal (no `--as` at `datatug serve` startup) gets an empty personal folder, never
+an error; a read never creates that directory; the personal tree is never merged into
+the shared tree. A `root` value that is present, non-blank and neither `shared` nor
+`personal` is `400 INVALID_REQUEST` naming field `root` — the error envelope defined
+in Security and errors below. An agent built before this parameter existed ignores
+the unrecognized query-string key and always returns the shared tree regardless of
+`root`; a client MUST treat any response whose top-level `id` is `~` as the shared
+tree even when it requested `root=personal`, never infer `root` support from the
+request alone. Where personal queries live on disk (not merely how a client asks for
+them) is `executable-knowledge-library` REQ:personal-queries-storage; this endpoint
+defines only the wire parameter.
 
 ```typescript
 type Candidate = {
