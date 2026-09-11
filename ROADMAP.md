@@ -20,7 +20,8 @@ DataTug spine**, unchanged. **Track B, Incidentius** and **Track C, Dashboardius
 Phase 5 in this document and depend on Track A as drawn. Track B no longer starts beside
 Phase 2: it starts only after the **Core coherent-experience review** gate below (founder,
 2026-09-11: *"complete library refinement - e.g. DataTug improvements first. complete Phase
-2 and review the core as a coherent experience before prioritizing Incidentius."*):
+2 and review the core as a coherent experience before prioritizing Incidentius."*). The one exception is the `incidentius` profile scaffold, which
+runs now beside Phase 2 (founder, 2026-09-11: *"I actually would prefer if you do in parallel scaffolding of the incidentius app"*):
 
 ```text
 Track A  DataTug spine        0 ── 1 ── 2 ── 3 ── 4 ── 5
@@ -112,7 +113,8 @@ not as separate merged components.
 this gate passes (founder, 2026-09-11: *"complete library refinement - e.g. DataTug
 improvements first. complete Phase 2 and review the core as a coherent experience before
 prioritizing Incidentius."*). This supersedes Track B's earlier "runs beside Phase 2"
-sequencing.
+sequencing. The one exception is the `incidentius` profile scaffold (Incidentius plan Task 16),
+which runs beside Phase 2 (founder, 2026-09-11: *"I actually would prefer if you do in parallel scaffolding of the incidentius app"*).
 
 ## Phase 3 — human-guided investigations
 
@@ -187,7 +189,8 @@ recurrence walk end to end.
 store through the server; checks and annotations are project knowledge assets and need
 Phase 2 task 2 (the authorized project-write path), sequenced first. Track B does not start
 until Phase 2 completes and the [Core coherent-experience review](#core-coherent-experience-review-gate)
-gate passes and prioritizes it (founder, 2026-09-11).
+gate passes and prioritizes it (founder, 2026-09-11). The profile scaffold, plan Task 16, is
+exempt and runs now (founder, 2026-09-11: *"I actually would prefer if you do in parallel scaffolding of the incidentius app"*).
 **Non-goals:** hosted multi-user incidents, boards/charts, AI narratives, capture channels,
 production writes (approved mutating actions are FUTURE).
 **Gate:** the whole-journey e2e with both epilogues, pinned revisions, a named CLI release and
@@ -316,6 +319,8 @@ Shared presentation libraries serve all three profiles.
   experience before prioritizing Incidentius."
 - Snapshots in Git, external roadmap/plans review (2026-09-11): "Not in MVP".
 - Web compare scope, external roadmap/plans review (2026-09-11): "compare - A".
+- Incidentius scaffold timing (2026-09-11): "I actually would prefer if you do in parallel
+  scaffolding of the incidentius app".
 
 ## Open Questions
 
