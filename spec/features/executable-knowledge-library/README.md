@@ -189,6 +189,12 @@ next incident starts with it. It uses the same project-write path as REQ:capture
 **When** the user clicks "Save as project query"
 **Then** a new `<id>.query.json`/`<id>.query.dtql` pair appears as an uncommitted Git change with the semantic parameter already populated.
 
+### AC: query-pair-storage-guards-writes (verifies REQ:capture-from-exploration)
+
+**Given** a project whose query `customers/customer-invoices` is stored as its `.query.json`/`.query.dtql` pair at revision `R`
+**When** the project store receives, in turn, a write whose path escapes the project's query folders or passes through a symlink, a write whose content carries credentials or result rows, a create for an id that already exists, an update conditioned on a revision other than `R`, and an update interrupted between the two files of the pair
+**Then** each unsafe or stale write is refused with a typed validation or revision-conflict error and changes no file; after the interruption, a freshly opened store shows exactly the old or the new complete pair, never a mix; the legacy save and delete paths go through the same guard; and nothing is committed to Git. This criterion proves the storage component only; `capture-lands-as-git-diff` remains the browser-level proof.
+
 ### AC: playbook-guides-without-automating (verifies REQ:investigation-playbooks)
 
 **Given** a "Checkout failure investigation" playbook with three branching steps
