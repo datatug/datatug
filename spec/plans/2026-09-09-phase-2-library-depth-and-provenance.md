@@ -223,6 +223,7 @@ Run the complete journey from actual Phase 1 entry with real server/store, inclu
 - executable-knowledge-library#ac:playbook-guides-without-automating — Phase 3 guided investigation plan.
 - executable-knowledge-library#ac:promotion-changes-visibility-not-content — Phase 4 project grants/promotion plan.
 - executable-knowledge-library#ac:public-pack-import-is-explicit — separately planned public packs experiment.
+- executable-knowledge-library#ac:useful-query-becomes-check — Track B1, plan 2026-09-11-incidentius-mvp task 5, after this plan's task 2 write path.
 
 Tasks 1, 8, 9, 10 and 11 remain traceable backlog for their owning Features and are
 not included in the Phase 2 completion gate. They are deferred for independent scope

@@ -47,6 +47,12 @@ owns corrective tasks. Earlier detailed audit tables remain historical evidence 
 | P13 | [Infrastructure inventory](../features/infrastructure-inventory/README.md) | extension | Environment/server/catalog models exist; linked service/record exploration unproved | extensions |
 | P14 | [AI consumes the same model](../features/agent-context/README.md) | consumer/extension | CLI skills exist; agent context and brokered AI surfaces require bounded plans | extensions |
 | P15 | [Dashboardius dashboards](../features/dashboards/README.md) | presentation surface | Demo interactions and board models exist; real shared persistence not accepted | 5 |
+| P16 | [Incidents (Incidentius core)](../features/incidents/README.md) | product capability | Nothing exists; specified 2026-09-11 from the founder's vision | B1 |
+| P17 | [Evidence records and result snapshots](../features/evidence-records/README.md) | evidence enabler | Seed only: `Result.provenance` and HTTP fixture snapshots; no execution record or store | B1 |
+| P18 | [Annotations](../features/annotations/README.md) | knowledge capability | Nothing exists | B1 |
+| P19 | [Executable checks](../features/checks/README.md) | executable-knowledge capability | Dataset value checks exist in `datatug-core` (`checks.go`); no purposes, predicates or runs | B1 |
+| P20 | [Compare](../features/compare/README.md) | execution primitive | Schema compare exists (`pkg/comparator`); no recordset or cohort compare | B1 (API) / B2 (UI) |
+| P11+ | [Product profiles](../features/product-profiles/README.md) | surface | Nothing exists; founder ruling 2026-09-11 puts all apps in one Nx workspace | B1 (profiles) / C3 (cutover) |
 
 ## Existing ideas and overlapping feature reconciliation
 

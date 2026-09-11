@@ -112,7 +112,22 @@ DataTug MAY offer public, non-organization-specific knowledge packs as a separat
 from an organization's private library. Public packs MUST NOT be mixed into private knowledge
 without an explicit import step.
 
+#### REQ: promote-query-to-check
+
+A library query that proved useful (in an investigation or an incident) MUST be promotable into
+a check with an expected condition and a purpose without duplicating its text: the check
+references the query by id ([checks](../checks/README.md) REQ:promote-query-to-check). This is
+the knowledge flywheel's executable step (vision §18, §44): a query written at 02:00 during an
+incident becomes a diagnostic, a regression check in CI, or a resolution criterion, and the
+next incident starts with it. It uses the same project-write path as REQ:capture-from-exploration.
+
 ## Acceptance Criteria
+
+### AC: useful-query-becomes-check (verifies REQ:promote-query-to-check)
+
+**Given** `customer-invoices` was run during INC-1 and recorded
+**When** the user chooses "Promote to check" with purpose `diagnostic` and expectation "row count > 0"
+**Then** a check file referencing `customer-invoices` appears as an uncommitted Git change, the query file is unchanged, and the check is listed for `Customer` at the next incident.
 
 ### AC: parameters-typed-consistently (verifies REQ:parameterized-queries-typed-parameters)
 

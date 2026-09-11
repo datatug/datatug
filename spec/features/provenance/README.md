@@ -72,7 +72,22 @@ This Feature does not redesign that taxonomy — it depends on the layered-ACL t
 `server-enforced-access` REQ:layered-acl-track) landing task 21 before result provenance can show a
 fully structured "why was I refused" explanation instead of today's string-derived approximation.
 
+#### REQ: execution-record-provenance
+
+When an execution is recorded ([evidence-records](../evidence-records/README.md)), the record
+MUST carry the full result provenance chain of REQ:result-provenance plus the applied
+limitations and bindings, so that an incident's evidence, an annotation's provenance and a
+compare side all point at one immutable record instead of restating provenance. Reading the
+record later MUST show the provenance as recorded and the limitations re-evaluated under the
+reader's current policy, labelled separately.
+
 ## Acceptance Criteria
+
+### AC: recorded-execution-keeps-chain (verifies REQ:execution-record-provenance)
+
+**Given** a recorded run of *Customer invoices* for `Customer.ID = 5` under `admin`
+**When** a `support` principal opens the record
+**Then** the recorded chain (source, collection, query, bindings) is shown as recorded, the current-policy limitations are shown separately, and `Email` values are absent.
 
 ### AC: result-shows-full-chain (verifies REQ:result-provenance)
 

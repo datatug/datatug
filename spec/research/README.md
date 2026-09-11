@@ -9,6 +9,8 @@ should do, update the owning Feature or Idea and link back here.
 
 | Document | Date | What it establishes |
 |---|---|---|
+| [incident-vision reconciliation](2026-09-11-incident-vision-reconciliation.md) | 2026-09-11 | Maps every concept of the founder's incident-resolution vision to existing, extended or new capabilities with MVP/NEXT/FUTURE tiers; records the conflicts found and their resolutions. |
+| [incident-resolution vision (founder)](2026-09-11-incident-resolution-vision.md) | 2026-09-11 | The founder's product vision, architecture and engineering handoff for DataTug / Incidentius / Dashboardius, preserved verbatim as the source input. |
 | [implementation handoff to Fable](2026-09-09-implementation-handoff.md) | 2026-09-09 | Changes to contracts, corrective task order, preserved implementation, acceptance gates and remaining owner decisions. |
 | [independent DataTug and Dashboardius review](2026-09-09-independent-review.md) | 2026-09-09 | Product, research and planning assessment; Phase 1 contract and acceptance gaps; Mac/VM reconciliation; exact next implementation task. |
 | [current-state audit](2026-09-09-current-state-audit.md) | 2026-09-09 | What is implemented, partial, prototype, specified or marketed across the CLI, core engine, web UI, DALgo/DTQL/ACL and ecosystem claims. |
