@@ -138,7 +138,7 @@ production modifications with approval (vision §36) are FUTURE and require thei
 ### AC: incident-grant-expires (verifies REQ:incident-scoped-grants)
 
 **Given** a grant on `Invoice` for `support`, requested by `support` inside INC-1 and approved by `admin`
-**When** INC-1 is resolved
+**When** INC-1 is closed
 **Then** the next read under `support` is limited as before the grant, and the request, the approval and the expiry are events on INC-1.
 
 ### AC: incident-grant-needs-approval (verifies REQ:incident-scoped-grants)
