@@ -1,11 +1,11 @@
 ---
 format: https://specscore.md/feature-specification
-status: Draft
+status: Approved
 ---
 # Feature: Compare
 
 > [SpecScore.**Studio**](https://specscore.studio): | [Explore](https://specscore.studio/app/github.com/datatug/datatug/spec/features/compare?op=explore) | [Edit](https://specscore.studio/app/github.com/datatug/datatug/spec/features/compare?op=edit) | [Ask question](https://specscore.studio/app/github.com/datatug/datatug/spec/features/compare?op=ask) | [Request change](https://specscore.studio/app/github.com/datatug/datatug/spec/features/compare?op=request-change) |
-**Status:** Draft
+**Status:** Approved
 **Source Ideas:** —
 
 ## Summary

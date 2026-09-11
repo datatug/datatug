@@ -1,11 +1,11 @@
 ---
 format: https://specscore.md/feature-specification
-status: Draft
+status: Approved
 ---
 # Feature: Executable checks
 
 > [SpecScore.**Studio**](https://specscore.studio): | [Explore](https://specscore.studio/app/github.com/datatug/datatug/spec/features/checks?op=explore) | [Edit](https://specscore.studio/app/github.com/datatug/datatug/spec/features/checks?op=edit) | [Ask question](https://specscore.studio/app/github.com/datatug/datatug/spec/features/checks?op=ask) | [Request change](https://specscore.studio/app/github.com/datatug/datatug/spec/features/checks?op=request-change) |
-**Status:** Draft
+**Status:** Approved
 **Source Ideas:** —
 
 ## Summary

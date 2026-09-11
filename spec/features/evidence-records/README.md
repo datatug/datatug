@@ -1,11 +1,11 @@
 ---
 format: https://specscore.md/feature-specification
-status: Draft
+status: Approved
 ---
 # Feature: Evidence records and result snapshots
 
 > [SpecScore.**Studio**](https://specscore.studio): | [Explore](https://specscore.studio/app/github.com/datatug/datatug/spec/features/evidence-records?op=explore) | [Edit](https://specscore.studio/app/github.com/datatug/datatug/spec/features/evidence-records?op=edit) | [Ask question](https://specscore.studio/app/github.com/datatug/datatug/spec/features/evidence-records?op=ask) | [Request change](https://specscore.studio/app/github.com/datatug/datatug/spec/features/evidence-records?op=request-change) |
-**Status:** Draft
+**Status:** Approved
 **Source Ideas:** —
 
 ## Summary
