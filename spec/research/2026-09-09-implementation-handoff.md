@@ -110,7 +110,7 @@ not cached restricted result rows or credentials.
 
 The hub [dashboards Feature](../features/dashboards/README.md) owns the DataTug boundary.
 Dashboardius now has its own [persistence Feature](https://github.com/sneat-co/dashboardius/blob/main/spec/features/query-backed-board-persistence/README.md)
-and [journey plan](https://github.com/sneat-co/dashboardius/blob/main/spec/plans/2026-09-09-query-backed-board-persistence.md).
+and [journey plan](https://github.com/sneat-co/workbench/blob/main/spec/plans/github.com/sneat-co/dashboardius/2026-09-09-query-backed-board-persistence/README.md).
 
 DataTug owns project/board contracts, storage, query execution and policy. Dashboardius
 owns presentation and editing. Its prototype TypeScript model is not a field-for-field

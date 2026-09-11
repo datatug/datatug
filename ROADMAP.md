@@ -50,7 +50,7 @@ manifest. Phase 1 is complete (2026-09-11): corrective tasks 12–17 landed; the
 
 [Feature](spec/features/core-investigation-loop/README.md) ·
 [transport contract](spec/features/core-investigation-loop/api-contract.md) ·
-[plan](spec/plans/2026-09-09-phase-1-core-investigation-loop.md).
+[plan](https://github.com/sneat-co/workbench/blob/main/spec/plans/github.com/datatug/datatug/2026-09-09-phase-1-core-investigation-loop/README.md).
 
 **Outcome:** browse → semantic selection → related data/applicable query → explicit
 bindings → authorized execution → context → continued investigation. SQLite, inGitDB
@@ -89,7 +89,7 @@ smoke evidence. Record each separately; required CI cannot succeed by skipping s
 
 ## Phase 2 — executable library quality and provenance
 
-[plan](spec/plans/2026-09-09-phase-2-library-depth-and-provenance.md).
+[plan](https://github.com/sneat-co/workbench/blob/main/spec/plans/github.com/datatug/datatug/2026-09-09-phase-2-library-depth-and-provenance/README.md).
 
 **Outcome:** one engineer captures a useful query; another authorized user of the same
 Git/local project can find, understand and rerun it with correct bindings and provenance.
@@ -177,7 +177,7 @@ Owning Feature: [incidents](spec/features/incidents/README.md) with
 
 ### B1 — Incidentius MVP
 
-[Plan](spec/plans/2026-09-11-incidentius-mvp.md).
+[Plan](https://github.com/sneat-co/workbench/blob/main/spec/plans/github.com/datatug/datatug/2026-09-11-incidentius-mvp/README.md).
 
 **Outcome:** on a local or Git project, "Houston, we've got a problem" creates an incident
 attached to an Investigation Context with cohorts and hypothesis overlays; checks run and are

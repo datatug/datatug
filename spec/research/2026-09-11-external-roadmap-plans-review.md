@@ -54,7 +54,7 @@ The journey binds entire cohorts, but the wire contract cannot express the promi
 **Fix:** freeze bounded set-binding semantics and source refusal behavior before browser work. Define qualified execution references and propagate store/project/incident scope through checks, annotations and compare. Prove two stores with colliding short IDs cannot cross-resolve evidence.
 
 **F4 — Blocker · PLAUSIBLE: incident durability assumes fewer writers than the CLI permits.**
-Location: H:spec/plans/2026-09-11-incidentius-mvp.md, Risks (L374); C:spec/features/cli/incident/README.md, server-backed execution (L103).
+Location: W:spec/plans/github.com/datatug/datatug/2026-09-11-incidentius-mvp/README.md, Risks (L374); C:spec/features/cli/incident/README.md, server-backed execution (L103).
 
 > "Appends are serialised by the server per incident; the MVP is single-server."
 
@@ -73,7 +73,7 @@ Both cannot hold. Annotation history similarly relies on Git history even though
 **Fix:** keep immutable execution receipts and separate snapshot availability/expiry state. Preserve annotation revision bodies explicitly, or require a real history mechanism; an uncommitted overwrite is not history.
 
 **F6 — Should-fix · CONFIRMED: the browser journey has an escape hatch into CLI-only acceptance.**
-Location: H:spec/plans/2026-09-11-incidentius-mvp.md, task 8 (L242).
+Location: W:spec/plans/github.com/datatug/datatug/2026-09-11-incidentius-mvp/README.md, task 8 (L242).
 
 > "Compare UI is NEXT"
 
