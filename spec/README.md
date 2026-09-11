@@ -21,7 +21,7 @@ here through `**Implements:**` references.
 | [`product/`](product/README.md) | Thesis, pillars, hierarchy |
 | [`features/`](features/README.md) | Feature specifications — one Capability per pillar, plus cross-surface Capabilities |
 | [`ideas/`](ideas/README.md) | Pre-spec one-pagers exploring problem-direction-MVP |
-| [`plans/`](plans/README.md) | Implementation plans linked to Features |
+| [`plans/`](https://github.com/sneat-co/workbench/blob/main/spec/plans/github.com/datatug/datatug/README.md) | Implementation plans linked to Features, stored in `sneat-co/workbench` |
 | [`research/`](research/README.md) | Audits and research records |
 
 ## Open Questions
