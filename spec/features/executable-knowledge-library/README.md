@@ -106,6 +106,30 @@ A query, collection or playbook MUST be promotable from personal → team → pr
 scope without duplicating the underlying file. Promotion depends on `sharing-scopes` (P8) for the
 scope model; this Feature owns the promotion action and its effect on discoverability.
 
+#### REQ: personal-queries-storage
+
+A personal query MUST NOT be written inside the shared project directory `datatug serve`
+opens: nothing personal is ever committed into the shared project's Git repo. Founder,
+2026-09-11 (verbatim): "where personal queries live on disk for datatug serve. - I'm Ok
+with your suggestion for now." The accepted suggestion — provisional per that "for now",
+open to revision, not a closed decision — puts personal queries outside the project
+directory, under the OS user's home, keyed by project id:
+`~/.datatug/projects/<project-id>/queries/**`, with the base directory overridable by a
+`DATATUG_PERSONAL_DIR` environment variable (lead assumption, unconfirmed by the founder).
+No colon appears in any on-disk directory name; an earlier `<project>/user:<principalId>/`
+layout considered for this is illegal on Windows and is rejected.
+
+The location is keyed per OS user and per project, not per `--as` principal (lead
+assumption, unconfirmed by the founder): one `datatug serve` process reads and writes a
+single OS user's `~/.datatug/` tree regardless of which principal a given request is
+served as. datatug-core's `user:<principalId>` root id (`RootUserFolderPrefix`,
+`pkg/datatug/proj_item.go`) is a wire-level `QueriesFolder`/`Folder` id convention only —
+it labels a response's root folder (`core-investigation-loop` api-contract.md's
+`queries/all_queries?root=personal`) and carries no on-disk meaning; datatug-core itself
+ships no loader or on-disk layout for it. This Feature owns the on-disk location; the
+wire contract for requesting a principal's personal queries is
+`core-investigation-loop`'s, implemented by datatug-cli PR #230.
+
 #### REQ: templates-public-knowledge-packs
 
 DataTug MAY offer public, non-organization-specific knowledge packs as a separate, opt-in layer
