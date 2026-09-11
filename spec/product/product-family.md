@@ -96,7 +96,7 @@ confirmed"*, and the SQL-widget binding ruling (*"I'm Ok with the suggested opti
 | Compare (same query across two scopes) | DataTug ([compare](../features/compare/README.md)) | An execution primitive; incidents and dashboards consume it. |
 | Boards: schema, persistence, query binding, execution, ACL | DataTug ([dashboards](../features/dashboards/README.md)) | Unchanged. |
 | Board presentation, widget kinds, editing, `metric-series`, incident/investigation dashboards, the embeddable renderer | Dashboardius (`sneat-co/dashboardius` specs) | Never a second data platform. |
-| Incident identity, lifecycle, participants, hypotheses, evidence relationships, recurrence, outcomes, metrics semantics, event stream, status projections | Incidentius ([incidents](../features/incidents/README.md)) | Built on the rows above; owns resolution semantics only. |
+| Incident identity, lifecycle, participants, referenced projects, hypotheses, evidence relationships, recurrence, outcomes, metrics semantics, event stream, status projections; the incident store and its routing | Incidentius ([incidents](../features/incidents/README.md)) | Built on the rows above; owns resolution semantics and the operational store, never knowledge assets. |
 | Product shells (home, brand, navigation, entry points) | [product-profiles](../features/product-profiles/README.md) | Presentation of the same capabilities; no profile-private data. |
 
 ## 4. Shared capability versus profile-specific experience
@@ -128,12 +128,20 @@ Browser apps (datatug-apps Nx workspace)
 datatug serve  (datatug-cli pkg/server, later a hosted profile)
   ├─ project store        → files (Git-native) · GitHub · OpenVaultDB (future) · hosted
   ├─ semantic resolver    → mappings, related lookups, applicable queries
-  ├─ executor             → accesspolicies.Run → SecureReadSession → DALgo adapters (SQLite · inGitDB · HTTP · …)
+  ├─ executor             → accesspolicies.Run → secureread session (datatug-cli) → DALgo adapters (SQLite · inGitDB · HTTP · …)
   ├─ evidence store       → execution records, result snapshots (retention, masking, re-checked on read)
   ├─ checks runner        → library query + expected condition → execution record
   ├─ compare              → two scopes → keyed recordset diff
-  └─ incidents            → append-only event stream per incident → projection → watch cursor
+  └─ incident store       → routed: project repo (default) · dedicated repo · app repo · hosted space
+                            append-only event stream per incident → projection → watch cursor
+                            every read re-checked against the reader's policy
 ```
+
+Knowledge assets (entities, queries, checks, annotations, boards) live in the project; the
+operational record (incidents, execution records, snapshots) lives in the routed store, which
+may be the same repository for a small setup. An incident references one or many projects and
+is addressed everywhere as `storeId` + `incidentId`; DataTug assets link back to the incidents
+that used or created them.
 
 Incident data flow (vision §3.2, §57):
 
@@ -147,10 +155,11 @@ incident.json projection  (current state; what the list/detail/API show)
 watch · timeline · status views · AI coordination · connectors · Resolution Record
 ```
 
-`assertion.kind` is one of `observation` (a deterministic result or a recorded fact),
-`claim` (a human statement), `hypothesis`, `inference` (AI or heuristic output, always with the
-events it was derived from), `deterministic-result` (a check evaluation). Generated views keep
-the links; nothing AI-produced is ever recorded as an observation (vision §12, §26, §31).
+`assertion.kind` is one of `observation` (a recorded execution), `claim` (a human statement),
+`question` (a human question still open), `hypothesis`, `inference` (AI or heuristic output,
+always with the events it was derived from), `deterministic-result` (a check or compare
+evaluation). Generated views keep the links; nothing AI-produced is ever recorded as an
+observation (vision §12, §26, §31).
 
 ## 6. Staged delivery
 
@@ -165,8 +174,10 @@ Track B  Incidentius          B1 ───┘         │    B2 ─┘    B3 ─
 Track C  Dashboardius         C1 = Phase 5 ───┘    C2 (incident boards) ── C3 (workspace cutover)
 ```
 
-- **B1 MVP** starts after Phase 1 (accepted 2026-09-11) and runs beside Phase 2; it needs
-  Phase 2 task 2 (the project-write path) only for "promote query → check".
+- **B1 MVP** starts after Phase 1 (accepted 2026-09-11) and runs beside Phase 2. Incidents and
+  evidence write to the routed store through the server's own path; checks and annotations
+  are knowledge assets and need Phase 2 task 2 (the authorized project-write path), so that
+  task is sequenced first in the implementation round.
 - **B2** needs Phase 4 (project grants, authenticated server) for live multi-user incidents and
   Phase 5 (board persistence) for incident dashboards.
 - **C3** (moving the Dashboardius app into the workspace) can start any time; it is
@@ -196,7 +207,7 @@ hard requirement of any profile (vision §3.6, §45, §46).
 | ID | Decision | Why |
 |---|---|---|
 | D1 | One workspace, profiles for DataTug/Incidentius, Dashboardius a sibling app sharing libs | founder ruling above; UI-kit rule; no second renderer or data platform |
-| D2 | Incidents are project assets (`incidents/<id>/`) | same ownership as boards (founder ruling); grants and ACL apply unchanged; Git-native portability of the Resolution Record |
+| D2 | Incidents live in a configurable incident store: the project's own repository by default, a dedicated repository, the application's repository, or the hosted space-bounded store; one layout, one server-owned write path; an incident references one or many projects; assets link back by `storeId` + `incidentId` | founder, 2026-09-11: *"Agree on ability of incidents to be stored in dedicated repo. But it should be able to store in same repo as datatug or even in the application repo if users want (can be OK for small projects)"*; *"A DataTug project can be used by multiple incidentius instances"*; a curated knowledge project must not become an operational log; hosted projects read from GitHub cannot take an event per second |
 | D3 | Event-sourced incident, projection derived, replay at T | vision §57 Q2–Q3, Q11; one stream powers watch/timeline/AI/connectors; wrong theories are never lost (§3.3) |
 | D4 | Context roles and overlays extend investigation-context | vision §5 firm boundary; useful speculation usable without becoming truth (§11.1) |
 | D5 | Execution records + snapshots are DataTug evidence | historical evidence, shared cache, collaboration, comparison over time (§15); no permission backdoor |

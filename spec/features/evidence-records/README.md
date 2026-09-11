@@ -108,11 +108,15 @@ absence of restriction the run did not actually have. A record MUST NOT contain 
 an ad-hoc DTQL run (only its hash), MUST NOT contain credentials, and MUST NOT contain result
 rows — rows live only in a snapshot, under REQ:result-snapshot-opt-in.
 
-Storage (lead assumption): records are project assets under `executions/<YYYY>/<MM>/<id>.json`,
-written through the server like any other project write, so they are Git-native, diffable and
-travel with the project the way `git-native-projects` REQ:readable-file-layout requires. This
-depends on the Phase 2 project-write path; before it exists, `serve` MUST refuse `record:true`
-with a clear error rather than silently dropping the record.
+Storage (lead assumption): records are operational records, not knowledge assets. They live in
+the **evidence store**, which follows the incident-store routing of
+[incidents](../incidents/README.md) REQ:incident-store — the project's own repository under
+`executions/<YYYY>/<MM>/<id>.json` by default (Git-native and diffable for a small setup), or
+a dedicated repository, the application's repository, or the hosted space-bounded store — and
+are written only by the server through the store's own DALgo-backed path. This path does not
+depend on the Phase 2 project-write path for knowledge assets. A record created under an
+incident carries that incident's `IncidentRef` in its provenance, which is how derived
+back-links are answered.
 
 #### REQ: result-snapshot-opt-in
 

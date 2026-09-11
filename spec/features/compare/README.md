@@ -187,9 +187,10 @@ the differ never holds a value the caller could not have retrieved directly.
 #### REQ: compare-produces-evidence
 
 A compare MUST be citable. The response MUST carry both `recordId`s, and a compare invoked under
-an incident MUST enter the event stream with `assertion.kind = observation` referencing those two
-records and the key used — the comparison is a deterministic result over two recorded executions,
-not a claim. Re-running the same compare later produces two new records; the earlier comparison
+an incident MUST enter the event stream as a `compare.run` event with
+`assertion.kind = deterministic-result` referencing those two records and the key used — the
+comparison is a deterministic computation over two recorded executions, not a claim
+([incidents](../incidents/README.md) REQ:event-stream-append-only). Re-running the same compare later produces two new records; the earlier comparison
 stays valid evidence of what was true then.
 
 MVP does not persist a `CompareResult` as its own project asset (lead assumption): the two

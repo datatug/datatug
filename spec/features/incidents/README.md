@@ -15,29 +15,32 @@ status: Draft
 
 ## Summary
 
-An incident is a DataTug project asset that answers, while people work, what is happening, what have we learned, what should we investigate next, and how do we resolve it; Incidentius is an incident-resolution workspace built inside DataTug as a product profile, with an append-only event stream, hypotheses, evidence by reference, metrics, recurrence links and a Resolution Record.
+An incident is a DataTug record in a configurable incident store that answers, while people work, what is happening, what have we learned, what should we investigate next, and how do we resolve it; Incidentius is an incident-resolution workspace built inside DataTug as a product profile, with an append-only event stream, hypotheses, evidence by reference, metrics, recurrence links, back-links from DataTug assets and a Resolution Record.
 
 > **Incidentius is an incident-resolution workspace.**
 
-It starts when somebody says **"Houston, we've got a problem"** (vision §1) and it attaches to a DataTug
-Investigation Context rather than reimplementing one (vision §5). Everything that happens is an
-append-only event; the current state is a projection; replay reconstructs what the team believed
-at any moment. Hypotheses, evidence, cohorts, checks, metrics, recurrence links, status views and
-the Resolution Record are all views of that one stream. The MVP lives inside the DataTug
-application; Incidentius is a product profile, not a second application (vision §4).
+It starts when somebody says **"Houston, we've got a problem"** (vision §1) and it attaches to a
+DataTug Investigation Context rather than reimplementing one (vision §5). Everything that
+happens is an append-only event; the current state is a projection; replay reconstructs what
+the team believed at any moment. An incident may span several DataTug projects maintained by
+different teams, and a project may be used by several Incidentius instances. Hypotheses,
+evidence, cohorts, checks, metrics, recurrence links, status views and the Resolution Record
+are all views of one stream. The MVP lives inside the DataTug application; Incidentius is a
+product profile, not a second application (vision §4).
 
 Not an incident-management platform: no paging, on-call, tickets, status pages, SLA machinery
 (vision §3.1). Those systems answer *who should respond*; this Feature answers *what is happening
 and how we resolve it*.
 
 ```text
-Incidentius Incident
+Incidentius Incident  (store id + incident id)
 │
 ├── identity / lifecycle / outcome
 ├── participants / incident roles
+├── referenced DataTug projects (one or many)
 ├── attached Investigation Context   ← owned by DataTug (P6); roles + overlays added there
 ├── hypotheses (proposed … confirmed/rejected) ── evidence links
-├── evidence: execution records · snapshots · annotations · check runs   ← DataTug artefacts
+├── evidence: execution records · snapshots · annotations · check runs · compare runs   ← DataTug artefacts
 ├── metrics and resolution criteria
 ├── recurrence / related links
 └── event stream → projection → timeline · watch · status views · Resolution Record
@@ -49,9 +52,10 @@ During an incident the team's shared memory is chat scrollback. Nobody can answe
 checked this, with which query, against which records, and what it showed at 14:42*; wrong
 theories vanish; the same investigation costs the same effort on recurrence; and the
 postmortem is rewritten from scratch afterwards. DataTug already holds the pieces: typed
-facts with scope and conditions, library queries with semantic parameters, server-enforced
-execution with provenance and limitations, Git-native project assets and grants. What is
-missing is the incident object that ties them into resolution semantics and a durable record.
+facts with scope, library queries with semantic parameters, server-enforced execution with
+provenance and limitations, Git-native project assets and grants. What is missing is the
+incident object that ties them into resolution semantics and a durable record, without
+turning a curated knowledge project into an operational log.
 
 ## Behavior
 
@@ -59,17 +63,19 @@ missing is the incident object that ties them into resolution semantics and a du
 
 | Capability | State | Tier | Kind |
 |---|---|---|---|
-| Incident asset, event stream, projection, list/detail, "Houston" creation | new | MVP | strategic |
+| Incident store (configurable location), event stream, projection, list/detail, "Houston" creation | new | MVP | strategic |
+| Multi-project incidents; back-links from DataTug assets by store id + incident id | new | MVP (model, API, CLI) · NEXT (UI badges) | strategic |
 | Lifecycle, five outcomes, duplicate merge | new | MVP | strategic |
 | Attached Investigation Context with cohort roles and hypothesis overlays | new on P6 | MVP | strategic |
 | Hypotheses with states and evidence links | new | MVP | strategic |
-| Evidence via execution records, snapshots, annotations, check runs | new on P17–P19 | MVP | strategic |
+| Evidence via execution records, snapshots, annotations, check runs, compare runs | new on P17–P20 | MVP | strategic |
+| Policy re-check on every event, projection and watch read | new on P10 | MVP | security |
 | Checks listed and run at incident start | new on P19 | MVP (manual) · NEXT (auto-run safe checks) | strategic |
 | Metrics as check series; explicit resolution criteria | new | MVP (numeric table) · NEXT (Dashboardius boards) | strategic |
 | Recurrence and related links; search; deterministic similarity; TTRI | new | MVP · NEXT (ranking) | strategic |
 | Troubleshooter status projection | new | MVP (deterministic) · NEXT (AI narratives per audience) | strategic |
 | API + `datatug incident` + `watch` event stream | new | MVP | enabler |
-| Resolution Record page; timeline | new | MVP · NEXT (replay UI, RCA/postmortem generation) | strategic |
+| Resolution Record page; timeline; export into the project | new | MVP (page) · NEXT (export, replay UI, RCA generation) | strategic |
 | Canonical demo incident with post-credits recurrence | new | MVP | acceptance |
 | Capture channels: pasted text extraction, Slack/Teams | new | NEXT (deterministic extraction, read-only Slack) · FUTURE (voice, commands) | extension |
 | Appreciation credits, deployment correlation, SpecScore/Codegrapher links | new | NEXT / FUTURE | extension |
@@ -77,23 +83,61 @@ missing is the incident object that ties them into resolution semantics and a du
 
 ### Identity and storage
 
-#### REQ: incident-is-project-asset
+#### REQ: incident-store
 
-An incident MUST be stored as a project asset under `incidents/<id>/` with two files:
-`events.jsonl` (append-only, one event per line, monotonic `seq`) and `incident.json` (the
-projection, regenerable from the events). It is written only through the server. Access
-follows the project's grants and server-enforced access control, with no per-incident owner
-field, exactly as boards do (founder, 2026-09-09: *"board belongs to DataTug project. Project
-can be shared across Sneat spaces"*). Lead assumption: the human id is `INC-<n>` from a
-project-scoped sequence assigned by the server, and a `uid` (UUID) exists for cross-project
-links.
+Incidents MUST live in an **incident store** owned and written only by the DataTug server,
+never hand-edited. Its location is configured per served setup, in the founder's words
+(2026-09-11, verbatim): *"Agree on ability of incidents to be stored in dedicated repo. But it
+should be able to store in same repo as datatug or even in the application repo if users want
+(can be OK for small projects)"*. The store MUST therefore be routable to (a) the DataTug
+project's own repository, under `incidents/` (the default for local and small setups), (b) a
+dedicated incidents repository, (c) the application's own repository, or (d) the hosted store,
+space-bounded like every other Sneat record (lead assumption: `/spaces/{spaceID}/ext/incidentius/…`).
+All four sit behind one store interface backed by DALgo, with inGitDB for Git-backed locations,
+so the layout is identical: `incidents/<id>/events.jsonl` (append-only, monotonic `seq`) and
+`incidents/<id>/incident.json` (the projection, regenerable). A store has a `storeId` following
+DataTug's existing store-id scheme; the routing key lives in machine-local or served-project
+configuration, never as a credential in a committed file (lead assumption for the key name:
+`stores.incidents`). Execution records and snapshots ([evidence-records](../evidence-records/README.md))
+follow the same routing by default. Writes to the incident store do not use, and do not wait
+for, the Phase 2 project-write path for knowledge assets; checks and annotations created from an
+incident are knowledge assets and do use it. Lead assumption: the human id is `INC-<n>` from a
+store-scoped sequence assigned by the server, plus a `uid` (UUID).
+
+#### REQ: multi-project-incidents
+
+An incident MUST reference one or more DataTug projects (`projects: [{storeId, projectId,
+environment?}]`), because a real incident spans systems maintained by different teams (vision
+§6, §34; founder, 2026-09-11: *"A DataTug project can be used by multiple incidentius
+instances"*). Every fact, execution record, check run and compare run carries its own project
+and environment scope (the transport appendix `Scope`), so evidence stays attributable and each
+reader sees each project's evidence under that project's grants. The incident itself belongs to
+one store (one team or space); people from other teams join as invited participants. Entities
+with the same name in two projects are not assumed identical; cross-project semantic identity
+is a later capability of the semantic layer. The MVP journey exercises one project; the model
+MUST NOT hard-code one.
+
+#### REQ: incident-references-and-back-links
+
+An incident is addressed globally by `IncidentRef = {storeId, incidentId}` (founder,
+2026-09-11: *"link queries and resources of DataTug to incidents (storeID+incidentID)"*); the
+canonical string form mirrors DataTug's project-ref convention and is fixed by the plan's
+model task. Back-links MUST exist in two forms: **derived** — the server answers "which
+incidents touched query, check, board, execution record or entity value X" from the events of
+every configured store (`GET /datatug/incidents?query=<id>|check=<id>|board=<id>`, `datatug
+incident list --query <id>`); and **recorded provenance** — a knowledge asset created from an
+incident (a promoted check, a captured query, an annotation, a board) carries
+`origin.incident: IncidentRef` in its own file. A board's `incidentRef`
+([dashboards](../dashboards/README.md) REQ:incident-boards-and-shared-renderer) is an
+`IncidentRef`. UI badges ("used in 3 incidents") are NEXT; the API and CLI are MVP.
 
 #### REQ: houston-creation
 
 A user MUST be able to create an incident from a title and free text ("Houston, we've got a
 problem"), from a running investigation ("make this an incident", which attaches the current
 Investigation Context as the canonical layer without copying or losing it — vision §5), and
-from the CLI/API. Creation records the reporter as a participant and emits `incident.created`.
+from the CLI/API. The free text is kept as the incident's `description`. Creation records the
+reporter as a participant and emits `incident.created`.
 
 ### Event stream
 
@@ -105,61 +149,77 @@ for the approved scope, not a founder ruling):
 
 ```text
 IncidentEvent {
-  id, seq, at (RFC3339 UTC), incident,
+  id, seq, at (RFC3339 UTC), incident (IncidentRef),
   actor   {kind: human|agent|system, id, via?: web|cli|api|slack},
   type    (see list),
-  assertion {kind: observation|claim|hypothesis|inference|deterministic-result,
+  assertion {kind: observation|claim|question|hypothesis|inference|deterministic-result,
              confidence?: speculative|likely|confirmed},
-  refs    [{kind: execution|snapshot|annotation|check|query|fact|hypothesis|event|incident|board, id}],
+  refs    [{kind: execution|snapshot|annotation|check|compare|query|board|fact|hypothesis|event|incident|project, id}],
   payload (per type)
 }
 types: incident.created · incident.status · incident.outcome · incident.merged ·
-       participant.joined · participant.role ·
+       participant.joined · participant.role · project.linked ·
        context.layer.created · context.fact.added · context.fact.removed ·
        context.fact.promoted · context.fact.rejected ·
        hypothesis.proposed · hypothesis.state ·
-       evidence.attached · execution.recorded · check.run · annotation.added ·
+       evidence.attached · execution.recorded · check.run · compare.run · annotation.added ·
        metric.observed · criterion.added · criterion.evaluated ·
        note.added · message.captured · link.added · deployment.noted · credit.given
 ```
 
-`assertion.kind` separates fact from belief (vision §12, §31, §57 Q12): a deterministic check
-result or recorded execution is `observation`/`deterministic-result`; a human statement is a
-`claim`; a hypothesis is `hypothesis`; anything produced by AI or a heuristic is `inference`
-and MUST carry `refs` to the events it was derived from. The server MUST reject an
-`inference` event without refs and an `observation` event from an `agent` actor that carries
-no execution/check reference.
+`assertion.kind` separates fact from belief (vision §12, §31, §57 Q12): a recorded execution
+is an `observation`; a check or compare result is a `deterministic-result`; a human statement
+is a `claim` and a human question a `question` (vision §30 "what remains unanswered"); a
+hypothesis is `hypothesis`; anything produced by AI or a heuristic is `inference` and MUST
+carry `refs` to the events it was derived from. The server MUST reject an `inference` event
+without refs and an `observation` or `deterministic-result` from an `agent` actor that carries
+no execution, check or compare reference.
 
 #### REQ: projection-and-replay
 
 The server MUST derive `incident.json` by a deterministic fold over the events and MUST be able
 to produce the projection at any time `T` by folding only events with `at <= T`
 (`GET …?at=`, `datatug incident show <id> --at <ts>`). The projection includes identity,
-status, outcome, participants, the context layers, hypotheses with their evidence, evidence
-list, check runs, metrics series, criteria, links, TTRI timestamps and the status view. Two
-folds over the same events MUST produce byte-identical JSON.
+description, status, outcome, participants, referenced projects, the context layers,
+hypotheses with their evidence, evidence list, check and compare runs, metrics series,
+criteria, links, TTRI timestamps and the status view. Two folds over the same events MUST
+produce byte-identical JSON.
+
+#### REQ: events-and-projection-policy-rechecked
+
+Every read of events, of the projection and of the watch stream MUST be evaluated for the
+current principal, because event payloads carry typed fact values and human text. A fact whose
+`entity.field` resolves to a column the principal may not read MUST be returned redacted
+(value replaced by a redaction marker; the field name only if it is authorized metadata); an
+annotation body follows [annotations](../annotations/README.md) REQ:annotation-visibility-follows-target;
+evidence references resolve under the reader's policy when opened. Redaction is applied at
+read time and never stored, so a later grant reveals the original. This extends
+[server-enforced-access](../server-enforced-access/README.md) REQ:recorded-evidence-rechecked
+to the incident stream; a project grant alone never discloses what a policy hides.
 
 #### REQ: watch-event-cursor
 
-The server MUST expose the event stream for one incident and for the whole project
+The server MUST expose the event stream for one incident and for a whole store
 (`GET /datatug/incidents/{id}/events?since=<cursor>`, `GET /datatug/incidents/events?since=`)
-as NDJSON with a resumable opaque cursor. `datatug incident watch [<id>] [--json] [--since
-<cursor>]` renders one line per event for humans (vision §51 example) and raw events with
-`--json`. The same stream powers the timeline, status views, AI coordination, connectors and
-replay; there is no second notification mechanism.
+as NDJSON with a resumable opaque cursor, policy-rechecked per REQ:events-and-projection-policy-rechecked.
+`datatug incident watch [<id>] [--json] [--since <cursor>]` renders one line per event for
+humans (vision §51 example) on stdout, raw events with `--json`, and prints the last cursor
+on stderr on exit. The same stream powers the timeline, status views, AI coordination,
+connectors and replay; there is no second notification mechanism.
 
 ### Lifecycle
 
 #### REQ: lifecycle-and-outcomes
 
 Status MUST be one of `open → investigating → mitigating → recovering → resolved → watching →
-closed`; only `open`, `resolved` and `closed` are mandatory stops, the others are useful
-semantics, never bureaucracy (vision §22–§23). Resolving MUST record exactly one outcome:
-`resolved`, `false-alarm`, `accepted` (known issue), `handed-off`, or `unresolved`
-(investigation stopped). Duplicate is not an outcome: `POST …/merge` MUST append the
-duplicate's events into the surviving incident with `incident.merged` refs and close the
-duplicate with `mergedInto` set. A recurrence stays a separate incident linked to the earlier
-one (REQ:recurrence-and-links).
+closed`. Lead assumption: the names follow vision §22's sequence with `open` added in front,
+and only `open`, `resolved` and `closed` are mandatory stops, which is the lead's reading of
+vision §22 (*"These do not all need to become bureaucratic mandatory statuses"*). Resolving
+MUST record exactly one outcome: `resolved`, `false-alarm`, `accepted` (known issue),
+`handed-off`, or `unresolved` (investigation stopped) (vision §23). Duplicate is not an outcome:
+`POST …/merge` and `datatug incident merge` MUST append the duplicate's events into the
+surviving incident with `incident.merged` refs and close the duplicate with `mergedInto` set. A
+recurrence stays a separate incident linked to the earlier one (REQ:recurrence-and-links).
 
 ### Investigation Context
 
@@ -169,10 +229,10 @@ An incident MUST reference its canonical context and any overlays through the
 `investigation-context` Feature's layered model (REQ:cohort-roles,
 REQ:context-layers-and-promotion there). Facts keep the transport shape of
 [api-contract.md](../core-investigation-loop/api-contract.md) with the optional `role` and
-`layer` fields. Adding, promoting and rejecting facts are incident events; promotion moves a
-fact from a hypothesis layer to the canonical layer without deleting its history; rejection
-keeps it attached to the hypothesis (vision §11.1). An incident MUST NOT hold a second copy of
-context semantics, binding rules or conflict handling.
+`layer` fields and their project scope. Adding, promoting and rejecting facts are incident
+events; promotion moves a fact from a hypothesis layer to the canonical layer without deleting
+its history; rejection keeps it attached to the hypothesis (vision §11.1). An incident MUST
+NOT hold a second copy of context semantics, binding rules or conflict handling.
 
 ### Hypotheses and evidence
 
@@ -188,11 +248,12 @@ what was observed and why the theory was rejected (vision §17).
 #### REQ: evidence-links
 
 Evidence MUST be a reference to a DataTug artefact: an execution record, a result snapshot, an
-annotation or a check run ([evidence-records](../evidence-records/README.md),
-[annotations](../annotations/README.md), [checks](../checks/README.md)). Attaching evidence is
-an `evidence.attached` event with refs; the incident MUST NOT store result rows itself. An
-execution run from within an incident MUST be recorded (`record:true`) and tagged with the
-incident id in its provenance.
+annotation, a check run or a compare run ([evidence-records](../evidence-records/README.md),
+[annotations](../annotations/README.md), [checks](../checks/README.md),
+[compare](../compare/README.md)). Attaching evidence is an `evidence.attached` event with refs;
+the incident MUST NOT store result rows itself. An execution run from within an incident MUST
+be recorded (`record:true`) and tagged with the `IncidentRef` in its provenance; the same tag is
+how derived back-links are answered.
 
 #### REQ: checks-at-incident-start
 
@@ -200,7 +261,7 @@ When an incident's canonical context names entities or sources, the incident pag
 `datatug incident show` MUST list the applicable health and diagnostic checks
 (`checks` REQ:checks-listed-by-purpose-and-scope) with their latest known result, and let an
 authorized participant run them; each run is a `check.run` event. Automatic execution of safe
-checks on creation is NEXT and MUST remain opt-in per project.
+checks on creation is NEXT and MUST remain opt-in per store.
 
 ### Metrics and resolution
 
@@ -213,64 +274,70 @@ projection exposes the series. Resolution criteria MUST be explicit predicates o
 check results ("no new stuck orders for 30 minutes", "backlog < 10"), each evaluated from
 recorded evidence (`criterion.evaluated`), never from a free-text claim; `resolved` MAY be
 recorded while criteria are unmet, but the projection MUST show which are unmet. The MVP
-renders series as numeric tables in DataTug; boards and charts are Dashboardius's
-[incident-dashboards](https://github.com/sneat-co/dashboardius/blob/main/spec/features/incident-dashboards/README.md).
+renders series as numeric tables in DataTug (no chart code until the shared renderer lands,
+[dashboards](../dashboards/README.md) REQ:no-charts-in-datatug-web-ui); boards and charts are
+Dashboardius's [incident-dashboards](https://github.com/sneat-co/dashboardius/blob/main/spec/features/incident-dashboards/README.md).
 AI turning a sentence into a proposed criterion is NEXT.
 
 ### Recurrence and discovery
 
 #### REQ: recurrence-and-links
 
-An incident MUST support typed links `recurrence-of` and `related` to other incidents, with the
-link as an event. TTRI (time to recurrence identification, vision §24) MUST be derivable from
-events: `suggestedAt` (first `inference` naming a candidate recurrence) and `confirmedAt`
-(the human `link.added` with `recurrence-of`).
+An incident MUST support typed links `recurrence-of` and `related` to other incidents,
+including incidents in other stores by `IncidentRef`, with the link as an event. TTRI (time to
+recurrence identification, vision §24) MUST be derivable from events: `suggestedAt` (first
+`inference` naming a candidate recurrence) and `confirmedAt` (the human `link.added` with
+`recurrence-of`).
 
 #### REQ: search-and-similarity
 
-`GET /datatug/incidents/search` and `datatug incident search` MUST find incidents by text and
-by facts (`Customer.ID=5`, `entity=Invoice`). `…/{id}/similar` MUST rank other incidents by a
-deterministic, explainable overlap of signals — entities, fields, context values, query and
-check ids, failed checks, environments, outcome — and MUST show which signals matched
-(vision §25). Semantic/embedding ranking and knowledge decay are NEXT/FUTURE and MUST NOT
-replace the explainable score.
+`GET /datatug/incidents/search` and `datatug incident search` MUST find incidents across the
+configured stores by text and by facts (`Customer.ID=5`, `entity=Invoice`). `…/{id}/similar`
+MUST rank other incidents by a deterministic, explainable overlap of signals — entities,
+fields, context values, query and check ids, failed checks, environments, referenced projects,
+outcome — and MUST show which signals matched (vision §25). Semantic/embedding ranking and
+knowledge decay are NEXT/FUTURE and MUST NOT replace the explainable score.
 
 ### Projections and people
 
 #### REQ: status-projection
 
 The projection MUST include a troubleshooter status view generated deterministically from state
-(counts of affected facts, hypotheses by state with their latest evidence, unowned questions,
-latest metric points) where every sentence carries refs to the events it summarises
-(vision §31). AI-written narratives for troubleshooters, leadership and support are NEXT; they
-MUST be `inference` events with refs and MUST never restate a hypothesis as a fact.
+(counts of affected facts, hypotheses by state with their latest evidence, open questions and
+unowned work, latest metric points) where every sentence carries refs to the events it
+summarises (vision §31). AI-written narratives for troubleshooters, leadership and support are
+NEXT; they MUST be `inference` events with refs and MUST never restate a hypothesis as a fact.
 
 #### REQ: participants-and-roles
 
 Persona, incident role and permission MUST stay separate (vision §42–§43). Incident roles are
 `reporter | investigator | coordinator | observer`, recorded as events; they confer no data
-access. Permission comes from the project's grants and policies; incident-scoped temporary
-grants are NEXT in `server-enforced-access`. Business users and external counterparties appear
-as participants of kind `external` with no access.
+access. Permission comes from each referenced project's grants and policies; the incident
+store's own read access follows its location (project grant when co-located, the dedicated
+repository's or the space's membership otherwise). Incident-scoped temporary grants are NEXT in
+`server-enforced-access`. Business users and external counterparties appear as participants
+of kind `external` with no access.
 
 #### REQ: resolution-record
 
 Every incident MUST have a Resolution Record page (web) and document (`incident.json` plus the
-rendered timeline) that shows the timeline, participants, hypotheses with evidence, metrics,
-criteria, outcome and links, with every evidence item opening its execution record or snapshot
-under the reader's current policy (vision §38). Generated RCA/postmortem/executive/support
-documents, appreciation credits (vision §41) and replay UI (vision §39) are NEXT projections
-over the same record.
+rendered timeline) that shows the timeline, participants, referenced projects, hypotheses with
+evidence, metrics, criteria, outcome and links, with every evidence item opening its execution
+record or snapshot under the reader's current policy (vision §38). Exporting the record into a
+referenced project or an inGitDB dataset as a reviewable knowledge artefact, generated
+RCA/postmortem/executive/support documents, appreciation credits (vision §41) and the replay UI
+(vision §39) are NEXT projections over the same record.
 
 ### Surfaces
 
 #### REQ: api-and-cli
 
-Every capability above MUST be API-first under `/datatug/incidents/*` (list, create, show
-with `?at=`, append event, events stream, search, similar, merge) using the transport
-appendix's envelopes and error codes, and exposed through `datatug incident` verbs specified
-in `datatug-cli` `cli/incident` (vision §50: *humans, scripts and AI agents operate on the
-same model*). Agents are principals through the same server; there is no agent-only path.
+Every capability above MUST be API-first under `/datatug/incidents/*` (list with asset
+filters, create, show with `?at=`, append event, events stream, search, similar, merge) using
+the transport appendix's envelopes and error codes, and exposed through `datatug incident`
+verbs specified in `datatug-cli` `cli/incident` (vision §50: *humans, scripts and AI agents
+operate on the same model*). Agents are principals through the same server; there is no
+agent-only path.
 
 #### REQ: profile-home
 
@@ -282,13 +349,14 @@ menu and any investigation ([product-profiles](../product-profiles/README.md)).
 
 #### REQ: canonical-demo-incident
 
-`datatug-demo-projects/demo-project-1` MUST ship a fixture incident whose events involve
-several human actors, useful wrong theories, red herrings, affected and control cohorts, an
-environment comparison, an external counterparty, recorded executions and snapshots,
-annotations, checks, metrics, mitigation, verified recovery and a resolution — and a second,
-"post-credits" fixture incident that is a recurrence resolved in minutes (vision §53–§54). The
-same fixtures MUST serve the whole-journey e2e, the interactive demo, onboarding and the
-marketing story. The story itself is not locked by this Feature (open question below).
+`datatug-demo-projects/demo-project-1` MUST ship a fixture incident (in the project's own
+`incidents/` store) whose events involve several human actors, useful wrong theories, red
+herrings, affected and control cohorts, an environment comparison, an external counterparty,
+recorded executions and snapshots, annotations, checks, metrics, mitigation, verified recovery
+and a resolution — and a second, "post-credits" fixture incident that is a recurrence resolved
+in minutes (vision §53–§54). The same fixtures MUST serve the whole-journey e2e, the
+interactive demo, onboarding and the marketing story. The story itself is not locked by this
+Feature (open question below).
 
 ## Not Doing / Out of Scope
 
@@ -297,22 +365,41 @@ marketing story. The story itself is not locked by this Feature (open question b
 - Storing result rows inside the incident; evidence is by reference.
 - Live multi-user editing under authenticated principals in the MVP (needs Phase 4 grants and an
   authenticated server profile — Track B2).
+- Cross-project semantic identity (one `Order.id` across projects); facts stay project-qualified.
 - Voice capture, Slack/Teams commands, self-learning extractors, AI Coordinator, generated
   videos, training mode, controlled production writes (FUTURE tiers; see the reconciliation).
 
 ## Acceptance Criteria
 
-### AC: houston-creates-incident-with-context (verifies REQ:houston-creation, REQ:incident-is-project-asset)
+### AC: houston-creates-incident-with-context (verifies REQ:houston-creation, REQ:incident-store)
 
-**Given** the demo project served with `--as admin`
+**Given** the demo project served with `--as admin` and the default store routing
 **When** the user creates an incident titled "Canadian invoices stuck" with the text "customer 5 and invoice 42 affected"
-**Then** `incidents/INC-1/events.jsonl` holds an `incident.created` event, the reporter is a participant, and the canonical context layer exists.
+**Then** `incidents/INC-1/events.jsonl` in the project's own repository holds an `incident.created` event, the description is kept, the reporter is a participant, and the canonical context layer exists.
+
+### AC: incident-store-routes-to-configured-location (verifies REQ:incident-store)
+
+**Given** the served project configured with a dedicated incidents repository as its store
+**When** an incident is created and the project's repository is inspected
+**Then** the events and projection exist only in the dedicated repository, the project repository is untouched, `datatug incident show` resolves the incident by `storeId` + `INC-1`, and the same test passes with the application-repository location.
+
+### AC: incident-spans-two-projects (verifies REQ:multi-project-incidents)
+
+**Given** an incident referencing the demo project and a second project under the `support` principal, whose grants cover only the second project
+**When** the projection is read
+**Then** facts and evidence from the demo project appear redacted or denied under that principal while the second project's evidence is complete, and both project references remain listed.
+
+### AC: query-lists-its-incidents (verifies REQ:incident-references-and-back-links)
+
+**Given** `customer-invoices` was recorded during INC-1 and a check was promoted from it during INC-1
+**When** `datatug incident list --query customers/customer-invoices` runs and the promoted check file is inspected
+**Then** INC-1 is listed with its `storeId`, and the check file carries `origin.incident` equal to INC-1's `IncidentRef`.
 
 ### AC: investigation-becomes-incident (verifies REQ:houston-creation, REQ:attached-investigation-context)
 
 **Given** an Investigation Context holding `Customer.ID = 5` and `Customer.Country = Canada`
 **When** the user chooses "make this an incident"
-**Then** the new incident's canonical layer references those facts with their origins intact, and the original context is unchanged.
+**Then** the new incident's canonical layer references those facts with their origins and project scope intact, and the original context is unchanged.
 
 ### AC: event-stream-append-only-and-replayable (verifies REQ:event-stream-append-only, REQ:projection-and-replay)
 
@@ -332,16 +419,22 @@ marketing story. The story itself is not locked by this Feature (open question b
 **When** it appends an `inference` event without refs, or an `observation` without an execution reference
 **Then** both are refused with a structured error and nothing is appended.
 
+### AC: events-redacted-under-policy (verifies REQ:events-and-projection-policy-rechecked)
+
+**Given** INC-1 whose canonical context holds `Customer.Email = a@b.com` and a note quoting it, and the `support` principal for whom `Customer.Email` is hidden
+**When** `support` reads the projection, the event stream and `watch`
+**Then** the fact value is redacted in all three, the note is withheld per the annotation visibility rule, `admin` still sees both, and nothing was rewritten in the store.
+
 ### AC: watch-streams-events-with-cursor (verifies REQ:watch-event-cursor)
 
 **Given** `datatug incident watch INC-1 --json` running
-**When** another actor appends two events and the watcher restarts with `--since <cursor>`
-**Then** exactly the two events were streamed as NDJSON before the restart and nothing is duplicated after it.
+**When** another actor appends two events and the watcher restarts with `--since <cursor>` taken from its stderr
+**Then** exactly the two events were streamed as NDJSON on stdout before the restart and nothing is duplicated after it.
 
 ### AC: outcomes-and-duplicate-merge (verifies REQ:lifecycle-and-outcomes)
 
 **Given** INC-3 is a duplicate of INC-1
-**When** INC-3 is merged into INC-1
+**When** `datatug incident merge INC-3 --into INC-1` runs
 **Then** INC-1 gains INC-3's events with `incident.merged` refs, INC-3 is closed with `mergedInto: INC-1` and no outcome, and resolving INC-1 later requires exactly one of the five outcomes.
 
 ### AC: overlay-promotion-updates-canonical (verifies REQ:attached-investigation-context)
@@ -354,7 +447,7 @@ marketing story. The story itself is not locked by this Feature (open question b
 
 **Given** H12 "retry malfunction" with two execution records attached
 **When** H12 is set to `rejected` with reason "retries completed for affected orders"
-**Then** the projection still lists H12, both records, the reason and the queries used, and each record opens under the reader's current policy.
+**Then** the projection still lists H12, both records, the reason and the queries used, each record carries INC-1's `IncidentRef` in its provenance, and each opens under the reader's current policy.
 
 ### AC: checks-run-at-start-recorded (verifies REQ:checks-at-incident-start)
 
@@ -408,7 +501,7 @@ marketing story. The story itself is not locked by this Feature (open question b
 
 **Given** the demo project and a running agent
 **When** the whole-journey e2e runs
-**Then** it walks create → context with cohorts → checks → hypotheses → evidence → metrics → mitigation → recovery → resolved → watching → closed → Resolution Record against the real server with no intercepted responses, asserting events and records, not rendered text alone.
+**Then** it walks create → context with cohorts → checks → hypotheses → evidence → compare → metrics → mitigation → recovery → resolved → watching → closed → Resolution Record against the real server with no intercepted responses, asserting events and records, not rendered text alone.
 
 ### AC: recurrence-epilogue-boring (verifies REQ:canonical-demo-incident, REQ:search-and-similarity)
 
@@ -424,9 +517,10 @@ marketing story. The story itself is not locked by this Feature (open question b
   deployment as the red herring. If Chinook cannot carry a detective story, a second
   orders/shipping demo project is needed. Founder to confirm the direction; the story text is
   authored during the plan's fixture task, not here.
-- **Id scheme** `INC-<n>` per project plus `uid` — lead assumption.
-- **Snapshot defaults for incident-recorded runs** (opt-in vs always) belong to
-  [evidence-records](../evidence-records/README.md).
+- **Store routing key and default.** Lead assumption: `stores.incidents` in machine-local or
+  served-project configuration, defaulting to the project's own repository; evidence records
+  follow it. Confirm the key name and whether the hosted default is the space store.
+- **Id scheme** `INC-<n>` per store plus `uid` — lead assumption.
 - **Incidentius brand and domain** — [product-profiles](../product-profiles/README.md).
 
 ---

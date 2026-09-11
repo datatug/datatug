@@ -111,17 +111,22 @@ but its earlier permanent embedding prohibition was an unsupported scope inferen
 
 #### REQ: incident-boards-and-shared-renderer
 
-A board MAY carry an optional `incidentRef` (a project-scoped incident id) so that an incident
-can open, create and list its boards; access still follows the project's grants, never the
-incident. Widget kinds needed by incident dashboards (`metric-series`, comparison, criteria,
-replay) are Dashboardius widget *names* inside the existing `{name, data}` envelope, whose
-`data` references execution records, compare results and checks by id through the server API
-(`evidence-records`, `compare`, `checks`, `incidents`); a board never stores result rows. The
-Go validator MUST preserve unknown Dashboardius widget names losslessly (an explicit extension
-boundary, not silent acceptance of arbitrary fields). The board renderer used by the
-Dashboardius app MUST be the same workspace library a DataTug/Incidentius page embeds as an
-island, so one board renders identically in both. Lead assumption: `incidentRef` is a
-string field on `Board`, mirrored in `@datatug/board-models`.
+A board MAY carry an optional `incidentRef` — an `IncidentRef` of `storeId` plus `incidentId`
+([incidents](../incidents/README.md) REQ:incident-references-and-back-links) — so that an
+incident can open, create and list its boards; access still follows the project's grants,
+never the incident. Widget kinds needed by incident dashboards (`metric-series`, `comparison`,
+`resolution-criteria`, `replay`) are Dashboardius widget *names* inside the `{name, data}`
+envelope, whose `data` references execution records, compare results and checks by id through
+the server API (`evidence-records`, `compare`, `checks`, `incidents`); a board never stores
+result rows. Today that envelope is closed: `BoardWidget.Validate` in
+`datatug-core/pkg/datatug/boards.go` accepts only `SQL`, `HTTP` and `tabs`, and
+`@datatug/board-models` types `BoardWidgetName` as that three-value union. Both MUST gain an
+explicit extension boundary that preserves registered Dashboardius widget names losslessly
+(not silent acceptance of arbitrary fields); the Incidentius MVP plan task 13 owns that change
+and the Go ↔ TypeScript round-trip fixture. The board renderer used by the Dashboardius app
+MUST be the same workspace library a DataTug/Incidentius page embeds as an island, so one
+board renders identically in both. Lead assumption: `incidentRef` is a structured field on
+`Board`, mirrored in `@datatug/board-models`.
 
 ## Acceptance Criteria
 
@@ -157,7 +162,7 @@ string field on `Board`, mirrored in `@datatug/board-models`.
 
 ### AC: incident-board-round-trips-widget-names (verifies REQ:incident-boards-and-shared-renderer)
 
-**Given** a board with `incidentRef: INC-1` and a `metric-series` widget referencing check `stuck-invoices`
+**Given** a board with `incidentRef: {storeId: <demo store>, incidentId: INC-1}` and a `metric-series` widget referencing check `stuck-invoices`
 **When** it is saved through `PUT /datatug/boards/*`, loaded by the Go store and reopened in Dashboardius and in the embedded island on the incident page
 **Then** `incidentRef`, the widget name and its `data` survive unchanged, no result rows were stored, and both surfaces render the same points fetched from `/datatug/executions`.
 

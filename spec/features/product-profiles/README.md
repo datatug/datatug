@@ -19,11 +19,11 @@ deep link works across profiles, and no profile holds private data or private au
 
 ## Problem
 
-The founder's requirement (vision §4) is one application with three shells, stated twice and
-negatively once:
+The founder's requirement (vision §4: *"Build capabilities once. Expose them through
+different product shells."*, restated in vision §61) is one application with three shells:
 
 > **Build capabilities once. Expose them through DataTug, Incidentius and Dashboardius product
-> profiles.**
+> profiles.** (vision §61)
 
 > Do not create a separate Incidentius frontend/repository.
 
@@ -76,9 +76,12 @@ move is a cutover with a real inventory, not a file copy.
 
 #### REQ: profile-table
 
-The application MUST define exactly three profiles — `datatug`, `incidentius`, `dashboardius` —
-each declaring: home route, brand (name, logo, colours, copy), navigation order, entry points,
-and demo defaults.
+The family MUST define three profiles — `datatug`, `incidentius`, `dashboardius` — each
+declaring: home route, brand (name, logo, colours, copy), navigation order, entry points, and
+demo defaults. One build of `apps/datatug-app` serves `datatug` and `incidentius`; the
+`dashboardius` profile is served by the Dashboardius app in the same workspace unless the
+founder chooses the single configurable app (open question), in which case the same build
+serves all three.
 
 | | `datatug` | `incidentius` | `dashboardius` |
 |---|---|---|---|
@@ -214,7 +217,7 @@ today, but so that it never becomes the thing somebody later tries to gate a fea
 
 **Given** the CI pipeline for `apps/datatug-app`
 **When** the DataTug and Incidentius deployments are produced
-**Then** both are served from the same build artefact with different configuration, the pipeline runs no second build for the second profile, and a test renders a shared screen under all three profile tokens without a hostname.
+**Then** both are served from the same build artefact with different configuration, the pipeline runs no second build for the second profile, and a test renders a shared screen under every profile token that build serves (`datatug` and `incidentius`; all three only if the single configurable app is chosen) without a hostname.
 
 ### AC: dashboardius-app-in-workspace-cutover-complete (verifies REQ:dashboardius-app-cutover)
 

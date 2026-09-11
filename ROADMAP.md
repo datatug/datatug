@@ -167,8 +167,9 @@ recorded; hypotheses carry evidence by reference to execution records, snapshots
 annotations; metrics form series with explicit resolution criteria; recurrence and search work;
 `datatug incident` and `watch` expose the same event stream to agents; the canonical demo
 incident and its boring recurrence walk end to end.
-**Dependencies:** Phase 1 accepted (done); Phase 2 task 2 only for "promote query → check".
-Runs beside Phase 2.
+**Dependencies:** Phase 1 accepted (done). Incidents and evidence write to the routed incident
+store through the server; checks and annotations are project knowledge assets and need
+Phase 2 task 2 (the authorized project-write path), sequenced first. Runs beside Phase 2.
 **Non-goals:** hosted multi-user incidents, boards/charts, AI narratives, capture channels,
 privileged access, production writes.
 **Gate:** the whole-journey e2e with both epilogues, pinned revisions, a named CLI release and
