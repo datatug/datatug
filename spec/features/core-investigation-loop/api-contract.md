@@ -138,6 +138,7 @@ no recordset, sample, true count, SQL text or hidden value.
 | POST `queries/applicable` | Scope + `{values:Fact[]}` | `{applicable:Candidate[],notYet:Candidate[]}` |
 | GET `queries/all_queries` | `{project:string, root?:'shared'\|'personal'}` | `{id:string,title?:string,folders:QueriesFolder[],items:QueryDef[]}` (datatug-core's existing recursive shape, unchanged); `root` missing/blank defaults to `'shared'` |
 | POST `exec/run_query` | ExecutionRequest below | `Result` |
+| POST `queries/capture` | CaptureQueryRequest below | `CaptureQueryResponse` below; `201 Created` for a create, `200 OK` for an update |
 
 Related operations use POST so semantic values are not automatically copied into
 URLs, browser history or access logs. Source/project metadata GET queries contain
@@ -205,6 +206,54 @@ default origins use `originEvidence:server-default` only when validated against 
 query definition. The UI must not present client origins as server-attested provenance.
 A response cannot echo supplied parameter values as applied before execution confirms
 them. Suggested Candidate bindings carry the same provenance distinction.
+
+```typescript
+type CaptureQueryRequest = {
+  project: string; environment: string; securityContextId: string;
+  ifNoneMatch?: true; ifMatch?: string; // exactly one required: create vs. update
+  query: CapturedQuery;
+};
+type CapturedQuery = {
+  folderPath: string; // "/"-separated folder under the project's queries root; "" is the root itself
+  id: string; title: string; purpose: string;
+  source: string; // SourceRef.source the captured lookup read
+  dtql: string;
+  parameters: CapturedParameter[];
+  bindingOrigins: {parameterId: string; origin: 'selection' | 'context' | 'manual'}[];
+};
+type CapturedParameter = {
+  id: string;
+  type: 'string' | 'number' | 'integer' | 'decimal' | 'boolean' | 'date' | 'datetime';
+  title?: string; isRequired: boolean;
+  meta?: {entity: string; field: string}; // present only for a semantic parameter
+};
+type CaptureQueryResponse = {
+  queryId: string; // canonical, folder-qualified id; the id queries/applicable and exec/run_query accept
+  revision: string; // opaque; send back as ifMatch to replace exactly this stored revision
+  query: CapturedQuery;
+  provenance: {author?: string; environment: string; collection: string};
+};
+```
+
+`queries/capture` ("Save as project query") persists a lookup the browser already ran
+as an ordinary project query — a `<id>.query.json` / `<id>.query.dtql` pair left as an
+uncommitted Git change — with its purpose, typed parameters and source/binding
+provenance. Gated behind the server's write capability (`--allow-writes`); see Security
+and errors for the full authorization rule shared with the legacy write routes. The
+request flattens `project`, `environment` and `securityContextId` to the top level
+alongside exactly one optimistic-concurrency condition: `ifNoneMatch:true` creates only
+when nothing is stored at the query's location, `ifMatch:"<revision>"` replaces only
+that exact revision. The request carries no result rows, no bound or default parameter
+values, no session-local fact IDs, no claimed author and no credentials; strict
+decoding rejects any of them, along with duplicate keys and trailing data.
+`CapturedParameter` has no default value: a captured default would persist a possibly
+protected value into a git-tracked project file. The success envelope is sent only once
+the store has durably persisted the pair — `201 Created` for a create, `200 OK` for an
+update. `queryId` is the stored query's canonical, folder-qualified ID; `revision` is
+opaque and compared for equality only; `provenance` is what the server itself
+recorded — `author` (the serving principal, omitted with no identified principal), the
+`environment` the source was resolved in, and the `collection` the DTQL reads. Nothing
+is committed to Git and no hosted team grant is implied.
 
 ## Binding and context behavior
 
@@ -280,6 +329,17 @@ in depth, not identity. Project writes must be refused unless the server has an
 explicit write capability; this read journey must not expose an unauthenticated
 mutation endpoint as a side effect.
 
+Every project query write — `queries/capture` and the legacy `queries/create_query`,
+`queries/update_query` and `queries/delete_query` — is authorized against the resource
+`/datatug_projects/{project}/queries/{queryId}`, deny by default. Without the server's
+write capability the write is refused regardless of principal. With it: the
+`--no-policies` local owner profile may write unconditionally; otherwise at least one
+policy must be loaded, and every loaded policy must allow the write to the serving
+principal. A grant that holds only under a row condition, a check or a field list does
+not count — a project file has no rows or fields to evaluate it against. A denial names
+the deciding policy (when one decided), the operation, the resource and a reason, never
+the policy file's server path.
+
 Protected execution refuses opaque native SQL before dispatch. A separate explicit
 opaque-query grant may allow read-only native SQL for a privileged principal, but
 the actual native SQL execution result must say `opaque-privileged` and the UI must state row/column enforcement
@@ -288,14 +348,49 @@ profiles. agent-info reports allowed capabilities; Result.provenance.executionPr
 reports the actual executor used for that run. A privileged principal running protected
 DTQL still receives protected provenance. All legacy routes obey the same rule.
 
+`queries/capture` refuses in this order, writing nothing before the store is reached:
+missing `project`, `environment` or `securityContextId` (400 MISSING_PARAMETER); a
+`securityContextId` that does not match the current session (409 STALE_CONTEXT); not
+exactly one of `ifNoneMatch`/`ifMatch` (400 INVALID_REQUEST on `ifNoneMatch/ifMatch`);
+an invalid `query` — unsafe folder/id/source name, oversized or control-character
+title/purpose, a DTQL that fails to parse or does not read exactly its declared typed
+parameters, an unrecognized binding origin, or an embedded credential (400
+INVALID_REQUEST naming `query.<field>`); an unknown project (404 NOT_FOUND); the
+serving principal not authorized for this write (403 ACCESS_DENIED, the rule above); a
+`source` that is not a catalog source of `environment` a saved query can target (400
+INVALID_REQUEST on `query.source`). Only then is the conditional store write attempted;
+it fails 400 INVALID_REQUEST for an unsafe stored location or an incomplete stored
+pair, or 409 REVISION_CONFLICT for a failed `ifNoneMatch`/`ifMatch` condition. Any
+other store failure is a 500 whose message names no server path, outside this
+appendix's closed code set.
+
 Errors use `{error:{code:string,message:string,field?:string,requestId:string,targets?:{source:string,label:string}[]}}`.
 Only TARGET_REQUIRED may include authorized target options.
 HTTP 400 covers INVALID_REQUEST, TYPE_MISMATCH, MISSING_PARAMETER, AMBIGUOUS_BINDING
 and TARGET_REQUIRED; 401 UNAUTHENTICATED; 403 ACCESS_DENIED or
 UNSUPPORTED_PROTECTED_EXECUTION; 404 NOT_FOUND (including invisible resources);
-409 STALE_CONTEXT; 413 RESPONSE_TOO_LARGE; 503 SOURCE_UNAVAILABLE; 504 TIMEOUT.
+409 STALE_CONTEXT or REVISION_CONFLICT; 413 RESPONSE_TOO_LARGE; 503 SOURCE_UNAVAILABLE;
+504 TIMEOUT.
 Messages and IDs must not reveal protected values or credentials. Tests assert both
 status and code, not English wording.
+
+REVISION_CONFLICT (409) refuses a project write whose optimistic-concurrency condition
+failed: an `ifNoneMatch` create found a query already stored at the location (field
+`query.id`), or an `ifMatch` update named a revision that is stale or no longer exists
+(field `ifMatch`). Nothing is written. Recovery is to reload the query's current
+revision, then retry with `ifMatch`. It is distinct from STALE_CONTEXT: STALE_CONTEXT
+means the caller's `securityContextId` is itself stale and is recovered by calling
+`agent-info` again — retrying with a fresher revision can never fix a stale context,
+and calling `agent-info` again can never fix a failed write condition.
+
+## Known gaps
+
+- Reading a query's current revision: not yet provided. No endpoint returns it, so a
+  REVISION_CONFLICT recovery on `ifMatch` must reload the query through another route
+  to learn its current revision before retrying.
+- Whether writes are allowed: not yet provided. `agent-info`'s `capabilities` do not
+  say whether the server was started with `--allow-writes`, so a client cannot tell
+  before attempting a write.
 
 ## Acceptance and migration
 
