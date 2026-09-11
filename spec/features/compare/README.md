@@ -70,14 +70,17 @@ provenance and no policy — which is exactly where a production data leak comes
 | Per-side limitations; policy-limited diffs labelled | planned | MVP (B1) | strategic |
 | `POST /datatug/compare` and `datatug compare` | planned | MVP (B1) | surface |
 | Compare result referenced as incident evidence | planned | MVP (B1) | strategic |
-| Compare UI (side-by-side grids, diff highlighting) | planned | NEXT | surface |
+| Compare UI: one "Compare affected vs control" action on the incident page, rendering `CompareResult` as plain tables (summary; changed/added/removed rows; per-side limitations; distribution) | planned | MVP (B1) | surface |
+| Compare UI: side-by-side grids, diff highlighting | planned | NEXT | surface |
 | Comparison boards in Dashboardius | planned | NEXT | surface |
 | Comparing configuration, deployments and infrastructure (vision §13) | planned | FUTURE | strategic |
 
 #### REQ: two-scope-execution
 
 Compare MUST take exactly one executable — a library query id or a check id — and two side
-specifications, and MUST execute it separately under each side. The three side kinds are:
+specifications. A `scope` or `facts` side MUST execute the query live, separately under that
+side's own scope; a `record` side MUST NOT re-execute anything and instead reuses the named
+past execution record. The three side kinds are:
 
 ```typescript
 type SideSpec =
@@ -93,12 +96,15 @@ type SideSpec =
   reimplement them (product-family §3, the firm boundary).
 - **execution record A vs B** — two past runs, i.e. snapshots or time. A `record` side MUST have
   a readable result snapshot; a record with only a fingerprint and a row count supports a
-  fingerprint-equality answer and MUST NOT be silently expanded into a row diff.
+  fingerprint-equality answer and MUST NOT be silently expanded into a row diff. A `record` side
+  whose snapshot has expired MUST fail the whole compare with error code `SNAPSHOT_EXPIRED`,
+  never an empty side (AC:snapshot-vs-live-shows-recovery).
 
-Each side MUST produce its own execution record (`evidence-records` REQ:execution-record-captured),
-so the two halves of a comparison are independently citable evidence. The two sides MUST be
-executed as two ordinary authorized runs; there is no combined query, no cross-source join and
-no second executor — this Feature adds a caller and a differ, not an engine.
+A live (`scope` or `facts`) side MUST produce its own new execution record (`evidence-records`
+REQ:execution-record-captured); a `record` side reuses its existing execution record without
+re-execution. Either way the two halves of a comparison are independently citable evidence. A
+live side is executed as one ordinary authorized run; there is no combined query, no cross-source
+join and no second executor — this Feature adds a caller and a differ, not an engine.
 
 #### REQ: keyed-recordset-diff
 
@@ -111,13 +117,13 @@ or whole-row comparison, which produces a plausible and wrong answer.
 
 ```typescript
 type CompareResult = {
-  left:  {recordId: string; rowCount: number; limitations: Limitation[]};
-  right: {recordId: string; rowCount: number; limitations: Limitation[]};
+  left:  {recordId: string; executedAt: string; rowCount: number; limitations: Limitation[]};
+  right: {recordId: string; executedAt: string; rowCount: number; limitations: Limitation[]};
   key: string[];
   added:   {key: TypedValue[]; row: TypedValue[]}[];     // present right, absent left
   removed: {key: TypedValue[]; row: TypedValue[]}[];     // present left, absent right
   changed: {key: TypedValue[]; columns: {column: string; left: TypedValue; right: TypedValue}[]}[];
-  summary: {added: number; removed: number; changed: number; unchanged: number};
+  summary: {added: number; removed: number; changed: number; unchanged: number; columnsOnlyOnOneSide: string[]};
   distribution?: Distribution;                            // REQ:cohort-distribution-comparison
   policyLimited: boolean;                                 // REQ:compare-is-policy-bound
   truncated: boolean;
@@ -127,8 +133,8 @@ type CompareResult = {
 Comparison of values MUST be typed, using the same `TypedValue` equality the binding contract
 fixes: no string/number coercion, `null` equals only `null`, and a `decimal` compares by its
 canonical decimal form, not as a float. Only columns present on **both** sides may appear in
-`changed`; a column present on one side only MUST be reported in the summary as a shape
-difference, not as every row having changed. Results MUST be bounded by the same default and
+`changed`; a column present on one side only MUST be reported in `summary.columnsOnlyOnOneSide`
+as a shape difference, not as every row having changed. Results MUST be bounded by the same default and
 maximum result limits the transport contract sets, with `truncated` set when the cap is hit.
 
 #### REQ: cohort-distribution-comparison
@@ -268,7 +274,7 @@ sides MUST NOT be required to share an environment.
 
 **Given** a compare run under incident `INC-2841`
 **When** the incident timeline is read
-**Then** it holds one event with `assertion.kind = observation` referencing both execution record ids and the key used, no copy of the diffed rows is stored in the incident, and both records remain independently readable under their own policy.
+**Then** it holds one event with `assertion.kind = deterministic-result` referencing both execution record ids and the key used, no copy of the diffed rows is stored in the incident, and both records remain independently readable under their own policy.
 
 ## Not Doing / Out of Scope
 
@@ -278,8 +284,9 @@ sides MUST NOT be required to share an environment.
   quietly relax.
 - Comparing more than two sides. "Compare something that works with something that does not" is
   binary; N-way comparison is not specified and not implied by the request shape.
-- A diff *rendering* — side-by-side grids and highlighting are NEXT for the web UI, and
-  comparison boards belong to Dashboardius.
+- Rich diff *rendering* — side-by-side grids and highlighting are NEXT for the web UI; the MVP
+  incident-page action renders `CompareResult` as plain tables only. Comparison boards belong to
+  Dashboardius.
 - Causal inference, significance testing or anomaly scoring on a distribution. Counts,
   percentages and a ratio; the human and the diagnostics do the rest.
 - Configuration, deployment and infrastructure comparison (vision §13's fuller list) — FUTURE,
