@@ -160,6 +160,7 @@ type ExecutionRequest = {
   bindingOrigins: {parameterId:string; origin:Binding['origin']; factId?:string}[];
   mode: 'live' | 'snapshot'; snapshotId?: string;
   limit?: number;
+  incident?: {storeId: string; incidentId: string}; // OPTIONAL; lead assumption 2026-09-11: a read made under an incident, so incident-scoped grants apply and the execution record carries the incident
 };
 ```
 

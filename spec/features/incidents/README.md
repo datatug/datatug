@@ -245,10 +245,15 @@ request, decision, use (the grant id on every execution record produced under it
 and revocation are events (`access.*`), so the audit question "who could read what, when,
 and who allowed it" is answered by the same stream as everything else. The projection MUST
 list pending requests and active grants with their scope and expiry; expiry MUST be applied
-by the server at resolution or at the time limit without a human action. What a grant may
-and may not widen is fixed by [server-enforced-access](../server-enforced-access/README.md)
+by the server when the incident is closed or at the time limit, without a human action;
+merging an incident revokes the duplicate's grants. The scope named in `access.*` events and
+in the projection's grant list is redacted for a reader who may not read that source, like
+any other payload (REQ:events-and-projection-policy-rechecked). What a grant may and may not
+widen, and the MVP honesty about the approval step under a single served principal, are
+fixed by [server-enforced-access](../server-enforced-access/README.md)
 REQ:incident-scoped-grants; this Feature owns only the workflow and its events. Exposed as
-`datatug incident access request|approve|decline|revoke|list` and on the incident page.
+`datatug incident access request|approve|decline|revoke|list` and on the incident page; a
+read that wants the grant carries the incident (`ExecutionRequest.incident`).
 
 ### Investigation Context
 
@@ -364,7 +369,8 @@ RCA/postmortem/executive/support documents, appreciation credits (vision §41) a
 #### REQ: api-and-cli
 
 Every capability above MUST be API-first under `/datatug/incidents/*` (list with asset
-filters, create, show with `?at=`, append event, events stream, search, similar, merge) using
+filters, create, show with `?at=`, append event, events stream, search, similar, merge, access
+request/approve/decline/revoke/list) using
 the transport appendix's envelopes and error codes, and exposed through `datatug incident`
 verbs specified in `datatug-cli` `cli/incident` (vision §50: *humans, scripts and AI agents
 operate on the same model*). Agents are principals through the same server; there is no
@@ -395,7 +401,9 @@ Feature (open question below).
 - A second context model, query engine, policy evaluator, renderer or storage path.
 - Storing result rows inside the incident; evidence is by reference.
 - Live multi-user editing under authenticated principals in the MVP (needs Phase 4 grants and an
-  authenticated server profile — Track B2).
+  authenticated server profile — Track B2). Incident-scoped read grants are MVP as a recorded
+  request/approval workflow; their enforcement against a principal who can choose `--as`
+  arrives with the same Phase 4 work.
 - Cross-project semantic identity (one `Order.id` across projects); facts stay project-qualified.
 - Voice capture, Slack/Teams commands, self-learning extractors, AI Coordinator, generated
   videos, training mode, controlled production writes (FUTURE tiers; see the reconciliation).
@@ -519,8 +527,8 @@ Feature (open question below).
 ### AC: access-request-approval-and-expiry-are-events (verifies REQ:access-requests-in-incident)
 
 **Given** `support` is an investigator on INC-1, which references the demo project, and may not read `Invoice`
-**When** `support` runs `datatug incident access request INC-1 --source chinook --collection Invoice --reason "stuck invoices"`, `admin` runs `datatug incident access approve INC-1 <requestId>`, `support` reads `Invoice` under INC-1, and INC-1 is later resolved
-**Then** the stream carries `access.requested`, `access.approved` and `access.expired` in that order with their actors, the execution record of the read names the grant id, `datatug incident show INC-1` listed the grant as active before resolution and absent after it, and a read after resolution is limited as before.
+**When** `support` runs `datatug incident access request INC-1 --source chinook --collection Invoice --reason "stuck invoices"`, `admin` runs `datatug incident access approve INC-1 <requestId>`, `support` reads `Invoice` with `--incident INC-1`, and INC-1 is later closed
+**Then** the stream carries `access.requested`, `access.approved` and `access.expired` in that order with their actors, the execution record of the read (made with `--incident INC-1`) names the grant id, `datatug incident show INC-1` listed the grant as active before closure and absent after it, and a read after closure is limited as before.
 
 ### AC: participant-role-separate-from-permission (verifies REQ:participants-and-roles)
 
@@ -544,7 +552,7 @@ Feature (open question below).
 
 **Given** the demo project and a running agent
 **When** the whole-journey e2e runs
-**Then** it walks create → context with cohorts → checks → hypotheses → evidence → compare → metrics → mitigation → recovery → resolved → watching → closed → Resolution Record against the real server with no intercepted responses, asserting events and records, not rendered text alone.
+**Then** it walks create → context with cohorts → checks → hypotheses → evidence → access request and approval → compare → metrics → mitigation → recovery → resolved → watching → closed → Resolution Record against the real server with no intercepted responses, asserting events and records, not rendered text alone.
 
 ### AC: recurrence-epilogue-boring (verifies REQ:canonical-demo-incident, REQ:search-and-similarity)
 

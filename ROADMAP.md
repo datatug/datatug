@@ -163,7 +163,8 @@ recorded; hypotheses carry evidence by reference to execution records, snapshots
 annotations; metrics form series with explicit resolution criteria; recurrence and search work;
 `datatug incident` and `watch` expose the same event stream to agents; a participant requests
 temporary read access inside the incident and an approver grants it, recorded as events and
-expired at resolution (founder, 2026-09-11); the canonical demo incident and its boring
+expired at closure (MVP inclusion is the founder's, 2026-09-11; the mechanism is the lead's);
+the canonical demo incident and its boring
 recurrence walk end to end.
 **Dependencies:** Phase 1 accepted (done). Incidents and evidence write to the routed incident
 store through the server; checks and annotations are project knowledge assets and need

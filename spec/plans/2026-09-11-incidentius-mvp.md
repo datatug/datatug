@@ -125,6 +125,7 @@ resume from the cursor printed on stderr.
   context roles/overlays, evidence and metrics tables, the `incidentius` profile. Demo last:
   fixtures and the whole-journey e2e that gates the release candidate.
 - Contract amendments (optional `Fact.role`, `Fact.layer`; optional `Scope.storeId`;
+  optional `ExecutionRequest.incident`;
   `record`/`snapshot` flags on execution; `Result.provenance.incident` as an `IncidentRef`;
   the incident endpoints; `Board.incidentRef` as an `IncidentRef`; the opened board widget
   name boundary) are frozen as fixtures in `datatug-core/pkg/apicontract` before server
@@ -331,15 +332,16 @@ round-trip fixture; back-links from boards to incidents through the derived inde
 **Id:** task-14
 **Verifies:** incidents#ac:access-request-approval-and-expiry-are-events
 **Supporting ACs:** server-enforced-access#ac:incident-grant-expires, server-enforced-access#ac:incident-grant-needs-approval, server-enforced-access#ac:incident-grant-never-unmasks
-**Depends-On:** 3
+**Depends-On:** 3, 9
 **Status:** planning
 
-The founder's simplest form (2026-09-11): `access.requested` / `access.approved` /
+The lead's simplest form, under the founder's 2026-09-11 MVP inclusion: `access.requested` / `access.approved` /
 `access.declined` / `access.revoked` / `access.expired` events; the projection lists pending
 requests and active grants; the server merges active grants for the calling principal and
 incident into the policy set handed to `accesspolicies.Run` (no second evaluator), never
 widening field allow-lists, masks, native SQL or writes; the grant id on every execution
-record produced under it; expiry applied by the server at resolution or at the time limit;
+record produced under it; expiry applied by the server at closure or at the time limit; merge revokes the duplicate's
+grants; `ExecutionRequest.incident` on reads (`datatug query run --incident`);
 approver = project owner or policy-named incident approver (lead assumption); endpoints
 `POST /datatug/incidents/{id}/access/*`, verbs `datatug incident access request|approve|
 decline|revoke|list`, and the request/approve controls on the incident page; negative tests
