@@ -294,6 +294,15 @@ sides MUST NOT be required to share an environment.
 **Then** only the `store-b` record is authorized and read, the `store-a` collision is never
 considered, and omitting any qualifier is rejected rather than resolved by search order.
 
+### AC: schema-comparator-remains-independent (verifies REQ:schema-compare-remains-separate)
+
+**Given** the existing `datatug-core/pkg/comparator` schema-comparison package and the new
+recordset comparison implementation
+**When** package dependencies and tests are checked
+**Then** the recordset comparer neither imports nor changes `pkg/comparator`, the existing
+schema-comparator tests remain green, and recordset comparison has its own typed fixtures and
+tests rather than adapting schema-diff output.
+
 ## Not Doing / Out of Scope
 
 - Schema comparison. `pkg/comparator` keeps that job; see REQ:schema-compare-remains-separate.
