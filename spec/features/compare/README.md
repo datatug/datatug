@@ -44,7 +44,8 @@ provenance and no policy — which is exactly where a production data leak comes
       LEFT scope        RIGHT scope
    env=prod          env=uat
    facts=affected    facts=control          each side executed SEPARATELY,
-   record=exec-7f3   record=exec-9ab        under ITS OWN policy, as its own
+   execution=ops/billing/exec-7f3   execution=ops/billing/exec-9ab
+                                              under ITS OWN policy, as its own
         │                 │                 execution record
         └────────┬────────┘
                  ▼
@@ -84,9 +85,9 @@ past execution record. The three side kinds are:
 
 ```typescript
 type SideSpec =
-  | {kind: 'scope';  project: string; environment: string; parameters?: {[id: string]: TypedValue}}
-  | {kind: 'facts';  project: string; environment: string; facts: Fact[]}   // a cohort
-  | {kind: 'record'; recordId: string};                                      // a past execution
+  | {kind: 'scope'; storeId: string; project: string; environment: string; parameters?: {[id: string]: TypedValue}}
+  | {kind: 'facts'; storeId: string; project: string; environment: string; facts: Fact[]} // one cohort
+  | {kind: 'record'; execution: ExecutionRef};                                // a past execution
 ```
 
 - **environment A vs B** — the same query, two environments (`{kind:'scope'}` on each side).
@@ -106,6 +107,13 @@ re-execution. Either way the two halves of a comparison are independently citabl
 live side is executed as one ordinary authorized run; there is no combined query, no cross-source
 join and no second executor — this Feature adds a caller and a differ, not an engine.
 
+A `facts` side binds through the transport appendix's bounded `TypedValueSet`: exactly one
+same-field equality cohort of 1..500 unique, non-null, same-typed values. The query parameter
+must declare set support and the source must execute one native set/array/`IN` binding. Any
+other cohort shape is `INVALID_REQUEST`; a source without safe set binding is
+`SOURCE_UNAVAILABLE`. Compare never loops one execution per fact or silently truncates a
+cohort.
+
 #### REQ: keyed-recordset-diff
 
 The two recordsets MUST be diffed by key, producing `added`, `removed` and `changed` rows plus
@@ -117,8 +125,8 @@ or whole-row comparison, which produces a plausible and wrong answer.
 
 ```typescript
 type CompareResult = {
-  left:  {recordId: string; executedAt: string; rowCount: number; limitations: Limitation[]};
-  right: {recordId: string; executedAt: string; rowCount: number; limitations: Limitation[]};
+  left:  {execution: ExecutionRef; executedAt: string; rowCount: number; limitations: Limitation[]};
+  right: {execution: ExecutionRef; executedAt: string; rowCount: number; limitations: Limitation[]};
   key: string[];
   added:   {key: TypedValue[]; row: TypedValue[]}[];     // present right, absent left
   removed: {key: TypedValue[]; row: TypedValue[]}[];     // present left, absent right
@@ -192,7 +200,7 @@ the differ never holds a value the caller could not have retrieved directly.
 
 #### REQ: compare-produces-evidence
 
-A compare MUST be citable. The response MUST carry both `recordId`s, and a compare invoked under
+A compare MUST be citable. The response MUST carry both qualified `ExecutionRef`s, and a compare invoked under
 an incident MUST enter the event stream as a `compare.run` event with
 `assertion.kind = deterministic-result` referencing those two records and the key used — the
 comparison is a deterministic computation over two recorded executions, not a claim
@@ -222,6 +230,7 @@ type CompareRequest = {
   securityContextId: string;
   queryId?: string; checkId?: string;      // exactly one required
   left: SideSpec; right: SideSpec;
+  incident?: IncidentRef;
   key?: string[];
   distributionColumn?: string;
   limit?: number;
@@ -237,7 +246,7 @@ The CLI takes one executable and two sides, with the side syntax naming its kind
 ```text
 datatug compare --query stuck-orders --left env=prod       --right env=uat
 datatug compare --query stuck-orders --left facts=affected --right facts=control
-datatug compare --query stuck-orders --left record=exec-7f3 --right record=exec-9ab
+datatug compare --query stuck-orders --left execution=ops/billing/exec-7f3 --right execution=ops/billing/exec-9ab
 ```
 
 plus `--key`, `--distribution <column>` and `--json`. Mixing kinds across sides (a `record` left
@@ -250,7 +259,7 @@ sides MUST NOT be required to share an environment.
 
 **Given** the *Shipping rate configuration* library query and the same reference rows in `prod` and `uat`, differing in one row's `rate` column and with one row present only in `prod`
 **When** `datatug compare --query shipping-rate-config --left env=prod --right env=uat` runs
-**Then** the result names the key column, reports one `changed` row with the `rate` values from each side, one `removed` row, a summary counting the rest as unchanged, and two distinct execution record ids — and a request whose key is not unique on both sides fails with an explicit error rather than diffing positionally.
+**Then** the result names the key column, reports one `changed` row with the `rate` values from each side, one `removed` row, a summary counting the rest as unchanged, and two distinct qualified execution refs — and a request whose key is not unique on both sides fails with an explicit error rather than diffing positionally.
 
 ### AC: cohort-distribution-highlights-overrepresentation (verifies REQ:cohort-distribution-comparison)
 
@@ -262,7 +271,7 @@ sides MUST NOT be required to share an environment.
 
 **Given** execution record `exec-7f3` captured at peak impact with a stored snapshot of 847 stuck orders
 **When** it is compared against a live run of the same query in the same environment after mitigation
-**Then** the diff reports the rows that are no longer stuck as `removed` with a summary reflecting the recovery, both sides carry their own record id and timestamp, and comparing against a record whose snapshot has expired fails with an explicit `SNAPSHOT_EXPIRED` error rather than an empty left side.
+**Then** the diff reports the rows that are no longer stuck as `removed` with a summary reflecting the recovery, both sides carry their own qualified execution ref and timestamp, and comparing against a record whose snapshot has expired fails with an explicit `SNAPSHOT_EXPIRED` error rather than an empty left side.
 
 ### AC: compare-respects-limitations (verifies REQ:compare-is-policy-bound)
 
@@ -274,7 +283,16 @@ sides MUST NOT be required to share an environment.
 
 **Given** a compare run under incident `INC-2841`
 **When** the incident timeline is read
-**Then** it holds one event with `assertion.kind = deterministic-result` referencing both execution record ids and the key used, no copy of the diffed rows is stored in the incident, and both records remain independently readable under their own policy.
+**Then** it holds one event with `assertion.kind = deterministic-result` referencing both qualified execution refs and the key used, no copy of the diffed rows is stored in the incident, and both records remain independently readable under their own policy.
+
+### AC: colliding-execution-ids-do-not-cross-resolve (verifies REQ:two-scope-execution, REQ:compare-produces-evidence)
+
+**Given** evidence stores `store-a` and `store-b` each contain project `billing` execution id
+`exec-7f3`, with different rows and policy, and an incident in `store-a`
+**When** a compare request or incident evidence link names
+`{storeId:'store-b', projectId:'billing', executionId:'exec-7f3'}`
+**Then** only the `store-b` record is authorized and read, the `store-a` collision is never
+considered, and omitting any qualifier is rejected rather than resolved by search order.
 
 ## Not Doing / Out of Scope
 
@@ -295,13 +313,6 @@ sides MUST NOT be required to share an environment.
 
 ## Open Questions
 
-- **How a scope of many same-field facts binds one query parameter.** A cohort is N facts
-  for one field (fifty `Order.ID` values with role `affected`), but `Binding.value` is a single
-  `TypedValue` and the transport appendix defines no set binding. Lead assumption: for an
-  equality parameter the executor expands the set to an `IN`-list (or the source's
-  equivalent) and records the expansion in the execution record's bindings; a non-equality
-  parameter with a set scope is a hard error. The Incidentius MVP plan's compare task MUST fix
-  this before the cohort ACs can pass; the articles and demo depend on it.
 - **Key resolution when a query's columns are unmapped.** Lead assumption: explicit `--key` is
   always accepted, semantic entity keys are used when available, and anything else is a hard
   error. Whether a single obviously-unique column should be auto-adopted is undecided; the safe

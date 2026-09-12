@@ -114,9 +114,8 @@ may reference several DataTug projects): *"yes it can."* An incident MAY referen
 maintained by different teams. The converse relation, *"A DataTug project can be used by
 multiple incidentius instances"* (founder, 2026-09-11), is carried by REQ:incident-store and
 REQ:incident-references-and-back-links. Every fact, execution record, check run and compare run carries its own project and
-environment scope; because the transport appendix `Scope` is `{project, environment,
-securityContextId}` with no store, the plan's model task adds an optional `Scope.storeId`
-(lead assumption) so evidence from a second store stays attributable and each reader sees
+environment scope; the transport appendix `Scope` adds `storeId` for cross-store requests
+while preserving its omission for the configured primary store, so evidence from a second store stays attributable and each reader sees
 each project's evidence under that project's grants. The incident itself belongs to one store
 (one team or space); people from other teams join as invited participants. Entities with the
 same name in two projects are not assumed identical; cross-project semantic identity is a
@@ -158,12 +157,13 @@ for the approved scope, not a founder ruling):
 
 ```text
 IncidentEvent {
-  id, seq, at (RFC3339 UTC), incident (IncidentRef),
+  id, seq, at (RFC3339 UTC occurrence time), visibleAt (RFC3339 UTC store time), incident (IncidentRef),
   actor   {kind: human|agent|system, id, via?: web|cli|api|slack},
   type    (see list),
   assertion {kind: observation|claim|question|hypothesis|inference|deterministic-result,
              confidence?: speculative|likely|confirmed},
-  refs    [{kind: execution|snapshot|annotation|check|compare|query|board|fact|hypothesis|event|incident|project, id}],
+  refs    [{kind: execution|snapshot|annotation|check|compare|query|board|fact|hypothesis|event|incident|project,
+            ref: qualified reference for that kind}],
   payload (per type)
 }
 types: incident.created · incident.status · incident.outcome · incident.merged ·
@@ -177,6 +177,39 @@ types: incident.created · incident.status · incident.outcome · incident.merge
        access.requested · access.approved · access.declined · access.revoked · access.expired
 ```
 
+Every mutation request MUST carry a caller-generated `mutationId` that is unique within the
+incident store. Repeating the same mutation id with a byte-identical request returns the
+original committed event/projection result; reusing it with different bytes is
+`REVISION_CONFLICT`. Sequence allocation and append have exactly one writer: either all
+clients use the running DataTug server, or an in-process CLI writer holds a cross-process
+exclusive store lease for the whole mutation. Failure to acquire the lease before the bounded
+deadline is `TIMEOUT`; no optimistic best-effort append is allowed.
+
+References that can cross a store or project boundary use their full structured identity:
+executions use `ExecutionRef`, incidents use `IncidentRef`, and projects use
+`{storeId, projectId}`. A bare `id` is valid only for an incident-local event, fact or
+hypothesis and is never persisted for a cross-store artefact.
+
+Under the lease, the server durably writes and syncs the event plus mutation receipt before
+publishing the new projection. Projection replacement uses write-sync-atomic-rename and is
+always regenerable from the event stream. Recovery after interruption discards an incomplete
+tail, replays the last complete event sequence, and completes or returns the prior result for
+any mutation receipt already committed. A lost response is therefore safe to retry.
+
+For an ordinary append, `visibleAt` equals `at`. Projection and historical replay order by
+`seq` and include only events whose `visibleAt <= T`; `at` remains the domain occurrence time
+shown in the timeline. This distinction is observable only for imported events and prevents a
+later merge from rewriting what the survivor was known to contain at an earlier time.
+
+Merge is a recoverable multi-step mutation recorded by one durable merge intent. Source events
+are imported into the survivor with new survivor sequence numbers and `visibleAt` equal to the
+merge event's store time, while retaining their original incident/event refs and `at`
+occurrence timestamps. They become visible only at the merge event's position, so `show --at`
+before the merge never changes retrospectively. Access grants
+from the duplicate are imported as historical events only and are never active in the
+survivor. Recovery resumes the same intent idempotently; it cannot duplicate events, leave two
+active survivors, or reactivate a copied grant.
+
 `assertion.kind` separates fact from belief (vision §12, §31, §57 Q12): a recorded execution
 is an `observation`; a check or compare result is a `deterministic-result`; a human statement
 is a `claim` and a human question a `question` (vision §30 "what remains unanswered"); a
@@ -188,7 +221,7 @@ no execution, check or compare reference.
 #### REQ: projection-and-replay
 
 The server MUST derive `incident.json` by a deterministic fold over the events and MUST be able
-to produce the projection at any time `T` by folding only events with `at <= T`
+to produce the projection at any time `T` by folding only events with `visibleAt <= T`
 (`GET …?at=`, `datatug incident show <id> --at <ts>`). The projection includes identity,
 description, status, outcome, participants, referenced projects, the context layers,
 hypotheses with their evidence, evidence list, check and compare runs, metrics series,
@@ -477,6 +510,24 @@ Every other acceptance criterion below is platform-neutral. Where one carried CL
 **When** the projection is folded twice, and a request tries to edit event 12
 **Then** both folds are byte-identical, and the edit is refused with `INVALID_REQUEST`.
 
+### AC: concurrent-mutations-are-idempotent-and-serialized (verifies REQ:event-stream-append-only)
+
+**Given** two CLI processes targeting the same incident store and one mutation id whose first
+response is deliberately lost
+**When** both processes append concurrently and the lost request is retried
+**Then** the store contains one complete event per mutation id with gap-free monotonic sequence,
+the retry returns its original result, a changed payload under the reused id is
+`REVISION_CONFLICT`, and no projection or mutation receipt is partially written.
+
+### AC: interrupted-merge-recovers-without-rewriting-history (verifies REQ:event-stream-append-only, REQ:lifecycle-and-outcomes)
+
+**Given** a duplicate incident with an active temporary grant and a merge interrupted after
+its durable intent but before projection replacement
+**When** the store is reopened and the same merge mutation is retried
+**Then** recovery completes exactly one import, historical `show --at` before the merge is
+byte-identical to its pre-merge result, the duplicate closes once, and its copied grant is
+historical but never active in the survivor.
+
 ### AC: show-at-reconstructs-belief (verifies REQ:projection-and-replay)
 
 **Given** the fixture incident in which hypothesis H1 is rejected at 14:43
@@ -527,9 +578,12 @@ Every other acceptance criterion below is platform-neutral. Where one carried CL
 
 ### AC: metric-series-and-criteria (verifies REQ:metrics-and-resolution-criteria)
 
-**Given** an impact metric "stuck invoices" and a criterion "stuck invoices == 0"
-**When** the metric's check is run three times returning 37, 19 and 0
-**Then** the projection shows the series with three `metric.observed` points and the criterion evaluated `satisfied` only after the third run.
+**Given** an impact metric "stuck invoices" sampled every 10 minutes with a 12-minute maximum
+gap and a criterion "stuck invoices == 0 for 30 minutes"
+**When** retained complete measurements read 37, 19, then four zeroes spanning 30 minutes
+**Then** the projection keeps separate points for their exact environment, query revision and
+policy scope, and the criterion becomes `satisfied` only at the fourth zero; one zero, an
+unavailable point or a gap over 12 minutes leaves it `unknown` rather than satisfied.
 
 ### AC: recurrence-link-records-ttri (verifies REQ:recurrence-and-links)
 

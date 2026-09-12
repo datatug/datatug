@@ -19,8 +19,11 @@ fields, and a client-supplied principal or role are rejected, never reconciled b
 precedence. Legacy routes must delegate to the same authorized executor or fail
 closed; a migration must inventory and update every browser/CLI caller.
 
-`Scope = {project: string, environment: string, securityContextId: string}`. Project and environment IDs are
-required, nonempty, and resolved within this server's registered projects. A
+`Scope = {storeId?: string, project: string, environment: string, securityContextId: string}`.
+Project and environment IDs are required, nonempty, and resolved within this server's
+registered projects. `storeId` is additive and optional for existing single-store callers;
+when absent, the server resolves the project only within its configured primary project store.
+Cross-store requests and every persisted cross-artefact reference MUST name it explicitly. A
 project without multiple environments declares one explicit `default` environment;
 the server does not silently switch environments. Browser state additionally keys
 scope by the normalized agent URL and server-issued `securityContextId` from
@@ -68,10 +71,14 @@ type Limitation = {
   policy: string; rowsFiltered: boolean; hiddenColumns: string[];
 };
 type Binding = {
-  parameterId: string; value: TypedValue;
+  parameterId: string; value: TypedValue | TypedValueSet;
   origin: 'selection' | 'context' | 'manual' | 'default';
   originEvidence: 'server-default' | 'client-reported';
-  factId?: string;
+  factIds?: string[]; // all contributing facts for a set; one entry for a scalar fact
+};
+type TypedValueSet = {
+  type: 'set';
+  values: TypedValue[]; // 1..500 unique, non-null values of one scalar type
 };
 type Result = {
   recordset: {
@@ -121,6 +128,17 @@ agent that does not implement them MUST ignore `role` and treat a non-canonical 
 "do not bind automatically" rather than binding it as canonical. No existing caller or fixture
 changes shape.
 
+`TypedValueSet` is the bounded cohort binding. It is produced only when a caller explicitly
+selects a cohort: all enabled facts must name the same `entity.field`, have equality condition
+(`condition` absent or `==`), and contain 1..500 non-null values of one compatible scalar type.
+The server deduplicates by canonical `TypedValue` equality and sorts the retained values by
+their canonical JSON bytes before execution and recording, so retries are byte-identical. A
+query parameter must declare set support; its executor maps the set to one source-native
+set/array/`IN` binding. A source that cannot bind the set safely returns
+`SOURCE_UNAVAILABLE` for that candidate/run. The server MUST NOT issue N queries, interpolate
+values into query text, silently keep the first fact, or coerce mixed types. Empty, oversized,
+mixed-type, null-containing or non-equality cohorts are `INVALID_REQUEST`.
+
 Limitations report applied restrictions, not the number of rejected rows or their
 values. Only names visible in authorized metadata may appear in `hiddenColumns` or
 `policy`; use a generic policy label and an empty name list where names are protected.
@@ -166,21 +184,27 @@ type Candidate = {
   targets: {source:string;label:string}[]; // authorized eligible targets only
   selectedSource?: string; // present only when one eligible target remains
   bindings: Binding[];
-  chain: {parameterId:string; factId?:string; explanation:string}[];
+  chain: {parameterId:string; factIds?:string[]; explanation:string}[];
   missing: string[]; // parameter IDs, including non-semantic required parameters
   ambiguous: {parameterId:string; factIds:string[]}[];
   state: 'runnable' | 'needs-input' | 'needs-target' | 'source-unavailable';
 };
 type ExecutionRequest = {
-  project: string; environment: string; securityContextId: string; source?: string;
+  storeId?: string; project: string; environment: string; securityContextId: string; source?: string;
   queryId?: string; dtql?: string; // exactly one required
-  parameters: {[parameterId:string]: TypedValue};
-  bindingOrigins: {parameterId:string; origin:Binding['origin']; factId?:string}[];
+  parameters: {[parameterId:string]: TypedValue | TypedValueSet};
+  bindingOrigins: {parameterId:string; origin:Binding['origin']; factIds?:string[]}[];
   mode: 'live' | 'snapshot'; snapshotId?: string;
   limit?: number;
   incident?: IncidentRef; // {storeId, incidentId}, the incidents Feature's type. OPTIONAL; lead assumption 2026-09-11: a read made under an incident, so incident-scoped grants apply and the execution record carries the incident
 };
 ```
+
+An omitted `ExecutionRequest.storeId` is accepted only when `project` resolves uniquely in the
+configured primary project store. The server normalizes it to that explicit store id before
+authorization, execution, recording or incident attachment. If more than one store could
+match, or the request names a non-primary store only implicitly, it is `INVALID_REQUEST`; no
+search-order fallback is allowed.
 
 `applicable` contains only runnable candidates. `notYet` contains authorized query
 metadata for needs-input/needs-target/source-unavailable candidates. Multiple eligible targets
@@ -206,6 +230,12 @@ default origins use `originEvidence:server-default` only when validated against 
 query definition. The UI must not present client origins as server-attested provenance.
 A response cannot echo supplied parameter values as applied before execution confirms
 them. Suggested Candidate bindings carry the same provenance distinction.
+
+A saved query parameter declares `acceptsSet: true` to accept `TypedValueSet`; absence means
+scalar-only. Set values are never accepted for ad-hoc DTQL or an undeclared parameter. For a
+set binding, `factIds` contains every contributing fact id in the same canonical order as the
+deduplicated values. Scalar bindings carry zero or one fact id. The server rejects mismatched
+value/fact counts and never accepts both the former singular `factId` and `factIds`.
 
 ```typescript
 type CaptureQueryRequest = {
