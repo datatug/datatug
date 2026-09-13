@@ -215,10 +215,12 @@ target is `execution-record` is visible only if the reader may read that record 
 authorized for every field in that revision's `sensitivity.requiredFields` and the server
 must resolve every `requiredEvidence` reference and prove that the reader may currently read
 its exact row set through the same row-policy evaluator. A field allow-list alone is never
-sufficient. If the evidence is unavailable, expired, ambiguous, cross-store, or current row
-authorization cannot be proved, the whole revision—body, author, timestamp and existence—is
-withheld. List, resurfacing, incident projection, watch stream and search apply the same
-check. Beyond these checks, an annotation is a project asset and follows the project's grants to spaces (`sharing-scopes`
+sufficient. Correctly qualified references may cross project, incident and evidence stores.
+If the evidence is unavailable, expired, ambiguous, has a qualifier mismatch, attempts
+cross-store substitution, or current row authorization cannot be proved, the whole
+revision—body, author, timestamp and existence—is withheld. List, resurfacing, incident
+projection, watch stream and search apply the same check. Beyond these checks, an annotation
+is a project asset and follows the project's grants to spaces (`sharing-scopes`
 REQ:project-membership-through-sneat-spaces) — there is no annotation-level owner or ACL.
 
 Denials MUST be non-disclosing: no count of hidden annotations, no author names, no "3 notes

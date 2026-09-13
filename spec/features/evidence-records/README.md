@@ -154,11 +154,12 @@ it from the grants actually applied by the policy evaluator; a client cannot sup
 upgrade it. Each referenced approval mutation MUST resolve through `GrantRef.incident` to an
 `access.approved` event for the same `grantId`, the record's top-level `incident` MUST equal
 that incident, and the active grant MUST cover the record's exact store/project/source scope.
-An unresolved, cross-incident or cross-store reference fails recording rather than producing
-an unauditable record. Reading an execution record rechecks current authorization for each
-grant reference: when the reader cannot see the incident or grant scope, `grantUses` is omitted
-without a count or placeholder, and direct grant resolution returns `NOT_FOUND`. The immutable
-reference remains in storage.
+Correctly qualified references may cross project, incident and evidence stores. An unresolved
+reference, qualifier mismatch, or cross-incident/cross-store substitution fails recording
+rather than producing an unauditable record. Reading an execution record rechecks current
+authorization for each grant reference: when the reader cannot see the incident or grant
+scope, `grantUses` is omitted without a count or placeholder, and direct grant resolution
+returns `NOT_FOUND`. The immutable reference remains in storage.
 
 `ScalarMeasurement` is computed in the trusted execution path while the authorized result is
 available, never reconstructed later from a fingerprint or an expired snapshot. A requested
