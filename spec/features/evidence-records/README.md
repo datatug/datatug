@@ -180,6 +180,14 @@ depend on the Phase 2 project-write path for knowledge assets. A record created 
 incident carries that server-normalized `IncidentRef` in its top-level `incident` field, which
 is how derived back-links are answered.
 
+Snapshot bytes and mutable snapshot lifecycle state MUST use a server-private SQLite sidecar
+for the routed evidence store. Each project, dedicated repository, application repository, or
+hosted store route resolves to its own sidecar; records from one routed store MUST NOT share a
+sidecar namespace with another. The sidecar is addressed by `snapshotRef`, is never placed in
+or below a Git-tracked path, and MUST NOT be added to the evidence repository. Immutable
+execution-record JSON remains in the DALgo-backed evidence store; SQLite is not a competing
+record store and contains only snapshot bytes plus their lifecycle state.
+
 #### REQ: result-snapshot-opt-in
 
 Result rows MUST be stored server-side only when the caller explicitly asks (`snapshot: true`)
@@ -231,7 +239,9 @@ A separate snapshot-state record keyed by that ref carries
 `{availability:'available'|'expired'|'deleted', changedAt, reason?}` and may advance only from
 `available` to a terminal state. A reader asking for an expired snapshot gets the explicit
 state and timestamp, never a silent empty recordset; the execution record permanently keeps
-its `rowCount`, `limitations`, `resultFingerprint` and scalar measurements.
+its `rowCount`, `limitations`, `resultFingerprint` and scalar measurements. The state record
+is a row in the same routed server-private SQLite sidecar as the bytes, so expiry can delete
+the bytes and advance state atomically without editing the immutable execution-record JSON.
 
 #### REQ: record-reference-and-provenance
 
@@ -387,19 +397,18 @@ ordinary policy has no `grantUses` field.
 - Re-authorizing the *capturing* principal's rights to a later reader in any form: no delegation,
   no "shared evidence" grant, no signed link that carries access.
 
+## Resolved Decisions
+
+- **Snapshot storage location and Git.** Records follow incident-store routing and may use the
+  project's own repository, a dedicated or application repository, or the hosted store.
+  Snapshot bytes never enter a Git-tracked path in MVP; no per-project opt-in to commit them
+  exists in this phase.
+- **Snapshot byte storage backend.** Approved 2026-09-13: each routed evidence store uses a
+  server-private SQLite sidecar for snapshot bytes and their monotonic lifecycle state. The
+  immutable execution-record JSON remains in the routed DALgo-backed evidence store.
+
 ## Open Questions
 
-- ~~**Snapshot storage location and Git.**~~ Records are specified above as operational records
-  in the evidence store, which follows the incident-store routing and so may be the project's
-  own repository, a dedicated or application repository, or the hosted store. Snapshot **bytes**
-  were the awkward half: committing production rows to a Git project is a data-exfiltration
-  surface. **Ruled by the founder, 2026-09-11 (verbatim): *"Not in MVP"*** — in MVP, snapshot
-  bytes never enter a Git-tracked path; no per-project opt-in to commit them exists this phase.
-- **Snapshot byte storage backend.** The ruling above says only that snapshot bytes never enter
-  Git in MVP; it does not specify where they actually live (a dedicated server-side store, a
-  blob store, or something else), referenced by `snapshotRef`. That design is not settled here
-  and is left as an explicit open question for the Incidentius rework rather than invented in
-  this evidence-records draft.
 - **Retention and masking defaults** (30 days, 2 MiB) are engineering assumptions carried over
   from the transport contract's own bounds, not founder rulings — also listed in
   [product-family §9](../../product/product-family.md#9-open-questions).
