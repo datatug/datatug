@@ -123,11 +123,18 @@ type Annotation = {
 };
 type AnnotationRevision = {
   id: string; at: string; author: {id: string};
-  sensitivity: {requiredFields: FieldAccessRef[]};
+  sensitivity: {
+    requiredFields: FieldAccessRef[];
+    requiredEvidence: AuthorizationEvidenceRef[];
+  };
 } & (
   | {state: 'active'; body: string}
   | {state: 'tombstone'}
 );
+type AuthorizationEvidenceRef = {
+  execution: ExecutionRef;           // qualifies the server-local evidence id
+  evidenceId: string;                // opaque identity, never a value or capability
+};
 ```
 
 `facts` MUST be the enabled facts of the authoring context as `investigation-context` defines
@@ -142,11 +149,20 @@ annotation's revision mechanism. `currentRevisionId` must name exactly the last 
 list and resurfacing results omit the annotation, while an explicitly authorized history view
 may render the earlier revisions plus a deletion marker. The server derives
 `requiredFields` as the union of the target, referenced execution's `authorizedFields`,
-provenance facts and active context facts. The authoring UI MUST show that scope and allows the
-author to add fields for information typed from elsewhere; it cannot remove derived fields.
-If the server cannot qualify every referenced fact or field to a store/project/environment, it
-refuses the write. This deliberately conservative scope protects free text without attempting
-to infer secrets from prose.
+provenance facts and active context facts. It also derives `requiredEvidence` for every result
+row or selected row set whose values informed the target or body. An
+`AuthorizationEvidenceRef` is a qualified reference to immutable server-held execution
+evidence that identifies the exact observed row set. The evidence store resolves `evidenceId`
+within the named execution to the trusted executor's source-native stable row identity or
+predicate plus the fields observed; that descriptor is never returned by an annotation API.
+The annotation stores neither those rows nor their values, and `evidenceId` is not a bearer
+capability. A source that cannot retain a stable descriptor cannot claim row authorization is
+re-checkable. The authoring UI MUST show the
+derived sensitivity scope and allows the author to add fields or server-resolved evidence for
+information typed from elsewhere; it cannot remove derived entries or mint evidence ids. If
+the server cannot qualify every referenced fact, field or evidence item to a
+store/project/environment, it refuses the write. This deliberately conservative scope
+protects free text without attempting to infer secrets from prose.
 
 #### REQ: data-addressable-resurfacing
 
@@ -196,10 +212,13 @@ Concretely: an annotation whose target is `entity-value` is visible only if the 
 retrieve that value from at least one source they are authorized to read; an annotation whose
 target is `execution-record` is visible only if the reader may read that record under
 `evidence-records` REQ:snapshot-access-rechecked. In addition, the reader must currently be
-authorized for every field in that revision's `sensitivity.requiredFields`; otherwise the
-whole revision—body, author, timestamp and existence—is withheld. List, resurfacing, incident
-projection, watch stream and search apply the same check. Beyond these checks, an annotation is
-a project asset and follows the project's grants to spaces (`sharing-scopes`
+authorized for every field in that revision's `sensitivity.requiredFields` and the server
+must resolve every `requiredEvidence` reference and prove that the reader may currently read
+its exact row set through the same row-policy evaluator. A field allow-list alone is never
+sufficient. If the evidence is unavailable, expired, ambiguous, cross-store, or current row
+authorization cannot be proved, the whole revision—body, author, timestamp and existence—is
+withheld. List, resurfacing, incident projection, watch stream and search apply the same
+check. Beyond these checks, an annotation is a project asset and follows the project's grants to spaces (`sharing-scopes`
 REQ:project-membership-through-sneat-spaces) — there is no annotation-level owner or ACL.
 
 Denials MUST be non-disclosing: no count of hidden annotations, no author names, no "3 notes
@@ -264,6 +283,18 @@ the ID but not the email
 or searches incident text
 **Then** that annotation revision is absent in every surface, with no count, author, timestamp,
 body fragment, email field name or indication that a hidden note exists.
+
+### AC: annotation-body-hidden-when-quoted-row-denied (verifies REQ:annotation-visibility-follows-target)
+
+**Given** an annotation targeting public `Customer.ID = 5` whose body quotes another tenant's
+`Customer.Email = other-tenant@example.com`, captured with server-derived
+`requiredEvidence` for that exact row, and a reader allowed to see both `Customer.ID` and the
+`Customer.Email` column but only rows belonging to their own tenant
+**When** the reader lists annotations, opens the incident projection, follows the event stream
+or searches incident text
+**Then** the server cannot prove current row access to the quoted tenant's evidence and the
+whole annotation revision is absent on every surface, with no count, author, timestamp, body
+fragment, email address or indication that a hidden note exists.
 
 ### AC: annotation-on-execution-record (verifies REQ:annotation-targets, REQ:annotation-is-a-claim-not-an-observation)
 

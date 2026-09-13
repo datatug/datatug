@@ -47,6 +47,8 @@ an HTTP request is not forced to invent a database name.
 ## Shared JSON types
 
 ```typescript
+type ExecutionRef = {storeId: string; projectId: string; executionId: string};
+type IncidentRef = {storeId: string; incidentId: string};
 type TypedValue =
   | {type: 'string'; value: string}
   | {type: 'number'; value: number} // finite, exactly representable JSON number
@@ -70,12 +72,15 @@ type Fact = {
 type Limitation = {
   policy: string; rowsFiltered: boolean; hiddenColumns: string[];
 };
-type Binding = {
+type BindingBase = {
   parameterId: string; value: TypedValue | TypedValueSet;
   origin: 'selection' | 'context' | 'manual' | 'default';
   originEvidence: 'server-default' | 'client-reported';
-  factIds?: string[]; // all contributing facts for a set; one entry for a scalar fact
 };
+type Binding = BindingBase & (
+  | {value: TypedValue; factId?: string; valueFactIds?: never}
+  | {value: TypedValueSet; factId?: never; valueFactIds?: string[][]}
+);
 type TypedValueSet = {
   type: 'set';
   values: TypedValue[]; // 1..500 unique, non-null values of one scalar type
@@ -93,6 +98,7 @@ type Result = {
     executionProfile: 'protected' | 'opaque-privileged';
   };
   truncated: boolean;
+  execution?: ExecutionRef; // present only when the server recorded this run
 };
 ```
 
@@ -184,7 +190,10 @@ type Candidate = {
   targets: {source:string;label:string}[]; // authorized eligible targets only
   selectedSource?: string; // present only when one eligible target remains
   bindings: Binding[];
-  chain: {parameterId:string; factIds?:string[]; explanation:string}[];
+  chain: ({parameterId:string; explanation:string} & (
+    | {factId?:string; valueFactIds?:never}
+    | {factId?:never; valueFactIds?:string[][]}
+  ))[];
   missing: string[]; // parameter IDs, including non-semantic required parameters
   ambiguous: {parameterId:string; factIds:string[]}[];
   state: 'runnable' | 'needs-input' | 'needs-target' | 'source-unavailable';
@@ -193,7 +202,10 @@ type ExecutionRequest = {
   storeId?: string; project: string; environment: string; securityContextId: string; source?: string;
   queryId?: string; dtql?: string; // exactly one required
   parameters: {[parameterId:string]: TypedValue | TypedValueSet};
-  bindingOrigins: {parameterId:string; origin:Binding['origin']; factIds?:string[]}[];
+  bindingOrigins: ({parameterId:string; origin:Binding['origin']} & (
+    | {factId?:string; valueFactIds?:never}
+    | {factId?:never; valueFactIds?:string[][]}
+  ))[];
   mode: 'live' | 'snapshot'; snapshotId?: string;
   limit?: number;
   incident?: IncidentRef; // {storeId, incidentId}, the incidents Feature's type. OPTIONAL; lead assumption 2026-09-11: a read made under an incident, so incident-scoped grants apply and the execution record carries the incident
@@ -233,9 +245,15 @@ them. Suggested Candidate bindings carry the same provenance distinction.
 
 A saved query parameter declares `acceptsSet: true` to accept `TypedValueSet`; absence means
 scalar-only. Set values are never accepted for ad-hoc DTQL or an undeclared parameter. For a
-set binding, `factIds` contains every contributing fact id in the same canonical order as the
-deduplicated values. Scalar bindings carry zero or one fact id. The server rejects mismatched
-value/fact counts and never accepts both the former singular `factId` and `factIds`.
+set derived from facts, `valueFactIds` has exactly one group for each canonical
+`TypedValueSet.values` entry. Each group contains every fact id that contributed that value,
+sorted and deduplicated by id; duplicate-valued facts therefore remain attributable without
+duplicating the bound value. A scalar selected from facts carries exactly one `factId`.
+Manual scalar and set bindings carry neither field, as do server defaults; a manual set is
+already fully represented by its canonical values and MUST NOT invent fact provenance.
+`Binding`, `Candidate.chain` and `ExecutionRequest.bindingOrigins` use this same shape. The
+server rejects an empty fact-id group, a group/value count mismatch, a fact id attached to a
+different canonical value, or any object carrying both `factId` and `valueFactIds`.
 
 ```typescript
 type CaptureQueryRequest = {

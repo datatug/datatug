@@ -275,7 +275,8 @@ verbatim: *"Someone with appropriate role. By default project admin has this rol
 move it to someone else. It's part of Sneat contactius role management"*) — MUST be able to
 approve, decline or revoke it there (founder, 2026-09-11: privileged-access request and
 approval in its simplest form is part of the MVP). The
-request, decision, use (the grant id on every execution record produced under it), expiry
+request, decision, use (a server-attested qualified `GrantRef` on every execution record whose
+authorization the grant affected), expiry
 and revocation are events (`access.*`), so the audit question "who could read what, when,
 and who allowed it" is answered by the same stream as everything else. The projection MUST
 list pending requests and active grants with their scope and expiry; expiry MUST be applied
@@ -288,6 +289,16 @@ fixed by [server-enforced-access](../server-enforced-access/README.md)
 REQ:incident-scoped-grants; this Feature owns only the workflow and its events. Exposed as
 `datatug incident access request|approve|decline|revoke|list` and on the incident page; a
 read that wants the grant carries the incident (`ExecutionRequest.incident`).
+
+`GrantRef = {incident: IncidentRef, grantId: string, approvalMutationId: string}`. The incident
+qualifies the incident-store-local grant id, and `approvalMutationId` identifies the
+idempotent `access.approved` mutation that created the active grant. The server, never the
+client, records one or more of these refs in `ExecutionRecord.grantUses` only when the policy
+evaluator actually used the grants to widen access; ordinary-policy reads carry no
+`grantUses`. A ref is valid only when its incident equals the record's top-level `incident`,
+its approval event resolves in that incident store, and its scope covers the record's exact
+store/project/source. Cross-incident or cross-store substitution is rejected. Grant-use
+details obey the same current authorization and non-disclosure rules as `access.*` events.
 
 ### Investigation Context
 
@@ -320,8 +331,10 @@ annotation, a check run or a compare run ([evidence-records](../evidence-records
 [annotations](../annotations/README.md), [checks](../checks/README.md),
 [compare](../compare/README.md)). Attaching evidence is an `evidence.attached` event with refs;
 the incident MUST NOT store result rows itself. An execution run from within an incident MUST
-be recorded (`record:true`) and tagged with the `IncidentRef` in its provenance; the same tag is
-how derived back-links are answered.
+be recorded (`record:true`) and tagged with the server-normalized `IncidentRef` in the
+execution record's top-level `incident` field; the same field is how derived back-links are
+answered. `Result.execution` contains only the qualified `ExecutionRef` and
+`Result.provenance` never duplicates the incident.
 
 #### REQ: checks-at-incident-start
 
@@ -568,7 +581,7 @@ historical but never active in the survivor.
 
 **Given** H12 "retry malfunction" with two execution records attached
 **When** H12 is set to `rejected` with reason "retries completed for affected orders"
-**Then** the projection still lists H12, both records, the reason and the queries used, each record carries INC-1's `IncidentRef` in its provenance, and each opens under the reader's current policy.
+**Then** the projection still lists H12, both records, the reason and the queries used, each record carries INC-1's `IncidentRef` in its top-level `incident` field, and each opens under the reader's current policy.
 
 ### AC: checks-run-at-start-recorded (verifies REQ:checks-at-incident-start)
 
@@ -607,7 +620,7 @@ unavailable point or a gap over 12 minutes leaves it `unknown` rather than satis
 
 **Given** `support` is an investigator on INC-1, which references the demo project, and may not read `Invoice`
 **When** `support` requests temporary read access to `Invoice` with a reason, `admin` approves the request, `support` reads `Invoice` under the resulting grant, and INC-1 is later closed
-**Then** the stream carries `access.requested`, `access.approved` and `access.expired` in that order with their actors, the execution record of the grant-scoped read names the grant id, the projection listed the grant as active before closure and absent after it, and a read after closure is limited as before.
+**Then** the stream carries `access.requested`, `access.approved` and `access.expired` in that order with their actors, the execution record of the grant-scoped read carries a server-attested `GrantRef` qualified by INC-1 and the approval mutation id, an ordinary-policy execution has no `grantUses`, the projection listed the grant as active before closure and absent after it, and a read after closure is limited as before.
 
 ### AC: participant-role-separate-from-permission (verifies REQ:participants-and-roles)
 

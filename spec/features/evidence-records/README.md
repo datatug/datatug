@@ -100,10 +100,16 @@ type ExecutionRecord = {
   rowCount: number;                 // rows actually returned to the caller
   resultFingerprint: string;
   snapshotRef?: string;             // immutable identity; availability is separate state
-  incident?: IncidentRef;
+  incident?: IncidentRef;            // canonical incident association; server-normalized
+  grantUses?: GrantRef[];            // server-attested, 1..n when incident grants affected access
   measurements: ScalarMeasurement[];
 };
 type ExecutionRef = {storeId: string; projectId: string; executionId: string};
+type GrantRef = {
+  incident: IncidentRef;             // qualifies the incident-store-local grant id
+  grantId: string;
+  approvalMutationId: string;        // stable identity of the access.approved mutation
+};
 type FieldAccessRef = {
   storeId: string; project: string; environment: string; source: string;
   collection?: string; column: string; entity?: string; field?: string;
@@ -136,7 +142,23 @@ physical source/collection/column and, when declared, semantic entity/field mapp
 no values. This manifest is immutable evidence of which fields were present and lets later
 annotation writes derive conservative sensitivity even when no result snapshot was retained.
 The server normalizes every accepted request to explicit `storeId` in `ref`, `scope`,
-`authorizedFields` and incident provenance before writing the record; ambiguity is rejected.
+`authorizedFields` and the top-level `incident` before writing the record; ambiguity is
+rejected. `incident` has exactly this one wire location on an execution record: it MUST NOT be
+copied into `Result.provenance`. `Result.execution`, when recording was requested and
+succeeded, is only the qualified `ExecutionRef` of this record.
+
+`grantUses` is server-attested authorization audit, not client provenance. It is absent when
+ordinary policy alone authorized the result and contains one or more qualified `GrantRef`s
+only when those incident-scoped grants changed the authorization decision. The server derives
+it from the grants actually applied by the policy evaluator; a client cannot supply, echo or
+upgrade it. Each referenced approval mutation MUST resolve through `GrantRef.incident` to an
+`access.approved` event for the same `grantId`, the record's top-level `incident` MUST equal
+that incident, and the active grant MUST cover the record's exact store/project/source scope.
+An unresolved, cross-incident or cross-store reference fails recording rather than producing
+an unauditable record. Reading an execution record rechecks current authorization for each
+grant reference: when the reader cannot see the incident or grant scope, `grantUses` is omitted
+without a count or placeholder, and direct grant resolution returns `NOT_FOUND`. The immutable
+reference remains in storage.
 
 `ScalarMeasurement` is computed in the trusted execution path while the authorized result is
 available, never reconstructed later from a fingerprint or an expired snapshot. A requested
@@ -154,8 +176,8 @@ the **evidence store**, which follows the incident-store routing of
 a dedicated repository, the application's repository, or the hosted space-bounded store — and
 are written only by the server through the store's own DALgo-backed path. This path does not
 depend on the Phase 2 project-write path for knowledge assets. A record created under an
-incident carries that incident's `IncidentRef` in its provenance, which is how derived
-back-links are answered.
+incident carries that server-normalized `IncidentRef` in its top-level `incident` field, which
+is how derived back-links are answered.
 
 #### REQ: result-snapshot-opt-in
 
@@ -276,7 +298,7 @@ staleness and error envelope:
 | GET `executions` | Scope + optional `queryId`, `incident: IncidentRef`, `since`, `until`, `limit` | `{executions: ExecutionRecordBrief[], truncated: boolean}` |
 | GET `executions/{id}` | Scope | `ExecutionRecord` |
 | GET `executions/{id}/snapshot` | Scope + optional `limit` | `Result`-shaped recordset with `limitations` re-derived now |
-| POST `exec/run_query` | `ExecutionRequest` + `record?: boolean, snapshot?: boolean, measurementProjections?: MeasurementProjection[]` | `Result` plus `execution?: ExecutionRef` |
+| POST `exec/run_query` | `ExecutionRequest` + `record?: boolean, snapshot?: boolean, measurementProjections?: MeasurementProjection[]` | `Result`, whose top-level `execution?: ExecutionRef` is present only when recording succeeds |
 
 `record` and `snapshot` are additive optional fields on the existing `ExecutionRequest`;
 `snapshot: true` without `record: true` is INVALID_REQUEST rather than an implied record.
@@ -328,6 +350,19 @@ goes through the same server.
 **Given** an incident with a hypothesis that cites a qualified `ExecutionRef`
 **When** the incident is read
 **Then** the incident file holds the qualified reference only — no rows, fingerprint or limitations are copied into it — and when the record is unreadable for the current principal the reference renders as an explicit "not visible or removed" entry instead of vanishing from the timeline.
+
+### AC: grant-use-is-server-attested (verifies REQ:execution-record-captured, REQ:record-reference-and-provenance)
+
+**Given** `support` can read an incident but ordinary project policy denies the incident's
+`Invoice` source, and a server-approved incident grant widens row access without unmasking
+fields
+**When** `support` records a query carrying that incident and then attempts another request
+whose unknown client-supplied `grantUses` claims a grant from another store
+**Then** the record's top-level `incident` is the server-normalized `IncidentRef`, its
+`grantUses` contains only the server-applied grant qualified by that incident and its
+`access.approved` mutation id, `Result.execution` contains only the qualified `ExecutionRef`,
+the forged request is rejected before execution, and an otherwise identical run authorized by
+ordinary policy has no `grantUses` field.
 
 ### AC: snapshot-read-is-not-an-execution (verifies REQ:snapshot-is-evidence-not-an-execution-mode)
 
