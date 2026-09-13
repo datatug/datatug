@@ -73,7 +73,7 @@ type Limitation = {
   policy: string; rowsFiltered: boolean; hiddenColumns: string[];
 };
 type BindingBase = {
-  parameterId: string; value: TypedValue | TypedValueSet;
+  parameterId: string;
   origin: 'selection' | 'context' | 'manual' | 'default';
   originEvidence: 'server-default' | 'client-reported';
 };

@@ -207,6 +207,11 @@ comparison is a deterministic computation over two recorded executions, not a cl
 ([incidents](../incidents/README.md) REQ:event-stream-append-only). Re-running the same compare later produces two new records; the earlier comparison
 stays valid evidence of what was true then.
 
+For a compare that executes either side under `CompareRequest.incident`, the server normalizes
+that ref onto each new execution record's top-level `incident` field. It MUST NOT place the
+incident inside `Result.provenance`; each result and the compare response expose only the
+qualified `ExecutionRef`s of the recorded sides.
+
 MVP does not persist a `CompareResult` as its own project asset (lead assumption): the two
 execution records plus the request parameters reproduce it, and storing the diff would create a
 third copy of data already governed by retention and masking. An incident references the pair.
