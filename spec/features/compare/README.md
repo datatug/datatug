@@ -98,7 +98,9 @@ shape are rejected, and unknown fields (including `checkId`) are `INVALID_REQUES
 - **fact set A vs B** — the same query and environment, two incident-bound sets: the affected
   cohort and the healthy control. A facts side never accepts client-provided `Fact[]`; the
   server reads the named incident under the current principal and selects its current-policy-
-  visible, enabled, canonical facts for `cohortRole`. Cohort roles are the
+  visible, enabled, canonical facts for `cohortRole` whose scope exactly matches the side's
+  `storeId`, `project` and `environment`. Facts from another project or environment are excluded
+  before same-field and bounded-set validation. Cohort roles are the
   [investigation-context](../investigation-context/README.md) extension; compare consumes them
   and does not reimplement them (product-family §3, the firm boundary). If either side is
   `facts`, `CompareRequest.incident` is required and is the sole fact authority.
@@ -106,7 +108,9 @@ shape are rejected, and unknown fields (including `checkId`) are `INVALID_REQUES
   a readable row snapshot. A terminal snapshot state (`expired` or `deleted`) MUST fail the
   whole compare with `SNAPSHOT_EXPIRED`; a record for which no retained readable row snapshot
   exists returns the same code. Neither case becomes an empty side or a fingerprint-only comparison
-  (AC:snapshot-vs-live-shows-recovery).
+  (AC:snapshot-vs-live-shows-recovery). The server MUST load each qualified execution record,
+  require its non-empty `queryId` to equal `CompareRequest.queryId`, and reject a mismatch before
+  diffing; records from different revisions of that same query remain comparable.
 
 A live (`scope` or `facts`) side MUST produce its own new execution record (`evidence-records`
 REQ:execution-record-captured); a `record` side reuses its existing execution record without
@@ -230,7 +234,7 @@ A compare MUST be citable. The response MUST carry both qualified `ExecutionRef`
 an incident MUST enter the event stream as a `compare.run` event with
 `assertion.kind = deterministic-result` referencing those two records and the key used — the
 comparison is a deterministic computation over two recorded executions, not a claim
-([incidents](../incidents/README.md) REQ:event-stream-append-only). Re-running the same compare later produces two new records; the earlier comparison
+([incidents](../incidents/README.md) REQ:event-stream-append-only). Re-running the same compare later produces two new records when both sides are live; record sides reuse their named records. The earlier comparison
 stays valid evidence of what was true then.
 
 For a compare that executes either side under `CompareRequest.incident`, the server normalizes
@@ -286,9 +290,10 @@ type CompareErrorResponse = {
 
 It is a POST because sides carry semantic values, which must never reach a URL, browser history
 or an access log — the same reason `semantic/related` is a POST. An absent/blank `queryId`, a
-`checkId`, or a `mutationId` whose presence does not exactly match `incident` is
-`INVALID_REQUEST`. Check-backed comparisons will amend this union only after Task 5 freezes the
-check executable contract.
+`checkId`, an incident without a non-empty `mutationId`, or a non-empty `mutationId` without an
+incident is `INVALID_REQUEST`. An omitted and explicitly empty `mutationId` are the same semantic
+absence when there is no incident. Check-backed comparisons will amend this union only after Task
+5 freezes the check executable contract.
 
 The CLI takes one executable and two sides, with the side syntax naming its kind:
 
@@ -315,6 +320,12 @@ sides MUST NOT be required to share an environment.
 **Given** an affected cohort and a healthy control cohort of orders, and `shipping_provider` as the distribution column
 **When** the two fact sets are compared
 **Then** the response reports per-value counts and percentages for both sides with a ratio, showing the affected side's dominant provider against the control's, the output states no cause, and the surface offers that provider's diagnostic checks rather than a conclusion.
+
+### AC: facts-cohort-is-side-scoped (verifies REQ:two-scope-execution)
+
+**Given** one incident contains visible canonical affected facts from two projects or environments
+**When** a facts side names one exact `storeId`, `project` and `environment`
+**Then** only facts matching all three side qualifiers reach same-field/set validation and the native query binding, while foreign-scope facts are excluded and cannot alter or broaden the comparison.
 
 ### AC: snapshot-vs-live-shows-recovery (verifies REQ:two-scope-execution)
 
@@ -348,6 +359,12 @@ sides MUST NOT be required to share an environment.
 `{storeId:'store-b', projectId:'billing', executionId:'exec-7f3'}`
 **Then** only the `store-b` record is authorized and read, the `store-a` collision is never
 considered, and omitting any qualifier is rejected rather than resolved by search order.
+
+### AC: record-query-mismatch-is-rejected (verifies REQ:two-scope-execution)
+
+**Given** a record side names a qualified execution whose stored `queryId` is empty or differs from `CompareRequest.queryId`
+**When** the server resolves the comparison request
+**Then** it rejects the request before diffing or appending `compare.run`, while records using different revisions of the same query remain comparable.
 
 ### AC: schema-comparator-remains-independent (verifies REQ:schema-compare-remains-separate)
 

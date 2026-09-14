@@ -117,9 +117,12 @@ A board MAY carry an optional `incidentRef` — an `IncidentRef` of `storeId` pl
 incident can open, create and list its boards; access still follows the project's grants,
 never the incident. Widget kinds needed by incident dashboards (`metric-series`, `comparison`,
 `resolution-criteria`, `replay`) are Dashboardius widget *names* inside the `{name, data}`
-envelope, whose `data` references execution records, compare results and checks by id through
-the server API (`evidence-records`, `compare`, `checks`, `incidents`); a board never stores
-result rows. Today that envelope is closed: `BoardWidget.Validate` in
+envelope, whose `data` references execution records and checks through the server API
+(`evidence-records`, `compare`, `checks`, `incidents`). In MVP, comparison widget data references
+the qualified left/right `ExecutionRef`s plus the key and optional distribution inputs needed to
+reproduce the diff; it MUST NOT reference a compare-result id because MVP does not persist
+`CompareResult` or expose a by-id read endpoint. A board never stores result rows. Today that
+envelope is closed: `BoardWidget.Validate` in
 `datatug-core/pkg/datatug/boards.go` accepts only `SQL`, `HTTP` and `tabs`, and
 `@datatug/board-models` types `BoardWidgetName` as that three-value union. Both MUST gain an
 explicit extension boundary that preserves registered Dashboardius widget names losslessly
