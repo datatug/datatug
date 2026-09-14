@@ -72,6 +72,8 @@ provenance and no policy — which is exactly where a production data leak comes
 | Per-side limitations; policy-limited diffs labelled | planned | MVP (B1) | strategic |
 | `POST /datatug/compare` and `datatug compare` | planned | MVP (B1) | surface |
 | Compare result referenced as incident evidence | planned | MVP (B1) | strategic |
+| Ordered-stream keyed diff backed by DALgo `recordops` | planned | MVP (B1) | strategic |
+| Optional evictable local comparison-row cache for paged UI | planned | MVP (B1), Task 15 | surface |
 | Compare UI: one "Compare affected vs control" action on the incident page, rendering `CompareResult` as plain tables (summary; changed/added/removed rows; per-side limitations; distribution) | planned | MVP (B1) | surface |
 | Compare UI: side-by-side grids, diff highlighting | planned | NEXT | surface |
 | Comparison boards in Dashboardius | planned | NEXT | surface |
@@ -176,6 +178,33 @@ appear in `changed`; a column present on one side only MUST be reported in
 and distribution value ordering MUST be deterministic. Results MUST be bounded by the same default and
 maximum result limits the transport contract sets, with `truncated` set when the cap is hit.
 
+The first-class Core comparison path MUST accept two streams already ordered by the resolved
+composite typed key. It MUST delegate key alignment to DALgo `recordops.DiffFunc` — the shared
+lagging-cursor/K-way merge primitive — rather than maintaining a second map-and-union merge loop.
+Each input cursor advances only when it is at the smallest current key. The stream path MUST
+retain O(1) alignment state (one current row per side), reject a duplicate key or a stream that is
+not strictly ascending, and preserve deterministic composite-key and typed-value semantics. The
+existing materialized `Recordset` comparer remains a compatibility adapter: it MAY copy and sort
+its already-materialized rows before feeding the same ordered-stream path, but it MUST NOT carry
+an independent diff algorithm.
+
+The portable typed-key order is lexicographic by composite-key component. Numbers, integers and
+decimals order by numeric value; exact decimal spellings with equal numeric value use their
+canonical transport text as a tie-break. `false` precedes `true`; dates and datetimes order
+chronologically, with exact datetime transport text breaking equal-instant ties; and strings use
+UTF-8 binary lexical order, not a locale collation. Key column types MUST match on both sides and
+null key components are invalid. Core MUST expose this comparator and a canonical sort-key encoder
+so ordered providers can implement or verify the contract. The encoded `sort_key` MUST have the
+same order under binary collation; SQLite cache indexes therefore use binary collation for it.
+
+Core MAY accept a synchronous, error-returning observer for each aligned record. The observer
+receives a zero-based deterministic ordinal, canonical sort key, typed display key, state
+(`matched`, `added`, `removed`, or `changed`), and post-policy shared-visible data only. A matched,
+added, or removed record carries one full row; a changed record carries the full left baseline row
+once plus right-side column deltas. Returning an observer error MUST stop both input streams and
+fail the comparison so a transactional consumer can roll back. The observer does not make Core a
+storage owner and does not relax the bounded `CompareResult` response.
+
 The complete input bound is separate from that response bound. MVP compare may materialize at most
 10,000 authorized rows per side before diffing. A live side MUST detect a row beyond that bound,
 persist its execution receipt with `resultComplete:false`, and fail the comparison with
@@ -261,11 +290,41 @@ and no `compare.run` is appended. Retrying an already completed `mutationId` doe
 or manufacture a cached `CompareResult`: because the result itself is not stored, the server
 may return an already-applied conflict with the prior qualified `ComparisonRef`.
 
-MVP does not persist a `CompareResult` as its own project asset (lead assumption). The two
+MVP does not persist a `CompareResult` as its own project asset (lead assumption). An optional
+evictable local row cache described by REQ:local-comparison-cache is operational acceleration,
+not a portable project asset or evidence authority. The two
 execution records plus the request parameters reproduce it only while both receipts retain
 readable row snapshots; otherwise the receipt states honestly that the result is not
 reproducible. Persisting the diff would create a third copy of data already governed by retention
 and masking. An incident references the pair.
+
+#### REQ: local-comparison-cache
+
+Task 15 MAY ask the local DataTug server/CLI to cache every aligned comparison record so the web
+UI can page through matching as well as non-matching rows after the bounded `CompareResult` has
+been returned. This is a consumer of Core's ordered-stream observer, not Core storage code and not
+part of Task 9's incident-page model.
+
+The cache MUST be local, optional, evictable, non-authoritative and schema-versioned. Its identity
+MUST bind the store, project, environment, principal, policy revision, query id and canonical
+bindings, plus both qualified snapshot/execution refs. A cache hit MUST re-check current
+authorization and MUST NOT substitute for execution-record or snapshot authorization. Only rows
+already reduced to the shared post-policy visible columns may reach the cache.
+
+The MVP SQLite shape is a fixed envelope, not dynamic source columns:
+
+```sql
+comparison_rows(comparison_id, sort_key, state, payload_json)
+INDEX (comparison_id, sort_key)
+INDEX (comparison_id, state, sort_key)
+```
+
+`payload_json` MUST be canonical/minified JSON stored as SQLite `TEXT` (not SQLite JSONB), with no
+compression or codec negotiation. A matched record stores `{key,row}` once; added and removed
+store their one full row once; changed stores the left baseline row plus right-side deltas. The UI
+pages through an opaque comparison-cache ref and never treats a cache row as incident evidence.
+Extracting explicitly selected JSON fields into indexable columns is a separate future Idea; MVP
+does not add arbitrary JSON-field indexes, dynamic source columns or columnar spill.
 
 #### REQ: schema-compare-remains-separate
 
@@ -388,6 +447,29 @@ recordset comparison implementation
 schema-comparator tests remain green, and recordset comparison has its own typed fixtures and
 tests rather than adapting schema-diff output.
 
+### AC: ordered-stream-uses-shared-cursor-merge (verifies REQ:keyed-recordset-diff)
+
+**Given** two streams strictly ordered by a composite typed key, where either side alternates as
+the lagging cursor and some equal keys are matched or changed
+**When** Core compares them and a consumer observes every aligned record
+**Then** DALgo `recordops.DiffFunc` supplies the alignment, the observer receives deterministic
+ordinals and states in key order, only the cursor or cursors at the smallest key advance, early
+observer failure closes both sources, and duplicate or descending keys fail explicitly; and the
+materialized `Compare` adapter returns the same result for the same rows in arbitrary input order.
+Natural-order fixtures MUST include numeric `1, 2, 10`, negative and decimal values, chronological
+date/datetime values, UTF-8 binary strings and composite keys; exact-equal decimal or datetime
+meanings with distinct canonical transport spellings MUST remain distinct and strictly ordered.
+
+### AC: local-cache-is-policy-bound-and-pageable (verifies REQ:local-comparison-cache, REQ:compare-is-policy-bound)
+
+**Given** Task 15 requests a local cache for a comparison containing matched, changed, added and
+removed records
+**When** the local server consumes Core's ordered observer
+**Then** it writes schema-versioned canonical/minified JSON `TEXT` envelopes indexed by comparison,
+state and canonical sort key; stores a matched/full one-sided row once and a changed baseline plus
+right delta; returns only an opaque cache ref; and every later page read re-checks current
+authorization rather than trusting the cache identity or its earlier policy revision.
+
 ## Not Doing / Out of Scope
 
 - Schema comparison. `pkg/comparator` keeps that job; see REQ:schema-compare-remains-separate.
@@ -404,6 +486,8 @@ tests rather than adapting schema-diff output.
 - Configuration, deployment and infrastructure comparison (vision §13's fuller list) — FUTURE,
   and dependent on [infrastructure-inventory](../infrastructure-inventory/README.md).
 - Persisting a compare result as a project asset (see REQ:compare-produces-evidence).
+- Compression, SQLite JSONB, arbitrary JSON-field indexes, dynamic source columns or columnar
+  storage for the local comparison cache. A future Idea covers selected-field extraction.
 - Check-backed compare execution. `checkId` belongs to the Checks executable contract and is
   deferred to Incidentius Task 5; Task 8 is query-only.
 
