@@ -250,9 +250,11 @@ and no `compare.run` is appended. Retrying an already completed `mutationId` doe
 or manufacture a cached `CompareResult`: because the result itself is not stored, the server
 may return an already-applied conflict with the prior qualified `ComparisonRef`.
 
-MVP does not persist a `CompareResult` as its own project asset (lead assumption): the two
-execution records plus the request parameters reproduce it, and storing the diff would create a
-third copy of data already governed by retention and masking. An incident references the pair.
+MVP does not persist a `CompareResult` as its own project asset (lead assumption). The two
+execution records plus the request parameters reproduce it only while both receipts retain
+readable row snapshots; otherwise the receipt states honestly that the result is not
+reproducible. Persisting the diff would create a third copy of data already governed by retention
+and masking. An incident references the pair.
 
 #### REQ: schema-compare-remains-separate
 
