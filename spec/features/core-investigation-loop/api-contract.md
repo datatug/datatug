@@ -504,10 +504,14 @@ Only TARGET_REQUIRED may include authorized target options.
 HTTP 400 covers INVALID_REQUEST, TYPE_MISMATCH, MISSING_PARAMETER, AMBIGUOUS_BINDING
 and TARGET_REQUIRED; 401 UNAUTHENTICATED; 403 ACCESS_DENIED or
 UNSUPPORTED_PROTECTED_EXECUTION; 404 NOT_FOUND (including invisible resources);
-409 STALE_CONTEXT or REVISION_CONFLICT; 413 RESPONSE_TOO_LARGE; 503 SOURCE_UNAVAILABLE;
-504 TIMEOUT.
+409 STALE_CONTEXT or REVISION_CONFLICT; 410 SNAPSHOT_EXPIRED; 413 RESPONSE_TOO_LARGE;
+503 SOURCE_UNAVAILABLE; 504 TIMEOUT.
 Messages and IDs must not reveal protected values or credentials. Tests assert both
 status and code, not English wording.
+
+SNAPSHOT_EXPIRED (410) means a required retained row snapshot is absent, unretained,
+expired or deleted. A caller must obtain or execute a readable result; the server MUST NOT
+turn that state into an empty result or a fingerprint-only row response.
 
 REVISION_CONFLICT (409) refuses a project write whose optimistic-concurrency condition
 failed: an `ifNoneMatch` create found a query already stored at the location (field
