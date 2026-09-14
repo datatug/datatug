@@ -10,8 +10,9 @@ status: Approved
 
 ## Summary
 
-Compare executes one library query or check under two scopes and diffs the two recordsets by
-key.
+Compare executes one library query under two scopes and diffs the two recordsets by key.
+Executing checks through Compare is explicitly deferred until the Checks Feature and
+Incidentius Task 5 have shipped their executable contract; Task 8 does not expose `checkId`.
 
 It is the execution primitive behind the most common troubleshooting move there is — put
 something that works next to something that does not and look at the difference — whether the
@@ -37,7 +38,7 @@ Without the primitive, the comparison happens in a spreadsheet, off the platform
 provenance and no policy — which is exactly where a production data leak comes from.
 
 ```text
-      one library query or check
+          one library query
                  │
         ┌────────┴────────┐
         ▼                 ▼
@@ -78,37 +79,46 @@ provenance and no policy — which is exactly where a production data leak comes
 
 #### REQ: two-scope-execution
 
-Compare MUST take exactly one executable — a library query id or a check id — and two side
-specifications. A `scope` or `facts` side MUST execute the query live, separately under that
+Compare MUST take one required library query id and two side specifications. Check execution is
+not part of this Task 8 contract. A `scope` or `facts` side MUST execute the query live, separately under that
 side's own scope; a `record` side MUST NOT re-execute anything and instead reuses the named
 past execution record. The three side kinds are:
 
 ```typescript
 type SideSpec =
   | {kind: 'scope'; storeId: string; project: string; environment: string; parameters?: {[id: string]: TypedValue}}
-  | {kind: 'facts'; storeId: string; project: string; environment: string; facts: Fact[]} // one cohort
+  | {kind: 'facts'; storeId: string; project: string; environment: string; cohortRole: 'affected' | 'control'}
   | {kind: 'record'; execution: ExecutionRef};                                // a past execution
 ```
 
+The union is strict: exactly one discriminator shape is accepted, fields belonging to another
+shape are rejected, and unknown fields (including `checkId`) are `INVALID_REQUEST`.
+
 - **environment A vs B** — the same query, two environments (`{kind:'scope'}` on each side).
-- **fact set A vs B** — the same query and environment, two sets of facts: the affected cohort
-  and the control. Cohort roles are the [investigation-context](../investigation-context/README.md)
-  extension that names which set a fact belongs to; compare consumes them and does not
-  reimplement them (product-family §3, the firm boundary).
+- **fact set A vs B** — the same query and environment, two incident-bound sets: the affected
+  cohort and the healthy control. A facts side never accepts client-provided `Fact[]`; the
+  server reads the named incident under the current principal and selects its current-policy-
+  visible, enabled, canonical facts for `cohortRole`. Cohort roles are the
+  [investigation-context](../investigation-context/README.md) extension; compare consumes them
+  and does not reimplement them (product-family §3, the firm boundary). If either side is
+  `facts`, `CompareRequest.incident` is required and is the sole fact authority.
 - **execution record A vs B** — two past runs, i.e. snapshots or time. A `record` side MUST have
-  a readable result snapshot; a record with only a fingerprint and a row count supports a
-  fingerprint-equality answer and MUST NOT be silently expanded into a row diff. A `record` side
-  whose snapshot has expired MUST fail the whole compare with error code `SNAPSHOT_EXPIRED`,
-  never an empty side (AC:snapshot-vs-live-shows-recovery).
+  a readable row snapshot. A terminal snapshot state (`expired` or `deleted`) MUST fail the
+  whole compare with `SNAPSHOT_EXPIRED`; a record for which no retained readable row snapshot
+  exists returns the same code. Neither case becomes an empty side or a fingerprint-only comparison
+  (AC:snapshot-vs-live-shows-recovery).
 
 A live (`scope` or `facts`) side MUST produce its own new execution record (`evidence-records`
 REQ:execution-record-captured); a `record` side reuses its existing execution record without
 re-execution. Either way the two halves of a comparison are independently citable evidence. A
 live side is executed as one ordinary authorized run; there is no combined query, no cross-source
 join and no second executor — this Feature adds a caller and a differ, not an engine.
+Where policy and retention allow, live executions request and persist row snapshots so the
+comparison is reproducible. If a side cannot be reproduced, its receipt and limitations say so;
+the response never implies that a fingerprint alone can recreate rows.
 
-A `facts` side binds through the transport appendix's bounded `TypedValueSet`: exactly one
-same-field equality cohort of 1..500 unique, non-null, same-typed values. The query parameter
+A `facts` side resolves its incident cohort and binds through the transport appendix's bounded
+`TypedValueSet`: exactly one same-field equality cohort of 1..500 unique, non-null, same-typed values. The query parameter
 must declare set support and the source must execute one native set/array/`IN` binding. Any
 other cohort shape is `INVALID_REQUEST`; a source without safe set binding is
 `SOURCE_UNAVAILABLE`. Compare never loops one execution per fact or silently truncates a
@@ -117,21 +127,33 @@ cohort.
 #### REQ: keyed-recordset-diff
 
 The two recordsets MUST be diffed by key, producing `added`, `removed` and `changed` rows plus
-an aggregate summary. Key columns are resolved in this order: the caller's explicit `key`
-columns; otherwise the key fields of the entity the result's columns map to, via the semantic
-layer's declared mappings. If neither resolves to a key that is unique on both sides, the
-request MUST fail with an explicit error naming the ambiguity — never fall back to positional
-or whole-row comparison, which produces a plausible and wrong answer.
+an aggregate summary. If either side is a historical `record`, the caller MUST provide the
+explicit `key`; no semantic, obvious-column, positional, whole-row or fingerprint-only fallback
+is allowed. For two live sides, caller-supplied key columns take precedence and otherwise the
+key fields of the mapped entity may be used. If the resolved key is absent or not unique on
+both sides, the request MUST fail with an explicit error naming the ambiguity.
 
 ```typescript
+type CompareSideReceipt = {
+  execution: ExecutionRef;
+  executedAt: string;
+  rowCount: number;
+  limitations: Limitation[];
+  reproducible: boolean;
+};
+
 type CompareResult = {
-  left:  {execution: ExecutionRef; executedAt: string; rowCount: number; limitations: Limitation[]};
-  right: {execution: ExecutionRef; executedAt: string; rowCount: number; limitations: Limitation[]};
+  left: CompareSideReceipt;
+  right: CompareSideReceipt;
+  columns: Column[];                                      // visible shared intersection, stable order
   key: string[];
   added:   {key: TypedValue[]; row: TypedValue[]}[];     // present right, absent left
   removed: {key: TypedValue[]; row: TypedValue[]}[];     // present left, absent right
   changed: {key: TypedValue[]; columns: {column: string; left: TypedValue; right: TypedValue}[]}[];
-  summary: {added: number; removed: number; changed: number; unchanged: number; columnsOnlyOnOneSide: string[]};
+  summary: {
+    added: number; removed: number; changed: number; unchanged: number;
+    columnsOnlyOnOneSide: {column: string; side: 'left' | 'right'}[];
+  };
   distribution?: Distribution;                            // REQ:cohort-distribution-comparison
   policyLimited: boolean;                                 // REQ:compare-is-policy-bound
   truncated: boolean;
@@ -140,9 +162,11 @@ type CompareResult = {
 
 Comparison of values MUST be typed, using the same `TypedValue` equality the binding contract
 fixes: no string/number coercion, `null` equals only `null`, and a `decimal` compares by its
-canonical decimal form, not as a float. Only columns present on **both** sides may appear in
-`changed`; a column present on one side only MUST be reported in `summary.columnsOnlyOnOneSide`
-as a shape difference, not as every row having changed. Results MUST be bounded by the same default and
+canonical decimal form, not as a float. `columns` is the explicit metadata for the stable,
+visible intersection and every `added`/`removed` row is aligned to it. Only those columns may
+appear in `changed`; a column present on one side only MUST be reported in
+`summary.columnsOnlyOnOneSide` with its side, not as every row having changed. Key, row, column
+and distribution value ordering MUST be deterministic. Results MUST be bounded by the same default and
 maximum result limits the transport contract sets, with `truncated` set when the cap is hit.
 
 #### REQ: cohort-distribution-comparison
@@ -175,6 +199,8 @@ Offering the relevant diagnostics is the [checks](../checks/README.md) REQ:check
 path, driven by the entity the over-represented value belongs to. Distinct values MUST be capped
 (lead assumption: 50, matching the related-discovery cap) with `truncated` set — a distribution
 over a high-cardinality column is a mistake, not a feature.
+Values use deterministic typed ordering, and counts, percentages and ratios are computed from
+the full authorized side row counts before the 50-value output cap is applied.
 
 #### REQ: compare-is-policy-bound
 
@@ -212,6 +238,14 @@ that ref onto each new execution record's top-level `incident` field. It MUST NO
 incident inside `Result.provenance`; each result and the compare response expose only the
 qualified `ExecutionRef`s of the recorded sides.
 
+An incident compare requires a caller-supplied, non-empty `mutationId`. The server appends
+`compare.run` only after both sides, the diff and every required execution/snapshot persistence
+step have succeeded. If a later step fails, any live-side execution receipt already persisted
+remains valid evidence, the endpoint returns an incomplete typed error carrying those receipts,
+and no `compare.run` is appended. Retrying an already completed `mutationId` does not re-execute
+or manufacture a cached `CompareResult`: because the result itself is not stored, the server
+may return an already-applied conflict with the prior qualified `ComparisonRef`.
+
 MVP does not persist a `CompareResult` as its own project asset (lead assumption): the two
 execution records plus the request parameters reproduce it, and storing the diff would create a
 third copy of data already governed by retention and masking. An incident references the pair.
@@ -233,18 +267,28 @@ error envelope rules:
 ```typescript
 type CompareRequest = {
   securityContextId: string;
-  queryId?: string; checkId?: string;      // exactly one required
+  queryId: string;
   left: SideSpec; right: SideSpec;
   incident?: IncidentRef;
+  mutationId?: string;                     // required iff incident is present
   key?: string[];
   distributionColumn?: string;
   limit?: number;
 };
+
+type CompareErrorResponse = {
+  error: ErrorBody;
+  left?:  CompareSideReceipt;              // present only after this side persisted
+  right?: CompareSideReceipt;
+  comparison?: ComparisonRef;              // prior completed mutation, when known
+};
 ```
 
-It is a POST because both sides carry semantic values, which must never reach a URL, browser
-history or an access log — the same reason `semantic/related` is a POST. Supplying neither or
-both of `queryId`/`checkId` is INVALID_REQUEST.
+It is a POST because sides carry semantic values, which must never reach a URL, browser history
+or an access log — the same reason `semantic/related` is a POST. An absent/blank `queryId`, a
+`checkId`, or a `mutationId` whose presence does not exactly match `incident` is
+`INVALID_REQUEST`. Check-backed comparisons will amend this union only after Task 5 freezes the
+check executable contract.
 
 The CLI takes one executable and two sides, with the side syntax naming its kind:
 
@@ -290,6 +334,12 @@ sides MUST NOT be required to share an environment.
 **When** the incident timeline is read
 **Then** it holds one event with `assertion.kind = deterministic-result` referencing both qualified execution refs and the key used, no copy of the diffed rows is stored in the incident, and both records remain independently readable under their own policy.
 
+### AC: incomplete-compare-keeps-side-receipts (verifies REQ:compare-produces-evidence)
+
+**Given** the left live side persisted its execution receipt and the right side or diff later fails
+**When** the compare endpoint returns its typed error
+**Then** the left receipt remains readable and is returned by the error response, no fabricated right receipt or partial `CompareResult` is returned, and no `compare.run` event is appended.
+
 ### AC: colliding-execution-ids-do-not-cross-resolve (verifies REQ:two-scope-execution, REQ:compare-produces-evidence)
 
 **Given** evidence stores `store-a` and `store-b` each contain project `billing` execution id
@@ -324,23 +374,14 @@ tests rather than adapting schema-diff output.
 - Configuration, deployment and infrastructure comparison (vision §13's fuller list) — FUTURE,
   and dependent on [infrastructure-inventory](../infrastructure-inventory/README.md).
 - Persisting a compare result as a project asset (see REQ:compare-produces-evidence).
+- Check-backed compare execution. `checkId` belongs to the Checks executable contract and is
+  deferred to Incidentius Task 5; Task 8 is query-only.
 
 ## Open Questions
 
-- **Key resolution when a query's columns are unmapped.** Lead assumption: explicit `--key` is
-  always accepted, semantic entity keys are used when available, and anything else is a hard
-  error. Whether a single obviously-unique column should be auto-adopted is undecided; the safe
-  default is to refuse.
-- **Column-set intersection versus failure.** MVP intersects the two sides' visible columns and
-  reports the difference. The stricter alternative — refuse to compare when the visible column
-  sets differ — is less useful during an incident and arguably more honest. Confirm before the
-  first cross-environment comparison with asymmetric policies.
 - **Distribution over a computed bucket.** Comparing `created_at` distributions needs bucketing
   (per hour, per server), which is a projection this Feature does not specify. Lead assumption:
   the query does the bucketing and exposes it as a column; no bucketing logic in compare.
-- **Fingerprint-only comparison.** Two records with no snapshots can still answer "same result or
-  not" from `resultFingerprint`. Whether that is a compare mode or a separate cheap call is
-  undecided; it is not in MVP.
 
 ---
 *This document follows the https://specscore.md/feature-specification*
