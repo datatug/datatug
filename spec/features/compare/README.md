@@ -104,10 +104,13 @@ shape are rejected, and unknown fields (including `checkId`) are `INVALID_REQUES
   [investigation-context](../investigation-context/README.md) extension; compare consumes them
   and does not reimplement them (product-family §3, the firm boundary). If either side is
   `facts`, `CompareRequest.incident` is required and is the sole fact authority.
-- **execution record A vs B** — two past runs, i.e. snapshots or time. A `record` side MUST have
-  a readable row snapshot. A terminal snapshot state (`expired` or `deleted`) MUST fail the
+- **execution record A vs B** — two past runs, i.e. snapshots or time. A `record` side MUST first
+  have a readable row snapshot. A terminal snapshot state (`expired` or `deleted`) MUST fail the
   whole compare with `SNAPSHOT_EXPIRED`; a record for which no retained readable row snapshot
-  exists returns the same code. Neither case becomes an empty side or a fingerprint-only comparison
+  exists returns the same code. Once that lifecycle check succeeds, the record MUST also have
+  `resultComplete:true`. `resultComplete:false` or an absent legacy value cannot prove a complete
+  input and MUST fail closed with `SOURCE_UNAVAILABLE`; a snapshot read that reports
+  `truncated:true` fails with the same code. Neither case becomes an empty side or a fingerprint-only comparison
   (AC:snapshot-vs-live-shows-recovery). The server MUST load each qualified execution record,
   require its non-empty `queryId` to equal `CompareRequest.queryId`, and reject a mismatch before
   diffing; records from different revisions of that same query remain comparable.
@@ -172,6 +175,14 @@ appear in `changed`; a column present on one side only MUST be reported in
 `summary.columnsOnlyOnOneSide` with its side, not as every row having changed. Key, row, column
 and distribution value ordering MUST be deterministic. Results MUST be bounded by the same default and
 maximum result limits the transport contract sets, with `truncated` set when the cap is hit.
+
+The complete input bound is separate from that response bound. MVP compare may materialize at most
+10,000 authorized rows per side before diffing. A live side MUST detect a row beyond that bound,
+persist its execution receipt with `resultComplete:false`, and fail the comparison with
+`SOURCE_UNAVAILABLE`; it MUST NOT compare or snapshot the first 10,000 rows as if they were complete.
+A record side whose complete snapshot exceeds 10,000 rows fails with the same code. Within that bound,
+the comparer consumes the complete side, then applies the default 100 and maximum 500 only to emitted
+diff rows; the input bound MUST NOT truncate a complete 847-row replay to the transport maximum.
 
 #### REQ: cohort-distribution-comparison
 
@@ -331,7 +342,7 @@ sides MUST NOT be required to share an environment.
 
 ### AC: snapshot-vs-live-shows-recovery (verifies REQ:two-scope-execution)
 
-**Given** execution record `exec-7f3` captured at peak impact with a stored snapshot of 847 stuck orders
+**Given** execution record `exec-7f3` captured at peak impact with `resultComplete:true` and a stored snapshot of 847 stuck orders
 **When** it is compared against a live run of the same query in the same environment after mitigation
 **Then** the diff reports the rows that are no longer stuck as `removed` with a summary reflecting the recovery, both sides carry their own qualified execution ref and timestamp, and comparing against a record whose snapshot has expired fails with an explicit `SNAPSHOT_EXPIRED` error rather than an empty left side.
 

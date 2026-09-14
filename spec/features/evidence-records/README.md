@@ -98,6 +98,7 @@ type ExecutionRecord = {
   provenance: Result['provenance']; // source, collection, mode, observedAt, executionProfile
   authorizedFields: FieldAccessRef[]; // visible column identities, never values
   rowCount: number;                 // rows actually returned to the caller
+  resultComplete?: boolean | null;  // absent/null only on legacy records; see below
   resultFingerprint: string;
   snapshotRef?: string;             // immutable identity; availability is separate state
   incident?: IncidentRef;            // canonical incident association; server-normalized
@@ -136,6 +137,15 @@ copied from the `Result` the executor produced, so a record can never claim a bi
 absence of restriction the run did not actually have. A record MUST NOT contain query text for
 an ad-hoc DTQL run (only its hash), MUST NOT contain credentials, and MUST NOT contain result
 rows — rows live only in a snapshot, under REQ:result-snapshot-opt-in.
+
+`resultComplete` is a backward-compatible tri-state receipt. `true` proves that execution
+produced the complete result; `false` proves that the result was source-truncated or otherwise
+incomplete; omission (or JSON `null`) is legacy/unknown and proves neither state. Every newly
+written record MUST persist an explicit boolean copied from the result as
+`resultComplete = !Result.truncated`; only legacy reads may leave it absent. A replay that
+requires the complete row set, including a record side of compare, MUST accept only explicit
+`true`: `false` or absent is unfit for replay and fails closed with `SOURCE_UNAVAILABLE`.
+`SnapshotReadResponse.truncated:false` MUST NOT upgrade an absent legacy receipt to complete.
 
 `authorizedFields` retains one identity for every column returned to the caller: its qualified
 physical source/collection/column and, when declared, semantic entity/field mapping. It stores
