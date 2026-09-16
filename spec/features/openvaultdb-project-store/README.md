@@ -76,22 +76,35 @@ vault owns its own storage.
 #### REQ: project-namespace-layout
 
 Project assets MUST live under `/datatug/projects/<project-id>/…` inside the bound store,
-using OpenVaultDB's application-namespace profile: a root `/.ingitdb/root-collections.yaml`
-mapping a `projects` collection under `datatug/.collections/`, with `data_dir` resolved
-relative to the parent of `.collections/` so the record subtree is `datatug/projects/`.
+using OpenVaultDB's application-namespace profile: the bound store MUST declare a `projects`
+collection whose record subtree is `datatug/projects/`, with the collection's schema under
+`datatug/.collections/`.
+
+How that declaration is realised is the backend's, and this Feature MUST NOT mandate a
+mechanism a named backend does not implement. The local inGitDB backend resolves it from a
+root `/.ingitdb/root-collections.yaml` mapping, with `data_dir` resolved relative to the
+parent of `.collections/`. The OpenVaultDB GitHub backend used for "a repository reached
+through OpenVaultDB" is **pathless**: it builds its in-memory inGitDB definition from the
+bound OpenVaultDB manifest's declared `schemas.collections`, stores each root collection
+under `<collection>/`, and does not read `/.ingitdb/root-collections.yaml`. A deployment
+using that backend MUST therefore declare the DataTug `projects` collection in its
+OpenVaultDB manifest as a prerequisite; DataTug MUST NOT require the repository itself to
+carry `/.ingitdb/root-collections.yaml` on that backend.
+
 A single store (repository) MAY hold several DataTug projects, and DataTug MUST preserve
-files it does not manage, byte for byte. This is the same resolution rule `secrets-vault`
-relies on for `datatug/projects/<project-id>/credentials/<server-id>/`; the two Features
-MUST describe one layout, not two. The layout MUST be documented so a person or an
-agent can read a project by reading files.
+files it does not manage, byte for byte. This is the same layout `secrets-vault` uses for
+`datatug/projects/<project-id>/credentials/<server-id>/`; the two Features MUST describe one
+layout, not two. The layout MUST be documented so a person or an agent can read a project by
+reading files.
 
 ### Read and write paths
 
 #### REQ: server-mediated-writes
 
 Every mutation of a project store MUST go through the DataTug server
-(`/datatug/v0/…`) and write through `dalgo2openvaultdb`. A browser or AI agent MUST NOT
-hold a write credential for the project store, and DataTug MUST NOT write project files
+(`/v0/datatug/…`, the prefix `datatug/backend` registers in
+`api4datatug/routes.go`) and write through `dalgo2openvaultdb`. A browser or AI agent MUST
+NOT hold a write credential for the project store, and DataTug MUST NOT write project files
 by any path that bypasses the server.
 
 #### REQ: browser-read-path
@@ -167,7 +180,7 @@ validation MUST reject such a placement rather than warn and continue.
 
 **Given** a project bound to an OpenVaultDB store whose repository already contains unrelated files
 **When** an entity and a query are added
-**Then** they appear under `datatug/projects/<project-id>/`, `/.ingitdb/root-collections.yaml` maps the `projects` collection under `datatug/.collections/`, and the pre-existing unrelated files are unchanged byte for byte.
+**Then** they appear under `datatug/projects/<project-id>/`, the bound store's application-namespace declaration maps the `projects` collection to that subtree with its schema under `datatug/.collections/` — on the OpenVaultDB GitHub backend, the manifest's declared `schemas.collections`; on the local inGitDB backend, `/.ingitdb/root-collections.yaml` — and the pre-existing unrelated files are unchanged byte for byte.
 
 ### AC: two-projects-share-one-store (verifies REQ:project-namespace-layout)
 
@@ -178,7 +191,7 @@ validation MUST reject such a placement rather than warn and continue.
 ### AC: a-client-cannot-write-the-store (verifies REQ:server-mediated-writes)
 
 **Given** a signed-in browser session for a project bound to an OpenVaultDB store
-**When** the client attempts to mutate project files without going through `/datatug/v0/…`
+**When** the client attempts to mutate project files without going through `/v0/datatug/…`
 **Then** the mutation does not reach the store, and the same mutation submitted through the server succeeds.
 
 ### AC: browser-reads-a-project-without-the-server (verifies REQ:browser-read-path)
@@ -241,7 +254,10 @@ and AC:two-projects-share-one-store on the store's file system; AC:project-list-
 on the Firestore registry; AC:browser-reads-a-project-without-the-server on the
 `datatug-apps` reader plus its conformance test; AC:validator-rejects-credentials-in-project-assets
 on `datatug-cli` exit behaviour; and AC:vault-cannot-be-colocated-in-a-client-readable-store
-on binding-validation rejection.
+on binding-validation rejection. One obligation is explicitly **not** this Feature's:
+`git-native-projects` AC:github-project-reads-back-what-it-wrote depends on `GhStorage`
+read methods that still panic, so no stub authored here can satisfy it and it must not be
+attached to this Feature's plan as a Supporting AC.
 
 ## Not Doing / Out of Scope
 
@@ -253,6 +269,15 @@ on binding-validation rejection.
   URL depends on it, so it is tracked as a platform Feature in the platform repo rather
   than duplicated here.
 - A full `openvaultdb-ts` SDK. The browser reader is deliberately minimal and disposable.
+- Read parity in the GitHub `GhStorage` backend: `git-native-projects`
+  REQ:github-hosted-projects-read-write requires `GhStorage.FileExists`/`OpenFile` to return
+  written content, but both still `panic("implement me")` in `datatug-cli`
+  (`pkg/dtgithub/github_storage.go`). `git-native-projects`
+  AC:github-project-reads-back-what-it-wrote is therefore **undeliverable as scoped here** and
+  MUST NOT be recorded as a Supporting AC of this Feature's plan: this Feature's browser read
+  path reaches the repository over its REST API and does not use `GhStorage`, and adding
+  `GhStorage` read support is a separate task owned by `git-native-projects` — an explicit
+  prerequisite for that AC, not an obligation of this Feature.
 - Client-direct writes to the project store, which `git-native-projects` already excludes.
 - Direct browser-to-database query execution.
 
