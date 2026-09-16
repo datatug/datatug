@@ -1,0 +1,294 @@
+---
+format: https://specscore.md/feature-specification
+status: Approved
+---
+
+# Feature: Secrets vault
+
+> [SpecScore.**Studio**](https://specscore.studio): | [Explore](https://specscore.studio/app/github.com/datatug/datatug/spec/features/secrets-vault?op=explore) | [Edit](https://specscore.studio/app/github.com/datatug/datatug/spec/features/secrets-vault?op=edit) | [Ask question](https://specscore.studio/app/github.com/datatug/datatug/spec/features/secrets-vault?op=ask) | [Request change](https://specscore.studio/app/github.com/datatug/datatug/spec/features/secrets-vault?op=request-change) |
+**Status:** Approved
+**Date:** 2026-09-16
+**Owner:** alex
+**Source Ideas:** —
+**Supersedes:** —
+**Depends-On:** openvaultdb-project-store
+**Grade:** B
+
+## Summary
+
+A secrets vault stores the connection strings and credentials DataTug needs in order to
+execute queries, as data in OpenVaultDB storage, held separately from project files and
+never readable by a user or any other client.
+
+Vaults are bound to **projects**, and that relation is many-to-many: a project may bind
+more than one vault, and one vault may serve several projects. The reference arrangement,
+and the reason the relation is plural, is blast radius: **one vault for DEV and UAT and a
+separate vault for PROD**. Which vault holds which environment's secrets is an explicit
+owner choice — DataTug applies no default — and the flow can create a new vault or reuse an
+existing one.
+
+Credentials are stored with the same namespace pattern as a project — `/datatug/projects/<project-id>/credentials/<server-id>/…` — so one vault serves several projects without collision, and a vault's structure is readable by reading files exactly as a project is — by the store natively or through the server, never by the client, since the credentials inside it are not client-readable (REQ:client-cannot-read-credentials).
+
+Credentials are available to the **DataTug runtime** for every user who has access to the
+project. A user does not need direct access to a vault and is not given one: a project
+refers to connections by logical name, and the runtime resolves those names against the
+vaults bound to that project. Access to credentials therefore follows access to the
+project, and there is no separate user-facing vault permission to grant or revoke.
+
+This Feature extends, and does not weaken, `git-native-projects`
+REQ:secrets-never-in-project-files and the shared guard in `heterogeneous-sources`
+REQ:secrets-outside-project-files. Those requirements say secrets must never be *in project
+files*; this Feature supplies the storage they belong in.
+
+## Problem
+
+The audit found secrets modelling to be a live gap: `QueryDefTarget.Credentials` can be
+committed into a git-tracked query file, and `Project.Validate()` never validates
+`Queries` at all. At the same time a DataTug project is useless without credentials —
+executing a query against a real environment requires them — so "keep secrets out of the
+project" only works if there is somewhere for them to go.
+
+Two forces make a single flat credential store the wrong shape:
+
+- **Blast radius.** Production credentials are not equivalent to development ones. Keeping
+  them in one store means one compromise, one over-broad read, or one careless grant
+  exposes production. The DEV/UAT-versus-PROD separation exists to bound that, which is why the
+  vault relation is per project and plural rather than one store per user.
+- **Identity of the reader.** Credentials must be usable by whoever may run the project's
+  queries, without each of them being handed the credential. That points at the runtime as
+  the reader — the hosted or self-hosted backend — rather than at individual users.
+
+The runtimes still differ in trust position, and the model is explicit about it: a hosted
+backend holds credentials on the user's behalf; a self-hosted backend does so on
+infrastructure the user controls; and in the CLI the user *is* the runtime, so claiming
+that credentials are hidden from them there would be false. The CLI keeps resolving from
+local, non-committed storage for now, and feeding a local CLI from a central store is out
+of scope.
+
+## Behavior
+
+### Vault model
+
+#### REQ: vault-is-a-first-class-entity
+
+A vault MUST be a first-class entity with its own identifier and its own storage binding.
+It MUST NOT be a per-user singleton and MUST NOT be private to one project: a single vault
+MUST be able to serve several projects. Access to a vault's contents MUST be derived from
+access to the projects that bind it; DataTug MUST NOT require, and MUST NOT introduce, a
+separate user-facing vault grant list. Founder ruling, 2026-09-16: the relation is
+**projects ↔ vaults**, not users ↔ vaults; users relate to vaults only transitively
+through projects.
+
+#### REQ: project-vault-binding
+
+A project MUST let its owner choose, **explicitly**, which vault holds secrets, and the
+configuration flow MAY present that choice in environment terms. DataTug MUST NOT apply a
+default grouping and MUST NOT silently pick a vault: the owner selects one, and the
+selection flow MUST offer both *select an existing vault* and *create a new vault* in the
+same step. The choice MUST resolve to the server-to-vault mapping below. The reference arrangement MUST be supported: **one vault for DEV and UAT,
+and a separate vault for PROD**. Founder ruling, 2026-09-16, verbatim: *"project can have 1
+vault for DEV and UAT and 1 for PROD env and that credentials will be available to datatug
+runtime for all users that have access to the project"*; and on the mechanism: *"explicit
+grouping - you choose a vault where to store env secrets. and you can create a new vault or
+select from existing ones"*.
+
+Credentials belong to a **server or endpoint**, not to an environment, and several
+environments MAY share one server and therefore one credential. The persisted assignment is
+therefore a **server-to-vault mapping**, and an environment MUST inherit the vault of the
+server it points at. DataTug MUST NOT store an independent environment-to-vault mapping, so
+that a credential has exactly one home. A choice that would place one server in two
+different vaults MUST be rejected, naming the shared server, rather than silently
+duplicating the credential.
+
+The assignment MUST be project-level configuration recorded with the project, and MUST NOT
+require a second project-store binding — a vault owns its own storage, so binding more
+vaults MUST NOT multiply the project's store bindings.
+
+#### REQ: vault-mirrors-project-namespace
+
+A vault MUST store credentials using the same application-namespace profile as the project
+store, laid out per project and per endpoint as
+`/datatug/projects/<project-id>/credentials/<server-id>/…`, so that one vault can serve
+several projects without collisions and a person or agent can read the vault by reading
+files. The `credentials` subtree MUST be declared in the store's
+`/.ingitdb/root-collections.yaml` with its schema under `datatug/.collections/`, exactly as
+the project store declares its `projects` collection.
+
+The credential path MUST NOT carry an environment segment. Because several environments
+may share one endpoint and therefore one credential, an environment-keyed layout would
+store that credential once per environment and let the copies drift out of step — which is
+precisely the failure the endpoint key exists to prevent.
+
+Where a vault shares a store with project data, the store's rules MUST deny clients the
+`credentials` collection, and the client read path MUST NOT request it. This path is the
+boundary in both cases: it is what a path-based rule can protect, and what physical
+separation keeps out of a client-readable store.
+
+#### REQ: vault-storage-is-pluggable
+
+A vault's storage MUST be selectable like any other OpenVaultDB storage, and DataTug MUST
+NOT require a particular backing store. Whether a given store may hold a vault's
+credentials depends on that store's own enforcement. A store that can deny the client
+access by its own rules MAY hold them alongside other data, even in the same database — a
+server-mediated store such as Firestore with security rules is the reference case. A store
+the client reads directly with a user-supplied credential — a git repository reached over
+its REST API — has no such rules and cannot protect an individual path, so it MUST NOT hold
+credentials anywhere that credential can reach; credentials for such a project MUST live in
+a separate store. The rule is unconditional in each case: there is no store in which
+client-readable credentials are acceptable.
+
+#### REQ: client-cannot-read-credentials
+
+A credential stored in a vault MUST NOT be readable by the browser, by any other client
+DataTug ships, or by a user acting directly against the vault's storage. Enforcement is
+the storage's obligation, by access rules or by separation, and DataTug MUST detect and
+refuse or warn when a chosen binding cannot provide it — in particular when a client read
+credential can reach the vault's storage.
+
+#### REQ: credential-envelope
+
+Each stored credential MUST be held in an opaque envelope carrying an algorithm or version
+marker, so that encryption can be introduced later as a per-vault setting without a data
+migration. The initial implementation writes the plaintext variant of that envelope.
+
+### Resolution
+
+#### REQ: runtime-resolves-credentials
+
+A runtime MUST resolve a project's logical connection names by following
+environment → server → vault: the environment's server determines the vault, and the
+credential is looked up there. It MUST fail closed when a name cannot be resolved rather
+than substituting a default or an empty credential. Resolution MUST be available for
+every user who has access to the project, and MUST NOT require that user to hold access to
+the vault. The server MUST resolve from the project's bound vault. The local CLI MUST
+resolve from local, non-committed storage for now.
+
+#### REQ: vault-binding-is-visible
+
+DataTug MUST show which vaults a project binds and which environments each vault serves,
+and MUST make clear that a user's ability to use credentials follows access to the
+**project**, not to the vault. Under the initial plaintext envelope, anyone able to read a
+vault's storage can read its credentials, so the vault's storage choice is the security
+decision; DataTug MUST state this where the binding is configured rather than implying a
+protection the storage does not provide.
+
+## Acceptance Criteria
+
+### AC: explicit-vault-assignment (verifies REQ:project-vault-binding)
+
+**Given** a project whose DEV and UAT environments point at one server, whose PROD environment points at a different server, and with no vault assignment yet
+**When** the owner configures where secrets are stored
+**Then** DataTug proposes no default vault, the flow offers both selecting an existing vault and creating a new one, the choice is persisted as a server-to-vault mapping that places the DEV and UAT server in one vault and the PROD server in another, no independent environment-to-vault mapping is stored, the environments resolve to their server's vault, and the project still holds exactly one project-store binding.
+
+### AC: a-vault-serves-several-projects (verifies REQ:vault-is-a-first-class-entity)
+
+**Given** one vault bound by two different projects
+**When** either project executes a query against an environment the vault serves
+**Then** both projects resolve credentials from that vault, and the vault is not owned by or private to either project.
+
+### AC: vault-is-laid-out-per-project (verifies REQ:vault-mirrors-project-namespace)
+
+**Given** one vault bound by two projects
+**When** credentials are written for both
+**Then** each project's credentials appear under its own `/datatug/projects/<project-id>/credentials/<server-id>/…` subtree, neither project's path exposes the other's credentials, and the `credentials` collection is declared in the store's `/.ingitdb/root-collections.yaml` with its schema under `datatug/.collections/`.
+
+### AC: credentials-are-keyed-by-endpoint (verifies REQ:vault-mirrors-project-namespace)
+
+**Given** a project whose DEV and UAT environments both point at the same server
+**When** a credential is written for that server
+**Then** exactly one credential record exists under `/datatug/projects/<project-id>/credentials/<server-id>/`, both environments resolve it, and no environment-keyed duplicate exists.
+
+### AC: a-shared-server-has-one-vault-home (verifies REQ:project-vault-binding)
+
+**Given** one server referenced by both a DEV environment and a PROD environment
+**When** the owner assigns those environments to two different vaults
+**Then** DataTug rejects the assignment, names the shared server as the conflict, and no credential is written to either vault until the conflict is resolved.
+
+### AC: access-follows-project-not-vault (verifies REQ:vault-is-a-first-class-entity)
+
+**Given** a user with access to a project that binds a vault, and no vault-level grant
+**When** the user's access to credentials is evaluated
+**Then** the user can run queries that use the vault's credentials through the runtime, and no separate vault grant exists to list, grant or revoke.
+
+### AC: firestore-backed-vault-is-client-inaccessible (verifies REQ:vault-storage-is-pluggable, REQ:client-cannot-read-credentials)
+
+**Given** a vault stored in a server-mediated store with security rules, sharing a database with non-secret project data
+**When** a client or a user acting directly against that database attempts to read a credential
+**Then** the store denies the read, while the server reads the same credential successfully.
+
+### AC: binding-is-refused-when-credentials-would-be-client-readable (verifies REQ:client-cannot-read-credentials)
+
+**Given** a proposed vault binding whose storage a client read credential can reach
+**When** the binding is saved
+**Then** DataTug either refuses it outright or records it with an explicit statement that the credentials would be client-readable, records which of the two outcomes occurred, and in neither case represents the credentials as client-inaccessible.
+
+### AC: git-backed-vault-must-be-out-of-client-reach (verifies REQ:vault-storage-is-pluggable)
+
+**Given** a project store in a git repository that the client reads directly with a user-supplied credential
+**When** a vault binding is configured such that the same credential can reach the vault's storage
+**Then** DataTug refuses or warns on the binding and does not claim the credentials are client-inaccessible.
+
+### AC: a-project-carries-no-credential (verifies REQ:runtime-resolves-credentials)
+
+**Given** a project whose environments point at logical connection names backed by two vaults
+**When** the project's files are inspected
+**Then** no file contains a credential value, the project records one store binding and a server-to-vault mapping with each environment inheriting the vault of the server it points at, and connection names resolve only at runtime.
+
+### AC: unresolvable-connection-fails-closed (verifies REQ:runtime-resolves-credentials)
+
+**Given** a project referencing a logical connection name that the vault reached through the target environment's server does not define
+**When** a query is executed against that environment
+**Then** execution fails naming the unresolved connection and no query reaches any environment.
+
+### AC: local-cli-uses-local-secrets (verifies REQ:runtime-resolves-credentials)
+
+**Given** the CLI running in a user's terminal with a project bound to a remote OpenVaultDB store and to a vault
+**When** a query executes
+**Then** the credential is resolved from local, non-committed storage and nothing is written into the project store.
+
+### AC: bindings-are-visible (verifies REQ:vault-binding-is-visible)
+
+**Given** a project bound to a DEV/UAT vault and a PROD vault
+**When** the owner opens the project's credential configuration
+**Then** both vaults are shown with the servers each holds and the environments those servers serve, the storage choice is presented as the security decision with the plaintext-envelope limitation stated where the binding is configured, and the user is told that access to credentials follows access to the project rather than to the vault.
+
+### AC: envelope-is-version-tagged (verifies REQ:credential-envelope)
+
+**Given** a credential written by the initial implementation
+**When** the stored value is inspected
+**Then** it carries an algorithm or version marker identifying the plaintext variant, so a later encrypted variant is distinguishable without re-reading the secret itself.
+
+## Rehearse Integration
+
+Every AC has a concrete behavioural surface — vault bindings, store rule outcomes,
+resolution failures, CLI resolution, and the stored envelope's shape — and all are
+testable in principle. The capability is realised across `datatug/backend` (vault bindings
+and runtime resolution), `datatug-cli` (local resolution), `datatug-apps` (binding
+visibility) and the chosen store's own rules, so stub scaffolding is deferred to those
+implementations rather than authored here, consistent with `ai-query-builder` and
+`serve-brokered-query-builder`. Three ACs deserve stubs early because they are the
+security claims rather than conveniences: AC:firestore-backed-vault-is-client-inaccessible,
+AC:git-backed-vault-must-be-out-of-client-reach and AC:access-follows-project-not-vault.
+
+## Not Doing / Out of Scope
+
+- Encryption of vault contents, and the key-custody design it needs. The envelope in
+  REQ:credential-envelope makes it additive; it is not built here.
+- Distributing centrally stored secrets to a locally running CLI. The CLI keeps local
+  secrets for now.
+- Secrets in project files, in any store, under any circumstances.
+- User-facing vault grants: access derives from project access, so there is nothing to
+  grant per user.
+- Per-environment vault granularity finer than the server-to-vault mapping (one vault per
+  DEV, UAT and PROD separately), and per-project vaults.
+- A new permission model for vaults; access reuses `sharing-scopes` and
+  `server-enforced-access`.
+
+## Open Questions
+
+- The key-custody story for the deferred encrypted envelope, which differs per runtime and
+  cannot be settled without the hosted/self-hosted/CLI split being final.
+
+---
+
+*This document follows the https://specscore.md/feature-specification*
