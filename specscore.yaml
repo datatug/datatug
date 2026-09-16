@@ -5,3 +5,28 @@ project:
     host: github.com
     org: datatug
     repo: datatug
+
+# Reviewer gates. `gates:` is not part of the SpecScore repo-config schema; it is
+# consumed by the SpecStudio skills and preserved per REQ:unknown-fields-preserved.
+# Both stage keys carry the same reviewers so the gate resolves whichever key the
+# consuming skill looks for (`specify` per specstudio:specify; `feature.approved`
+# per the sneat-co/backstage reference config).
+gates:
+    specify:
+        reviewers:
+            - description: Baseline SpecScore Feature reviewer (BA/Developer/QA lenses)
+              name: spec-reviewer
+              prompt: .specscore/reviewers/feature-spec-reviewer.md
+              type: ai
+            - description: Human author approval before plan/implement
+              name: human-approval
+              type: human
+    feature.approved:
+        reviewers:
+            - description: Baseline SpecScore Feature reviewer (BA/Developer/QA lenses)
+              name: spec-reviewer
+              prompt: .specscore/reviewers/feature-spec-reviewer.md
+              type: ai
+            - description: Human author approval before plan/implement
+              name: human-approval
+              type: human
