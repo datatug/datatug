@@ -30,7 +30,12 @@ provisioning belong to OpenVaultDB, and a DataTug vault is a **reference** to an
 OpenVaultDB-registered vault (host base URL + vault id). What DataTug owns is the
 project→vault mapping and the credential envelope.
 
-Credentials are stored with the same namespace pattern as a project — `/datatug/projects/<project-id>/credentials/<server-id>/…` — so one vault serves several projects without collision, and a vault's structure is readable by reading files exactly as a project is — by the store natively or through the server, never by the client, since the credentials inside it are not client-readable (REQ:client-cannot-read-credentials).
+Credentials are addressed with the same namespace rule as a project — a collection whose name
+carries the static prefix and whose record keys carry the identity segments, declared in the
+vault store's bound OpenVaultDB manifest (REQ:vault-mirrors-project-namespace) — so one vault
+serves several projects without collision, and a vault's structure is readable by reading
+files exactly as a project is — by the store natively or through the server, never by the
+client, since the credentials inside it are not client-readable (REQ:client-cannot-read-credentials).
 
 Credentials are available to the **DataTug runtime** for every user who has access to the
 project. The runtime reaches a vault because the DataTug **server** holds an OpenVaultDB
@@ -130,25 +135,47 @@ vaults MUST NOT multiply the project's store bindings.
 
 #### REQ: vault-mirrors-project-namespace
 
-A vault MUST store credentials using the same application-namespace profile as the project
-store, laid out per project and per endpoint as
-`/datatug/projects/<project-id>/credentials/<server-id>/…`, so that one vault can serve
-several projects without collisions and a person or agent can read the vault by reading
-files. The `credentials` subtree MUST be declared in the store's application-namespace
-profile with its schema under `datatug/.collections/`, exactly as the project store declares
-its `projects` collection (`openvaultdb-project-store` REQ:project-namespace-layout). How
-that declaration is realised is the backend's: a root `/.ingitdb/root-collections.yaml`
-mapping on the local inGitDB backend, and the bound OpenVaultDB manifest's declared
-`schemas.collections` on the pathless OpenVaultDB GitHub backend, where DataTug MUST NOT
-require the repository itself to carry `/.ingitdb/root-collections.yaml`.
+A vault MUST address credentials through the same application-namespace rule the project
+store uses: the subtree is expressed by the **collection name** in the vault store's bound
+OpenVaultDB manifest, and the identity segments are record keys within that collection. The
+vault's manifest MUST declare the collection `datatug/credentials`, and DataTug MUST address a
+credential within it by the project's id and the endpoint's server id
+(`<project-id>/<server-id>`), so that one vault can serve several projects without collisions
+and a person or agent can read the vault by reading files. This Feature MUST NOT mandate an
+on-disk directory tree: the exact layout a backend derives from the declaration is the
+backend's business, and no requirement here may assert a path a named backend does not
+produce.
 
-The credential path MUST NOT carry an environment segment. Because several environments
-may share one endpoint and therefore one credential, an environment-keyed layout would
+The two named backends realise the same declaration differently, exactly as
+`openvaultdb-project-store` REQ:project-namespace-layout describes: the local inGitDB backend
+resolves it from a root `/.ingitdb/root-collections.yaml` entry whose `data_dir` is resolved
+relative to the parent of `.collections/`, while the OpenVaultDB GitHub backend maps the
+declared collection name directly to its directory (`DirPath: name` in
+`buildInGitDBDefinition`, `openvaultdb-go/pkg/mount/ingitdb_github.go`) and takes the
+collection's schema from the bound manifest's `schemas.collections`. DataTug MUST NOT require
+that repository to carry `/.ingitdb/root-collections.yaml` or a `datatug/.collections/`
+schema directory; on that backend those clauses are no-ops.
+
+Physical nesting is an upstream prerequisite, not an assumption. `schemas.collections`
+entries carry only `fields` — there is no path, subtree or `data_dir` field on a collection
+(`openvaultdb-go/pkg/schema/schema.go`) — and `buildInGitDBDefinition` fixes each
+collection's directory to its name, so a declaration cannot by itself place the `credentials`
+collection under a per-project subtree or give each server id its own directory. DataTug MUST
+NOT assume credentials physically occupy
+`/datatug/projects/<project-id>/credentials/<server-id>/`, and MUST NOT assert that path
+until `openvaultdb-go` supplies **per-collection path support honoured by
+`buildInGitDBDefinition`**; that support is an explicit upstream prerequisite of this
+Feature, shared with `openvaultdb-project-store` REQ:project-namespace-layout. Until it
+lands, the namespace is satisfied by the `datatug/credentials` collection name plus the
+project id and server id as record keys.
+
+The credential key MUST NOT carry an environment segment. Because several environments
+may share one endpoint and therefore one credential, an environment-keyed key would
 store that credential once per environment and let the copies drift out of step — which is
 precisely the failure the endpoint key exists to prevent.
 
 Where a vault shares a store with project data, the store's rules MUST deny clients the
-`credentials` collection, and the client read path MUST NOT request it. This path is the
+credential collection, and the client read path MUST NOT request it. This namespace is the
 boundary in both cases: it is what a path-based rule can protect, and what physical
 separation keeps out of a client-readable store.
 
@@ -258,13 +285,13 @@ implying a protection the storage does not provide.
 
 **Given** one vault bound by two projects
 **When** credentials are written for both
-**Then** each project's credentials appear under its own `/datatug/projects/<project-id>/credentials/<server-id>/…` subtree, neither project's path exposes the other's credentials, and the `credentials` collection is declared in the store's application-namespace profile with its schema under `datatug/.collections/` — via `/.ingitdb/root-collections.yaml` on the local inGitDB backend, or the bound OpenVaultDB manifest's declared `schemas.collections` on the pathless OpenVaultDB GitHub backend.
+**Then** each project's credentials are records of the `datatug/credentials` collection declared in the vault store's bound manifest, keyed by that project's id and the server id, neither project's records expose the other's credentials, and the collection is declared in the manifest's `schemas.collections` on the OpenVaultDB GitHub backend and mapped by a `/.ingitdb/root-collections.yaml` `data_dir` entry on the local inGitDB backend. On the OpenVaultDB GitHub backend, no `/.ingitdb/root-collections.yaml` and no `datatug/.collections/` schema directory is required in the repository.
 
 ### AC: credentials-are-keyed-by-endpoint (verifies REQ:vault-mirrors-project-namespace)
 
 **Given** a project whose DEV and UAT environments both point at the same server
 **When** a credential is written for that server
-**Then** exactly one credential record exists under `/datatug/projects/<project-id>/credentials/<server-id>/`, both environments resolve it, and no environment-keyed duplicate exists.
+**Then** exactly one credential record exists for the project-and-server key in the `datatug/credentials` collection, both environments resolve it, and no environment-keyed duplicate exists.
 
 ### AC: a-shared-server-has-one-vault-home (verifies REQ:project-vault-binding)
 

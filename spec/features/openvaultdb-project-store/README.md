@@ -28,7 +28,7 @@ datatug project from remote OpenVaultDB."* The pieces already exist on both side
 together for a real project.
 
 This Feature covers the store itself: one repository binding per project, the
-`datatug/projects/<id>/` namespace, server-mediated writes, and a browser read path.
+`datatug/projects` collection namespace, server-mediated writes, and a browser read path.
 Credentials are explicitly **not** part of it — they belong to the `secrets-vault`
 Feature, and project files carry logical pointers only.
 
@@ -59,13 +59,15 @@ in REQ:browser-read-path rather than left implicit.
 
 #### REQ: project-store-binding
 
-A project MUST bind exactly one OpenVaultDB store, identified by an OpenVaultDB endpoint,
-a database id, and a credential held server-side. The binding MUST be recorded in the
+A project MUST bind exactly one OpenVaultDB store, identified by a **user-supplied
+OpenVaultDB host base URL** and a database id. The binding MUST be recorded in the
 authoritative registry at `users/{uid}/ext/datatug` as an entry carrying a `role` field,
 stored as a list even while only one binding exists, so that additional bindings are
 additive and never require a data migration. The legal `role` values are `project`, the
 project store, and `secrets`, reserved for a future vault binding; an unknown role value
-MUST be rejected. DataTug MUST hold an OpenVaultDB credential
+MUST be rejected. The OpenVaultDB credential DataTug uses to reach that store MUST be held
+server-side and MUST NOT be carried by the registry entry
+(REQ:ovdb-credential-is-server-only). DataTug MUST hold an OpenVaultDB credential
 for this purpose and MUST NOT hold a GitHub credential for the project store.
 
 Vault bindings are a separate relation owned by `secrets-vault` and MUST NOT be modelled
@@ -75,27 +77,43 @@ vault owns its own storage.
 
 #### REQ: project-namespace-layout
 
-Project assets MUST live under `/datatug/projects/<project-id>/…` inside the bound store,
-using OpenVaultDB's application-namespace profile: the bound store MUST declare a `projects`
-collection whose record subtree is `datatug/projects/`, with the collection's schema under
-`datatug/.collections/`.
+Project assets MUST live in the DataTug application namespace expressed by the **collection
+name** `datatug/projects`, declared in the bound OpenVaultDB manifest, and DataTug MUST
+address a project's assets within that collection by the project's id. This Feature MUST NOT
+mandate an on-disk directory tree: the exact layout a backend derives from that declaration
+is the backend's business, and no requirement here may assert a path a named backend does
+not produce.
 
-How that declaration is realised is the backend's, and this Feature MUST NOT mandate a
-mechanism a named backend does not implement. The local inGitDB backend resolves it from a
-root `/.ingitdb/root-collections.yaml` mapping, with `data_dir` resolved relative to the
-parent of `.collections/`. The OpenVaultDB GitHub backend used for "a repository reached
-through OpenVaultDB" is **pathless**: it builds its in-memory inGitDB definition from the
-bound OpenVaultDB manifest's declared `schemas.collections`, stores each root collection
-under `<collection>/`, and does not read `/.ingitdb/root-collections.yaml`. A deployment
-using that backend MUST therefore declare the DataTug `projects` collection in its
-OpenVaultDB manifest as a prerequisite; DataTug MUST NOT require the repository itself to
-carry `/.ingitdb/root-collections.yaml` on that backend.
+The two named backends realise the same declaration differently:
+
+- The local inGitDB backend resolves the mapping from a root
+  `/.ingitdb/root-collections.yaml` entry, whose `data_dir` is resolved relative to the
+  parent of `.collections/`.
+- The OpenVaultDB GitHub backend maps the declared collection name directly to its directory
+  (`DirPath: name` in `buildInGitDBDefinition`,
+  `openvaultdb-go/pkg/mount/ingitdb_github.go`), so the same declaration yields the
+  `datatug/projects/…` namespace, and the collection's schema lives in the bound manifest's
+  `schemas.collections`. DataTug MUST NOT require that repository to also carry
+  `/.ingitdb/root-collections.yaml` or a `datatug/.collections/` schema directory; on that
+  backend those clauses are no-ops.
+
+Physical nesting is an upstream prerequisite, not an assumption. `schemas.collections`
+entries carry only `fields` — there is no path, subtree or `data_dir` field on a collection
+(`openvaultdb-go/pkg/schema/schema.go`) — and `buildInGitDBDefinition` fixes each
+collection's directory to its name. A manifest declaration therefore cannot by itself place
+a collection in a nested subtree or give each project id its own directory. DataTug MUST NOT
+assume a project's assets physically occupy `datatug/projects/<project-id>/`, and MUST NOT
+assert such a path until `openvaultdb-go` supplies **per-collection path support honoured by
+`buildInGitDBDefinition`**; that support is an explicit upstream prerequisite of this
+Feature, shared with `secrets-vault` REQ:vault-mirrors-project-namespace. Until it lands, the
+namespace is satisfied by the `datatug/projects` collection name plus the project's id as its
+record key.
 
 A single store (repository) MAY hold several DataTug projects, and DataTug MUST preserve
-files it does not manage, byte for byte. This is the same layout `secrets-vault` uses for
-`datatug/projects/<project-id>/credentials/<server-id>/`; the two Features MUST describe one
-layout, not two. The layout MUST be documented so a person or an agent can read a project by
-reading files.
+files it does not manage, byte for byte. `secrets-vault` addresses its credentials through
+the same rule — a declared collection name carrying the static prefix, plus identity segments
+as record keys — so the two Features MUST describe one layout rule, not two mechanisms. The
+layout MUST be documented so a person or an agent can read a project by reading files.
 
 ### Read and write paths
 
@@ -114,7 +132,8 @@ REST API, using a read credential the user supplies, through a reader module shi
 `datatug-apps`. The reader MUST be conformance-tested against the writer's output, so that
 the Go writer and the browser reader cannot drift apart silently. Because this path
 bypasses the server, DataTug MUST document its limits plainly: a reader credential that
-can reach `/datatug/projects/<id>/…` can reach anything else that credential covers, so
+can reach the store's `datatug/projects` collection can reach anything else that credential
+covers, so
 read-scoped restrictions expressed in DataTug MUST NOT be advertised as enforced on this
 path. This is the one declared exception to `server-enforced-access`'s rule that reads
 reach a source through the trusted server; see REQ:project-store-read-exception.
@@ -159,14 +178,27 @@ REQ:secrets-outside-project-files shares one implementation; this Feature MUST e
 shared guard and MUST NOT define a third, independent copy of it. Credentials themselves
 are stored by the `secrets-vault` Feature.
 
+#### REQ: ovdb-credential-is-server-only
+
+The OpenVaultDB credential DataTug uses to reach a project's bound store MUST be held in a
+**server-only** credential store and MUST NEVER be written to the client-readable registry at
+`users/{uid}/ext/datatug` or into any client bundle. The registry entry there records the
+binding — host base URL, database id and `role` — and nothing else; a credential in that document
+is a defect, because the client reads the registry to list projects. A missing or rejected
+credential MUST fail closed, naming the missing credential, rather than falling back to
+anonymous or default access. This mirrors, for the project store's data plane, the
+prohibition `secrets-vault` REQ:server-authorizes-vault-access states for vault
+authorization, so the two Features are consistent.
+
 #### REQ: no-vault-inside-a-client-readable-store
 
 A project store MUST NOT be configured so that a client read credential can reach a bound
-vault's storage. Because a vault lays its credentials out under
-`/datatug/projects/<project-id>/credentials/<server-id>/…` using the same namespace profile
-as the project store, colocating a bound vault in a repository the client reads directly
-would silently defeat `secrets-vault` REQ:client-cannot-read-credentials. Binding
-validation MUST reject such a placement rather than warn and continue.
+vault's storage. Because a vault addresses its credentials through the same collection-name
+namespace rule as the project store and keys them per project and per endpoint
+(`secrets-vault` REQ:vault-mirrors-project-namespace), colocating a bound vault in a
+repository the client reads directly would silently defeat `secrets-vault`
+REQ:client-cannot-read-credentials. Binding validation MUST reject such a placement rather
+than warn and continue.
 
 ## Acceptance Criteria
 
@@ -174,19 +206,19 @@ validation MUST reject such a placement rather than warn and continue.
 
 **Given** a user creating a project against a GitHub repository through OpenVaultDB
 **When** the project is created
-**Then** the registry at `users/{uid}/ext/datatug` holds a binding entry naming the OpenVaultDB endpoint, database and `role: project`, the entry is stored as a list, and no GitHub credential is stored by the server for that project.
+**Then** the registry at `users/{uid}/ext/datatug` holds a binding entry naming the OpenVaultDB host base URL, database and `role: project`, the entry is stored as a list, the entry carries no OpenVaultDB credential, and no GitHub credential is stored by the server for that project.
 
 ### AC: assets-land-under-the-project-namespace (verifies REQ:project-namespace-layout)
 
 **Given** a project bound to an OpenVaultDB store whose repository already contains unrelated files
 **When** an entity and a query are added
-**Then** they appear under `datatug/projects/<project-id>/`, the bound store's application-namespace declaration maps the `projects` collection to that subtree with its schema under `datatug/.collections/` — on the OpenVaultDB GitHub backend, the manifest's declared `schemas.collections`; on the local inGitDB backend, `/.ingitdb/root-collections.yaml` — and the pre-existing unrelated files are unchanged byte for byte.
+**Then** they are written as records of the collection named `datatug/projects` declared in the bound manifest and keyed by the project's id — declared in the manifest's `schemas.collections` on the OpenVaultDB GitHub backend, and mapped by a `/.ingitdb/root-collections.yaml` `data_dir` entry on the local inGitDB backend — and the pre-existing unrelated files are unchanged byte for byte. On the OpenVaultDB GitHub backend, no `/.ingitdb/root-collections.yaml` and no `datatug/.collections/` schema directory is required in the repository.
 
 ### AC: two-projects-share-one-store (verifies REQ:project-namespace-layout)
 
 **Given** two DataTug projects bound to the same repository
 **When** both projects are written
-**Then** each project's assets appear under its own `datatug/projects/<project-id>/` subtree and neither write alters the other project's files.
+**Then** each project's assets are records of the `datatug/projects` collection keyed by that project's id, the two projects' records are disjoint, and neither write alters the other project's files.
 
 ### AC: a-client-cannot-write-the-store (verifies REQ:server-mediated-writes)
 
@@ -220,9 +252,15 @@ validation MUST reject such a placement rather than warn and continue.
 
 ### AC: server-authenticates-with-the-recorded-credential (verifies REQ:project-store-binding)
 
-**Given** a project bound to an OpenVaultDB store with a server-side credential recorded in the registry
+**Given** a project bound to an OpenVaultDB store whose OpenVaultDB credential is held only in the server-only credential store and not in the registry
 **When** the server reads the project store and then mutates it
-**Then** both operations authenticate with the recorded OpenVaultDB credential, succeed while it is valid, and fail closed when it is absent or rejected, with no GitHub credential involved in either.
+**Then** both operations authenticate with that server-only credential, succeed while it is valid, and fail closed when it is absent or rejected, with no GitHub credential involved in either.
+
+### AC: ovdb-credential-never-appears-in-the-registry (verifies REQ:ovdb-credential-is-server-only)
+
+**Given** a server bound to a project's OpenVaultDB store and holding that store's OpenVaultDB credential
+**When** the client-readable registry at `users/{uid}/ext/datatug` and every client bundle are inspected
+**Then** neither carries the OpenVaultDB credential, which lives only in the server-only credential store, and a read attempted against the registry fails closed rather than yielding the credential.
 
 ### AC: project-store-reads-are-the-only-exception (verifies REQ:project-store-read-exception)
 
@@ -238,7 +276,7 @@ validation MUST reject such a placement rather than warn and continue.
 
 ## Rehearse Integration
 
-Every AC has a concrete behavioural surface — registry records, store paths, HTTP
+Every AC has a concrete behavioural surface — registry records, store records, HTTP
 requests, validator exit behaviour, and a reader-versus-writer comparison — and all are
 testable in principle. This Feature defines a capability spanning several repositories,
 and each AC is exercised against a concrete implementation: server-mediated writes and the
@@ -250,7 +288,7 @@ rather than an abstract capability — consistent with `ai-query-builder` and
 deferral: AC:browser-reads-a-project-without-the-server is a conformance test between the
 Go writer and the browser reader, and it must be authored where both sides are runnable. Concretely: the binding and credential ACs
 land on `datatug/backend` HTTP and credential-resolution surfaces; AC:assets-land-under-the-project-namespace
-and AC:two-projects-share-one-store on the store's file system; AC:project-list-comes-from-the-registry
+and AC:two-projects-share-one-store on the store's collection records; AC:project-list-comes-from-the-registry
 on the Firestore registry; AC:browser-reads-a-project-without-the-server on the
 `datatug-apps` reader plus its conformance test; AC:validator-rejects-credentials-in-project-assets
 on `datatug-cli` exit behaviour; and AC:vault-cannot-be-colocated-in-a-client-readable-store
@@ -265,8 +303,11 @@ attached to this Feature's plan as a Supporting AC.
   a list so this is additive later, but it is not built here.
 - Credentials, connection strings and any other secret: owned by `secrets-vault`, never by
   this Feature's store.
-- The platform-wide `/ext/v0/…` API path convention. The OpenVaultDB data plane's public
-  URL depends on it, so it is tracked as a platform Feature in the platform repo rather
+- A platform-owned hosted OpenVaultDB endpoint and its platform-wide `/ext/v0/…` path
+  convention. `/ext/v0` appears nowhere in the OpenVaultDB repositories and is a platform
+  convention for platform-owned endpoints, not part of the OpenVaultDB API; a user-supplied
+  OpenVaultDB host base URL validated by `/.well-known/openvaultdb` discovery does not depend
+  on it. The platform endpoint is tracked as a platform Feature in the platform repo rather
   than duplicated here.
 - A full `openvaultdb-ts` SDK. The browser reader is deliberately minimal and disposable.
 - Read parity in the GitHub `GhStorage` backend: `git-native-projects`
@@ -283,9 +324,12 @@ attached to this Feature's plan as a Supporting AC.
 
 ## Open Questions
 
-- The canonical public URL of the OpenVaultDB data plane depends on the platform path
-  convention Feature; until that lands, the endpoint shape used by
-  REQ:project-store-binding is provisional.
+- The binding endpoint shape is settled, not provisional: it is a **user-supplied
+  OpenVaultDB host base URL**, validated by the `/.well-known/openvaultdb` discovery document
+  OpenVaultDB serves (`openvaultdb-go/pkg/server/server.go`), with the data plane addressed
+  under that base at `/v1`. `/ext/v0` is a platform convention for a **platform-owned** hosted
+  endpoint, which is out of scope (see Not Doing / Out of Scope); it is not required of, and
+  does not constrain, a user-supplied host.
 
 ---
 
