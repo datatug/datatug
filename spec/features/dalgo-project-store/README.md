@@ -423,24 +423,48 @@ Founder decision, 2026-09-17: *"hard cut-over - no backward compatability is nee
 *"writes should be through dalgo"*. The move is a full cut-over. No compatibility shim, dual
 read or feature flag keeps the old layout alive.
 
-The consumer inventory at `datatug-cli` `866b6b0` is `apps/datatugapp/commands`
-(`cmd_validate.go`, `project_base_command.go`, `cmd_scan_db.go`, `cmd_serve.go`,
-`cmd_init_project.go`, `cmd_render.go` and their tests), `apps/datatugapp/datatugui/dtproject`
-(`create_project_screen.go`, `datatug_demo_project.go`, `projects_ui.go`,
-`add_to_github_repo.go`), `pkg/server` (`http_server.go` and endpoint tests) and `pkg/api` tests.
-`datatug/backend` imports no filestore. The DataTug-owned repository still stored in the legacy
-layout is `datatug/datatug-demo-projects`.
+The consumer inventory, taken 2026-09-17 across every repository in the `datatug` organisation,
+has two parts.
+
+**Go importers of `filestore`:**
+- `datatug-cli` `866b6b0`:
+  - `apps/datatugapp/commands`: `cmd_validate.go`, `project_base_command.go`, `cmd_scan_db.go`,
+    `cmd_serve.go`, `cmd_init_project.go`, `cmd_render.go` and their tests
+  - `apps/datatugapp/datatugui/dtproject`: `create_project_screen.go`, `datatug_demo_project.go`,
+    `projects_ui.go`, `add_to_github_repo.go`
+  - `pkg/server`: `http_server.go` and endpoint tests
+  - `pkg/api` tests
+- `datatug-project-validator`: `main.go`
+- `datatug-demo-projects`: `tests/demo_project_1_test.go`
+
+**Legacy-layout readers and describers outside Go:**
+- `datatug-apps`, `libs/datatug/main/src/lib/services`:
+  - `repo/datatug-store.service.github.ts`
+  - `repo/github/github-project-reader.service.ts`
+  - `repo/github/github-project-create.service.ts`
+  - `unsorted/environment.service.ts` (`/environment-summary`)
+  - their specs
+- `ai-plugin`: `skills/datatug-init/SKILL.md`
+
+`datatug/backend` imports no filestore. The validator and the demo tests pin an older
+`datatug-core`, so "no callers" is judged at the latest `datatug-core` across all of these, not
+at their pins. The DataTug-owned repository still stored in the legacy layout is
+`datatug/datatug-demo-projects`.
 
 #### REQ: filestore-is-cut-over
 
-`datatug-core/pkg/storage/filestore` MUST be deleted, and every consumer MUST read and write
-projects through the DALgo-backed store. Afterwards no module in this tree imports it. No reader
+`datatug-core/pkg/storage/filestore` MUST be deleted, and every consumer in the inventory MUST
+read and write projects through the DALgo-backed store (Go consumers) or read and describe only
+the canonical layout (`datatug-apps` readers, `ai-plugin` docs). Afterwards no module in this tree imports it. No reader
 MAY tolerate a legacy layout: the flat `<collection>/<id>.<suffix>.json` files, the
 flat-vs-nested dual layouts, `environment-summary.json`, `data/recordsets/`, `$records/`
 directories, `.datatug-<suffix>.json` summaries and legacy `*.sql.json` queries are unsupported.
 Opening one MUST fail with a typed error that names the unsupported path. It MUST NOT load
-partially or silently. DataTug-owned repositories are rewritten to the canonical layout in the
-same cut-over, so nothing DataTug ships depends on the old layout. The migration defects named
+partially or silently. Detection is a **read** of the directory tree, which DALgo cannot list,
+so it happens at the edge that opens a project (the CLI's open path) before the driver is
+constructed. It is never a write outside DALgo. DataTug-owned repositories are rewritten to the canonical layout in the
+same cut-over, by a one-off converter that reads with `filestore` before it is deleted and writes
+through the DALgo store, so nothing DataTug ships depends on the old layout. The migration defects named
 in Problem die with it: the demo `datatug-project.json` id mismatch is fixed by that rewrite, and
 the `newDirProjectItemsStore` lister/saver mismatch is deleted with the package.
 
@@ -460,7 +484,31 @@ store, because retiring the machinery MUST NOT retire the behaviour:
 - no Git commit is made.
 
 How the query body is carried so that the last guarantee holds through DALgo is Open
-Question 4. The guarantee itself is not open.
+Question 4. The guarantee itself is not open. Neither carrier provides it on `dalgo2ingitdb`
+v0.6.1 today: records are written in place with `os.WriteFile` (`record_io.go:175`, `:223`), not
+by temp file plus rename. So the interrupted-update clause waits on crash-atomic record writes
+upstream (`ingitdb/dalgo2ingitdb#15`), and a sidecar carrier would additionally need a durable
+cross-file journal. Because the filestore is today's only implementation of that guarantee, the
+cut-over MUST NOT delete it before the guarantee holds on the DALgo store.
+
+#### REQ: driver-prerequisites-are-recorded
+
+The local path depends on three `dalgo2ingitdb` capabilities that v0.6.1 lacks. They MUST be
+recorded, not assumed. The clauses that need them are enumerated under Blocked Clauses and MUST
+NOT be recorded as passing before they land:
+
+- **Crash-atomic record writes** (`ingitdb/dalgo2ingitdb#15`), needed by the interrupted-update
+  clause of AC:query-write-guards-survive-the-cut-over.
+- **Creating a collection with its full `record_file` and subcollections through DALgo**
+  (`ingitdb/dalgo2ingitdb#16`). `CreateCollection` always writes the default `{key}.yaml` record
+  file (`schema_modifier.go:405-421`). Until it lands, DataTug installs its schema
+  (`.ingitdb/root-collections.yaml` plus `definition.yaml` files) as a bootstrap asset when a
+  store is created. That is schema configuration, not a project-data write, and it moves to the
+  DALgo schema API when #16 lands. No AC clause is blocked by this one.
+- **A `README.md` per collection and per record, written by the driver**
+  (`ingitdb/dalgo2ingitdb#17`), needed by AC:readmes-are-present-and-do-not-affect-reads,
+  because DataTug writes go through DALgo and not beside it.
+
 
 ### Local path and its consumer pin
 
@@ -531,7 +579,8 @@ the Feature's own driver facts above already state that mechanism. `type` is req
 because the user-data dataset needs `ListOfRecords` or `MapOfRecords` remotely and a record
 type cannot be expressed by `format` or `name` either. This is an upstream prerequisite, not
 something this Feature can work around, so it is recorded rather than assumed; if it does not
-land, the remote path degrades to flat single-directory collections and every nested-layout AC
+land, the remote path degrades to flat single-directory collections (and on the GitHub engine cannot
+write a project item at all; see below) and every nested-layout AC
 clause stays blocked (see Blocked Clauses).
 
 #### REQ: remote-nesting-prerequisite-is-recorded
@@ -553,9 +602,23 @@ name (`record_file_def.go:131-142`) and the record lands at
 `ListOfRecords`/`MapOfRecords` shape cannot be declared. Until the whole configuration lands,
 the remote path cannot produce the canonical nested layout; the consequence is stated, not
 implied — the remote
-path degrades to flat single-directory collections, so every AC clause that asserts the
+path degrades to flat single-directory collections (on the GitHub engine it cannot write a project
+item at all), so every AC clause that asserts the
 nested layout, enumerated under Blocked Clauses, stays blocked. Every AC clause that cannot
 be exercised until it lands MUST be stated as such and MUST NOT be scaffolded as passing.
+
+The prerequisite is tracked upstream as `openvaultdb/openvaultdb-go#26`, and its reach depends on
+the host's storage engine:
+
+- **GitHub engine.** The manifest-built definition carries no `SubCollections`, and
+  `dalgo2ingitdb4github/scoped_collection.go:86-99` (v0.2.8) rejects any subcollection key missing
+  from the definition. No project item, all of which live under `projects/<project-id>/`, can be
+  written there at all, flat or nested. Every remote clause on the GitHub engine is blocked.
+- **Local `ingitdb` engine.** The host opens `dalgo2ingitdb` over its data directory and reads the
+  on-disk definitions (`openvaultdb-go/pkg/mount/mount.go` `openInGitDB`). With DataTug's schema
+  installed there, it is expected to serve the canonical nested layout today. That expectation
+  MUST be proven by a test before any clause relies on it, and until proven it is not recorded as
+  passing.
 
 ## Acceptance Criteria
 
@@ -693,9 +756,15 @@ be exercised until it lands MUST be stated as such and MUST NOT be scaffolded as
 
 ### AC: filestore-has-no-callers (verifies REQ:filestore-is-cut-over)
 
-**Given** `datatug-core`, `datatug-cli` and `datatug/backend` at the cut-over commit
+**Given** every Go module in the inventory (`datatug-core`, `datatug-cli`, `datatug/backend`, `datatug-project-validator`, `datatug-demo-projects`) at the cut-over, each requiring the latest `datatug-core`
 **When** their packages are searched for `datatug-core/pkg/storage/filestore` and `datatug-core` is listed
 **Then** the package does not exist in `datatug-core`, no module imports it, and every consumer in the inventory reads and writes projects through the DALgo-backed store.
+
+### AC: no-legacy-layout-reader-remains (verifies REQ:filestore-is-cut-over)
+
+**Given** `datatug-apps` and `ai-plugin` on `main` after the cut-over
+**When** their sources and docs are searched for the legacy names (`datatug-project.json` at a project root, `environment-summary`, `.datatug-`, `data/recordsets`, `$records`)
+**Then** no reader requests a legacy-layout path, no doc describes one, and the `datatug-apps` GitHub project reader reads a canonical-layout project from a golden fixture.
 
 ### AC: legacy-layout-is-refused (verifies REQ:filestore-is-cut-over)
 
@@ -727,51 +796,33 @@ be exercised until it lands MUST be stated as such and MUST NOT be scaffolded as
 **When** the local path is read for what it depends on
 **Then** it states that `record_file.records_dir: '.'` is the mechanism that omits the `$records` segment and is a property of `ingitdb-go/ingitdb >= v0.6.0` (`RecordFileDef.RecordsDir` declared at `record_file_def.go:29`, validated at `:61`, returning no `$records` segment at `:131-137`), that `dalgo2ingitdb` v0.6.1's `go.mod` declares only a *minimum* of `ingitdb-go/ingitdb` v0.5.2 so the requirement falls on the consuming module to resolve `ingitdb-go/ingitdb >= v0.6.0`, that a consumer resolving v0.5.2 has a `RecordFileDef` with no `RecordsDir` field and the strict `KnownFields(true)` reader then rejects a definition carrying `record_file.records_dir` as an unknown field on the `db.reader.ReadDefinition` → `RecordFileDef.RecordsBasePath()` record path, that `schema_reader.go:105` is `DescribeCollection` only and not on that path, and that `datatug-cli` already satisfies the pin by directly requiring `github.com/ingitdb/ingitdb-go/ingitdb` at v0.6.0 or later (`datatug-cli/go.mod:39`) while the pin is owed by whichever module constructs the driver — the CLI and the backend — and not by `datatug-core`, which MUST NOT declare a DALgo driver.
 
-### AC: blocked-remote-clauses-are-not-recorded-as-passing (verifies REQ:remote-nesting-prerequisite-is-recorded)
+### AC: blocked-clauses-are-not-recorded-as-passing (verifies REQ:remote-nesting-prerequisite-is-recorded)
 
-**Given** the AC clauses that assert the canonical nested layout on the remote OpenVaultDB path
+**Given** the AC clauses that wait on an upstream prerequisite (the remote nesting prerequisite and the recorded `dalgo2ingitdb` driver prerequisites)
 **When** the Feature's status is recorded
 **Then** every such clause is enumerated in the `## Blocked Clauses` list below as un-exercisable until the upstream prerequisite lands, and none of them is recorded as passing.
 
 ## Blocked Clauses
 
-One upstream prerequisite has not landed — REQ:remote-nesting-prerequisite-is-recorded on the
-remote path — so the following AC clauses cannot be exercised. This list is the carrier
-AC:blocked-remote-clauses-are-not-recorded-as-passing points at; until that prerequisite
-lands, none of the clauses below may be scaffolded or recorded as passing. The local
-prerequisite recorded in REQ:local-records-dir-prerequisite-is-recorded blocks nothing: it is
-a consumer pin that `datatug-cli` already satisfies, so the canonical `$records`-free local
-layout is producible today and every local AC clause is exercisable.
+Upstream prerequisites that have not landed block the following AC clauses. This list is the
+carrier AC:blocked-clauses-are-not-recorded-as-passing points at. Until each owner lands, none of
+these clauses may be scaffolded or recorded as passing. The rest of each AC is exercisable and
+MUST NOT be blocked along with the named clause. The consumer pin in
+REQ:local-records-dir-prerequisite-is-recorded blocks nothing.
 
-1. **AC:remote-write-produces-the-canonical-nested-layout** — owner
-   REQ:remote-nesting-prerequisite-is-recorded — asserts that `dalgo2openvaultdb` produces the
-   same canonical nested layout (`projects/p1/queries/q1/q1.query.json`) as the local driver.
-2. **AC:local-and-remote-paths-are-one-code-path** — owner
-   REQ:remote-nesting-prerequisite-is-recorded — the clause that the **remote
-   `dalgo2openvaultdb` leg** serves the same code path **over the canonical nested layout**.
-   The rest of the AC — that one DALgo-facing code path serves both configurations with no
-   driver branch above the boundary — is exercisable against the flat remote backend and MUST
-   NOT be blocked along with the named clause.
+1. **AC:remote-write-produces-the-canonical-nested-layout** (GitHub-engine leg). Owner:
+   REQ:remote-nesting-prerequisite-is-recorded, `openvaultdb/openvaultdb-go#26`. The local-engine
+   leg is exercisable once a test proves the expectation stated in that requirement.
+2. **AC:local-and-remote-paths-are-one-code-path** (GitHub-engine leg of the remote clause). Owner:
+   the same. The rest of the AC is exercisable against an OpenVaultDB host on its local `ingitdb`
+   engine: one DALgo-facing code path serves both, with no driver branch above the boundary.
+3. **AC:query-write-guards-survive-the-cut-over** (the interrupted-update clause). Owner:
+   REQ:driver-prerequisites-are-recorded, `ingitdb/dalgo2ingitdb#15`. A sidecar carrier would also
+   need a durable cross-file journal (Open Question 4).
+4. **AC:readmes-are-present-and-do-not-affect-reads** (whole AC). Owner:
+   REQ:driver-prerequisites-are-recorded, `ingitdb/dalgo2ingitdb#17`.
 
-Every clause named above stays blocked until its upstream owner lands; the rest of each AC is
-exercisable on its own and MUST NOT be blocked along with the named clause. The remote clauses
-stay blocked until `openvaultdb-go` can declare subcollection names and the **full
-per-collection `record_file` configuration** — `format`, the `name` template, `records_dir`
-and `type`, not `format` and name alone — because the remote canonical layout is **not**
-achievable by `format`/`name` alone: a `{key}`-bearing name with no `records_dir` makes
-`RecordFileDef.RecordsBasePath()` return `"$records"` (`record_file_def.go:131-142`) and places
-the record at `projects/p1/queries/$records/q1/q1.query.json`, so the manifest must be able to
-declare `records_dir` (the asserted layout needs `records_dir: '.'`) and `type` (the user-data
-dataset needs `ListOfRecords`/`MapOfRecords`); until then the remote path degrades
-to flat single-directory collections, so every nested-layout clause stays blocked. The
-canonical `$records`-free local layout is not blocked: with the consuming module resolving
-`ingitdb-go/ingitdb >= v0.6.0` the strict `KnownFields(true)` reader accepts
-`record_file.records_dir: '.'` (`record_file_def.go:29`, `:61`, `:131-137`) and the local
-write lands at `projects/p1/queries/q1/q1.query.json`, so
-AC:local-write-omits-the-records-segment and AC:collection-declares-the-canonical-record-file
-are both exercisable and are deliberately not listed here.
 
-## Rehearse Integration
 
 No `_tests/` stubs are scaffolded in this authoring pass, and that is a deliberate,
 recorded decision rather than an omission.
@@ -804,25 +855,23 @@ Three ACs are documentary and are skipped by the Rehearse heuristic's not-testab
 because they have no runtime observer:
 AC:remote-nesting-prerequisite-is-stated,
 AC:local-records-dir-prerequisite-is-stated and
-AC:blocked-remote-clauses-are-not-recorded-as-passing assert what this document records,
+AC:blocked-clauses-are-not-recorded-as-passing assert what this document records,
 not what code does.
 
-One AC is wholly upstream-blocked and MUST NOT be scaffolded or recorded as passing until the
-remote prerequisite in REQ:remote-nesting-prerequisite-is-recorded lands:
-AC:remote-write-produces-the-canonical-nested-layout. The unblocking condition is the **full**
-per-collection `record_file` configuration, not a name template: the remote canonical layout
-requires the manifest to be able to declare `records_dir` (so a `{key}`-bearing name yields
-`projects/p1/queries/q1/q1.query.json` rather than
-`projects/p1/queries/$records/q1/q1.query.json`) and `type` (so the user-data dataset can be
-`ListOfRecords`/`MapOfRecords`), and it is therefore **not** achievable by `format` and `name`
-alone. One clause of
-AC:local-and-remote-paths-are-one-code-path is blocked — the nested half, that the remote leg
-serves the code path over the canonical nested layout — while the rest of that AC is
-exercisable against the flat remote backend and MUST NOT be blocked along with it (see Blocked
-Clauses). Nothing on the local path is blocked: the consumer pin in
-REQ:local-records-dir-prerequisite-is-recorded is already satisfied by `datatug-cli`, so
-AC:local-write-omits-the-records-segment and AC:collection-declares-the-canonical-record-file
-are exercisable and MUST be scaffolded when implementation begins.
+The clauses enumerated under Blocked Clauses MUST NOT be scaffolded or recorded as passing until
+their owners land:
+
+- the GitHub-engine legs of AC:remote-write-produces-the-canonical-nested-layout and
+  AC:local-and-remote-paths-are-one-code-path (`openvaultdb/openvaultdb-go#26`, which needs the
+  **full** per-collection `record_file`, not a name template);
+- the interrupted-update clause of AC:query-write-guards-survive-the-cut-over
+  (`ingitdb/dalgo2ingitdb#15`);
+- the whole of AC:readmes-are-present-and-do-not-affect-reads (`ingitdb/dalgo2ingitdb#17`).
+
+The local-engine OpenVaultDB legs become rehearsable once a test proves the host serves the
+nested layout. The consumer pin in REQ:local-records-dir-prerequisite-is-recorded is satisfied, so
+AC:local-write-omits-the-records-segment and AC:collection-declares-the-canonical-record-file are
+exercisable and MUST be scaffolded when implementation begins.
 
 ## Not Doing / Out of Scope
 
@@ -898,12 +947,14 @@ are exercisable and MUST be scaffolded when implementation begins.
    They are unsupported and refused under the hard cut-over.
 3. `columns`, `objects` and `refs` suffixes have no collection in `ProjectStore` — do they
    get a home, or are they retired?
-4. Query body carrier: keep `<id>.query.<type>` as a sidecar, or move the DTQL body into
-   the record? Either way, REQ:query-write-guards-survive-the-cut-over must hold. A body in the
-   record is one file, and `dalgo2ingitdb` writes one file per record. A sidecar is a second
-   file, and a `dalgo2ingitdb` v0.6.1 transaction keeps only in-memory snapshots
-   (`tx_readwrite.go:44-79`). It has no durable cross-file journal, so a crash between the two
-   writes would need one added in the driver.
+4. Query body carrier: keep `<id>.query.<type>` as a sidecar, or move the DTQL body into the
+   record? Either way REQ:query-write-guards-survive-the-cut-over must hold, and either way
+   `dalgo2ingitdb` first needs crash-atomic record writes (`ingitdb/dalgo2ingitdb#15`; today it
+   writes in place with `os.WriteFile`). A sidecar additionally needs a durable cross-file journal
+   in the driver, because a v0.6.1 transaction keeps only in-memory snapshots
+   (`tx_readwrite.go:44-79`). The body in the record needs nothing more. It does, however, require
+   amending the Approved `executable-knowledge-library` AC:query-pair-storage-guards-writes, whose
+   text is written in terms of the `.query.json`/`.query.dtql` pair and the legacy save/delete paths.
 5. Is `.datatug.yaml` still needed at the repo root, given projects are discoverable by
    listing the `projects` collection and nothing in `datatug-core` reads it during
    `LoadProject`?

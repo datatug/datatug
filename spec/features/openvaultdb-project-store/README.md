@@ -164,21 +164,34 @@ coordinates (`openvaultdb-com/interface/main.tsp` `ServerInfo`), and the reader 
 on it for any.
 
 The reader's credential is an OpenVaultDB **application grant** obtained through the host's
-Connect flow (consent → one-time code → `/token`) and is **read-only by construction**: the
-grant DataTug requests carries only the `records:read` capability, bound to the vault's
-database id, and collection-scoped to the project's item collections wherever those share a
-database with anything else (`openvaultdb-go/pkg/auth/auth.go` — a collection-scoped grant never
-matches another collection, and a grant with a database id never matches another database). A
-token whose grant carries any write capability, or any capability beyond that scope, MUST be
-refused by the reader rather than used. The host MUST admit the DataTug app origin through its
-CORS configuration (`openvaultdb-go/pkg/server/cors.go`). The browser is NEVER given a credential
-for a credentials store: a credentials store is reached only by the server, which reads
-credentials through `dalgo`/OpenVaultDB uniformly, unaware of whether the backing storage is
-GitHub, Firestore, or a managed vault. The reader MUST be conformance-tested against the
-writer's output, so that the Go writer and the browser reader cannot drift apart silently.
-Because this path bypasses the server, DataTug MUST document its limits plainly: whatever the
-grant's scope covers is readable by the browser, so read-scoped restrictions expressed in
-DataTug below that scope MUST NOT be advertised as enforced on this path. This is the one declared exception to `server-enforced-access`'s rule that reads
+Connect flow (consent → one-time code → `/token`). It is **read-only by construction** because
+DataTug requests only the `records:read` capability, bound to the vault's database id. The `/token`
+response does not echo the granted capabilities (`openvaultdb-go/pkg/server/connect.go:160-166`),
+so read-only rests on what DataTug requested at consent, not on inspecting the token. In
+`openvaultdb-go` v0.6.2 the binding's **vault id is the OpenVaultDB database id** (`/v1/databases`).
+The published contract names the same thing a vault (`openvaultdb-com/interface/main.tsp`).
+
+Grants are scoped per **root collection** of the key (`pkg/server/records.go:56-58`). Every project
+item lives under `projects/...`, so the narrowest grant is `records:read:projects` on that database.
+It reaches every project in the database, and any credentials placed there. The browser is NEVER
+given a credential for a credentials store, and a credentials placement in a database such a
+grant can reach is exactly what `secrets-vault` REQ:client-cannot-read-credentials refuses by
+default.
+
+The host MUST admit the DataTug app origin through its CORS configuration
+(`openvaultdb-go/pkg/server/cors.go`). When it does not, the reader MUST fail with an error naming
+the host and the CORS cause rather than an empty project. Grants expire after one hour with no
+refresh (`pkg/auth/store.go`), so the reader re-runs consent when the grant expires. A
+browser-held Connect flow is a public client, so it waits on upstream PKCE and `redirect_uri`
+binding (`openvaultdb/openvaultdb-go#24`); see Blocked Clauses.
+
+A credentials store is reached only by the server, which reads credentials through
+`dalgo`/OpenVaultDB uniformly, unaware of whether the backing storage is GitHub, Firestore, or a
+managed vault. The reader MUST be conformance-tested against the writer's output, so that the Go
+writer and the browser reader cannot drift apart silently. Because this path bypasses the server,
+DataTug MUST document its limits plainly: whatever the grant covers (every project in the
+database) is readable by the browser, so read-scoped restrictions expressed in DataTug MUST NOT be
+advertised as enforced on this path. This is the one declared exception to `server-enforced-access`'s rule that reads
 reach a source through the trusted server; see REQ:project-store-read-exception.
 
 #### REQ: project-store-read-exception
@@ -305,7 +318,7 @@ owner.
 
 **Given** a project written to an OpenVaultDB store through the server, and a read-only OpenVaultDB grant (`records:read` only, bound to that vault's database) obtained through the host's Connect flow
 **When** the browser opens the project with the DataTug server unavailable
-**Then** the project's assets are read from the OpenVaultDB host's `/v1` data API addressed by the bound store's recorded host base URL and vault id alone, no backing-repository coordinate is resolved or needed and none is carried by the registry, a token whose grant carries a write capability is refused rather than used, no credential for a credentials store is ever accepted or used by the browser, and the parsed result matches what the conformance test derives from the Go writer's output.
+**Then** the project's assets are read from the OpenVaultDB host's `/v1` data API addressed by the bound store's recorded host base URL and vault id alone, no backing-repository coordinate is resolved or needed and none is carried by the registry, the grant DataTug requested carries only `records:read`, no credential for a credentials store is ever accepted or used by the browser, and the parsed result matches what the conformance test derives from the Go writer's output.
 
 ### AC: project-list-comes-from-the-registry (verifies REQ:registry-is-authoritative)
 
@@ -345,7 +358,7 @@ owner.
 
 ### AC: colocation-refused-by-default-with-informed-override (verifies REQ:secrets-colocation-defaults-to-reject)
 
-**Given** a project store in a repository the client reads with a user-supplied credential, and a proposed credentials-store binding whose storage that credential can reach
+**Given** a project store the client reads directly with its read credential, and a proposed credentials-store binding whose storage that credential can reach
 **When** the binding is saved
 **Then** binding validation refuses it by default, the refusal enumerates the specific secrets that would be exposed rather than merely asserting that credentials would be client-readable, and the binding is accepted only after the user confirms through an explicit "Are you sure?"-style alert showing that list; if overridden, the recorded binding states that those named secrets are client-readable and does not represent them as client-inaccessible. This is a store-side conformance AC: the refusal and its informed override are enforced by `secrets-vault` REQ:client-cannot-read-credentials, so this AC observes that outcome and cannot be verified independently of that enforcement — it MUST NOT be recorded as passing before that enforcement exists, a dependency enumerated in `## Conformance Dependencies` and carried by AC:colocation-conformance-depends-on-secrets-vault, which also covers the zero-`secrets`-binding case in which the `project`-role binding is the carrier.
 
@@ -354,6 +367,33 @@ owner.
 **Given** the AC clauses of this Feature that assert the colocation refusal, its named-secret enumeration and its informed override, including the zero-`secrets`-binding case carried by the `project`-role binding
 **When** this Feature's status is recorded
 **Then** every such clause — the whole of AC:colocation-refused-by-default-with-informed-override and the zero-`secrets`-binding clause of AC:bindings-are-single-sourced-on-a-shared-project — is enumerated in the `## Conformance Dependencies` list below together with the owning requirement it waits on, and none of them is recorded as passing before that enforcement exists.
+
+### AC: blocked-clauses-are-not-recorded-as-passing (verifies REQ:browser-read-path, REQ:project-store-binding)
+
+**Given** the AC clauses of this Feature that wait on an upstream `openvaultdb-go` change
+**When** this Feature's status is recorded
+**Then** every such clause is enumerated in the `## Blocked Clauses` list below together with its upstream owner, and none of them is recorded as passing before that owner lands.
+
+## Blocked Clauses
+
+Two upstream `openvaultdb-go` changes have not landed. This list is the carrier
+AC:blocked-clauses-are-not-recorded-as-passing points at. Until each owner lands, none of these
+clauses may be scaffolded or recorded as passing. The rest of each AC is exercisable and MUST NOT
+be blocked along with the named clause.
+
+1. **GitHub-engine legs** of AC:server-authenticates-with-the-recorded-credential,
+   AC:a-client-cannot-write-the-store, AC:browser-reads-a-project-without-the-server,
+   AC:store-switch-is-an-explicit-migration and AC:project-store-reads-are-the-only-exception wait on
+   `openvaultdb/openvaultdb-go#26`. On the GitHub engine no key under `projects/<project-id>/` can be
+   written, because the manifest-built definition has no subcollections
+   (`dalgo2ingitdb4github/scoped_collection.go:86-99`). These ACs are exercised on an OpenVaultDB
+   host using its local `ingitdb` engine, once `dalgo-project-store` proves that engine serves the
+   canonical layout.
+2. **The browser-held Connect flow** of AC:browser-reads-a-project-without-the-server waits on
+   `openvaultdb/openvaultdb-go#24` (PKCE, and binding `redirect_uri` at code exchange). A public
+   browser client must not rely on an authorization code that anyone who intercepts it can
+   exchange. The reader and its conformance test against the Go writer's golden fixture are
+   exercisable with a grant obtained out of band.
 
 ## Conformance Dependencies
 
@@ -416,7 +456,8 @@ of the refusal and informed override enforced by `secrets-vault`, which cannot b
 until that enforcement exists; and AC:binding-record-carries-its-field-set on that same
 `datatug/backend` binding surface. One AC is documentary and has no runtime observer, so the
 Rehearse heuristic skips it: AC:colocation-conformance-depends-on-secrets-vault asserts what
-this document records in `## Conformance Dependencies`, not what code does. One obligation is explicitly **not**
+this document records in `## Conformance Dependencies`, not what code does. AC:blocked-clauses-are-not-recorded-as-passing is documentary in the same way: it asserts what
+`## Blocked Clauses` records. One obligation is explicitly **not**
 this Feature's: `git-native-projects` AC:github-project-reads-back-what-it-wrote depends on
 `GhStorage` read methods that still panic, so no stub authored here can satisfy it and it must
 not be attached to this Feature's plan as a Supporting AC.
@@ -453,6 +494,12 @@ not be attached to this Feature's plan as a Supporting AC.
 - Direct browser-to-database query execution.
 
 ## Open Questions
+
+- How is a `project`-role binding to the **DataTug cloud store** recorded? The binding field set
+  (host base URL plus vault id) describes an OpenVaultDB store. A cloud-store project today is
+  identified by the backend's `firestore` store id (`models4datatug.FirestoreStoreID`). Until this
+  is settled, AC:store-switch-is-an-explicit-migration treats the source as that store id and the
+  target as the one OpenVaultDB `project`-role binding.
 
 - The binding endpoint shape is settled, not provisional: it is a **user-supplied
   OpenVaultDB host base URL**, validated by the `/.well-known/openvaultdb` discovery document

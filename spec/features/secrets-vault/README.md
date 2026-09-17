@@ -332,6 +332,13 @@ browser read credential. A write-capable credential on the client defeats
 REQ:client-cannot-read-credentials and `openvaultdb-project-store`
 REQ:server-mediated-writes, so presenting one is a binding defect, not a user preference.
 
+The two browser read paths satisfy this in different ways:
+- **An OpenVaultDB project store:** the credential is an OpenVaultDB Connect grant for which DataTug
+  requested only `records:read` (`openvaultdb-project-store` REQ:browser-read-path).
+- **A git-native project store** (`git-native-projects`), which the client reads straight from
+  GitHub: a DataTug-issued GitHub App installation token with `contents:read`, or a user-supplied
+  token accepted only when its read-only scope is provable.
+
 #### REQ: credential-envelope
 
 Each stored credential MUST be held in an opaque envelope carrying an algorithm or version
@@ -443,9 +450,9 @@ not provide.
 
 ### AC: firestore-backed-vault-is-client-inaccessible (verifies REQ:vault-storage-is-pluggable, REQ:client-cannot-read-credentials)
 
-**Given** a vault stored in a server-mediated store with security rules, sharing a database with non-secret project data
-**When** a client or a user acting directly against that database attempts to read a credential
-**Then** the store denies the read, while the server, presenting either the OpenVaultDB app grant it holds for an OpenVaultDB-native vault or the store's own service credential for a Firestore-backed one, and no client credential, reads the same credential successfully.
+**Given** a vault stored in an OpenVaultDB database on the Firestore storage engine, in a database separate from the one the client's project-store read grant is bound to, while the host's Firestore project also holds non-secret project data
+**When** a client attempts to read a credential with its read grant, or with any grant not issued to the DataTug server for that vault
+**Then** OpenVaultDB denies the read, because a grant bound to another database never matches the vault's database (`openvaultdb-go/pkg/auth/auth.go` `Allows`), while the server, presenting the OpenVaultDB app grant it holds for the vault and no client credential, reads the same credential successfully. Direct access to the host's Firestore project is the host operator's concern, not a DataTug client's, and is not what this AC asserts.
 
 ### AC: binding-is-refused-when-credentials-would-be-client-readable (verifies REQ:client-cannot-read-credentials)
 
@@ -509,7 +516,7 @@ not provide.
 
 ## Blocked Clauses
 
-Two upstream capabilities have not landed, so the following AC clauses cannot be exercised.
+Three upstream capabilities have not landed (OpenVaultDB manifest nesting, which also blocks every GitHub-engine write under `projects/`, and the managed-vault definition), so the following AC clauses cannot be exercised.
 This list is the carrier AC:blocked-clauses-are-not-recorded-as-passing points at; until the
 named upstream owner lands, none of these clauses may be scaffolded or recorded as passing.
 
@@ -522,7 +529,10 @@ named upstream owner lands, none of these clauses may be scaffolded or recorded 
    sits under the owning project's key-path parent in a store shared with other projects. It
    waits on the same `dalgo-project-store` REQ:remote-nesting-prerequisite-is-recorded; the local
    `dalgo2ingitdb` leg is not blocked.
-3. **AC:server-reads-credentials-without-knowing-the-backend** — the managed-vault leg. It
+3. **AC:server-reads-credentials-without-knowing-the-backend** — the GitHub-engine leg waits on
+   `openvaultdb/openvaultdb-go#26`: on the GitHub engine no key under `projects/<project-id>/`
+   can be written at all (`dalgo2ingitdb4github/scoped_collection.go:86-99`). The Firestore-engine
+   leg is exercisable. Separately, the managed-vault leg is blocked as follows. It
    waits on an upstream definition of what provides a managed vault and what interface it
    exposes, owned outside DataTug and named as an upstream/blocked capability by
    REQ:vault-storage-is-pluggable; no DataTug artifact defines it.
