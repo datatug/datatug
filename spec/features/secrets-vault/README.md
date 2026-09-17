@@ -516,7 +516,7 @@ not provide.
 
 ## Blocked Clauses
 
-Three upstream capabilities have not landed (OpenVaultDB manifest nesting, which also blocks every GitHub-engine write under `projects/`, and the managed-vault definition), so the following AC clauses cannot be exercised.
+Two upstream capabilities have not landed (OpenVaultDB manifest nesting, which also blocks every GitHub-engine write under `projects/`, and the managed-vault definition), so the following AC clauses cannot be exercised.
 This list is the carrier AC:blocked-clauses-are-not-recorded-as-passing points at; until the
 named upstream owner lands, none of these clauses may be scaffolded or recorded as passing.
 
@@ -531,8 +531,7 @@ named upstream owner lands, none of these clauses may be scaffolded or recorded 
    `dalgo2ingitdb` leg is not blocked.
 3. **AC:server-reads-credentials-without-knowing-the-backend** — the GitHub-engine leg waits on
    `openvaultdb/openvaultdb-go#26`: on the GitHub engine no key under `projects/<project-id>/`
-   can be written at all (`dalgo2ingitdb4github/scoped_collection.go:86-99`). The Firestore-engine
-   leg is exercisable. Separately, the managed-vault leg is blocked as follows. It
+   can be written at all (`dalgo2ingitdb4github/scoped_collection.go:86-99`). The identical-code-path clause is exercisable across the Firestore engine and the local `ingitdb` engine until the GitHub engine joins. Separately, the managed-vault leg is blocked as follows. It
    waits on an upstream definition of what provides a managed vault and what interface it
    exposes, owned outside DataTug and named as an upstream/blocked capability by
    REQ:vault-storage-is-pluggable; no DataTug artifact defines it.

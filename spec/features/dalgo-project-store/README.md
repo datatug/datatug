@@ -615,8 +615,7 @@ the host's storage engine:
   from the definition. No project item, all of which live under `projects/<project-id>/`, can be
   written there at all, flat or nested. Every remote clause on the GitHub engine is blocked.
 - **Local `ingitdb` engine.** The host opens `dalgo2ingitdb` over its data directory and reads the
-  on-disk definitions (`openvaultdb-go/pkg/mount/mount.go` `openInGitDB`). With DataTug's schema
-  installed there, it is expected to serve the canonical nested layout today. That expectation
+  on-disk definitions (`openvaultdb-go/pkg/mount/mount.go` `openInGitDB`). With DataTug's schema installed there and `schema_mode: schemaless` declared, it is expected to serve the canonical nested layout today. Its writes are committed to Git, and a user-supplied host has no API path to install the schema until #26 lands. That expectation
   MUST be proven by a test before any clause relies on it, and until proven it is not recorded as
   passing.
 
@@ -955,14 +954,19 @@ exercisable and MUST be scaffolded when implementation begins.
    (`tx_readwrite.go:44-79`). The body in the record needs nothing more. It does, however, require
    amending the Approved `executable-knowledge-library` AC:query-pair-storage-guards-writes, whose
    text is written in terms of the `.query.json`/`.query.dtql` pair and the legacy save/delete paths.
-5. Is `.datatug.yaml` still needed at the repo root, given projects are discoverable by
+5. **For founder ratification:** until `ingitdb/dalgo2ingitdb#16` lands, DataTug installs its schema
+   (`.ingitdb/root-collections.yaml` plus `definition.yaml` files) as a bootstrap asset, outside
+   DALgo (REQ:driver-prerequisites-are-recorded). It is treated as inGitDB schema configuration,
+   not a project-data write, so it is not an exception to "writes should be through dalgo". Is
+   that reading accepted, or must store creation wait on #16?
+6. Is `.datatug.yaml` still needed at the repo root, given projects are discoverable by
    listing the `projects` collection and nothing in `datatug-core` reads it during
    `LoadProject`?
-6. ~~Who owns the `openvaultdb-go` subcollection/full `record_file` configuration
+7. ~~Who owns the `openvaultdb-go` subcollection/full `record_file` configuration
    prerequisite?~~ Owned upstream as `openvaultdb/openvaultdb-go#26`, filed 2026-09-17. When it
    lands is still open. Its absence blocks only the remote *nested* path — the remote path stays
    flat, as stated in REQ:remote-nesting-prerequisite-is-recorded and Blocked Clauses.
-7. ~~Do the two migration defects get fixed by this move?~~ Resolved 2026-09-17: yes, by the
+8. ~~Do the two migration defects get fixed by this move?~~ Resolved 2026-09-17: yes, by the
    hard cut-over (REQ:filestore-is-cut-over).
 
 ---
