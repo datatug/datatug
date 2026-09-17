@@ -35,32 +35,32 @@ naming policy, the retirement of the filestore's own transaction machinery, and 
 recording of the upstream prerequisites the remote and local paths depend on.
 
 Driver facts this Feature relies on, stated once: the local driver is `dalgo2ingitdb`
-v0.6.0, whose `FORMAT.md` is the cross-language contract with `ingitdb-ts`, validated by
+v0.6.1, whose `FORMAT.md` is the cross-language contract with `ingitdb-ts`, validated by
 shared golden fixtures; `record_file` there supports
 `format: yaml|yml|json|markdown|csv|jsonl|toml|ingr` and a `record_file.name` template
 containing `{key}`. Omitting the `$records` segment is the job of
 `record_file.records_dir: '.'`, and that property belongs to `ingitdb-go/ingitdb >= v0.6.0`
 (`RecordFileDef.RecordsDir`, honoured by `RecordFileDef.RecordsBasePath()`). The local
-prerequisite is a **consumer pin, not a driver bump**: `dalgo2ingitdb` v0.6.0's own `go.mod`
+prerequisite is a **consumer pin, not a driver bump**: `dalgo2ingitdb` v0.6.1's own `go.mod`
 declares only a *minimum* of `ingitdb-go/ingitdb` v0.5.2, so the resolved version is decided
 by the consuming module — a consumer that does not require `ingitdb-go/ingitdb >= v0.6.0`
 directly resolves v0.5.2, whose `RecordFileDef` has no `RecordsDir` field, and the strict
 `KnownFields(true)` reader (`ingitdb-go/ingitdb@v0.5.2/validator/def_validator.go:35`; the
-same reader is at the identical path and line in v0.6.0, so the pin is the only difference)
+same reader is at the identical path and line in v0.6.0 and v0.6.1, so the pin is the only difference)
 then rejects a definition carrying `record_file.records_dir` as an unknown field. A consumer that
-resolves v0.6.0 accepts the key: `RecordsDir` is declared at `record_file_def.go:29`,
+resolves v0.6.0 or later accepts the key: `RecordsDir` is declared at `record_file_def.go:29`,
 validated at `:61`, and `RecordsBasePath()` returns `""` for `"."` at `:131-137`. This is
 already satisfied where it matters today — `datatug-cli/go.mod:39` directly requires
-`github.com/ingitdb/ingitdb-go/ingitdb v0.6.0`, `go list -m` in `datatug-cli` resolves
-v0.6.0, there is no `go.work`, no `vendor/` and no `replace`, and
+`github.com/ingitdb/ingitdb-go/ingitdb` at v0.6.0 or later, `go list -m` in `datatug-cli` resolves
+v0.6.0 or later, there is no `go.work`, no `vendor/` and no `replace`, and
 `datatug-cli/pkg/dbcopy/url.go:359` constructs the local driver as
 `dalgo2ingitdb.NewDatabase(r.Path, validator.NewCollectionsReader(), opts...)`, so the
-`validator` in that build is v0.6.0's. That pin belongs to whichever module **constructs the
+`validator` in that build is that version's. That pin belongs to whichever module **constructs the
 driver** — the CLI, which already satisfies it, and the backend as the other edge — and not
 to `datatug-core`, which by REQ:project-store-is-a-dalgo-database MUST NOT declare any DALgo
 driver. Record paths are resolved by `db.reader.ReadDefinition`
-(`dalgo2ingitdb@v0.6.0/database.go:321`) and expanded through
-`colDef.RecordFile.RecordsBasePath()` (`query.go:587`, `record_io.go:20`); the definition
+(`dalgo2ingitdb@v0.6.1/database.go:321`) and expanded through
+`colDef.RecordFile.RecordsBasePath()` (`query.go:587`, `record_io.go:118`); the definition
 reader is strict (`KnownFields(true)`), and `schema_reader.go:105` is the `DescribeCollection`
 path only, a non-strict `yaml.Unmarshal` that does not touch record resolution. The remote
 driver is
@@ -71,6 +71,16 @@ insert and structured query, over the key-path shape
 `collection/id/subcollection/id`. Nesting is resolved by `resolveScopedCollection` in
 `dalgo2ingitdb4github/scoped_collection.go` on the remote path and by the same-shaped
 `resolveScopedCollection` in the pinned local driver's `dalgo2ingitdb/scoped_collection.go`.
+
+**Dependency policy: latest releases.** Every module in this tree requires the latest release of
+the storage stack, and an older version still pinned is a defect to fix, not a baseline to
+design around. As of 2026-09-17 the latest releases are `dal-go/dalgo` v0.80.5, `dal-go/record`
+v0.1.3, `ingitdb-go/ingitdb` v0.6.1, `dalgo2ingitdb` v0.6.1, `dalgo2ingitdb4github` v0.2.8,
+`openvaultdb-go` v0.6.2 and `dalgo2openvaultdb` v0.3.1, with `openvaultdb-go` v0.6.2 itself
+requiring the newer `dalgo2openvaultdb` pseudo-version above. The facts cited in this Feature
+were re-checked at those releases. `dalgo2ingitdb` v0.6.1 still declares only an `ingitdb-go/ingitdb`
+v0.5.2 floor, so the consumer pin below remains necessary under this policy. It is satisfied
+by requiring the latest `ingitdb-go/ingitdb` directly.
 
 ## Problem
 
@@ -130,7 +140,7 @@ The project store is a DALgo database. `datatug-core` addresses a project throug
 `dal-go/dalgo` interfaces only; a driver is constructed at the edge, and both the local
 `dalgo2ingitdb` stack and the remote `dalgo2openvaultdb` stack present the same interface
 to core. The target shape already holds today — `datatug-core/go.mod` depends on
-`dal-go/dalgo v0.80.0` with **no driver** — and this Feature keeps it that way rather than
+`dal-go/dalgo` (v0.80.4 at `28e57ff`; latest release v0.80.5) with **no driver** — and this Feature keeps it that way rather than
 reintroducing a concrete backend into core.
 
 #### REQ: project-store-is-a-dalgo-database
@@ -243,7 +253,7 @@ substring overlap between two suffixes, such as `server` inside `dbserver`, is e
 harmless and is not a violation.
 
 That is the rule the mechanism actually enforces: the discriminator is a regex built from
-the `record_file.name` template (`dalgo2ingitdb4github@v0.2.3/query.go:255-259`), and it
+the `record_file.name` template (`dalgo2ingitdb4github@v0.2.8/query.go:255-259`), and it
 matches the **dotted** ending exactly — so `x.dbserver.json` does not match
 `\.server\.json$`, and the `server`/`dbserver` substring overlap cannot cross-match because
 the preceding dot makes the two patterns disjoint. A distinct dotted suffix per collection is
@@ -402,28 +412,74 @@ by the move, collapsing the duplication.
 
 #### REQ: bespoke-transaction-machinery-is-retired
 
-The filestore's own transaction/locking machinery MUST be replaced by DALgo transactions,
+The filestore's own transaction/locking machinery (`query_txn.go`, `query_txn_slots.go`,
+`query_lock.go`) MUST be replaced by DALgo transactions,
 and the reserved on-disk transaction namespace (`.dt-query-txn/`) MUST no longer be part
 of the project layout.
+
+### Hard cut-over
+
+Founder decision, 2026-09-17: *"hard cut-over - no backward compatability is needed"* and
+*"writes should be through dalgo"*. The move is a full cut-over. No compatibility shim, dual
+read or feature flag keeps the old layout alive.
+
+The consumer inventory at `datatug-cli` `866b6b0` is `apps/datatugapp/commands`
+(`cmd_validate.go`, `project_base_command.go`, `cmd_scan_db.go`, `cmd_serve.go`,
+`cmd_init_project.go`, `cmd_render.go` and their tests), `apps/datatugapp/datatugui/dtproject`
+(`create_project_screen.go`, `datatug_demo_project.go`, `projects_ui.go`,
+`add_to_github_repo.go`), `pkg/server` (`http_server.go` and endpoint tests) and `pkg/api` tests.
+`datatug/backend` imports no filestore. The DataTug-owned repository still stored in the legacy
+layout is `datatug/datatug-demo-projects`.
+
+#### REQ: filestore-is-cut-over
+
+`datatug-core/pkg/storage/filestore` MUST be deleted, and every consumer MUST read and write
+projects through the DALgo-backed store. Afterwards no module in this tree imports it. No reader
+MAY tolerate a legacy layout: the flat `<collection>/<id>.<suffix>.json` files, the
+flat-vs-nested dual layouts, `environment-summary.json`, `data/recordsets/`, `$records/`
+directories, `.datatug-<suffix>.json` summaries and legacy `*.sql.json` queries are unsupported.
+Opening one MUST fail with a typed error that names the unsupported path. It MUST NOT load
+partially or silently. DataTug-owned repositories are rewritten to the canonical layout in the
+same cut-over, so nothing DataTug ships depends on the old layout. The migration defects named
+in Problem die with it: the demo `datatug-project.json` id mismatch is fixed by that rewrite, and
+the `newDirProjectItemsStore` lister/saver mismatch is deleted with the package.
+
+#### REQ: query-write-guards-survive-the-cut-over
+
+The query write guarantees that `executable-knowledge-library`
+AC:query-pair-storage-guards-writes established on the filestore MUST hold on the DALgo-backed
+store, because retiring the machinery MUST NOT retire the behaviour:
+
+- the `datatug.RevisionedQueriesStore` contract (`datatug-core/pkg/datatug/query_revision.go`):
+  create only when absent, update or delete only from the revision read, and a typed
+  revision-conflict error otherwise;
+- typed validation errors, raised before any write, for a query location that escapes the
+  project or passes through a symlink, and for content that carries credentials or result rows;
+- after an update interrupted mid-write, a freshly opened store reads exactly the old or the new
+  complete query, never a mix;
+- no Git commit is made.
+
+How the query body is carried so that the last guarantee holds through DALgo is Open
+Question 4. The guarantee itself is not open.
 
 ### Local path and its consumer pin
 
 The local path's prerequisite is a **consumer pin**, not a driver bump.
 `record_file.records_dir` is the inGitDB property that omits the `$records` segment, and it
-exists from `ingitdb-go/ingitdb` v0.6.0. `dalgo2ingitdb` v0.6.0's own `go.mod` declares only
+exists from `ingitdb-go/ingitdb` v0.6.0. `dalgo2ingitdb` v0.6.1's own `go.mod` declares only
 a *minimum* of `ingitdb-go/ingitdb` v0.5.2, so the resolved version is decided by the
 consuming module: a consumer that does not require `ingitdb-go/ingitdb >= v0.6.0` directly
 resolves v0.5.2, whose `RecordFileDef` has no `RecordsDir` field, and the strict
 `KnownFields(true)` reader (`ingitdb-go/ingitdb@v0.5.2/validator/def_validator.go:35`; the
-same reader is at the identical path and line in v0.6.0, so the resolved version is the only
+same reader is at the identical path and line in v0.6.0 and v0.6.1, so the resolved version is the only
 difference) then
 rejects a definition carrying `record_file.records_dir` as an unknown field. A consumer that
-resolves v0.6.0 accepts the key, and the canonical `$records`-free paths are producible; the
-record path is `db.reader.ReadDefinition` (`dalgo2ingitdb@v0.6.0/database.go:321`) →
-`colDef.RecordFile.RecordsBasePath()` (`query.go:587`, `record_io.go:20`), and the non-strict
+resolves v0.6.0 or later accepts the key, and the canonical `$records`-free paths are producible; the
+record path is `db.reader.ReadDefinition` (`dalgo2ingitdb@v0.6.1/database.go:321`) →
+`colDef.RecordFile.RecordsBasePath()` (`query.go:587`, `record_io.go:118`), and the non-strict
 `yaml.Unmarshal` in `schema_reader.go:105` is `DescribeCollection` only. `datatug-cli` already
 satisfies the pin (`datatug-cli/go.mod:39` directly requires
-`github.com/ingitdb/ingitdb-go/ingitdb v0.6.0`), so the canonical layout is producible on the
+`github.com/ingitdb/ingitdb-go/ingitdb` at v0.6.0 or later), so the canonical layout is producible on the
 local path today. The pin belongs to whichever module **constructs the local driver**, not to
 `datatug-core`: the CLI already satisfies it, the backend is the other edge that constructs the
 driver and MUST satisfy it too, and `datatug-core` MUST NOT declare any DALgo driver
@@ -438,7 +494,7 @@ a consuming module MUST resolve `ingitdb-go/ingitdb >= v0.6.0`, so that a collec
 definition carrying `record_file.records_dir: '.'` is accepted by the strict
 `KnownFields(true)` reader and `RecordFileDef.RecordsBasePath()` returns no `$records` segment
 (`RecordsDir` at `record_file_def.go:29`, `:131-137`). The pin is the whole requirement:
-`dalgo2ingitdb` v0.6.0 already calls `RecordsBasePath()` on the definition it reads and its
+`dalgo2ingitdb` v0.6.1 already calls `RecordsBasePath()` on the definition it reads and its
 `go.mod` carries only a v0.5.2 floor, so it needs nothing further — the minimum is raised by
 the consumer, not the driver, and "propagate `record_file.records_dir` through its schema
 reader" is **not** the mechanism: `schema_reader.go:105` is not on the record path and maps
@@ -446,7 +502,7 @@ columns for `DescribeCollection` only. The consequence of missing the pin is sta
 implied: a consumer resolving `ingitdb-go/ingitdb` v0.5.2 has a `RecordFileDef` with no
 `RecordsDir` field, so the strict reader rejects a definition carrying
 `record_file.records_dir` as an unknown field rather than dropping it. `datatug-cli` already
-satisfies the pin by requiring `github.com/ingitdb/ingitdb-go/ingitdb v0.6.0` directly
+satisfies the pin by requiring `github.com/ingitdb/ingitdb-go/ingitdb` at v0.6.0 or later directly
 (`datatug-cli/go.mod:39`), and the pin is owed by whichever module **constructs the driver** —
 the CLI today, the backend at the other edge — not by `datatug-core`, which MUST NOT declare a
 DALgo driver at all (REQ:project-store-is-a-dalgo-database). With
@@ -529,7 +585,7 @@ be exercised until it lands MUST be stated as such and MUST NOT be scaffolded as
 
 ### AC: local-write-is-one-directory-per-record (verifies REQ:canonical-project-layout)
 
-**Given** a project `p1` on the local `dalgo2ingitdb` v0.6.0 driver whose collection definition carries the canonical `record_file` (`records_dir: '.'`)
+**Given** a project `p1` on the local `dalgo2ingitdb` v0.6.1 driver whose collection definition carries the canonical `record_file` (`records_dir: '.'`)
 **When** a query with id `q1` is saved
 **Then** the record gets its own directory holding `q1.query.json` — the parent directory is the `queries` collection directory, so the file is `projects/p1/queries/q1/q1.query.json` and not a flat `projects/p1/queries/q1.query.json` written directly into `queries`.
 
@@ -627,13 +683,37 @@ be exercised until it lands MUST be stated as such and MUST NOT be scaffolded as
 
 **Given** a change touching more than one project-item record
 **When** it is applied through the store
-**Then** it runs inside a DALgo transaction, no filestore transaction or lock code (`query_txn.go`, `query_lock.go`) is on the write path, and after the mutation a fresh DALgo read in a separate transaction observes the change while no bespoke journal or temporary file remains.
+**Then** it runs inside a DALgo transaction, no filestore transaction or lock code (`query_txn.go`, `query_txn_slots.go`, `query_lock.go`) is on the write path, and after the mutation a fresh DALgo read in a separate transaction observes the change while no bespoke journal or temporary file remains.
 
 ### AC: reserved-transaction-namespace-is-gone (verifies REQ:bespoke-transaction-machinery-is-retired)
 
 **Given** a project directory written by the DALgo-backed store
 **When** the repository root is listed and searched repository-wide
 **Then** it contains no reserved transaction directory (`.dt-query-txn/`) and no lock file, no on-disk transaction bookkeeping remains part of the project layout, and a search for the reserved namespace name `.dt-query-txn` finds nothing.
+
+### AC: filestore-has-no-callers (verifies REQ:filestore-is-cut-over)
+
+**Given** `datatug-core`, `datatug-cli` and `datatug/backend` at the cut-over commit
+**When** their packages are searched for `datatug-core/pkg/storage/filestore` and `datatug-core` is listed
+**Then** the package does not exist in `datatug-core`, no module imports it, and every consumer in the inventory reads and writes projects through the DALgo-backed store.
+
+### AC: legacy-layout-is-refused (verifies REQ:filestore-is-cut-over)
+
+**Given** a project directory in a legacy layout, one case each for a flat `queries/q1.query.json`, a `data/recordsets/` definition, an `environment-summary.json` and a `$records/` directory
+**When** the project is opened through the DALgo-backed store
+**Then** each open fails with a typed error naming the unsupported path, and none returns a partially loaded project.
+
+### AC: owned-demo-repository-uses-the-canonical-layout (verifies REQ:filestore-is-cut-over)
+
+**Given** `datatug/datatug-demo-projects` on `main` after the cut-over
+**When** every project in it is opened through the DALgo-backed store and its files are listed
+**Then** every project loads, every project item is at its canonical `<key>/<key>.<type-suffix>.json` path, and no legacy-layout file remains.
+
+### AC: query-write-guards-survive-the-cut-over (verifies REQ:query-write-guards-survive-the-cut-over)
+
+**Given** a project on the DALgo-backed store whose query `customers/customer-invoices` is at revision `R`
+**When** the store receives, in turn, a write whose location escapes the project or passes through a symlink, a write whose content carries credentials or result rows, a create for an id that already exists, an update conditioned on a revision other than `R`, and an update interrupted mid-write
+**Then** each unsafe or stale write is refused with a typed validation or revision-conflict error and changes no file, a freshly opened store after the interruption reads exactly the old or the new complete query and never a mix, and nothing is committed to Git.
 
 ### AC: remote-nesting-prerequisite-is-stated (verifies REQ:remote-nesting-prerequisite-is-recorded)
 
@@ -645,7 +725,7 @@ be exercised until it lands MUST be stated as such and MUST NOT be scaffolded as
 
 **Given** this Feature's recorded prerequisites
 **When** the local path is read for what it depends on
-**Then** it states that `record_file.records_dir: '.'` is the mechanism that omits the `$records` segment and is a property of `ingitdb-go/ingitdb >= v0.6.0` (`RecordFileDef.RecordsDir` declared at `record_file_def.go:29`, validated at `:61`, returning no `$records` segment at `:131-137`), that `dalgo2ingitdb` v0.6.0's `go.mod` declares only a *minimum* of `ingitdb-go/ingitdb` v0.5.2 so the requirement falls on the consuming module to resolve `ingitdb-go/ingitdb >= v0.6.0`, that a consumer resolving v0.5.2 has a `RecordFileDef` with no `RecordsDir` field and the strict `KnownFields(true)` reader then rejects a definition carrying `record_file.records_dir` as an unknown field on the `db.reader.ReadDefinition` → `RecordFileDef.RecordsBasePath()` record path, that `schema_reader.go:105` is `DescribeCollection` only and not on that path, and that `datatug-cli` already satisfies the pin by directly requiring `github.com/ingitdb/ingitdb-go/ingitdb v0.6.0` (`datatug-cli/go.mod:39`) while the pin is owed by whichever module constructs the driver — the CLI and the backend — and not by `datatug-core`, which MUST NOT declare a DALgo driver.
+**Then** it states that `record_file.records_dir: '.'` is the mechanism that omits the `$records` segment and is a property of `ingitdb-go/ingitdb >= v0.6.0` (`RecordFileDef.RecordsDir` declared at `record_file_def.go:29`, validated at `:61`, returning no `$records` segment at `:131-137`), that `dalgo2ingitdb` v0.6.1's `go.mod` declares only a *minimum* of `ingitdb-go/ingitdb` v0.5.2 so the requirement falls on the consuming module to resolve `ingitdb-go/ingitdb >= v0.6.0`, that a consumer resolving v0.5.2 has a `RecordFileDef` with no `RecordsDir` field and the strict `KnownFields(true)` reader then rejects a definition carrying `record_file.records_dir` as an unknown field on the `db.reader.ReadDefinition` → `RecordFileDef.RecordsBasePath()` record path, that `schema_reader.go:105` is `DescribeCollection` only and not on that path, and that `datatug-cli` already satisfies the pin by directly requiring `github.com/ingitdb/ingitdb-go/ingitdb` at v0.6.0 or later (`datatug-cli/go.mod:39`) while the pin is owed by whichever module constructs the driver — the CLI and the backend — and not by `datatug-core`, which MUST NOT declare a DALgo driver.
 
 ### AC: blocked-remote-clauses-are-not-recorded-as-passing (verifies REQ:remote-nesting-prerequisite-is-recorded)
 
@@ -710,7 +790,10 @@ AC:user-data-stays-compact, AC:data-is-reserved-for-user-data,
 AC:recordset-definitions-collapse-to-one-location, AC:reserved-transaction-namespace-is-gone),
 the module graph (AC:core-depends-on-dalgo-interfaces-only) and store-level round trips
 (AC:driver-is-selected-at-the-edge, AC:changes-go-through-dalgo-transactions,
-AC:foreign-files-survive-a-project-write, AC:projects-in-one-store-do-not-interfere). Their
+AC:foreign-files-survive-a-project-write, AC:projects-in-one-store-do-not-interfere) and the
+cut-over (AC:filestore-has-no-callers, AC:legacy-layout-is-refused,
+AC:owned-demo-repository-uses-the-canonical-layout,
+AC:query-write-guards-survive-the-cut-over). Their
 testable surfaces are real — filesystem layout assertions, `go list -m` over
 `datatug-core/go.mod`, and DALgo-backed round trips — so stubs SHOULD be scaffolded when
 implementation begins, pinned to the implementation's own package paths. Scaffolding them
@@ -795,41 +878,41 @@ are exercisable and MUST be scaffolded when implementation begins.
   `datatug-cli/pkg` or `datatug-cli/apps`, and a search of `datatug-apps` timed out and is
   unverified. If these are kept, `datasources/` should carry a README noting it may be a
   leftover to be deleted or implemented, and that note removed once resolved.
-- **A read-only compatibility shim for the five legacy dual layouts.** Not committed here.
-  Four types (entity, board, db model, env db catalog) currently tolerate the flat-vs-nested
-  two-layout rule, and `environment` additionally tolerates two competing filenames
-  (`environment-summary.json` vs `<id>.env.json`) inside one per-environment directory;
-  whether that tolerance survives as a shim or is dropped is an Open Question, and no AC in
-  this Feature requires either outcome.
-- **Legacy `*.sql.json` queries,** deliberately not loaded today
-  (`queries_tree.go:17-22`): convert or keep ignoring is an Open Question, not built here.
-- **The query-body sidecar** (`<id>.query.<type>`) and the repo-root `.datatug.yaml` —
-  Open Questions, not settled by this Feature.
+- **Any backward compatibility with the legacy layouts.** Founder decision, 2026-09-17: a hard
+  cut-over. No read-only shim for the dual layouts (entity, board, db model, env db catalog,
+  and `environment-summary.json` vs `<id>.env.json`), and no conversion of legacy `*.sql.json`
+  queries. REQ:filestore-is-cut-over refuses them all.
+- **Migrating repositories DataTug does not own.** Only DataTug-owned repositories are
+  rewritten. A user's legacy repository is refused with a typed error, not converted.
+- **The repo-root `.datatug.yaml`** is an Open Question, not settled by this Feature. How the
+  query body is carried is Open Question 4. The guarantees it must keep are not open
+  (REQ:query-write-guards-survive-the-cut-over).
 - **A home or retirement for the `columns`, `objects` and `refs` suffixes** — inherited
   suffixes with no collection in the current `ProjectStore` interface; an Open Question.
 
 ## Open Questions
 
-1. Read-only compatibility shim for the legacy dual layouts, or hard cut-over? The four
-   flat-vs-nested types are entity, board, db model and env db catalog; `environment` is the
-   separate competing-filename case (`environment-summary.json` vs `<id>.env.json`). Nothing
-   in this Feature's ACs commits either way.
-2. Legacy `*.sql.json` queries — convert them, or keep ignoring them as today?
+1. ~~Read-only compatibility shim for the legacy dual layouts, or hard cut-over?~~ Resolved
+   2026-09-17: hard cut-over, no backward compatibility (REQ:filestore-is-cut-over).
+2. ~~Legacy `*.sql.json` queries — convert or keep ignoring?~~ Resolved 2026-09-17: neither.
+   They are unsupported and refused under the hard cut-over.
 3. `columns`, `objects` and `refs` suffixes have no collection in `ProjectStore` — do they
    get a home, or are they retired?
 4. Query body carrier: keep `<id>.query.<type>` as a sidecar, or move the DTQL body into
-   the record?
+   the record? Either way, REQ:query-write-guards-survive-the-cut-over must hold. A body in the
+   record is one file, and `dalgo2ingitdb` writes one file per record. A sidecar is a second
+   file, and a `dalgo2ingitdb` v0.6.1 transaction keeps only in-memory snapshots
+   (`tx_readwrite.go:44-79`). It has no durable cross-file journal, so a crash between the two
+   writes would need one added in the driver.
 5. Is `.datatug.yaml` still needed at the repo root, given projects are discoverable by
    listing the `projects` collection and nothing in `datatug-core` reads it during
    `LoadProject`?
-6. Who owns the `openvaultdb-go` subcollection/full `record_file` configuration
-   prerequisite (at minimum `format`, `name`, `records_dir` and `type`) itself, and when
-   does it land? Its absence blocks only the remote *nested* path — the remote path stays
+6. ~~Who owns the `openvaultdb-go` subcollection/full `record_file` configuration
+   prerequisite?~~ Owned upstream as `openvaultdb/openvaultdb-go#26`, filed 2026-09-17. When it
+   lands is still open. Its absence blocks only the remote *nested* path — the remote path stays
    flat, as stated in REQ:remote-nesting-prerequisite-is-recorded and Blocked Clauses.
-7. Do the two migration defects named in Problem — `datatug-project.json`'s `id`
-   disagreeing with its directory name in the demo repo, and the
-   `newDirProjectItemsStore` lister/saver filename mismatch — get fixed by this move or by
-   a separate migration step?
+7. ~~Do the two migration defects get fixed by this move?~~ Resolved 2026-09-17: yes, by the
+   hard cut-over (REQ:filestore-is-cut-over).
 
 ---
 *This document follows the https://specscore.md/feature-specification*

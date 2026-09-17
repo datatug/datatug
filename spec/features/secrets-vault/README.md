@@ -223,10 +223,14 @@ precisely the failure the endpoint key exists to prevent.
 
 The remote (OpenVaultDB) path's ability to express this nesting is an upstream prerequisite
 recorded by `dalgo-project-store` REQ:remote-nesting-prerequisite-is-recorded: a declared
-collection must be able to express its subcollections and its `record_file` config, which
-`openvaultdb-go`'s `buildInGitDBDefinition` cannot do today. This Feature MUST NOT claim the
-remote nested credentials layout works, and no AC clause that depends on it MAY be scaffolded
-as passing.
+collection must be able to express its subcollection names and the full per-collection `record_file` configuration (`format`, the `name` template, `records_dir` and `type`, not `format` and `name` alone), which `openvaultdb-go`'s
+`buildInGitDBDefinition` cannot do today. This Feature MUST NOT claim the remote nested
+credentials layout works, and no AC clause that depends on it MAY be scaffolded as passing.
+Only the OpenVaultDB leg waits on it: the local `dalgo2ingitdb` driver already resolves the
+nesting (`dalgo2ingitdb/scoped_collection.go`), so the same key path is exercisable today
+wherever credentials are placed in a local store — the zero-`secrets`-binding placement in a
+local project items store that holds several projects — and that leg MUST NOT be blocked
+along with the OpenVaultDB one.
 
 Where a credentials store shares its storage with client-readable project data, binding
 validation MUST reject the placement by default under REQ:client-cannot-read-credentials; the
@@ -236,7 +240,11 @@ with informed confirmation, and what physical separation keeps out of a client-r
 #### REQ: vault-storage-is-pluggable
 
 A vault's storage MUST be selectable like any other OpenVaultDB storage, and DataTug MUST
-NOT require a particular backing store: GitHub and Firestore are candidates, and a **managed
+NOT require a particular backing store: GitHub and Firestore are candidates, realised as
+OpenVaultDB storage engines behind the host (`openvaultdb-go/pkg/mount/ingitdb_github.go`,
+`pkg/mount/firestore.go`) and reached by the server through the one `dalgo2openvaultdb`
+driver, so supporting them adds no DataTug-side driver and is not the DataTug Cloud or
+GitHub-native **project-item store** follow-on work named by `dalgo-project-store`; and a **managed
 vault** is an upstream/blocked capability — no DataTug artifact defines what provides it or
 what interface it exposes, so this Feature MUST NOT claim it exists, and no AC clause may be
 recorded as passing against it until an upstream definition lands. The server MUST read
@@ -245,7 +253,7 @@ credentials through dalgo/OpenVaultDB uniformly and MUST be unaware of the backi
 
 The typical arrangement is two stores with separate host ACLs — an **items store** holding
 project assets and a **credentials store** holding secrets. The browser reads the items store
-directly with the reader's own credential and MUST NEVER be given a credential for the
+directly with its own read-only credential and MUST NEVER be given a credential for the
 credentials store. Whether a given store may hold credentials depends on that store's own
 enforcement, and the rule admits exactly one path: client-readable credentials are never
 acceptable EXCEPT through a recorded informed override under
@@ -395,13 +403,13 @@ not provide.
 
 **Given** one vault bound by two projects
 **When** credentials are written for both
-**Then** each credential is its own record addressed as `projects/<project-id>/credentials/<server-id>` and written as `projects/<project-id>/credentials/<server-id>/<server-id>.credential.json` under the canonical project-item layout owned by `dalgo-project-store` REQ:canonical-project-layout, the vault store's `projects/<project-id>` acts as the scoping parent record without the project's own record existing in that store, neither project's records expose the other's credentials, and no record key contains a path separator. The clause that both projects' credentials are distinguishable as nested records in one shared store cannot be exercised until the upstream prerequisite recorded in `dalgo-project-store` REQ:remote-nesting-prerequisite-is-recorded lands; this Feature does not claim that layout works today.
+**Then** each credential is its own record addressed as `projects/<project-id>/credentials/<server-id>` and written as `projects/<project-id>/credentials/<server-id>/<server-id>.credential.json` under the canonical project-item layout owned by `dalgo-project-store` REQ:canonical-project-layout, the vault store's `projects/<project-id>` acts as the scoping parent record without the project's own record existing in that store, neither project's records expose the other's credentials, and no record key contains a path separator. The clause that both projects' credentials are distinguishable as nested records in one shared **OpenVaultDB** vault cannot be exercised until the upstream prerequisite recorded in `dalgo-project-store` REQ:remote-nesting-prerequisite-is-recorded lands, and this Feature does not claim that layout works there today; the same clause is exercisable now against a local `dalgo2ingitdb` store holding both projects and MUST NOT be blocked with the OpenVaultDB leg.
 
 ### AC: credentials-are-keyed-by-endpoint (verifies REQ:vault-mirrors-project-namespace)
 
 **Given** a project whose DEV and UAT environments both point at the same server
 **When** a credential is written for that server
-**Then** exactly one credential record exists for the owning project and that server at the key path `projects/<project-id>/credentials/<server-id>`, both environments resolve it, no environment-keyed duplicate exists, and no record key contains a path separator. The clause that the record sits under the owning project's key-path parent in a store shared with other projects cannot be exercised until the upstream prerequisite recorded in `dalgo-project-store` REQ:remote-nesting-prerequisite-is-recorded lands.
+**Then** exactly one credential record exists for the owning project and that server at the key path `projects/<project-id>/credentials/<server-id>`, both environments resolve it, no environment-keyed duplicate exists, and no record key contains a path separator. The clause that the record sits under the owning project's key-path parent in an **OpenVaultDB** vault shared with other projects cannot be exercised until the upstream prerequisite recorded in `dalgo-project-store` REQ:remote-nesting-prerequisite-is-recorded lands; the same clause is exercisable now against a local `dalgo2ingitdb` store shared with other projects and MUST NOT be blocked with the OpenVaultDB leg.
 
 ### AC: a-shared-server-has-one-vault-home (verifies REQ:project-vault-binding)
 
@@ -489,7 +497,7 @@ not provide.
 
 ### AC: server-reads-credentials-without-knowing-the-backend (verifies REQ:server-reads-credentials-uniformly)
 
-**Given** credentials held in a GitHub-backed store and a Firestore-backed store
+**Given** credentials held in an OpenVaultDB vault backed by GitHub and one backed by Firestore
 **When** the server resolves a credential for a given environment from each store
 **Then** it asks dalgo for that environment's credential from that store and dalgo routes to the backing implementation, the server's resolution code path is identical across the two, and no storage-specific branch exists above dalgo. The managed-vault leg of this AC is not defined by any DataTug artifact: it is an upstream/blocked capability (REQ:vault-storage-is-pluggable), so no clause exercising it may be recorded as passing until that definition lands.
 
@@ -505,14 +513,15 @@ Two upstream capabilities have not landed, so the following AC clauses cannot be
 This list is the carrier AC:blocked-clauses-are-not-recorded-as-passing points at; until the
 named upstream owner lands, none of these clauses may be scaffolded or recorded as passing.
 
-1. **AC:vault-is-laid-out-per-project** — the clause that both projects' credentials are
-   distinguishable as nested records in one shared store. It waits on `dalgo-project-store`
-   REQ:remote-nesting-prerequisite-is-recorded: `openvaultdb-go`'s manifest schema cannot yet
-   declare subcollection names and a per-collection `record_file` configuration, so no remote
-   backend produces that nested layout today.
-2. **AC:credentials-are-keyed-by-endpoint** — the clause that the record sits under the owning
-   project's key-path parent in a store shared with other projects. It waits on the same
-   `dalgo-project-store` REQ:remote-nesting-prerequisite-is-recorded.
+1. **AC:vault-is-laid-out-per-project** — the OpenVaultDB leg of the clause that both
+   projects' credentials are distinguishable as nested records in one shared store. It waits on
+   `dalgo-project-store` REQ:remote-nesting-prerequisite-is-recorded: `openvaultdb-go`'s manifest
+   schema cannot yet declare subcollection names and the full per-collection `record_file` configuration (`format`, the `name` template, `records_dir` and `type`, not `format` and `name` alone), so no OpenVaultDB vault produces that nested layout
+   today. The local `dalgo2ingitdb` leg of the same clause is not blocked.
+2. **AC:credentials-are-keyed-by-endpoint** — the OpenVaultDB leg of the clause that the record
+   sits under the owning project's key-path parent in a store shared with other projects. It
+   waits on the same `dalgo-project-store` REQ:remote-nesting-prerequisite-is-recorded; the local
+   `dalgo2ingitdb` leg is not blocked.
 3. **AC:server-reads-credentials-without-knowing-the-backend** — the managed-vault leg. It
    waits on an upstream definition of what provides a managed vault and what interface it
    exposes, owned outside DataTug and named as an upstream/blocked capability by
@@ -539,7 +548,8 @@ AC:server-reads-credentials-without-knowing-the-backend. One clause is explicitl
 rehearsable yet: the nested per-project addressing half of AC:vault-is-laid-out-per-project and
 AC:credentials-are-keyed-by-endpoint cannot be exercised until the upstream prerequisite
 recorded in `dalgo-project-store` REQ:remote-nesting-prerequisite-is-recorded lands, so a stub
-for it would assert a layout no remote backend produces. The layout policy itself is rehearsed
+for its OpenVaultDB leg would assert a layout no OpenVaultDB vault produces; its local
+`dalgo2ingitdb` leg is rehearsable now. The layout policy itself is rehearsed
 under `dalgo-project-store`, not here. One AC is documentary and has no runtime observer, so
 the Rehearse heuristic skips it: AC:blocked-clauses-are-not-recorded-as-passing asserts what
 this document records in `## Blocked Clauses`, not what code does. One further AC lands on the
@@ -580,7 +590,7 @@ zero-`secrets`-binding carrier of the refusal and its informed override.
 - The key-custody story for the deferred encrypted envelope, which differs per runtime and
   cannot be settled without the hosted/self-hosted/CLI split being final.
 - The remote nested path's upstream prerequisite — a declared OpenVaultDB collection that can
-  express subcollections and `record_file` config — is owned and recorded by
+  express subcollection names and the full per-collection `record_file` configuration (`format`, the `name` template, `records_dir` and `type`, not `format` and `name` alone) — is owned and recorded by
   `dalgo-project-store` REQ:remote-nesting-prerequisite-is-recorded. This Feature has no
   separate open question on the credential layout: the key path is fixed
   (`projects/<project-id>/credentials/<server-id>`) and only its remote realisation is

@@ -40,7 +40,10 @@ canonical project layout and the DALgo persistence architecture it rests on are 
 The initial audit recorded that the local filestore is the only fully working `Store`
 backend, that GitHub-hosted projects can write but not read back
 (`GhStorage.FileExists`/`OpenFile` panic), and that the store abstraction has a single
-real implementation despite four named backends. Meanwhile the knowledge a DataTug user
+real implementation despite four named backends. The DataTug cloud store has since become a
+working store for project records: `datatug/backend` creates a project in Firestore through
+DALgo (`api4datatug/http_project_create.go`, `?store=firestore`; `facade4datatug/project_create.go`),
+which is the source store AC:store-switch-is-an-explicit-migration moves from. Meanwhile the knowledge a DataTug user
 accumulates is exactly the asset they would most want to keep in storage they own.
 
 Two constraints shape the solution and are inherited rather than invented here:
@@ -67,7 +70,7 @@ format and type, and the collection/subcollection key path — is owned by
 REQ:hierarchy-is-a-key-path, REQ:readme-per-collection-and-record). This Feature defers to
 that layout and does not restate it, and no requirement here asserts the shape of a
 collection, a record key or a path. The remote (OpenVaultDB) path's upstream prerequisite —
-letting a declared collection express its subcollections and its `record_file` config — is
+letting a declared collection express its subcollection names and the full per-collection `record_file` configuration (`format`, `name`, `records_dir`, `type`), tracked upstream as `openvaultdb/openvaultdb-go#26` — is
 likewise owned and recorded by `dalgo-project-store`
 REQ:remote-nesting-prerequisite-is-recorded, and this Feature does not claim that the remote
 nested layout works today.
@@ -149,23 +152,33 @@ by any path that bypasses the server.
 
 #### REQ: browser-read-path
 
-A browser MUST be able to read a project's **items store** directly from the store's git host
-over its REST API, using a read credential the user supplies, through a reader module shipped
-in `datatug-apps`. The browser is NEVER given a credential for a credentials store: a
-credentials store is reached only by the server, which reads credentials through
-`dalgo`/OpenVaultDB uniformly, unaware of whether the backing storage is GitHub, Firestore, or
-a managed vault. The reader MUST be conformance-tested against the writer's output, so that
-the Go writer and the browser reader cannot drift apart silently. The reader resolves the
-backing repository's coordinates from the **OpenVaultDB host itself** — the owner of that
-mapping, because the host knows where the store is backed — using the bound store's recorded
-identity (host base URL and vault id) and the host's discovery surface
-`/.well-known/openvaultdb`; the client MUST NOT need the DataTug server to obtain them. Those
-coordinates are **not** carried in the per-user registry, which MUST NOT record a project's
-bindings or its backing repository (REQ:registry-is-authoritative). Because this path bypasses
-the server, DataTug MUST document its limits plainly: a reader credential that can reach the
-bound store can reach anything else that credential covers, so
-read-scoped restrictions expressed in DataTug MUST NOT be advertised as enforced on this
-path. This is the one declared exception to `server-enforced-access`'s rule that reads
+A browser MUST be able to read a project's **items store** directly from the bound store's
+**OpenVaultDB host**, over that host's `/v1` data API, without the DataTug server, through a
+reader module shipped in `datatug-apps`. The reader addresses the host by the binding's
+recorded identity alone — its host base URL and vault id (REQ:project-store-binding) — so it
+needs **no backing-repository coordinates**, never talks to the git host behind the vault, and
+resolves nothing from the registry, which MUST NOT record a project's bindings or its backing
+repository (REQ:registry-is-authoritative). The host's `/.well-known/openvaultdb` document is
+used only to validate that the base URL is an OpenVaultDB host; it carries no repository
+coordinates (`openvaultdb-com/interface/main.tsp` `ServerInfo`), and the reader MUST NOT depend
+on it for any.
+
+The reader's credential is an OpenVaultDB **application grant** obtained through the host's
+Connect flow (consent → one-time code → `/token`) and is **read-only by construction**: the
+grant DataTug requests carries only the `records:read` capability, bound to the vault's
+database id, and collection-scoped to the project's item collections wherever those share a
+database with anything else (`openvaultdb-go/pkg/auth/auth.go` — a collection-scoped grant never
+matches another collection, and a grant with a database id never matches another database). A
+token whose grant carries any write capability, or any capability beyond that scope, MUST be
+refused by the reader rather than used. The host MUST admit the DataTug app origin through its
+CORS configuration (`openvaultdb-go/pkg/server/cors.go`). The browser is NEVER given a credential
+for a credentials store: a credentials store is reached only by the server, which reads
+credentials through `dalgo`/OpenVaultDB uniformly, unaware of whether the backing storage is
+GitHub, Firestore, or a managed vault. The reader MUST be conformance-tested against the
+writer's output, so that the Go writer and the browser reader cannot drift apart silently.
+Because this path bypasses the server, DataTug MUST document its limits plainly: whatever the
+grant's scope covers is readable by the browser, so read-scoped restrictions expressed in
+DataTug below that scope MUST NOT be advertised as enforced on this path. This is the one declared exception to `server-enforced-access`'s rule that reads
 reach a source through the trusted server; see REQ:project-store-read-exception.
 
 #### REQ: project-store-read-exception
@@ -227,7 +240,7 @@ host ACLs, but the rule does not depend on that arrangement: whatever a bound st
 credential DataTug uses to reach it MUST be held in a **server-only** credential store and MUST
 NEVER be written to a client-readable surface — the registry at `users/{uid}/ext/datatug`, the
 project record or any other binding, or any client bundle. The browser reads the **items** store
-directly with the reader's own credential (REQ:browser-read-path) and is NEVER given a
+directly with its read-only OpenVaultDB grant (REQ:browser-read-path) and is NEVER given a
 credential for a credentials store; the server reads credentials through `dalgo`/OpenVaultDB
 uniformly, unaware of whether the backing storage is GitHub, Firestore, or a managed vault. A
 binding records exactly the field set defined once in REQ:project-store-binding — `role`, host
@@ -290,9 +303,9 @@ owner.
 
 ### AC: browser-reads-a-project-without-the-server (verifies REQ:browser-read-path)
 
-**Given** a project written to a repository through the server, and a user-supplied read credential for that repository
-**When** the browser opens the project with the server unavailable
-**Then** the repository's coordinates are resolved from the OpenVaultDB host's discovery surface at `/.well-known/openvaultdb` using the bound store's recorded host base URL and vault id, the project's assets are read from that repository over its REST API without the DataTug server and without the registry carrying the coordinates, no credential for a credentials store is ever accepted or used by the browser, and the parsed result matches what the conformance test derives from the Go writer's output.
+**Given** a project written to an OpenVaultDB store through the server, and a read-only OpenVaultDB grant (`records:read` only, bound to that vault's database) obtained through the host's Connect flow
+**When** the browser opens the project with the DataTug server unavailable
+**Then** the project's assets are read from the OpenVaultDB host's `/v1` data API addressed by the bound store's recorded host base URL and vault id alone, no backing-repository coordinate is resolved or needed and none is carried by the registry, a token whose grant carries a write capability is refused rather than used, no credential for a credentials store is ever accepted or used by the browser, and the parsed result matches what the conformance test derives from the Go writer's output.
 
 ### AC: project-list-comes-from-the-registry (verifies REQ:registry-is-authoritative)
 
@@ -340,7 +353,7 @@ owner.
 
 **Given** the AC clauses of this Feature that assert the colocation refusal, its named-secret enumeration and its informed override, including the zero-`secrets`-binding case carried by the `project`-role binding
 **When** this Feature's status is recorded
-**Then** every such clause is enumerated in the `## Conformance Dependencies` list below together with the owning requirement it waits on, and none of them is recorded as passing before that enforcement exists.
+**Then** every such clause — the whole of AC:colocation-refused-by-default-with-informed-override and the zero-`secrets`-binding clause of AC:bindings-are-single-sourced-on-a-shared-project — is enumerated in the `## Conformance Dependencies` list below together with the owning requirement it waits on, and none of them is recorded as passing before that enforcement exists.
 
 ## Conformance Dependencies
 
@@ -349,7 +362,7 @@ normative owner and enforcement is `secrets-vault` REQ:client-cannot-read-creden
 nothing else. `secrets-vault` depends on this Feature and this Feature MUST NOT depend on
 `secrets-vault` — that edge would close a cycle — so the enforcement this Feature waits on is
 **not reachable by a dependency edge from here**; it is recorded as an explicit conformance
-dependency instead. The following clause is what the carrier
+dependency instead. The following clauses are what the carrier
 AC:colocation-conformance-depends-on-secrets-vault points at, and until the named enforcement
 exists it may not be scaffolded or recorded as passing.
 
@@ -361,8 +374,18 @@ exists it may not be scaffolded or recorded as passing.
    the `secrets` binding, or the `project`-role binding when the project has zero `secrets`
    bindings (REQ:project-store-binding) — and MUST NOT define a second enforcement of the rule
    while it waits.
+2. **AC:bindings-are-single-sourced-on-a-shared-project** — the zero-`secrets`-binding clause:
+   that the second project's credentials placement in its own items store is refused by
+   default with the specific secrets enumerated by name, is saved only after the explicit
+   "Are you sure?"-style confirmation, and records the client-readable statement on its
+   `project`-role binding. It waits on the same `secrets-vault`
+   REQ:client-cannot-read-credentials enforcement. The rest of that AC — one `role: project`
+   binding chosen before the first write, zero `role: secrets` bindings, both users reading one
+   binding set from the project record, the `project`-role binding not rejected merely for being
+   client-readable, and an unknown `role` rejected — is exercisable on its own and MUST NOT be
+   gated along with the named clause.
 
-This Feature MUST NOT record the clause above as passing before that enforcement lands, and
+This Feature MUST NOT record the clauses above as passing before that enforcement lands, and
 MUST NOT restate the rule's normative content in the meantime. A verifier that reads the
 clause as independently verifiable is reading it wrongly: the dependency is real, named and
 one-directional, and it is recorded here rather than assumed.
@@ -423,7 +446,7 @@ not be attached to this Feature's plan as a Supporting AC.
   (`pkg/dtgithub/github_storage.go`). `git-native-projects`
   AC:github-project-reads-back-what-it-wrote is therefore **undeliverable as scoped here** and
   MUST NOT be recorded as a Supporting AC of this Feature's plan: this Feature's browser read
-  path reaches the repository over its REST API and does not use `GhStorage`, and adding
+  path reads through the OpenVaultDB host's `/v1` API and does not use `GhStorage`, and adding
   `GhStorage` read support is a separate task owned by `git-native-projects` — an explicit
   prerequisite for that AC, not an obligation of this Feature.
 - Client-direct writes to the project store, which `git-native-projects` already excludes.
@@ -438,7 +461,7 @@ not be attached to this Feature's plan as a Supporting AC.
   endpoint, which is out of scope (see Not Doing / Out of Scope); it is not required of, and
   does not constrain, a user-supplied host.
 - The remote (OpenVaultDB) nested layout is not an open question of this Feature: its upstream
-  prerequisite — a declared collection able to express subcollections and `record_file` config
+  prerequisite — a declared collection able to express subcollection names and the full per-collection `record_file` configuration (`format`, `name`, `records_dir`, `type`), tracked upstream as `openvaultdb/openvaultdb-go#26`
   — is owned and recorded by `dalgo-project-store`
   REQ:remote-nesting-prerequisite-is-recorded, and the canonical layout it must realise is
   owned there too.
