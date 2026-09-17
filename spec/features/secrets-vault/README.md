@@ -47,8 +47,8 @@ REQ:vault-storage-is-pluggable).
 
 Credentials are addressed by the owning project and the endpoint's server at the location
 `dalgo-project-store` declares: collection `credentials` as a subcollection of the `projects`
-record, key path `projects/<project-id>/credentials/<server-id>`, file
-`projects/<project-id>/credentials/<server-id>/<server-id>.credential.json`, suffix
+record, key path `ext/datatug/projects/<project-id>/credentials/<server-id>`, file
+`ext/datatug/projects/<project-id>/credentials/<server-id>/<server-id>.credential.json`, suffix
 `credential` (REQ:vault-mirrors-project-namespace) — so a vault that serves several projects
 keeps them apart, and a vault's structure is readable by reading files exactly as a project is
 — by the store natively or through the server, never by the client, since the credentials
@@ -196,8 +196,8 @@ than silently duplicating the credential.
 The credential's location and filename are declared, with the rest of the canonical
 project-item layout and its naming policy, by `dalgo-project-store`: collection `credentials`
 as a subcollection of the `projects` record, key path
-`projects/<project-id>/credentials/<server-id>`, file
-`projects/<project-id>/credentials/<server-id>/<server-id>.credential.json`, suffix
+`ext/datatug/projects/<project-id>/credentials/<server-id>`, file
+`ext/datatug/projects/<project-id>/credentials/<server-id>/<server-id>.credential.json`, suffix
 `credential`. This Feature names only that address and MUST NOT define the naming policy —
 owned by `dalgo-project-store` REQ:canonical-project-layout,
 REQ:type-suffix-is-self-identifying and REQ:hierarchy-is-a-key-path — and MUST NOT restate the
@@ -211,7 +211,7 @@ project's id MUST be part of the address: a credentials store MAY hold several D
 projects, so a credential addressed by its endpoint alone cannot be kept apart from another
 project's credential for that endpoint.
 
-The vault store's `projects/<project-id>` is a **key-path scoping parent**, not a copy of the
+The vault store's `ext/datatug/projects/<project-id>` is a **key-path scoping parent**, not a copy of the
 project: the project's own record lives in the items store, the vault store is a different
 store (possibly a different repository), and the parent record need not exist in the vault
 store. The scoping comes from the key path, not from a materialised parent.
@@ -410,13 +410,13 @@ not provide.
 
 **Given** one vault bound by two projects
 **When** credentials are written for both
-**Then** each credential is its own record addressed as `projects/<project-id>/credentials/<server-id>` and written as `projects/<project-id>/credentials/<server-id>/<server-id>.credential.json` under the canonical project-item layout owned by `dalgo-project-store` REQ:canonical-project-layout, the vault store's `projects/<project-id>` acts as the scoping parent record without the project's own record existing in that store, neither project's records expose the other's credentials, and no record key contains a path separator. The clause that both projects' credentials are distinguishable as nested records in one shared **OpenVaultDB** vault cannot be exercised until the upstream prerequisite recorded in `dalgo-project-store` REQ:remote-nesting-prerequisite-is-recorded lands, and this Feature does not claim that layout works there today; the same clause is exercisable now against a local `dalgo2ingitdb` store holding both projects and MUST NOT be blocked with the OpenVaultDB leg.
+**Then** each credential is its own record addressed as `ext/datatug/projects/<project-id>/credentials/<server-id>` and written as `ext/datatug/projects/<project-id>/credentials/<server-id>/<server-id>.credential.json` under the canonical project-item layout owned by `dalgo-project-store` REQ:canonical-project-layout, the vault store's `ext/datatug/projects/<project-id>` acts as the scoping parent record without the project's own record existing in that store, neither project's records expose the other's credentials, and no record key contains a path separator. The clause that both projects' credentials are distinguishable as nested records in one shared **OpenVaultDB** vault cannot be exercised until the upstream prerequisite recorded in `dalgo-project-store` REQ:remote-nesting-prerequisite-is-recorded lands, and this Feature does not claim that layout works there today; the same clause is exercisable now against a local `dalgo2ingitdb` store holding both projects and MUST NOT be blocked with the OpenVaultDB leg.
 
 ### AC: credentials-are-keyed-by-endpoint (verifies REQ:vault-mirrors-project-namespace)
 
 **Given** a project whose DEV and UAT environments both point at the same server
 **When** a credential is written for that server
-**Then** exactly one credential record exists for the owning project and that server at the key path `projects/<project-id>/credentials/<server-id>`, both environments resolve it, no environment-keyed duplicate exists, and no record key contains a path separator. The clause that the record sits under the owning project's key-path parent in an **OpenVaultDB** vault shared with other projects cannot be exercised until the upstream prerequisite recorded in `dalgo-project-store` REQ:remote-nesting-prerequisite-is-recorded lands; the same clause is exercisable now against a local `dalgo2ingitdb` store shared with other projects and MUST NOT be blocked with the OpenVaultDB leg.
+**Then** exactly one credential record exists for the owning project and that server at the key path `ext/datatug/projects/<project-id>/credentials/<server-id>`, both environments resolve it, no environment-keyed duplicate exists, and no record key contains a path separator. The clause that the record sits under the owning project's key-path parent in an **OpenVaultDB** vault shared with other projects cannot be exercised until the upstream prerequisite recorded in `dalgo-project-store` REQ:remote-nesting-prerequisite-is-recorded lands; the same clause is exercisable now against a local `dalgo2ingitdb` store shared with other projects and MUST NOT be blocked with the OpenVaultDB leg.
 
 ### AC: a-shared-server-has-one-vault-home (verifies REQ:project-vault-binding)
 
@@ -530,7 +530,7 @@ named upstream owner lands, none of these clauses may be scaffolded or recorded 
    waits on the same `dalgo-project-store` REQ:remote-nesting-prerequisite-is-recorded; the local
    `dalgo2ingitdb` leg is not blocked.
 3. **AC:server-reads-credentials-without-knowing-the-backend** — the GitHub-engine leg waits on
-   `openvaultdb/openvaultdb-go#26`: on the GitHub engine no key under `projects/<project-id>/`
+   `openvaultdb/openvaultdb-go#26`: on the GitHub engine no key under `ext/datatug/projects/<project-id>/`
    can be written at all (`dalgo2ingitdb4github/scoped_collection.go:86-99`). The identical-code-path clause is exercisable across the Firestore engine and the local `ingitdb` engine until the GitHub engine joins. Separately, the managed-vault leg is blocked as follows. It
    waits on an upstream definition of what provides a managed vault and what interface it
    exposes, owned outside DataTug and named as an upstream/blocked capability by
@@ -584,8 +584,8 @@ zero-`secrets`-binding carrier of the refusal and its informed override.
 - The canonical project-item layout and its naming policy: owned by `dalgo-project-store`.
   This Feature names only the credential's own address and filename within that layout —
   collection `credentials` as a subcollection of the `projects` record, key path
-  `projects/<project-id>/credentials/<server-id>`, file
-  `projects/<project-id>/credentials/<server-id>/<server-id>.credential.json`, suffix
+  `ext/datatug/projects/<project-id>/credentials/<server-id>`, file
+  `ext/datatug/projects/<project-id>/credentials/<server-id>/<server-id>.credential.json`, suffix
   `credential` — and MUST NOT restate the general directory shape, `records_dir`, the record
   format or the type-suffix grammar. The remote nested
   path is an upstream prerequisite recorded by `dalgo-project-store`
@@ -602,7 +602,7 @@ zero-`secrets`-binding carrier of the refusal and its informed override.
   express subcollection names and the full per-collection `record_file` configuration (`format`, the `name` template, `records_dir` and `type`, not `format` and `name` alone) — is owned and recorded by
   `dalgo-project-store` REQ:remote-nesting-prerequisite-is-recorded. This Feature has no
   separate open question on the credential layout: the key path is fixed
-  (`projects/<project-id>/credentials/<server-id>`) and only its remote realisation is
+  (`ext/datatug/projects/<project-id>/credentials/<server-id>`) and only its remote realisation is
   pending.
 
 ---

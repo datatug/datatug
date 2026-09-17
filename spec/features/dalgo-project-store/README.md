@@ -118,8 +118,8 @@ The same move also settles the **user data** format, which the demo currently st
 inconsistently with the target: `demo-project-1/data/ingitdb/support-notes` writes each
 support note as an individual `format: yaml` / `type: map[string]any` file under that
 collection's `$records/`, whereas the target keeps one inGitDB database root per project at
-`projects/<project-id>/data/ingitdb/`, with each dataset at
-`projects/<project-id>/data/ingitdb/<dataset>/<dataset>.ingr`. The target deliberately chooses
+`ext/datatug/projects/<project-id>/data/ingitdb/`, with each dataset at
+`ext/datatug/projects/<project-id>/data/ingitdb/<dataset>/<dataset>.ingr`. The target deliberately chooses
 `format: ingr` with a
 `ListOfRecords` or `MapOfRecords` type instead — a format that is inherently a multi-record
 container (`RecordFileDef.Validate()` rejects `SingleRecord` for `RecordFormatINGR`) and
@@ -194,25 +194,27 @@ The canonical layout this produces is one tree, shared by every backend:
 
 ```
 <store root>/
-  projects/
-    <project-id>/
-      <project-id>.datatug-project.json
-      credentials/<server-id>/<server-id>.credential.json
-      queries/<query-id>/<query-id>.query.json
-      entities/<entity-id>/<entity-id>.entity.json
-      environments/<env-id>/<env-id>.env.json
-      environments/<env-id>/servers/<server-id>/<server-id>.server.json
-      environments/<env-id>/catalogs/<catalog-id>/<catalog-id>.db.json
-      dbmodels/<model-id>/<model-id>.dbmodel.json
-      boards/<board-id>/<board-id>.board.json
-      recordsets/<set-id>/<set-id>.recordset.json
-      folders/<folder-id>/<folder-id>.folder.json
-      dbdrivers/<driver-id>/
-        <driver-id>.dbdriver.json
-        dbservers/<server-id>/<server-id>.dbserver.json
-      data/ingitdb/<dataset>/<dataset>.ingr
-    <project-id-2>/
-      ...
+  ext/
+    datatug/                        # extension namespace (scoping parent; no record file needed)
+      projects/
+        <project-id>/
+          <project-id>.datatug-project.json
+          credentials/<server-id>/<server-id>.credential.json
+          queries/<query-id>/<query-id>.query.json
+          entities/<entity-id>/<entity-id>.entity.json
+          environments/<env-id>/<env-id>.env.json
+          environments/<env-id>/servers/<server-id>/<server-id>.server.json
+          environments/<env-id>/catalogs/<catalog-id>/<catalog-id>.db.json
+          dbmodels/<model-id>/<model-id>.dbmodel.json
+          boards/<board-id>/<board-id>.board.json
+          recordsets/<set-id>/<set-id>.recordset.json
+          folders/<folder-id>/<folder-id>.folder.json
+          dbdrivers/<driver-id>/
+            <driver-id>.dbdriver.json
+            dbservers/<server-id>/<server-id>.dbserver.json
+          data/ingitdb/<dataset>/<dataset>.ingr
+        <project-id-2>/
+          ...
 ```
 
 The inGitDB on-disk contract also requires schema metadata the demo carries:
@@ -223,12 +225,12 @@ neither project items nor part of the per-record directory shape above.
 
 The `projects` collection MAY hold records for more than one project: a store is **not**
 per-project, and a second project written to the same store MUST be addressed under its own
-`projects/<project-id>` subtree rather than colliding with the first.
+`ext/datatug/projects/<project-id>` subtree rather than colliding with the first.
 
 The credential location is part of this canonical layout. Collection `credentials` is a
 subcollection of the `projects` record, key path
-`projects/<project-id>/credentials/<server-id>`, file
-`projects/<project-id>/credentials/<server-id>/<server-id>.credential.json`, suffix
+`ext/datatug/projects/<project-id>/credentials/<server-id>`, file
+`ext/datatug/projects/<project-id>/credentials/<server-id>/<server-id>.credential.json`, suffix
 `credential`. This Feature owns that naming policy so `secrets-vault` needs only to name the
 address; credential semantics remain owned by `secrets-vault`
 REQ:vault-mirrors-project-namespace. Which store realises the subcollection is decided by the
@@ -241,6 +243,18 @@ NOT be stored inside another project-item type's collection directory — `crede
 own collection, so no credential file may sit under the `queries/`, `entities/`,
 `environments/`, `dbmodels/`, `boards/`, `recordsets/`, `folders/`, `dbdrivers/` or `data/`
 directories.
+
+#### REQ: extension-namespace
+
+Every DataTug record in a store MUST live under the extension namespace
+`ext/datatug/`: collection `ext`, record id `datatug`, then its subcollections. So a project
+is `ext/datatug/projects/<project-id>`, and every project item's key path starts with it.
+Founder decision, 2026-09-17: *"prefix them with DataTug extension … /ext/datatug/projects/<id>/…
+That's how we keep them in Firestore and we should do the same in git storage for consistency.
+This would also allow us to store data from multiple extensions without conflicts."* The
+`ext/datatug` record is a **scoping parent**: it need not exist as a record file, exactly as a
+Firestore parent document need not exist. Nothing DataTug writes MAY sit outside `ext/datatug/`,
+so another extension's `ext/<other-id>/` subtree in the same store is never touched.
 
 #### REQ: type-suffix-is-self-identifying
 
@@ -268,7 +282,7 @@ subcollection.
 #### REQ: hierarchy-is-a-key-path
 
 Hierarchy MUST be expressed as collection/subcollection key paths
-(`projects/<project-id>/queries/<query-id>`), and no record key MAY contain a path
+(`ext/datatug/projects/<project-id>/queries/<query-id>`), and no record key MAY contain a path
 separator. The relation is `collection/id/subcollection/id`, the shape
 `dalgo2openvaultdb` addresses and the shape `resolveScopedCollection` resolves to a
 concrete in-repo directory on both driver legs — `dalgo2ingitdb4github/scoped_collection.go`
@@ -277,20 +291,20 @@ which interleaves parent-record ids with subcollection names the same way.
 
 The canonical key paths this Feature owns are:
 
-- `projects/<project-id>` — the project record
-- `projects/<project-id>/queries/<query-id>`
-- `projects/<project-id>/entities/<entity-id>`
-- `projects/<project-id>/environments/<env-id>`
-- `projects/<project-id>/environments/<env-id>/servers/<server-id>`
-- `projects/<project-id>/environments/<env-id>/catalogs/<catalog-id>`
-- `projects/<project-id>/dbmodels/<model-id>`
-- `projects/<project-id>/boards/<board-id>`
-- `projects/<project-id>/recordsets/<set-id>`
-- `projects/<project-id>/folders/<folder-id>`
-- `projects/<project-id>/dbdrivers/<driver-id>`
-- `projects/<project-id>/dbdrivers/<driver-id>/dbservers/<server-id>` — a db server is
+- `ext/datatug/projects/<project-id>` — the project record
+- `ext/datatug/projects/<project-id>/queries/<query-id>`
+- `ext/datatug/projects/<project-id>/entities/<entity-id>`
+- `ext/datatug/projects/<project-id>/environments/<env-id>`
+- `ext/datatug/projects/<project-id>/environments/<env-id>/servers/<server-id>`
+- `ext/datatug/projects/<project-id>/environments/<env-id>/catalogs/<catalog-id>`
+- `ext/datatug/projects/<project-id>/dbmodels/<model-id>`
+- `ext/datatug/projects/<project-id>/boards/<board-id>`
+- `ext/datatug/projects/<project-id>/recordsets/<set-id>`
+- `ext/datatug/projects/<project-id>/folders/<folder-id>`
+- `ext/datatug/projects/<project-id>/dbdrivers/<driver-id>`
+- `ext/datatug/projects/<project-id>/dbdrivers/<driver-id>/dbservers/<server-id>` — a db server is
   placed under its db driver, with record file `.../<server-id>.dbserver.json`
-- `projects/<project-id>/credentials/<server-id>` — realised in the vault store when the
+- `ext/datatug/projects/<project-id>/credentials/<server-id>` — realised in the vault store when the
   project has a `secrets` binding, and in the project's own items store only when the project
   has **zero** `secrets` bindings, subject to the colocation policy owned by `secrets-vault`
 
@@ -326,12 +340,12 @@ whenever the project has a `secrets` binding — the vault the server-to-vault a
 that binding's servers field selects (`secrets-vault` REQ:project-vault-binding) — and in the
 project's own items store only in the zero-`secrets`-binding case, subject to the colocation
 policy owned by `secrets-vault`: its collection and key path are declared in the canonical
-layout above (`projects/<project-id>/credentials/<server-id>`, file
+layout above (`ext/datatug/projects/<project-id>/credentials/<server-id>`, file
 `.../<server-id>.credential.json`), so this Feature owns the suffix and naming policy while
 `secrets-vault` REQ:vault-mirrors-project-namespace owns credential semantics.
 
 `dbserver` is not homeless: it is placed under its db driver in the layout above
-(`projects/<project-id>/dbdrivers/<driver-id>/dbservers/<server-id>`, file
+(`ext/datatug/projects/<project-id>/dbdrivers/<driver-id>/dbservers/<server-id>`, file
 `.../<server-id>.dbserver.json`).
 
 `columns`, `objects` and `refs` are inherited suffixes with no collection in the current
@@ -348,7 +362,7 @@ MUST honour two rules about what it does *not* touch:
   byte for byte.
 - **Cross-project non-interference.** Two projects written to the same store MUST have
   disjoint records and disjoint user data — each project's records and user data live only
-  under its own `projects/<project-id>` subtree — and neither write MUST alter the other
+  under its own `ext/datatug/projects/<project-id>` subtree — and neither write MUST alter the other
   project's files.
 
 Both rules were previously carried by Acceptance Criteria of the sibling
@@ -368,23 +382,23 @@ requires `ListOfRecords` or `MapOfRecords` — the format is inherently a multi-
 container, which also avoids the recursion question entirely because these types read one
 named file. Because a dataset belongs to a project while a store MAY hold several projects,
 a project's user data lives in one inGitDB database root scoped per project at
-`projects/<project-id>/data/ingitdb/`, matching the legacy project-relative root
+`ext/datatug/projects/<project-id>/data/ingitdb/`, matching the legacy project-relative root
 (`demo-project-1/data/ingitdb/`, which holds `.ingitdb/root-collections.yaml` and one
 directory per collection). Each dataset is a collection inside it, so the dataset file is
-`projects/<project-id>/data/ingitdb/<dataset>/<dataset>.ingr`.
+`ext/datatug/projects/<project-id>/data/ingitdb/<dataset>/<dataset>.ingr`.
 
 #### REQ: user-data-is-not-a-project-item
 
 User data MUST NOT be stored as a project item: the per-project `data/` subtree —
-`projects/<project-id>/data/`, whose inGitDB database root is
-`projects/<project-id>/data/ingitdb/` — MUST be reserved for that project's user data, so
+`ext/datatug/projects/<project-id>/data/`, whose inGitDB database root is
+`ext/datatug/projects/<project-id>/data/ingitdb/` — MUST be reserved for that project's user data, so
 one project's user data is never reachable by, or able to collide with, another project's;
 and no project item MAY be stored under a project's `data/` subtree.
 
 #### REQ: user-data-uses-a-compact-ingr-file
 
 A dataset MUST be stored compactly as one multi-record file per dataset under the project's
-user-data database root: `projects/<project-id>/data/ingitdb/<dataset>/<dataset>.ingr` MUST
+user-data database root: `ext/datatug/projects/<project-id>/data/ingitdb/<dataset>/<dataset>.ingr` MUST
 carry `format: ingr` and `type` MUST be `ListOfRecords` (`'[]map[string]any'`) or
 `MapOfRecords` (`'map[$record_id]map[$field_name]any'`), so a dataset is
 one named file rather than a directory per record. The dataset collection's `record_file`
@@ -403,7 +417,7 @@ the demo stores the same dataset as individual
 #### REQ: recordset-definitions-are-a-project-item
 
 Recordset definitions MUST be project items at
-`projects/<project-id>/recordsets/<set-id>/<set-id>.recordset.json`; the two existing
+`ext/datatug/projects/<project-id>/recordsets/<set-id>/<set-id>.recordset.json`; the two existing
 project-relative locations — the loader's `data/recordsets/...` path
 (`loader_recordsets.go:22`) and the flat `recordsets/<id>.recordset.json` — MUST be removed
 by the move, collapsing the duplication.
@@ -575,8 +589,8 @@ that `buildInGitDBDefinition` can populate subcollections instead of only flat
 `name` alone cannot produce the asserted layout, because a `{key}`-bearing name with no
 `records_dir` makes `RecordFileDef.RecordsBasePath()` return `"$records"`
 (`record_file_def.go:131-142`), so a query lands at
-`projects/p1/queries/$records/q1/q1.query.json` instead of the asserted
-`projects/p1/queries/q1/q1.query.json`; only `records_dir: '.'` yields the asserted path, and
+`ext/datatug/projects/p1/queries/$records/q1/q1.query.json` instead of the asserted
+`ext/datatug/projects/p1/queries/q1/q1.query.json`; only `records_dir: '.'` yields the asserted path, and
 the Feature's own driver facts above already state that mechanism. `type` is required too,
 because the user-data dataset needs `ListOfRecords` or `MapOfRecords` remotely and a record
 type cannot be expressed by `format` or `name` either. This is an upstream prerequisite, not
@@ -600,7 +614,7 @@ instead of only flat `def.Collections[name]`. A manifest that exposes only `form
 `name` is **not** sufficient and does not unblock the remote canonical layout: without
 `records_dir`, `RecordFileDef.RecordsBasePath()` returns `"$records"` for a `{key}`-bearing
 name (`record_file_def.go:131-142`) and the record lands at
-`projects/p1/queries/$records/q1/q1.query.json`; without `type`, the user-data dataset's
+`ext/datatug/projects/p1/queries/$records/q1/q1.query.json`; without `type`, the user-data dataset's
 `ListOfRecords`/`MapOfRecords` shape cannot be declared. Until the whole configuration lands,
 the remote path cannot produce the canonical nested layout; the consequence is stated, not
 implied — the remote
@@ -614,7 +628,7 @@ the host's storage engine:
 
 - **GitHub engine.** The manifest-built definition carries no `SubCollections`, and
   `dalgo2ingitdb4github/scoped_collection.go:86-99` (v0.2.8) rejects any subcollection key missing
-  from the definition. No project item, all of which live under `projects/<project-id>/`, can be
+  from the definition. No project item, all of which live under `ext/datatug/projects/<project-id>/`, can be
   written there at all, flat or nested. Every remote clause on the GitHub engine is blocked.
 - **Local `ingitdb` engine.** The host opens `dalgo2ingitdb` over its data directory and reads the
   on-disk definitions (`openvaultdb-go/pkg/mount/mount.go` `openInGitDB`). With DataTug's schema installed there and `schema_mode: schemaless` declared, it is expected to serve the canonical nested layout today. Its writes are committed to Git, and a user-supplied host has no API path to install the schema until #26 lands. That expectation
@@ -639,7 +653,7 @@ the host's storage engine:
 
 **Given** the same DALgo-facing project-store code path and both the local `dalgo2ingitdb` configuration and the remote `dalgo2openvaultdb` backend
 **When** a project is opened through each
-**Then** both are served by that same code path with no code above the DALgo boundary branching on a concrete driver type, and the remote leg serves that code path over the canonical nested layout, landing a saved record at `projects/p1/queries/q1/q1.query.json`.
+**Then** both are served by that same code path with no code above the DALgo boundary branching on a concrete driver type, and the remote leg serves that code path over the canonical nested layout, landing a saved record at `ext/datatug/projects/p1/queries/q1/q1.query.json`.
 
 ### AC: collection-declares-the-canonical-record-file (verifies REQ:canonical-project-layout)
 
@@ -651,31 +665,37 @@ the host's storage engine:
 
 **Given** a project `p1` on the local `dalgo2ingitdb` v0.6.1 driver whose collection definition carries the canonical `record_file` (`records_dir: '.'`)
 **When** a query with id `q1` is saved
-**Then** the record gets its own directory holding `q1.query.json` — the parent directory is the `queries` collection directory, so the file is `projects/p1/queries/q1/q1.query.json` and not a flat `projects/p1/queries/q1.query.json` written directly into `queries`.
+**Then** the record gets its own directory holding `q1.query.json` — the parent directory is the `queries` collection directory, so the file is `ext/datatug/projects/p1/queries/q1/q1.query.json` and not a flat `ext/datatug/projects/p1/queries/q1.query.json` written directly into `queries`.
 
 ### AC: local-write-omits-the-records-segment (verifies REQ:canonical-project-layout)
 
 **Given** a local `dalgo2ingitdb` driver whose `ingitdb-go/ingitdb` dependency resolves `>= v0.6.0` so that `record_file.records_dir` is honoured
 **When** a query with id `q1` in project `p1` is saved
-**Then** it lands at `projects/p1/queries/q1/q1.query.json` with no `$records` segment in the path.
+**Then** it lands at `ext/datatug/projects/p1/queries/q1/q1.query.json` with no `$records` segment in the path.
 
 ### AC: a-store-holds-several-projects (verifies REQ:canonical-project-layout)
 
 **Given** a store holding project `p1` and a second project `p2`
 **When** `p2` is written to the same store and addressed through DALgo
-**Then** `p2` is addressed under its own `projects/p2` subtree, distinct from `projects/p1`, and its records do not collide with `p1`'s.
+**Then** `p2` is addressed under its own `ext/datatug/projects/p2` subtree, distinct from `ext/datatug/projects/p1`, and its records do not collide with `p1`'s.
 
 ### AC: remote-write-produces-the-canonical-nested-layout (verifies REQ:canonical-project-layout)
 
 **Given** a project `p1` on the remote `dalgo2openvaultdb` driver
 **When** a query with id `q1` is saved
-**Then** it lands at `projects/p1/queries/q1/q1.query.json` in the same canonical nested layout the local driver produces.
+**Then** it lands at `ext/datatug/projects/p1/queries/q1/q1.query.json` in the same canonical nested layout the local driver produces.
 
 ### AC: credential-address-is-part-of-the-layout (verifies REQ:canonical-project-layout)
 
 **Given** a credential for server `s1` in project `p1`
 **When** it is addressed through DALgo
-**Then** the key path is `projects/p1/credentials/s1` and the record file is `projects/p1/credentials/s1/s1.credential.json` carrying the `credential` suffix.
+**Then** the key path is `ext/datatug/projects/p1/credentials/s1` and the record file is `ext/datatug/projects/p1/credentials/s1/s1.credential.json` carrying the `credential` suffix.
+
+### AC: project-lives-under-extension-namespace (verifies REQ:extension-namespace)
+
+**Given** a store that already holds another extension's subtree `ext/other/…` and no `ext/datatug` record file
+**When** project `p1` with one query `q1` is written through DALgo
+**Then** the project record's key path is `ext/datatug/projects/p1`, the query is at `ext/datatug/projects/p1/queries/q1/q1.query.json`, no file is written outside `ext/datatug/`, no `ext/datatug` record file is required or created, and every file under `ext/other/` is unchanged byte for byte.
 
 ### AC: detached-file-is-identified-by-its-suffix (verifies REQ:type-suffix-is-self-identifying)
 
@@ -693,13 +713,13 @@ the host's storage engine:
 
 **Given** a query `q1` inside project `p1`
 **When** it is addressed through DALgo
-**Then** the key path is `projects/p1/queries/q1` in the shape `collection/id/subcollection/id`, and no substituted record key contains a path separator.
+**Then** the key path is `ext/datatug/projects/p1/queries/q1` in the shape `collection/id/subcollection/id`, and no substituted record key contains a path separator.
 
 ### AC: db-server-is-addressed-deeply (verifies REQ:hierarchy-is-a-key-path)
 
 **Given** a db server `s1` belonging to db driver `d1` of project `p1`
 **When** it is addressed through DALgo
-**Then** the key path is `projects/p1/dbdrivers/d1/dbservers/s1` and its record file is `projects/p1/dbdrivers/d1/dbservers/s1/s1.dbserver.json`.
+**Then** the key path is `ext/datatug/projects/p1/dbdrivers/d1/dbservers/s1` and its record file is `ext/datatug/projects/p1/dbdrivers/d1/dbservers/s1/s1.dbserver.json`.
 
 ### AC: readmes-are-present-and-do-not-affect-reads (verifies REQ:readme-per-collection-and-record)
 
@@ -711,19 +731,19 @@ the host's storage engine:
 
 **Given** a dataset `support-notes` in project `p1`'s user data
 **When** it is persisted
-**Then** it is one multi-record file at `projects/p1/data/ingitdb/support-notes/support-notes.ingr` under the project's user-data database root with `format: ingr`, a `type` of `ListOfRecords` (`'[]map[string]any'`) or `MapOfRecords` (`'map[$record_id]map[$field_name]any'`), and a dataset-collection `record_file.name` of `support-notes.ingr` carrying no `{key}` placeholder, and it is not a directory per record.
+**Then** it is one multi-record file at `ext/datatug/projects/p1/data/ingitdb/support-notes/support-notes.ingr` under the project's user-data database root with `format: ingr`, a `type` of `ListOfRecords` (`'[]map[string]any'`) or `MapOfRecords` (`'map[$record_id]map[$field_name]any'`), and a dataset-collection `record_file.name` of `support-notes.ingr` carrying no `{key}` placeholder, and it is not a directory per record.
 
 ### AC: data-is-reserved-for-user-data (verifies REQ:user-data-is-not-a-project-item)
 
 **Given** a project `p1` whose project items and user data have both been written
-**When** the `projects/p1/data/` subtree, its `projects/p1/data/ingitdb/` database root, and the collection directories are listed
-**Then** every project item lies outside `projects/p1/data/`, and `projects/p1/data/` holds only `p1`'s user data — one inGitDB database at `projects/p1/data/ingitdb/`, with each dataset file at `projects/p1/data/ingitdb/<dataset>/<dataset>.ingr`.
+**When** the `ext/datatug/projects/p1/data/` subtree, its `ext/datatug/projects/p1/data/ingitdb/` database root, and the collection directories are listed
+**Then** every project item lies outside `ext/datatug/projects/p1/data/`, and `ext/datatug/projects/p1/data/` holds only `p1`'s user data — one inGitDB database at `ext/datatug/projects/p1/data/ingitdb/`, with each dataset file at `ext/datatug/projects/p1/data/ingitdb/<dataset>/<dataset>.ingr`.
 
 ### AC: recordset-definitions-collapse-to-one-location (verifies REQ:recordset-definitions-are-a-project-item)
 
 **Given** a recordset definition `support-notes` in project `p1`
 **When** it is saved through the DALgo-backed store and then loaded
-**Then** it is written to and read from `projects/p1/recordsets/support-notes/support-notes.recordset.json`, and the save writes neither `projects/p1/data/recordsets/support-notes.recordset.json` (the loader's project-relative current path) nor the flat `projects/p1/recordsets/support-notes.recordset.json`.
+**Then** it is written to and read from `ext/datatug/projects/p1/recordsets/support-notes/support-notes.recordset.json`, and the save writes neither `ext/datatug/projects/p1/data/recordsets/support-notes.recordset.json` (the loader's project-relative current path) nor the flat `ext/datatug/projects/p1/recordsets/support-notes.recordset.json`.
 
 ### AC: suffixes-are-inherited-from-the-jsonfilename-set (verifies REQ:existing-filenames-stay-recognisable)
 
@@ -789,7 +809,7 @@ the host's storage engine:
 
 **Given** this Feature's recorded prerequisites
 **When** the remote path is read for what it depends on
-**Then** it states that `openvaultdb-go`'s `buildInGitDBDefinition` builds only flat `def.Collections[name]` with `DirPath: name` and no `SubCollections` because `schema.Collection` carries only `Fields`, that it hardcodes `format: yaml` and `name: '{key}.yaml'`, that the prerequisite requires the manifest to declare **subcollection names** and the **full per-collection `record_file` configuration** — `format`, the `name` template, `records_dir` and `type`, not `format` and `name` alone — surfaced through the OpenVaultDB API, that without `records_dir` a `{key}`-bearing name makes `RecordFileDef.RecordsBasePath()` return `"$records"` (`record_file_def.go:131-142`) so a record lands at `projects/p1/queries/$records/q1/q1.query.json` rather than the canonical `projects/p1/queries/q1/q1.query.json`, and that nesting is resolved by `resolveScopedCollection` in `dalgo2ingitdb4github/scoped_collection.go` on the remote path and by the same-shaped `resolveScopedCollection` in `dalgo2ingitdb/scoped_collection.go` on the local path.
+**Then** it states that `openvaultdb-go`'s `buildInGitDBDefinition` builds only flat `def.Collections[name]` with `DirPath: name` and no `SubCollections` because `schema.Collection` carries only `Fields`, that it hardcodes `format: yaml` and `name: '{key}.yaml'`, that the prerequisite requires the manifest to declare **subcollection names** and the **full per-collection `record_file` configuration** — `format`, the `name` template, `records_dir` and `type`, not `format` and `name` alone — surfaced through the OpenVaultDB API, that without `records_dir` a `{key}`-bearing name makes `RecordFileDef.RecordsBasePath()` return `"$records"` (`record_file_def.go:131-142`) so a record lands at `ext/datatug/projects/p1/queries/$records/q1/q1.query.json` rather than the canonical `ext/datatug/projects/p1/queries/q1/q1.query.json`, and that nesting is resolved by `resolveScopedCollection` in `dalgo2ingitdb4github/scoped_collection.go` on the remote path and by the same-shaped `resolveScopedCollection` in `dalgo2ingitdb/scoped_collection.go` on the local path.
 
 ### AC: local-records-dir-prerequisite-is-stated (verifies REQ:local-records-dir-prerequisite-is-recorded)
 
@@ -924,8 +944,8 @@ exercisable and MUST be scaffolded when implementation begins.
   `secrets-vault`'s colocation policy. Their canonical address inside the layout is declared
   by REQ:canonical-project-layout, while their semantics belong to `secrets-vault`.
 - **User-data semantics** — what a dataset means, how it is queried and how it is
-  modelled. `projects/<project-id>/data/`, whose inGitDB database root is
-  `projects/<project-id>/data/ingitdb/`, is *reserved* here; the data model is not owned
+  modelled. `ext/datatug/projects/<project-id>/data/`, whose inGitDB database root is
+  `ext/datatug/projects/<project-id>/data/ingitdb/`, is *reserved* here; the data model is not owned
   here.
 - **The deferred `policies/`, `fixtures/`, `datasources/` question.** Whether these belong
   inside the project-item structure is deliberately deferred. Findings recorded so they
