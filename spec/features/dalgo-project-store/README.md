@@ -483,8 +483,7 @@ store, because retiring the machinery MUST NOT retire the behaviour:
   complete query, never a mix;
 - no Git commit is made.
 
-How the query body is carried so that the last guarantee holds through DALgo is Open
-Question 4. The guarantee itself is not open. Neither carrier provides it on `dalgo2ingitdb`
+The query body stays in its `.query.dtql` sidecar (Open Question 4, resolved), carried as the query record's companion body file. Neither carrier provides it on `dalgo2ingitdb`
 v0.6.1 today: records are written in place with `os.WriteFile` (`record_io.go:175`, `:223`), not
 by temp file plus rename. So the interrupted-update clause waits on crash-atomic record writes
 upstream (`ingitdb/dalgo2ingitdb#15`), and a sidecar carrier would additionally need a durable
@@ -499,12 +498,15 @@ NOT be recorded as passing before they land:
 
 - **Crash-atomic record writes** (`ingitdb/dalgo2ingitdb#15`), needed by the interrupted-update
   clause of AC:query-write-guards-survive-the-cut-over.
-- **Creating a collection with its full `record_file` and subcollections through DALgo**
-  (`ingitdb/dalgo2ingitdb#16`). `CreateCollection` always writes the default `{key}.yaml` record
-  file (`schema_modifier.go:405-421`). Until it lands, DataTug installs its schema
-  (`.ingitdb/root-collections.yaml` plus `definition.yaml` files) as a bootstrap asset when a
-  store is created. That is schema configuration, not a project-data write, and it moves to the
-  DALgo schema API when #16 lands. No AC clause is blocked by this one.
+- **Creating a collection with its full `record_file` and subcollections through DALgo.** This
+  needs two changes: `dal-go/dalgo#163`, a schema API that can declare subcollections and pass
+  driver options, and `ingitdb/dalgo2ingitdb#16`, whose `CreateCollection` today always writes the
+  default `{key}.yaml` record file (`schema_modifier.go:405-421`). Founder decision, 2026-09-17:
+  *"I'd prefer to fix issues at source upstream instead of doing temporary solutions"*. So there is
+  no bootstrap install of the schema, and every clause that needs a created store waits on both.
+- **A companion body file** (`ingitdb/ingitdb-go#24`), so a query record's DTQL text lives in its
+  `{key}.query.dtql` sidecar under DALgo. Writing the record and its body crash-safely as one
+  change is the widened `ingitdb/dalgo2ingitdb#15`.
 - **A `README.md` per collection and per record, written by the driver**
   (`ingitdb/dalgo2ingitdb#17`), needed by AC:readmes-are-present-and-do-not-affect-reads,
   because DataTug writes go through DALgo and not beside it.
@@ -818,6 +820,13 @@ REQ:local-records-dir-prerequisite-is-recorded blocks nothing.
 3. **AC:query-write-guards-survive-the-cut-over** (the interrupted-update clause). Owner:
    REQ:driver-prerequisites-are-recorded, `ingitdb/dalgo2ingitdb#15`. A sidecar carrier would also
    need a durable cross-file journal (Open Question 4).
+5. **Every AC clause that needs a DALgo-created store**: AC:collection-declares-the-canonical-record-file
+   and, through it, every local layout, store, user-data, recordset, transaction, query-guard,
+   legacy-refusal and cut-over AC. Owner: REQ:driver-prerequisites-are-recorded, tracked as
+   `dal-go/dalgo#163` and `ingitdb/dalgo2ingitdb#16`. AC:core-depends-on-dalgo-interfaces-only, the
+   two documentary prerequisite ACs and the carrier AC are not blocked.
+6. **AC:query-write-guards-survive-the-cut-over** (the `.query.dtql` pair clauses). Owner:
+   REQ:driver-prerequisites-are-recorded, tracked as `ingitdb/ingitdb-go#24` (companion body file).
 4. **AC:readmes-are-present-and-do-not-affect-reads** (whole AC). Owner:
    REQ:driver-prerequisites-are-recorded, `ingitdb/dalgo2ingitdb#17`.
 
@@ -946,19 +955,13 @@ exercisable and MUST be scaffolded when implementation begins.
    They are unsupported and refused under the hard cut-over.
 3. `columns`, `objects` and `refs` suffixes have no collection in `ProjectStore` — do they
    get a home, or are they retired?
-4. Query body carrier: keep `<id>.query.<type>` as a sidecar, or move the DTQL body into the
-   record? Either way REQ:query-write-guards-survive-the-cut-over must hold, and either way
-   `dalgo2ingitdb` first needs crash-atomic record writes (`ingitdb/dalgo2ingitdb#15`; today it
-   writes in place with `os.WriteFile`). A sidecar additionally needs a durable cross-file journal
-   in the driver, because a v0.6.1 transaction keeps only in-memory snapshots
-   (`tx_readwrite.go:44-79`). The body in the record needs nothing more. It does, however, require
-   amending the Approved `executable-knowledge-library` AC:query-pair-storage-guards-writes, whose
-   text is written in terms of the `.query.json`/`.query.dtql` pair and the legacy save/delete paths.
-5. **For founder ratification:** until `ingitdb/dalgo2ingitdb#16` lands, DataTug installs its schema
-   (`.ingitdb/root-collections.yaml` plus `definition.yaml` files) as a bootstrap asset, outside
-   DALgo (REQ:driver-prerequisites-are-recorded). It is treated as inGitDB schema configuration,
-   not a project-data write, so it is not an exception to "writes should be through dalgo". Is
-   that reading accepted, or must store creation wait on #16?
+4. ~~Query body carrier: sidecar or in the record?~~ Resolved 2026-09-17 (founder): **keep the
+   `.query.dtql` sidecar**. Under DALgo it becomes a companion body file of the query record
+   (`ingitdb/ingitdb-go#24`), written crash-safely with the record (`ingitdb/dalgo2ingitdb#15`,
+   widened to multi-file). `executable-knowledge-library` AC:query-pair-storage-guards-writes
+   therefore stands as written.
+5. ~~Bootstrap schema install until #16?~~ Resolved 2026-09-17 (founder): no temporary solution.
+   The schema is created through DALgo once `dal-go/dalgo#163` and `ingitdb/dalgo2ingitdb#16` land.
 6. Is `.datatug.yaml` still needed at the repo root, given projects are discoverable by
    listing the `projects` collection and nothing in `datatug-core` reads it during
    `LoadProject`?
