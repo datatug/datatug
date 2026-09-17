@@ -506,18 +506,20 @@ cut-over MUST NOT delete it before the guarantee holds on the DALgo store.
 
 #### REQ: driver-prerequisites-are-recorded
 
-The local path depends on three `dalgo2ingitdb` capabilities that v0.6.1 lacks. They MUST be
+The local path depends on `dalgo2ingitdb` and `ingitdb-go` capabilities that v0.6.1 lacks. They MUST be
 recorded, not assumed. The clauses that need them are enumerated under Blocked Clauses and MUST
 NOT be recorded as passing before they land:
 
 - **Crash-atomic record writes** (`ingitdb/dalgo2ingitdb#15`), needed by the interrupted-update
   clause of AC:query-write-guards-survive-the-cut-over.
-- **Creating a collection with its full `record_file` and subcollections through DALgo.** This
-  needs two changes: `dal-go/dalgo#163`, a schema API that can declare subcollections and pass
-  driver options, and `ingitdb/dalgo2ingitdb#16`, whose `CreateCollection` today always writes the
-  default `{key}.yaml` record file (`schema_modifier.go:405-421`). Founder decision, 2026-09-17:
-  *"I'd prefer to fix issues at source upstream instead of doing temporary solutions"*. So there is
-  no bootstrap install of the schema, and every clause that needs a created store waits on both.
+- **No dynamic schema creation.** Founder decision, 2026-09-17: *"DataTug project ingitdb schema
+  should be defined and copy-pasted. No need to create it dynamically."* DataTug ships its inGitDB
+  schema (`.ingitdb/root-collections.yaml` and one `.collection/definition.yaml` per collection)
+  as static files and copies them into a store when a project store is initialised; records are
+  then read and written through DALgo. No DALgo schema API change is needed, and *"if we need modify
+  ingitdb schema it belong to ingitdb module, not dalgo"*. The schema uses inGitDB's existing
+  subcollection format, keyed by collection name, so a definition under `ext` applies under every
+  `ext` record.
 - **A companion body file** (`ingitdb/ingitdb-go#24`), so a query record's DTQL text lives in its
   `{key}.query.dtql` sidecar under DALgo. Writing the record and its body crash-safely as one
   change is the widened `ingitdb/dalgo2ingitdb#15`.
@@ -840,11 +842,6 @@ REQ:local-records-dir-prerequisite-is-recorded blocks nothing.
 3. **AC:query-write-guards-survive-the-cut-over** (the interrupted-update clause). Owner:
    REQ:driver-prerequisites-are-recorded, `ingitdb/dalgo2ingitdb#15`. A sidecar carrier would also
    need a durable cross-file journal (Open Question 4).
-5. **Every AC clause that needs a DALgo-created store**: AC:collection-declares-the-canonical-record-file
-   and, through it, every local layout, store, user-data, recordset, transaction, query-guard,
-   legacy-refusal and cut-over AC. Owner: REQ:driver-prerequisites-are-recorded, tracked as
-   `dal-go/dalgo#163` and `ingitdb/dalgo2ingitdb#16`. AC:core-depends-on-dalgo-interfaces-only, the
-   two documentary prerequisite ACs and the carrier AC are not blocked.
 6. **AC:query-write-guards-survive-the-cut-over** (the `.query.dtql` pair clauses). Owner:
    REQ:driver-prerequisites-are-recorded, tracked as `ingitdb/ingitdb-go#24` (companion body file).
 4. **AC:readmes-are-present-and-do-not-affect-reads** (whole AC). Owner:
@@ -980,8 +977,8 @@ exercisable and MUST be scaffolded when implementation begins.
    (`ingitdb/ingitdb-go#24`), written crash-safely with the record (`ingitdb/dalgo2ingitdb#15`,
    widened to multi-file). `executable-knowledge-library` AC:query-pair-storage-guards-writes
    therefore stands as written.
-5. ~~Bootstrap schema install until #16?~~ Resolved 2026-09-17 (founder): no temporary solution.
-   The schema is created through DALgo once `dal-go/dalgo#163` and `ingitdb/dalgo2ingitdb#16` land.
+5. ~~Bootstrap schema install until #16?~~ Resolved 2026-09-17 (founder): the inGitDB schema is
+   static files copied into the store; nothing creates it dynamically.
 6. Is `.datatug.yaml` still needed at the repo root, given projects are discoverable by
    listing the `projects` collection and nothing in `datatug-core` reads it during
    `LoadProject`?
