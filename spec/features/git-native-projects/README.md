@@ -71,8 +71,12 @@ staging at all. `--git=commit` remains deliberately out of scope — DataTug sta
 #### REQ: secrets-never-in-project-files
 
 `datatug validate` MUST reject a project where a `QueryDefTarget` (or any other asset) carries a
-credential value, and `Project.Validate()` MUST actually validate `Queries`, which it does not
-today. Documentation MUST point to a local, non-committed credential store (for example
+credential value. `Project.Validate()` already validates `Queries`: `datatug-core/pkg/datatug/project.go:123-133`
+calls `p.Queries.Folders.Validate()` and `p.Queries.Items.Validate()`, and `pkg/datatug/query.go:74-81`
+walks every `QueryDef` with `QueryDefTarget.Validate` (`query.go:176-189`) rejecting credential
+material. The residual gap is that the resulting error does not name the offending file; closing
+that gap is required, and this Feature MUST NOT be read as asserting that `Queries` goes
+unvalidated today. Documentation MUST point to a local, non-committed credential store (for example
 `~/.datatug`) as the correct place for secrets. This is shared ground with `heterogeneous-sources`
 REQ:secrets-outside-project-files; the two Features share one guard, not two.
 

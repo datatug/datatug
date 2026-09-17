@@ -11,7 +11,7 @@ status: Approved
 **Owner:** alex
 **Source Ideas:** —
 **Supersedes:** —
-**Depends-On:** git-native-projects, server-enforced-access, secrets-vault
+**Depends-On:** git-native-projects, server-enforced-access, dalgo-project-store
 **Grade:** A
 
 ## Summary
@@ -27,10 +27,13 @@ datatug project from remote OpenVaultDB."* The pieces already exist on both side
 `storage.Store`/`ProjectStore` interfaces exist. What has never been done is wiring them
 together for a real project.
 
-This Feature covers the store itself: one repository binding per project, the
-`datatug/projects` collection namespace, server-mediated writes, and a browser read path.
-Credentials are explicitly **not** part of it — they belong to the `secrets-vault`
-Feature, and project files carry logical pointers only.
+This Feature covers the store bindings a project carries — its required `project`-role
+binding plus zero or more `secrets`-role bindings, all **role-tagged and recorded on the
+project record itself** — server-mediated writes, and a browser
+read path. Credentials are explicitly **not** part of it: the browser is never given a
+credential for a credentials store, and project files carry logical pointers only. The
+canonical project layout and the DALgo persistence architecture it rests on are owned by
+`dalgo-project-store`; this Feature references that layout rather than restating it.
 
 ## Problem
 
@@ -55,65 +58,84 @@ in REQ:browser-read-path rather than left implicit.
 
 ## Behavior
 
-### Store binding and layout
+### Store binding
+
+The canonical layout of a project store — every rule about the collection and record
+directory shape, the record filename and its type suffix, the records directory, a record's
+format and type, and the collection/subcollection key path — is owned by
+`dalgo-project-store` (REQ:canonical-project-layout, REQ:type-suffix-is-self-identifying,
+REQ:hierarchy-is-a-key-path, REQ:readme-per-collection-and-record). This Feature defers to
+that layout and does not restate it, and no requirement here asserts the shape of a
+collection, a record key or a path. The remote (OpenVaultDB) path's upstream prerequisite —
+letting a declared collection express its subcollections and its `record_file` config — is
+likewise owned and recorded by `dalgo-project-store`
+REQ:remote-nesting-prerequisite-is-recorded, and this Feature does not claim that the remote
+nested layout works today.
 
 #### REQ: project-store-binding
 
-A project MUST bind exactly one OpenVaultDB store, identified by a **user-supplied
-OpenVaultDB host base URL** and a database id. The binding MUST be recorded in the
-authoritative registry at `users/{uid}/ext/datatug` as an entry carrying a `role` field,
-stored as a list even while only one binding exists, so that additional bindings are
-additive and never require a data migration. The legal `role` values are `project`, the
-project store, and `secrets`, reserved for a future vault binding; an unknown role value
-MUST be rejected. The OpenVaultDB credential DataTug uses to reach that store MUST be held
-server-side and MUST NOT be carried by the registry entry
-(REQ:ovdb-credential-is-server-only). DataTug MUST hold an OpenVaultDB credential
-for this purpose and MUST NOT hold a GitHub credential for the project store.
+A project MUST have exactly one binding whose `role` is `project` — its own items store — and
+MUST record every binding **on the project record**. That required `project`-role store is what
+makes the bootstrap well-founded: bindings live on the project record, and the project record
+lives in the `project`-role store, so a project with no `project`-role binding would have
+nowhere to live. A project MAY additionally bind **zero or more** stores whose `role` is
+`secrets`, and binding zero of those is legal. Every binding MUST carry a `role` field naming
+what the binding is for. Recording bindings on the project record, single-sourced, is required
+so that a **shared** project's bindings cannot disagree between users: no per-user copy of a
+binding is authoritative, and DataTug MUST NOT treat the per-user discovery index at
+`users/{uid}/ext/datatug` as the record of a binding. The legal `role` values are:
 
-Vault bindings are a separate relation owned by `secrets-vault` and MUST NOT be modelled
-as project-store bindings: a project may bind several vaults (for example one for DEV and
-UAT and one for PROD) while still holding exactly one project-store binding, because a
-vault owns its own storage.
+- `project` — the project's own items store, holding the project's assets. A project MUST have
+  exactly one `project`-role binding, and that store MUST be chosen before the project's first
+  write (REQ:store-choice-is-explicit).
+- `secrets` — a store holding the project's credentials. There MAY be **zero or more**
+  `secrets` bindings: zero is legal either because the credentials live in the project's own
+  items store, or because the project has none yet. That placement in the items store is the
+  legitimate zero-`secrets`-binding case, and it is subject to the colocation policy owned by
+  `secrets-vault` REQ:client-cannot-read-credentials: refused by default, with the specific
+  exposed secrets enumerated, and permitted only through the explicit informed confirmation
+  (REQ:secrets-colocation-defaults-to-reject). The `secrets` role is live, not reserved.
 
-#### REQ: project-namespace-layout
+The rule's trigger is a **credentials placement** in a store a client read credential can
+reach — never the presence of ordinary project item records, and never the mere fact that the
+`project`-role items store is client-readable, which it is by construction because the browser
+read path reaches it (REQ:browser-read-path). The mandatory `project`-role binding MUST NOT be
+rejected merely because that store is client-readable; only a credentials placement there
+triggers the rule.
 
-Project assets MUST live in the DataTug application namespace expressed by the **collection
-name** `datatug/projects`, declared in the bound OpenVaultDB manifest, and DataTug MUST
-address a project's assets within that collection by the project's id. This Feature MUST NOT
-mandate an on-disk directory tree: the exact layout a backend derives from that declaration
-is the backend's business, and no requirement here may assert a path a named backend does
-not produce.
+**The zero-`secrets`-binding override carrier.** With zero `secrets` bindings there is no
+`secrets` binding for validation to reject and nowhere on one to record an override, so the
+carrier is the mandatory `project`-role binding: that binding's validation performs the
+refuse-by-default, the enumeration of the specific secrets by name, and the informed
+confirmation, and the recorded override is attached to that binding as its explicit statement
+that those named secrets are client-readable. Where a `secrets` binding exists, the carrier is
+that binding, as `secrets-vault` REQ:client-cannot-read-credentials states.
 
-The two named backends realise the same declaration differently:
+An unknown `role` value MUST be rejected. **This Feature owns a binding record's one field
+set, defined here and not restated by any other Feature.** A binding records, on the project
+record:
 
-- The local inGitDB backend resolves the mapping from a root
-  `/.ingitdb/root-collections.yaml` entry, whose `data_dir` is resolved relative to the
-  parent of `.collections/`.
-- The OpenVaultDB GitHub backend maps the declared collection name directly to its directory
-  (`DirPath: name` in `buildInGitDBDefinition`,
-  `openvaultdb-go/pkg/mount/ingitdb_github.go`), so the same declaration yields the
-  `datatug/projects/…` namespace, and the collection's schema lives in the bound manifest's
-  `schemas.collections`. DataTug MUST NOT require that repository to also carry
-  `/.ingitdb/root-collections.yaml` or a `datatug/.collections/` schema directory; on that
-  backend those clauses are no-ops.
+- its `role`;
+- the bound store's identity — a **user-supplied OpenVaultDB host base URL** and a **vault
+  id** (`secrets-vault` REQ:vault-is-a-first-class-entity);
+- for a `secrets` binding, the **servers it serves** — the persisted server-to-vault
+  assignment whose content `secrets-vault` REQ:project-vault-binding owns, so that with one
+  vault serving DEV and UAT the assignment is recorded on that binding and environments
+  inherit their server's vault; and
+- where an informed override under REQ:secrets-colocation-defaults-to-reject has been
+  recorded, the explicit statement naming the secrets that are client-readable, attached to
+  the binding that carried the confirmation — the `secrets` binding, or the `project`-role
+  binding in the zero-`secrets`-binding case.
 
-Physical nesting is an upstream prerequisite, not an assumption. `schemas.collections`
-entries carry only `fields` — there is no path, subtree or `data_dir` field on a collection
-(`openvaultdb-go/pkg/schema/schema.go`) — and `buildInGitDBDefinition` fixes each
-collection's directory to its name. A manifest declaration therefore cannot by itself place
-a collection in a nested subtree or give each project id its own directory. DataTug MUST NOT
-assume a project's assets physically occupy `datatug/projects/<project-id>/`, and MUST NOT
-assert such a path until `openvaultdb-go` supplies **per-collection path support honoured by
-`buildInGitDBDefinition`**; that support is an explicit upstream prerequisite of this
-Feature, shared with `secrets-vault` REQ:vault-mirrors-project-namespace. Until it lands, the
-namespace is satisfied by the `datatug/projects` collection name plus the project's id as its
-record key.
+A binding MUST NOT carry the OpenVaultDB credential DataTug uses to reach the store: that
+credential MUST be held server-side (REQ:ovdb-credential-is-server-only). DataTug MUST hold an
+OpenVaultDB credential for this purpose and MUST NOT hold a GitHub credential for a
+`project`-role store.
 
-A single store (repository) MAY hold several DataTug projects, and DataTug MUST preserve
-files it does not manage, byte for byte. `secrets-vault` addresses its credentials through
-the same rule — a declared collection name carrying the static prefix, plus identity segments
-as record keys — so the two Features MUST describe one layout rule, not two mechanisms. The
-layout MUST be documented so a person or an agent can read a project by reading files.
+The selection, visibility and validation of the `secrets` role are owned by `secrets-vault`
+(REQ:project-vault-binding, REQ:client-cannot-read-credentials), which cites this requirement
+for the binding record's field set instead of restating it; this Feature owns that field set
+and the `project` role.
 
 ### Read and write paths
 
@@ -127,13 +149,21 @@ by any path that bypasses the server.
 
 #### REQ: browser-read-path
 
-A browser MUST be able to read a project store directly from the store's git host over its
-REST API, using a read credential the user supplies, through a reader module shipped in
-`datatug-apps`. The reader MUST be conformance-tested against the writer's output, so that
-the Go writer and the browser reader cannot drift apart silently. Because this path
-bypasses the server, DataTug MUST document its limits plainly: a reader credential that
-can reach the store's `datatug/projects` collection can reach anything else that credential
-covers, so
+A browser MUST be able to read a project's **items store** directly from the store's git host
+over its REST API, using a read credential the user supplies, through a reader module shipped
+in `datatug-apps`. The browser is NEVER given a credential for a credentials store: a
+credentials store is reached only by the server, which reads credentials through
+`dalgo`/OpenVaultDB uniformly, unaware of whether the backing storage is GitHub, Firestore, or
+a managed vault. The reader MUST be conformance-tested against the writer's output, so that
+the Go writer and the browser reader cannot drift apart silently. The reader resolves the
+backing repository's coordinates from the **OpenVaultDB host itself** — the owner of that
+mapping, because the host knows where the store is backed — using the bound store's recorded
+identity (host base URL and vault id) and the host's discovery surface
+`/.well-known/openvaultdb`; the client MUST NOT need the DataTug server to obtain them. Those
+coordinates are **not** carried in the per-user registry, which MUST NOT record a project's
+bindings or its backing repository (REQ:registry-is-authoritative). Because this path bypasses
+the server, DataTug MUST document its limits plainly: a reader credential that can reach the
+bound store can reach anything else that credential covers, so
 read-scoped restrictions expressed in DataTug MUST NOT be advertised as enforced on this
 path. This is the one declared exception to `server-enforced-access`'s rule that reads
 reach a source through the trusted server; see REQ:project-store-read-exception.
@@ -144,9 +174,10 @@ Browser-direct reads of the project store are a declared, narrowly scoped except
 `server-enforced-access`, which forbids client-direct access to protected data sources. The
 exception MUST cover reads of the project store and nothing else: every write MUST still go
 through the trusted server, and every read of a protected data source MUST still go through
-it. `server-enforced-access` MUST be amended so that its prohibition is scoped to protected
-data sources rather than to every client connection, and MUST point at this exception. This
-Feature MUST NOT be read as widening client-direct access anywhere else.
+it. `server-enforced-access` has already been amended so that its prohibition is scoped to
+protected data sources rather than to every client connection, and it already points at this
+exception (its Not Doing / Out of Scope section). This Feature MUST NOT be read as widening
+client-direct access anywhere else.
 
 ### Registry and store choice
 
@@ -154,71 +185,102 @@ Feature MUST NOT be read as widening client-direct access anywhere else.
 
 The Firestore registry at `users/{uid}/ext/datatug` MUST remain the authoritative list of
 a user's DataTug projects, and DataTug MUST NOT maintain a derived project index inside
-the OpenVaultDB store. Listing projects MUST NOT depend on a read-modify-write of shared
-store state, because OpenVaultDB's MVP offers no cross-transaction isolation and no update
-preconditions.
+the OpenVaultDB store. That registry is a per-user **discovery index only**: its shipped
+shape is `UserExt.Stores map[string]*StoreBrief` keyed by store id, holding each store's
+projects (store → projects) (`backend/models4datatug/project.go:79-92`). It MUST NOT record a
+project's bindings and MUST NOT carry a `role` field; a binding exists only on the project
+record (REQ:project-store-binding). Listing projects MUST NOT depend on a read-modify-write of
+shared store state, because OpenVaultDB's MVP offers no cross-transaction isolation and no
+update preconditions.
 
 #### REQ: store-choice-is-explicit
 
-A project's store type MUST be chosen when the project is created and recorded with the
-project. Storing one project in two stores at once MUST NOT be possible, and moving a
-project between stores MUST be an explicit migration operation rather than an implicit
-dual write.
+A project's `project`-role store MUST be chosen before the project's first write and recorded
+with the project. Storing one project's items in two stores at once MUST NOT be possible, and
+moving a project between stores MUST be an explicit migration operation rather than an
+implicit dual write.
 
 ### Credential hygiene
 
 #### REQ: no-inline-credentials
 
 A project asset MUST reference a connection by logical name and MUST NOT carry a
-credential value. `datatug validate` MUST reject a project where any asset carries a
-credential, and `Project.Validate()` MUST validate `Queries` — which the audit found it
-never does. This guard is owned by `git-native-projects`
-REQ:secrets-never-in-project-files, with which `heterogeneous-sources`
-REQ:secrets-outside-project-files shares one implementation; this Feature MUST enforce that
-shared guard and MUST NOT define a third, independent copy of it. Credentials themselves
-are stored by the `secrets-vault` Feature.
+credential value, and no binding MUST carry one. `datatug validate` MUST reject a project
+where any asset carries a credential. `Project.Validate()` already validates `Queries` — it
+calls `p.Queries.Folders.Validate()` and `p.Queries.Items.Validate()`
+(`datatug-core/pkg/datatug/project.go:123-133`), which walks every `QueryDef`
+(`pkg/datatug/query.go:74-81`), and `QueryDefTarget.Validate` (`query.go:176-189`) rejects
+credential material. The residual gap is that the resulting error does not name the offending
+FILE, so a credential is reported without pointing at the file that carries it. This guard is
+owned by `git-native-projects` REQ:secrets-never-in-project-files, with which
+`heterogeneous-sources` REQ:secrets-outside-project-files shares one implementation; closing
+the file-naming gap is part of that owning requirement and is NOT closed here. This Feature is
+a CONSUMER of that shared guard: it MUST enforce the shared guard on the surfaces it owns and
+MUST NOT claim to close the file-naming gap itself and MUST NOT define a third, independent
+copy of it. Credentials themselves are stored by the `secrets-vault` Feature.
 
 #### REQ: ovdb-credential-is-server-only
 
-The OpenVaultDB credential DataTug uses to reach a project's bound store MUST be held in a
-**server-only** credential store and MUST NEVER be written to the client-readable registry at
-`users/{uid}/ext/datatug` or into any client bundle. The registry entry there records the
-binding — host base URL, database id and `role` — and nothing else; a credential in that document
-is a defect, because the client reads the registry to list projects. A missing or rejected
-credential MUST fail closed, naming the missing credential, rather than falling back to
-anonymous or default access. This mirrors, for the project store's data plane, the
-prohibition `secrets-vault` REQ:server-authorizes-vault-access states for vault
+Credentials are **server-only**. A typical arrangement is two stores — an items store holding
+the project's assets and a credentials store holding the project's credentials — with separate
+host ACLs, but the rule does not depend on that arrangement: whatever a bound store holds, the
+credential DataTug uses to reach it MUST be held in a **server-only** credential store and MUST
+NEVER be written to a client-readable surface — the registry at `users/{uid}/ext/datatug`, the
+project record or any other binding, or any client bundle. The browser reads the **items** store
+directly with the reader's own credential (REQ:browser-read-path) and is NEVER given a
+credential for a credentials store; the server reads credentials through `dalgo`/OpenVaultDB
+uniformly, unaware of whether the backing storage is GitHub, Firestore, or a managed vault. A
+binding records exactly the field set defined once in REQ:project-store-binding — `role`, host
+base URL, vault id, a `secrets` binding's servers, and any recorded informed override; a
+credential on a binding or in that document is a defect, because the client reads both. A
+missing or rejected credential MUST fail closed, naming the missing credential, rather than
+falling back to anonymous or default access. This mirrors, for the project store's data plane,
+the prohibition `secrets-vault` REQ:server-authorizes-vault-access states for vault
 authorization, so the two Features are consistent.
 
-#### REQ: no-vault-inside-a-client-readable-store
+#### REQ: secrets-colocation-defaults-to-reject
 
-A project store MUST NOT be configured so that a client read credential can reach a bound
-vault's storage. Because a vault addresses its credentials through the same collection-name
-namespace rule as the project store and keys them per project and per endpoint
-(`secrets-vault` REQ:vault-mirrors-project-namespace), colocating a bound vault in a
-repository the client reads directly would silently defeat `secrets-vault`
-REQ:client-cannot-read-credentials. Binding validation MUST reject such a placement rather
-than warn and continue.
+This Feature is a store-side **CONFORMANCE CONSUMER** of the colocation rule whose single
+normative owner and enforcement is `secrets-vault` REQ:client-cannot-read-credentials, and
+nothing else. That owning requirement defines the rule: binding validation rejects BY DEFAULT
+a configuration in which a client read credential can reach a bound credentials store's
+storage, the refusal enumerates the SPECIFIC secrets that would be exposed by name, and the
+placement MAY be recorded only through an explicit "Are you sure?"-style confirmation step
+showing that list, in which case the binding MUST state that those named secrets are
+client-readable.
+
+This Feature's obligation is conformance, not definition: the bindings it records on the
+project record (REQ:project-store-binding) MUST expose the store-side facts the owner's
+enforcement inspects — the bound store's identity, the credentials store's placement, and,
+when an override is recorded, the statement naming the client-readable secrets — and this
+Feature MUST NOT restate the rule's normative content, MUST NOT define a second, independent
+enforcement, and MUST NOT be read as closing this rule on its own. Because a credentials store
+lays its credentials out under the canonical project-item layout (`dalgo-project-store`
+REQ:canonical-project-layout) and keys them per project and per endpoint (`secrets-vault`
+REQ:vault-mirrors-project-namespace), colocating a credentials store in a repository the
+client reads directly would defeat `secrets-vault` REQ:client-cannot-read-credentials; that is
+the store-side consequence this Feature must make visible, and its enforcement stays with the
+owner.
 
 ## Acceptance Criteria
 
-### AC: binding-is-recorded-as-a-roled-list (verifies REQ:project-store-binding)
+### AC: binding-is-recorded-on-the-project (verifies REQ:project-store-binding)
 
 **Given** a user creating a project against a GitHub repository through OpenVaultDB
 **When** the project is created
-**Then** the registry at `users/{uid}/ext/datatug` holds a binding entry naming the OpenVaultDB host base URL, database and `role: project`, the entry is stored as a list, the entry carries no OpenVaultDB credential, and no GitHub credential is stored by the server for that project.
+**Then** the project record holds a binding naming the OpenVaultDB host base URL, vault id and `role: project`, the binding carries no OpenVaultDB credential, no GitHub credential is stored by the server for that project, and the per-user discovery index at `users/{uid}/ext/datatug` remains a store → projects brief carrying no authoritative binding and no `role` field.
 
-### AC: assets-land-under-the-project-namespace (verifies REQ:project-namespace-layout)
+### AC: bindings-are-single-sourced-on-a-shared-project (verifies REQ:project-store-binding)
 
-**Given** a project bound to an OpenVaultDB store whose repository already contains unrelated files
-**When** an entity and a query are added
-**Then** they are written as records of the collection named `datatug/projects` declared in the bound manifest and keyed by the project's id — declared in the manifest's `schemas.collections` on the OpenVaultDB GitHub backend, and mapped by a `/.ingitdb/root-collections.yaml` `data_dir` entry on the local inGitDB backend — and the pre-existing unrelated files are unchanged byte for byte. On the OpenVaultDB GitHub backend, no `/.ingitdb/root-collections.yaml` and no `datatug/.collections/` schema directory is required in the repository.
+**Given** a new project whose `project`-role store has not yet been chosen, and a second project shared between two users whose credentials live in its own items store
+**When** each project is saved and each user reads the shared project's bindings
+**Then** the first project has its `project`-role store chosen before its first write and saves with exactly one `role: project` binding and zero `role: secrets` bindings, the second records a `role: project` binding and zero `role: secrets` bindings whose validation refuses the credentials placement in its own items store by default and enumerates the specific secrets by name, the second is saved only after the user confirms through the explicit "Are you sure?"-style alert showing that list and its `project`-role binding records the statement that those named secrets are client-readable, neither project's mandatory `project`-role binding is rejected merely because its items store is client-readable, both users read the same binding set from the project record, and an unknown `role` value is rejected.
 
-### AC: two-projects-share-one-store (verifies REQ:project-namespace-layout)
+### AC: binding-record-carries-its-field-set (verifies REQ:project-store-binding)
 
-**Given** two DataTug projects bound to the same repository
-**When** both projects are written
-**Then** each project's assets are records of the `datatug/projects` collection keyed by that project's id, the two projects' records are disjoint, and neither write alters the other project's files.
+**Given** a project with one `project`-role binding and one `secrets` binding whose vault serves that project's DEV and UAT servers
+**When** the project record's bindings are inspected
+**Then** each binding records its `role` and the bound store's OpenVaultDB host base URL and vault id, the `secrets` binding alone records the DEV and UAT servers it serves as the server-to-vault assignment with no independent environment-to-vault mapping stored anywhere, no binding carries an OpenVaultDB credential, and the per-user registry at `users/{uid}/ext/datatug` records no binding and no backing-repository coordinate.
 
 ### AC: a-client-cannot-write-the-store (verifies REQ:server-mediated-writes)
 
@@ -230,37 +292,37 @@ than warn and continue.
 
 **Given** a project written to a repository through the server, and a user-supplied read credential for that repository
 **When** the browser opens the project with the server unavailable
-**Then** the project's assets are read from the repository over its REST API, and the parsed result matches what the conformance test derives from the Go writer's output.
+**Then** the repository's coordinates are resolved from the OpenVaultDB host's discovery surface at `/.well-known/openvaultdb` using the bound store's recorded host base URL and vault id, the project's assets are read from that repository over its REST API without the DataTug server and without the registry carrying the coordinates, no credential for a credentials store is ever accepted or used by the browser, and the parsed result matches what the conformance test derives from the Go writer's output.
 
 ### AC: project-list-comes-from-the-registry (verifies REQ:registry-is-authoritative)
 
 **Given** a store containing projects written by more than one user
 **When** a user opens their project list
-**Then** the list is served from the registry at `users/{uid}/ext/datatug`, listing performs no write to the OpenVaultDB store, and no derived project index exists inside that store to be read or updated.
+**Then** the list is served from the per-user discovery index at `users/{uid}/ext/datatug`, listing performs no write to the OpenVaultDB store, and no derived project index exists inside that store to be read or updated.
 
 ### AC: store-switch-is-an-explicit-migration (verifies REQ:store-choice-is-explicit)
 
 **Given** a project bound to the DataTug cloud store
 **When** the owner moves it to an OpenVaultDB store
-**Then** the move is performed as a single explicit migration, the project is bound to exactly one store afterwards, and no write is ever directed at both stores.
+**Then** the move is performed as a single explicit migration, the project holds exactly one `project`-role binding afterwards, and no write is ever directed at both stores.
 
 ### AC: validator-rejects-credentials-in-project-assets (verifies REQ:no-inline-credentials)
 
 **Given** a query file in a project store that carries an inline password
 **When** `datatug validate` runs
-**Then** it fails naming the file and field, and passes once the credential is replaced by a logical connection name.
+**Then** it fails naming the file and field, and passes once the credential is replaced by a logical connection name. This is a consumer-side AC: the file-naming behaviour it asserts is delivered by the guard owned by `git-native-projects` REQ:secrets-never-in-project-files, not by this Feature.
 
 ### AC: server-authenticates-with-the-recorded-credential (verifies REQ:project-store-binding)
 
-**Given** a project bound to an OpenVaultDB store whose OpenVaultDB credential is held only in the server-only credential store and not in the registry
+**Given** a project bound to an OpenVaultDB store whose OpenVaultDB credential is held only in the server-only credential store and not on the project record or in the registry
 **When** the server reads the project store and then mutates it
 **Then** both operations authenticate with that server-only credential, succeed while it is valid, and fail closed when it is absent or rejected, with no GitHub credential involved in either.
 
 ### AC: ovdb-credential-never-appears-in-the-registry (verifies REQ:ovdb-credential-is-server-only)
 
 **Given** a server bound to a project's OpenVaultDB store and holding that store's OpenVaultDB credential
-**When** the client-readable registry at `users/{uid}/ext/datatug` and every client bundle are inspected
-**Then** neither carries the OpenVaultDB credential, which lives only in the server-only credential store, and a read attempted against the registry fails closed rather than yielding the credential.
+**When** the client-readable registry at `users/{uid}/ext/datatug`, the project record, every binding, and every client bundle are inspected
+**Then** none carries the OpenVaultDB credential, which lives only in the server-only credential store, and a read attempted against the registry or a binding fails closed rather than yielding the credential.
 
 ### AC: project-store-reads-are-the-only-exception (verifies REQ:project-store-read-exception)
 
@@ -268,17 +330,48 @@ than warn and continue.
 **When** a client attempts a direct read of each, and a write to each
 **Then** the direct read of the protected data source is refused, the direct read of the project store succeeds, and both writes are refused unless they arrive through the trusted server.
 
-### AC: vault-cannot-be-colocated-in-a-client-readable-store (verifies REQ:no-vault-inside-a-client-readable-store)
+### AC: colocation-refused-by-default-with-informed-override (verifies REQ:secrets-colocation-defaults-to-reject)
 
-**Given** a project store in a repository the client reads with a user-supplied credential
-**When** a vault binding is configured so that a credential the client holds can reach that vault's `credentials` collection
-**Then** DataTug rejects the binding, no credential is written to that location, and the rejection names the colocation as the reason.
+**Given** a project store in a repository the client reads with a user-supplied credential, and a proposed credentials-store binding whose storage that credential can reach
+**When** the binding is saved
+**Then** binding validation refuses it by default, the refusal enumerates the specific secrets that would be exposed rather than merely asserting that credentials would be client-readable, and the binding is accepted only after the user confirms through an explicit "Are you sure?"-style alert showing that list; if overridden, the recorded binding states that those named secrets are client-readable and does not represent them as client-inaccessible. This is a store-side conformance AC: the refusal and its informed override are enforced by `secrets-vault` REQ:client-cannot-read-credentials, so this AC observes that outcome and cannot be verified independently of that enforcement — it MUST NOT be recorded as passing before that enforcement exists, a dependency enumerated in `## Conformance Dependencies` and carried by AC:colocation-conformance-depends-on-secrets-vault, which also covers the zero-`secrets`-binding case in which the `project`-role binding is the carrier.
+
+### AC: colocation-conformance-depends-on-secrets-vault (verifies REQ:secrets-colocation-defaults-to-reject)
+
+**Given** the AC clauses of this Feature that assert the colocation refusal, its named-secret enumeration and its informed override, including the zero-`secrets`-binding case carried by the `project`-role binding
+**When** this Feature's status is recorded
+**Then** every such clause is enumerated in the `## Conformance Dependencies` list below together with the owning requirement it waits on, and none of them is recorded as passing before that enforcement exists.
+
+## Conformance Dependencies
+
+This Feature is a store-side **conformance consumer** of the colocation rule whose single
+normative owner and enforcement is `secrets-vault` REQ:client-cannot-read-credentials, and of
+nothing else. `secrets-vault` depends on this Feature and this Feature MUST NOT depend on
+`secrets-vault` — that edge would close a cycle — so the enforcement this Feature waits on is
+**not reachable by a dependency edge from here**; it is recorded as an explicit conformance
+dependency instead. The following clause is what the carrier
+AC:colocation-conformance-depends-on-secrets-vault points at, and until the named enforcement
+exists it may not be scaffolded or recorded as passing.
+
+1. **AC:colocation-refused-by-default-with-informed-override** — waits on `secrets-vault`
+   REQ:client-cannot-read-credentials: the refuse-by-default rejection of a credentials
+   placement a client read credential can reach, the enumeration of the specific secrets by
+   name, and the informed override recorded on the binding that carried the confirmation.
+   This Feature supplies only the store-side carrier of that override on the project record —
+   the `secrets` binding, or the `project`-role binding when the project has zero `secrets`
+   bindings (REQ:project-store-binding) — and MUST NOT define a second enforcement of the rule
+   while it waits.
+
+This Feature MUST NOT record the clause above as passing before that enforcement lands, and
+MUST NOT restate the rule's normative content in the meantime. A verifier that reads the
+clause as independently verifiable is reading it wrongly: the dependency is real, named and
+one-directional, and it is recorded here rather than assumed.
 
 ## Rehearse Integration
 
-Every AC has a concrete behavioural surface — registry records, store records, HTTP
-requests, validator exit behaviour, and a reader-versus-writer comparison — and all are
-testable in principle. This Feature defines a capability spanning several repositories,
+Every AC has a concrete behavioural surface — project-record bindings, registry briefs,
+HTTP requests, validator exit behaviour, and a reader-versus-writer comparison — and
+all are testable in principle. This Feature defines a capability spanning several repositories,
 and each AC is exercised against a concrete implementation: server-mediated writes and the
 store binding in `datatug/backend`, the browser read path in `datatug-apps`, the validator
 in `datatug-cli`, and the OpenVaultDB data plane in `openvaultdb-go`. Stub scaffolding is
@@ -286,21 +379,35 @@ therefore deferred to those implementations, so the stubs track real runnable su
 rather than an abstract capability — consistent with `ai-query-builder` and
 `serve-brokered-query-builder`. One AC carries an obligation that must survive that
 deferral: AC:browser-reads-a-project-without-the-server is a conformance test between the
-Go writer and the browser reader, and it must be authored where both sides are runnable. Concretely: the binding and credential ACs
-land on `datatug/backend` HTTP and credential-resolution surfaces; AC:assets-land-under-the-project-namespace
-and AC:two-projects-share-one-store on the store's collection records; AC:project-list-comes-from-the-registry
+Go writer and the browser reader, and it must be authored where both sides are runnable. The
+canonical layout itself — including the remote nested path and its recorded upstream
+prerequisite — is rehearsed under `dalgo-project-store` and MUST NOT be scaffolded as an
+obligation of this Feature. Concretely: the binding and credential ACs
+land on `datatug/backend` HTTP and credential-resolution surfaces;
+AC:project-list-comes-from-the-registry
 on the Firestore registry; AC:browser-reads-a-project-without-the-server on the
 `datatug-apps` reader plus its conformance test; AC:validator-rejects-credentials-in-project-assets
-on `datatug-cli` exit behaviour; and AC:vault-cannot-be-colocated-in-a-client-readable-store
-on binding-validation rejection. One obligation is explicitly **not** this Feature's:
-`git-native-projects` AC:github-project-reads-back-what-it-wrote depends on `GhStorage`
-read methods that still panic, so no stub authored here can satisfy it and it must not be
-attached to this Feature's plan as a Supporting AC.
+on `datatug-cli` exit behaviour as a consumer of the guard owned by `git-native-projects`; and
+AC:colocation-refused-by-default-with-informed-override on the store-side conformance surface
+of the refusal and informed override enforced by `secrets-vault`, which cannot be verified
+until that enforcement exists; and AC:binding-record-carries-its-field-set on that same
+`datatug/backend` binding surface. One AC is documentary and has no runtime observer, so the
+Rehearse heuristic skips it: AC:colocation-conformance-depends-on-secrets-vault asserts what
+this document records in `## Conformance Dependencies`, not what code does. One obligation is explicitly **not**
+this Feature's: `git-native-projects` AC:github-project-reads-back-what-it-wrote depends on
+`GhStorage` read methods that still panic, so no stub authored here can satisfy it and it must
+not be attached to this Feature's plan as a Supporting AC.
 
 ## Not Doing / Out of Scope
 
-- Per-environment repositories and more than one store binding per project. The binding is
-  a list so this is additive later, but it is not built here.
+- More than one `project`-role store binding per project, and per-environment repositories. A
+  project holds exactly one `project`-role binding; `secrets`-role bindings are additive and
+  legal (REQ:project-store-binding), but more than one items store per project is not built
+  here.
+- The canonical project layout and its naming policy, and the DALgo persistence architecture
+  they rest on: owned by `dalgo-project-store`. This Feature references that layout and MUST
+  NOT define its own rule for the collection shape, the record filename, `records_dir`, the
+  type-suffix grammar or the key path.
 - Credentials, connection strings and any other secret: owned by `secrets-vault`, never by
   this Feature's store.
 - A platform-owned hosted OpenVaultDB endpoint and its platform-wide `/ext/v0/…` path
@@ -330,6 +437,11 @@ attached to this Feature's plan as a Supporting AC.
   under that base at `/v1`. `/ext/v0` is a platform convention for a **platform-owned** hosted
   endpoint, which is out of scope (see Not Doing / Out of Scope); it is not required of, and
   does not constrain, a user-supplied host.
+- The remote (OpenVaultDB) nested layout is not an open question of this Feature: its upstream
+  prerequisite — a declared collection able to express subcollections and `record_file` config
+  — is owned and recorded by `dalgo-project-store`
+  REQ:remote-nesting-prerequisite-is-recorded, and the canonical layout it must realise is
+  owned there too.
 
 ---
 
