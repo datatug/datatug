@@ -384,7 +384,7 @@ be blocked along with the named clause.
 1. **GitHub-engine legs** of AC:server-authenticates-with-the-recorded-credential,
    AC:a-client-cannot-write-the-store, AC:browser-reads-a-project-without-the-server,
    AC:store-switch-is-an-explicit-migration and AC:project-store-reads-are-the-only-exception wait on
-   `openvaultdb/openvaultdb-go#26`. On the GitHub engine no key under `projects/<project-id>/` can be
+   `openvaultdb/openvaultdb-go#26`. On the GitHub engine no key under `ext/datatug/projects/<project-id>/` can be
    written, because the manifest-built definition has no subcollections
    (`dalgo2ingitdb4github/scoped_collection.go:86-99`). These ACs are exercised on an OpenVaultDB
    host using its local `ingitdb` engine, once `dalgo-project-store` proves that engine serves the
