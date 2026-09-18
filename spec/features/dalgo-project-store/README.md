@@ -334,6 +334,7 @@ keep recognisable filenames.
 | folder | `folder` | new |
 | db driver | `dbdriver` | new |
 | credential | `credential` | new — the suffix and its naming policy are owned by this Feature; how a credential is realised and stored is owned by `secrets-vault` (a vault store when the project has a `secrets` binding, otherwise the project's own items store) |
+| extension namespace | `ext` | new — **schema-only**; no DataTug item type is stored at this level |
 
 `credential` is a project item by the shared rule but is realised in a **vault store**
 whenever the project has a `secrets` binding — the vault the server-to-vault assignment on
@@ -344,12 +345,105 @@ layout above (`ext/datatug/projects/<project-id>/credentials/<server-id>`, file
 `.../<server-id>.credential.json`), so this Feature owns the suffix and naming policy while
 `secrets-vault` REQ:vault-mirrors-project-namespace owns credential semantics.
 
+`ext` is a **schema-only** suffix: it names no DataTug item type. inGitDB requires every
+collection — including one that exists only to scope its subcollections — to declare a
+`record_file`, so the root `ext` collection declares
+`name: '{key}/{key}.ext.json'` like every other collection here. That template resolves to
+`ext/datatug/datatug.ext.json` for DataTug's own namespace record, and **nothing DataTug writes
+creates that file**: `ext/datatug` is a scoping parent (REQ:extension-namespace), exactly as a
+Firestore parent document need not exist. The suffix is declared so the parent level obeys the same
+self-identifying grammar as every other level (REQ:type-suffix-is-self-identifying) and so another
+extension's `ext/<other-id>/` record, if that extension chooses to write one, is distinguishable by
+its filename.
+
 `dbserver` is not homeless: it is placed under its db driver in the layout above
 (`ext/datatug/projects/<project-id>/dbdrivers/<driver-id>/dbservers/<server-id>`, file
 `.../<server-id>.dbserver.json`).
 
 `columns`, `objects` and `refs` are inherited suffixes with no collection in the current
 `ProjectStore` interface; they need a home or retirement (see Open Questions).
+
+### The static schema and what authoring it settled
+
+The schema is static files, not generated: founder decision, 2026-09-17, *"DataTug project ingitdb
+schema should be defined and copy-pasted. No need to create it dynamically."* (Open Question 5).
+`datatug-core` ships it as an embedded `files/` tree in `pkg/storage/ingitdbschema` and installs it
+by copying bytes it never parses; the package imports no DALgo driver. Authoring it raised six
+questions the founder settled on 2026-09-17 and 2026-09-18, recorded here so no later task
+re-decides them.
+
+**Columns are the real JSON fields, never invented ones.** Founder decision, 2026-09-17/18: each
+collection's `columns` block MUST list the actual JSON field names of the Go struct that item type
+persists in `datatug-core`, with `required` set to what that struct's own `Validate()` enforces, and
+MUST NOT invent a column that no struct carries. Each definition names its source struct and file in
+a header comment, so a reader can check the mapping against the code. A field whose Go type is a
+nested struct or a slice of structs is declared `type: any`, the closest shape inGitDB supports; a
+conditional requirement (a field required only for one value of another field) is left optional and
+stated in the comment rather than expressed as a column constraint inGitDB cannot enforce.
+
+**`credentials` is left out of the static schema.** Founder decision, 2026-09-18: the schema declares
+no `credentials` collection until the `secrets-vault` Feature defines the credential record's shape.
+This Feature still owns the credential **address and suffix**
+(`ext/datatug/projects/<project-id>/credentials/<server-id>`, file `.../<server-id>.credential.json`)
+as declared in REQ:canonical-project-layout — what is deferred is only the collection definition's
+`columns`, which cannot be authored from a record shape that does not exist yet. Declaring a
+credential collection with guessed columns would violate the no-invented-columns decision above and
+would pre-empt a decision `secrets-vault` owns.
+
+**`dbdrivers` keeps both the embedded `servers` array and the `dbservers` subcollection.** Founder
+decision, 2026-09-17: `datatug.ProjDbDriver` carries a `servers` slice of nested `ProjDbServer`
+structs, and the canonical layout also declares
+`ext/datatug/projects/<project-id>/dbdrivers/<driver-id>/dbservers/<server-id>` as its own
+subcollection. The schema keeps **both**, as the code has them today — the embedded array declared
+`type: any` on the driver record, the subcollection declared separately. Resolving the duplication
+(which of the two is authoritative, and whether one is dropped) is a later question, deliberately
+not decided while the schema is being authored.
+
+**Schema upgrades: DataTug overwrites its own files and nothing else.** Founder decision, 2026-09-17:
+installing the schema into a store is safe to repeat, and a file whose content already matches the
+embedded schema is left untouched. Beyond that, the two parts of the schema are treated differently
+by ownership:
+
+- **Everything under `ext/` is DataTug-owned.** A newer DataTug writes those files whether they were
+  absent or held different, older content, upgrading them in place. `ext/` holds nothing DataTug did
+  not itself put there, so overwriting is always the right answer.
+- **`.ingitdb/root-collections.yaml` is not DataTug-owned.** It is the store's shared root-collection
+  index, which other extensions' own entries share (REQ:extension-namespace exists precisely so
+  several extensions can share one store), so it MUST NEVER be overwritten silently: a differing copy
+  is left untouched and reported as a **conflict error naming its path**. Nothing merges or
+  selectively rewrites entries in it.
+
+Every file the install does write is written to a temp file in its own directory, fsynced and
+renamed into place, so an interrupted install leaves each schema path either fully old or fully new,
+never partial. The install assumes a single writer, matching `dalgo2ingitdb`'s own contract.
+
+**Two JSON tag quirks were fixed rather than reproduced.** Founder decision, 2026-09-17: where a Go
+struct's on-disk key was an accident, the schema states the intended key and the struct tag is fixed
+to match, rather than carrying the quirk forward into the canonical layout. Two landed with the
+schema:
+
+- `datatug.DbCatalog.Schemas` (`datatug-core/pkg/datatug/dbcatalog.go`) had **no** `json` tag at all,
+  so the literal Go field name `Schemas` was the on-disk key; it is now `json:"schemas"`.
+- `datatug.RecordsetBaseDef.AlternateKeys` (`datatug-core/pkg/datatug/recordset_def.go`) was tagged
+  singular, `json:"alternateKey,omitempty"`; it is now `json:"alternateKeys,omitempty"`.
+
+Both are **breaking** on-disk key changes, and both are in scope of the hard cut-over
+(REQ:filestore-is-cut-over): a reader of the old key is updated in the same wave, not shimmed.
+
+**Nested folders: subcollections are the chosen shape, and the schema cannot express them yet.**
+Founder decision, 2026-09-18: a folder's child folders are a `folders` **subcollection** of the
+folder record — key path `ext/datatug/projects/<project-id>/folders/<a>/folders/<b>` — and never a
+path-shaped record key, which REQ:hierarchy-is-a-key-path forbids. The static schema today declares
+**one flat `folders` level**, because inGitDB cannot yet express a collection that is its own
+subcollection; that is tracked upstream as
+[`ingitdb/ingitdb-go#29`](https://github.com/ingitdb/ingitdb-go/issues/29) (*let a subcollection
+definition reference another definition, including itself (recursive nesting)*), open as of
+2026-09-18. This is a **gap, not a settled reduction**: today's filestore addresses a folder by a
+caller-supplied nested path (`FoldersStore.SaveFolder(ctx, folderPath, folder)` in
+`datatug-core/pkg/storage/filestore/store_folders.go`), so a real folder tree can already nest
+folders inside folders, and the flat level does not carry that shape. The gap MUST be closed before
+the cut-over of REQ:filestore-is-cut-over is complete, so that deleting `filestore` does not drop a
+shape it supported.
 
 ### Store-level guarantees
 
@@ -988,6 +1082,17 @@ exercisable and MUST be scaffolded when implementation begins.
    flat, as stated in REQ:remote-nesting-prerequisite-is-recorded and Blocked Clauses.
 8. ~~Do the two migration defects get fixed by this move?~~ Resolved 2026-09-17: yes, by the
    hard cut-over (REQ:filestore-is-cut-over).
+9. How does a store record **which schema version it holds**, so an older DataTug can refuse a store
+   written by a newer one? Undecided. The static schema carries **no version marker today** — not in
+   `.ingitdb/root-collections.yaml`, not in any `definition.yaml`, and not in the project record — so
+   an older binary opening a newer store has nothing to compare and fails, if at all, only on
+   whatever concrete difference it trips over. The install rules above make the opposite direction
+   safe (a newer DataTug upgrades its own `ext/` files in place), which is exactly why the older-reads-newer
+   direction now needs an answer. Open sub-questions: where the marker lives (a DataTug-owned file
+   under `ext/`, so the shared root index is untouched, is the obvious candidate), whether it is a
+   schema version or a compatibility floor, and whether an older DataTug refuses the store outright
+   or degrades to read-only. Nothing in this Feature MAY assume a marker exists until this is
+   settled.
 
 ---
 *This document follows the https://specscore.md/feature-specification*
