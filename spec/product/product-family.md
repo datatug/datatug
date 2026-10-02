@@ -222,7 +222,7 @@ hard requirement of any profile (vision §3.6, §45, §46).
 | D7 | Checks generalise library queries | executable knowledge; deterministic before AI (§18–19) |
 | D8 | Compare as an execution primitive | "compare something that works with something that does not" (§13) |
 | D9 | Metrics are check series; criteria are explicit predicates | measure the problem and the recovery (§20, §22) |
-| D10 | Profiles by hostname/config; one build serves `datatug`, `incidentius` and `dashboardius` | simplest mechanism (§4); D1 |
+| D10 | Profiles by hostname/config; one build serves `datatug`, `incidentius` and `dashboardius`; `incidentius.com` is the public landing and `app.incidentius.com` selects the application profile | simplest mechanism (§4); D1; founder-approved split-domain layout 2026-09-12 |
 | D11 | CLI/API-first, structured `watch` | humans, scripts and agents on one model (§50–52) |
 | D12 | Assertion kinds separate fact, claim, hypothesis, inference | AI trust boundary (§12, §31, §57 Q12) |
 | D13 | Knowledge spreads for free; collaboration creates the bill | growth mechanism; never a paywall during an outage (§47) |
@@ -232,6 +232,6 @@ hard requirement of any profile (vision §3.6, §45, §46).
 
 Owner-routed; each also appears in its owning Feature.
 
-- **Incidentius domain and brand tier** — no domain is registered (checked `sneat-ops/data/domains.json`); Tier-3 independent like DataTug, or a DataTug sub-brand? (founder)
+- **Incidentius brand tier** — the domain layout is decided; whether Incidentius remains presented as a DataTug capability or becomes a fully independent Tier-3 product remains a founder decision.
 - **Snapshot retention and masking defaults** ([evidence-records](../features/evidence-records/README.md)).
 - **Whether `sneat-co/dashboardius` is kept as spec hub or archived after the cutover** (founder; recommendation: keep).
