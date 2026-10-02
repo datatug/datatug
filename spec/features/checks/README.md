@@ -112,10 +112,11 @@ type ValueConstraint =
 The `options` and `regexp` constraints MUST reuse the existing evaluation kinds' payloads
 field-for-field, so the code that evaluates a dataset column check evaluates a query column
 check — no second evaluator. `requiredPrivilege` names the policy a principal must satisfy; it
-never grants anything and never appears on the wire as an authorization claim. The operator set
-matches the optional `Fact.condition` proposed in the transport appendix (a pending lead
-assumption, not yet in `datatug-core`), so one comparison vocabulary serves context, checks
-and compare once both land.
+never grants anything and never appears on the wire as an authorization claim. The six
+comparison operators match the scalar subset of the optional `Fact.condition` in the
+transport appendix (not yet in `datatug-core`), so one comparison vocabulary serves context,
+checks and compare once both land. `Fact.condition` also has `in` and `like` (founder
+2026-10-02: "add both `in` and `like`"); checks do not take them yet (lane assumption).
 
 #### REQ: existing-dataset-checks-retained
 
