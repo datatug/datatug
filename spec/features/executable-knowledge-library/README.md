@@ -115,12 +115,12 @@ with your suggestion for now." The accepted suggestion — provisional per that 
 open to revision, not a closed decision — puts personal queries outside the project
 directory, under the OS user's home, keyed by project id:
 `~/.datatug/projects/<project-id>/queries/**`, with the base directory overridable by a
-`DATATUG_PERSONAL_DIR` environment variable (lead assumption, unconfirmed by the founder).
+`DATATUG_PERSONAL_DIR` environment variable (founder, 2026-10-02: "1 - OK").
 No colon appears in any on-disk directory name; an earlier `<project>/user:<principalId>/`
 layout considered for this is illegal on Windows and is rejected.
 
 The location is keyed per OS user and per project, not per `--as` principal (lead
-assumption, unconfirmed by the founder): one `datatug serve` process reads and writes a
+suggestion; founder, 2026-10-02: "2 - OK"): one `datatug serve` process reads and writes a
 single OS user's `~/.datatug/` tree regardless of which principal a given request is
 served as. datatug-core's `user:<principalId>` root id (`RootUserFolderPrefix`,
 `pkg/datatug/proj_item.go`) is a wire-level `QueriesFolder`/`Folder` id convention only —
