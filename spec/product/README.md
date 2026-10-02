@@ -1,7 +1,7 @@
 # DataTug — product thesis and pillars
 
 **Status:** Draft for founder review · **Date:** 2026-09-09 · **Owner:** alex
-**Evidence:** [current-state audit](../research/2026-09-09-current-state-audit.md), [Web UI audit](../research/2026-09-09-web-ui-audit.md), [competitor research](https://github.com/datatug/marketing/tree/main/competitors)
+**Evidence:** [current-state audit](../research/2026-09-09-current-state-audit.md), [Web UI audit](../research/2026-09-09-web-ui-audit.md), [competitor research](https://github.com/datatug/backstage/tree/main/competitors)
 **Hierarchy:** [pillars → capabilities → features](hierarchy.md) · **Roadmap:** [ROADMAP.md](../../ROADMAP.md)
 
 This document is the one place that says what DataTug is. Every Feature under

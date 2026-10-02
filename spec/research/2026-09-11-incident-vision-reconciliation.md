@@ -3,7 +3,7 @@
 **Input:** the founder's [vision document](2026-09-11-incident-resolution-vision.md) (sections
 cited as §n). **Method:** every concept in it was mapped to the hub's Features, the transport
 contract, `datatug-core`, `datatug-cli`, `datatug-apps`, `sneat-co/dashboardius`,
-`sneat-co/backstage` Ideas and `datatug/marketing`, read at these revisions: hub `main`
+`sneat-co/backstage` Ideas and `datatug/backstage` (formerly `datatug/marketing`), read at these revisions: hub `main`
 55608f9, dashboardius `main` e560229, datatug-cli `main` 72bb00a, datatug-core v0.27.x
 (`pkg/datatug/*.go`, `pkg/apicontract`, `pkg/comparator`). This record is evidence; the
 [product-family](../product/product-family.md) page and the owning Features carry the decisions.
@@ -76,7 +76,7 @@ contract, `datatug-core`, `datatug-cli`, `datatug-apps`, `sneat-co/dashboardius`
 | §44 | Knowledge flywheel | thesis | product/README | — |
 | §45 | SpecScore links | **new** optional link fields | incidents | NEXT |
 | §46 | OpenVaultDB / inGitDB | existing direction | git-native-projects | — |
-| §47–48 | Pricing; value beside the invoice | principle | backstage Idea → `datatug/marketing/MONETIZATION.md` | — |
+| §47–48 | Pricing; value beside the invoice | principle | backstage Idea → `datatug/backstage/marketing/MONETIZATION.md` | — |
 | §49 | Effectiveness metrics | measurable from the event stream | incidents (AC) | MVP (MTTR, TTRI raw), NEXT (reuse counters) |
 | §50–51 | `datatug incident` CLI, `watch`, event stream | **new** | incidents; `datatug-cli` `cli/incident` | MVP |
 | §52 | Autonomous agent workflow | **new** | agent-context | NEXT/FUTURE |

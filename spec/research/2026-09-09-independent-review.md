@@ -33,8 +33,8 @@ The review inventories the broad corpus and reads the central documents deeply. 
 | Phase 1 | [Feature](../features/core-investigation-loop/README.md), [implementation plan](https://github.com/sneat-co/workbench/blob/main/spec/plans/github.com/datatug/datatug/2026-09-09-phase-1-core-investigation-loop/README.md) | Correct these before the next implementation wave. |
 | Phase 2 | [library depth and provenance plan](https://github.com/sneat-co/workbench/blob/main/spec/plans/github.com/datatug/datatug/2026-09-09-phase-2-library-depth-and-provenance/README.md) | Useful backlog, not yet an executable successor phase. |
 | Current state and browser research | [current-state audit](2026-09-09-current-state-audit.md), [Web UI audit](2026-09-09-web-ui-audit.md) | Dated evidence. Reconcile later landings without rewriting historical observations as current truth. |
-| Competitor research | `datatug/marketing/competitors/`: README, methodology, feature matrix, conceptual hunt, positioning, opportunities, categorized individual reports | Canonical private research. Preserve evidence; downgrade unsupported certainty. |
-| Dashboardius product material | `datatug/marketing/dashboardius/README.md`; hub dashboards Feature; `sneat-co/backstage/spec/ideas/dashboardius.md` | Hub Feature owns the integration contract. Dashboardius should own its own user-facing feature specifications. |
+| Competitor research | `datatug/backstage/competitors/`: README, methodology, feature matrix, conceptual hunt, positioning, opportunities, categorized individual reports | Canonical private research. Preserve evidence; downgrade unsupported certainty. |
+| Dashboardius product material | `datatug/backstage/marketing/dashboardius/README.md`; hub dashboards Feature; `sneat-co/backstage/spec/ideas/dashboardius.md` | Hub Feature owns the integration contract. Dashboardius should own its own user-facing feature specifications. |
 | Dashboardius implementation record | `sneat-co/dashboardius/README.md`, `AGENTS.md`, `docs/IMPLEMENTATION-RECORD.md` | Useful prototype evidence; repository code/history is from 8 September, not a new 9 September implementation. |
 | Implementation-local specifications | CLI/apps spec trees, DALgo/DTQL/provider specs, HTTP adapter examples | Own local contracts and verification, with links to the hub Feature. Promised CLI/apps core-investigation-loop Feature files are absent. |
 | Pending VM delivery evidence | OpenVaultDB SDK layered-ACL worktree `docs/layered-acl-delivery.md`, `layered-acl-acceptance.md`, `layered-acl-review-checkpoints.md` | Essential implementation/dependency evidence; not a replacement for the DataTug product spec. |
@@ -243,7 +243,7 @@ These are contract failures visible in source and, for the indicated requests, i
 | Repository | Remote main SHA |
 |---|---|
 | datatug/datatug | `054a7f47903851fad8b70c13d8b8e663837b6b50` |
-| datatug/marketing | `160afec6a08229fe83f3dd22040aa90a165d6e79` |
+| datatug/backstage (formerly datatug/marketing) | `160afec6a08229fe83f3dd22040aa90a165d6e79` |
 | datatug/datatug-cli | `38b677b28c5a0e7083c9716524d7ffeafd04a087` |
 | datatug/datatug-core | `33a2eeb2730a6bf5d1cf56b0e7ae0e8752bf3e20` |
 | datatug/datatug-apps | `7775f53211ba30430befe032ff86d10d44850e84` |

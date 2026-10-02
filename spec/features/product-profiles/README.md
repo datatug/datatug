@@ -278,7 +278,7 @@ failing to boot.
 - Per-profile feature flags, entitlements or paywalls. Pricing separates viewing from
   contributing (product-family D13), not one profile from another.
 - Resolving Incidentius's brand tier.
-- Marketing sites. `datatug/marketing` owns the public story; a profile owns in-app copy.
+- Marketing sites. `datatug/backstage` (`marketing/`) owns the public story; a profile owns in-app copy.
 - Moving Dashboardius **specs**. Only the app moves in the cutover; the spec-hub question is a
   separate founder decision.
 

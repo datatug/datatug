@@ -17,7 +17,7 @@ should do, update the owning Feature or Idea and link back here.
 | [current-state audit](2026-09-09-current-state-audit.md) | 2026-09-09 | What is implemented, partial, prototype, specified or marketed across the CLI, core engine, web UI, DALgo/DTQL/ACL and ecosystem claims. |
 | [Web UI audit](2026-09-09-web-ui-audit.md) | 2026-09-09 | Route-by-route state of `datatug-apps`, the hands-on browser walk, journey dead ends and the capability/gap matrix. |
 | [layered-ACL chain reconciliation](2026-09-09-layered-acl-reconciliation.md) | 2026-09-09 | Task 13 inventory: provider/SDK/CLI/apps ACL branches vs. current main, port plan, and conflicts against Task 12's transport freeze. |
-| Competitor research | 2026-09-09 | Lives in the private `datatug/marketing` repository under `competitors/` (index, methodology, feature matrix, positioning, opportunities). |
+| Competitor research | 2026-09-09 | Lives in the private `datatug/backstage` repository under `competitors/` (index, methodology, feature matrix, positioning, opportunities). |
 
 ## Open Questions
 
