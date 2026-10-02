@@ -77,9 +77,9 @@ An annotation MUST address exactly one target. The target kinds are:
 | Kind | Address | Tier |
 |---|---|---|
 | `entity-value` | `{entity, field, value: TypedValue}` — the `entity.field = value` form | MVP |
-| `execution-record` | `{recordId}` | MVP |
-| `snapshot-row` | `{recordId, key: Fact[]}` — a row identified by its key facts, not by row index | NEXT |
-| `row-set` | `{recordId, selection}` — a record plus an explicit selection | NEXT |
+| `execution-record` | `{execution: ExecutionRef}` | MVP |
+| `snapshot-row` | `{execution: ExecutionRef, key: Fact[]}` — a row identified by its key facts, not by row index | NEXT |
+| `row-set` | `{execution: ExecutionRef, selection}` — a record plus an explicit selection | NEXT |
 | `field` | `{entity, field}` — the field itself, no value | NEXT |
 | `relationship` | `{lookupId-equivalent declared relationship}` | NEXT |
 | `query` | `{queryId}` | NEXT |
@@ -107,19 +107,33 @@ stored as ids into [evidence-records](../evidence-records/README.md) and
 type Annotation = {
   id: string;
   target: {kind: 'entity-value'|'execution-record'|'snapshot-row'|'row-set'|'field'|'relationship'|'query'; /* address per REQ:annotation-targets */};
-  body: string;                       // plain text, human-authored
   assertion: 'claim' | 'question';    // see REQ:annotation-is-a-claim-not-an-observation
   provenance: {
     author: {id: string};
     createdAt: string;                // RFC3339, UTC, server clock
-    scope: {project: string; environment: string};
-    recordId?: string;
-    incidentId?: string;
+    scope: {storeId: string; project: string; environment: string};
+    execution?: ExecutionRef;
+    incident?: IncidentRef;
     facts: Fact[];                    // the active Investigation Context at authoring time
     queryId?: string;
-    parameters?: {[parameterId: string]: TypedValue};
+    parameters?: {[parameterId: string]: TypedValue | TypedValueSet};
   };
-  revisions: {at: string; author: {id: string}}[];
+  revisions: AnnotationRevision[];    // includes the initial and current body
+  currentRevisionId: string;
+};
+type AnnotationRevision = {
+  id: string; at: string; author: {id: string};
+  sensitivity: {
+    requiredFields: FieldAccessRef[];
+    requiredEvidence: AuthorizationEvidenceRef[];
+  };
+} & (
+  | {state: 'active'; body: string}
+  | {state: 'tombstone'}
+);
+type AuthorizationEvidenceRef = {
+  execution: ExecutionRef;           // qualifies the server-local evidence id
+  evidenceId: string;                // opaque identity, never a value or capability
 };
 ```
 
@@ -127,6 +141,28 @@ type Annotation = {
 them, so a reader can see the question that was being asked, not only the answer that was
 annotated. The server MUST reject a client-supplied `author`, `createdAt` or `scope`, the same
 way the transport contract rejects a client-supplied principal.
+
+Every revision, including the initial and current revision, stores its body and server-derived
+sensitivity explicitly in the annotation file; Git history is transport history, not the
+annotation's revision mechanism. `currentRevisionId` must name exactly the last entry in
+`revisions`; rendering never reads a body outside that entry. When it names a tombstone, normal
+list and resurfacing results omit the annotation, while an explicitly authorized history view
+may render the earlier revisions plus a deletion marker. The server derives
+`requiredFields` as the union of the target, referenced execution's `authorizedFields`,
+provenance facts and active context facts. It also derives `requiredEvidence` for every result
+row or selected row set whose values informed the target or body. An
+`AuthorizationEvidenceRef` is a qualified reference to immutable server-held execution
+evidence that identifies the exact observed row set. The evidence store resolves `evidenceId`
+within the named execution to the trusted executor's source-native stable row identity or
+predicate plus the fields observed; that descriptor is never returned by an annotation API.
+The annotation stores neither those rows nor their values, and `evidenceId` is not a bearer
+capability. A source that cannot retain a stable descriptor cannot claim row authorization is
+re-checkable. The authoring UI MUST show the
+derived sensitivity scope and allows the author to add fields or server-resolved evidence for
+information typed from elsewhere; it cannot remove derived entries or mint evidence ids. If
+the server cannot qualify every referenced fact, field or evidence item to a
+store/project/environment, it refuses the write. This deliberately conservative scope
+protects free text without attempting to infer secrets from prose.
 
 #### REQ: data-addressable-resurfacing
 
@@ -152,10 +188,11 @@ context values.
 Annotations MUST be project assets under `annotations/`, written through the server like every
 other project write, readable and diffable as files (`git-native-projects`
 REQ:readable-file-layout). An annotation file MUST NOT contain result rows, snapshot contents,
-query text or credentials; it holds a target address, a body, and references. Editing an
-annotation MUST create a revision rather than replacing history: `revisions` grows, prior
-bodies remain in the file's Git history, and a deletion is a tombstone the timeline can still
-render.
+query text or credentials; it holds a target address, revision bodies, and references. Editing
+an annotation MUST append a new revision containing the new body and sensitivity and advance
+`currentRevisionId`; all prior bodies remain in the file itself even when project writes are
+not committed to Git. A deletion appends a `state:'tombstone'` revision with the same derived
+sensitivity; it has no body to leak or confuse with live content.
 
 File layout (lead assumption): `annotations/<id>.json`, one annotation per file, so two
 investigators annotating different values in the same minute do not collide on one file. This
@@ -174,8 +211,16 @@ separately and confers no access to anything.
 Concretely: an annotation whose target is `entity-value` is visible only if the reader could
 retrieve that value from at least one source they are authorized to read; an annotation whose
 target is `execution-record` is visible only if the reader may read that record under
-`evidence-records` REQ:snapshot-access-rechecked. Beyond the target check, an annotation is a
-project asset and follows the project's grants to spaces (`sharing-scopes`
+`evidence-records` REQ:snapshot-access-rechecked. In addition, the reader must currently be
+authorized for every field in that revision's `sensitivity.requiredFields` and the server
+must resolve every `requiredEvidence` reference and prove that the reader may currently read
+its exact row set through the same row-policy evaluator. A field allow-list alone is never
+sufficient. Correctly qualified references may cross project, incident and evidence stores.
+If the evidence is unavailable, expired, ambiguous, has a qualifier mismatch, attempts
+cross-store substitution, or current row authorization cannot be proved, the whole
+revision—body, author, timestamp and existence—is withheld. List, resurfacing, incident
+projection, watch stream and search apply the same check. Beyond these checks, an annotation
+is a project asset and follows the project's grants to spaces (`sharing-scopes`
 REQ:project-membership-through-sneat-spaces) — there is no annotation-level owner or ACL.
 
 Denials MUST be non-disclosing: no count of hidden annotations, no author names, no "3 notes
@@ -199,14 +244,15 @@ envelope rules:
 
 | Method/path | Request | Success envelope |
 |---|---|---|
-| POST `annotations` | Scope + `{target, body, assertion?, incidentId?, recordId?, facts?}` | `{annotation: Annotation}` |
-| GET `annotations` | Scope + one of `target`, `recordId`, `incidentId`, plus `limit` | `{annotations: Annotation[], truncated: boolean}` |
-| POST `annotations/for_result` | Scope + `{recordId}` or the just-returned result identity | `{annotations: Annotation[]}` — the resurfacing lookup |
+| POST `annotations` | Scope + `{target, body, assertion?, incident?: IncidentRef, execution?: ExecutionRef, facts?}` | `{annotation: Annotation}` |
+| GET `annotations` | Scope + one of `target`, `execution: ExecutionRef`, `incident: IncidentRef`, plus `limit` | `{annotations: Annotation[], truncated: boolean}` |
+| POST `annotations/for_result` | Scope + `{execution: ExecutionRef}` or the just-returned result identity | `{annotations: Annotation[]}` — the resurfacing lookup |
 
 The resurfacing lookup is a POST so semantic values are never copied into URLs, browser history
 or access logs, exactly as `semantic/related` already is. The CLI follows the singular-namespace
 convention: `datatug annotation add --entity Order --field ID --value 72841 --body "…"` and
-`datatug annotation list [--record <id>] [--incident <id>] [--json]`. CLI and web use the same
+`datatug annotation list [--execution <store>/<project>/<execution>] [--incident <store>/<incident>] [--json]`.
+CLI and web use the same
 endpoints; neither reads or writes an annotation file directly.
 
 ## Acceptance Criteria
@@ -221,7 +267,7 @@ endpoints; neither reads or writes an annotation file directly.
 
 **Given** an investigator working under incident `INC-2841` with `Customer.ID = 5` active in the Investigation Context and a recorded execution of *Stuck orders*
 **When** they annotate a value in that result and supply only the body text
-**Then** the stored annotation carries the server-resolved author, server timestamp, project/environment scope, the execution record id, `INC-2841`, the active facts and the query id with its parameters — and a request that tries to set `author` or `createdAt` itself is rejected.
+**Then** the stored annotation carries the server-resolved author, server timestamp, project/environment scope, the qualified execution and incident refs, the active facts and the query id with its parameters — and a request that tries to set `author` or `createdAt` itself is rejected.
 
 ### AC: annotation-hidden-when-target-denied (verifies REQ:annotation-visibility-follows-target)
 
@@ -229,11 +275,34 @@ endpoints; neither reads or writes an annotation file directly.
 **When** `support` reads the annotated result and calls the annotation list and resurfacing endpoints
 **Then** no annotation is returned, no count, author or placeholder is shown, and the responses are indistinguishable from a project with no annotation on that value.
 
+### AC: annotation-body-hidden-when-quoted-field-denied (verifies REQ:annotation-visibility-follows-target)
+
+**Given** an annotation targeting public `Customer.ID = 5` whose body quotes
+`Customer.Email = hidden@example.com`, captured from an execution/context that makes
+`Customer.Email` part of the revision sensitivity, and a `support` principal allowed to read
+the ID but not the email
+**When** `support` lists annotations, opens the incident projection, follows the event stream
+or searches incident text
+**Then** that annotation revision is absent in every surface, with no count, author, timestamp,
+body fragment, email field name or indication that a hidden note exists.
+
+### AC: annotation-body-hidden-when-quoted-row-denied (verifies REQ:annotation-visibility-follows-target)
+
+**Given** an annotation targeting public `Customer.ID = 5` whose body quotes another tenant's
+`Customer.Email = other-tenant@example.com`, captured with server-derived
+`requiredEvidence` for that exact row, and a reader allowed to see both `Customer.ID` and the
+`Customer.Email` column but only rows belonging to their own tenant
+**When** the reader lists annotations, opens the incident projection, follows the event stream
+or searches incident text
+**Then** the server cannot prove current row access to the quoted tenant's evidence and the
+whole annotation revision is absent on every surface, with no count, author, timestamp, body
+fragment, email address or indication that a hidden note exists.
+
 ### AC: annotation-on-execution-record (verifies REQ:annotation-targets, REQ:annotation-is-a-claim-not-an-observation)
 
 **Given** execution record `exec-7f3` captured during `INC-2841`
 **When** a participant annotates the record itself with "This is the 14:52 peak measurement"
-**Then** the annotation's target is `{kind: 'execution-record', recordId: 'exec-7f3'}`, it appears when the record is opened, and the incident event it produces has `assertion.kind = claim`, not `observation`.
+**Then** the annotation's target is `{kind: 'execution-record', execution: {storeId: 'ops', projectId: 'billing', executionId: 'exec-7f3'}}`, it appears when the record is opened, and the incident event it produces has `assertion.kind = claim`, not `observation`.
 
 ### AC: annotation-never-stores-restricted-rows (verifies REQ:annotation-storage)
 

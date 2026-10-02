@@ -198,8 +198,12 @@ remote receipts distinguish landed components from the complete dependency chain
 
 ## Not Doing / Out of Scope
 
-- Client-direct database access for protected sources: every read and write reaches a source
-  through the trusted server, never a direct browser or agent connection.
+- Client-direct access to protected data sources: every read and write of a protected source
+  reaches it through the trusted server, never a direct browser or agent connection. This
+  prohibition is scoped to protected data sources. The project store is a declared exception,
+  owned by [`openvaultdb-project-store`](../openvaultdb-project-store/README.md)
+  REQ:project-store-read-exception: browser-direct reads of the project store are permitted
+  there, while every write still goes through the trusted server.
 - Redesigning the layered-ACL policy format, typed-principal model, or Explain Access taxonomy —
   that work belongs to the dalgo plan this Feature consumes, not to this Feature.
 - Multi-user authenticated principals in Phase 1: `serve` fixes one principal per session via

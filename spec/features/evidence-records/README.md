@@ -83,22 +83,52 @@ A record carries exactly these fields (field names are the wire contract; types 
 
 ```typescript
 type ExecutionRecord = {
-  id: string;                       // server-assigned, project-unique, stable
-  scope: {project: string; environment: string};
+  ref: ExecutionRef;                // {storeId, projectId, executionId}; globally unambiguous
+  scope: {storeId: string; project: string; environment: string};
   queryId?: string;                 // folder-qualified library query id
   queryRevision?: string;           // the revision of that query definition at run time
   dtqlHash?: string;                // ad-hoc DTQL instead of a library query
-  parameters: {[parameterId: string]: TypedValue};
+  parameters: {[parameterId: string]: TypedValue | TypedValueSet};
   bindingsApplied: Binding[];       // exactly the bindings the executor applied
   principal: {id: string; roles: string[]; groups: string[]};
+  policyFingerprint: string;        // canonical current security-policy scope at execution
   executedAt: string;               // RFC3339, UTC
   durationMs: number;
   limitations: Limitation[];        // what policy restricted, never what it hid
   provenance: Result['provenance']; // source, collection, mode, observedAt, executionProfile
+  authorizedFields: FieldAccessRef[]; // visible column identities, never values
   rowCount: number;                 // rows actually returned to the caller
+  resultComplete?: boolean | null;  // absent/null only on legacy records; see below
   resultFingerprint: string;
-  snapshotRef?: string;             // present only when rows were stored
+  snapshotRef?: string;             // immutable identity; availability is separate state
+  incident?: IncidentRef;            // canonical incident association; server-normalized
+  grantUses?: GrantRef[];            // server-attested, 1..n when incident grants affected access
+  measurements: ScalarMeasurement[];
 };
+type ExecutionRef = {storeId: string; projectId: string; executionId: string};
+type GrantRef = {
+  incident: IncidentRef;             // qualifies the incident-store-local grant id
+  grantId: string;
+  approvalMutationId: string;        // stable identity of the access.approved mutation
+};
+type FieldAccessRef = {
+  storeId: string; project: string; environment: string; source: string;
+  collection?: string; column: string; entity?: string; field?: string;
+};
+type NumericTypedValue =
+  | {type: 'number'; value: number}
+  | {type: 'integer'; value: string}
+  | {type: 'decimal'; value: string};
+type MeasurementProjection = {
+  id: string; column?: string;
+  aggregate: 'first'|'sum'|'min'|'max'|'avg'|'count'|'rowCount';
+};
+type ScalarMeasurement = {
+  projection: MeasurementProjection;
+} & (
+  | {completeness: 'complete'; value: NumericTypedValue}
+  | {completeness: 'unavailable'; reason: 'no-rows'|'non-numeric'|'policy-limited'|'truncated'|'source-refused'}
+);
 ```
 
 Exactly one of `queryId` or `dtqlHash` MUST be present, mirroring the `ExecutionRequest` rule
@@ -108,6 +138,48 @@ absence of restriction the run did not actually have. A record MUST NOT contain 
 an ad-hoc DTQL run (only its hash), MUST NOT contain credentials, and MUST NOT contain result
 rows — rows live only in a snapshot, under REQ:result-snapshot-opt-in.
 
+`resultComplete` is a backward-compatible tri-state receipt. `true` proves that execution
+produced the complete result; `false` proves that the result was source-truncated or otherwise
+incomplete; omission (or JSON `null`) is legacy/unknown and proves neither state. Every newly
+written record MUST persist an explicit boolean copied from the result as
+`resultComplete = !Result.truncated`; only legacy reads may leave it absent. A replay that
+requires the complete row set, including a record side of compare, MUST accept only explicit
+`true`: `false` or absent is unfit for replay and fails closed with `SOURCE_UNAVAILABLE`.
+`SnapshotReadResponse.truncated:false` MUST NOT upgrade an absent legacy receipt to complete.
+
+`authorizedFields` retains one identity for every column returned to the caller: its qualified
+physical source/collection/column and, when declared, semantic entity/field mapping. It stores
+no values. This manifest is immutable evidence of which fields were present and lets later
+annotation writes derive conservative sensitivity even when no result snapshot was retained.
+The server normalizes every accepted request to explicit `storeId` in `ref`, `scope`,
+`authorizedFields` and the top-level `incident` before writing the record; ambiguity is
+rejected. `incident` has exactly this one wire location on an execution record: it MUST NOT be
+copied into `Result.provenance`. `Result.execution`, when recording was requested and
+succeeded, is only the qualified `ExecutionRef` of this record.
+
+`grantUses` is server-attested authorization audit, not client provenance. It is absent when
+ordinary policy alone authorized the result and contains one or more qualified `GrantRef`s
+only when those incident-scoped grants changed the authorization decision. The server derives
+it from the grants actually applied by the policy evaluator; a client cannot supply, echo or
+upgrade it. Each referenced approval mutation MUST resolve through `GrantRef.incident` to an
+`access.approved` event for the same `grantId`, the record's top-level `incident` MUST equal
+that incident, and the active grant MUST cover the record's exact store/project/source scope.
+Correctly qualified references may cross project, incident and evidence stores. An unresolved
+reference, qualifier mismatch, or cross-incident/cross-store substitution fails recording
+rather than producing an unauditable record. Reading an execution record rechecks current
+authorization for each grant reference: when the reader cannot see the incident or grant
+scope, `grantUses` is omitted without a count or placeholder, and direct grant resolution
+returns `NOT_FOUND`. The immutable reference remains in storage.
+
+`ScalarMeasurement` is computed in the trusted execution path while the authorized result is
+available, never reconstructed later from a fingerprint or an expired snapshot. A requested
+projection always leaves a retained entry: either one typed numeric `value` with
+`completeness:'complete'`, or `completeness:'unavailable'` with a reason. A truncated or
+policy-limited result cannot produce a complete aggregate except `rowCount`; refusing the
+measurement is preferable to recording a plausible partial number. The projection id and
+shape are immutable evidence alongside the query revision, source scope, applied bindings and
+limitations already captured by the record.
+
 Storage (lead assumption): records are operational records, not knowledge assets. They live in
 the **evidence store**, which follows the incident-store routing of
 [incidents](../incidents/README.md) REQ:incident-store — the project's own repository under
@@ -115,8 +187,16 @@ the **evidence store**, which follows the incident-store routing of
 a dedicated repository, the application's repository, or the hosted space-bounded store — and
 are written only by the server through the store's own DALgo-backed path. This path does not
 depend on the Phase 2 project-write path for knowledge assets. A record created under an
-incident carries that incident's `IncidentRef` in its provenance, which is how derived
-back-links are answered.
+incident carries that server-normalized `IncidentRef` in its top-level `incident` field, which
+is how derived back-links are answered.
+
+Snapshot bytes and mutable snapshot lifecycle state MUST use a server-private SQLite sidecar
+for the routed evidence store. Each project, dedicated repository, application repository, or
+hosted store route resolves to its own sidecar; records from one routed store MUST NOT share a
+sidecar namespace with another. The sidecar is addressed by `snapshotRef`, is never placed in
+or below a Git-tracked path, and MUST NOT be added to the evidence repository. Immutable
+execution-record JSON remains in the DALgo-backed evidence store; SQLite is not a competing
+record store and contains only snapshot bytes plus their lifecycle state.
 
 #### REQ: result-snapshot-opt-in
 
@@ -164,16 +244,22 @@ or AI"), not as a filter applied on the way out.
 Defaults, if a project declares nothing (lead assumptions, not founder rulings): retention
 **30 days**, per-snapshot cap **2 MiB** — the same bound the transport contract already
 applies to an HTTP response body, so one number governs both paths. Retention expiry deletes
-the snapshot bytes only; the execution record itself is permanent and keeps its `rowCount`,
-`limitations` and `resultFingerprint`, with `snapshotRef` cleared and an `snapshotExpiredAt`
-timestamp added. A reader asking for an expired snapshot gets an explicit "expired" response,
-never a silent empty recordset.
+the snapshot bytes only. The immutable execution record and its `snapshotRef` are never edited.
+A separate snapshot-state record keyed by that ref carries
+`{availability:'available'|'expired'|'deleted', changedAt, reason?}` and may advance only from
+`available` to a terminal state. A reader asking for an expired snapshot gets the explicit
+state and timestamp, never a silent empty recordset; the execution record permanently keeps
+its `rowCount`, `limitations`, `resultFingerprint` and scalar measurements. The state record
+is a row in the same routed server-private SQLite sidecar as the bytes, so expiry can delete
+the bytes and advance state atomically without editing the immutable execution-record JSON.
 
 #### REQ: record-reference-and-provenance
 
-An execution record MUST be addressable by id from an incident, a hypothesis, an annotation, a
-board widget and a compare result, and those references MUST be plain ids — no artefact
-copies a record's rows, fingerprint or limitations into its own file. A record MUST carry
+An execution record MUST be addressed from an incident, hypothesis, annotation, board widget
+or compare result by `ExecutionRef = {storeId, projectId, executionId}`. A bare execution id
+is accepted only inside an already-qualified store and project route; it is never persisted as
+a cross-artefact reference. No artefact copies a record's rows, fingerprint or limitations
+into its own file. A record MUST carry
 `Result.provenance` verbatim from the run, so `provenance.executionProfile` tells a later
 reader whether the evidence came from a `protected` or an `opaque-privileged` execution
 (`core-investigation-loop` REQ:opaque-sql-limitation) without re-deriving it.
@@ -184,17 +270,28 @@ evidence links degrade honestly rather than silently disappearing from a timelin
 
 #### REQ: series-from-records
 
-Execution records for the same `queryId` with the same `bindingsApplied` values, ordered by
-`executedAt`, form a **series**. A numeric projection over a series — `{column, aggregate}`,
-where `aggregate` is one of `first`, `sum`, `min`, `max`, `avg`, `count` (lead assumption), or
-the implicit `rowCount` — MUST yield metric points `{executedAt, value: TypedValue, recordId}`.
+Execution records form one **series** only when all of these identities match: evidence-store
+id, source store/project/environment, security-context policy fingerprint, query id and query
+revision (or ad-hoc DTQL hash), applied bindings, and scalar projection id/shape. Different
+environments, revisions or `policyFingerprint` values MUST NOT be joined into one line. The retained
+`ScalarMeasurement` yields `{executedAt, value, execution: ExecutionRef}` without reopening a
+snapshot. An unavailable measurement yields an explicit unavailable point with its reason;
+series APIs report it and never omit it as though no run occurred.
 
 A series MUST be derived, never stored as a second artefact: it is a query over records. A
-point MUST carry the `recordId` it came from so a number on an incident metrics table is one
-click from the evidence that produced it, and a point whose record the current principal may
-not read MUST be omitted from the series with the omission reported, not silently skipped.
+point MUST carry the qualified execution ref it came from so a number on an incident metrics
+table is one click from the evidence that produced it, and a point whose record the current
+principal may not read MUST be omitted from the series with the omission reported, not silently
+skipped.
 This is what the recovery view in vision §15 and §20 needs — `37 → 19 → 3`, each number
 traceable.
+
+A duration criterion such as `value == 0 for 30 minutes` is satisfied only when its metric
+declares an observation cadence and maximum tolerated gap, the window begins with a complete
+qualifying observation at or before its start, every subsequent observation through the end is
+complete and qualifying, and no gap exceeds the tolerance. One zero point, an unavailable
+point, a policy-hidden point or a gap cannot prove the duration; the
+criterion remains `unknown` with the missing interval reported.
 
 #### REQ: snapshot-is-evidence-not-an-execution-mode
 
@@ -219,13 +316,16 @@ staleness and error envelope:
 
 | Method/path | Request | Success envelope |
 |---|---|---|
-| GET `executions` | Scope + optional `queryId`, `incidentId`, `since`, `until`, `limit` | `{executions: ExecutionRecordBrief[], truncated: boolean}` |
+| GET `executions` | Scope + optional `queryId`, `incident: IncidentRef`, `since`, `until`, `limit` | `{executions: ExecutionRecordBrief[], truncated: boolean}` |
 | GET `executions/{id}` | Scope | `ExecutionRecord` |
 | GET `executions/{id}/snapshot` | Scope + optional `limit` | `Result`-shaped recordset with `limitations` re-derived now |
-| POST `exec/run_query` | `ExecutionRequest` + `record?: boolean, snapshot?: boolean` | `Result` plus `recordId?: string` |
+| POST `exec/run_query` | `ExecutionRequest` + `record?: boolean, snapshot?: boolean, measurementProjections?: MeasurementProjection[]` | `Result`, whose top-level `execution?: ExecutionRef` is present only when recording succeeds |
 
 `record` and `snapshot` are additive optional fields on the existing `ExecutionRequest`;
 `snapshot: true` without `record: true` is INVALID_REQUEST rather than an implied record.
+`measurementProjections` names the immutable scalar projections to retain in the record and
+requires `record: true`; each entry uses the `MeasurementProjection` shape and its id
+must be unique within the request.
 Listing MUST omit records the current principal may not read, exactly as the query library
 omits unauthorized queries, and MUST NOT report how many were omitted.
 
@@ -240,7 +340,7 @@ goes through the same server.
 
 **Given** a project whose write path is available and the *Customer invoices* library query
 **When** the client posts `exec/run_query` with `record: true` and `Customer.ID = 5`
-**Then** the response carries a `recordId`, `GET /datatug/executions/{recordId}` returns a record whose `queryId`, `parameters`, `bindingsApplied`, `principal`, `limitations` and `rowCount` match the run exactly, and a second `PUT`-style attempt to modify any field of that record is rejected.
+**Then** the response carries a qualified `execution`, `GET /datatug/executions/{executionId}` under its qualified Scope returns a record whose `queryId`, `parameters`, `bindingsApplied`, `principal`, `limitations` and `rowCount` match the run exactly, and a second `PUT`-style attempt to modify any field of that record is rejected.
 
 ### AC: fingerprint-without-snapshot (verifies REQ:result-snapshot-opt-in)
 
@@ -258,19 +358,32 @@ goes through the same server.
 
 **Given** a project with the default 30-day retention and a record whose snapshot is 31 days old
 **When** retention runs and the record is read
-**Then** the snapshot bytes are gone and the snapshot read returns an explicit "expired" response, while the record still returns its `rowCount`, `limitations` and `resultFingerprint`, with `snapshotRef` cleared.
+**Then** the snapshot bytes are gone and the snapshot read returns an explicit "expired" response from the separate snapshot-state record, while the immutable execution record still returns its original `snapshotRef`, `rowCount`, `limitations`, `resultFingerprint` and scalar measurements unchanged.
 
 ### AC: series-from-repeated-runs (verifies REQ:series-from-records)
 
 **Given** three records for the same query and bindings with `rowCount` 37, 19 and 3
 **When** a series is requested with the `rowCount` projection
-**Then** three points are returned in `executedAt` order with values 37, 19, 3, each carrying the `recordId` it came from, and a fourth record the current principal may not read is omitted with the omission reported rather than silently dropped.
+**Then** three points are returned in `executedAt` order with values 37, 19, 3, each carrying the qualified `ExecutionRef` it came from, and a fourth record the current principal may not read is omitted with the omission reported rather than silently dropped.
 
 ### AC: record-referenced-from-incident (verifies REQ:record-reference-and-provenance)
 
-**Given** an incident with a hypothesis that cites an execution record by id
+**Given** an incident with a hypothesis that cites a qualified `ExecutionRef`
 **When** the incident is read
-**Then** the incident file holds the record id only — no rows, fingerprint or limitations are copied into it — and when the record is unreadable for the current principal the reference renders as an explicit "not visible or removed" entry instead of vanishing from the timeline.
+**Then** the incident file holds the qualified reference only — no rows, fingerprint or limitations are copied into it — and when the record is unreadable for the current principal the reference renders as an explicit "not visible or removed" entry instead of vanishing from the timeline.
+
+### AC: grant-use-is-server-attested (verifies REQ:execution-record-captured, REQ:record-reference-and-provenance)
+
+**Given** `support` can read an incident but ordinary project policy denies the incident's
+`Invoice` source, and a server-approved incident grant widens row access without unmasking
+fields
+**When** `support` records a query carrying that incident and then attempts another request
+whose unknown client-supplied `grantUses` claims a grant from another store
+**Then** the record's top-level `incident` is the server-normalized `IncidentRef`, its
+`grantUses` contains only the server-applied grant qualified by that incident and its
+`access.approved` mutation id, `Result.execution` contains only the qualified `ExecutionRef`,
+the forged request is rejected before execution, and an otherwise identical run authorized by
+ordinary policy has no `grantUses` field.
 
 ### AC: snapshot-read-is-not-an-execution (verifies REQ:snapshot-is-evidence-not-an-execution-mode)
 
@@ -294,19 +407,18 @@ goes through the same server.
 - Re-authorizing the *capturing* principal's rights to a later reader in any form: no delegation,
   no "shared evidence" grant, no signed link that carries access.
 
+## Resolved Decisions
+
+- **Snapshot storage location and Git.** Records follow incident-store routing and may use the
+  project's own repository, a dedicated or application repository, or the hosted store.
+  Snapshot bytes never enter a Git-tracked path in MVP; no per-project opt-in to commit them
+  exists in this phase.
+- **Snapshot byte storage backend.** Approved 2026-09-13: each routed evidence store uses a
+  server-private SQLite sidecar for snapshot bytes and their monotonic lifecycle state. The
+  immutable execution-record JSON remains in the routed DALgo-backed evidence store.
+
 ## Open Questions
 
-- ~~**Snapshot storage location and Git.**~~ Records are specified above as operational records
-  in the evidence store, which follows the incident-store routing and so may be the project's
-  own repository, a dedicated or application repository, or the hosted store. Snapshot **bytes**
-  were the awkward half: committing production rows to a Git project is a data-exfiltration
-  surface. **Ruled by the founder, 2026-09-11 (verbatim): *"Not in MVP"*** — in MVP, snapshot
-  bytes never enter a Git-tracked path; no per-project opt-in to commit them exists this phase.
-- **Snapshot byte storage backend.** The ruling above says only that snapshot bytes never enter
-  Git in MVP; it does not specify where they actually live (a dedicated server-side store, a
-  blob store, or something else), referenced by `snapshotRef`. That design is not settled here
-  and is left as an explicit open question for the Incidentius rework rather than invented in
-  this evidence-records draft.
 - **Retention and masking defaults** (30 days, 2 MiB) are engineering assumptions carried over
   from the transport contract's own bounds, not founder rulings — also listed in
   [product-family §9](../../product/product-family.md#9-open-questions).
