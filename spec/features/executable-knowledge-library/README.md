@@ -119,8 +119,8 @@ directory, under the OS user's home, keyed by project id:
 No colon appears in any on-disk directory name; an earlier `<project>/user:<principalId>/`
 layout considered for this is illegal on Windows and is rejected.
 
-The location is keyed per OS user and per project, not per `--as` principal (lead
-suggestion; founder, 2026-10-02: "2 - OK"): one `datatug serve` process reads and writes a
+The location is keyed per OS user and per project, not per `--as` principal (founder,
+2026-10-02: "2 - OK"): one `datatug serve` process reads and writes a
 single OS user's `~/.datatug/` tree regardless of which principal a given request is
 served as. datatug-core's `user:<principalId>` root id (`RootUserFolderPrefix`,
 `pkg/datatug/proj_item.go`) is a wire-level `QueriesFolder`/`Folder` id convention only —
