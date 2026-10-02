@@ -210,6 +210,13 @@ inheriting the sender's access.
   parameter)? Today the parameter model has only scalar `TypedValue` parameters, so `in` and
   `like` facts are never bound; they are reported skipped. Incident creation also rejects
   `in`/`like` facts until the incident contract is extended.
+- (lane assumption) How should a text member containing a comma be entered in an `in`
+  list? The form splits on every comma with no quoting, so "Smith, John" becomes two
+  members; newline-separated entry works. Options: quoted members, or an explicit
+  one-per-line mode.
+- (lane assumption) No datatug-cli agent accepts `in` or `like` facts yet (an `in` fact
+  with `values` is answered 400 `unknown field "values"`), so datatug-apps withholds both
+  from `queries/applicable` and keeps them stored and listed until an agent supports them.
 
 None blocking Phase 1. Internal `basket` naming is an engineering choice; the public
 label remains Investigation Context. Define saved-investigation retention and sharing
