@@ -60,8 +60,11 @@ type TypedValue =
   | {type: 'null'; value: null};
 type PhysicalRef = {source: string; collection: string; column: string};
 type Fact = {
-  id: string; entity: string; field: string; value: TypedValue;
-  condition?: '==' | '!=' | '>' | '>=' | '<' | '<='; // OPTIONAL; absent means '=='
+  id: string; entity: string; field: string;
+  // Exactly one of: `value` (every condition except 'in') or `values` (only 'in').
+  value?: TypedValue;                 // required unless condition === 'in'; absent for 'in'
+  values?: TypedValue[];              // required, non-empty, one type, only when condition === 'in'
+  condition?: '==' | '!=' | '>' | '>=' | '<' | '<=' | 'in' | 'like'; // OPTIONAL; absent means '=='
   origin: 'selection' | 'context' | 'manual';
   role?: 'affected' | 'healthy_control' | 'suspected' | 'excluded' | 'recovered'; // OPTIONAL, see below
   layer?: string; // OPTIONAL: 'canonical' (default when absent) or an overlay id such as 'hypothesis:H17'
@@ -113,17 +116,30 @@ Facts are suggestions, not access credentials. The server revalidates physical
 references and mapping declarations against authorized project metadata. Manual
 facts are labeled manual and cannot impersonate a selected protected record.
 
-`Fact.condition` (OPTIONAL; lead assumption 2026-09-10, pending founder confirmation)
-names the comparison the fact expresses against `Fact.value`: one of `==`, `!=`, `>`,
-`>=`, `<`, `<=`, following `investigation-context` REQ:context-variable-conditions.
-Absent `condition` means `==`, matching every fact produced before this field existed,
+`Fact.condition` (OPTIONAL) names the comparison the fact expresses: one of `==`, `!=`,
+`>`, `>=`, `<`, `<=`, `in`, `like`, following `investigation-context`
+REQ:context-variable-conditions. The operator set follows the founder's words (2026-09-10: "conditions
+like ==, >, >=, etc."; 2026-10-02: "add both `in` and `like`"); the value shapes below are
+lane/lead assumptions. Every condition except `in` compares against the single
+`Fact.value`; `like` requires `value` to be a `string` TypedValue holding a SQL `LIKE`
+pattern (`%` any run of characters, `_` exactly one). `in` carries a non-empty `values`
+list of TypedValues of one type and NO `value` key: a list-valued `TypedValue` would break
+every consumer that treats `TypedValue` as a scalar, and one `==` fact per member would read
+as a conflicting-candidate ambiguity instead of a set, so `values` is the smallest honest
+shape. Decoders MUST reject `in` with a missing, non-array or empty `values`, `in` with
+`value` present, mixed member types, and `values` on any other condition. Absent
+`condition` means `==`, matching every fact produced before this field existed,
 so no existing caller or fixture changes shape. An agent that does not implement
 conditions MUST NOT apply a non-`==` fact as equality; it MUST leave the parameter
 unbound and report it unbound in the response (`Candidate.missing`, and a `chain`
 entry whose `explanation` says the fact was skipped for an unsupported condition),
 never silently narrow or misstate the query. This keeps the "why this query is
 constrained" view (`investigation-context` REQ:no-hidden-filters) truthful even when
-client and server disagree on condition support.
+client and server disagree on condition support. The existing parameter model has only
+scalar `TypedValue` bindings (no list-typed parameter), so today no `in` or `like` fact can
+bind to any parameter: both are always left unbound and reported with the skipped
+explanation above. An agent MAY bind an `in` fact only to a parameter its query definition
+declares as list-typed, if such a type is added later.
 
 `Fact.role` and `Fact.layer` (OPTIONAL; lead assumption 2026-09-11, pending founder
 confirmation) carry the cohort role and the context layer defined by `investigation-context`

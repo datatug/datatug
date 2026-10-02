@@ -57,10 +57,28 @@ the context basket must eventually reach, not only the web UI Phase 1 ships firs
 A context variable MAY carry a comparison condition, not only equality: the Variables
 page MUST offer a form to add a variable for a selected `entity.field` with a condition and
 a value (founder, 2026-09-10: "should have form to add context variable for selected
-Entity.Field with conditions like ==, >, >=, etc."). Operator set (lead assumption, pending
-founder confirmation): `==`, `!=`, `>`, `>=`, `<`, `<=`. A variable added this way has origin
-`manual` and obeys REQ:context-basket-add-remove-disable like any cell-selected value; the
-`entity.field = value` form in `core-investigation-loop` REQ:context-basket is the `==` case.
+Entity.Field with conditions like ==, >, >=, etc."; 2026-10-02: "why in/like are not
+included? Is it hard to support them? They are often needed", then "add both `in` and
+`like`"). Operator set: `==`, `!=`, `>`, `>=`, `<`, `<=`, `in`, `like`. A variable added
+this way has origin `manual` and obeys REQ:context-basket-add-remove-disable like any
+cell-selected value; the `entity.field = value` form in `core-investigation-loop`
+REQ:context-basket is the `==` case.
+
+The shape of each operator's value is a lane/lead assumption (the founder named the
+operators, not their semantics), recorded here and in the transport appendix:
+
+- `in` takes a non-empty list of typed values, all of one type, of the field's type. The
+  form accepts comma- or newline-separated entry, trims, drops empty entries, de-duplicates by
+  typed equality (`5` and `"5"` stay distinct) and rejects an empty list. Two `in` variables
+  with the same member set are the same variable regardless of order.
+- `like` takes one string pattern with SQL `LIKE` semantics (`%` matches any run of
+  characters, `_` exactly one). The form offers it only for text-typed fields (a field whose
+  type is not yet known also gets it).
+- Both render readably in the list: `field in (a, b, c)` and `field like 'x%'`.
+- Binding: an `in` or `like` fact is never auto-bound to a query parameter. It binds only
+  if the query definition declares a list-typed parameter for `in`; no such parameter type
+  exists today (see Open Questions), so every `in` and `like` fact stays unbound and is
+  reported as skipped, with the same wording as any other unsupported condition.
 
 #### REQ: cohort-roles
 
@@ -186,6 +204,12 @@ inheriting the sender's access.
   trail, not a stored SQL snapshot.
 
 ## Open Questions
+
+- (lane assumption) Should a query definition be able to declare a list-typed parameter
+  so an `in` fact can bind to it, and should `like` ever bind (for example to a `LIKE`
+  parameter)? Today the parameter model has only scalar `TypedValue` parameters, so `in` and
+  `like` facts are never bound; they are reported skipped. Incident creation also rejects
+  `in`/`like` facts until the incident contract is extended.
 
 None blocking Phase 1. Internal `basket` naming is an engineering choice; the public
 label remains Investigation Context. Define saved-investigation retention and sharing
