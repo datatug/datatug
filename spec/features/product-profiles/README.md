@@ -182,12 +182,14 @@ hub, and no spec content moves in this cutover either way.
 
 #### REQ: brand-and-domain-honesty
 
-No Incidentius domain is registered. Copy in any profile, marketing page, README or demo MUST
-NOT claim, display or link one — matching the roadmap's rule for ahead-of-code claims
-(founder: *"keep with planned label"*). `dashboardius.com` is live and may be named;
-`datatug.app` is live and may be named. Until a domain exists, the Incidentius profile is
-reachable by configuration override and by `?profile=incidentius` in local development, and
-its brand tier relative to DataTug is open.
+The approved Incidentius layout uses `incidentius.com` for the public landing page and
+`app.incidentius.com` for the application. The apex MUST remain a marketing surface and MUST
+NOT select the application profile. The exact app hostname MUST select the `incidentius`
+profile; `datatug.app` and `dashboardius.com` continue to select their own profiles. Public
+copy MUST describe the app as available only once the app hostname resolves with valid TLS
+and serves the Incidentius profile. Configuration override and `?profile=incidentius` remain
+local-development mechanisms, not production aliases. Incidentius's brand tier relative to
+DataTug remains open.
 
 Every profile MUST show build information — version, git hash, build timestamp — reusing the
 existing `@sneat/components` `AppVersionComponent` rather than a per-profile implementation,
@@ -224,9 +226,14 @@ today, but so that it never becomes the thing somebody later tries to gate a fea
 
 ### AC: hostname-selects-home (verifies REQ:profile-table)
 
-**Given** one deployed build served on the DataTug hostname and on an Incidentius hostname
-**When** an authenticated user opens each root URL
-**Then** the DataTug hostname lands on the project/investigation workspace and the Incidentius hostname lands on the incidents list with the "Houston, we've got a problem" entry point, each with its own brand name and navigation order — and an unrecognised hostname lands on the DataTug home rather than failing to boot.
+**Given** one deployed build served on `datatug.app` and `app.incidentius.com`, while
+`incidentius.com` serves the public landing page
+**When** an authenticated user opens each application root URL
+**Then** `datatug.app` lands on the project/investigation workspace and
+`app.incidentius.com` lands on the incidents list with the "Houston, we've got a problem"
+entry point, each with its own brand name and navigation order; `incidentius.com` remains the
+public landing surface, and an unrecognised hostname lands on the DataTug home rather than
+failing to boot.
 
 ### AC: incidents-always-in-datatug-menu (verifies REQ:profile-table)
 
@@ -270,16 +277,15 @@ today, but so that it never becomes the thing somebody later tries to gate a fea
   (`sharing-scopes`) are the only boundary.
 - Per-profile feature flags, entitlements or paywalls. Pricing separates viewing from
   contributing (product-family D13), not one profile from another.
-- Choosing or registering an Incidentius domain, or resolving its brand tier.
+- Resolving Incidentius's brand tier.
 - Marketing sites. `datatug/marketing` owns the public story; a profile owns in-app copy.
 - Moving Dashboardius **specs**. Only the app moves in the cutover; the spec-hub question is a
   separate founder decision.
 
 ## Open Questions
 
-- **Incidentius domain and brand tier.** No domain is registered. Tier-3 independent like
-  DataTug, or a DataTug sub-brand? Until this is decided, the profile ships behind a
-  configuration override and claims no domain.
+- **Incidentius brand tier.** The split-domain layout is decided. Tier-3 independent like
+  DataTug, or a DataTug capability with its own public identity?
 - **Whether `sneat-co/dashboardius` is kept as the Dashboardius spec hub or archived** after the
   app cutover. Lead recommendation: keep it.
 - **Profile-aware demo content.** Each profile declares a demo default, but the canonical demo
