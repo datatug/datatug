@@ -118,7 +118,7 @@ facts are labeled manual and cannot impersonate a selected protected record.
 
 `Fact.condition` (OPTIONAL) names the comparison the fact expresses: one of `==`, `!=`,
 `>`, `>=`, `<`, `<=`, `in`, `like`, following `investigation-context`
-REQ:context-variable-conditions. The operator set is founder-ruled (2026-09-10: "conditions
+REQ:context-variable-conditions. The operator set follows the founder's words (2026-09-10: "conditions
 like ==, >, >=, etc."; 2026-10-02: "add both `in` and `like`"); the value shapes below are
 lane/lead assumptions. Every condition except `in` compares against the single
 `Fact.value`; `like` requires `value` to be a `string` TypedValue holding a SQL `LIKE`
