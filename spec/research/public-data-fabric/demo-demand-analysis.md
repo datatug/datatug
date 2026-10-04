@@ -1,6 +1,6 @@
 # Demo corpus demand analysis — Phase 0.5 r1
 
-Observation: 2026-10-04. **Proposed research, pending independent review and root gate acceptance.** No semantic reconciliation, canonical meanings, selected portfolio, accepted cross-demo joins or live publication completion is claimed.
+Observation: 2026-10-04. **Independent corpus review passed; root accepted the bounded gate transition. Final receipt/gate review, CI and WB landing remain pending.** No semantic reconciliation, canonical meanings, selected portfolio, accepted cross-demo joins or live publication completion is claimed.
 
 The desired journey remains connect a demo → recognize a contextual field role → suggest explained public references → execute a measured lookup → reuse that knowledge across different schemas. This analysis supplies evidence for recognition and reference demand. Source selection, fresh reconciliation, canonical ingestion, actual joins and product validation remain later work.
 
@@ -55,4 +55,4 @@ Phase 1 should prioritize sources that can explain country representations and c
 
 Source/model/meaning licences are not interchangeable. Employees-derived observations retain its share-alike scope; mixed-source candidate metadata does not assert a blanket CC0 licence. Source selection and any redistribution remain subject to the programme licensing gate. Nothing here promotes the source fixtures or candidate groups into a competing canonical registry.
 
-Review fixes r1/r2 retain [original hypotheses and reasons](evidence/demo-demand-corrections.json): phone/address types are classifications, the region-scope flag is not a name, customer person/store references are separate relationships, and keyless entities have no invented key. Seven identical surviving proposals after these source-role corrections were deduplicated. Final independent exact-head review remains pending.
+Review fixes r1/r2 retain [original hypotheses and reasons](evidence/demo-demand-corrections.json): phone/address types are classifications, the region-scope flag is not a name, customer person/store references are separate relationships, and keyless entities have no invented key. Seven identical surviving proposals after these source-role corrections were deduplicated. Independent source/data review passed at `0c03efa6dc0d1cc136bf3bcd682d9f4f692f45e0`; [the named r2 receipt](evidence/demo-analysis-acceptance-r2.json) preserves the boundary and limits. Final receipt/gate delta review, CI and landing remain pending.

@@ -1,6 +1,6 @@
 {
   "title": "Demo corpus semantic analysis",
-  "status": "pending",
+  "status": "passed",
   "owner": "Main orchestrator",
   "prerequisite_ids": [
     "phase0"
@@ -9,8 +9,8 @@
     "Analyse all six actual demo schemas, representation diversity and reusable enrichment demand"
   ],
   "evidence_ids": [
-    "demo-demand-analysis"
+    "independent-demo-analysis-r2"
   ],
   "blocker_ids": [],
-  "decision": "Actual six-native-corpus proposed demand analysis r1 recorded; independent exact-diff corpus review and root acceptance remain pending. No final semantic reconciliation."
+  "decision": "Root accepts bounded all-six Phase 0.5 demand evidence and independent corpus-analysis r2 receipt at reviewed source head 0c03efa6dc0d1cc136bf3bcd682d9f4f692f45e0. Final receipt/gate delta exact-head review, CI and WB landing remain required before opening Phase 1. Hypotheses remain unresolved; no semantic reconciliation or live publication acceptance. B1 remains open at Phase 4/5/6."
 }
