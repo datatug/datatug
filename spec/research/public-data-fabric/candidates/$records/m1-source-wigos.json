@@ -1,0 +1,14 @@
+{
+  "title": "WMO WIGOS station identifier (standards evidence source)",
+  "kind": "source",
+  "status": "researched",
+  "evidence_ids": [
+    "m1-ev-wigos"
+  ],
+  "source_url": "https://community.wmo.int/site/knowledge-hub/programmes-and-initiatives/wmo-integrated-global-observing-system-wigos/implementation-of-wmo-integrated-global-observing-system-wigos/wigos-station-identifiers",
+  "licence": "needs-review",
+  "licence_notes": "WMO documentation and station metadata terms need screening; no records copied.",
+  "observed_at": "2026-10-04T22:10:00Z",
+  "freshness": "needs-review",
+  "reason": "Standards/publisher evidence; no public dataset integration selected or data copied."
+}

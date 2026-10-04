@@ -1,0 +1,40 @@
+{
+  "title": "Operational energy and environmental context (proposed enrichment bundle)",
+  "kind": "scenario",
+  "status": "needs-review",
+  "evidence_ids": [
+    "m1-ev-energy",
+    "m1-ev-observation",
+    "m1-ev-org",
+    "m1-ev-si",
+    "m1-ev-spatial",
+    "m1-ev-time",
+    "m1-ev-units"
+  ],
+  "member_ids": [
+    "m1-site",
+    "m1-geometry",
+    "m1-observation",
+    "m1-observed-property",
+    "m1-energy-product",
+    "m1-energy-flow",
+    "m1-unit",
+    "m1-quantity-kind",
+    "m1-interval"
+  ],
+  "dependency_ids": [
+    "m1-site",
+    "m1-geometry",
+    "m1-observation",
+    "m1-observed-property",
+    "m1-energy-product",
+    "m1-energy-flow",
+    "m1-unit",
+    "m1-quantity-kind",
+    "m1-interval"
+  ],
+  "demo_ids": [],
+  "practical_value": "User facilities/meters/time-stamped energy records → site geometry/support → source-compatible energy/weather/air-quality observations and regional energy flow. Ask whether demand tracks weather and which regional energy mix contextualises operations. Need licensed local/grid observations, spatial support, energy-flow definitions and correct power-vs-energy units; region averages do not measure site emissions.",
+  "showcase_value": "Energy and weather series, support-aware map; no causal or facility-emission claim.",
+  "reason": "All dependencies are research concepts; suitable dataset/recordset, identifier reconciliation, licensing and measured join dependencies remain open. Not selected, implemented or validated."
+}

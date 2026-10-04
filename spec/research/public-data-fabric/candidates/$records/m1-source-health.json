@@ -1,0 +1,14 @@
+{
+  "title": "WHO GHO indicator metadata/API (standards evidence source)",
+  "kind": "source",
+  "status": "researched",
+  "evidence_ids": [
+    "m1-ev-health"
+  ],
+  "source_url": "https://www.who.int/data/gho/info/gho-odata-api",
+  "licence": "needs-review",
+  "licence_notes": "WHO dataset terms/attribution unresolved here; no observations downloaded.",
+  "observed_at": "2026-10-04T22:10:00Z",
+  "freshness": "needs-review",
+  "reason": "Standards/publisher evidence; no public dataset integration selected or data copied."
+}

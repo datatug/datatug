@@ -1,0 +1,8 @@
+{
+  "title": "IETF BCP47 language tags",
+  "observed_at": "2026-10-04T22:10:00Z",
+  "outcome": "observation",
+  "summary": "Language tags can contain language, script, region and variants; language identity and locale context differ. Reuse: RFC copyright/Trust terms apply; factual paraphrase/link only.",
+  "url": "https://www.rfc-editor.org/rfc/rfc5646",
+  "review_stage": "discovery"
+}

@@ -1,0 +1,14 @@
+{
+  "title": "ILO ISCO-08 occupation classification (standards evidence source)",
+  "kind": "source",
+  "status": "researched",
+  "evidence_ids": [
+    "m1-ev-occupation"
+  ],
+  "source_url": "https://isco.ilo.org/en/isco-08/",
+  "licence": "needs-review",
+  "licence_notes": "ILO document/code-list reuse terms unresolved; no code list copied.",
+  "observed_at": "2026-10-04T22:10:00Z",
+  "freshness": "needs-review",
+  "reason": "Standards/publisher evidence; no public dataset integration selected or data copied."
+}

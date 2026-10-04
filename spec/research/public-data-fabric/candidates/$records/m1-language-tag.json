@@ -1,0 +1,16 @@
+{
+  "title": "Language tag (research candidate)",
+  "kind": "meaning",
+  "status": "needs-review",
+  "evidence_ids": [
+    "m1-ev-language"
+  ],
+  "source_id": "m1-source-language",
+  "identifier_representations": [
+    "BCP47 language-script-region-variant"
+  ],
+  "reason": "Depth: focused. Confidence high in research distinction, not accepted mapping. Locale formatting preference is not automatically spoken language. Public dataset coverage/rights require separate discovery.",
+  "practical_value": "Locale formatting preference is not automatically spoken language.",
+  "showcase_value": "Contextual graph/map/time-series opportunity; practical compatibility remains prerequisite.",
+  "observed_at": "2026-10-04T22:10:00Z"
+}

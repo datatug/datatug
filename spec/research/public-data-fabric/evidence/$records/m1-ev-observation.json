@@ -1,0 +1,8 @@
+{
+  "title": "OGC Observations Measurements Samples",
+  "observed_at": "2026-10-04T22:10:00Z",
+  "outcome": "observation",
+  "summary": "Observations distinguish observed properties, feature of interest, procedures/results and sampling relationships. Reuse: OGC standards terms apply; no standard/schema copied; observation dataset terms separate.",
+  "url": "https://www.ogc.org/standards/om/",
+  "review_stage": "discovery"
+}

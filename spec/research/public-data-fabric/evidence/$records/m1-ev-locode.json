@@ -1,0 +1,8 @@
+{
+  "title": "UNECE UN/LOCODE locations and functions",
+  "observed_at": "2026-10-04T22:10:00Z",
+  "outcome": "observation",
+  "summary": "Trade/transport location identifiers include country context and transport-function attributes; a coded location is not automatically a city or individual facility. Reuse: UN/UNECE dataset licence unresolved; no table copied.",
+  "url": "https://unlocode.unece.org/recommendation16/",
+  "review_stage": "discovery"
+}

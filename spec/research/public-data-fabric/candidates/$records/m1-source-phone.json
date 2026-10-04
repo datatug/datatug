@@ -1,0 +1,12 @@
+{
+  "title": "International telephone numbering evidence source",
+  "kind": "source",
+  "status": "researched",
+  "evidence_ids": [
+    "m1-ev-phone"
+  ],
+  "source_url": "https://www.itu.int/rec/T-REC-E.164/en",
+  "licence": "needs-review",
+  "licence_notes": "ITU standard copyright; no numbering plan/list copied.",
+  "reason": "Identifier evidence, not selected dataset integration."
+}

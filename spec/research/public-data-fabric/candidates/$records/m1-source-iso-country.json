@@ -1,0 +1,14 @@
+{
+  "title": "ISO 3166 country/subdivision/historical code scopes (standards evidence source)",
+  "kind": "source",
+  "status": "researched",
+  "evidence_ids": [
+    "m1-ev-iso-country"
+  ],
+  "source_url": "https://www.iso.org/iso-3166-country-codes.html",
+  "licence": "needs-review",
+  "licence_notes": "ISO copyrighted standard; factual paraphrase/link only. No code-list redistribution permission established.",
+  "observed_at": "2026-10-04T22:10:00Z",
+  "freshness": "needs-review",
+  "reason": "Standards/publisher evidence; no public dataset integration selected or data copied."
+}

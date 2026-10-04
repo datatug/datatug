@@ -1,0 +1,22 @@
+{
+  "title": "Which authoritative reference/code lists can be redistributed commercially, and which need remote access only? Standards availability does not prove dataset rights.",
+  "status": "open",
+  "classification": "important/non-blocking",
+  "owner": "fresh Phase2 reconciler / Phase3 portfolio architect",
+  "candidate_ids": [
+    "m1-trade-item",
+    "m1-unit",
+    "m1-product-class",
+    "m1-postcode"
+  ],
+  "evidence_ids": [
+    "m1-ev-economic",
+    "m1-ev-gs1",
+    "m1-ev-postal",
+    "m1-ev-units"
+  ],
+  "gate_ids": [
+    "phase2",
+    "phase3"
+  ]
+}

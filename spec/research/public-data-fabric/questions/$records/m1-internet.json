@@ -1,0 +1,20 @@
+{
+  "title": "What business value justifies a technology enrichment bundle? Domain/country/organisation inferences remain low-confidence; no universal registry proves them.",
+  "status": "open",
+  "classification": "important/non-blocking",
+  "owner": "fresh Phase2 reconciler / Phase3 portfolio architect",
+  "candidate_ids": [
+    "m1-digital-format",
+    "m1-domain",
+    "m1-uri"
+  ],
+  "evidence_ids": [
+    "m1-ev-dns",
+    "m1-ev-media",
+    "m1-ev-uri"
+  ],
+  "gate_ids": [
+    "phase2",
+    "phase3"
+  ]
+}

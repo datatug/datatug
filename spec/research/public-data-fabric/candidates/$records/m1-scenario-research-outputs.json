@@ -1,0 +1,26 @@
+{
+  "title": "Research affiliation and output discovery (proposed bundle)",
+  "kind": "scenario",
+  "status": "needs-review",
+  "evidence_ids": [
+    "m1-ev-doi",
+    "m1-ev-ror",
+    "m1-ev-orcid"
+  ],
+  "member_ids": [
+    "m1-doi",
+    "m1-ror",
+    "m1-orcid",
+    "m1-organisation",
+    "m1-membership",
+    "m1-interval"
+  ],
+  "dependency_ids": [
+    "m1-doi",
+    "m1-ror",
+    "m1-orcid"
+  ],
+  "practical_value": "User grants/publications/researcher affiliation metadata → explicit DOI/ORCID/ROR IDs → publication-object metadata and dated organisational affiliations → optional area/domain classifications. Ask which outputs link institutions or funder/affiliation cohorts. Need actual public metadata records with issuer assertion/provenance, identifier bridges and dataset-specific terms; Pubs synthetic author/title IDs are not automatically portable.",
+  "showcase_value": "Institution/output network and dated affiliation timeline.",
+  "reason": "Shallow extra application scenario beyond demo schemas; no metadata dataset selected or accepted crosswalk."
+}

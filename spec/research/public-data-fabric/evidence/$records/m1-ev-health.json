@@ -1,0 +1,8 @@
+{
+  "title": "WHO GHO indicator metadata/API",
+  "observed_at": "2026-10-04T22:10:00Z",
+  "outcome": "observation",
+  "summary": "GHO observations can be queried by indicator, country, year and sex; indicator metadata is required for comparisons. Reuse: WHO dataset terms/attribution unresolved here; no observations downloaded.",
+  "url": "https://www.who.int/data/gho/info/gho-odata-api",
+  "review_stage": "discovery"
+}

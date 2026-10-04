@@ -1,0 +1,15 @@
+{
+  "title": "Researcher/contributor identifier (research candidate)",
+  "kind": "meaning",
+  "status": "needs-review",
+  "evidence_ids": [
+    "m1-ev-orcid"
+  ],
+  "source_id": "m1-source-orcid",
+  "identifier_representations": [
+    "ORCID iD"
+  ],
+  "reason": "Depth: shallow. Confidence medium in scope distinction; no canonical mapping. Researcher scope does not identify every author/person; provenance/trusted assertions matter.",
+  "practical_value": "Researcher scope does not identify every author/person; provenance/trusted assertions matter.",
+  "showcase_value": "Research affiliation/output graph or contact/network explanation when portable keys actually exist."
+}
