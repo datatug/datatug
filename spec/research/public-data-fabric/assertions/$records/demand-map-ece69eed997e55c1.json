@@ -1,0 +1,25 @@
+{
+  "title": "adventureworks.Purchasing.Vendor.BusinessEntityID proposes Supplier",
+  "kind": "mapping",
+  "status": "researched",
+  "evidence_ids": [
+    "demand-corpus-adventureworks"
+  ],
+  "from_id": "demand-adventureworks-purchasing-vendor",
+  "to_id": "demand-meaning-supplier",
+  "meaning_id": "demand-meaning-supplier",
+  "from_fields": [
+    "BusinessEntityID"
+  ],
+  "to_fields": [
+    "proposed-role"
+  ],
+  "compatibility": "unresolved",
+  "confidence": "high",
+  "physical_role": "BusinessEntityID: source-local-key-or-FK",
+  "from_identifier_namespace": "adventureworks/Person.BusinessEntity",
+  "to_identifier_namespace": "unreconciled:supplier",
+  "expected_cardinality": "Not established; repeated names/codes and reference roles are retained.",
+  "assumptions": "Proposed only; dedicated semantic reconciliation required. Native source-local IDs are not portable across demo databases. Field-level demand signal; proposed concept includes explicitly qualified source role, not entity equivalence. Confidence concerns the proposed source role only. Raw profiles and context are in evidence/demo-demand.json; no normalization applied.",
+  "reason": "Research hypothesis only. Candidate reference/calendar/identifier lookup with contextual bridge and measured match rate; local transaction/person IDs support internal joins only."
+}

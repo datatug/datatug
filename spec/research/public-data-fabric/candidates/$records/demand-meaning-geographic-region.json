@@ -1,0 +1,20 @@
+{
+  "title": "Geographic region (proposed demo demand)",
+  "kind": "meaning",
+  "status": "researched",
+  "evidence_ids": [
+    "demand-corpus-northwind"
+  ],
+  "demo_ids": [
+    "northwind"
+  ],
+  "identifier_representations": [
+    "TEXT; customer-region; namespace northwind/Customers",
+    "TEXT; employee-region; namespace northwind/Employees",
+    "TEXT; shipping-region; namespace northwind/Orders",
+    "TEXT; supplier-region; namespace northwind/Suppliers"
+  ],
+  "practical_value": "Proposed field-role demand in 1 demos. Country-scoped subdivision/address lookup.",
+  "licence_notes": "Candidate metadata is unreconciled. Per-input data/model/meaning licences remain in demand-plan.json and recordset records; Employees-derived evidence retains CC-BY-SA-3.0. No blanket CC0 or canonical new meaning licence is asserted.",
+  "reason": "Related concepts, entity keys/names/attributes and physical roles remain separately qualified in assertions. Coverage means inspected hypothesis presence, not accepted semantic equivalence or external match rate."
+}

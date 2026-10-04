@@ -1,0 +1,25 @@
+{
+  "title": "chinook.Track.UnitPrice proposes Unit price",
+  "kind": "mapping",
+  "status": "researched",
+  "evidence_ids": [
+    "demand-corpus-chinook"
+  ],
+  "from_id": "demand-chinook-track",
+  "to_id": "demand-meaning-unit-price",
+  "meaning_id": "demand-meaning-unit-price",
+  "from_fields": [
+    "UnitPrice"
+  ],
+  "to_fields": [
+    "proposed-role"
+  ],
+  "compatibility": "unresolved",
+  "confidence": "medium",
+  "physical_role": "media-track-unit-price",
+  "from_identifier_namespace": "literal:chinook/Track/UnitPrice",
+  "to_identifier_namespace": "unreconciled:unit-price",
+  "expected_cardinality": "Not established; repeated names/codes and reference roles are retained.",
+  "assumptions": "Proposed demand only; dedicated reconciliation required. Numeric value does not identify currency. No raw currency field; source meaning declarations remain separate.  Confidence concerns the proposed source role only. Raw profiles and context are in evidence/demo-demand.json; no normalization applied.",
+  "reason": "Research hypothesis only. Numeric price/charge comparison; currency/FX only with explicit source declaration and applicable date."
+}

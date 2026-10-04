@@ -1,0 +1,22 @@
+{
+  "title": "Tax Jurisdiction Or Rate (proposed demo demand)",
+  "kind": "meaning",
+  "status": "researched",
+  "evidence_ids": [
+    "demand-corpus-adventureworks"
+  ],
+  "demo_ids": [
+    "adventureworks"
+  ],
+  "identifier_representations": [
+    "INTEGER; SalesTaxRateID: source-local-key-or-FK; namespace adventureworks:Sales.SalesTaxRate",
+    "INTEGER; StateProvinceID: source-local-key-or-FK; namespace adventureworks:Sales.SalesTaxRate",
+    "INTEGER; TaxType: source-specific tax-jurisdiction-or-rate attribute; namespace source-representation:adventureworks",
+    "NUMERIC; TaxAmt: source-specific tax-jurisdiction-or-rate attribute; namespace source-representation:adventureworks",
+    "NUMERIC; TaxRate: source-specific tax-jurisdiction-or-rate attribute; namespace source-representation:adventureworks",
+    "TEXT; Name: source-name; namespace source-representation:adventureworks"
+  ],
+  "practical_value": "Proposed field-role demand in 1 demos. Candidate reference/calendar/identifier lookup with contextual bridge and measured match rate; local transaction/person IDs support internal joins only.",
+  "licence_notes": "Candidate metadata is unreconciled. Per-input data/model/meaning licences remain in demand-plan.json and recordset records; Employees-derived evidence retains CC-BY-SA-3.0. No blanket CC0 or canonical new meaning licence is asserted.",
+  "reason": "Related concepts, entity keys/names/attributes and physical roles remain separately qualified in assertions. Coverage means inspected hypothesis presence, not accepted semantic equivalence or external match rate."
+}

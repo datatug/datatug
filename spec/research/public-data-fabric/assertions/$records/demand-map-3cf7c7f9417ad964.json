@@ -1,0 +1,25 @@
+{
+  "title": "pubs.titleauthor.au_ord proposes Authorship order",
+  "kind": "mapping",
+  "status": "researched",
+  "evidence_ids": [
+    "demand-corpus-pubs"
+  ],
+  "from_id": "demand-pubs-titleauthor",
+  "to_id": "demand-meaning-authorship-order",
+  "meaning_id": "demand-meaning-authorship-order",
+  "from_fields": [
+    "au_ord"
+  ],
+  "to_fields": [
+    "proposed-role"
+  ],
+  "compatibility": "unresolved",
+  "confidence": "medium",
+  "physical_role": "ordinal",
+  "from_identifier_namespace": "literal:pubs/titleauthor/au_ord",
+  "to_identifier_namespace": "unreconciled:authorship-order",
+  "expected_cardinality": "Not established; repeated names/codes and reference roles are retained.",
+  "assumptions": "Proposed demand only; dedicated reconciliation required. Source author ordering, not an identifier.  Confidence concerns the proposed source role only. Raw profiles and context are in evidence/demo-demand.json; no normalization applied.",
+  "reason": "Research hypothesis only. Preserve source value; external reference matching requires evidence."
+}

@@ -1,0 +1,23 @@
+{
+  "title": "adventureworks.Sales.CurrencyRate declared local reference to Sales.Currency",
+  "kind": "edge",
+  "status": "researched",
+  "evidence_ids": [
+    "demand-corpus-adventureworks"
+  ],
+  "from_id": "demand-adventureworks-sales-currencyrate",
+  "to_id": "demand-adventureworks-sales-currency",
+  "from_fields": [
+    "FromCurrencyCode"
+  ],
+  "to_fields": [
+    "CurrencyCode"
+  ],
+  "compatibility": "unresolved",
+  "confidence": "high",
+  "physical_role": "Native declared local FK, ordered composite members retained",
+  "from_identifier_namespace": "adventureworks/Sales.Currency",
+  "to_identifier_namespace": "adventureworks/Sales.Currency",
+  "expected_cardinality": "Declared FK to native target; actual nonnull match rate and multiplicity require scenario validation.",
+  "assumptions": "Schema reference exists at pinned source; high confidence refers to literal declaration only. No cross-demo identity or semantic equivalence is accepted. SQLite enforcement is connection-specific."
+}

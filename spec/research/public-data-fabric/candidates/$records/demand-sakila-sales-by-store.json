@@ -1,0 +1,23 @@
+{
+  "title": "sakila.sales_by_store",
+  "kind": "recordset",
+  "status": "researched",
+  "dataset_id": "sakila",
+  "demo_ids": [
+    "sakila"
+  ],
+  "evidence_ids": [
+    "demand-corpus-sakila"
+  ],
+  "repository": "demo-db/sakila",
+  "commit": "6567d30aec1592fe0917934a8bbe74ff70b04b01",
+  "source_url": "https://github.com/demo-db/sakila/blob/6567d30aec1592fe0917934a8bbe74ff70b04b01/data-source/source.sqlite",
+  "licence": "BSD-3-Clause",
+  "licence_notes": "Native data licence BSD-3-Clause; source ModelSpec licence BSD-3-Clause; existing meaning licence CC0-1.0. Research proposal is not a new canonical licence or mapping.",
+  "identifier_representations": [
+    "Native ordered primary key: []",
+    "Native keyless recordset"
+  ],
+  "practical_value": "Observed view; 2 rows. Derived views reuse native tables; empty tables preserve structure without observed values.",
+  "reason": "Actual pinned schema demand fixture. Derived executable view, not an independent source entity. No selected or reconciled status."
+}

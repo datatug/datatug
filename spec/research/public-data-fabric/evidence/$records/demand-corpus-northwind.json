@@ -1,0 +1,10 @@
+{
+  "title": "northwind pinned native schema and bounded value profiles",
+  "observed_at": "2026-10-04T21:41:09Z",
+  "outcome": "observation",
+  "repository": "demo-db/northwind",
+  "commit": "e74726515c3833620b54b7a50d1d273276dd23c1",
+  "path": "spec/research/public-data-fabric/evidence/demo-demand.json",
+  "command": "python3 spec/research/public-data-fabric/inspect_demand.py --fixtures LOCAL_FIXTURES_JSON --output OUTPUT_JSON",
+  "summary": "13 physical tables; 17 executable views; 3310 physical rows. Verified native SHA256 279b34136771aee75d802094b3329515a2b01da65d2a20a4a9e3b58c29b4fd20. Literal table/field statistics and native PK/FK/indexes; source/model/meaning licences retained separately. Proposed demand only; no live deployment acceptance or semantic reconciliation."
+}

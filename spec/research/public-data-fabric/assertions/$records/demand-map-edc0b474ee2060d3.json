@@ -1,0 +1,25 @@
+{
+  "title": "northwind.CustomerDemographics.CustomerDesc proposes Customer demographic classification customerdesc",
+  "kind": "mapping",
+  "status": "researched",
+  "evidence_ids": [
+    "demand-corpus-northwind"
+  ],
+  "from_id": "demand-northwind-customerdemographics",
+  "to_id": "demand-meaning-customer-demographic-classification-customerdesc",
+  "meaning_id": "demand-meaning-customer-demographic-classification-customerdesc",
+  "from_fields": [
+    "CustomerDesc"
+  ],
+  "to_fields": [
+    "proposed-role"
+  ],
+  "compatibility": "unresolved",
+  "confidence": "low",
+  "physical_role": "source-attribute",
+  "from_identifier_namespace": "literal:northwind/CustomerDemographics/CustomerDesc",
+  "to_identifier_namespace": "unreconciled:customer-demographic-classification-customerdesc",
+  "expected_cardinality": "Not established; repeated names/codes and reference roles are retained.",
+  "assumptions": "Proposed demand only; dedicated reconciliation required. Retained lower-priority source attribute; no generic meaning inferred.  Confidence concerns the proposed source role only. Raw profiles and context are in evidence/demo-demand.json; no normalization applied.",
+  "reason": "Research hypothesis only. Preserve source value; external reference matching requires evidence."
+}

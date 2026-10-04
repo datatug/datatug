@@ -1,0 +1,25 @@
+{
+  "title": "pubs.employee.job_id proposes Occupation identifier",
+  "kind": "mapping",
+  "status": "researched",
+  "evidence_ids": [
+    "demand-corpus-pubs"
+  ],
+  "from_id": "demand-pubs-employee",
+  "to_id": "demand-meaning-occupation-identifier",
+  "meaning_id": "demand-meaning-occupation-identifier",
+  "from_fields": [
+    "job_id"
+  ],
+  "to_fields": [
+    "proposed-role"
+  ],
+  "compatibility": "unresolved",
+  "confidence": "medium",
+  "physical_role": "foreign-key",
+  "from_identifier_namespace": "pubs/jobs",
+  "to_identifier_namespace": "unreconciled:occupation-identifier",
+  "expected_cardinality": "Not established; repeated names/codes and reference roles are retained.",
+  "assumptions": "Proposed demand only; dedicated reconciliation required. Native FK target pubs/jobs/job_id; identifier scope is source table.  Confidence concerns the proposed source role only. Raw profiles and context are in evidence/demo-demand.json; no normalization applied.",
+  "reason": "Research hypothesis only. Preserve source value; external reference matching requires evidence."
+}

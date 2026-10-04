@@ -1,0 +1,30 @@
+{
+  "title": "Locality (proposed demo demand)",
+  "kind": "meaning",
+  "status": "researched",
+  "evidence_ids": [
+    "demand-corpus-chinook",
+    "demand-corpus-northwind",
+    "demand-corpus-pubs"
+  ],
+  "demo_ids": [
+    "chinook",
+    "northwind",
+    "pubs"
+  ],
+  "identifier_representations": [
+    "NVARCHAR(40); billing-city; namespace chinook/Invoice",
+    "NVARCHAR(40); customer-city; namespace chinook/Customer",
+    "NVARCHAR(40); employee-city; namespace chinook/Employee",
+    "TEXT; customer-city; namespace northwind/Customers",
+    "TEXT; employee-city; namespace northwind/Employees",
+    "TEXT; shipping-city; namespace northwind/Orders",
+    "TEXT; supplier-city; namespace northwind/Suppliers",
+    "VARCHAR(20); author-city; namespace pubs/authors",
+    "VARCHAR(20); publisher-city; namespace pubs/publishers",
+    "VARCHAR(20); retail-store-city; namespace pubs/stores"
+  ],
+  "practical_value": "Proposed field-role demand in 3 demos. Country/subdivision-scoped locality gazetteers, geography and demographic enrichment.",
+  "licence_notes": "Candidate metadata is unreconciled. Per-input data/model/meaning licences remain in demand-plan.json and recordset records; Employees-derived evidence retains CC-BY-SA-3.0. No blanket CC0 or canonical new meaning licence is asserted.",
+  "reason": "Related concepts, entity keys/names/attributes and physical roles remain separately qualified in assertions. Coverage means inspected hypothesis presence, not accepted semantic equivalence or external match rate."
+}

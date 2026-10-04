@@ -1,0 +1,23 @@
+{
+  "title": "chinook.Artist",
+  "kind": "recordset",
+  "status": "researched",
+  "dataset_id": "chinook",
+  "demo_ids": [
+    "chinook"
+  ],
+  "evidence_ids": [
+    "demand-corpus-chinook"
+  ],
+  "repository": "demo-db/chinook",
+  "commit": "26e852cca00101f53a84ef8ee1f1ae389067f5cf",
+  "source_url": "https://github.com/demo-db/chinook/blob/26e852cca00101f53a84ef8ee1f1ae389067f5cf/data-source/source.sqlite",
+  "licence": "MIT",
+  "licence_notes": "Native data licence MIT; source ModelSpec licence MIT; existing meaning licence CC0-1.0. Research proposal is not a new canonical licence or mapping.",
+  "identifier_representations": [
+    "Native ordered primary key: [\"ArtistId\"]",
+    "Source-local identity; external identity not established"
+  ],
+  "practical_value": "Observed table; 275 rows. Derived views reuse native tables; empty tables preserve structure without observed values.",
+  "reason": "Actual pinned schema demand fixture. No selected or reconciled status."
+}

@@ -1,0 +1,23 @@
+{
+  "title": "sakila.film declared local reference to language",
+  "kind": "edge",
+  "status": "researched",
+  "evidence_ids": [
+    "demand-corpus-sakila"
+  ],
+  "from_id": "demand-sakila-film",
+  "to_id": "demand-sakila-language",
+  "from_fields": [
+    "original_language_id"
+  ],
+  "to_fields": [
+    "language_id"
+  ],
+  "compatibility": "unresolved",
+  "confidence": "high",
+  "physical_role": "Native declared local FK, ordered composite members retained",
+  "from_identifier_namespace": "sakila/language",
+  "to_identifier_namespace": "sakila/language",
+  "expected_cardinality": "Declared FK to native target; actual nonnull match rate and multiplicity require scenario validation.",
+  "assumptions": "Schema reference exists at pinned source; high confidence refers to literal declaration only. No cross-demo identity or semantic equivalence is accepted. SQLite enforcement is connection-specific."
+}

@@ -1,0 +1,25 @@
+{
+  "title": "chinook.Employee.LastName proposes Person name",
+  "kind": "mapping",
+  "status": "researched",
+  "evidence_ids": [
+    "demand-corpus-chinook"
+  ],
+  "from_id": "demand-chinook-employee",
+  "to_id": "demand-meaning-person-name",
+  "meaning_id": "demand-meaning-person-name",
+  "from_fields": [
+    "LastName"
+  ],
+  "to_fields": [
+    "proposed-role"
+  ],
+  "compatibility": "unresolved",
+  "confidence": "medium",
+  "physical_role": "employee-lastname",
+  "from_identifier_namespace": "literal:chinook/Employee/LastName",
+  "to_identifier_namespace": "unreconciled:person-name",
+  "expected_cardinality": "Not established; repeated names/codes and reference roles are retained.",
+  "assumptions": "Proposed demand only; dedicated reconciliation required. Names are not external identities; composer may contain multiple credited names.  Confidence concerns the proposed source role only. Raw profiles and context are in evidence/demo-demand.json; no normalization applied.",
+  "reason": "Research hypothesis only. Name structure/credit interpretation; named-entity references only with independent identifiers."
+}

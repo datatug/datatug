@@ -1,0 +1,20 @@
+{
+  "title": "Birth date (proposed demo demand)",
+  "kind": "meaning",
+  "status": "researched",
+  "evidence_ids": [
+    "demand-corpus-chinook",
+    "demand-corpus-northwind"
+  ],
+  "demo_ids": [
+    "chinook",
+    "northwind"
+  ],
+  "identifier_representations": [
+    "DATE; birth-date; namespace northwind/Employees",
+    "DATETIME; birth-date; namespace chinook/Employee"
+  ],
+  "practical_value": "Proposed field-role demand in 2 demos. Calendar dimensions/holidays; economic observations by explicitly selected date role.",
+  "licence_notes": "Candidate metadata is unreconciled. Per-input data/model/meaning licences remain in demand-plan.json and recordset records; Employees-derived evidence retains CC-BY-SA-3.0. No blanket CC0 or canonical new meaning licence is asserted.",
+  "reason": "Related concepts, entity keys/names/attributes and physical roles remain separately qualified in assertions. Coverage means inspected hypothesis presence, not accepted semantic equivalence or external match rate."
+}

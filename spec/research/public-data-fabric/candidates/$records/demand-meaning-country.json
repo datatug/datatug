@@ -1,0 +1,41 @@
+{
+  "title": "Country (proposed demo demand)",
+  "kind": "meaning",
+  "status": "researched",
+  "evidence_ids": [
+    "demand-corpus-adventureworks",
+    "demand-corpus-chinook",
+    "demand-corpus-northwind",
+    "demand-corpus-pubs",
+    "demand-corpus-sakila"
+  ],
+  "demo_ids": [
+    "adventureworks",
+    "chinook",
+    "northwind",
+    "pubs",
+    "sakila"
+  ],
+  "identifier_representations": [
+    "INTEGER; country_id: local-key-or-FK; namespace sakila:city",
+    "INTEGER; country_id: local-key-or-FK; namespace sakila:country",
+    "NVARCHAR(40); billing-country; namespace chinook/Invoice",
+    "NVARCHAR(40); customer-country; namespace chinook/Customer",
+    "NVARCHAR(40); employee-country; namespace chinook/Employee",
+    "TEXT; CountryRegionCode: source-code; namespace adventureworks:Person.StateProvince",
+    "TEXT; CountryRegionCode: source-code; namespace adventureworks:Sales.CountryRegionCurrency",
+    "TEXT; CountryRegionCode: source-code; namespace adventureworks:Sales.SalesTerritory",
+    "TEXT; CountryRegionCode: source-code; namespace source-representation:adventureworks",
+    "TEXT; CountryRegionName: label-or-name; namespace source-representation:adventureworks",
+    "TEXT; Name: label-or-name; namespace source-representation:adventureworks",
+    "TEXT; country: label-or-name; namespace source-representation:sakila",
+    "TEXT; customer-country; namespace northwind/Customers",
+    "TEXT; employee-country; namespace northwind/Employees",
+    "TEXT; shipping-country; namespace northwind/Orders",
+    "TEXT; supplier-country; namespace northwind/Suppliers",
+    "VARCHAR(30); publisher-country; namespace pubs/publishers"
+  ],
+  "practical_value": "Proposed field-role demand in 5 demos. Candidate reference/calendar/identifier lookup with contextual bridge and measured match rate; local transaction/person IDs support internal joins only. Country-name/code bridges; country statistics, languages, currency reference, holidays; joins need explicit representation bridges.",
+  "licence_notes": "Candidate metadata is unreconciled. Per-input data/model/meaning licences remain in demand-plan.json and recordset records; Employees-derived evidence retains CC-BY-SA-3.0. No blanket CC0 or canonical new meaning licence is asserted.",
+  "reason": "Related concepts, entity keys/names/attributes and physical roles remain separately qualified in assertions. Coverage means inspected hypothesis presence, not accepted semantic equivalence or external match rate."
+}

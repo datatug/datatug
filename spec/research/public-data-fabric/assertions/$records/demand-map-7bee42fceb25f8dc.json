@@ -1,0 +1,25 @@
+{
+  "title": "pubs.authors.contract proposes Author contract status",
+  "kind": "mapping",
+  "status": "researched",
+  "evidence_ids": [
+    "demand-corpus-pubs"
+  ],
+  "from_id": "demand-pubs-authors",
+  "to_id": "demand-meaning-author-contract-status",
+  "meaning_id": "demand-meaning-author-contract-status",
+  "from_fields": [
+    "contract"
+  ],
+  "to_fields": [
+    "proposed-role"
+  ],
+  "compatibility": "unresolved",
+  "confidence": "medium",
+  "physical_role": "status",
+  "from_identifier_namespace": "literal:pubs/authors/contract",
+  "to_identifier_namespace": "unreconciled:author-contract-status",
+  "expected_cardinality": "Not established; repeated names/codes and reference roles are retained.",
+  "assumptions": "Proposed demand only; dedicated reconciliation required. Preserve observed SQLite storage type; boolean coercion unasserted.  Confidence concerns the proposed source role only. Raw profiles and context are in evidence/demo-demand.json; no normalization applied.",
+  "reason": "Research hypothesis only. Preserve source value; external reference matching requires evidence."
+}

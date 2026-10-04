@@ -1,0 +1,25 @@
+{
+  "title": "northwind.Products.ProductID proposes Product",
+  "kind": "mapping",
+  "status": "researched",
+  "evidence_ids": [
+    "demand-corpus-northwind"
+  ],
+  "from_id": "demand-northwind-products",
+  "to_id": "demand-meaning-product",
+  "meaning_id": "demand-meaning-product",
+  "from_fields": [
+    "ProductID"
+  ],
+  "to_fields": [
+    "proposed-role"
+  ],
+  "compatibility": "unresolved",
+  "confidence": "high",
+  "physical_role": "entity",
+  "from_identifier_namespace": "northwind/Products",
+  "to_identifier_namespace": "unreconciled:product",
+  "expected_cardinality": "Not established; repeated names/codes and reference roles are retained.",
+  "assumptions": "Native source entity/key shape; no external identifier equivalence. Composite keys preserved in order.  Confidence concerns the proposed source role only. Raw profiles and context are in evidence/demo-demand.json; no normalization applied.",
+  "reason": "Research hypothesis only. Entity-specific reference and classifications; geographic/calendar lookup through observed attributes"
+}

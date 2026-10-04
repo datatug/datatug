@@ -1,0 +1,25 @@
+{
+  "title": "chinook.Track.TrackId proposes Media track",
+  "kind": "mapping",
+  "status": "researched",
+  "evidence_ids": [
+    "demand-corpus-chinook"
+  ],
+  "from_id": "demand-chinook-track",
+  "to_id": "demand-meaning-media-track",
+  "meaning_id": "demand-meaning-media-track",
+  "from_fields": [
+    "TrackId"
+  ],
+  "to_fields": [
+    "proposed-role"
+  ],
+  "compatibility": "unresolved",
+  "confidence": "high",
+  "physical_role": "entity",
+  "from_identifier_namespace": "chinook/Track",
+  "to_identifier_namespace": "unreconciled:media-track",
+  "expected_cardinality": "Not established; repeated names/codes and reference roles are retained.",
+  "assumptions": "Native source entity/key shape; no external identifier equivalence. Composite keys preserved in order.  Confidence concerns the proposed source role only. Raw profiles and context are in evidence/demo-demand.json; no normalization applied.",
+  "reason": "Research hypothesis only. Entity-specific reference and classifications; geographic/calendar lookup through observed attributes"
+}

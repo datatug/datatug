@@ -1,0 +1,26 @@
+{
+  "title": "Film (proposed demo demand)",
+  "kind": "meaning",
+  "status": "researched",
+  "evidence_ids": [
+    "demand-corpus-sakila"
+  ],
+  "demo_ids": [
+    "sakila"
+  ],
+  "identifier_representations": [
+    "; film_info: source-specific film attribute; namespace source-representation:sakila",
+    "INTEGER; film_id: source-local-key-or-FK; namespace sakila:film",
+    "INTEGER; film_id: source-local-key-or-FK; namespace sakila:film_actor",
+    "INTEGER; film_id: source-local-key-or-FK; namespace sakila:film_category",
+    "INTEGER; film_id: source-local-key-or-FK; namespace sakila:film_text",
+    "INTEGER; film_id: source-local-key-or-FK; namespace sakila:inventory",
+    "INTEGER; length: source-specific film attribute; namespace source-representation:sakila",
+    "TEXT; description: source-specific film attribute; namespace source-representation:sakila",
+    "TEXT; release_year: source-specific film attribute; namespace source-representation:sakila",
+    "TEXT; title: source-name; namespace source-representation:sakila"
+  ],
+  "practical_value": "Proposed field-role demand in 1 demos. Candidate reference/calendar/identifier lookup with contextual bridge and measured match rate; local transaction/person IDs support internal joins only.",
+  "licence_notes": "Candidate metadata is unreconciled. Per-input data/model/meaning licences remain in demand-plan.json and recordset records; Employees-derived evidence retains CC-BY-SA-3.0. No blanket CC0 or canonical new meaning licence is asserted.",
+  "reason": "Related concepts, entity keys/names/attributes and physical roles remain separately qualified in assertions. Coverage means inspected hypothesis presence, not accepted semantic equivalence or external match rate."
+}

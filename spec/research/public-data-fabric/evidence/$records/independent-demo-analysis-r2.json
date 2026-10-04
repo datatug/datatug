@@ -1,0 +1,13 @@
+{
+  "title": "Independent Phase 0.5 all-six corpus demand acceptance r2",
+  "observed_at": "2026-10-04T21:54:24.268381+00:00",
+  "outcome": "pass",
+  "summary": "Fresh independent source/schema/query/index review accepts bounded corpus demand evidence at exact reviewed head 0c03efa6dc0d1cc136bf3bcd682d9f4f692f45e0. 937 unique unresolved hypotheses, 162 proposed groups, 152 native FK observations; all six native source hashes and full schema plus scoped profiles reproduced. No semantic reconciliation, public publication, CI or landing claim. Root accepts the bounded gate subject final receipt/gate delta review, CI and landing.",
+  "repository": "datatug/datatug",
+  "commit": "0c03efa6dc0d1cc136bf3bcd682d9f4f692f45e0",
+  "path": "spec/research/public-data-fabric/evidence/demo-analysis-acceptance-r2.json",
+  "url": "https://github.com/datatug/datatug/pull/81",
+  "reviewer": "Fresh independent Codex GPT-6.1 Sol reviewer; configured High; local Mac; original researchers and integrator distinct",
+  "independent": true,
+  "review_stage": "corpus-analysis"
+}

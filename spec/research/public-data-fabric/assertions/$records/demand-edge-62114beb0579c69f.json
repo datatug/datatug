@@ -1,0 +1,23 @@
+{
+  "title": "chinook.Album declared local reference to Artist",
+  "kind": "edge",
+  "status": "researched",
+  "evidence_ids": [
+    "demand-corpus-chinook"
+  ],
+  "from_id": "demand-chinook-album",
+  "to_id": "demand-chinook-artist",
+  "from_fields": [
+    "ArtistId"
+  ],
+  "to_fields": [
+    "ArtistId"
+  ],
+  "compatibility": "unresolved",
+  "confidence": "high",
+  "physical_role": "Native declared local FK, ordered composite members retained",
+  "from_identifier_namespace": "chinook/Artist",
+  "to_identifier_namespace": "chinook/Artist",
+  "expected_cardinality": "Declared FK to native target; actual nonnull match rate and multiplicity require scenario validation.",
+  "assumptions": "Schema reference exists at pinned source; high confidence refers to literal declaration only. No cross-demo identity or semantic equivalence is accepted. SQLite enforcement is connection-specific."
+}

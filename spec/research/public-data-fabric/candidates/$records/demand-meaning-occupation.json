@@ -1,0 +1,30 @@
+{
+  "title": "Occupation (proposed demo demand)",
+  "kind": "meaning",
+  "status": "researched",
+  "evidence_ids": [
+    "demand-corpus-adventureworks",
+    "demand-corpus-chinook",
+    "demand-corpus-employees",
+    "demand-corpus-northwind",
+    "demand-corpus-pubs"
+  ],
+  "demo_ids": [
+    "adventureworks",
+    "chinook",
+    "employees",
+    "northwind",
+    "pubs"
+  ],
+  "identifier_representations": [
+    "INTEGER; entity; namespace pubs/jobs",
+    "NVARCHAR(30); employee-occupation; namespace chinook/Employee",
+    "TEXT; JobTitle: source-specific occupation attribute; namespace source-representation:adventureworks",
+    "TEXT; employee-occupation; namespace northwind/Employees",
+    "TEXT; title: source-name; namespace source-representation:employees",
+    "VARCHAR(50); occupation-occupation; namespace pubs/jobs"
+  ],
+  "practical_value": "Proposed field-role demand in 5 demos. Candidate reference/calendar/identifier lookup with contextual bridge and measured match rate; local transaction/person IDs support internal joins only. Entity-specific reference and classifications; geographic/calendar lookup through observed attributes Occupation or role classification crosswalk after label reconciliation.",
+  "licence_notes": "Candidate metadata is unreconciled. Per-input data/model/meaning licences remain in demand-plan.json and recordset records; Employees-derived evidence retains CC-BY-SA-3.0. No blanket CC0 or canonical new meaning licence is asserted.",
+  "reason": "Related concepts, entity keys/names/attributes and physical roles remain separately qualified in assertions. Coverage means inspected hypothesis presence, not accepted semantic equivalence or external match rate."
+}

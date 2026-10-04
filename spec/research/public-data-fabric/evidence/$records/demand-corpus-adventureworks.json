@@ -1,0 +1,10 @@
+{
+  "title": "adventureworks pinned native schema and bounded value profiles",
+  "observed_at": "2026-10-04T21:41:09Z",
+  "outcome": "observation",
+  "repository": "demo-db/adventureworks",
+  "commit": "cd8dcdf2079fe31480ad6d6c024b8c17cb91beea",
+  "path": "spec/research/public-data-fabric/evidence/demo-demand.json",
+  "command": "python3 spec/research/public-data-fabric/inspect_demand.py --fixtures LOCAL_FIXTURES_JSON --output OUTPUT_JSON",
+  "summary": "71 physical tables; 11 executable views; 759240 physical rows. Verified native SHA256 e0f352f0e3a28ff15158130c237a91d58f1b60fffa7f30d2c412b92df4065dfd. Literal table/field statistics and native PK/FK/indexes; source/model/meaning licences retained separately. Proposed demand only; no live deployment acceptance or semantic reconciliation."
+}

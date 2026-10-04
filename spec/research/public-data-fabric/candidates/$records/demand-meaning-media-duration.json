@@ -1,0 +1,17 @@
+{
+  "title": "Media duration (proposed demo demand)",
+  "kind": "meaning",
+  "status": "researched",
+  "evidence_ids": [
+    "demand-corpus-chinook"
+  ],
+  "demo_ids": [
+    "chinook"
+  ],
+  "identifier_representations": [
+    "INTEGER; duration; namespace chinook/Track"
+  ],
+  "practical_value": "Proposed field-role demand in 1 demos. Duration/unit references.",
+  "licence_notes": "Candidate metadata is unreconciled. Per-input data/model/meaning licences remain in demand-plan.json and recordset records; Employees-derived evidence retains CC-BY-SA-3.0. No blanket CC0 or canonical new meaning licence is asserted.",
+  "reason": "Related concepts, entity keys/names/attributes and physical roles remain separately qualified in assertions. Coverage means inspected hypothesis presence, not accepted semantic equivalence or external match rate."
+}

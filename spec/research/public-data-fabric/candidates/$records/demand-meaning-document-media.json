@@ -1,0 +1,27 @@
+{
+  "title": "Document Media (proposed demo demand)",
+  "kind": "meaning",
+  "status": "researched",
+  "evidence_ids": [
+    "demand-corpus-adventureworks"
+  ],
+  "demo_ids": [
+    "adventureworks"
+  ],
+  "identifier_representations": [
+    "BLOB; Document: source-specific document-media attribute; namespace source-representation:adventureworks",
+    "BLOB; LargePhoto: source-specific document-media attribute; namespace source-representation:adventureworks",
+    "BLOB; ThumbNailPhoto: source-specific document-media attribute; namespace source-representation:adventureworks",
+    "TEXT; Diagram: source-specific document-media attribute; namespace source-representation:adventureworks",
+    "TEXT; DocumentSummary: source-specific document-media attribute; namespace source-representation:adventureworks",
+    "TEXT; FileExtension: source-specific document-media attribute; namespace source-representation:adventureworks",
+    "TEXT; FileName: source-specific document-media attribute; namespace source-representation:adventureworks",
+    "TEXT; LargePhotoFileName: source-specific document-media attribute; namespace source-representation:adventureworks",
+    "TEXT; Revision: source-specific document-media attribute; namespace source-representation:adventureworks",
+    "TEXT; ThumbnailPhotoFileName: source-specific document-media attribute; namespace source-representation:adventureworks",
+    "TEXT; Title: source-name; namespace source-representation:adventureworks"
+  ],
+  "practical_value": "Proposed field-role demand in 1 demos. Candidate reference/calendar/identifier lookup with contextual bridge and measured match rate; local transaction/person IDs support internal joins only.",
+  "licence_notes": "Candidate metadata is unreconciled. Per-input data/model/meaning licences remain in demand-plan.json and recordset records; Employees-derived evidence retains CC-BY-SA-3.0. No blanket CC0 or canonical new meaning licence is asserted.",
+  "reason": "Related concepts, entity keys/names/attributes and physical roles remain separately qualified in assertions. Coverage means inspected hypothesis presence, not accepted semantic equivalence or external match rate."
+}

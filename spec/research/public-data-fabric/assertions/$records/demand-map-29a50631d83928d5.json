@@ -1,0 +1,25 @@
+{
+  "title": "northwind.Employees.TitleOfCourtesy proposes Name honorific",
+  "kind": "mapping",
+  "status": "researched",
+  "evidence_ids": [
+    "demand-corpus-northwind"
+  ],
+  "from_id": "demand-northwind-employees",
+  "to_id": "demand-meaning-name-honorific",
+  "meaning_id": "demand-meaning-name-honorific",
+  "from_fields": [
+    "TitleOfCourtesy"
+  ],
+  "to_fields": [
+    "proposed-role"
+  ],
+  "compatibility": "unresolved",
+  "confidence": "medium",
+  "physical_role": "employee-name-honorific",
+  "from_identifier_namespace": "literal:northwind/Employees/TitleOfCourtesy",
+  "to_identifier_namespace": "unreconciled:name-honorific",
+  "expected_cardinality": "Not established; repeated names/codes and reference roles are retained.",
+  "assumptions": "Proposed demand only; dedicated reconciliation required. Employee job role, customer/supplier contact title, and courtesy title remain distinct.  Confidence concerns the proposed source role only. Raw profiles and context are in evidence/demo-demand.json; no normalization applied.",
+  "reason": "Research hypothesis only. Occupation or role classification crosswalk after label reconciliation."
+}

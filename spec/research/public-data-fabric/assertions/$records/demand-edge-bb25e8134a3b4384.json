@@ -1,0 +1,23 @@
+{
+  "title": "sakila.customer declared local reference to address",
+  "kind": "edge",
+  "status": "researched",
+  "evidence_ids": [
+    "demand-corpus-sakila"
+  ],
+  "from_id": "demand-sakila-customer",
+  "to_id": "demand-sakila-address",
+  "from_fields": [
+    "address_id"
+  ],
+  "to_fields": [
+    "address_id"
+  ],
+  "compatibility": "unresolved",
+  "confidence": "high",
+  "physical_role": "Native declared local FK, ordered composite members retained",
+  "from_identifier_namespace": "sakila/address",
+  "to_identifier_namespace": "sakila/address",
+  "expected_cardinality": "Declared FK to native target; actual nonnull match rate and multiplicity require scenario validation.",
+  "assumptions": "Schema reference exists at pinned source; high confidence refers to literal declaration only. No cross-demo identity or semantic equivalence is accepted. SQLite enforcement is connection-specific."
+}

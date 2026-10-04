@@ -1,0 +1,25 @@
+{
+  "title": "adventureworks.Sales.SpecialOfferProduct.ProductID proposes Product",
+  "kind": "mapping",
+  "status": "researched",
+  "evidence_ids": [
+    "demand-corpus-adventureworks"
+  ],
+  "from_id": "demand-adventureworks-sales-specialofferproduct",
+  "to_id": "demand-meaning-product",
+  "meaning_id": "demand-meaning-product",
+  "from_fields": [
+    "ProductID"
+  ],
+  "to_fields": [
+    "proposed-role"
+  ],
+  "compatibility": "unresolved",
+  "confidence": "medium",
+  "physical_role": "ProductID: source-local-key-or-FK",
+  "from_identifier_namespace": "adventureworks/Production.Product",
+  "to_identifier_namespace": "unreconciled:product",
+  "expected_cardinality": "Not established; repeated names/codes and reference roles are retained.",
+  "assumptions": "Proposed only; dedicated semantic reconciliation required. Native source-local IDs are not portable across demo databases. Field-level demand signal; proposed concept includes explicitly qualified source role, not entity equivalence. Confidence concerns the proposed source role only. Raw profiles and context are in evidence/demo-demand.json; no normalization applied.",
+  "reason": "Research hypothesis only. Candidate reference/calendar/identifier lookup with contextual bridge and measured match rate; local transaction/person IDs support internal joins only."
+}

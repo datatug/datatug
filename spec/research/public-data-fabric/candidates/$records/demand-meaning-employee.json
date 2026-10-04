@@ -1,0 +1,50 @@
+{
+  "title": "Employee (proposed demo demand)",
+  "kind": "meaning",
+  "status": "researched",
+  "evidence_ids": [
+    "demand-corpus-adventureworks",
+    "demand-corpus-chinook",
+    "demand-corpus-employees",
+    "demand-corpus-northwind",
+    "demand-corpus-pubs",
+    "demand-corpus-sakila"
+  ],
+  "demo_ids": [
+    "adventureworks",
+    "chinook",
+    "employees",
+    "northwind",
+    "pubs",
+    "sakila"
+  ],
+  "identifier_representations": [
+    "CHAR(10); entity; namespace pubs/employee",
+    "INTEGER; BusinessEntityID: source-local-key-or-FK; namespace adventureworks:HumanResources.Employee",
+    "INTEGER; BusinessEntityID: source-local-key-or-FK; namespace adventureworks:HumanResources.EmployeeDepartmentHistory",
+    "INTEGER; BusinessEntityID: source-local-key-or-FK; namespace adventureworks:HumanResources.EmployeePayHistory",
+    "INTEGER; BusinessEntityID: source-local-key-or-FK; namespace adventureworks:HumanResources.vEmployee",
+    "INTEGER; BusinessEntityID: source-local-key-or-FK; namespace adventureworks:HumanResources.vEmployeeDepartment",
+    "INTEGER; BusinessEntityID: source-local-key-or-FK; namespace adventureworks:HumanResources.vEmployeeDepartmentHistory",
+    "INTEGER; BusinessEntityID: source-local-key-or-FK; namespace adventureworks:Sales.SalesPerson",
+    "INTEGER; BusinessEntityID: source-local-key-or-FK; namespace adventureworks:Sales.SalesPersonQuotaHistory",
+    "INTEGER; BusinessEntityID: source-local-key-or-FK; namespace adventureworks:Sales.vSalesPerson",
+    "INTEGER; EmployeeID: source-local-key-or-FK; namespace adventureworks:Purchasing.PurchaseOrderHeader",
+    "INTEGER; emp_no: source-local-key-or-FK; namespace employees:current_dept_emp",
+    "INTEGER; emp_no: source-local-key-or-FK; namespace employees:dept_emp",
+    "INTEGER; emp_no: source-local-key-or-FK; namespace employees:dept_emp_latest_date",
+    "INTEGER; emp_no: source-local-key-or-FK; namespace employees:dept_manager",
+    "INTEGER; emp_no: source-local-key-or-FK; namespace employees:employees",
+    "INTEGER; emp_no: source-local-key-or-FK; namespace employees:salaries",
+    "INTEGER; emp_no: source-local-key-or-FK; namespace employees:titles",
+    "INTEGER; entity; namespace chinook/Employee",
+    "INTEGER; entity; namespace northwind/Employees",
+    "INTEGER; manager_staff_id: source-local-key-or-FK; namespace sakila:store",
+    "INTEGER; staff_id: source-local-key-or-FK; namespace sakila:payment",
+    "INTEGER; staff_id: source-local-key-or-FK; namespace sakila:rental",
+    "INTEGER; staff_id: source-local-key-or-FK; namespace sakila:staff"
+  ],
+  "practical_value": "Proposed field-role demand in 6 demos. Candidate reference/calendar/identifier lookup with contextual bridge and measured match rate; local transaction/person IDs support internal joins only. Entity-specific reference and classifications; geographic/calendar lookup through observed attributes",
+  "licence_notes": "Candidate metadata is unreconciled. Per-input data/model/meaning licences remain in demand-plan.json and recordset records; Employees-derived evidence retains CC-BY-SA-3.0. No blanket CC0 or canonical new meaning licence is asserted.",
+  "reason": "Related concepts, entity keys/names/attributes and physical roles remain separately qualified in assertions. Coverage means inspected hypothesis presence, not accepted semantic equivalence or external match rate."
+}

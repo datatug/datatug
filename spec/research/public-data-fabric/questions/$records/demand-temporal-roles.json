@@ -1,0 +1,19 @@
+{
+  "title": "Calendar roles, validity sentinels and fixture periods remain distinct",
+  "status": "open",
+  "classification": "important/non-blocking",
+  "owner": "Fresh Phase 2 semantic reconciliation agent",
+  "candidate_ids": [
+    "demand-meaning-calendar-date-time",
+    "demand-meaning-order-date",
+    "demand-meaning-invoice-date",
+    "demand-meaning-publication-date"
+  ],
+  "gate_ids": [
+    "phase2"
+  ],
+  "evidence_ids": [
+    "demo-demand-analysis"
+  ],
+  "resolution": "Unresolved research limits: Distinguish date-only/timestamp/timezone-absent, transaction vs audit vs employment validity. Employees 9999-01-01 is current sentinel; Pubs frozen defaults are not historical observations."
+}

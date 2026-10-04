@@ -1,0 +1,25 @@
+{
+  "title": "northwind.Suppliers.CompanyName proposes Organization name",
+  "kind": "mapping",
+  "status": "researched",
+  "evidence_ids": [
+    "demand-corpus-northwind"
+  ],
+  "from_id": "demand-northwind-suppliers",
+  "to_id": "demand-meaning-organization-name",
+  "meaning_id": "demand-meaning-organization-name",
+  "from_fields": [
+    "CompanyName"
+  ],
+  "to_fields": [
+    "proposed-role"
+  ],
+  "compatibility": "unresolved",
+  "confidence": "medium",
+  "physical_role": "supplier-organization-name",
+  "from_identifier_namespace": "literal:northwind/Suppliers/CompanyName",
+  "to_identifier_namespace": "unreconciled:organization-name",
+  "expected_cardinality": "Not established; repeated names/codes and reference roles are retained.",
+  "assumptions": "Proposed demand only; dedicated reconciliation required. Literal organization/recipient name; company and legal-entity identity not asserted.  Confidence concerns the proposed source role only. Raw profiles and context are in evidence/demo-demand.json; no normalization applied.",
+  "reason": "Research hypothesis only. Organization classification/fuzzy discovery with explicit ambiguity."
+}

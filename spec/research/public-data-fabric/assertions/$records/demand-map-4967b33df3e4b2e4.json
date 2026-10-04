@@ -1,0 +1,25 @@
+{
+  "title": "adventureworks.Sales.vSalesPerson.PhoneNumberType proposes Telephone type classification",
+  "kind": "mapping",
+  "status": "researched",
+  "evidence_ids": [
+    "demand-corpus-adventureworks"
+  ],
+  "from_id": "demand-adventureworks-sales-vsalesperson",
+  "to_id": "demand-meaning-telephone-type-classification",
+  "meaning_id": "demand-meaning-telephone-type-classification",
+  "from_fields": [
+    "PhoneNumberType"
+  ],
+  "to_fields": [
+    "proposed-role"
+  ],
+  "compatibility": "unresolved",
+  "confidence": "medium",
+  "physical_role": "PhoneNumberType: source telephone-type classification key/name",
+  "from_identifier_namespace": "literal:adventureworks/Sales.vSalesPerson/PhoneNumberType",
+  "to_identifier_namespace": "unreconciled:telephone-type-classification",
+  "expected_cardinality": "Not established; repeated names/codes and reference roles are retained.",
+  "assumptions": "Proposed only; dedicated semantic reconciliation required. Native source-local IDs are not portable across demo databases. Field-level demand signal; proposed concept includes explicitly qualified source role, not entity equivalence. This field classifies phone use (Cell/Home/Work); it is not a telephone number. Confidence concerns the proposed source role only. Raw profiles and context are in evidence/demo-demand.json; no normalization applied.",
+  "reason": "Research hypothesis only. Candidate reference/calendar/identifier lookup with contextual bridge and measured match rate; local transaction/person IDs support internal joins only."
+}

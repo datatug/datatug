@@ -1,0 +1,25 @@
+{
+  "title": "northwind.EmployeeTerritories.TerritoryID proposes Sales territory identifier",
+  "kind": "mapping",
+  "status": "researched",
+  "evidence_ids": [
+    "demand-corpus-northwind"
+  ],
+  "from_id": "demand-northwind-employeeterritories",
+  "to_id": "demand-meaning-sales-territory-identifier",
+  "meaning_id": "demand-meaning-sales-territory-identifier",
+  "from_fields": [
+    "TerritoryID"
+  ],
+  "to_fields": [
+    "proposed-role"
+  ],
+  "compatibility": "unresolved",
+  "confidence": "medium",
+  "physical_role": "foreign-key",
+  "from_identifier_namespace": "northwind/Territories",
+  "to_identifier_namespace": "unreconciled:sales-territory-identifier",
+  "expected_cardinality": "Not established; repeated names/codes and reference roles are retained.",
+  "assumptions": "Proposed demand only; dedicated reconciliation required. Native FK target northwind/Territories/TerritoryID; identifier scope is source table.  Confidence concerns the proposed source role only. Raw profiles and context are in evidence/demo-demand.json; no normalization applied.",
+  "reason": "Research hypothesis only. Preserve source value; external reference matching requires evidence."
+}

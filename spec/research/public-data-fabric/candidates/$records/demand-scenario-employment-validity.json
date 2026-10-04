@@ -1,0 +1,25 @@
+{
+  "title": "Employment validity, occupation and calendar lookup (proposed scenario)",
+  "kind": "scenario",
+  "status": "researched",
+  "evidence_ids": [
+    "demo-demand-analysis"
+  ],
+  "demo_ids": [
+    "chinook",
+    "northwind",
+    "pubs",
+    "adventureworks",
+    "employees"
+  ],
+  "dependency_ids": [
+    "demand-meaning-employee",
+    "demand-meaning-occupation",
+    "demand-meaning-employment-start-date",
+    "demand-meaning-calendar-date-time",
+    "demand-meaning-department"
+  ],
+  "practical_value": "Occupation/calendar references still undiscovered; fabricated subset and effective-period/sentinel interpretation bound conclusions. Explain department/title/pay period histories without matching employee IDs across demos.",
+  "reason": "Scenario proposal only; no public source selected, accepted join, measured match rate, implementation or publication receipt. Occupation/calendar references still undiscovered; fabricated subset and effective-period/sentinel interpretation bound conclusions. Explain department/title/pay period histories without matching employee IDs across demos.",
+  "showcase_value": "Possible comparison chart/calendar/map after identifier and coverage acceptance; not a rendered or validated product journey."
+}

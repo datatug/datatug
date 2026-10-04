@@ -1,0 +1,25 @@
+{
+  "title": "northwind.Orders.RequiredDate proposes Required delivery date",
+  "kind": "mapping",
+  "status": "researched",
+  "evidence_ids": [
+    "demand-corpus-northwind"
+  ],
+  "from_id": "demand-northwind-orders",
+  "to_id": "demand-meaning-required-delivery-date",
+  "meaning_id": "demand-meaning-required-delivery-date",
+  "from_fields": [
+    "RequiredDate"
+  ],
+  "to_fields": [
+    "proposed-role"
+  ],
+  "compatibility": "unresolved",
+  "confidence": "medium",
+  "physical_role": "required-delivery-date",
+  "from_identifier_namespace": "literal:northwind/Orders/RequiredDate",
+  "to_identifier_namespace": "unreconciled:required-delivery-date",
+  "expected_cardinality": "Not established; repeated names/codes and reference roles are retained.",
+  "assumptions": "Proposed demand only; dedicated reconciliation required. Stored date text without explicit timezone; frozen/default dates distinguished in provenance.  Confidence concerns the proposed source role only. Raw profiles and context are in evidence/demo-demand.json; no normalization applied.",
+  "reason": "Research hypothesis only. Calendar dimensions/holidays; economic observations by explicitly selected date role."
+}

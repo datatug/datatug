@@ -1,0 +1,25 @@
+{
+  "title": "adventureworks.Production.WorkOrder.StartDate proposes Calendar Date Time",
+  "kind": "mapping",
+  "status": "researched",
+  "evidence_ids": [
+    "demand-corpus-adventureworks"
+  ],
+  "from_id": "demand-adventureworks-production-workorder",
+  "to_id": "demand-meaning-calendar-date-time",
+  "meaning_id": "demand-meaning-calendar-date-time",
+  "from_fields": [
+    "StartDate"
+  ],
+  "to_fields": [
+    "proposed-role"
+  ],
+  "compatibility": "unresolved",
+  "confidence": "high",
+  "physical_role": "StartDate: validity-start",
+  "from_identifier_namespace": "literal:adventureworks/Production.WorkOrder/StartDate",
+  "to_identifier_namespace": "unreconciled:calendar-date-time",
+  "expected_cardinality": "Not established; repeated names/codes and reference roles are retained.",
+  "assumptions": "Proposed only; dedicated semantic reconciliation required. Native source-local IDs are not portable across demo databases. Source role preserved; date-only vs timestamp distinguished by actual examples; Employees 9999-01-01 is current sentinel, not observation. Field-level demand signal; proposed concept includes explicitly qualified source role, not entity equivalence. Confidence concerns the proposed source role only. Raw profiles and context are in evidence/demo-demand.json; no normalization applied.",
+  "reason": "Research hypothesis only. Candidate reference/calendar/identifier lookup with contextual bridge and measured match rate; local transaction/person IDs support internal joins only."
+}

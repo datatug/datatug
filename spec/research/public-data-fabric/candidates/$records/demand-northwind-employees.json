@@ -1,0 +1,23 @@
+{
+  "title": "northwind.Employees",
+  "kind": "recordset",
+  "status": "researched",
+  "dataset_id": "northwind",
+  "demo_ids": [
+    "northwind"
+  ],
+  "evidence_ids": [
+    "demand-corpus-northwind"
+  ],
+  "repository": "demo-db/northwind",
+  "commit": "e74726515c3833620b54b7a50d1d273276dd23c1",
+  "source_url": "https://github.com/demo-db/northwind/blob/e74726515c3833620b54b7a50d1d273276dd23c1/data-source/source.sqlite",
+  "licence": "MIT",
+  "licence_notes": "Native data licence MIT; source ModelSpec licence MIT; existing meaning licence CC0-1.0. Research proposal is not a new canonical licence or mapping.",
+  "identifier_representations": [
+    "Native ordered primary key: [\"EmployeeID\"]",
+    "Source-local identity; external identity not established"
+  ],
+  "practical_value": "Observed table; 9 rows. Derived views reuse native tables; empty tables preserve structure without observed values.",
+  "reason": "Actual pinned schema demand fixture. No selected or reconciled status."
+}

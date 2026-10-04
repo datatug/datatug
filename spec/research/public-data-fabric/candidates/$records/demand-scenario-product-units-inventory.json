@@ -1,0 +1,22 @@
+{
+  "title": "Product units, category and inventory/BOM lookup (proposed scenario)",
+  "kind": "scenario",
+  "status": "researched",
+  "evidence_ids": [
+    "demo-demand-analysis"
+  ],
+  "demo_ids": [
+    "northwind",
+    "adventureworks"
+  ],
+  "dependency_ids": [
+    "demand-meaning-product",
+    "demand-meaning-product-category",
+    "demand-meaning-unit-of-measure",
+    "demand-meaning-inventory",
+    "demand-meaning-bill-of-materials"
+  ],
+  "practical_value": "Public units/category references and SKU namespace bridges remain gaps; packaging text versus coded measures needs reconciliation. Explain stock/BOM quantities and category rollups without joining product IDs across demos.",
+  "reason": "Scenario proposal only; no public source selected, accepted join, measured match rate, implementation or publication receipt. Public units/category references and SKU namespace bridges remain gaps; packaging text versus coded measures needs reconciliation. Explain stock/BOM quantities and category rollups without joining product IDs across demos.",
+  "showcase_value": "Possible comparison chart/calendar/map after identifier and coverage acceptance; not a rendered or validated product journey."
+}

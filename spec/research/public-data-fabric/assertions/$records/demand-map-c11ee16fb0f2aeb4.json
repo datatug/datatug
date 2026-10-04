@@ -1,0 +1,25 @@
+{
+  "title": "pubs.titles.advance proposes Royalty advance",
+  "kind": "mapping",
+  "status": "researched",
+  "evidence_ids": [
+    "demand-corpus-pubs"
+  ],
+  "from_id": "demand-pubs-titles",
+  "to_id": "demand-meaning-royalty-advance",
+  "meaning_id": "demand-meaning-royalty-advance",
+  "from_fields": [
+    "advance"
+  ],
+  "to_fields": [
+    "proposed-role"
+  ],
+  "compatibility": "unresolved",
+  "confidence": "medium",
+  "physical_role": "publication-royalty-advance",
+  "from_identifier_namespace": "literal:pubs/titles/advance",
+  "to_identifier_namespace": "unreconciled:royalty-advance",
+  "expected_cardinality": "Not established; repeated names/codes and reference roles are retained.",
+  "assumptions": "Proposed demand only; dedicated reconciliation required. Numeric value does not identify currency. No raw currency field; source meaning declarations remain separate.  Confidence concerns the proposed source role only. Raw profiles and context are in evidence/demo-demand.json; no normalization applied.",
+  "reason": "Research hypothesis only. Numeric price/charge comparison; currency/FX only with explicit source declaration and applicable date."
+}

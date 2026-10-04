@@ -1,0 +1,26 @@
+{
+  "title": "Region (proposed demo demand)",
+  "kind": "meaning",
+  "status": "researched",
+  "evidence_ids": [
+    "demand-corpus-adventureworks",
+    "demand-corpus-sakila"
+  ],
+  "demo_ids": [
+    "adventureworks",
+    "sakila"
+  ],
+  "identifier_representations": [
+    "INTEGER; StateProvinceID: local-key-or-FK; namespace adventureworks:Person.Address",
+    "INTEGER; StateProvinceID: local-key-or-FK; namespace adventureworks:Person.StateProvince",
+    "INTEGER; StateProvinceID: local-key-or-FK; namespace adventureworks:Person.vStateProvinceCountryRegion",
+    "INTEGER; StateProvinceID: local-key-or-FK; namespace adventureworks:Sales.SalesTaxRate",
+    "TEXT; Name: label-or-name; namespace source-representation:adventureworks",
+    "TEXT; StateProvinceCode: source-code; namespace source-representation:adventureworks",
+    "TEXT; StateProvinceName: label-or-name; namespace source-representation:adventureworks",
+    "TEXT; district: label-or-name; namespace source-representation:sakila"
+  ],
+  "practical_value": "Proposed field-role demand in 2 demos. Candidate reference/calendar/identifier lookup with contextual bridge and measured match rate; local transaction/person IDs support internal joins only.",
+  "licence_notes": "Candidate metadata is unreconciled. Per-input data/model/meaning licences remain in demand-plan.json and recordset records; Employees-derived evidence retains CC-BY-SA-3.0. No blanket CC0 or canonical new meaning licence is asserted.",
+  "reason": "Related concepts, entity keys/names/attributes and physical roles remain separately qualified in assertions. Coverage means inspected hypothesis presence, not accepted semantic equivalence or external match rate."
+}

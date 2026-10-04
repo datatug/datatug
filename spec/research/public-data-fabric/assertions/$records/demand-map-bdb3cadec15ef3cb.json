@@ -1,0 +1,25 @@
+{
+  "title": "pubs.titleauthor.royaltyper proposes Author royalty share",
+  "kind": "mapping",
+  "status": "researched",
+  "evidence_ids": [
+    "demand-corpus-pubs"
+  ],
+  "from_id": "demand-pubs-titleauthor",
+  "to_id": "demand-meaning-author-royalty-share",
+  "meaning_id": "demand-meaning-author-royalty-share",
+  "from_fields": [
+    "royaltyper"
+  ],
+  "to_fields": [
+    "proposed-role"
+  ],
+  "compatibility": "unresolved",
+  "confidence": "medium",
+  "physical_role": "author-royalty-share",
+  "from_identifier_namespace": "literal:pubs/titleauthor/royaltyper",
+  "to_identifier_namespace": "unreconciled:author-royalty-share",
+  "expected_cardinality": "Not established; repeated names/codes and reference roles are retained.",
+  "assumptions": "Proposed demand only; dedicated reconciliation required. Northwind discount and Pubs discount/royalty scales are distinct; source rates are not monetary currency.  Confidence concerns the proposed source role only. Raw profiles and context are in evidence/demo-demand.json; no normalization applied.",
+  "reason": "Research hypothesis only. Rate analysis after explicit scale interpretation."
+}
