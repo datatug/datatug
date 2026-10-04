@@ -4,9 +4,10 @@
   "classification": "important/non-blocking",
   "owner": "DataTug canonical integration owner",
   "evidence_ids": [
-    "datatug-review-pending"
+    "datatug-review-pending",
+    "independent-foundation-r3"
   ],
-  "resolution": "Phase 4 launch prerequisite; current supported foundation does not claim this capability.",
+  "resolution": "Phase 4 prerequisite: canonical registry-driven semantic ingestion/explained suggestions and existing HTTPS catalog contract integration. Independent call-site search finds no shipped catalog UI ingestion; passing contract/source read is not a UI journey.",
   "gate_ids": [
     "phase4"
   ]

@@ -1,0 +1,13 @@
+{
+  "title": "Employees full pinned-source rebuild independently verified",
+  "observed_at": "2026-10-04T20:06:00Z",
+  "outcome": "pass",
+  "summary": "All nine upstream pinned SHA256 digests recomputed independently and match. Rebuild reads 300024 employees and 2844047 salaries; existing 1024-person, 13584-row FK-closed subset is logically equivalent. Integrity ok, no FK violations; logical equivalence does not promise SQLite byte identity.",
+  "reviewer": "phase0_verify r3, independent Local Codex Mac",
+  "independent": true,
+  "review_stage": "foundation",
+  "path": "evidence/phase0-hardening-r3.json",
+  "repository": "demo-db/employees",
+  "commit": "2455bb327aa8444ec496d36e2fe6dcacfc58dc0a",
+  "command": "wb run -- python3 scripts/rebuild-source.py --source-dir /private/tmp/data-fabric-employees-rebuild/upstream --check"
+}

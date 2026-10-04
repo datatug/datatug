@@ -12,7 +12,11 @@
     "semantic-review-r1",
     "ovdb-review-r1",
     "datatug-review-pending",
-    "independent-gate-pending"
+    "independent-gate-pending",
+    "independent-foundation-r3",
+    "production-chat-r3",
+    "canonical-source-r3",
+    "corpus-publication-r2"
   ],
   "blocker_ids": [
     "demo-chat",
@@ -20,5 +24,5 @@
     "independent-verification",
     "chinook-canonical-url"
   ],
-  "decision": "Pending; broad public-data research is prohibited until Phase 0 passes."
+  "decision": "Pending; independent r3 verifies production canonical Chat and canonical source. One substantive corpus-publication blocker remains; overall independent acceptance and root decision are pending. Broad public-data research remains prohibited."
 }

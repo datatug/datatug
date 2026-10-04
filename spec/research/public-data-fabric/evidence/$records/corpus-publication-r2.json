@@ -1,0 +1,10 @@
+{
+  "title": "Independent six-corpus publication snapshot r2",
+  "observed_at": "2026-10-04T20:06:00Z",
+  "outcome": "partial",
+  "summary": "All six hostnames and eighteen model/meaning links now return 200; descriptors and aliases agree. AdventureWorks/Employees runtime metadata still 404, missing reciprocal registry/Directory entries; Directory has three databases. Sakila/Employees deployed HCL remains stale. Sakila source and both semantic/model registries now agree BSD-3-Clause at provider6567d30; metadata-only query=false is supported. No explicit scope escalation approved.",
+  "reviewer": "phase0_verify r3, independent Local Codex Mac",
+  "independent": true,
+  "review_stage": "foundation",
+  "path": "evidence/phase0-hardening-r3.json"
+}
