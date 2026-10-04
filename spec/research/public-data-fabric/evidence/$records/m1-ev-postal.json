@@ -1,0 +1,8 @@
+{
+  "title": "UPU S42 address elements and country templates",
+  "observed_at": "2026-10-04T22:10:00Z",
+  "outcome": "observation",
+  "summary": "S42 separates common address elements from country-specific formatting templates. This does not supply a global open postcode-to-address dataset. Reuse: UPU standard/document copyright; no templates copied; dataset permission unknown.",
+  "url": "https://www.upu.int/en/postal-solutions/programmes-services/addressing-solutions",
+  "review_stage": "discovery"
+}

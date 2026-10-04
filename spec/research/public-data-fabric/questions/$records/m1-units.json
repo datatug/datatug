@@ -1,0 +1,21 @@
+{
+  "title": "Which quantity/property, currency/date and provider-rate definitions permit comparison? Currency absent from raw demos is a gap, not a default.",
+  "status": "open",
+  "classification": "important/non-blocking",
+  "owner": "fresh Phase2 reconciler / Phase3 portfolio architect",
+  "candidate_ids": [
+    "m1-quantity-kind",
+    "m1-unit",
+    "m1-money",
+    "m1-fx"
+  ],
+  "evidence_ids": [
+    "m1-ev-currency",
+    "m1-ev-si",
+    "m1-ev-units"
+  ],
+  "gate_ids": [
+    "phase2",
+    "phase3"
+  ]
+}

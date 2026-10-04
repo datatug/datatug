@@ -1,0 +1,16 @@
+{
+  "title": "Population count under definition (research candidate)",
+  "kind": "meaning",
+  "status": "needs-review",
+  "evidence_ids": [
+    "m1-ev-cube"
+  ],
+  "source_id": "m1-source-cube",
+  "identifier_representations": [
+    "area + period + population definition + source"
+  ],
+  "reason": "Depth: focused. Confidence high in research distinction, not accepted mapping. Resident/de facto/cohort scopes differ; geographic/version consistency required. Public dataset coverage/rights require separate discovery. Possible current core comparison: meaning://github.com/meaninggraph/core/population?ref=982916d73f0a35ff2558b0062f58aa3ac4f24d97; unresolved scope/representation match.",
+  "practical_value": "Resident/de facto/cohort scopes differ; geographic/version consistency required.",
+  "showcase_value": "Contextual graph/map/time-series opportunity; practical compatibility remains prerequisite.",
+  "observed_at": "2026-10-04T22:10:00Z"
+}

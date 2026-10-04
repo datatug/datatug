@@ -1,0 +1,15 @@
+{
+  "title": "International telephone numbering (research candidate)",
+  "kind": "meaning",
+  "status": "needs-review",
+  "evidence_ids": [
+    "m1-ev-phone"
+  ],
+  "source_id": "m1-source-phone",
+  "identifier_representations": [
+    "E.164 international number; national number + numbering-plan context"
+  ],
+  "reason": "Depth: shallow. Confidence medium in scope distinction; no canonical mapping. Telephone number allocation/contact channel differs from person identity, residence and current geographic location.",
+  "practical_value": "Telephone number allocation/contact channel differs from person identity, residence and current geographic location.",
+  "showcase_value": "Research affiliation/output graph or contact/network explanation when portable keys actually exist."
+}

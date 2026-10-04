@@ -1,0 +1,15 @@
+{
+  "title": "Publication edition/format product identifier (research candidate)",
+  "kind": "meaning",
+  "status": "needs-review",
+  "evidence_ids": [
+    "m1-ev-isbn"
+  ],
+  "source_id": "m1-source-isbn",
+  "identifier_representations": [
+    "ISBN scheme/version + complete identifier"
+  ],
+  "reason": "Depth: focused scope research. Confidence high in distinction, no accepted mapping. Local Pubs title_id is not ISBN; edition and format need evidence. Book metadata source/rights remain a gap.",
+  "practical_value": "Portable book-product lookup can bridge publishers, catalogues and sales when actual ISBN exists; title label alone insufficient.",
+  "showcase_value": "Edition/format/publication network with sales, only with portable keys."
+}

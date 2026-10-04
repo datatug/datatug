@@ -1,0 +1,14 @@
+{
+  "title": "UNSD SIEC energy product classification (standards evidence source)",
+  "kind": "source",
+  "status": "researched",
+  "evidence_ids": [
+    "m1-ev-energy"
+  ],
+  "source_url": "https://unstats.un.org/unsd/Classifications/siec/",
+  "licence": "needs-review",
+  "licence_notes": "UN classification terms unresolved; no code table copied.",
+  "observed_at": "2026-10-04T22:10:00Z",
+  "freshness": "needs-review",
+  "reason": "Standards/publisher evidence; no public dataset integration selected or data copied."
+}

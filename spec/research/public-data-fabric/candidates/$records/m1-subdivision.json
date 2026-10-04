@@ -1,0 +1,16 @@
+{
+  "title": "Administrative subdivision (research candidate)",
+  "kind": "meaning",
+  "status": "needs-review",
+  "evidence_ids": [
+    "m1-ev-iso-country"
+  ],
+  "source_id": "m1-source-iso-country",
+  "identifier_representations": [
+    "ISO3166-2 + validity"
+  ],
+  "reason": "Depth: focused. Confidence high in research distinction, not accepted mapping. Principal administrative subdivisions vary by country; raw State text not proven code. Public dataset coverage/rights require separate discovery.",
+  "practical_value": "Principal administrative subdivisions vary by country; raw State text not proven code.",
+  "showcase_value": "Contextual graph/map/time-series opportunity; practical compatibility remains prerequisite.",
+  "observed_at": "2026-10-04T22:10:00Z"
+}

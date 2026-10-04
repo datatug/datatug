@@ -1,0 +1,16 @@
+{
+  "title": "Energy product classification (research candidate)",
+  "kind": "meaning",
+  "status": "needs-review",
+  "evidence_ids": [
+    "m1-ev-energy"
+  ],
+  "source_id": "m1-source-energy",
+  "identifier_representations": [
+    "SIEC version + code"
+  ],
+  "reason": "Depth: focused. Confidence high in research distinction, not accepted mapping. Fuel/product differs from generator technology and energy flow. Public dataset coverage/rights require separate discovery.",
+  "practical_value": "Fuel/product differs from generator technology and energy flow.",
+  "showcase_value": "Contextual graph/map/time-series opportunity; practical compatibility remains prerequisite.",
+  "observed_at": "2026-10-04T22:10:00Z"
+}

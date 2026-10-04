@@ -1,0 +1,16 @@
+{
+  "title": "Dated directed exchange-rate observation (research candidate)",
+  "kind": "meaning",
+  "status": "needs-review",
+  "evidence_ids": [
+    "m1-ev-currency"
+  ],
+  "source_id": "m1-source-currency",
+  "identifier_representations": [
+    "base + quote + date + provider + rate type"
+  ],
+  "reason": "Depth: focused. Confidence medium in research distinction, not accepted mapping. Pair orientation, fixing/average and validity required; public rate source gap remains. Public dataset coverage/rights require separate discovery.",
+  "practical_value": "Pair orientation, fixing/average and validity required; public rate source gap remains.",
+  "showcase_value": "Contextual graph/map/time-series opportunity; practical compatibility remains prerequisite.",
+  "observed_at": "2026-10-04T22:10:00Z"
+}

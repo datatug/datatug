@@ -1,0 +1,8 @@
+{
+  "title": "UNSD SIEC energy product classification",
+  "observed_at": "2026-10-04T22:10:00Z",
+  "outcome": "observation",
+  "summary": "SIEC covers fuels, generated electricity and sold heat for energy-statistics production/transformation/consumption. Reuse: UN classification terms unresolved; no code table copied.",
+  "url": "https://unstats.un.org/unsd/Classifications/siec/",
+  "review_stage": "discovery"
+}

@@ -1,0 +1,8 @@
+{
+  "title": "W3C RDF Data Cube",
+  "observed_at": "2026-10-04T22:10:00Z",
+  "outcome": "observation",
+  "summary": "Statistical observations separate dimensions, measures and attributes; units and status belong with scoped observations. Reuse: W3C document licence; paraphrase/link only.",
+  "url": "https://www.w3.org/TR/vocab-data-cube/",
+  "review_stage": "discovery"
+}

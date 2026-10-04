@@ -1,0 +1,20 @@
+{
+  "title": "Language identity (research candidate)",
+  "kind": "meaning",
+  "status": "needs-review",
+  "evidence_ids": [
+    "m1-ev-language",
+    "demand-corpus-sakila"
+  ],
+  "source_id": "m1-source-language",
+  "identifier_representations": [
+    "BCP47 language subtag; ISO scheme/version"
+  ],
+  "reason": "Depth: focused. Confidence high in research distinction, not accepted mapping. Language differs from tag expressing script/region/variant. Public dataset coverage/rights require separate discovery. Demand linkage only: demand-meaning-language; inspected literal candidate representations, not accepted equivalence. Per-input data/model/meaning licences remain with demand evidence; Employees share-alike scope is not erased.",
+  "practical_value": "Language differs from tag expressing script/region/variant.",
+  "showcase_value": "Contextual graph/map/time-series opportunity; practical compatibility remains prerequisite.",
+  "observed_at": "2026-10-04T22:10:00Z",
+  "demo_ids": [
+    "sakila"
+  ]
+}

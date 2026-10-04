@@ -1,0 +1,8 @@
+{
+  "title": "International ISBN Agency identifier scope",
+  "observed_at": "2026-10-04T22:15:00Z",
+  "outcome": "observation",
+  "url": "https://www.isbn-international.org/index.php/content/what-isbn/10",
+  "summary": "ISBN scopes a publication title edition and format, with publisher/imprint registration context. Identifier does not confer copyright protection. Initial /content/what-isbn URL failed in this research; current /index.php/content/what-isbn/10 opened successfully. No manual or publisher directory copied; reuse terms unresolved.",
+  "review_stage": "discovery"
+}

@@ -1,0 +1,20 @@
+{
+  "title": "Measurement unit (research candidate)",
+  "kind": "meaning",
+  "status": "needs-review",
+  "evidence_ids": [
+    "m1-ev-units",
+    "demand-corpus-adventureworks"
+  ],
+  "source_id": "m1-source-units",
+  "identifier_representations": [
+    "UNECE common code; SI symbol with context"
+  ],
+  "reason": "Depth: focused. Confidence high in research distinction, not accepted mapping. Symbol collisions and packaging counts prevent blind conversion. Public dataset coverage/rights require separate discovery. Demand linkage only: demand-meaning-unit-of-measure; inspected literal candidate representations, not accepted equivalence. Per-input data/model/meaning licences remain with demand evidence; Employees share-alike scope is not erased.",
+  "practical_value": "Symbol collisions and packaging counts prevent blind conversion.",
+  "showcase_value": "Contextual graph/map/time-series opportunity; practical compatibility remains prerequisite.",
+  "observed_at": "2026-10-04T22:10:00Z",
+  "demo_ids": [
+    "adventureworks"
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "title": "W3C Spatial Data on the Web best practices (standards evidence source)",
+  "kind": "source",
+  "status": "researched",
+  "evidence_ids": [
+    "m1-ev-spatial"
+  ],
+  "source_url": "https://www.w3.org/TR/sdw-bp/",
+  "licence": "needs-review",
+  "licence_notes": "W3C document licence; no geometry dataset copied.",
+  "observed_at": "2026-10-04T22:10:00Z",
+  "freshness": "needs-review",
+  "reason": "Standards/publisher evidence; no public dataset integration selected or data copied."
+}

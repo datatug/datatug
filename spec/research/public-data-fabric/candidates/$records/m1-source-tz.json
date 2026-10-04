@@ -1,0 +1,14 @@
+{
+  "title": "IANA time zone database (standards evidence source)",
+  "kind": "source",
+  "status": "researched",
+  "evidence_ids": [
+    "m1-ev-tz"
+  ],
+  "source_url": "https://data.iana.org/time-zones/tz-link.html",
+  "licence": "public-domain",
+  "licence_notes": "Publisher explicitly describes database and this page as public domain; downstream boundary datasets remain separate.",
+  "observed_at": "2026-10-04T22:10:00Z",
+  "freshness": "needs-review",
+  "reason": "Standards/publisher evidence; no public dataset integration selected or data copied."
+}

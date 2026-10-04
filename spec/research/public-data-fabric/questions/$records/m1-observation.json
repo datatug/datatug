@@ -1,0 +1,22 @@
+{
+  "title": "Which dimensions, denominator, geographic support, statistical methods and quality qualifiers must remain attached? No comparability from shared label alone.",
+  "status": "open",
+  "classification": "important/non-blocking",
+  "owner": "fresh Phase2 reconciler / Phase3 portfolio architect",
+  "candidate_ids": [
+    "m1-population",
+    "m1-health-rate",
+    "m1-observation",
+    "m1-energy-flow"
+  ],
+  "evidence_ids": [
+    "m1-ev-cube",
+    "m1-ev-energy",
+    "m1-ev-health",
+    "m1-ev-observation"
+  ],
+  "gate_ids": [
+    "phase2",
+    "phase3"
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "title": "Physical quantity kind (research candidate)",
+  "kind": "meaning",
+  "status": "needs-review",
+  "evidence_ids": [
+    "m1-ev-si"
+  ],
+  "source_id": "m1-source-si",
+  "identifier_representations": [
+    "defined quantity/property URI"
+  ],
+  "reason": "Depth: focused. Confidence high in research distinction, not accepted mapping. Energy, power and price are distinct even when numeric. Public dataset coverage/rights require separate discovery.",
+  "practical_value": "Energy, power and price are distinct even when numeric.",
+  "showcase_value": "Contextual graph/map/time-series opportunity; practical compatibility remains prerequisite.",
+  "observed_at": "2026-10-04T22:10:00Z"
+}

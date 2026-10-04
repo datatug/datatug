@@ -1,0 +1,19 @@
+{
+  "title": "Research path: country-region (conceptual relationship bundle)",
+  "kind": "bundle",
+  "status": "needs-review",
+  "member_ids": [
+    "m1-country-area",
+    "m1-stat-region"
+  ],
+  "evidence_ids": [
+    "m1-ev-m49"
+  ],
+  "identifier_representations": [
+    "Proposed from roles: country/area scheme code",
+    "Proposed to roles: region membership country/area code"
+  ],
+  "practical_value": "Use M49 country/area membership, release and classification purpose; not geopolitical allegiance. Conceptual field roles only; no dataset field contract or measured join exists.",
+  "reason": "Conceptual relationship hypothesis only. Compatibility unresolved; confidence medium in research path; expected cardinality: many-to-many across grouping schemes. Preserved as bundle because assertion edge requires actual recordset endpoints. No executable or accepted join. Direction: m1-country-area \u2192 m1-stat-region. Proposed field roles are separately labelled in identifier_representations.",
+  "showcase_value": "Relationship graph after source-specific identifiers and scope are established."
+}

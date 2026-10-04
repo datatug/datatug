@@ -1,0 +1,14 @@
+{
+  "title": "IANA root zone database (standards evidence source)",
+  "kind": "source",
+  "status": "researched",
+  "evidence_ids": [
+    "m1-ev-dns"
+  ],
+  "source_url": "https://www.iana.org/domains/root/db",
+  "licence": "needs-review",
+  "licence_notes": "IANA registry terms need source-screening; no records copied.",
+  "observed_at": "2026-10-04T22:10:00Z",
+  "freshness": "needs-review",
+  "reason": "Standards/publisher evidence; no public dataset integration selected or data copied."
+}
