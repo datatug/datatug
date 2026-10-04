@@ -1,0 +1,13 @@
+{
+  "title": "Resolve exact app postmerge main CI failure",
+  "status": "open",
+  "classification": "blocking",
+  "owner": "DataTug demo fix lane, root gate owner",
+  "evidence_ids": [
+    "app-main-ci-failure"
+  ],
+  "gate_ids": [
+    "phase0"
+  ],
+  "resolution": "Pending diagnosis and fix at exact app main revision followed by independent acceptance; successful deploy/browser receipt is not a CI pass."
+}

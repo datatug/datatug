@@ -328,5 +328,13 @@
     "scope": "Ephemeral original review execution artifacts; copied relative paths in independent_review.pr_reviews, findings.evidence and production_acceptance.evidence are relative to this base, not repository paths. Durable compact results are recorded in this file."
   },
   "production_build_observed_at": "2026-10-04T20:07:56.428Z",
-  "production_source_read_observed_at": "2026-10-04T20:09:12.174Z"
+  "production_source_read_observed_at": "2026-10-04T20:09:12.174Z",
+  "app_postmerge_main_ci": {
+    "conclusion": "failure",
+    "headSha": "bddd27a9077b37e3d1e42af8874dd04963afde2b",
+    "status": "completed",
+    "updatedAt": "2026-10-04T20:15:32Z",
+    "url": "https://github.com/datatug/datatug-apps/actions/runs/37230543024",
+    "scope": "Current separate open Phase0blocker; independent_review historical r3 verdict predates terminal failure. No cause inferred."
+  }
 }
