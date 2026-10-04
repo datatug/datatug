@@ -1,0 +1,10 @@
+{
+  "title": "Existing cloud rollout merge observation",
+  "observed_at": "2026-10-04T19:29:54Z",
+  "outcome": "observation",
+  "summary": "Root authoritatively observed cloud PR 13 merged at 2026-10-04T19:29:54Z, head 53ff50accc8de22fe18916472f92e825a1c61c7e. Deployment and live corpus readiness remain unverified; this is not a passing runtime receipt.",
+  "repository": "demo-db/cloud",
+  "commit": "53ff50accc8de22fe18916472f92e825a1c61c7e",
+  "url": "https://github.com/demo-db/cloud/pull/13",
+  "reviewer": "orchestrator"
+}

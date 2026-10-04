@@ -1,0 +1,9 @@
+{
+  "title": "Chinook canonical endpoint migration",
+  "observed_at": "2026-10-04T19:35:00Z",
+  "outcome": "decision",
+  "summary": "User confirms current canonical Chinook site chinook.demodb.dev, migrated from chinookdb.com. Historical extraction/evidence keeps literal old addresses without treating them as current. Root source review found project-address-rules.ts:29 old-host-only data allowlist; existing fix lane owns canonical ingestion regression and lookalike rejection with deliberate legacy compatibility.",
+  "repository": "datatug/datatug-apps",
+  "path": "libs/datatug/main/src/lib/project-files/project-address-rules.ts",
+  "reviewer": "orchestrator"
+}

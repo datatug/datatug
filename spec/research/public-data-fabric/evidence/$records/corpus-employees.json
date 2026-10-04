@@ -1,0 +1,9 @@
+{
+  "title": "employees semantic artifact checks",
+  "observed_at": "2026-10-04T19:26:00Z",
+  "outcome": "pass",
+  "summary": "Literal current fixture: 6 entities and 24 properties. Publish lint, export drift and meaning reference checks passed; this is not reconciliation.",
+  "repository": "demo-db/employees",
+  "commit": "4759bc2b7936626c9ac1ad1e92fd6128365e11ac",
+  "path": "model/"
+}

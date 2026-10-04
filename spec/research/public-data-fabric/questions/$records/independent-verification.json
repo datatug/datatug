@@ -1,0 +1,9 @@
+{
+  "title": "Verify the foundation after fixes and deployments",
+  "status": "open",
+  "classification": "blocking",
+  "owner": "Fresh independent verifier",
+  "evidence_ids": [
+    "independent-gate-pending"
+  ]
+}

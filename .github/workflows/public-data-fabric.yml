@@ -1,0 +1,21 @@
+name: Public Data Fabric ledger
+on:
+  push:
+    branches: [main]
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  ledger:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Validate research collection schemas and records
+        uses: ingitdb/ingitdb-action@ec621991c6ca57d45a252c7d140eea1624f42ab9 # same pinned validator as ModelSpec registry
+        with:
+          cli-version: v0.68.2
+          database-root: .
+      - name: Check relationships, evidence, gates and invalid-state mutations
+        run: python3 spec/research/public-data-fabric/check.py --self-test

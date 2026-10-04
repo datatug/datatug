@@ -1,0 +1,15 @@
+{
+  "title": "Canonical implementation waves",
+  "status": "pending",
+  "owner": "Main orchestrator",
+  "prerequisite_ids": [
+    "phase3"
+  ],
+  "requirements": [
+    "Publish coherent 5\u201310 integration waves through existing canonical artifacts and registries",
+    "Validate licence/provenance, queryability, freshness and explainability"
+  ],
+  "evidence_ids": [],
+  "blocker_ids": [],
+  "decision": "Not started; no phase completion claim."
+}

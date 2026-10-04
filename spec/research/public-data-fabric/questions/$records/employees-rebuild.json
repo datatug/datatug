@@ -1,0 +1,9 @@
+{
+  "title": "Exercise Employees rebuild with pinned upstream source inputs",
+  "status": "open",
+  "classification": "important/non-blocking",
+  "owner": "Existing DemoDB source owner",
+  "evidence_ids": [
+    "ovdb-review-r1"
+  ]
+}

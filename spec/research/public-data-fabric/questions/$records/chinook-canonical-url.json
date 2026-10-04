@@ -1,0 +1,12 @@
+{
+  "title": "Canonical chinook.demodb.dev data URL acceptance and stale-link audit",
+  "status": "open",
+  "classification": "blocking",
+  "owner": "Existing DataTug demo fix lane",
+  "evidence_ids": [
+    "chinook-canonical-url"
+  ],
+  "candidate_ids": [
+    "chinook"
+  ]
+}

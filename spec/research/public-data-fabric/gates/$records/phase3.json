@@ -1,0 +1,14 @@
+{
+  "title": "Scenario and portfolio architecture",
+  "status": "pending",
+  "owner": "Main orchestrator",
+  "prerequisite_ids": [
+    "phase2"
+  ],
+  "requirements": [
+    "Separate fresh architect chooses interconnected bundles and retains unselected opportunities"
+  ],
+  "evidence_ids": [],
+  "blocker_ids": [],
+  "decision": "Not started; no phase completion claim."
+}

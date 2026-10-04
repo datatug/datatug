@@ -1,0 +1,9 @@
+{
+  "title": "Confirm semantic registry validation under declared Node 24",
+  "status": "open",
+  "classification": "important/non-blocking",
+  "owner": "Independent foundation verifier",
+  "evidence_ids": [
+    "semantic-review-r1"
+  ]
+}

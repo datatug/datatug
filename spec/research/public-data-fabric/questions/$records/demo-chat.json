@@ -1,0 +1,9 @@
+{
+  "title": "Canonical DataTug demo Chat initializes and queries",
+  "status": "open",
+  "classification": "blocking",
+  "owner": "DataTug demo fix lane",
+  "evidence_ids": [
+    "datatug-review-pending"
+  ]
+}

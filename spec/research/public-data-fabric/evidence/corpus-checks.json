@@ -1,0 +1,362 @@
+[
+  {
+    "id": "chinook",
+    "model_module": {
+      "id": "github.com/demo-db/chinook/model/chinook",
+      "name": "chinook",
+      "version": "0.1.0"
+    },
+    "entities": 11,
+    "properties": 64,
+    "checks": [
+      {
+        "argv": [
+          "wb",
+          "run",
+          "--",
+          "/private/tmp/data-fabric-phase0-semantics/modelspec",
+          "lint",
+          "--profile",
+          "publish",
+          "--format",
+          "json",
+          "/private/tmp/data-fabric-phase0-semantics/sources/chinook/model"
+        ],
+        "exit_code": 0,
+        "duration_seconds": 0.021
+      },
+      {
+        "argv": [
+          "wb",
+          "run",
+          "--",
+          "/private/tmp/data-fabric-phase0-semantics/modelspec",
+          "export",
+          "--check",
+          "/private/tmp/data-fabric-phase0-semantics/sources/chinook/model/chinook.modelspec.hcl",
+          "/private/tmp/data-fabric-phase0-semantics/sources/chinook/model/chinook.modelspec.json"
+        ],
+        "exit_code": 0,
+        "duration_seconds": 0.02
+      },
+      {
+        "argv": [
+          "wb",
+          "run",
+          "--",
+          "/private/tmp/data-fabric-phase0-semantics/meaninggraph",
+          "check",
+          "--format",
+          "json",
+          "--address",
+          "github.com/demo-db/chinook",
+          "--graph",
+          "github.com/meaninggraph/core=/Users/alex/projects/github.com/meaninggraph/core",
+          "/private/tmp/data-fabric-phase0-semantics/sources/chinook/model"
+        ],
+        "exit_code": 0,
+        "duration_seconds": 0.024
+      }
+    ]
+  },
+  {
+    "id": "northwind",
+    "model_module": {
+      "id": "github.com/demo-db/northwind/northwind",
+      "name": "northwind",
+      "version": "0.1.0"
+    },
+    "entities": 13,
+    "properties": 88,
+    "checks": [
+      {
+        "argv": [
+          "wb",
+          "run",
+          "--",
+          "/private/tmp/data-fabric-phase0-semantics/modelspec",
+          "lint",
+          "--profile",
+          "publish",
+          "--format",
+          "json",
+          "/private/tmp/data-fabric-phase0-semantics/sources/northwind/model"
+        ],
+        "exit_code": 0,
+        "duration_seconds": 0.022
+      },
+      {
+        "argv": [
+          "wb",
+          "run",
+          "--",
+          "/private/tmp/data-fabric-phase0-semantics/modelspec",
+          "export",
+          "--check",
+          "/private/tmp/data-fabric-phase0-semantics/sources/northwind/model/northwind.modelspec.hcl",
+          "/private/tmp/data-fabric-phase0-semantics/sources/northwind/model/northwind.modelspec.json"
+        ],
+        "exit_code": 0,
+        "duration_seconds": 0.021
+      },
+      {
+        "argv": [
+          "wb",
+          "run",
+          "--",
+          "/private/tmp/data-fabric-phase0-semantics/meaninggraph",
+          "check",
+          "--format",
+          "json",
+          "--address",
+          "github.com/demo-db/northwind",
+          "--graph",
+          "github.com/meaninggraph/core=/Users/alex/projects/github.com/meaninggraph/core",
+          "/private/tmp/data-fabric-phase0-semantics/sources/northwind/model"
+        ],
+        "exit_code": 0,
+        "duration_seconds": 0.025
+      }
+    ]
+  },
+  {
+    "id": "pubs",
+    "model_module": {
+      "id": "github.com/demo-db/pubs/pubs",
+      "name": "pubs",
+      "version": "0.1.0"
+    },
+    "entities": 11,
+    "properties": 64,
+    "checks": [
+      {
+        "argv": [
+          "wb",
+          "run",
+          "--",
+          "/private/tmp/data-fabric-phase0-semantics/modelspec",
+          "lint",
+          "--profile",
+          "publish",
+          "--format",
+          "json",
+          "/private/tmp/data-fabric-phase0-semantics/sources/pubs/model"
+        ],
+        "exit_code": 0,
+        "duration_seconds": 0.02
+      },
+      {
+        "argv": [
+          "wb",
+          "run",
+          "--",
+          "/private/tmp/data-fabric-phase0-semantics/modelspec",
+          "export",
+          "--check",
+          "/private/tmp/data-fabric-phase0-semantics/sources/pubs/model/pubs.modelspec.hcl",
+          "/private/tmp/data-fabric-phase0-semantics/sources/pubs/model/pubs.modelspec.json"
+        ],
+        "exit_code": 0,
+        "duration_seconds": 0.02
+      },
+      {
+        "argv": [
+          "wb",
+          "run",
+          "--",
+          "/private/tmp/data-fabric-phase0-semantics/meaninggraph",
+          "check",
+          "--format",
+          "json",
+          "--address",
+          "github.com/demo-db/pubs",
+          "--graph",
+          "github.com/meaninggraph/core=/Users/alex/projects/github.com/meaninggraph/core",
+          "/private/tmp/data-fabric-phase0-semantics/sources/pubs/model"
+        ],
+        "exit_code": 0,
+        "duration_seconds": 0.025
+      }
+    ]
+  },
+  {
+    "id": "sakila",
+    "model_module": {
+      "id": "github.com/demo-db/sakila/sakila",
+      "name": "sakila",
+      "version": "0.1.0"
+    },
+    "entities": 16,
+    "properties": 90,
+    "checks": [
+      {
+        "argv": [
+          "wb",
+          "run",
+          "--",
+          "/private/tmp/data-fabric-phase0-semantics/modelspec",
+          "lint",
+          "--profile",
+          "publish",
+          "--format",
+          "json",
+          "/private/tmp/data-fabric-phase0-semantics/sources/sakila/model"
+        ],
+        "exit_code": 0,
+        "duration_seconds": 0.022
+      },
+      {
+        "argv": [
+          "wb",
+          "run",
+          "--",
+          "/private/tmp/data-fabric-phase0-semantics/modelspec",
+          "export",
+          "--check",
+          "/private/tmp/data-fabric-phase0-semantics/sources/sakila/model/sakila.modelspec.hcl",
+          "/private/tmp/data-fabric-phase0-semantics/sources/sakila/model/sakila.modelspec.json"
+        ],
+        "exit_code": 0,
+        "duration_seconds": 0.021
+      },
+      {
+        "argv": [
+          "wb",
+          "run",
+          "--",
+          "/private/tmp/data-fabric-phase0-semantics/meaninggraph",
+          "check",
+          "--format",
+          "json",
+          "--address",
+          "github.com/demo-db/sakila",
+          "--graph",
+          "github.com/meaninggraph/core=/Users/alex/projects/github.com/meaninggraph/core",
+          "/private/tmp/data-fabric-phase0-semantics/sources/sakila/model"
+        ],
+        "exit_code": 0,
+        "duration_seconds": 0.027
+      }
+    ]
+  },
+  {
+    "id": "employees",
+    "model_module": {
+      "id": "github.com/demo-db/employees/employees",
+      "name": "employees",
+      "version": "0.1.0"
+    },
+    "entities": 6,
+    "properties": 24,
+    "checks": [
+      {
+        "argv": [
+          "wb",
+          "run",
+          "--",
+          "/private/tmp/data-fabric-phase0-semantics/modelspec",
+          "lint",
+          "--profile",
+          "publish",
+          "--format",
+          "json",
+          "/private/tmp/data-fabric-phase0-semantics/sources/employees/model"
+        ],
+        "exit_code": 0,
+        "duration_seconds": 0.021
+      },
+      {
+        "argv": [
+          "wb",
+          "run",
+          "--",
+          "/private/tmp/data-fabric-phase0-semantics/modelspec",
+          "export",
+          "--check",
+          "/private/tmp/data-fabric-phase0-semantics/sources/employees/model/employees.modelspec.hcl",
+          "/private/tmp/data-fabric-phase0-semantics/sources/employees/model/employees.modelspec.json"
+        ],
+        "exit_code": 0,
+        "duration_seconds": 0.02
+      },
+      {
+        "argv": [
+          "wb",
+          "run",
+          "--",
+          "/private/tmp/data-fabric-phase0-semantics/meaninggraph",
+          "check",
+          "--format",
+          "json",
+          "--address",
+          "github.com/demo-db/employees",
+          "--graph",
+          "github.com/meaninggraph/core=/Users/alex/projects/github.com/meaninggraph/core",
+          "/private/tmp/data-fabric-phase0-semantics/sources/employees/model"
+        ],
+        "exit_code": 0,
+        "duration_seconds": 0.026
+      }
+    ]
+  },
+  {
+    "id": "adventureworks",
+    "model_module": {
+      "id": "github.com/demo-db/adventureworks/adventureworks",
+      "name": "adventureworks",
+      "version": "0.1.0"
+    },
+    "entities": 71,
+    "properties": 486,
+    "checks": [
+      {
+        "argv": [
+          "wb",
+          "run",
+          "--",
+          "/private/tmp/data-fabric-phase0-semantics/modelspec",
+          "lint",
+          "--profile",
+          "publish",
+          "--format",
+          "json",
+          "/private/tmp/data-fabric-phase0-semantics/sources/adventureworks/model"
+        ],
+        "exit_code": 0,
+        "duration_seconds": 0.03
+      },
+      {
+        "argv": [
+          "wb",
+          "run",
+          "--",
+          "/private/tmp/data-fabric-phase0-semantics/modelspec",
+          "export",
+          "--check",
+          "/private/tmp/data-fabric-phase0-semantics/sources/adventureworks/model/adventureworks.modelspec.hcl",
+          "/private/tmp/data-fabric-phase0-semantics/sources/adventureworks/model/adventureworks.modelspec.json"
+        ],
+        "exit_code": 0,
+        "duration_seconds": 0.031
+      },
+      {
+        "argv": [
+          "wb",
+          "run",
+          "--",
+          "/private/tmp/data-fabric-phase0-semantics/meaninggraph",
+          "check",
+          "--format",
+          "json",
+          "--address",
+          "github.com/demo-db/adventureworks",
+          "--graph",
+          "github.com/meaninggraph/core=/Users/alex/projects/github.com/meaninggraph/core",
+          "/private/tmp/data-fabric-phase0-semantics/sources/adventureworks/model"
+        ],
+        "exit_code": 0,
+        "duration_seconds": 0.029
+      }
+    ]
+  }
+]

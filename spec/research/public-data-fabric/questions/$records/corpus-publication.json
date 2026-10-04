@@ -1,0 +1,11 @@
+{
+  "title": "Complete existing six-corpus deployment and reciprocal publication",
+  "status": "open",
+  "classification": "blocking",
+  "owner": "Existing DemoDB deployment/registry lane",
+  "evidence_ids": [
+    "ovdb-review-r1",
+    "semantic-review-r1",
+    "cloud-merge-observation"
+  ]
+}

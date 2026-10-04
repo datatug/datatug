@@ -1,0 +1,15 @@
+{
+  "title": "adventureworks",
+  "kind": "dataset",
+  "status": "discovered",
+  "evidence_ids": [
+    "corpus-adventureworks"
+  ],
+  "repository": "demo-db/adventureworks",
+  "commit": "cd8dcdf2079fe31480ad6d6c024b8c17cb91beea",
+  "canonical_address": "https://adventureworks.demodb.dev",
+  "source_url": "https://github.com/demo-db/adventureworks",
+  "freshness": "needs-review",
+  "observed_at": "2026-10-04T19:26:00Z",
+  "reason": "Existing demo demand fixture; launch publication readiness is governed by Phase 0, not this discovery status."
+}
