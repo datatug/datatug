@@ -1,0 +1,15 @@
+{
+  "title": "DOI persistent object identifier (research candidate)",
+  "kind": "meaning",
+  "status": "needs-review",
+  "evidence_ids": [
+    "m1-ev-doi"
+  ],
+  "source_id": "m1-source-doi",
+  "identifier_representations": [
+    "DOI prefix/suffix; registration agency metadata"
+  ],
+  "reason": "Depth: shallow. Confidence medium in scope distinction; no canonical mapping. Object/version/edition scope and metadata rights must be established; local title/URL not identifier-equivalence.",
+  "practical_value": "Object/version/edition scope and metadata rights must be established; local title/URL not identifier-equivalence.",
+  "showcase_value": "Research affiliation/output graph or contact/network explanation when portable keys actually exist."
+}

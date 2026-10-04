@@ -1,0 +1,19 @@
+{
+  "title": "Research path: trip-route (conceptual relationship bundle)",
+  "kind": "bundle",
+  "status": "needs-review",
+  "member_ids": [
+    "m1-transit-trip",
+    "m1-transit-route"
+  ],
+  "evidence_ids": [
+    "m1-ev-gtfs"
+  ],
+  "identifier_representations": [
+    "Proposed from roles: feed namespace, route_id",
+    "Proposed to roles: feed namespace, route_id"
+  ],
+  "practical_value": "Feed/version scoped references; trip calendar/date defines applicability. Conceptual field roles only; no dataset field contract or measured join exists.",
+  "reason": "Conceptual relationship hypothesis only. Compatibility unresolved; confidence medium in research path; expected cardinality: many trips per route. Preserved as bundle because assertion edge requires actual recordset endpoints. No executable or accepted join. Direction: m1-transit-trip \u2192 m1-transit-route. Proposed field roles are separately labelled in identifier_representations.",
+  "showcase_value": "Relationship graph after source-specific identifiers and scope are established."
+}

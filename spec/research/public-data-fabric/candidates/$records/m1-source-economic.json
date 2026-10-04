@@ -1,0 +1,14 @@
+{
+  "title": "UNSD economic classifications (standards evidence source)",
+  "kind": "source",
+  "status": "researched",
+  "evidence_ids": [
+    "m1-ev-economic"
+  ],
+  "source_url": "https://unstats.un.org/unsd/classifications/econ/",
+  "licence": "needs-review",
+  "licence_notes": "UN classification publication/data terms require source-specific screening; no tables copied.",
+  "observed_at": "2026-10-04T22:10:00Z",
+  "freshness": "needs-review",
+  "reason": "Standards/publisher evidence; no public dataset integration selected or data copied."
+}

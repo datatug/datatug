@@ -1,0 +1,10 @@
+{
+  "title": "Current canonical MG and ModelSpec comparison snapshot",
+  "observed_at": "2026-10-04T22:10:00Z",
+  "outcome": "observation",
+  "repository": "meaninggraph/core",
+  "commit": "982916d73f0a35ff2558b0062f58aa3ac4f24d97",
+  "path": "FORMAT.md; geo.meaning.yaml; assets.meaning.yaml; identity.meaning.yaml; calendar.meaning.yaml; statistics.meaning.yaml",
+  "summary": "Fresh origin/main fetched. Core addresses omit file packaging; remote references pinned; entity/attribute/measure kinds and dataset-local binding roles remain authoritative. Core country includes territories, city definition includes named settlements, organisation broad group, currency unit distinct from amount. ModelSpec ff2393a99e0bd093272c1765a57eefdea01c0a90 uses composition; catalog vision is future direction. Registry48b30b250a61385d94d46a70968677870750ea35. No definitions or registry changes.",
+  "review_stage": "discovery"
+}

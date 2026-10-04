@@ -1,0 +1,16 @@
+{
+  "title": "DNS domain/delegation (research candidate)",
+  "kind": "meaning",
+  "status": "needs-review",
+  "evidence_ids": [
+    "m1-ev-dns"
+  ],
+  "source_id": "m1-source-dns",
+  "identifier_representations": [
+    "DNS name + delegation/time"
+  ],
+  "reason": "Depth: shallow. Confidence medium in research distinction, not accepted mapping. ccTLDs need explicit registry bridge; suffix does not prove user country. Public dataset coverage/rights require separate discovery.",
+  "practical_value": "ccTLDs need explicit registry bridge; suffix does not prove user country.",
+  "showcase_value": "Contextual graph/map/time-series opportunity; practical compatibility remains prerequisite.",
+  "observed_at": "2026-10-04T22:10:00Z"
+}

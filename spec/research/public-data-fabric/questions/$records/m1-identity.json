@@ -1,0 +1,21 @@
+{
+  "title": "What evidence bridges local supplier/customer/store IDs to registered entities or physical locations? Names and addresses remain candidate evidence only.",
+  "status": "open",
+  "classification": "important/non-blocking",
+  "owner": "fresh Phase2 reconciler / Phase3 portfolio architect",
+  "candidate_ids": [
+    "m1-legal-entity",
+    "m1-organisation",
+    "m1-site",
+    "m1-party-location"
+  ],
+  "evidence_ids": [
+    "m1-ev-gs1",
+    "m1-ev-lei",
+    "m1-ev-org"
+  ],
+  "gate_ids": [
+    "phase2",
+    "phase3"
+  ]
+}

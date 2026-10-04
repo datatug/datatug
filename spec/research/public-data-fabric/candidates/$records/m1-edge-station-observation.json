@@ -1,0 +1,19 @@
+{
+  "title": "Research path: station-observation (conceptual relationship bundle)",
+  "kind": "bundle",
+  "status": "needs-review",
+  "member_ids": [
+    "m1-observing-station",
+    "m1-observation"
+  ],
+  "evidence_ids": [
+    "m1-ev-wigos"
+  ],
+  "identifier_representations": [
+    "Proposed from roles: WSI",
+    "Proposed to roles: feature/station WSI"
+  ],
+  "practical_value": "Require actual source exposing WSI plus relocation history, property and period. Conceptual field roles only; no dataset field contract or measured join exists.",
+  "reason": "Conceptual relationship hypothesis only. Compatibility unresolved; confidence medium in research path; expected cardinality: many observations per station. Preserved as bundle because assertion edge requires actual recordset endpoints. No executable or accepted join. Direction: m1-observing-station \u2192 m1-observation. Proposed field roles are separately labelled in identifier_representations.",
+  "showcase_value": "Relationship graph after source-specific identifiers and scope are established."
+}

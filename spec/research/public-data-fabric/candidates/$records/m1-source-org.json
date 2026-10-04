@@ -1,0 +1,14 @@
+{
+  "title": "W3C Organization Ontology (standards evidence source)",
+  "kind": "source",
+  "status": "researched",
+  "evidence_ids": [
+    "m1-ev-org"
+  ],
+  "source_url": "https://www.w3.org/TR/vocab-org/",
+  "licence": "needs-review",
+  "licence_notes": "W3C document licence applies; factual paraphrase/link only; no ontology copied.",
+  "observed_at": "2026-10-04T22:10:00Z",
+  "freshness": "needs-review",
+  "reason": "Standards/publisher evidence; no public dataset integration selected or data copied."
+}

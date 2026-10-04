@@ -1,0 +1,8 @@
+{
+  "title": "IANA media types registry",
+  "observed_at": "2026-10-04T22:10:00Z",
+  "outcome": "observation",
+  "summary": "Media type identifiers classify digital representation formats; extension, codec, artistic genre and media work identity differ. Reuse: Registry redistribution terms not established in this lane; no registry copied.",
+  "url": "https://www.iana.org/assignments/media-types",
+  "review_stage": "discovery"
+}

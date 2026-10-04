@@ -1,0 +1,16 @@
+{
+  "title": "Economic activity classification (research candidate)",
+  "kind": "meaning",
+  "status": "needs-review",
+  "evidence_ids": [
+    "m1-ev-economic"
+  ],
+  "source_id": "m1-source-economic",
+  "identifier_representations": [
+    "scheme + revision + code"
+  ],
+  "reason": "Depth: focused. Confidence high in research distinction, not accepted mapping. Industry classification differs from products sold; correspondence may split/merge. Public dataset coverage/rights require separate discovery.",
+  "practical_value": "Industry classification differs from products sold; correspondence may split/merge.",
+  "showcase_value": "Contextual graph/map/time-series opportunity; practical compatibility remains prerequisite.",
+  "observed_at": "2026-10-04T22:10:00Z"
+}

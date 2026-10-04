@@ -1,0 +1,19 @@
+{
+  "title": "Research path: energy-product-flow (conceptual relationship bundle)",
+  "kind": "bundle",
+  "status": "needs-review",
+  "member_ids": [
+    "m1-energy-flow",
+    "m1-energy-product"
+  ],
+  "evidence_ids": [
+    "m1-ev-energy"
+  ],
+  "identifier_representations": [
+    "Proposed from roles: SIEC version/code",
+    "Proposed to roles: SIEC version/code"
+  ],
+  "practical_value": "Flow taxonomy/unit/statistical territory/period remain necessary alongside product. Conceptual field roles only; no dataset field contract or measured join exists.",
+  "reason": "Conceptual relationship hypothesis only. Compatibility unresolved; confidence medium in research path; expected cardinality: many flows per product. Preserved as bundle because assertion edge requires actual recordset endpoints. No executable or accepted join. Direction: m1-energy-flow \u2192 m1-energy-product. Proposed field roles are separately labelled in identifier_representations.",
+  "showcase_value": "Relationship graph after source-specific identifiers and scope are established."
+}

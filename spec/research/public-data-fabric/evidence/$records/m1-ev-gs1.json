@@ -1,0 +1,8 @@
+{
+  "title": "GS1 identification keys and architecture",
+  "observed_at": "2026-10-04T22:10:00Z",
+  "outcome": "observation",
+  "summary": "Trade item class, instance, batch, physical location, party, logistic unit and shipment use distinct keys or qualifiers. Reuse: GS1 copyright/IP policy: https://ref.gs1.org/gs1/ip-policy/ ; no specification/list copied, public item metadata availability unknown.",
+  "url": "https://www.gs1.org/standards/gs1-system-architecture-document/90",
+  "review_stage": "discovery"
+}

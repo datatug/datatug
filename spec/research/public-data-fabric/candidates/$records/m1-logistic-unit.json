@@ -1,0 +1,16 @@
+{
+  "title": "Logistic unit (research candidate)",
+  "kind": "meaning",
+  "status": "needs-review",
+  "evidence_ids": [
+    "m1-ev-gs1"
+  ],
+  "source_id": "m1-source-gs1",
+  "identifier_representations": [
+    "SSCC"
+  ],
+  "reason": "Depth: focused. Confidence medium in research distinction, not accepted mapping. Parcel/pallet unit differs from item/shipment. Public dataset coverage/rights require separate discovery.",
+  "practical_value": "Parcel/pallet unit differs from item/shipment.",
+  "showcase_value": "Contextual graph/map/time-series opportunity; practical compatibility remains prerequisite.",
+  "observed_at": "2026-10-04T22:10:00Z"
+}

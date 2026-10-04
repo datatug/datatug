@@ -1,0 +1,8 @@
+{
+  "title": "IANA root zone database",
+  "observed_at": "2026-10-04T22:10:00Z",
+  "outcome": "observation",
+  "summary": "Root zone records delegation and TLD management; country-code TLDs require authoritative assignment checks. Reuse: IANA registry terms need source-screening; no records copied.",
+  "url": "https://www.iana.org/domains/root/db",
+  "review_stage": "discovery"
+}

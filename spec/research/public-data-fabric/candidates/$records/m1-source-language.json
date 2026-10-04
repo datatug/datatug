@@ -1,0 +1,14 @@
+{
+  "title": "IETF BCP47 language tags (standards evidence source)",
+  "kind": "source",
+  "status": "researched",
+  "evidence_ids": [
+    "m1-ev-language"
+  ],
+  "source_url": "https://www.rfc-editor.org/rfc/rfc5646",
+  "licence": "needs-review",
+  "licence_notes": "RFC copyright/Trust terms apply; factual paraphrase/link only.",
+  "observed_at": "2026-10-04T22:10:00Z",
+  "freshness": "needs-review",
+  "reason": "Standards/publisher evidence; no public dataset integration selected or data copied."
+}

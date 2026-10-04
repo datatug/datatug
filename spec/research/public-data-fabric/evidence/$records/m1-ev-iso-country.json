@@ -1,0 +1,8 @@
+{
+  "title": "ISO 3166 country/subdivision/historical code scopes",
+  "observed_at": "2026-10-04T22:10:00Z",
+  "outcome": "observation",
+  "summary": "Countries, dependencies and special geopolitical areas have distinct current, subdivision and former-name code mechanisms. Reserved/user-assigned codes require separate handling. Reuse: ISO copyrighted standard; factual paraphrase/link only. No code-list redistribution permission established.",
+  "url": "https://www.iso.org/iso-3166-country-codes.html",
+  "review_stage": "discovery"
+}
