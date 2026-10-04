@@ -1,0 +1,13 @@
+{
+  "title": "Exact app postmerge main CI fails",
+  "observed_at": "2026-10-04T20:15:32Z",
+  "outcome": "fail",
+  "summary": "Authoritative GitHub run37230543024 is completed/failure at deployed appmainbddd27a. Separate from successful deployment37230543691 and obsolete Cloudflare Builds failure. Cause and required fix remain with DataTug demo fix lane; no inference from deployed browser pass. Independent r4 confirms test failure, build/journey/e2e success; no failure-log diagnosis performed.",
+  "repository": "datatug/datatug-apps",
+  "commit": "bddd27a9077b37e3d1e42af8874dd04963afde2b",
+  "url": "https://github.com/datatug/datatug-apps/actions/runs/37230543024",
+  "command": "gh run view 37230543024 --repo datatug/datatug-apps --json headSha,conclusion,status,url,updatedAt",
+  "independent": true,
+  "reviewer": "phase0_verify r4 independent GitHub receipt; phase0_receipts separate authoritative query",
+  "path": "evidence/phase0-hardening-r3.json"
+}

@@ -6,9 +6,11 @@
   "evidence_ids": [
     "ovdb-review-r1",
     "semantic-review-r1",
-    "cloud-merge-observation"
+    "cloud-merge-observation",
+    "corpus-publication-r2"
   ],
   "gate_ids": [
     "phase0"
-  ]
+  ],
+  "resolution": "Still open: complete AW/Employees mounts, reciprocal registries/Directory and corrected Sakila/Employees deployed HCL pins, or root explicit evidence-backed scope escalation. Sakila source/registry licence defect is resolved; stale deployment remains this blocker."
 }

@@ -1,0 +1,13 @@
+{
+  "title": "Production-origin canonical Invoice source and URL contract",
+  "observed_at": "2026-10-04T20:09:12.174Z",
+  "outcome": "pass",
+  "summary": "Browser-origin canonical Invoice fetch returns 200, 412 rows, 115781 bytes, SHA256 88eb7faede360988e9c0f8f8d107e5093db5e712141de14d868f8947b43c373c; credentials omitted and redirects refused. Independent canonical allowlist/catalog/address negative tests pass (543 tests). Catalog UI ingestion is absent and remains Phase 4.",
+  "reviewer": "phase0_verify r3, independent Local Codex Mac",
+  "independent": true,
+  "review_stage": "foundation",
+  "path": "evidence/phase0-hardening-r3.json",
+  "repository": "datatug/datatug-apps",
+  "commit": "bddd27a9077b37e3d1e42af8874dd04963afde2b",
+  "url": "https://chinook.demodb.dev/data/json/chinook.Invoice.json"
+}

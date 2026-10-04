@@ -12,13 +12,19 @@
     "semantic-review-r1",
     "ovdb-review-r1",
     "datatug-review-pending",
-    "independent-gate-pending"
+    "independent-gate-pending",
+    "independent-foundation-r3",
+    "production-chat-r3",
+    "canonical-source-r3",
+    "corpus-publication-r2",
+    "app-main-ci-failure"
   ],
   "blocker_ids": [
     "demo-chat",
     "corpus-publication",
     "independent-verification",
-    "chinook-canonical-url"
+    "chinook-canonical-url",
+    "app-main-ci"
   ],
-  "decision": "Pending; broad public-data research is prohibited until Phase 0 passes."
+  "decision": "Pending; r3 production Chat/source acceptance remains valid, but current blockers are corpus publication and exact app postmerge main CI failure37230543024. Overall independent acceptance/root decision remain pending. Broad public-data research remains prohibited."
 }

@@ -1,15 +1,17 @@
 {
   "title": "Canonical chinook.demodb.dev data URL acceptance and stale-link audit",
-  "status": "open",
+  "status": "resolved",
   "classification": "blocking",
   "owner": "Existing DataTug demo fix lane",
   "evidence_ids": [
-    "chinook-canonical-url"
+    "chinook-canonical-url",
+    "canonical-source-r3"
   ],
   "candidate_ids": [
     "chinook"
   ],
   "gate_ids": [
     "phase0"
-  ]
+  ],
+  "resolution": "Canonical exact-prefix allowlist contract and negative tests pass; independent production-origin Invoice source read passes. HTTPS catalog UI integration remains Phase 4 and is not claimed."
 }

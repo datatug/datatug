@@ -1,12 +1,14 @@
 {
   "title": "Canonical DataTug demo Chat initializes and queries",
-  "status": "open",
+  "status": "resolved",
   "classification": "blocking",
   "owner": "DataTug demo fix lane",
   "evidence_ids": [
-    "datatug-review-pending"
+    "datatug-review-pending",
+    "production-chat-r3"
   ],
   "gate_ids": [
     "phase0"
-  ]
+  ],
+  "resolution": "Independent production acceptance at deployed bddd27a proves supported canonical Chat initialization, eleven-table seeding, attachments and bounded Customer query."
 }
