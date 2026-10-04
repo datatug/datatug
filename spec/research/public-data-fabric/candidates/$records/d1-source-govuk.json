@@ -1,0 +1,12 @@
+{
+  "title": "UK Government Digital Service",
+  "kind": "source",
+  "status": "researched",
+  "evidence_ids": [
+    "d1-govuk"
+  ],
+  "source_url": "https://www.gov.uk/bank-holidays",
+  "licence": "OGL-UK-3.0",
+  "licence_notes": "OGL-UK-3.0: copy, cache, commercially use, adapt and redistribute with source attribution/licence link; third-party exemptions and no endorsement apply.",
+  "reason": "Publisher reference only. Candidate-specific permissions, access constraints and coverage are retained in linked evidence."
+}

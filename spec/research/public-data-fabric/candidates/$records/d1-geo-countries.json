@@ -1,0 +1,17 @@
+{
+  "title": "countryInfo",
+  "kind": "recordset",
+  "status": "promising",
+  "evidence_ids": [
+    "d1-geonames"
+  ],
+  "dataset_id": "d1-dataset-geonames",
+  "source_id": "d1-source-geonames",
+  "identifier_representations": [
+    "ISO,ISO3,ISO-Numeric,fips,Country,Continent,CurrencyCode,Languages,geonameid,neighbours"
+  ],
+  "reason": "Proposed source recordset. Field inventory: ISO,ISO3,ISO-Numeric,fips,Country,Continent,CurrencyCode,Languages,geonameid,neighbours. Exact names and parsing depth remain source-qualified; see the linked evidence receipt and dated observations. All compatibility remains unresolved. 252 rows and 31,678 bytes observed. Population has no observation year; currencies/languages are contextual lists, not transaction or preference inference.",
+  "source_url": "https://download.geonames.org/export/dump/",
+  "licence": "CC-BY-4.0",
+  "licence_notes": "CC-BY-4.0: credit GeoNames and indicate changes; commercial use, copying, caching, adaptation and redistribution permitted. No warranty."
+}

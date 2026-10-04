@@ -1,0 +1,10 @@
+{
+  "title": "ROR research affiliations with explicit GeoNames bridge",
+  "observed_at": "2026-10-04T22:20:00Z",
+  "outcome": "observation",
+  "url": "https://ror.org/about/terms/",
+  "summary": "Primary ROR terms explicitlyCC0 for IDs/metadata; website proseCC-BY4 separately. APIv2 sample02mhbdp94:1500 bytes,fields id,names,domains,types,status,external_ids,locations,relationships. Actual locations.geonames_id3688689 (Bogotá,countryCO) and child RORURL observed. MonthlyJSON dumps and rolling curation documented in FAQ; full dump count/bytes uninspected. ROR organizations need not be legal entities. No measured match to synthetic Pubs publishers; real affiliation/ROR inputs enable the geography bridge.",
+  "review_stage": "discovery",
+  "independent": false,
+  "reviewer": "research_geo_commerce"
+}

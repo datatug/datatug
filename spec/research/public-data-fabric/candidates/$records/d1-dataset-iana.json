@@ -1,0 +1,20 @@
+{
+  "title": "IANA timezone catalogue and civil-time rules",
+  "kind": "dataset",
+  "status": "promising",
+  "evidence_ids": [
+    "d1-iana"
+  ],
+  "source_id": "d1-source-iana",
+  "source_url": "https://www.iana.org/time-zones",
+  "licence": "public-domain",
+  "licence_notes": "tzdb data public domain; optional code file exceptions use BSD-3-Clause. Data and code rights remain distinct.",
+  "geographic_coverage": "Representative worldwide civil-time zones; many-to-many countries",
+  "temporal_coverage": "2026e rules; intended cross-zone equivalence since 1970",
+  "update_frequency": "Irregular political/rule updates",
+  "observed_at": "2026-10-04T22:20:00Z",
+  "freshness": "unknown",
+  "reason": "Research candidate; no canonical publication or accepted mapping. Linked source evidence records research depth, source fields, observed samples and unresolved access/permission constraints.",
+  "practical_value": "Supports proposed connected scenarios after identity, temporal and legal review.",
+  "showcase_value": "Secondary to practical joinability."
+}

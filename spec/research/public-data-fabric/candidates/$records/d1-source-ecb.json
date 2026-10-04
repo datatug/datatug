@@ -1,0 +1,12 @@
+{
+  "title": "European Central Bank",
+  "kind": "source",
+  "status": "researched",
+  "evidence_ids": [
+    "d1-ecb"
+  ],
+  "source_url": "https://www.ecb.europa.eu/stats/eurofxref/eurofxref-hist.xml",
+  "licence": "ECB reuse conditions",
+  "licence_notes": "ECB custom reuse terms: accurate reproduction with ECB source credit, label modifications, and disclose free availability to purchasers of sold documents.",
+  "reason": "Publisher reference only. Candidate-specific permissions, access constraints and coverage are retained in linked evidence."
+}

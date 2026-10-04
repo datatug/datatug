@@ -1,0 +1,10 @@
+{
+  "title": "CLDR48 bounded production reference observations",
+  "observed_at": "2026-10-04T22:20:00Z",
+  "outcome": "observation",
+  "url": "https://www.unicode.org/license.txt",
+  "summary": "Unicode LicenseV3 consulted: use,copy,modify,distribute and sell with copyright/permission notice in copies or documentation. CLDR supplemental charts and LDML docs consulted. Production latest directory resolves to48 (34MB archive), whereas main/charts49 exists; pin an immutable release before import. Bounded release-48 XML:309 territory mappings,266 currency regions with507 entries,1589 language-population entries,258 territory summaries; units155 conversions/143 preferences; windowsZones500 mapping elements. DE/DEM legal-tender interval ends2002-02-28,FR/FRF2002-02-17; not SIX withdrawal-month semantics. Locale language estimates are not annual official census. Region aggregates remain distinct.",
+  "review_stage": "discovery",
+  "independent": false,
+  "reviewer": "research_geo_commerce"
+}

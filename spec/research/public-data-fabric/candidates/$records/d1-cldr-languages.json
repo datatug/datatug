@@ -1,0 +1,17 @@
+{
+  "title": "territoryInfo languagePopulation",
+  "kind": "recordset",
+  "status": "promising",
+  "evidence_ids": [
+    "d1-cldr"
+  ],
+  "dataset_id": "d1-dataset-cldr",
+  "source_id": "d1-source-cldr",
+  "identifier_representations": [
+    "territory.type,languagePopulation.type,officialStatus,populationPercent,writingPercent"
+  ],
+  "reason": "Proposed source recordset. Field inventory: territory.type,languagePopulation.type,officialStatus,populationPercent,writingPercent. Exact names and parsing depth remain source-qualified; see the linked evidence receipt and dated observations. All compatibility remains unresolved. 1589 language-population entries in258 territories. Estimates and official-status categories are not dated census observations.",
+  "source_url": "https://www.unicode.org/Public/cldr/48/",
+  "licence": "Unicode-3.0",
+  "licence_notes": "Unicode License V3: preserve copyright and permission notice in data copies or documentation. Commercial use, copy, cache, adapt and redistribute permitted; no endorsement."
+}

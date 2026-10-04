@@ -1,0 +1,10 @@
+{
+  "title": "GeoNames gazetteer documentation and bounded samples",
+  "observed_at": "2026-10-04T22:20:00Z",
+  "outcome": "observation",
+  "url": "https://download.geonames.org/export/dump/readme.txt",
+  "summary": "Primary extract readme and export terms consulted. Gazetteer TSV is CC-BY-4.0: attribution and change notices allow redistribution, caching, commercial and derivative use. CountryInfo bounded sample: 31,678 bytes,252 rows. Population is undated (US327167434), not annual census evidence. timeZones sample has419 lines including header,418 records. GeoNames IDs connect country/place/admin/aliases/hierarchy; admin1 commonly FIPS-derived with ISO exceptions, never universal ISO3166-2. Daily dumps/deltas; cities5000 documented about50k. Source fields and observations are retained in the linked candidates and dated evidence note.",
+  "review_stage": "discovery",
+  "independent": false,
+  "reviewer": "research_geo_commerce"
+}

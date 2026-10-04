@@ -1,0 +1,12 @@
+{
+  "title": "Global Legal Entity Identifier Foundation",
+  "kind": "source",
+  "status": "researched",
+  "evidence_ids": [
+    "d1-gleif"
+  ],
+  "source_url": "https://www.gleif.org/en/lei-data/gleif-concatenated-file/download-the-concatenated-file",
+  "licence": "CC0-1.0",
+  "licence_notes": "LEI and LE-RD are CC0. Supported access and no false affiliation service conditions apply; separate mapping-file rights must be checked.",
+  "reason": "Publisher reference only. Candidate-specific permissions, access constraints and coverage are retained in linked evidence."
+}

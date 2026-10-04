@@ -1,0 +1,10 @@
+{
+  "title": "GOVUK regional bank holiday feed permissions and actualcoverage",
+  "observed_at": "2026-10-04T22:20:00Z",
+  "outcome": "observation",
+  "url": "https://www.gov.uk/help/terms-conditions",
+  "summary": "Primary GOVUK terms and NationalArchivesOGL3 consulted (web open of OGL failed,bounded HTTP succeeded). Commercial copy/cache/adapt/redistribute allowed with source attribution/licence link,no endorsement,and third-party exceptions. Actual JSON22207 bytes:England&Wales83,Scotland94,NorthernIreland103 events; all range2019-01-01–2028-12-26. Fields division,title,date,notes,bunting. Fits Chinook dates but not Northwind2016–2018 or Pubs1992–1994. UK label alone cannot pick division; naive timestamp timezone remains unknown. Rolling feed cadence unspecified,not a permanent archive.",
+  "review_stage": "discovery",
+  "independent": false,
+  "reviewer": "research_geo_commerce"
+}

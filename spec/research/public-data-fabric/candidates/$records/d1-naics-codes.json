@@ -1,0 +1,17 @@
+{
+  "title": "NAICS edition codes and crosswalks",
+  "kind": "recordset",
+  "status": "needs-review",
+  "evidence_ids": [
+    "d1-census"
+  ],
+  "dataset_id": "d1-dataset-census",
+  "source_id": "d1-source-census",
+  "identifier_representations": [
+    "edition,code,title,hierarchy,correspondence source/target codes"
+  ],
+  "reason": "Proposed source recordset. Field inventory: edition,code,title,hierarchy,correspondence source/target codes. Exact names and parsing depth remain source-qualified; see the linked evidence receipt and dated observations. All compatibility remains unresolved. Homepage editions/correspondence resources screened; actual code/crosswalk artifact not parsed. Industry is not product category.",
+  "source_url": "https://www.census.gov/data/developers/data-sets/cbp-zbp/cbp-api.html",
+  "licence": "needs-review",
+  "licence_notes": "Needs review: source-specific rights not established by consulted Open Data policy. Small API query returned Missing Key; do not publish credentials."
+}

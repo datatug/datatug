@@ -1,0 +1,17 @@
+{
+  "title": "M49 statistical area hierarchy and ISO bridge",
+  "kind": "recordset",
+  "status": "blocked",
+  "evidence_ids": [
+    "d1-un-m49"
+  ],
+  "dataset_id": "d1-dataset-un-m49",
+  "source_id": "d1-source-un-m49",
+  "identifier_representations": [
+    "Global/Region/Subregion/IntermediateRegion codes/names,CountryorArea,M49Code,ISOalpha2,ISOalpha3"
+  ],
+  "reason": "Proposed source recordset. Field inventory: Global/Region/Subregion/IntermediateRegion codes/names,CountryorArea,M49Code,ISOalpha2,ISOalpha3. Exact names and parsing depth remain source-qualified; see the linked evidence receipt and dated observations. All compatibility remains unresolved. Primary area hierarchy page inspected. Three-digit codes preserve leading zeros; distribution blocked pending specific grant.",
+  "source_url": "https://unstats.un.org/unsd/methodology/m49/",
+  "licence": "needs-review",
+  "licence_notes": "Redistribution blocked pending specific permission. Generic UN terms limit personal noncommercial use and exclude resale, redistribution and derivatives."
+}

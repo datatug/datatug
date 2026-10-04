@@ -1,0 +1,17 @@
+{
+  "title": "territoryContainment",
+  "kind": "recordset",
+  "status": "promising",
+  "evidence_ids": [
+    "d1-cldr"
+  ],
+  "dataset_id": "d1-dataset-cldr",
+  "source_id": "d1-source-cldr",
+  "identifier_representations": [
+    "group.type,contains,status,grouping"
+  ],
+  "reason": "Proposed source recordset. Field inventory: group.type,contains,status,grouping. Exact names and parsing depth remain source-qualified; see the linked evidence receipt and dated observations. All compatibility remains unresolved.",
+  "source_url": "https://www.unicode.org/Public/cldr/48/",
+  "licence": "Unicode-3.0",
+  "licence_notes": "Unicode License V3: preserve copyright and permission notice in data copies or documentation. Commercial use, copy, cache, adapt and redistribute permitted; no endorsement."
+}

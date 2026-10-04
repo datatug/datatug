@@ -1,0 +1,12 @@
+{
+  "title": "GeoNames",
+  "kind": "source",
+  "status": "researched",
+  "evidence_ids": [
+    "d1-geonames-postal"
+  ],
+  "source_url": "https://download.geonames.org/export/zip/",
+  "licence": "needs-review",
+  "licence_notes": "Needs review: postal readme declares CC-BY-4.0 but links CC-BY3.0; GB_full includes Royal Mail copyright/database rights. Do not infer permission for all subsets.",
+  "reason": "Publisher reference only. Candidate-specific permissions, access constraints and coverage are retained in linked evidence."
+}

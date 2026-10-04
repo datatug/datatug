@@ -1,0 +1,24 @@
+{
+  "title": "edge place country",
+  "kind": "edge",
+  "status": "researched",
+  "from_id": "d1-geo-places",
+  "to_id": "d1-geo-countries",
+  "from_fields": [
+    "countrycode"
+  ],
+  "to_fields": [
+    "ISO"
+  ],
+  "meaning_id": "d1-meaning-country-area",
+  "compatibility": "unresolved",
+  "assumptions": "Geographic feature country codes provide current reference context. Features and country/area records have distinct identities and historical boundary assumptions.",
+  "confidence": "high",
+  "from_identifier_namespace": "GeoNames:ISO2primarycountry",
+  "to_identifier_namespace": "GeoNames:countryInfoISO2",
+  "expected_cardinality": "Many source rows to zero or one reference row after category, edition and alias review; validate target-key uniqueness",
+  "evidence_ids": [
+    "d1-geonames"
+  ],
+  "physical_role": "Proposed contextual join; not executed or reconciled"
+}

@@ -1,0 +1,17 @@
+{
+  "title": "Comtrade commodity and country reference codelists",
+  "kind": "recordset",
+  "status": "blocked",
+  "evidence_ids": [
+    "d1-comtrade"
+  ],
+  "dataset_id": "d1-dataset-comtrade",
+  "source_id": "d1-source-comtrade",
+  "identifier_representations": [
+    "classificationCode,version,cmdCode,description;reporterCode,partnerCode"
+  ],
+  "reason": "Proposed source recordset. Field inventory: classificationCode,version,cmdCode,description;reporterCode,partnerCode. Exact names and parsing depth remain source-qualified; see the linked evidence receipt and dated observations. All compatibility remains unresolved. Classification/version and aggregate coverage uninspected. No SKU or NAICS identity implied.",
+  "source_url": "https://comtradeplus.un.org/",
+  "licence": "needs-review",
+  "licence_notes": "Redistribution blocked pending exact licence/access plan: premium subscription and dissemination conditions apply; transformation does not establish unrestricted access rights."
+}

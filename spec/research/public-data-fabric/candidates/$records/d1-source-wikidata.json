@@ -1,0 +1,12 @@
+{
+  "title": "Wikimedia/Wikidata community",
+  "kind": "source",
+  "status": "researched",
+  "evidence_ids": [
+    "d1-wikidata"
+  ],
+  "source_url": "https://www.wikidata.org/wiki/Wikidata:Data_access",
+  "licence": "CC0-1.0",
+  "licence_notes": "Structured data CC0; prose and media excluded. Secondary identifier assertions need rank, qualifier and reference review.",
+  "reason": "Publisher reference only. Candidate-specific permissions, access constraints and coverage are retained in linked evidence."
+}

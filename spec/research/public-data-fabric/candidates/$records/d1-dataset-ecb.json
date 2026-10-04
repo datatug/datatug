@@ -1,0 +1,20 @@
+{
+  "title": "ECB euro foreign exchange reference rates",
+  "kind": "dataset",
+  "status": "promising",
+  "evidence_ids": [
+    "d1-ecb"
+  ],
+  "source_id": "d1-source-ecb",
+  "source_url": "https://www.ecb.europa.eu/stats/eurofxref/eurofxref-hist.xml",
+  "licence": "ECB reuse conditions",
+  "licence_notes": "ECB custom reuse terms: accurate reproduction with ECB source credit, label modifications, and disclose free availability to purchasers of sold documents.",
+  "geographic_coverage": "Selected currencies quoted against EUR",
+  "temporal_coverage": "1999 onward where supported; observed latest 2026-10-02",
+  "update_frequency": "Working days",
+  "observed_at": "2026-10-04T22:20:00Z",
+  "freshness": "unknown",
+  "reason": "Research candidate; no canonical publication or accepted mapping. Linked source evidence records research depth, source fields, observed samples and unresolved access/permission constraints.",
+  "practical_value": "Supports proposed connected scenarios after identity, temporal and legal review.",
+  "showcase_value": "Secondary to practical joinability."
+}

@@ -1,0 +1,12 @@
+{
+  "title": "UN Statistics Division",
+  "kind": "source",
+  "status": "researched",
+  "evidence_ids": [
+    "d1-un-m49"
+  ],
+  "source_url": "https://unstats.un.org/unsd/methodology/m49/",
+  "licence": "needs-review",
+  "licence_notes": "Redistribution blocked pending specific permission. Generic UN terms limit personal noncommercial use and exclude resale, redistribution and derivatives.",
+  "reason": "Publisher reference only. Candidate-specific permissions, access constraints and coverage are retained in linked evidence."
+}

@@ -1,0 +1,22 @@
+{
+  "title": "mapping lei id",
+  "kind": "mapping",
+  "status": "researched",
+  "from_id": "d1-lei-entities",
+  "to_id": "d1-meaning-legal-entity-id",
+  "meaning_id": "d1-meaning-legal-entity-id",
+  "from_fields": [
+    "lei"
+  ],
+  "to_fields": [
+    "proposed-role"
+  ],
+  "compatibility": "unresolved",
+  "assumptions": "Provisional field meaning only. Preserve provider namespace, edition, category, units and validity period; fresh Phase2 review must decide compatibility. The lowercase lei field is relative to the inspected JSON API row extraction root data[].attributes; full source path is data[].attributes.lei. No uppercase CDF field equivalence is asserted.",
+  "confidence": "medium",
+  "physical_role": "Proposed contextual join; not executed or reconciled",
+  "evidence_ids": [
+    "d1-gleif"
+  ],
+  "expected_cardinality": "Field-level meaning hypothesis; record join cardinality not applicable"
+}

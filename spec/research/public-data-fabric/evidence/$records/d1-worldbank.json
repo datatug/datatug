@@ -1,0 +1,10 @@
+{
+  "title": "WDI API and indicator-specific permissions",
+  "observed_at": "2026-10-04T22:20:00Z",
+  "outcome": "observation",
+  "url": "https://datacatalog.worldbank.org/public-licenses",
+  "summary": "Primary Data Catalog licence policy and SP.POP.TOTL,NY.GDP.PCAP.CD,FP.CPI.TOTL.ZG pages consulted. Each indicator explicitly CC-BY4.0: attribution/changes and mandatory World Bank dispute terms; recheck any other indicator. API metadata US:id=USA,iso2Code=US; observation country.id=US,countryiso3code=USA. Two population rows2023/2024 have sourceid2,lastupdated2026-07-13 and nullable value/unit/obs_status/decimal fields. Pages advertise1960–2025 but country/indicator completeness varies. Annual observations undergo revisions; JSON/XML API and CSV/XLS snapshots. Region/income/lending and economy aggregates are not countries.",
+  "review_stage": "discovery",
+  "independent": false,
+  "reviewer": "research_geo_commerce"
+}

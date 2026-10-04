@@ -1,0 +1,13 @@
+{
+  "title": "Supply real organisation IDs and verify parent/exception schemas",
+  "status": "open",
+  "classification": "important/non-blocking",
+  "owner": "Phase2 reconciler / portfolio architect / source-specific implementation owner",
+  "candidate_ids": [
+    "d1-scenario-real-organisation"
+  ],
+  "evidence_ids": [
+    "d1-gleif",
+    "d1-ror"
+  ]
+}

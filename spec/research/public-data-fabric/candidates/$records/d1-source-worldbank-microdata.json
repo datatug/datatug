@@ -1,0 +1,12 @@
+{
+  "title": "World Bank Microdata Library restrictive-access class",
+  "kind": "source",
+  "status": "blocked",
+  "evidence_ids": [
+    "d1-worldbank"
+  ],
+  "source_url": "https://datacatalog.worldbank.org/public-licenses",
+  "licence": "Microdata Research License (many datasets; varies)",
+  "licence_notes": "Manydatasetsnoredistribution/salewithoutwrittenpermission;researchonly;noidentificationlinks. Specificsurveyunselected.",
+  "reason": "Encounteredpermissionclass: genericuseridentityenrichment/redistributionunsuitable; retain research and survey-specificexceptions mayexist."
+}

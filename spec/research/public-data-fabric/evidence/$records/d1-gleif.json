@@ -1,0 +1,10 @@
+{
+  "title": "GLEIF LEI identity and accounting-parent observations",
+  "observed_at": "2026-10-04T22:20:00Z",
+  "outcome": "observation",
+  "url": "https://www.gleif.org/en/meta/lei-data-terms-of-use",
+  "summary": "Primary LEI/LE-RD termsCC0 consulted; supported-access/no-circumvention/no-false-affiliation service conditions remain. Daily concatenated2026-10-04:3,451,839 entity records/518.79MB;672,251 relationships/35.96MB;6,230,385 reporting exceptions/47.98MB. Bounded API page1 size1:2987 bytes,goldenCopy2026-10-04T08:00Z,total3,451,530 differs from concatenated pipeline snapshot. Entity fields and direct/ultimate-parent links observed. Relationships describe accounting consolidation, not complete beneficial ownership; unknown/reporting exceptions distinct from no parent. Demos supply no LEI; real user LEI or authority+registration number required.",
+  "review_stage": "discovery",
+  "independent": false,
+  "reviewer": "research_geo_commerce"
+}
