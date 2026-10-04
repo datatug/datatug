@@ -1,0 +1,980 @@
+{
+  "observed_at": "2026-10-04T22:37:20.841414+00:00",
+  "researcher": "Codex gpt-6.1-sol High on local Mac",
+  "initial_base": "90cd16e8ad42131f66145b643697cc97bae8a295",
+  "integrated_base": "306d3104f995a5185077fb81f6569b04ed8f48de",
+  "candidate_registry": "fabric.candidates",
+  "assertion_registry": "fabric.assertions",
+  "evidence_registry": "fabric.evidence",
+  "raw_policy": "Raw private temp capture only; no raw public-data copies deployed or committed. Metadata receipt hashes cover exactlyreadbytes; prefixes not immutable entire-source pins. Reprobe currentURLs may change; use observed_at/ETag/Last-Modified and capture hash. No personal manager/governance/crime rows retained here.",
+  "receipts": {
+    "bods-terms": {
+      "url": "https://bus-data.dft.gov.uk/terms-and-conditions/",
+      "observed_at": "2026-10-04T22:17:34.451573+00:00",
+      "requested_read_limit": 200000,
+      "error": "HTTP Error 403: Forbidden",
+      "capture_scope": "HTTP response only; range completion never implies full source file; inspect Content-Range/requested_read_limit."
+    },
+    "bts": {
+      "url": "https://data.bts.gov/resource/kfcv-nyy3.json?$limit=2",
+      "observed_at": "2026-10-04T22:15:13.655866+00:00",
+      "requested_read_limit": 65536,
+      "status": 200,
+      "final_url": "https://data.bts.gov/resource/kfcv-nyy3.json?$limit=2",
+      "headers": {
+        "Content-Type": "application/json;charset=utf-8",
+        "ETag": "W/\"aG90ZWwuNTk5NTNfMV8xMTdrZk5BSjM5RzhpeU9Md3NBX3dkc3hJQW5Mc0U---gzirD3F49iU2LvOa6CuTe_FwXEdu4wA--gzip--gzip\"",
+        "Last-Modified": "Tue, 03 Aug 2021 17:12:57 GMT"
+      },
+      "read_bytes": 2167,
+      "complete_response": true,
+      "sha256_read_bytes": "50487844da1f316b4dab295b5267783ea28979c199cd52bb88ad3c660a9ff3c6",
+      "capture_scope": "HTTP response only; range completion never implies full source file; inspect Content-Range/requested_read_limit."
+    },
+    "cisa-github-license": {
+      "url": "https://raw.githubusercontent.com/cisagov/kev-data/develop/LICENSE",
+      "observed_at": "2026-10-04T22:20:49.843433+00:00",
+      "requested_read_limit": 32768,
+      "status": 206,
+      "final_url": "https://raw.githubusercontent.com/cisagov/kev-data/develop/LICENSE",
+      "headers": {
+        "Content-Length": "7469",
+        "Content-Type": "text/plain; charset=utf-8",
+        "ETag": "\"e6bc2138b8fbf57dfe45fec3e96fabaf12ccba8d54c9b4a881fb2673e8b4c3e1\"",
+        "Content-Range": "bytes 0-7468/7469"
+      },
+      "read_bytes": 7469,
+      "complete_response": true,
+      "sha256_read_bytes": "8dfcf2d0cba33bede386eb470daf2ac08caf6540fc2516baab10dd546f90938a",
+      "capture_scope": "HTTP response only; range completion never implies full source file; inspect Content-Range/requested_read_limit."
+    },
+    "cisa-license": {
+      "url": "https://www.cisa.gov/sites/default/files/licenses/kev/license.txt",
+      "observed_at": "2026-10-04T22:20:49.744894+00:00",
+      "requested_read_limit": 32768,
+      "status": 200,
+      "final_url": "https://www.cisa.gov/sites/default/files/licenses/kev/license.txt",
+      "headers": {
+        "Content-Type": "text/plain; charset=UTF-8",
+        "Last-Modified": "Wed, 13 Nov 2024 18:30:21 GMT",
+        "ETag": "\"1da8-626cf86c7e548\"",
+        "Content-Length": "7592"
+      },
+      "read_bytes": 7592,
+      "complete_response": true,
+      "sha256_read_bytes": "b0067899536bce972ba5116151e51e10fac9b1e066a8993e2193a9eb9a1791af",
+      "capture_scope": "HTTP response only; range completion never implies full source file; inspect Content-Range/requested_read_limit."
+    },
+    "cisa-policy": {
+      "url": "https://www.cisa.gov/website-policies",
+      "observed_at": "2026-10-04T22:17:34.054823+00:00",
+      "requested_read_limit": 200000,
+      "error": "HTTP Error 404: Not Found",
+      "capture_scope": "HTTP response only; range completion never implies full source file; inspect Content-Range/requested_read_limit."
+    },
+    "cisa": {
+      "url": "https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json",
+      "observed_at": "2026-10-04T22:15:13.473883+00:00",
+      "requested_read_limit": 2000000,
+      "status": 200,
+      "final_url": "https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json",
+      "headers": {
+        "Content-Type": "application/json",
+        "Last-Modified": "Sun, 04 Oct 2026 18:52:56 GMT",
+        "ETag": "\"1af994-65d0846047a20\""
+      },
+      "read_bytes": 1767828,
+      "complete_response": true,
+      "sha256_read_bytes": "f51fed1c9213e7b797104fcd6dbeb1b0dc0c7073a80467b9d4b1fc25e7dd786b",
+      "capture_scope": "HTTP response only; range completion never implies full source file; inspect Content-Range/requested_read_limit."
+    },
+    "ea-measures": {
+      "url": "https://environment.data.gov.uk/flood-monitoring/id/measures?_limit=2",
+      "observed_at": "2026-10-04T22:15:08.755121+00:00",
+      "requested_read_limit": 65536,
+      "status": 206,
+      "final_url": "https://environment.data.gov.uk/flood-monitoring/id/measures?_limit=2",
+      "headers": {
+        "Content-Type": "application/json",
+        "Last-Modified": "Sun, 04 Oct 2026 21:48:12 GMT",
+        "Content-Range": "bytes 0-65535/*"
+      },
+      "read_bytes": 2955,
+      "complete_response": true,
+      "sha256_read_bytes": "282190b5f6a5e6e3db9b0f85725d7c4b37bf2250290a33f09fca2016448c54ae",
+      "capture_scope": "HTTP response only; range completion never implies full source file; inspect Content-Range/requested_read_limit."
+    },
+    "ea-readings": {
+      "url": "https://environment.data.gov.uk/flood-monitoring/data/readings?latest&_limit=2",
+      "observed_at": "2026-10-04T22:15:08.765771+00:00",
+      "requested_read_limit": 65536,
+      "status": 206,
+      "final_url": "https://environment.data.gov.uk/flood-monitoring/data/readings?latest&_limit=2",
+      "headers": {
+        "Content-Type": "application/json",
+        "Content-Length": "1444",
+        "Last-Modified": "Sun, 04 Oct 2026 21:48:12 GMT",
+        "Content-Range": "bytes 0-1443/1444"
+      },
+      "read_bytes": 1444,
+      "complete_response": true,
+      "sha256_read_bytes": "bf28b80130069d145a03f22003a4da5f52568a98372af86ab7a027d547204bb9",
+      "capture_scope": "HTTP response only; range completion never implies full source file; inspect Content-Range/requested_read_limit."
+    },
+    "ea-stations": {
+      "url": "https://environment.data.gov.uk/flood-monitoring/id/stations?_limit=2",
+      "observed_at": "2026-10-04T22:15:08.714312+00:00",
+      "requested_read_limit": 65536,
+      "status": 206,
+      "final_url": "https://environment.data.gov.uk/flood-monitoring/id/stations?_limit=2",
+      "headers": {
+        "Content-Type": "application/json",
+        "Last-Modified": "Sun, 04 Oct 2026 21:48:12 GMT",
+        "Content-Range": "bytes 0-65535/*"
+      },
+      "read_bytes": 2021,
+      "complete_response": true,
+      "sha256_read_bytes": "0f662a7a0c8526e77d8f7314e1f7dd4af4394e26248d67d4f165295c71c3269c",
+      "capture_scope": "HTTP response only; range completion never implies full source file; inspect Content-Range/requested_read_limit."
+    },
+    "earthquakes": {
+      "url": "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime=2025-01-01&endtime=2025-01-03&minmagnitude=5&limit=2",
+      "observed_at": "2026-10-04T22:15:10.009530+00:00",
+      "requested_read_limit": 65536,
+      "status": 206,
+      "final_url": "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime=2025-01-01&endtime=2025-01-03&minmagnitude=5&limit=2",
+      "headers": {
+        "Content-Type": "application/json; charset=utf-8",
+        "Content-Length": "1891",
+        "Last-Modified": "Sun, 04 Oct 2026 22:15:10 GMT",
+        "Content-Range": "bytes 0-1890/1891"
+      },
+      "read_bytes": 1891,
+      "complete_response": true,
+      "sha256_read_bytes": "867cf37a187b65ebbef1108887aaff108df32ea2580934463bc86d21189ad198",
+      "capture_scope": "HTTP response only; range completion never implies full source file; inspect Content-Range/requested_read_limit."
+    },
+    "ember-country-prefix": {
+      "url": "https://files.ember-energy.org/public-downloads/generation/outputs/release_generation_yearly_global.csv",
+      "observed_at": "2026-10-04T22:21:26.784320+00:00",
+      "requested_read_limit": 262144,
+      "status": 206,
+      "final_url": "https://files.ember-energy.org/public-downloads/generation/outputs/release_generation_yearly_global.csv",
+      "headers": {
+        "Last-Modified": "Tue, 22 Sep 2026 16:24:55 GMT",
+        "ETag": "\"67122835394a3edc9da6e56901f3d640\"",
+        "Content-Type": "text/csv;charset=utf-8",
+        "Content-Range": "bytes 0-262143/16084305",
+        "Content-Length": "262144"
+      },
+      "read_bytes": 262144,
+      "complete_response": true,
+      "sha256_read_bytes": "57f161837bb063adf7f839a6e4160b653c9702d362fdb370c647084b659104d8",
+      "capture_scope": "HTTP response only; range completion never implies full source file; inspect Content-Range/requested_read_limit."
+    },
+    "ember-month-prefix": {
+      "url": "https://files.ember-energy.org/public-downloads/generation/outputs/release_generation_monthly.csv",
+      "observed_at": "2026-10-04T22:21:27.001130+00:00",
+      "requested_read_limit": 16384,
+      "error": "HTTP Error 404: Not Found",
+      "capture_scope": "HTTP response only; range completion never implies full source file; inspect Content-Range/requested_read_limit."
+    },
+    "ember-monthly": {
+      "url": "https://files.ember-energy.org/public-downloads/generation/outputs/release_generation_monthly_global.csv",
+      "observed_at": "2026-10-04T22:22:11.668159+00:00",
+      "requested_read_limit": 16384,
+      "status": 206,
+      "final_url": "https://files.ember-energy.org/public-downloads/generation/outputs/release_generation_monthly_global.csv",
+      "headers": {
+        "Last-Modified": "Fri, 18 Sep 2026 21:29:31 GMT",
+        "ETag": "\"1932fe694a4679159e119c2f6b9255e5\"",
+        "Content-Type": "text/csv;charset=utf-8",
+        "Content-Range": "bytes 0-16383/28333064",
+        "Content-Length": "16384"
+      },
+      "read_bytes": 16384,
+      "complete_response": true,
+      "sha256_read_bytes": "ef4def3e6626d98b40350f740d7a0ed72e688108b2f1a874b03282dff22fe75b",
+      "capture_scope": "HTTP response only; range completion never implies full source file; inspect Content-Range/requested_read_limit."
+    },
+    "ember-openapi": {
+      "url": "https://api.ember-energy.org/v1/openapi.json",
+      "observed_at": "2026-10-04T22:20:50.077009+00:00",
+      "requested_read_limit": 200000,
+      "status": 200,
+      "final_url": "https://api.ember-energy.org/v1/openapi.json",
+      "headers": {
+        "content-type": "application/json",
+        "Content-Length": "55352"
+      },
+      "read_bytes": 55352,
+      "complete_response": true,
+      "sha256_read_bytes": "f77efd154c6c3221d6f448320bbc09e64c4c496a9d6558331dec4394733b37e8",
+      "capture_scope": "HTTP response only; range completion never implies full source file; inspect Content-Range/requested_read_limit."
+    },
+    "ember-terms": {
+      "url": "https://api.ember-energy.org/v1/docs",
+      "observed_at": "2026-10-04T22:17:34.527877+00:00",
+      "requested_read_limit": 200000,
+      "status": 200,
+      "final_url": "https://api.ember-energy.org/v1/docs",
+      "headers": {
+        "content-type": "text/html; charset=utf-8",
+        "Content-Length": "975"
+      },
+      "read_bytes": 975,
+      "complete_response": true,
+      "sha256_read_bytes": "6ccd4fad7c0a26a4e9f7a353dae6a748eefaca0784485540928fe4ead355464f",
+      "capture_scope": "HTTP response only; range completion never implies full source file; inspect Content-Range/requested_read_limit."
+    },
+    "ember": {
+      "url": "https://files.ember-energy.org/public-downloads/generation/outputs/release_generation_yearly_global.csv",
+      "observed_at": "2026-10-04T22:15:08.466778+00:00",
+      "requested_read_limit": 16384,
+      "status": 206,
+      "final_url": "https://files.ember-energy.org/public-downloads/generation/outputs/release_generation_yearly_global.csv",
+      "headers": {
+        "Last-Modified": "Tue, 22 Sep 2026 16:24:55 GMT",
+        "ETag": "\"67122835394a3edc9da6e56901f3d640\"",
+        "Content-Type": "text/csv;charset=utf-8",
+        "Content-Range": "bytes 0-16383/16084305",
+        "Content-Length": "16384"
+      },
+      "read_bytes": 16384,
+      "complete_response": true,
+      "sha256_read_bytes": "de5c7d6369a96315012fc17d64c708508fa398e674b735483f731f980f3cf4b9",
+      "capture_scope": "HTTP response only; range completion never implies full source file; inspect Content-Range/requested_read_limit."
+    },
+    "fsa-bulk": {
+      "url": "https://ratings.food.gov.uk/api/open-data-files/FHRS297en-GB.xml",
+      "observed_at": "2026-10-04T22:20:49.608491+00:00",
+      "requested_read_limit": 8192,
+      "status": 200,
+      "final_url": "https://ratings.food.gov.uk/api/open-data-files/FHRS297en-GB.xml",
+      "headers": {
+        "Content-Type": "text/xml",
+        "Content-Length": "881212",
+        "ETag": "\"ofg72cdzcjivy4\""
+      },
+      "read_bytes": 8192,
+      "complete_response": false,
+      "sha256_read_bytes": "40dfeffdbf0d008c0566cf98485d6502a9d84e0f639ab4eff973acc2e3346e37",
+      "capture_scope": "HTTP response only; range completion never implies full source file; inspect Content-Range/requested_read_limit."
+    },
+    "fsa-terms": {
+      "url": "https://www.gov.uk/government/organisations/food-standards-agency/about/about-our-services",
+      "observed_at": "2026-10-04T22:17:32.664776+00:00",
+      "requested_read_limit": 200000,
+      "status": 200,
+      "final_url": "https://www.gov.uk/government/organisations/food-standards-agency/about/about-our-services",
+      "headers": {
+        "Content-Length": "99851",
+        "Content-Type": "text/html; charset=utf-8",
+        "Etag": "W/\"e0d10984deefa71c1e0a1d979dd5f8e6\""
+      },
+      "read_bytes": 99851,
+      "complete_response": true,
+      "sha256_read_bytes": "e0d10984deefa71c1e0a1d979dd5f8e6d040457a162ce3da943dc632ce24168c",
+      "capture_scope": "HTTP response only; range completion never implies full source file; inspect Content-Range/requested_read_limit."
+    },
+    "fsa-v1": {
+      "url": "https://api1-ratings.food.gov.uk/establishments?pageSize=2&pageNumber=1",
+      "observed_at": "2026-10-04T22:19:07.072456+00:00",
+      "requested_read_limit": 65536,
+      "status": 200,
+      "final_url": "https://api1-ratings.food.gov.uk/establishments?pageSize=2&pageNumber=1",
+      "headers": {
+        "Content-Type": "text/html; charset=utf-8",
+        "Content-Length": "97448"
+      },
+      "read_bytes": 65536,
+      "complete_response": false,
+      "sha256_read_bytes": "19ea16d9a854b470b383b43ae8b0681dc109396880a5040b39b15d8952559dcf",
+      "capture_scope": "HTTP response only; range completion never implies full source file; inspect Content-Range/requested_read_limit."
+    },
+    "fsa": {
+      "url": "https://api.ratings.food.gov.uk/Establishments?pageSize=2&pageNumber=1",
+      "observed_at": "2026-10-04T22:17:32.001038+00:00",
+      "requested_read_limit": 65536,
+      "error": "HTTP Error 403: Forbidden",
+      "capture_scope": "HTTP response only; range completion never implies full source file; inspect Content-Range/requested_read_limit."
+    },
+    "ghcnd-stations": {
+      "url": "https://www.ncei.noaa.gov/pub/data/ghcn/daily/ghcnd-stations.txt",
+      "observed_at": "2026-10-04T22:15:14.328585+00:00",
+      "requested_read_limit": 4096,
+      "status": 206,
+      "final_url": "https://www.ncei.noaa.gov/pub/data/ghcn/daily/ghcnd-stations.txt",
+      "headers": {
+        "Last-Modified": "Fri, 02 Oct 2026 16:01:00 GMT",
+        "ETag": "\"ae94ca-65cdda381befd\"",
+        "Content-Length": "4096",
+        "Content-Range": "bytes 0-4095/11441354",
+        "Content-Type": "text/plain"
+      },
+      "read_bytes": 4096,
+      "complete_response": true,
+      "sha256_read_bytes": "21ed89546c844352d25ad1253b373e2fc9c421e7dd4ba71781584025bbe97f39",
+      "capture_scope": "HTTP response only; range completion never implies full source file; inspect Content-Range/requested_read_limit."
+    },
+    "ghcnd-version": {
+      "url": "https://www.ncei.noaa.gov/pub/data/ghcn/daily/ghcnd-version.txt",
+      "observed_at": "2026-10-04T22:15:13.656053+00:00",
+      "requested_read_limit": 8192,
+      "status": 206,
+      "final_url": "https://www.ncei.noaa.gov/pub/data/ghcn/daily/ghcnd-version.txt",
+      "headers": {
+        "Last-Modified": "Sun, 04 Oct 2026 00:22:12 GMT",
+        "ETag": "\"10e-65cf8c1b95f08\"",
+        "Content-Length": "270",
+        "Content-Range": "bytes 0-269/270",
+        "Content-Type": "text/plain"
+      },
+      "read_bytes": 270,
+      "complete_response": true,
+      "sha256_read_bytes": "d93bbf86f09b4f50b5346de5d1d5cbdbefbdd69abc71d07049cd50a56b3209ee",
+      "capture_scope": "HTTP response only; range completion never implies full source file; inspect Content-Range/requested_read_limit."
+    },
+    "iana-http": {
+      "url": "https://www.iana.org/assignments/http-status-codes/http-status-codes-1.csv",
+      "observed_at": "2026-10-04T22:15:11.489023+00:00",
+      "requested_read_limit": 65536,
+      "status": 200,
+      "final_url": "https://www.iana.org/assignments/http-status-codes/http-status-codes-1.csv",
+      "headers": {
+        "Content-Type": "text/csv; charset=UTF-8; header=present",
+        "Last-Modified": "Tue, 29 Sep 2026 00:49:12 GMT"
+      },
+      "read_bytes": 3269,
+      "complete_response": true,
+      "sha256_read_bytes": "4a9550d4b4ae49cf41cf9050cf9b56b0d6082ad1edfc0e2b09b07f251a36d7a4",
+      "capture_scope": "HTTP response only; range completion never implies full source file; inspect Content-Range/requested_read_limit."
+    },
+    "iana-ip": {
+      "url": "https://www.iana.org/assignments/protocol-numbers/protocol-numbers-1.csv",
+      "observed_at": "2026-10-04T22:15:11.061059+00:00",
+      "requested_read_limit": 65536,
+      "status": 200,
+      "final_url": "https://www.iana.org/assignments/protocol-numbers/protocol-numbers-1.csv",
+      "headers": {
+        "Content-Type": "text/csv; charset=UTF-8; header=present",
+        "Last-Modified": "Tue, 29 Sep 2026 00:49:03 GMT"
+      },
+      "read_bytes": 9230,
+      "complete_response": true,
+      "sha256_read_bytes": "e704ee14e69347681b3a6271af02195a9741236074fc311449ebb032101bdf2c",
+      "capture_scope": "HTTP response only; range completion never implies full source file; inspect Content-Range/requested_read_limit."
+    },
+    "iana-media": {
+      "url": "https://www.iana.org/assignments/media-types/application.csv",
+      "observed_at": "2026-10-04T22:19:06.467205+00:00",
+      "requested_read_limit": 16384,
+      "status": 200,
+      "final_url": "https://www.iana.org/assignments/media-types/application.csv",
+      "headers": {
+        "Content-Type": "text/csv; charset=UTF-8; header=present",
+        "Last-Modified": "Tue, 29 Sep 2026 00:48:46 GMT"
+      },
+      "read_bytes": 16384,
+      "complete_response": false,
+      "sha256_read_bytes": "3d78eb548feb8acd09288e8fc48335dc10c23fc567de4a9d8ccf3afa89d05133",
+      "capture_scope": "HTTP response only; range completion never implies full source file; inspect Content-Range/requested_read_limit."
+    },
+    "iana-ports": {
+      "url": "https://www.iana.org/assignments/service-names-port-numbers/service-names-port-numbers.csv",
+      "observed_at": "2026-10-04T22:15:10.373747+00:00",
+      "requested_read_limit": 16384,
+      "status": 200,
+      "final_url": "https://www.iana.org/assignments/service-names-port-numbers/service-names-port-numbers.csv",
+      "headers": {
+        "Content-Type": "text/csv; charset=UTF-8; header=present",
+        "Last-Modified": "Thu, 01 Oct 2026 00:06:30 GMT"
+      },
+      "read_bytes": 16384,
+      "complete_response": false,
+      "sha256_read_bytes": "7032d68006a708919688de05c6f4da5b21e404ef06b6985313b1440809c24025",
+      "capture_scope": "HTTP response only; range completion never implies full source file; inspect Content-Range/requested_read_limit."
+    },
+    "iana-terms": {
+      "url": "https://www.iana.org/help/licensing-terms",
+      "observed_at": "2026-10-04T22:17:33.000340+00:00",
+      "requested_read_limit": 65536,
+      "status": 206,
+      "final_url": "https://www.iana.org/help/licensing-terms",
+      "headers": {
+        "Content-Type": "text/html; charset=utf-8",
+        "content-range": "bytes 0-2267/2268"
+      },
+      "read_bytes": 8375,
+      "complete_response": true,
+      "sha256_read_bytes": "43cfd90b1cb25ca86933032612a2c466fac94d7afc934ca8ef96a61e2b55e1b3",
+      "capture_scope": "HTTP response only; range completion never implies full source file; inspect Content-Range/requested_read_limit."
+    },
+    "naptan-010": {
+      "url": "https://naptan.api.dft.gov.uk/v1/access-nodes?atcoAreaCodes=010&dataFormat=csv",
+      "observed_at": "2026-10-04T22:19:07.920232+00:00",
+      "requested_read_limit": 400000,
+      "status": 200,
+      "final_url": "https://naptan.api.dft.gov.uk/v1/access-nodes?atcoAreaCodes=010&dataFormat=csv",
+      "headers": {
+        "Content-Type": "application/csv",
+        "Content-Length": "367629"
+      },
+      "read_bytes": 367629,
+      "complete_response": true,
+      "sha256_read_bytes": "1c1671e503c8901727424676cb1e82bc57a2309cf9b235f8af5582bbc6234d6f",
+      "capture_scope": "HTTP response only; range completion never implies full source file; inspect Content-Range/requested_read_limit."
+    },
+    "naptan": {
+      "url": "https://naptan.api.dft.gov.uk/v1/access-nodes?atcoAreaCodes=010&dataFormat=csv",
+      "observed_at": "2026-10-04T22:15:08.466352+00:00",
+      "requested_read_limit": 16384,
+      "status": 200,
+      "final_url": "https://naptan.api.dft.gov.uk/v1/access-nodes?atcoAreaCodes=010&dataFormat=csv",
+      "headers": {
+        "Content-Type": "application/csv",
+        "Content-Length": "367629"
+      },
+      "read_bytes": 16384,
+      "complete_response": false,
+      "sha256_read_bytes": "3891cfe8f4bd96f183ffa6abcf256167dbed9ea0bccbb25b3a5376ead5d10293",
+      "capture_scope": "HTTP response only; range completion never implies full source file; inspect Content-Range/requested_read_limit."
+    },
+    "nptg-full": {
+      "url": "https://naptan.api.dft.gov.uk/v1/nptg/localities",
+      "observed_at": "2026-10-04T22:19:07.427872+00:00",
+      "requested_read_limit": 5000000,
+      "status": 200,
+      "final_url": "https://naptan.api.dft.gov.uk/v1/nptg/localities",
+      "headers": {
+        "Content-Type": "application/csv",
+        "Content-Length": "4855767"
+      },
+      "read_bytes": 4855767,
+      "complete_response": true,
+      "sha256_read_bytes": "5ec43659fe00f7ec4acbf6885f699195be91895c6e35fe32da8800d40fa567cf",
+      "capture_scope": "HTTP response only; range completion never implies full source file; inspect Content-Range/requested_read_limit."
+    },
+    "nptg": {
+      "url": "https://naptan.api.dft.gov.uk/v1/nptg/localities",
+      "observed_at": "2026-10-04T22:15:08.466612+00:00",
+      "requested_read_limit": 16384,
+      "status": 200,
+      "final_url": "https://naptan.api.dft.gov.uk/v1/nptg/localities",
+      "headers": {
+        "Content-Type": "application/csv",
+        "Content-Length": "4855767"
+      },
+      "read_bytes": 16384,
+      "complete_response": false,
+      "sha256_read_bytes": "536251e44371e9c2ed79b93ddcc2adcf12c45b53b79376040fd1d078b362de2b",
+      "capture_scope": "HTTP response only; range completion never implies full source file; inspect Content-Range/requested_read_limit."
+    },
+    "nta-feed": {
+      "url": "https://www.transportforireland.ie/transitData/Data/GTFS_allens.zip",
+      "observed_at": "2026-10-04T22:17:32.219889+00:00",
+      "requested_read_limit": 1000000,
+      "status": 206,
+      "final_url": "https://www.transportforireland.ie/transitData/Data/GTFS_allens.zip",
+      "headers": {
+        "Content-Type": "application/zip",
+        "Content-Length": "33861",
+        "Last-Modified": "Sat, 03 Oct 2026 22:15:51 GMT",
+        "ETag": "\"8445-65cf6fddb93c0\"",
+        "Content-Range": "bytes 0-33860/33861"
+      },
+      "read_bytes": 33861,
+      "complete_response": true,
+      "sha256_read_bytes": "0746f1df1e56eaacc6487193ec86b2488ceea1ebc28d196d855bb240dd328e87",
+      "capture_scope": "HTTP response only; range completion never implies full source file; inspect Content-Range/requested_read_limit."
+    },
+    "nta-operators": {
+      "url": "https://www.transportforireland.ie/transitData/Data/GTFS%20Operator%20Files.csv",
+      "observed_at": "2026-10-04T22:15:08.660545+00:00",
+      "requested_read_limit": 65536,
+      "status": 206,
+      "final_url": "https://www.transportforireland.ie/transitData/Data/GTFS%20Operator%20Files.csv",
+      "headers": {
+        "Content-Type": "text/csv",
+        "Content-Length": "34773",
+        "Last-Modified": "Tue, 19 May 2026 22:04:45 GMT",
+        "ETag": "\"87d5-65232dde6d940\"",
+        "Content-Range": "bytes 0-34772/34773"
+      },
+      "read_bytes": 34773,
+      "complete_response": true,
+      "sha256_read_bytes": "601c285a03bbc2c4b45a6fe6d5262d6e5bcab8b76fd103dc80888c65315479be",
+      "capture_scope": "HTTP response only; range completion never implies full source file; inspect Content-Range/requested_read_limit."
+    },
+    "nta-page": {
+      "url": "https://www.transportforireland.ie/transitData/PT_Data.html",
+      "observed_at": "2026-10-04T22:17:32.904112+00:00",
+      "requested_read_limit": 100000,
+      "status": 206,
+      "final_url": "https://www.transportforireland.ie/transitData/PT_Data.html",
+      "headers": {
+        "Content-Type": "text/html; charset=UTF-8",
+        "Content-Length": "70648",
+        "Last-Modified": "Wed, 22 Oct 2025 13:34:13 GMT",
+        "ETag": "\"113f8-641bf5f423f40\"",
+        "Content-Range": "bytes 0-70647/70648"
+      },
+      "read_bytes": 70648,
+      "complete_response": true,
+      "sha256_read_bytes": "e101b3934a4b418f081aa7f4435a39e88a28ca1f762be68e8573f0562b212413",
+      "capture_scope": "HTTP response only; range completion never implies full source file; inspect Content-Range/requested_read_limit."
+    },
+    "nta-terms": {
+      "url": "https://developer.nationaltransport.ie/usagepolicy",
+      "observed_at": "2026-10-04T22:17:32.781040+00:00",
+      "requested_read_limit": 200000,
+      "status": 200,
+      "final_url": "https://developer.nationaltransport.ie/usagepolicy",
+      "headers": {
+        "Content-Type": "text/html",
+        "ETag": "1568973385"
+      },
+      "read_bytes": 10971,
+      "complete_response": true,
+      "sha256_read_bytes": "e42794642c0035815e5ee12222435be38f6002250e6c5400ef286f5ab5e9c48e",
+      "capture_scope": "HTTP response only; range completion never implies full source file; inspect Content-Range/requested_read_limit."
+    },
+    "nvd-guide": {
+      "url": "https://nvd.nist.gov/developers/start-here",
+      "observed_at": "2026-10-04T22:20:50.268587+00:00",
+      "requested_read_limit": 200000,
+      "status": 206,
+      "final_url": "https://nvd.nist.gov/developers/start-here",
+      "headers": {
+        "Content-Type": "text/html",
+        "Content-Length": "1154",
+        "last-modified": "Wed, 23 Sep 2026 15:29:20 GMT",
+        "etag": "\"088854d704bdd1:0\"",
+        "content-range": "bytes 0-1153/1154"
+      },
+      "read_bytes": 1154,
+      "complete_response": true,
+      "sha256_read_bytes": "e038189188ef9da30daf9b65162e2b0b2b4f0cb12cc6df33eda5e40fec79b034",
+      "capture_scope": "HTTP response only; range completion never implies full source file; inspect Content-Range/requested_read_limit."
+    },
+    "nvd-terms": {
+      "url": "https://nvd.nist.gov/general/terms-of-use",
+      "observed_at": "2026-10-04T22:20:50.592534+00:00",
+      "requested_read_limit": 100000,
+      "status": 206,
+      "final_url": "https://nvd.nist.gov/general/terms-of-use",
+      "headers": {
+        "Content-Type": "text/html",
+        "Content-Length": "1154",
+        "last-modified": "Wed, 23 Sep 2026 15:29:20 GMT",
+        "etag": "\"088854d704bdd1:0\"",
+        "content-range": "bytes 0-1153/1154"
+      },
+      "read_bytes": 1154,
+      "complete_response": true,
+      "sha256_read_bytes": "e038189188ef9da30daf9b65162e2b0b2b4f0cb12cc6df33eda5e40fec79b034",
+      "capture_scope": "HTTP response only; range completion never implies full source file; inspect Content-Range/requested_read_limit."
+    },
+    "nvd": {
+      "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2021-44228",
+      "observed_at": "2026-10-04T22:19:06.017078+00:00",
+      "requested_read_limit": 100000,
+      "status": 200,
+      "final_url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2021-44228",
+      "headers": {
+        "Content-Type": "application/json",
+        "Content-Length": "87139"
+      },
+      "read_bytes": 87139,
+      "complete_response": true,
+      "sha256_read_bytes": "a3818d68a0987178d314ca5ce5798a04c9d06670326d06d66e3ac60aabe8babf",
+      "capture_scope": "HTTP response only; range completion never implies full source file; inspect Content-Range/requested_read_limit."
+    },
+    "ogl": {
+      "url": "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/",
+      "observed_at": "2026-10-04T22:17:33.708243+00:00",
+      "requested_read_limit": 65536,
+      "status": 200,
+      "final_url": "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/",
+      "headers": {
+        "Content-Type": "text/html"
+      },
+      "read_bytes": 10450,
+      "complete_response": true,
+      "sha256_read_bytes": "f5b2b9f2af63647cde889fa6c3508f5705925295b74912c68caa28dd37e64aa5",
+      "capture_scope": "HTTP response only; range completion never implies full source file; inspect Content-Range/requested_read_limit."
+    },
+    "orr-terms": {
+      "url": "https://www.orr.gov.uk/terms-and-conditions",
+      "observed_at": "2026-10-04T22:17:33.423776+00:00",
+      "requested_read_limit": 200000,
+      "status": 206,
+      "final_url": "https://www.orr.gov.uk/terms-and-conditions",
+      "headers": {
+        "Content-Length": "141655",
+        "Content-Type": "text/html; charset=UTF-8",
+        "Last-Modified": "Sun, 04 Oct 2026 18:24:59 GMT",
+        "ETag": "\"1791138299\"",
+        "Content-Range": "bytes 0-141654/141655"
+      },
+      "read_bytes": 141655,
+      "complete_response": true,
+      "sha256_read_bytes": "957dcf9c91c0bbda9baeb287d1116bf8f9816d132d1dd70c0480f6d42984eff7",
+      "capture_scope": "HTTP response only; range completion never implies full source file; inspect Content-Range/requested_read_limit."
+    },
+    "orr": {
+      "url": "https://dataportal.orr.gov.uk/media/1909/table-1410-passenger-entries-and-exits-and-interchanges-by-station.csv",
+      "observed_at": "2026-10-04T22:15:08.466730+00:00",
+      "requested_read_limit": 16384,
+      "status": 206,
+      "final_url": "https://dataportal.orr.gov.uk/media/1909/table-1410-passenger-entries-and-exits-and-interchanges-by-station.csv",
+      "headers": {
+        "Content-Type": "text/csv",
+        "Content-Length": "16384",
+        "Content-Range": "bytes 0-16383/388340",
+        "ETag": "\"1dc86fcfdaefff4\"",
+        "Last-Modified": "Fri, 16 Jan 2026 15:30:06 GMT"
+      },
+      "read_bytes": 16384,
+      "complete_response": true,
+      "sha256_read_bytes": "0a2a6e64ab61d514e8248667bd2d2a4ad9032d5304782822011e5cf927e187bc",
+      "capture_scope": "HTTP response only; range completion never implies full source file; inspect Content-Range/requested_read_limit."
+    },
+    "police-date": {
+      "url": "https://data.police.uk/api/crimes-street-dates",
+      "observed_at": "2026-10-04T22:19:07.234497+00:00",
+      "requested_read_limit": 65536,
+      "status": 200,
+      "final_url": "https://data.police.uk/api/crimes-street-dates",
+      "headers": {
+        "Content-Type": "application/json",
+        "Content-Length": "21033"
+      },
+      "read_bytes": 21033,
+      "complete_response": true,
+      "sha256_read_bytes": "cfa35e1fda15a83c777ebc8fa50f7b2ad7af93cbe042d9141cd028e297cc459e",
+      "capture_scope": "HTTP response only; range completion never implies full source file; inspect Content-Range/requested_read_limit."
+    },
+    "police-small": {
+      "url": "https://data.police.uk/api/crimes-street/all-crime?poly=52.629,-1.140:52.629,-1.138:52.631,-1.138:52.631,-1.140&date=2026-08",
+      "observed_at": "2026-10-04T22:19:07.311168+00:00",
+      "requested_read_limit": 65536,
+      "status": 200,
+      "final_url": "https://data.police.uk/api/crimes-street/all-crime?poly=52.629,-1.140:52.629,-1.138:52.631,-1.138:52.631,-1.140&date=2026-08",
+      "headers": {
+        "Content-Type": "application/json",
+        "Content-Length": "2"
+      },
+      "read_bytes": 2,
+      "complete_response": true,
+      "sha256_read_bytes": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "capture_scope": "HTTP response only; range completion never implies full source file; inspect Content-Range/requested_read_limit."
+    },
+    "police": {
+      "url": "https://data.police.uk/api/crimes-street/all-crime?poly=51.450,-2.586:51.450,-2.585:51.451,-2.585&date=2026-08",
+      "observed_at": "2026-10-04T22:17:32.114705+00:00",
+      "requested_read_limit": 65536,
+      "status": 200,
+      "final_url": "https://data.police.uk/api/crimes-street/all-crime?poly=51.450,-2.586:51.450,-2.585:51.451,-2.585&date=2026-08",
+      "headers": {
+        "Content-Type": "application/json",
+        "Content-Length": "2"
+      },
+      "read_bytes": 2,
+      "complete_response": true,
+      "sha256_read_bytes": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "capture_scope": "HTTP response only; range completion never implies full source file; inspect Content-Range/requested_read_limit."
+    },
+    "power-aws-terms": {
+      "url": "https://registry.opendata.aws/nasa-power/",
+      "observed_at": "2026-10-04T22:17:32.318396+00:00",
+      "requested_read_limit": 200000,
+      "status": 206,
+      "final_url": "https://registry.opendata.aws/nasa-power/",
+      "headers": {
+        "Content-Type": "text/html",
+        "Content-Length": "20474",
+        "Last-Modified": "Thu, 01 Oct 2026 22:01:22 GMT",
+        "ETag": "\"15c049cb4b37a2f166e3ed762105c55f\"",
+        "Content-Range": "bytes 0-20473/20474"
+      },
+      "read_bytes": 20474,
+      "complete_response": true,
+      "sha256_read_bytes": "430bc412b42bf7dcb42b995cbeccd3a0a794b1633c30a9a82b167391b7a422d2",
+      "capture_scope": "HTTP response only; range completion never implies full source file; inspect Content-Range/requested_read_limit."
+    },
+    "power": {
+      "url": "https://power.larc.nasa.gov/api/temporal/daily/point?parameters=T2M,PRECTOTCORR&community=AG&longitude=-6.26&latitude=53.35&start=20250101&end=20250103&format=JSON&time-standard=UTC",
+      "observed_at": "2026-10-04T22:15:09.271466+00:00",
+      "requested_read_limit": 65536,
+      "status": 200,
+      "final_url": "https://power.larc.nasa.gov/api/temporal/daily/point?parameters=T2M,PRECTOTCORR&community=AG&longitude=-6.26&latitude=53.35&start=20250101&end=20250103&format=JSON&time-standard=UTC",
+      "headers": {
+        "Content-Type": "application/json",
+        "Content-Length": "642"
+      },
+      "read_bytes": 642,
+      "complete_response": true,
+      "sha256_read_bytes": "58512719c3e77f5bc1f9367374e116b29d6fc94d2f5fe07657a6b4fd320b35ac",
+      "capture_scope": "HTTP response only; range completion never implies full source file; inspect Content-Range/requested_read_limit."
+    },
+    "spdx-reuse": {
+      "url": "https://raw.githubusercontent.com/spdx/license-list-XML/main/CONTRIBUTING.md",
+      "observed_at": "2026-10-04T22:17:33.827225+00:00",
+      "requested_read_limit": 65536,
+      "status": 206,
+      "final_url": "https://raw.githubusercontent.com/spdx/license-list-XML/main/CONTRIBUTING.md",
+      "headers": {
+        "Content-Length": "2759",
+        "Content-Type": "text/plain; charset=utf-8",
+        "ETag": "\"1a03e8bf6aab8394cd2aa566cb17702d66e098d0c4b5a5fb47d267ba1d9fcef7\"",
+        "Content-Range": "bytes 0-2758/2759"
+      },
+      "read_bytes": 2759,
+      "complete_response": true,
+      "sha256_read_bytes": "c6aef6aa4021b199dedd932ba34825055cf40ad36636fc6ef4ddb34675ac3c21",
+      "capture_scope": "HTTP response only; range completion never implies full source file; inspect Content-Range/requested_read_limit."
+    },
+    "spdx": {
+      "url": "https://spdx.org/licenses/licenses.json",
+      "observed_at": "2026-10-04T22:15:11.810945+00:00",
+      "requested_read_limit": 1000000,
+      "status": 206,
+      "final_url": "https://spdx.org/licenses/licenses.json",
+      "headers": {
+        "Content-Type": "application/json",
+        "Content-Length": "339359",
+        "Last-Modified": "Wed, 16 Sep 2026 18:08:30 GMT",
+        "ETag": "\"1728aaa87633ae4812fe2661e8f60c94\"",
+        "Content-Range": "bytes 0-339358/339359"
+      },
+      "read_bytes": 339359,
+      "complete_response": true,
+      "sha256_read_bytes": "001f86240a9eee4fef6fb92911d8daafc3811b24a62859be325d83a8b06de99e",
+      "capture_scope": "HTTP response only; range completion never implies full source file; inspect Content-Range/requested_read_limit."
+    }
+  },
+  "bounded_probes": {
+    "naptan_nptg": {
+      "area_filter": "010",
+      "stop_rows": 1679,
+      "unique_ATCOCode": 1679,
+      "blank_NaptanCode": 50,
+      "locality_rows": 43900,
+      "unique_NptgLocalityCode": 43900,
+      "matched_stop_locality_refs": 1679,
+      "unmatched_stop_locality_refs": 0,
+      "warning": "Current boundedarea only, no national correctness/identity reconciliation claim."
+    },
+    "nta": {
+      "feed_info.txt": {
+        "columns": [
+          "feed_publisher_name",
+          "feed_publisher_url",
+          "feed_lang",
+          "feed_start_date",
+          "feed_end_date",
+          "feed_version",
+          "feed_contact_email"
+        ],
+        "rows": 1
+      },
+      "agency.txt": {
+        "columns": [
+          "agency_id",
+          "agency_name",
+          "agency_url",
+          "agency_timezone"
+        ],
+        "rows": 1
+      },
+      "stops.txt": {
+        "columns": [
+          "stop_id",
+          "stop_code",
+          "stop_name",
+          "stop_desc",
+          "stop_lat",
+          "stop_lon",
+          "zone_id",
+          "stop_url",
+          "location_type",
+          "parent_station",
+          "wheelchair_boarding"
+        ],
+        "rows": 18
+      },
+      "calendar.txt": {
+        "columns": [
+          "service_id",
+          "monday",
+          "tuesday",
+          "wednesday",
+          "thursday",
+          "friday",
+          "saturday",
+          "sunday",
+          "start_date",
+          "end_date"
+        ],
+        "rows": 3
+      },
+      "calendar_dates.txt": {
+        "columns": [
+          "service_id",
+          "date",
+          "exception_type"
+        ],
+        "rows": 0
+      },
+      "routes.txt": {
+        "columns": [
+          "route_id",
+          "agency_id",
+          "route_short_name",
+          "route_long_name",
+          "route_desc",
+          "route_type",
+          "route_url",
+          "route_color",
+          "route_text_color"
+        ],
+        "rows": 1
+      },
+      "trips.txt": {
+        "columns": [
+          "route_id",
+          "service_id",
+          "trip_id",
+          "trip_headsign",
+          "trip_short_name",
+          "direction_id",
+          "block_id",
+          "shape_id"
+        ],
+        "rows": 3
+      },
+      "shapes.txt": {
+        "columns": [
+          "shape_id",
+          "shape_pt_lat",
+          "shape_pt_lon",
+          "shape_pt_sequence",
+          "shape_dist_traveled"
+        ],
+        "rows": 1399
+      },
+      "stop_times.txt": {
+        "columns": [
+          "trip_id",
+          "arrival_time",
+          "departure_time",
+          "stop_id",
+          "stop_sequence",
+          "stop_headsign",
+          "pickup_type",
+          "drop_off_type",
+          "timepoint"
+        ],
+        "rows": 30
+      },
+      "translations.txt": {
+        "columns": [
+          "table_name",
+          "field_name",
+          "language",
+          "translation",
+          "record_id",
+          "field_value"
+        ],
+        "rows": 18
+      }
+    },
+    "native_fk_probes": [
+      {
+        "from": "routes.txt.agency_id",
+        "to": "agency.txt.agency_id",
+        "checked_rows": 1,
+        "unmatched": 0
+      },
+      {
+        "from": "trips.txt.route_id",
+        "to": "routes.txt.route_id",
+        "checked_rows": 3,
+        "unmatched": 0
+      },
+      {
+        "from": "trips.txt.service_id",
+        "to": "calendar.txt.service_id",
+        "checked_rows": 3,
+        "unmatched": 0
+      },
+      {
+        "from": "stop_times.txt.trip_id",
+        "to": "trips.txt.trip_id",
+        "checked_rows": 30,
+        "unmatched": 0
+      },
+      {
+        "from": "stop_times.txt.stop_id",
+        "to": "stops.txt.stop_id",
+        "checked_rows": 30,
+        "unmatched": 0
+      }
+    ],
+    "fsa_xml_prefix": {
+      "complete_nodes": 7,
+      "fields_observed": [
+        "FHRSID",
+        "LocalAuthorityBusinessID",
+        "BusinessName",
+        "BusinessType",
+        "BusinessTypeID",
+        "AddressLine1",
+        "AddressLine2",
+        "AddressLine3",
+        "AddressLine4",
+        "PostCode",
+        "RatingValue",
+        "RatingKey",
+        "RatingDate",
+        "LocalAuthorityCode",
+        "LocalAuthorityName",
+        "LocalAuthorityWebSite",
+        "LocalAuthorityEmailAddress",
+        "Scores",
+        "SchemeType",
+        "NewRatingPending",
+        "Geocode"
+      ],
+      "ExtractDate": "2026-10-01",
+      "ItemCount_header_not_downloaded_rows": 880
+    },
+    "kev_nvd": {
+      "KEV_catalogVersion": "2026.10.04",
+      "KEV_header_count": 1734,
+      "KEV_actual_rows": 1734,
+      "NVD_rows": 1,
+      "joined_CVEID": "CVE-2021-44228",
+      "KEV_matches": 1,
+      "NVD_match_lastModified": "2026-08-11T19:33:44.513",
+      "warning": "Single identifier observation, no semantic or policy acceptance."
+    }
+  },
+  "record_counts_descriptive_only": {
+    "candidates": 108,
+    "assertions": 37,
+    "evidence": 22,
+    "questions": 7
+  },
+  "limitations": [
+    "Phase1 pending; fresh independent review then separatefreshPhase2 reconciliation needed.",
+    "B1 remainsOPEN blockingPhase4/5/6;TPC-Hexclusionretained.",
+    "No selected/implemented/reconciled status; noDataTug/OVDB/publicationexecutionclaimed.",
+    "Allsix originalsourceproviderpins/history/limitsunchanged;ChinookEdinburgh/NorthwindVal2/Swedenwhitespaceobserved, Pubsabsentcountry,Employeesfabricated1024sharealike,AWnative/generateIDs/opaquegeometry andcurrencylimitsretained."
+  ],
+  "bounded_research_followups": [
+    "OpenAQ terms/provider-specific licences inspected; API not accessed.",
+    "Open-Meteo free endpoint non-commercial terms inspected; no commercial endpoint access."
+  ]
+}

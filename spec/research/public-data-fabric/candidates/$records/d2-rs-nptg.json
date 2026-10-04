@@ -1,0 +1,14 @@
+{
+  "title": "NPTG localities CSV",
+  "kind": "recordset",
+  "status": "researched",
+  "evidence_ids": [
+    "d2-e-nptg"
+  ],
+  "dataset_id": "d2-data-nptg",
+  "identifier_representations": [
+    "GB NPTG locality code; separate from administrative and district codes",
+    "Physical/documented fields: [\"NptgLocalityCode\", \"LocalityName\", \"LocalityNameLang\", \"ShortName\", \"ShortNameLang\", \"QualifierName\", \"QualifierNameLang\", \"QualifierLocalityRef\", \"QualifierDistrictRef\", \"ParentLocalityName\", \"ParentLocalityNameLang\", \"AdministrativeAreaCode\", \"NptgDistrictCode\", \"SourceLocalityType\", \"GridType\", \"Easting\", \"Northing\", \"CreationDateTime\", \"ModificationDateTime\", \"RevisionNumber\", \"Modification\"]"
+  ],
+  "reason": "Grain: one transport locality per NptgLocalityCode. Current snapshot; Easting/Northing need CRS interpretation, GridType can be blank. ParentLocalityName is text, not observed parent ID."
+}

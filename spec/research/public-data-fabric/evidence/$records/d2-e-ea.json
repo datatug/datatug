@@ -1,0 +1,11 @@
+{
+  "title": "EA live station measure reading probe",
+  "observed_at": "2026-10-04T22:37:20.841414+00:00",
+  "outcome": "observation",
+  "summary": "OGL3 stated in docs and live response metadata; bounded stations/measures/readings. Limit2 yielded 1 station/2 measures/2 readings. Reading→measure→station native URIs; mASD stage reference, UTC and15min period, negative stage valid. Beta/noSLA; not safety-critical.",
+  "url": "https://environment.data.gov.uk/flood-monitoring/doc/reference",
+  "path": "spec/research/public-data-fabric/evidence/d2-discovery-2026-10-04.json",
+  "reviewer": "Codex gpt-6.1-sol High on local Mac; stream researcher",
+  "independent": false,
+  "review_stage": "discovery"
+}

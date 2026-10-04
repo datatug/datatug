@@ -1,0 +1,12 @@
+{
+  "title": "Transport access point identifier",
+  "kind": "meaning",
+  "status": "researched",
+  "evidence_ids": [
+    "d2-e-naptan"
+  ],
+  "identifier_representations": [
+    "GB NaPTAN ATCOCode"
+  ],
+  "reason": "Provisional source-informed meaning. No canonical MeaningGraph entry or accepted equivalence; fresh Phase2 reconciliation required."
+}

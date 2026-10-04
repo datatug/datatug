@@ -1,0 +1,17 @@
+{
+  "title": "Event context around coordinate-bearing assets",
+  "kind": "scenario",
+  "status": "researched",
+  "evidence_ids": [
+    "d2-e-usgs"
+  ],
+  "member_ids": [
+    "d2-data-usgs",
+    "d2-data-power",
+    "d2-data-bts"
+  ],
+  "demo_ids": [],
+  "reason": "User problem/schema: User assets(asset_id,lat,lon,valid_from/to) andevent/event_time;airportcodesmustsupplynamespace. Proposed joins: USGSeventgeometry/time toapprovedassetdistance/timewindowapproximateassociation;POWERgridscontext. BTSlocalcode/ICAOcrosswalkunverified; noactualdemo coordinatesassumedfromAWopaquegeometry. Answerable questions: Whicheventsobservations fallwithinconfiguredcontext windows?Whichassetslackvalidcoordinates? Visualizations: Map/timelinewithdistance-depth-magnitude-type labels. Gaps/cost/risks: Weakersix-demofit;USGScontributorrigthsandmutablepreferredsolutions;oldBTS2020–21cataloguelowpriority;spatialproximitynotriskprediction;unitsaxes/sourceIDsremainseparate.",
+  "practical_value": "Whicheventsobservations fallwithinconfiguredcontext windows?Whichassetslackvalidcoordinates?",
+  "showcase_value": "Map/timelinewithdistance-depth-magnitude-type labels."
+}

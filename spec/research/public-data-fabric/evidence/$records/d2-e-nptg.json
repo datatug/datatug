@@ -1,0 +1,11 @@
+{
+  "title": "DfT locality gazetteer and code bridge",
+  "observed_at": "2026-10-04T22:37:20.841414+00:00",
+  "outcome": "observation",
+  "summary": "Dataset-specific OGL catalogue; full targeted 4,855,767-byte localities CSV for stop-FK reprobe. Unique NptgLocalityCode across 43900 rows. Localities are transport places, not administrative areas; catalogue update is link freshness, not data freshness.",
+  "url": "https://www.data.gov.uk/dataset/3b1766bf-04a3-44f5-bea9-5c74cf002e1d/national-public-transport-",
+  "path": "spec/research/public-data-fabric/evidence/d2-discovery-2026-10-04.json",
+  "reviewer": "Codex gpt-6.1-sol High on local Mac; stream researcher",
+  "independent": false,
+  "review_stage": "discovery"
+}

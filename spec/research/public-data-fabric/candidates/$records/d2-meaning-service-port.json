@@ -1,0 +1,12 @@
+{
+  "title": "Internet service port assignment",
+  "kind": "meaning",
+  "status": "researched",
+  "evidence_ids": [
+    "d2-e-iana"
+  ],
+  "identifier_representations": [
+    "port/range×transportprotocol"
+  ],
+  "reason": "Provisional source-informed meaning. No canonical MeaningGraph entry or accepted equivalence; fresh Phase2 reconciliation required."
+}

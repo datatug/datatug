@@ -1,0 +1,10 @@
+{
+  "title": "UK Department for Transport NaPTAN",
+  "kind": "source",
+  "status": "researched",
+  "evidence_ids": [
+    "d2-e-naptan"
+  ],
+  "source_url": "https://beta-naptan.dft.gov.uk/",
+  "reason": "GB access points; current API, archival landing migration."
+}

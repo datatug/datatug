@@ -1,0 +1,14 @@
+{
+  "title": "IANA HTTP status codes",
+  "kind": "recordset",
+  "status": "researched",
+  "evidence_ids": [
+    "d2-e-iana"
+  ],
+  "dataset_id": "d2-data-iana",
+  "identifier_representations": [
+    "HTTP status code namespace",
+    "Physical/documented fields: [\"Value\", \"Description\", \"Reference\"]"
+  ],
+  "reason": "Grain: status value or unassigned range. CSV extraction must handle embedded newlines/ranges/blank assignments. Registry lookup is a proposal, not traffic protocol or content sniffing proof."
+}

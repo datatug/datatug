@@ -1,0 +1,11 @@
+{
+  "title": "NTA static GTFS, literal feed and conflicting terms",
+  "observed_at": "2026-10-04T22:37:20.841414+00:00",
+  "outcome": "observation",
+  "summary": "Canonical static page CC BY4 versus developer usagepolicy commercial restriction. Operator CSV and 33,861-byte Allens feed observed; feed20261003–20271003, timezoneEurope/London; route/trip/service/stop keys reprobed. No redistribution/commercial approval inferred. Realtime requires token once60sec; not accessed.",
+  "url": "https://www.transportforireland.ie/transitData/PT_Data.html",
+  "path": "spec/research/public-data-fabric/evidence/d2-discovery-2026-10-04.json",
+  "reviewer": "Codex gpt-6.1-sol High on local Mac; stream researcher",
+  "independent": false,
+  "review_stage": "discovery"
+}

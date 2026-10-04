@@ -1,0 +1,11 @@
+{
+  "title": "USGS earthquake observational grain and rights",
+  "observed_at": "2026-10-04T22:37:20.841414+00:00",
+  "outcome": "observation",
+  "summary": "Historical bounded minmag5 query returned2 USGS-net events; event ID/network/code, lonlatdepth, millisecondsUTC, mutable update, null tz/alert. USGS copyrights policy government-produced public domain except identified third-party content. General catalogue can include contributed material; check provenance before redistribution.",
+  "url": "https://earthquake.usgs.gov/fdsnws/event/1/",
+  "path": "spec/research/public-data-fabric/evidence/d2-discovery-2026-10-04.json",
+  "reviewer": "Codex gpt-6.1-sol High on local Mac; stream researcher",
+  "independent": false,
+  "review_stage": "discovery"
+}

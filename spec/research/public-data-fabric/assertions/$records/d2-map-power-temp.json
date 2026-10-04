@@ -1,0 +1,23 @@
+{
+  "title": "properties.parameter.T2M → provisional meteo-temperature",
+  "kind": "mapping",
+  "status": "researched",
+  "from_id": "d2-rs-power",
+  "to_id": "d2-meaning-meteo-temperature",
+  "from_fields": [
+    "properties.parameter.T2M"
+  ],
+  "to_fields": [
+    "provisional concept"
+  ],
+  "from_identifier_namespace": "POWERparameter/community",
+  "to_identifier_namespace": "d2 provisional meaning; not canonical",
+  "physical_role": "observed field hypothesis",
+  "compatibility": "unresolved",
+  "assumptions": "Gridnear-surface2m,C,fill-999;notphysicalstation.",
+  "confidence": "medium",
+  "evidence_ids": [
+    "d2-e-power"
+  ],
+  "reason": "No semantic reconciliation; names alone do not authorize mapping."
+}

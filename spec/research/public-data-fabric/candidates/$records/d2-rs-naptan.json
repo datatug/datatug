@@ -1,0 +1,14 @@
+{
+  "title": "NaPTAN access-nodes CSV",
+  "kind": "recordset",
+  "status": "researched",
+  "evidence_ids": [
+    "d2-e-naptan"
+  ],
+  "dataset_id": "d2-data-naptan",
+  "identifier_representations": [
+    "GB NaPTAN ATCOCode; NaptanCode alternative may be empty",
+    "Physical/documented fields: [\"ATCOCode\", \"NaptanCode\", \"PlateCode\", \"CleardownCode\", \"CommonName\", \"CommonNameLang\", \"ShortCommonName\", \"ShortCommonNameLang\", \"Landmark\", \"LandmarkLang\", \"Street\", \"StreetLang\", \"Crossing\", \"CrossingLang\", \"Indicator\", \"IndicatorLang\", \"Bearing\", \"NptgLocalityCode\", \"LocalityName\", \"ParentLocalityName\", \"GrandParentLocalityName\", \"Town\", \"TownLang\", \"Suburb\", \"SuburbLang\", \"LocalityCentre\", \"GridType\", \"Easting\", \"Northing\", \"Longitude\", \"Latitude\", \"StopType\", \"BusStopType\", \"TimingStatus\", \"DefaultWaitTime\", \"Notes\", \"NotesLang\", \"AdministrativeAreaCode\", \"CreationDateTime\", \"ModificationDateTime\", \"RevisionNumber\", \"Modification\", \"Status\"]"
+  ],
+  "reason": "Grain: one transport access point per ATCOCode in snapshot. Area010 whole probe only; ATCO area010 includes AdministrativeAreaCode009, so those codes are not interchangeable. Modification timestamps have no explicit timezone offset."
+}

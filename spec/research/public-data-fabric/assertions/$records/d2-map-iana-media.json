@@ -1,0 +1,23 @@
+{
+  "title": "Template → provisional media-type",
+  "kind": "mapping",
+  "status": "researched",
+  "from_id": "d2-rs-iana-media",
+  "to_id": "d2-meaning-media-type",
+  "from_fields": [
+    "Template"
+  ],
+  "to_fields": [
+    "provisional concept"
+  ],
+  "from_identifier_namespace": "IANAapplicationmedia",
+  "to_identifier_namespace": "d2 provisional meaning; not canonical",
+  "physical_role": "observed field hypothesis",
+  "compatibility": "unresolved",
+  "assumptions": "VerifyTemplatefulltoken;registrationsnotcontentsniff.",
+  "confidence": "medium",
+  "evidence_ids": [
+    "d2-e-iana"
+  ],
+  "reason": "No semantic reconciliation; names alone do not authorize mapping."
+}

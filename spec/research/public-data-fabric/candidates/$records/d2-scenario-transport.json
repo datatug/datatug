@@ -1,0 +1,20 @@
+{
+  "title": "Stops, places and service reach",
+  "kind": "scenario",
+  "status": "researched",
+  "evidence_ids": [
+    "d2-e-naptan"
+  ],
+  "member_ids": [
+    "d2-data-naptan",
+    "d2-data-nptg",
+    "d2-data-orr",
+    "d2-data-bods"
+  ],
+  "demo_ids": [
+    "chinook"
+  ],
+  "reason": "User problem/schema: User branch/site table(site_id,country,city,postcode,coordinates optional) or known stop table(ATCOCode,event_time). Proposed joins: NativeNaPTAN→NPTGproposedhighconfidence; stationusage viaunverifiedNLC/TLC bridge; schedules viaBODS code/versionvalidation. DemoChinookCountry/City toNPTGcandidateslowconfidencecountryqualified. Answerable questions: Which sites have candidate nearby stops?Whichlocalitieshavehighannualrailusage?Whereisjoincoverageabsent? Visualizations: Stop/localitymap,stationranktable,servicecoveragecalendar. Gaps/cost/risks: GBonlyexcludesNI;noaddressgeocoderinthislane;ORR/BODSlicence/accessunresolved;usageannualticketestimate;spatialreachnotidentity/walkabilityproof.",
+  "practical_value": "Which sites have candidate nearby stops?Whichlocalitieshavehighannualrailusage?Whereisjoincoverageabsent?",
+  "showcase_value": "Stop/localitymap,stationranktable,servicecoveragecalendar."
+}

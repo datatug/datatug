@@ -1,0 +1,12 @@
+{
+  "title": "Rated food establishment source identity",
+  "kind": "meaning",
+  "status": "researched",
+  "evidence_ids": [
+    "d2-e-fsa"
+  ],
+  "identifier_representations": [
+    "FHRSID;LAcode+localbusinessID temporalqualification"
+  ],
+  "reason": "Provisional source-informed meaning. No canonical MeaningGraph entry or accepted equivalence; fresh Phase2 reconciliation required."
+}

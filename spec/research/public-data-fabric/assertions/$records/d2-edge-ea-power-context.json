@@ -1,0 +1,26 @@
+{
+  "title": "EA station readings↔POWER weather context",
+  "kind": "edge",
+  "status": "researched",
+  "from_id": "d2-rs-ea-stations",
+  "to_id": "d2-rs-power",
+  "from_fields": [
+    "long",
+    "lat"
+  ],
+  "to_fields": [
+    "geometry.coordinates"
+  ],
+  "from_identifier_namespace": "WGS84EApoint",
+  "to_identifier_namespace": "POWERrequestpoint/grid",
+  "expected_cardinality": "many:1gridperparameterrequest",
+  "compatibility": "unresolved",
+  "confidence": "low",
+  "assumptions": "Place-coordinatechoiceisgridcontextassociation,notEAstation=POWERstation. DailyUTC/rateversus15minstage,aggregation/datum andlatency explicit;notexecuted.",
+  "evidence_ids": [
+    "d2-e-ea",
+    "d2-e-power"
+  ],
+  "reason": "Research hypothesis only; confidence describes evidence supporting investigation, never acceptance or automatic matching.",
+  "transformation": "RequestPOWERatapprovedstationcoord;aggregatecompatibledate/period,retainmodelresolutionandunits."
+}

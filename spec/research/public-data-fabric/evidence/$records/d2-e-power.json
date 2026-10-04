@@ -1,0 +1,11 @@
+{
+  "title": "NASA POWER fields and project-specific rights",
+  "observed_at": "2026-10-04T22:37:20.841414+00:00",
+  "outcome": "observation",
+  "summary": "Project links NASA-managed AWS listing https://registry.opendata.aws/nasa-power/ with CC BY4 explicit unrestricted data use/access/download plus citation. API3day historical point response v2.10.0 MERRA2, UTC requested, fill -999, T2M C and PRECTOTCORR mm/day. Grid data, not station readings; default LST differs from civil timezone.",
+  "url": "https://power.larc.nasa.gov/docs/services/aws/",
+  "path": "spec/research/public-data-fabric/evidence/d2-discovery-2026-10-04.json",
+  "reviewer": "Codex gpt-6.1-sol High on local Mac; stream researcher",
+  "independent": false,
+  "review_stage": "discovery"
+}

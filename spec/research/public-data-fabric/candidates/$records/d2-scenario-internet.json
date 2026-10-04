@@ -1,0 +1,16 @@
+{
+  "title": "Explain operational protocol/log identifiers",
+  "kind": "scenario",
+  "status": "researched",
+  "evidence_ids": [
+    "d2-e-iana"
+  ],
+  "member_ids": [
+    "d2-data-iana",
+    "d2-data-spdx"
+  ],
+  "demo_ids": [],
+  "reason": "User problem/schema: UserHTTPlogs(status_code,content_type,timestamp),networkinventory(port,transport_protocol,ip_protocol),sourcecatalogue(licence_label). Proposed joins: ExactreviewedHTTPcode/IPnumber/port-protocoltuples toIANA;proposedtcp/udpIPkeywordbridge;SPDXidlookupfor source licencefactsafter rights/matching review. No native six-corpus HTTPtraffic fields; demonstratewithhonest user schema,notinventedfixturefacts. Answerable questions: Whataregisteredstatus/port/protocolmeans?Which valuesareranges/unassigned?Whichsource licence labelscannot beresolved? Visualizations: Lookupgrid,coverage/missing-code counts,protocolbreakdowns. Gaps/cost/risks: CC0 excludesRFCtext;portsnottrafficidentification/trust;MIMEparametersnormalizeexplicitly;SPDXmetadata licence stillneedsreview andlistedlicenseisnotrightsapproval.",
+  "practical_value": "Whataregisteredstatus/port/protocolmeans?Which valuesareranges/unassigned?Whichsource licence labelscannot beresolved?",
+  "showcase_value": "Lookupgrid,coverage/missing-code counts,protocolbreakdowns."
+}

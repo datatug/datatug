@@ -1,0 +1,10 @@
+{
+  "title": "National Transport Authority Ireland",
+  "kind": "source",
+  "status": "researched",
+  "evidence_ids": [
+    "d2-e-nta"
+  ],
+  "source_url": "https://www.transportforireland.ie/transitData/PT_Data.html",
+  "reason": "Production static page; avoid UAT/development copies."
+}

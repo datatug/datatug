@@ -1,0 +1,10 @@
+{
+  "title": "NIST National Vulnerability Database",
+  "kind": "source",
+  "status": "researched",
+  "evidence_ids": [
+    "d2-e-nvd"
+  ],
+  "source_url": "https://nvd.nist.gov/",
+  "reason": "CVE analysis with dated source metrics; rights/access follow-up."
+}

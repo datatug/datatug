@@ -1,0 +1,10 @@
+{
+  "title": "Bureau of Transportation Statistics",
+  "kind": "source",
+  "status": "researched",
+  "evidence_ids": [
+    "d2-e-bts"
+  ],
+  "source_url": "https://data.bts.gov/",
+  "reason": "Specific Citizen Connect airport catalogue, not interchangeable airport code tables."
+}

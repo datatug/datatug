@@ -1,0 +1,10 @@
+{
+  "title": "Food Standards Agency/local authorities",
+  "kind": "source",
+  "status": "researched",
+  "evidence_ids": [
+    "d2-e-fsa"
+  ],
+  "source_url": "https://ratings.food.gov.uk/open-data",
+  "reason": "Ratings/inspection schemes differ by country."
+}

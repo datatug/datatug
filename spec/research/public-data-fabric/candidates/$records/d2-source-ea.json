@@ -1,0 +1,10 @@
+{
+  "title": "Environment Agency England",
+  "kind": "source",
+  "status": "researched",
+  "evidence_ids": [
+    "d2-e-ea"
+  ],
+  "source_url": "https://environment.data.gov.uk/flood-monitoring/doc/reference",
+  "reason": "Flood/water observations; beta API."
+}

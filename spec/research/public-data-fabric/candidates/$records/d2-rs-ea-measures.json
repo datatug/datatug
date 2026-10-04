@@ -1,0 +1,14 @@
+{
+  "title": "EA measures",
+  "kind": "recordset",
+  "status": "researched",
+  "evidence_ids": [
+    "d2-e-ea"
+  ],
+  "dataset_id": "d2-data-ea",
+  "identifier_representations": [
+    "EA measure URI",
+    "Physical/documented fields: [\"@id\", \"datumType\", \"label\", \"latestReading\", \"notation\", \"parameter\", \"parameterName\", \"period\", \"qualifier\", \"station\", \"stationReference\", \"unit\", \"unitName\", \"valueType\"]"
+  ],
+  "reason": "Grain: station × parameter × qualifier × period × unit/datum. Probe limit2; stations response actually1row. HTTP URIs are identity strings; transport HTTPS endpoint is distinct. Stage unit mASD and negative values valid, not negative rainfall."
+}

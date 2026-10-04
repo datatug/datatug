@@ -1,0 +1,10 @@
+{
+  "title": "US Geological Survey",
+  "kind": "source",
+  "status": "researched",
+  "evidence_ids": [
+    "d2-e-usgs"
+  ],
+  "source_url": "https://earthquake.usgs.gov/",
+  "reason": "Event catalogue; preferred and contributor solutions change."
+}

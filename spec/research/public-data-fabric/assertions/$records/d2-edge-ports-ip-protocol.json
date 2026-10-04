@@ -1,0 +1,24 @@
+{
+  "title": "IANA port transport token→IP keyword",
+  "kind": "edge",
+  "status": "researched",
+  "from_id": "d2-rs-iana-ports",
+  "to_id": "d2-rs-iana-ip",
+  "from_fields": [
+    "Transport Protocol"
+  ],
+  "to_fields": [
+    "Keyword"
+  ],
+  "from_identifier_namespace": "IANAporttransporttoken",
+  "to_identifier_namespace": "IANAIPkeyword",
+  "expected_cardinality": "many:0..1 forreviewedtokens",
+  "compatibility": "unresolved",
+  "confidence": "medium",
+  "assumptions": "TCP6/UDP17 literalcase-transformcomparisoninvestigation. Othertransportprotocols/reservedrangesnotautomaticallymapped;portassignmentdoesnotproveobservedIPtraffic.",
+  "evidence_ids": [
+    "d2-e-iana"
+  ],
+  "reason": "Research hypothesis only; confidence describes evidence supporting investigation, never acceptance or automatic matching.",
+  "transformation": "Explicitreviewedtoken table tcp→TCP→6,udp→UDP→17;uppercasenamealoneinsufficientforotherprotocols."
+}

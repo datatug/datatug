@@ -1,0 +1,10 @@
+{
+  "title": "NASA POWER",
+  "kind": "source",
+  "status": "researched",
+  "evidence_ids": [
+    "d2-e-power"
+  ],
+  "source_url": "https://power.larc.nasa.gov/",
+  "reason": "Assimilation/satellite grids, project-specific rights."
+}

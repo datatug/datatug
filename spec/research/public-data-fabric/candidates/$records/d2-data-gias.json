@@ -1,0 +1,21 @@
+{
+  "title": "GIAS school establishments/groups",
+  "kind": "dataset",
+  "status": "needs-review",
+  "evidence_ids": [
+    "d2-e-gias"
+  ],
+  "source_id": "d2-source-gias",
+  "source_url": "https://www.get-information-schools.service.gov.uk/Downloads",
+  "licence": "OGL where explicitly stated; scope not verified",
+  "licence_notes": "Policy search permits public bulk machine ingestion underOGLwhere stated; licence/file/field scope still needs checking. UIbulkAIscrapingprohibited; no governance-person data collected.",
+  "geographic_coverage": "English education register; exact jurisdictions/exceptions unverified",
+  "temporal_coverage": "Current daily register; dates/closurehistory not sampled",
+  "update_frequency": "Daily public extracts per policy",
+  "observed_at": "2026-10-04T22:37:20.841414+00:00",
+  "revalidate_after": "2026-11-04T00:00:00Z",
+  "freshness": "needs-review",
+  "reason": "403download/policypages; approvedAPI/bulk route only, exactCSVschema/size unverified. Shallow crediblefollow-up.",
+  "practical_value": "Potential school-service access/locality joins for user establishmentID tables.",
+  "showcase_value": "Catchment/accessibility exploration after establishment/geography grain review."
+}

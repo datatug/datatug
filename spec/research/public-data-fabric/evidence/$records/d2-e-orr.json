@@ -1,0 +1,11 @@
+{
+  "title": "ORR annual station usage fields and limits",
+  "observed_at": "2026-10-04T22:37:20.841414+00:00",
+  "outcome": "observation",
+  "summary": "16KiB CSV prefix; 388340-byte published file, Last-Modified2026-01-16. Annual April2024–March2025 ticket-based estimates; publication2025-12-04; nextNov2026. NLC/TLC fields, commas in numeric values, [z] missing/not-applicable codes. ORR terms OGL except third-party content; portal/table scope still needs confirmation.",
+  "url": "https://dataportal.orr.gov.uk/statistics/usage/estimates-of-station-usage/",
+  "path": "spec/research/public-data-fabric/evidence/d2-discovery-2026-10-04.json",
+  "reviewer": "Codex gpt-6.1-sol High on local Mac; stream researcher",
+  "independent": false,
+  "review_stage": "discovery"
+}

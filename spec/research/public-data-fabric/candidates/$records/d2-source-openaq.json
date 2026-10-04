@@ -1,0 +1,10 @@
+{
+  "title": "OpenAQ air-quality locations/sensors/measurements provider",
+  "kind": "source",
+  "status": "researched",
+  "source_url": "https://docs.openaq.org/about/terms",
+  "evidence_ids": [
+    "d2-e-openaq"
+  ],
+  "reason": "Source-specific terms, access and licence boundaries; no publication."
+}

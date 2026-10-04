@@ -1,0 +1,28 @@
+{
+  "title": "Ember country/fuel annual↔monthly comparison",
+  "kind": "edge",
+  "status": "researched",
+  "from_id": "d2-rs-ember-year",
+  "to_id": "d2-rs-ember-month",
+  "from_fields": [
+    "Area",
+    "Year",
+    "Electricity source"
+  ],
+  "to_fields": [
+    "Area",
+    "Date",
+    "Electricity source"
+  ],
+  "from_identifier_namespace": "Emberarea/year/source",
+  "to_identifier_namespace": "Emberarea/month/source",
+  "expected_cardinality": "1:0..12 aftercountry/sourcefilter",
+  "compatibility": "unresolved",
+  "confidence": "medium",
+  "assumptions": "MonthDate is reportingperiodstart;annualnotdirectDateequality. Coverage88vs>200different,missingmonthsratherthanzero. Aggregates/boundary/methodologyrevisionsmustalign.",
+  "evidence_ids": [
+    "d2-e-ember"
+  ],
+  "reason": "Research hypothesis only; confidence describes evidence supporting investigation, never acceptance or automatic matching.",
+  "transformation": "ExtractyearfrommonthlyDate;aggregateonlycompletecompatiblemonthlyGenerationTWh;comparewithannualsameArea/source,reportdifferences."
+}
