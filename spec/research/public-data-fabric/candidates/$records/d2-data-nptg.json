@@ -17,5 +17,6 @@
   "freshness": "current",
   "reason": "Anonymous CSV/API;4,855,767B43900rows targeted for stop-code references; NPTG XML offers broader administrative structures.",
   "practical_value": "Native stop-to-place bridge, disambiguated locality names.",
-  "showcase_value": "Locality/stop hierarchy map."
+  "showcase_value": "Locality/stop hierarchy map.",
+  "research_depth": "documented"
 }

@@ -2,7 +2,7 @@
 
 Snapshot: 2026-10-04. Owner: main orchestrator. [Owning Feature](../../features/public-data-fabric/README.md).
 
-**Phase 0 and Phase 0.5 passed for bounded research. Independently reviewed M1 and D1 discovery streams are landed; D2 discovery and combined Phase1 index/coverage acceptance remain pending.** Phase0.5 landed at `90cd16e8ad42131f66145b643697cc97bae8a295`; M1 at `306d3104f995a5185077fb81f6569b04ed8f48de`; D1 at `1b2ec71a593c9edd64e011f5949c48721956b817`. Exact-head independent reviews and CI are retained in consolidation evidence records. No mappings are reconciled, no portfolio selected and no public-data launch integration claimed. Six demo fixtures and TPC-H exclusion remain retained; implementation is empty. B1 remains open at Phase4/5/6. Earlier dated pending/failure snapshots below remain historical evidence.
+**Phase 0 and Phase 0.5 passed for bounded research. Independently reviewed M1, D1 and D2 discovery streams are landed; combined Phase1 index/coverage acceptance remains pending.** Phase0.5 landed at `90cd16e8ad42131f66145b643697cc97bae8a295`; M1 at `306d3104f995a5185077fb81f6569b04ed8f48de`; D1 at `1b2ec71a593c9edd64e011f5949c48721956b817`; D2 at `e031937c4e52c48e3103da4b346c44ee20e8de06`. Exact-head independent reviews and CI are retained in consolidation evidence records. No mappings are reconciled, no portfolio selected and no public-data launch integration claimed. Six demo fixtures and TPC-H exclusion remain retained; implementation is empty. B1 remains open at Phase4/5/6. Earlier dated pending/failure snapshots below remain historical evidence.
 
 The product journey is connect a supported source → inspect meanings/identifiers → receive explained compatible public suggestions → execute bounded joins/lookups/enrichment → reuse across different physical demo schemas. Each stage must produce observable results and the final acceptance must exercise the real DataTug product path. Component/schema tests alone cannot establish that journey.
 
@@ -49,6 +49,13 @@ Research candidates are not published registry entries. Do not add lifecycle/con
 `compatibility: unresolved` and a qualified physical role preserve proposed meaning/identifier assumptions; confidence concerns the source-role hypothesis, not accepted cross-demo compatibility. Mapping `to_fields: ["proposed-role"]` is a research placeholder, not a canonical target field. Related candidate groups remain separate for fresh Phase 2 reconciliation. Per-input licence scopes remain distinct, including Employees share-alike evidence. Historical Phase 0 snapshots are unchanged; current pins live in the new dated demand evidence. B1 publication remains assigned to Phase 4/5/6.
 
 For machine-answerable prevalence, filter `rows[].structural_demo_count >= 4` in `evidence/demo-demand-coverage.json`; inspect each row's `observed_demo_ids` and six `cells` before treating presence as populated demand. Candidate `demo_ids` and mapping `meaning_id` provide equivalent ledger graph queries. Counts do not indicate accepted semantics, match rates or implementation priority.
+
+## Landed discovery streams
+
+- [Meaning-first research](m1-meanings.md)
+- [Geography, commerce and economics](d1-geo-commerce.md)
+- [Mobility, environment, civic and technology](d2-mobility-environment.md)
+- [Combined index preparation and query receipt](consolidation-preparation.md)
 
 ## Machine-readable collections
 

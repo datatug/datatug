@@ -17,5 +17,6 @@
   "freshness": "needs-review",
   "reason": "Documentation only; no API requested. Free limits10000/day5000/hour600/minute and advertised300000/month. Historical archive and current forecast have different time coverage; exact schema/size not verified. Useful blocked alternative for date/place context.",
   "practical_value": "Potential places/weather or sensor-data enrichment, conditional on rights and access review.",
-  "showcase_value": "Qualified monitoring/map context; not selected."
+  "showcase_value": "Qualified monitoring/map context; not selected.",
+  "research_depth": "shallow"
 }

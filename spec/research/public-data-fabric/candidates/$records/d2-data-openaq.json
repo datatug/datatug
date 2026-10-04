@@ -17,5 +17,6 @@
   "freshness": "needs-review",
   "reason": "API v3 requires X-API-Key and signup; neither used. Documented location fields id,country.code,provider,owner,coordinates,sensors,licenses,timezones; units parameter-specific. Actual access/coverage/size not verified. Candidate grid weather/monitoring association requires source, location, units and time review.",
   "practical_value": "Potential places/weather or sensor-data enrichment, conditional on rights and access review.",
-  "showcase_value": "Qualified monitoring/map context; not selected."
+  "showcase_value": "Qualified monitoring/map context; not selected.",
+  "research_depth": "shallow"
 }

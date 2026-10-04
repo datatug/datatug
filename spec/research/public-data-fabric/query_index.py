@@ -167,7 +167,9 @@ def query(tables, coverage, as_of, meaning_ids=('Geo.Country',)):
     alpha2 = re.compile(r'alpha[-_ ]?2|\biso[-_ ]?2(?:code)?\b', re.I)
     representation = [dict(id=k, kind=v['kind'], status=v['status'],
                            representations=[x for x in v.get('identifier_representations', []) if alpha2.search(x)],
-                           evidence_ids=v['evidence_ids']) for k, v in sorted(c.items())
+                           evidence_ids=v['evidence_ids'],
+                           dataset_id=v.get('dataset_id') if v['kind'] == 'recordset' else None,
+                           source_id=v.get('source_id') if v['kind'] in ('recordset', 'dataset') else None) for k, v in sorted(c.items())
                       if any(alpha2.search(x) for x in v.get('identifier_representations', []))]
     licensing = [dict(id=k, status=v['status'], licence=v.get('licence'),
                       licence_notes=v.get('licence_notes'), reason=v.get('reason'),
@@ -182,7 +184,10 @@ def query(tables, coverage, as_of, meaning_ids=('Geo.Country',)):
                                   accepted_datasets=sorted({d for x in associations.get(m, []) if x['accepted']
                                                             for d in x['datasets']})) for m in meaning_ids},
         provisional_meaning_associations={m: links for m, links in sorted(associations.items()) if links},
-        alpha2_representations=dict(policy='Literal case-insensitive alpha2/alpha-2/alpha_2/alpha 2 or whole ISO2/ISO-2/ISO_2/ISO 2, optionally followed by Code; no inferred code equivalence.', matches=representation),
+        alpha2_representations=dict(policy='Literal case-insensitive alpha2/alpha-2/alpha_2/alpha 2 or whole ISO2/ISO-2/ISO_2/ISO 2, optionally followed by Code; no inferred code equivalence.', matches=representation,
+                                    public_dataset_projection=sorted({x['dataset_id'] for x in representation
+                                                                      if x['kind'] == 'recordset' and x['dataset_id'] in public}),
+                                    scope='Searches candidate identifier_representations only, not assertions. Conceptual matches do not imply dataset usage; differently spelled fields such as GeoNames ISO remain outside this literal query.'),
         four_plus_demo_demand=prevalence, demo_enrichments=enrichments,
         scenario_dependencies=scenarios,
         scenario_dependents_by_dataset={d: sorted(k for k, v in scenarios.items() if d in v['datasets'])

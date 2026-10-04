@@ -17,5 +17,6 @@
   "freshness": "needs-review",
   "reason": "AnonymousoneCVErequest87139B; API2.0 observed. APIkeyoptional access demonstrated for this request only; no sweeping throughput claim.",
   "practical_value": "CVE ID bridge to KEV with per-source metrics, vulnerable configuration distinctions.",
-  "showcase_value": "Compare known exploitation vs analysis, without product-name auto matching."
+  "showcase_value": "Compare known exploitation vs analysis, without product-name auto matching.",
+  "research_depth": "documented"
 }

@@ -17,5 +17,6 @@
   "freshness": "current",
   "reason": "Anonymous pointAPI JSON/CSV plus ARD Zarr; bounded642B3days2parameters. Request UTC explicitly; defaultLST solar swath differs from civil zone; native grid/elevation and community-specific units.",
   "practical_value": "Historical invoice/order or asset weather context after approved place-coordinate bridge.",
-  "showcase_value": "Weather context line/scatter plot; correlation not causal effect."
+  "showcase_value": "Weather context line/scatter plot; correlation not causal effect.",
+  "research_depth": "documented"
 }

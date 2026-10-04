@@ -10,5 +10,6 @@
     "FHRSID sourcegenerated;LocalAuthorityBusinessID onlyunique within LocalAuthorityCode",
     "Physical/documented fields: [\"FHRSID\", \"LocalAuthorityBusinessID\", \"BusinessName\", \"BusinessType\", \"BusinessTypeID\", \"AddressLine1\", \"AddressLine2\", \"AddressLine3\", \"AddressLine4\", \"PostCode\", \"RatingValue\", \"RatingKey\", \"RatingDate\", \"LocalAuthorityCode\", \"LocalAuthorityName\", \"LocalAuthorityWebSite\", \"LocalAuthorityEmailAddress\", \"Scores\", \"SchemeType\", \"NewRatingPending\", \"Geocode\", \"Geocode.Longitude\", \"Geocode.Latitude\", \"Scores.Hygiene\", \"Scores.Structural\", \"Scores.ConfidenceInManagement\"]"
   ],
-  "reason": "Grain: establishment/current rating per extract; inspection date separate. XMLprefix has7complete establishment nodes; ItemCount880 is sourceheader, not rows downloaded. Codes/FHRSID may survive new registrations or change on LA merger; scheme FHIS not numericFHRS. Privateaddressescoordinates suppressed."
+  "reason": "Grain: establishment/current rating per extract; inspection date separate. XMLprefix has7complete establishment nodes; ItemCount880 is sourceheader, not rows downloaded. Codes/FHRSID may survive new registrations or change on LA merger; scheme FHIS not numericFHRS. Privateaddressescoordinates suppressed.",
+  "research_depth": "sampled"
 }

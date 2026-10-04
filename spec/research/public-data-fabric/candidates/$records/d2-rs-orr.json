@@ -10,5 +10,6 @@
     "Rail NLC and TLC namespaces; not NaPTAN bus stop code",
     "Physical/documented fields: [\"Station name\", \"Entries and exits: \\nFull price tickets\", \" Entries and exits: \\nReduced price tickets\", \"Entries and exits:\\nSeason tickets\", \"Entries and exits:\\nAll tickets\", \"Entries and exits:\\nRank\", \"Interchanges\", \"Main origin or destination station\", \"Number of journeys to or from main origin or destination station\", \"Data source or adjustments\", \"Estimates supplemented by local ticketing data or by retailing organisation\", \"Quality limitations\", \"Additional information\", \"National Location Code (NLC)\", \"Three Letter Code\\n(TLC)\", \"Region\", \"Station facility owner\", \"Station group\"]"
   ],
-  "reason": "Grain: station × fiscal year, implied by table title. Header after3preamble rows. Fiscal year2024/25; main origin/destination is station name, not a verified FK. Ticket-derived estimates, notes/quality adjustments must travel with values."
+  "reason": "Grain: station × fiscal year, implied by table title. Header after3preamble rows. Fiscal year2024/25; main origin/destination is station name, not a verified FK. Ticket-derived estimates, notes/quality adjustments must travel with values.",
+  "research_depth": "sampled"
 }

@@ -6,9 +6,11 @@
     "phase0"
   ],
   "requirements": [
-    "Preserve credible meaning and public-data candidates, sources, identifiers, relationships and scenario proposals"
+    "Preserve credible meaning and public-data candidates, sources, identifiers, relationships and scenario proposals",
+    "Machine-answerable required index questions with truthful missing/unknown/unreconciled branches and actual-six structural/observed demand",
+    "Fresh independent combined discovery acceptance after reviewed stream integration"
   ],
   "evidence_ids": [],
   "blocker_ids": [],
-  "decision": "M1 and D1 independent discovery streams landed; D2 and combined query/coverage preparation are underway. Phase1 remains pending fresh independent combined acceptance and root decision. No semantic reconciliation or portfolio selection; B1 remains open at Phase4/5/6."
+  "decision": "M1, D1 and D2 independently reviewed provisional discovery streams are landed with exact-main CI. Typed depth and deterministic combined query/coverage preparation are available for fresh independent combined acceptance. Phase1 remains pending that review and root decision. No semantic reconciliation, portfolio selection or canonical publication; B1 remains open at Phase4/5/6."
 }

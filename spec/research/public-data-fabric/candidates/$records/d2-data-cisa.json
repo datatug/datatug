@@ -17,5 +17,6 @@
   "freshness": "current",
   "reason": "AnonymousJSON/CSV;1,767,828Bcomplete boundedcurrentcatalogue; current schema includes forensicTriage. No exploit code retained; titles/requiredActions not universal severity/asset compatibility.",
   "practical_value": "User vulnerability inventories with exact CVEID can enrich exploitation evidence and dated required actions.",
-  "showcase_value": "Dated catalogue timeline; mandate due dates explicitly scoped."
+  "showcase_value": "Dated catalogue timeline; mandate due dates explicitly scoped.",
+  "research_depth": "documented"
 }

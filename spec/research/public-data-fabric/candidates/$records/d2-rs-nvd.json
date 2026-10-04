@@ -10,5 +10,6 @@
     "CVE ID; CVSSversion/source/CPE configurations distinct",
     "Physical/documented fields: [\"id\", \"sourceIdentifier\", \"published\", \"lastModified\", \"vulnStatus\", \"descriptions\", \"metrics\", \"weaknesses\", \"configurations\", \"references\", \"cisaExploitAdd\", \"cisaActionDue\"]"
   ],
-  "reason": "Grain: one CVE with multiple source/version metric/configuration rows. OnehistoricalCVE sampled; CVSS acrossversions notdirectlyidentical. Presence in KEV vs NVD enrichmenttimestamps notsame factdate."
+  "reason": "Grain: one CVE with multiple source/version metric/configuration rows. OnehistoricalCVE sampled; CVSS acrossversions notdirectlyidentical. Presence in KEV vs NVD enrichmenttimestamps notsame factdate.",
+  "research_depth": "sampled"
 }

@@ -8,5 +8,6 @@
   "member_ids": [
     "d2-scenario-civic-services"
   ],
-  "reason": "Proposed connected bundle; component constraints retained. Practical relevance distinct from showcase. No portfolio selection or implementation status."
+  "reason": "Proposed connected bundle; component constraints retained. Practical relevance distinct from showcase. No portfolio selection or implementation status.",
+  "research_depth": "documented"
 }

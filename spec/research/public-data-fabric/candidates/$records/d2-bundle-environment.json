@@ -10,5 +10,6 @@
     "d2-scenario-electricity",
     "d2-scenario-geophysical"
   ],
-  "reason": "Proposed connected bundle; component constraints retained. Practical relevance distinct from showcase. No portfolio selection or implementation status."
+  "reason": "Proposed connected bundle; component constraints retained. Practical relevance distinct from showcase. No portfolio selection or implementation status.",
+  "research_depth": "documented"
 }

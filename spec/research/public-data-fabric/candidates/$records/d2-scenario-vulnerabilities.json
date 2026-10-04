@@ -12,5 +12,6 @@
   "demo_ids": [],
   "reason": "User problem/schema: User vulnerabilityinventory(asset_id,CVEID,observed_at,productversion optional);externalpersonal/secretassetidentitiesnotuploaded. Proposed joins: CVEID→KEVcveID andNVDcve.idexactidentifierproposal;CISA↔NVDprobedCVE2021-44228. Names/productsnotidentity;CPEconfigurationmatchingrequiresseparatestage. Answerable questions: WhichinventoryCVEsappear inobservedKEVsnapshot?Whichsourceanalysis/metricversionsexist?Whichdeadlinesapplyunder actualjurisdiction? Visualizations: Datedtable/cross-sourcecoverage,notautomaticpatchpolicy. Gaps/cost/risks: NVDterms/ratepolicyunverified,metrics/sourceversionvary;KEVabsencecannotproveunexploited;BOD26-04scopechangedcurrentforensicTriagefield;no universaldeadlineor finalsecurityguidance. No six-demo CVEfields.",
   "practical_value": "WhichinventoryCVEsappear inobservedKEVsnapshot?Whichsourceanalysis/metricversionsexist?Whichdeadlinesapplyunder actualjurisdiction?",
-  "showcase_value": "Datedtable/cross-sourcecoverage,notautomaticpatchpolicy."
+  "showcase_value": "Datedtable/cross-sourcecoverage,notautomaticpatchpolicy.",
+  "research_depth": "documented"
 }

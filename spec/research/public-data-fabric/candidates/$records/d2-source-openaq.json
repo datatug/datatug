@@ -6,5 +6,6 @@
   "evidence_ids": [
     "d2-e-openaq"
   ],
-  "reason": "Source-specific terms, access and licence boundaries; no publication."
+  "reason": "Source-specific terms, access and licence boundaries; no publication.",
+  "research_depth": "shallow"
 }

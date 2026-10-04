@@ -10,5 +10,6 @@
     "NTA Allens feed892A3408-F422-4978-8896-7420CF625122; IDs scoped to publisher/feed",
     "Physical/documented fields: [\"shape_id\", \"shape_pt_lat\", \"shape_pt_lon\", \"shape_pt_sequence\", \"shape_dist_traveled\"]"
   ],
-  "reason": "Grain: source GTFS shapes.txt rows within feed version. Native archive observed2026-10-04; no cross-feed stable identity asserted. GTFS time in agency timezone, can exceed24h; shapes distance unit unverified. Empty calendar_dates retains its header, not values."
+  "reason": "Grain: source GTFS shapes.txt rows within feed version. Native archive observed2026-10-04; no cross-feed stable identity asserted. GTFS time in agency timezone, can exceed24h; shapes distance unit unverified. Empty calendar_dates retains its header, not values.",
+  "research_depth": "sampled"
 }

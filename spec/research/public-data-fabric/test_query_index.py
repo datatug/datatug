@@ -44,6 +44,15 @@ class ResearchQueries(unittest.TestCase):
         self.assertEqual((gap['linkage'], gap['suitability']),
                          ('no-explicit-public-dataset-link', 'undetermined'))
 
+    def test_alpha2_dataset_provenance_excludes_conceptual_only(self):
+        self.c['m']['identifier_representations'] = ['ISO alpha-2']
+        self.assertEqual(self.run_query()['alpha2_representations']['public_dataset_projection'], [])
+        self.c['r']['identifier_representations'] = ['iso2Code']
+        result = self.run_query()['alpha2_representations']
+        self.assertEqual(result['public_dataset_projection'], ['dataset'])
+        recordset = next(x for x in result['matches'] if x['id'] == 'r')
+        self.assertEqual(recordset['dataset_id'], 'dataset')
+
     def test_missing_schedule_inheritance_and_accepted_receipt(self):
         r = self.run_query()
         self.assertIn('r', r['freshness']['groups']['unscheduled'])

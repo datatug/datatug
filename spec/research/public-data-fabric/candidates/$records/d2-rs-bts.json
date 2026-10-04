@@ -10,5 +10,6 @@
     "BTS/FAA source-local loc_id/site_num; ICAO field separate",
     "Physical/documented fields: [\"objectid\", \"site_num\", \"loc_id\", \"icao_ident\", \"fac_name\", \"city\", \"county\", \"county_pos\", \"eff_date\", \"the_geom\"]"
   ],
-  "reason": "Grain: catalogueairport row at effective date. Two oldrows; effective2020/modified2021. Bahamasobserved. objectid notstableairportidentity; loc_id notautomaticallyIATA; no mapping to separateDOTMasterCoordinate."
+  "reason": "Grain: catalogueairport row at effective date. Two oldrows; effective2020/modified2021. Bahamasobserved. objectid notstableairportidentity; loc_id notautomaticallyIATA; no mapping to separateDOTMasterCoordinate.",
+  "research_depth": "sampled"
 }

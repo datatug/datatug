@@ -10,5 +10,6 @@
     "full application/subtype token; parameters excluded from token",
     "Physical/documented fields: [\"Name\", \"Template\", \"Reference\"]"
   ],
-  "reason": "Grain: registered subtype within application family. CSV extraction must handle embedded newlines/ranges/blank assignments. Registry lookup is a proposal, not traffic protocol or content sniffing proof."
+  "reason": "Grain: registered subtype within application family. CSV extraction must handle embedded newlines/ranges/blank assignments. Registry lookup is a proposal, not traffic protocol or content sniffing proof.",
+  "research_depth": "sampled"
 }

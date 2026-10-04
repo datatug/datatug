@@ -17,5 +17,6 @@
   "freshness": "current",
   "reason": "Anonymous JSON/CSV/RDF; selected station+2measures+2readings. Beta no SLA, cache batch queries/poll≤15min; historical retrieval via since to avoid missed delayed updates.",
   "practical_value": "Operational places and sensor IDs enrich asset/reading data; explicit station-measure-readings joins.",
-  "showcase_value": "Stage time-series with datum/unit labels and observation delay."
+  "showcase_value": "Stage time-series with datum/unit labels and observation delay.",
+  "research_depth": "documented"
 }

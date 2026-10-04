@@ -1,0 +1,12 @@
+{
+  "title": "d2 independent discovery review r1",
+  "observed_at": "2026-10-04T22:56:48.852216Z",
+  "outcome": "fail",
+  "summary": "Durable import of independent local Codex reviewer disposition. Sole minor finding: unsupported 2009 Chinook invoice date; retain correction history. Source report SHA256 7498583f46b36071e724ad2c4585010373796bd6bd545bf81649d59ef281ace0.",
+  "repository": "datatug/datatug",
+  "commit": "31e53753d2b86000dfa502394c67d106619ea2d0",
+  "reviewer": "phase1-independent-review / local Codex research reviewer",
+  "independent": true,
+  "review_stage": "discovery",
+  "url": "https://github.com/datatug/datatug/pull/84"
+}
