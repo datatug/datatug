@@ -1,5 +1,5 @@
 {
-  "observed_at": "2026-10-04T20:06:00Z",
+  "observed_at": "2026-10-04T20:14:39Z",
   "scope": "Phase 0 supported foundation only; no gate pass, research, reconciliation or launch discovery claimed",
   "independent_review": {
     "phase": "0",
@@ -175,7 +175,8 @@
       "PATH": "Node 24 prepended",
       "NX_DAEMON": "false",
       "NX_ISOLATE_PLUGINS": "false"
-    }
+    },
+    "started_at": "2026-10-04T20:08:19.854Z"
   },
   "employees_rebuild": {
     "provider": {
@@ -305,7 +306,7 @@
   "source_report_sha256": "8ae5b73c82d38ed85872bc2478a345210025d48e35340e250d4585044dc4bbca",
   "builder_status": "Independent r4 verifies redundant Cloudflare Workers Builds Git integration disconnected; declared GitHub deployment owner preserved. Historical failed build remains Failed; active version and production artifact unchanged.",
   "deployment_owner_r4": {
-    "observed_at": "2026-10-04T20:17:00Z",
+    "observed_at": "2026-10-04T20:14:39Z",
     "reviewer": "phase0_verify independent r4 Local Codex Mac",
     "outcome": "pass",
     "worker": "datatug-apps",
@@ -320,5 +321,12 @@
     "source_owner": ".github/workflows/deploy.yml:3-8,28-39 declares shared sneat-co/cicd cf-deploy workflow",
     "review_scope": "Read-only independent fresh dashboard captures, deployment log, successful GitHub run and live build-info. No credentials/code/settings/traffic/deployment changed by reviewer; no suite repeated.",
     "report_sha256": "b77ad539c864e71f75e88962e58f73044736b49fec0279c20d50551eeac1cdfb"
-  }
+  },
+  "corpus_snapshot_observed_at": "2026-10-04T20:02:18.542346+00:00",
+  "original_verifier_artifacts": {
+    "base": "/private/tmp/data-fabric-phase0-verification",
+    "scope": "Ephemeral original review execution artifacts; copied relative paths in independent_review.pr_reviews, findings.evidence and production_acceptance.evidence are relative to this base, not repository paths. Durable compact results are recorded in this file."
+  },
+  "production_build_observed_at": "2026-10-04T20:07:56.428Z",
+  "production_source_read_observed_at": "2026-10-04T20:09:12.174Z"
 }

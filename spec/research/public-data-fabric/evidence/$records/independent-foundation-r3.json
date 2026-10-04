@@ -1,6 +1,6 @@
 {
   "title": "Independent Phase 0 production verification r3",
-  "observed_at": "2026-10-04T20:06:00Z",
+  "observed_at": "2026-10-04T20:09:12.174Z",
   "outcome": "partial",
   "summary": "One corpus-publication blocker, three nonblocking Phase 4 majors, zero minors. Production Chat passes; no overall Phase 0 acceptance. Source/registry Sakila licence and Employees rebuild limits closed. Root owns final gate decision.",
   "reviewer": "phase0_verify r3, independent Local Codex Mac",
