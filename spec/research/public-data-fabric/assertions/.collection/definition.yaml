@@ -1,0 +1,137 @@
+{
+  "titles": {
+    "en": "Public Data Fabric assertions"
+  },
+  "record_file": {
+    "name": "{key}.json",
+    "format": "json",
+    "type": "map[string]any"
+  },
+  "columns": {
+    "title": {
+      "type": "string",
+      "required": true,
+      "min_length": 1
+    },
+    "evidence_ids": {
+      "type": "[]string",
+      "required": true,
+      "foreign_key": "fabric.evidence"
+    },
+    "kind": {
+      "type": "string",
+      "required": true,
+      "enum": [
+        "mapping",
+        "edge"
+      ]
+    },
+    "status": {
+      "type": "string",
+      "required": true,
+      "enum": [
+        "discovered",
+        "screened",
+        "researched",
+        "promising",
+        "reconciled",
+        "selected",
+        "implementing",
+        "implemented",
+        "validated",
+        "blocked",
+        "needs-review",
+        "low-priority",
+        "rejected"
+      ]
+    },
+    "from_id": {
+      "type": "string",
+      "required": true,
+      "foreign_key": "fabric.candidates"
+    },
+    "to_id": {
+      "type": "string",
+      "required": true,
+      "foreign_key": "fabric.candidates"
+    },
+    "from_fields": {
+      "type": "[]string",
+      "required": true,
+      "min_length": 1
+    },
+    "to_fields": {
+      "type": "[]string",
+      "required": true,
+      "min_length": 1
+    },
+    "meaning_id": {
+      "type": "string",
+      "foreign_key": "fabric.candidates"
+    },
+    "compatibility": {
+      "type": "string",
+      "required": true,
+      "enum": [
+        "semantic-equivalence",
+        "identifier-equivalence",
+        "transformable",
+        "approximate",
+        "incompatible",
+        "unresolved"
+      ]
+    },
+    "assumptions": {
+      "type": "string",
+      "required": true,
+      "min_length": 1
+    },
+    "confidence": {
+      "type": "string",
+      "required": true,
+      "enum": [
+        "low",
+        "medium",
+        "high"
+      ]
+    },
+    "transformation": {
+      "type": "string"
+    },
+    "reason": {
+      "type": "string"
+    },
+    "from_identifier_namespace": {
+      "type": "string"
+    },
+    "to_identifier_namespace": {
+      "type": "string"
+    },
+    "physical_role": {
+      "type": "string"
+    },
+    "expected_cardinality": {
+      "type": "string"
+    }
+  },
+  "columns_order": [
+    "title",
+    "evidence_ids",
+    "kind",
+    "status",
+    "from_id",
+    "to_id",
+    "from_fields",
+    "to_fields",
+    "meaning_id",
+    "compatibility",
+    "assumptions",
+    "confidence",
+    "transformation",
+    "reason",
+    "from_identifier_namespace",
+    "to_identifier_namespace",
+    "physical_role",
+    "expected_cardinality"
+  ]
+}

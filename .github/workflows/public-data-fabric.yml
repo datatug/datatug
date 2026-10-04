@@ -1,0 +1,30 @@
+name: Public Data Fabric ledger
+on:
+  push:
+    branches: [main]
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  ledger:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      # The hub permits GitHub-owned actions and selected third-party actions;
+      # inGitDB's action is outside that policy. Use the same checksum-verified
+      # release already pinned by ModelSpec registry's validation workflow.
+      - name: Install pinned inGitDB and validate research collections
+        env:
+          LEDGER_INGITDB_VERSION: 0.68.2
+          LEDGER_INGITDB_SHA256: d00ba83a02b64025884a495b94245640c760dc94d1726f4db6f33d32ec9d4dce
+        run: |
+          set -euo pipefail
+          archive="ingitdb_${LEDGER_INGITDB_VERSION}_linux_amd64.tar.gz"
+          curl --fail --silent --show-error --location "https://github.com/ingitdb/ingitdb-cli/releases/download/v${LEDGER_INGITDB_VERSION}/${archive}" --output "${RUNNER_TEMP}/${archive}"
+          echo "${LEDGER_INGITDB_SHA256}  ${RUNNER_TEMP}/${archive}" | sha256sum --check --strict
+          tar --extract --gzip --file "${RUNNER_TEMP}/${archive}" --directory "${RUNNER_TEMP}" ingitdb
+          "${RUNNER_TEMP}/ingitdb" validate --path .
+      - name: Check relationships, evidence, gates and invalid-state mutations
+        run: python3 spec/research/public-data-fabric/check.py --self-test

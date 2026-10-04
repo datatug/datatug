@@ -1,0 +1,15 @@
+{
+  "title": "employees",
+  "kind": "dataset",
+  "status": "discovered",
+  "evidence_ids": [
+    "corpus-employees"
+  ],
+  "repository": "demo-db/employees",
+  "commit": "4759bc2b7936626c9ac1ad1e92fd6128365e11ac",
+  "canonical_address": "https://employees.demodb.dev",
+  "source_url": "https://github.com/demo-db/employees",
+  "freshness": "needs-review",
+  "observed_at": "2026-10-04T19:26:00Z",
+  "reason": "Existing demo demand fixture; launch publication readiness is governed by Phase 0, not this discovery status."
+}

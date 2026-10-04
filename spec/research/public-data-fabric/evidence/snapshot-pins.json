@@ -1,0 +1,58 @@
+{
+  "meaninggraph-core": {
+    "repository": "meaninggraph/core",
+    "commit": "982916d73f0a35ff2558b0062f58aa3ac4f24d97"
+  },
+  "meaninggraph-registry": {
+    "repository": "meaninggraph/registry",
+    "commit": "8e9d6afe8f5a4290d6c18ace31a72552f48f698e"
+  },
+  "meaninggraph-cli": {
+    "repository": "meaninggraph/cli",
+    "commit": "a58a506d9e6f76660cc8586478521787976111d0"
+  },
+  "modelspec-registry": {
+    "repository": "modelspec-org/registry",
+    "commit": "92b1d199bcada4ccc2816154749550379c35a548"
+  },
+  "modelspec-cli": {
+    "repository": "modelspec-org/cli",
+    "commit": "a8de98b4565ae669b6fba00c334b4649c9d40b11"
+  },
+  "modelspec-spec": {
+    "repository": "specscore/modelspec",
+    "commit": "ff2393a99e0bd093272c1765a57eefdea01c0a90"
+  },
+  "datatug-hub": {
+    "repository": "datatug/datatug",
+    "commit": "ad67945061f89afa1a29de5f52ab6e6628b19f63"
+  },
+  "chinook": {
+    "repository": "demo-db/chinook",
+    "commit": "26e852cca00101f53a84ef8ee1f1ae389067f5cf"
+  },
+  "northwind": {
+    "repository": "demo-db/northwind",
+    "commit": "e74726515c3833620b54b7a50d1d273276dd23c1"
+  },
+  "pubs": {
+    "repository": "demo-db/pubs",
+    "commit": "6c06c5c7395b03ff1a02c2b1a21485add3e1b65b"
+  },
+  "sakila": {
+    "repository": "demo-db/sakila",
+    "commit": "0cb13fd76b2ce590f68efa99a6fbf7effcf6e4ce"
+  },
+  "employees": {
+    "repository": "demo-db/employees",
+    "commit": "4759bc2b7936626c9ac1ad1e92fd6128365e11ac"
+  },
+  "adventureworks": {
+    "repository": "demo-db/adventureworks",
+    "commit": "cd8dcdf2079fe31480ad6d6c024b8c17cb91beea"
+  },
+  "tpch": {
+    "repository": "demo-db/tpch",
+    "commit": "52600c63a66a49e60b83a6f7df0f92580179d616"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "title": "Foundation review and hardening",
+  "status": "pending",
+  "owner": "Main orchestrator",
+  "prerequisite_ids": [],
+  "requirements": [
+    "All blocking findings resolved or explicitly escalated with evidence",
+    "Golden Chinook meaning \u2192 model \u2192 OVDB \u2192 Directory \u2192 DataTug journey passes to the supported extent",
+    "Fresh independent verifier accepts exact deployed revisions"
+  ],
+  "evidence_ids": [
+    "semantic-review-r1",
+    "ovdb-review-r1",
+    "datatug-review-pending",
+    "independent-gate-pending"
+  ],
+  "blocker_ids": [
+    "demo-chat",
+    "corpus-publication",
+    "independent-verification",
+    "chinook-canonical-url"
+  ],
+  "decision": "Pending; broad public-data research is prohibited until Phase 0 passes."
+}

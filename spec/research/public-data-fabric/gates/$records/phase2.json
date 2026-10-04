@@ -1,0 +1,15 @@
+{
+  "title": "Dedicated semantic reconciliation",
+  "status": "pending",
+  "owner": "Main orchestrator",
+  "prerequisite_ids": [
+    "phase05",
+    "phase1"
+  ],
+  "requirements": [
+    "Fresh dedicated reconciler preserves accepted/rejected/ambiguous mapping decisions and evidence"
+  ],
+  "evidence_ids": [],
+  "blocker_ids": [],
+  "decision": "Not started; no phase completion claim."
+}

@@ -1,0 +1,15 @@
+{
+  "title": "Independent launch review",
+  "status": "pending",
+  "owner": "Main orchestrator",
+  "prerequisite_ids": [
+    "phase5"
+  ],
+  "requirements": [
+    "Independent semantic/product/publication review has no unresolved blocking findings",
+    "Orchestrator records launch stopping decision with retained backlog"
+  ],
+  "evidence_ids": [],
+  "blocker_ids": [],
+  "decision": "Not started; no phase completion claim."
+}

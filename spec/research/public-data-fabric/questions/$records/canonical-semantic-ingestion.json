@@ -1,0 +1,13 @@
+{
+  "title": "Consume canonical models/meanings for explained public suggestions",
+  "status": "open",
+  "classification": "important/non-blocking",
+  "owner": "DataTug canonical integration owner",
+  "evidence_ids": [
+    "datatug-review-pending"
+  ],
+  "resolution": "Phase 4 launch prerequisite; current supported foundation does not claim this capability.",
+  "gate_ids": [
+    "phase4"
+  ]
+}

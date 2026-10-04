@@ -9,6 +9,7 @@ should do, update the owning Feature or Idea and link back here.
 
 | Document | Date | What it establishes |
 |---|---|---|
+| [Public Data Fabric programme](public-data-fabric/README.md) | 2026-10-04 | Phase 0 pending gate, exact foundation snapshots, six-corpus demand fixtures, TPC-H exclusion and research-only inGitDB candidate/evidence framework. |
 | [external roadmap/plans review](2026-09-11-external-roadmap-plans-review.md) | 2026-09-11 | External frontier-model review (traceability-checked by a second reviewer) of the roadmap and all Phase 2/Incidentius/Dashboardius plans, findings F1-F10, and the founder's verbatim rulings on web compare scope, Git snapshots and pilot order. |
 | [incident-vision reconciliation](2026-09-11-incident-vision-reconciliation.md) | 2026-09-11 | Maps every concept of the founder's incident-resolution vision to existing, extended or new capabilities with MVP/NEXT/FUTURE tiers; records the conflicts found and their resolutions. |
 | [incident-resolution vision (founder)](2026-09-11-incident-resolution-vision.md) | 2026-09-11 | The founder's product vision, architecture and engineering handoff for DataTug / Incidentius / Dashboardius, preserved verbatim as the source input. |

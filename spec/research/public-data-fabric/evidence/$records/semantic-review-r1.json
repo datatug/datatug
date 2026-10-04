@@ -1,0 +1,9 @@
+{
+  "title": "Semantic foundation review round 1",
+  "observed_at": "2026-10-04T19:26:00Z",
+  "outcome": "partial",
+  "summary": "Core 8 tests, meaning registry 48, model registry 54, both CLI suites and all six fixture semantic checks pass. Sakila model licence disagreement is pending its existing rollout owner; Node 24 confirmation remains required.",
+  "reviewer": "foundation-semantics",
+  "independent": false,
+  "path": "evidence/snapshot-pins.json"
+}

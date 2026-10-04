@@ -1,0 +1,11 @@
+{
+  "title": "TPC-H (excluded)",
+  "kind": "dataset",
+  "status": "rejected",
+  "reason": "Preserve the existing user-confirmed permission/licensing exclusion; reopen only with new permission evidence. No new legal research or conclusion was made.",
+  "evidence_ids": [
+    "tpch-exclusion"
+  ],
+  "repository": "demo-db/tpch",
+  "commit": "52600c63a66a49e60b83a6f7df0f92580179d616"
+}

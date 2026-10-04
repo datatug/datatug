@@ -1,0 +1,77 @@
+{
+  "review": "r1",
+  "scope": "foundation architecture; no semantic reconciliation or dataset selection",
+  "phase0": {
+    "blocking": [
+      "A1 canonical Chinook catalog-domain allowlist; assigned existing apps fix lane"
+    ],
+    "later_prerequisites": [
+      "A2 canonical discovery adapter",
+      "A3 representation-safe candidate and explicit join planning",
+      "A4 execution capability selection and parity",
+      "A5 research collections"
+    ]
+  },
+  "decisions": [
+    {
+      "id": "D1",
+      "decision": "Use DataTug hub research-only inGitDB collections; canonical registries unchanged",
+      "owner": "datatug/datatug"
+    },
+    {
+      "id": "D2",
+      "decision": "Resolve canonical pinned graph/model/provider metadata into rebuildable DataTug view; no copied canonical authority",
+      "owner": "DataTug integration/semantic layer"
+    },
+    {
+      "id": "D3",
+      "decision": "Preserve identifier namespace, physical role, exact key pairs and ambiguity; never equate every same-meaning raw value",
+      "owner": "dedicated reconciliation then DataTug planner"
+    },
+    {
+      "id": "D4",
+      "decision": "Prefer existing browser OVDB federation for first supported wave; CLI anonymous and multi-server are conditional later prerequisites",
+      "owner": "datatug/datatug-apps and datatug/datatug-cli"
+    },
+    {
+      "id": "D5",
+      "decision": "Compile selected bridges/transforms into existing queries; no speculative universal transform schema",
+      "owner": "provider artifacts and DataTug planner"
+    },
+    {
+      "id": "D6",
+      "decision": "Canonical domain is chinook.demodb.dev; distinguish active stale policy from historical fixture evidence and deliberate redirects",
+      "owner": "existing apps fix lane/root verifier"
+    }
+  ],
+  "dependency_order": [
+    "Phase0 fixes and fresh gate",
+    "research persistence and corpus analysis",
+    "dedicated reconciliation",
+    "portfolio architecture",
+    "canonical promotion and registry publication",
+    "DataTug discovery adapter",
+    "explicit candidate planning and existing executor integration",
+    "independent real browser positive/negative/provenance acceptance"
+  ],
+  "acceptance": [
+    "registry mutation changes suggestions",
+    "pin and capability mismatch is visible",
+    "different demo representations resolve only by accepted bridges",
+    "match/ambiguity/unmatched counts and cardinality measured",
+    "actual OVDB network query and result lineage",
+    "no public credential leakage or private-policy bypass"
+  ],
+  "verdict": {
+    "blockers": 1,
+    "majors": 3,
+    "minors": 1,
+    "land": false
+  },
+  "source_shas": {
+    "datatug/datatug": "ad67945061f89afa1a29de5f52ab6e6628b19f63",
+    "datatug/datatug-core": "269b5e8b670c7af23813b1db83b31777995b52be",
+    "datatug/datatug-cli": "cefd4a1c107dd774f9af1aaaf511604c65404f20",
+    "datatug/datatug-apps": "70b491f1bc53f90f1fd5e8cc0ebc3d20666fef9a"
+  }
+}

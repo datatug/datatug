@@ -1,0 +1,14 @@
+{
+  "title": "Demo corpus semantic analysis",
+  "status": "pending",
+  "owner": "Main orchestrator",
+  "prerequisite_ids": [
+    "phase0"
+  ],
+  "requirements": [
+    "Analyse all six actual demo schemas, representation diversity and reusable enrichment demand"
+  ],
+  "evidence_ids": [],
+  "blocker_ids": [],
+  "decision": "Not started; no phase completion claim."
+}

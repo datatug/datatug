@@ -1,0 +1,13 @@
+{
+  "title": "CLI parity for anonymous read-only public OVDB SourceConfig",
+  "status": "open",
+  "classification": "important/non-blocking",
+  "owner": "DataTug canonical integration owner",
+  "evidence_ids": [
+    "datatug-review-pending"
+  ],
+  "resolution": "CLI Phase 4 parity prerequisite. Browser federation already executes public OVDB leaves with optional bearer credentials; this is not an entire-product anonymous-query blocker.",
+  "gate_ids": [
+    "phase4"
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "review": "r1 foundation DataTug and full DemoDB corpus",
+  "phase": 0,
+  "scope": "read-only",
+  "time": "2026-10-04T19:25:32.664516+00:00",
+  "findings": [
+    {
+      "id": "DT-P0-001",
+      "severity": "blocking",
+      "repository": "datatug/datatug-apps",
+      "sha": "70b491f1bc53f90f1fd5e8cc0ebc3d20666fef9a",
+      "file": "libs/datatug/main/src/lib/chat/chinook-chat-data.service.ts",
+      "line": 42,
+      "observed": "Advertised /demo -> /project/github.com/datatug/chinook-demo -> Chat alerts local Chat trial has Chinook data only for datatug-demo-project. Send disabled. Canonical route projectId chinook-demo@datatug@ differs from literal accepted ID.",
+      "smallest_fix": "Use existing DEMO_PROJECT_REF plus retained legacy local demo ID in shared predicate for seeding and chat-workspace.ts:143,148 context source/table validation. Exercise canonical project route using real seed service and deterministic bounded DTQL query, retain rejecting unrelated projects. Do not change demo launch flag absent separate intent.",
+      "evidence": [
+        "datatug-chat-unsupported.png",
+        "datatug-chat-unsupported.dom.txt"
+      ]
+    },
+    {
+      "id": "DT-P0-002",
+      "severity": "important_nonblocking",
+      "repository": "datatug/datatug-cli",
+      "sha": "cefd4a1c107dd774f9af1aaaf511604c65404f20",
+      "file": "pkg/openvaultdb/source.go",
+      "line": 58,
+      "observed": "openvaultdb:// resolves local SourceConfig descriptor, not remote URL. Connection requires tokenEnv, principalId, destination binding and nonempty token; pkg/openvaultdb/client.go:38. Public OVDB anonymous client path is unsupported.",
+      "smallest_fix": "Phase4 integration prerequisite: extend anonymous read-only public source explicitly, preserving existing authenticated credential binding. Existing descriptor does not consume OVDB manifest or registry automatically.",
+      "evidence": [
+        "datatug-cli-results.json"
+      ]
+    },
+    {
+      "id": "DT-P0-003",
+      "severity": "important_nonblocking",
+      "repository": "datatug/datatug-core",
+      "sha": "269b5e8b670c7af23813b1db83b31777995b52be",
+      "file": "pkg/semantic/README.md",
+      "line": 3,
+      "observed": "Existing Resolve/RelatedLookups/Applicable derive from project EntityField mappings/name patterns and declared schema FKs; no MeaningGraph/ModelSpec registry consumption or discovery/suggestion bridge observed in source search. DataTug embedded grid direct JSON and local SQLite CLI supported.",
+      "smallest_fix": "Phase4 launch prerequisite: reuse existing semantic engine and federated-query sources to add canonical metadata ingestion and explained public suggestions; do not claim full semantic chain is already implemented."
+    }
+  ]
+}
