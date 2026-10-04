@@ -11,5 +11,6 @@
   "licence_notes": "GLEIF open-data page states its website data is CC0: https://www.gleif.org/en/about/open-data . ISO standard text remains separate copyrighted documentation. Exact selected file/version/provenance still requires dataset review.",
   "observed_at": "2026-10-04T22:10:00Z",
   "freshness": "needs-review",
-  "reason": "Standards/publisher evidence; no public dataset integration selected or data copied."
+  "reason": "Standards/publisher evidence; no public dataset integration selected or data copied.",
+  "research_depth": "documented"
 }

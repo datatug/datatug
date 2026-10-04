@@ -13,5 +13,6 @@
   "reason": "Proposed source recordset. Field inventory: geometry plus source-specific country/map-unit identifiers. Exact names and parsing depth remain source-qualified; see the linked evidence receipt and dated observations. All compatibility remains unresolved. Shapefile210.08KB/version5.1.1 advertised. Exact identifier field names and feature count uninspected; no ISO join proposed.",
   "source_url": "https://www.naturalearthdata.com/downloads/110m-cultural-vectors/110m-admin-0-countries/",
   "licence": "public-domain",
-  "licence_notes": "Map data public domain: commercial copying, caching, adaptation and redistribution permitted; attribution optional."
+  "licence_notes": "Map data public domain: commercial copying, caching, adaptation and redistribution permitted; attribution optional.",
+  "research_depth": "documented"
 }

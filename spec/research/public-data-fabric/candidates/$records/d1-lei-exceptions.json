@@ -13,5 +13,6 @@
   "reason": "Proposed source recordset. Field inventory: LEI,ExceptionCategory,ExceptionReason,ExceptionReference. Exact names and parsing depth remain source-qualified; see the linked evidence receipt and dated observations. All compatibility remains unresolved. Exact CDF field paths are not parsed yet; absence/reporting exceptions must not imply no parent.",
   "source_url": "https://www.gleif.org/en/lei-data/gleif-concatenated-file/download-the-concatenated-file",
   "licence": "CC0-1.0",
-  "licence_notes": "LEI and LE-RD are CC0. Supported access and no false affiliation service conditions apply; separate mapping-file rights must be checked."
+  "licence_notes": "LEI and LE-RD are CC0. Supported access and no false affiliation service conditions apply; separate mapping-file rights must be checked.",
+  "research_depth": "documented"
 }

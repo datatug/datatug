@@ -14,6 +14,7 @@
     "Proposed to roles: child/parent LEI"
   ],
   "practical_value": "Relationship type/period/reporting exceptions constrain graph traversal. Conceptual field roles only; no dataset field contract or measured join exists.",
-  "reason": "Conceptual relationship hypothesis only. Compatibility unresolved; confidence medium in research path; expected cardinality: many relationships per legalentity. Preserved as bundle because assertion edge requires actual recordset endpoints. No executable or accepted join. Direction: m1-legal-entity \u2192 m1-ownership. Proposed field roles are separately labelled in identifier_representations.",
-  "showcase_value": "Relationship graph after source-specific identifiers and scope are established."
+  "reason": "Conceptual relationship hypothesis only. Compatibility unresolved; confidence medium in research path; expected cardinality: many relationships per legalentity. Preserved as bundle because assertion edge requires actual recordset endpoints. No executable or accepted join. Direction: m1-legal-entity → m1-ownership. Proposed field roles are separately labelled in identifier_representations.",
+  "showcase_value": "Relationship graph after source-specific identifiers and scope are established.",
+  "research_depth": "documented"
 }

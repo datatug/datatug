@@ -13,5 +13,6 @@
   "reason": "Proposed source recordset. Field inventory: AREA,AREA_TYPE,OCC_CODE,OCC_TITLE,NAICS,TOT_EMP,H_MEAN,A_MEAN,relativeSE fields. Exact names and parsing depth remain source-qualified; see the linked evidence receipt and dated observations. All compatibility remains unresolved. Expected download columns unparsed; verify exact schema/version. Wage unit,occupation,area,industry and suppression matter.",
   "source_url": "https://www.bls.gov/cpi/data.htm",
   "licence": "public-domain",
-  "licence_notes": "BLS-authored numeric publications public domain, with separately copyrighted image exceptions. Cite data source/revision; API operational terms need revalidation."
+  "licence_notes": "BLS-authored numeric publications public domain, with separately copyrighted image exceptions. Cite data source/revision; API operational terms need revalidation.",
+  "research_depth": "documented"
 }

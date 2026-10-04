@@ -1,0 +1,12 @@
+{
+  "title": "d1 independent discovery review r2",
+  "observed_at": "2026-10-04T22:50:15Z",
+  "outcome": "pass",
+  "summary": "Durable import observation of the existing exact-head reviewer disposition; original execution timing is not inferred. Independent local Codex GPT-6 Astra High discovery review r2 of d1, PR83, exact head 0f8f6f67ae001a7cde68bfea7d4c1ef8f8485ed3. No unresolved findings; provisional research approved for root-owned landing only. No Phase1 combined acceptance, semantic reconciliation, portfolio selection or publication approval. Exact-head ledger CI succeeded at run37240860758. Source review SHA256 b981c5cb1e51874e284f3c54ae8126f08cfc81abccbee9069151736c0d89bcd7.",
+  "repository": "datatug/datatug",
+  "commit": "0f8f6f67ae001a7cde68bfea7d4c1ef8f8485ed3",
+  "reviewer": "phase1-independent-review / GPT-6 Astra High / local Codex",
+  "independent": true,
+  "review_stage": "discovery",
+  "url": "https://github.com/datatug/datatug/pull/83"
+}

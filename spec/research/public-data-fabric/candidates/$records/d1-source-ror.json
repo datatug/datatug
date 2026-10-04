@@ -8,5 +8,6 @@
   "source_url": "https://api.ror.org/v2/organizations",
   "licence": "CC0-1.0",
   "licence_notes": "ROR IDs and metadata CC0. Website prose is separately CC-BY-4.0. Organisation identity is not necessarily legal-entity identity.",
-  "reason": "Publisher reference only. Candidate-specific permissions, access constraints and coverage are retained in linked evidence."
+  "reason": "Publisher reference only. Candidate-specific permissions, access constraints and coverage are retained in linked evidence.",
+  "research_depth": "documented"
 }

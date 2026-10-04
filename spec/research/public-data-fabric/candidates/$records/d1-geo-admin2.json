@@ -13,5 +13,6 @@
   "reason": "Proposed source recordset. Field inventory: code,name,asciiname,geonameid. Exact names and parsing depth remain source-qualified; see the linked evidence receipt and dated observations. All compatibility remains unresolved. Composite country.admin1.admin2 code; codes scoped to parents, not globally unique.",
   "source_url": "https://download.geonames.org/export/dump/",
   "licence": "CC-BY-4.0",
-  "licence_notes": "CC-BY-4.0: credit GeoNames and indicate changes; commercial use, copying, caching, adaptation and redistribution permitted. No warranty."
+  "licence_notes": "CC-BY-4.0: credit GeoNames and indicate changes; commercial use, copying, caching, adaptation and redistribution permitted. No warranty.",
+  "research_depth": "documented"
 }

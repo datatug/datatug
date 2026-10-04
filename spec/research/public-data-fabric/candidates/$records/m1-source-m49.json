@@ -10,5 +10,6 @@
   "licence_notes": "UN publisher terms unresolved for republication; no table copied.",
   "observed_at": "2026-10-04T22:10:00Z",
   "freshness": "needs-review",
-  "reason": "Standards/publisher evidence; no public dataset integration selected or data copied."
+  "reason": "Standards/publisher evidence; no public dataset integration selected or data copied.",
+  "research_depth": "documented"
 }

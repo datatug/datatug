@@ -88,7 +88,7 @@ Each wave MUST be independently reviewed for semantic correctness, model fidelit
 
 ## Open Questions
 
-Current foundation blockers and later surface-specific integration prerequisites are preserved in [fabric.questions](../../research/public-data-fabric/README.md). Phase 0 is pending; broad discovery, reconciliation and launch implementation have not started.
+Current foundation blockers and later surface-specific integration prerequisites are preserved in [fabric.questions](../../research/public-data-fabric/README.md). Phase0 and Phase0.5 passed for bounded research; broad discovery is underway with individually reviewed streams. Phase1 combined acceptance remains pending; dedicated reconciliation, portfolio selection and launch implementation have not started. B1 remains open at Phase4/5/6.
 
 ---
 *This document follows the https://specscore.md/feature-specification*

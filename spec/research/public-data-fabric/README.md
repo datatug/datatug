@@ -2,7 +2,7 @@
 
 Snapshot: 2026-10-04. Owner: main orchestrator. [Owning Feature](../../features/public-data-fabric/README.md).
 
-**Phase 0 passed for bounded research readiness with corpus publication explicitly escalated. Phase 0.5 actual demo demand analysis has independent acceptance and a root-accepted bounded gate transition; final receipt/gate review, CI and WB landing remain pending.** The Phase 0 transition was durably landed at `ba2927fd24292c68a336651085b747aef14e2876` and the complete mission was reread before research. No mappings have been reconciled, no portfolio has been selected, and no public-data launch integration is claimed. The ledger retains the six demo fixtures, proposed demand candidates/field-role assertions/scenarios and the TPC-H exclusion. The implementation collection remains empty.
+**Phase 0 and Phase 0.5 passed for bounded research. Independently reviewed M1 and D1 discovery streams are landed; D2 discovery and combined Phase1 index/coverage acceptance remain pending.** Phase0.5 landed at `90cd16e8ad42131f66145b643697cc97bae8a295`; M1 at `306d3104f995a5185077fb81f6569b04ed8f48de`; D1 at `1b2ec71a593c9edd64e011f5949c48721956b817`. Exact-head independent reviews and CI are retained in consolidation evidence records. No mappings are reconciled, no portfolio selected and no public-data launch integration claimed. Six demo fixtures and TPC-H exclusion remain retained; implementation is empty. B1 remains open at Phase4/5/6. Earlier dated pending/failure snapshots below remain historical evidence.
 
 The product journey is connect a supported source → inspect meanings/identifiers → receive explained compatible public suggestions → execute bounded joins/lookups/enrichment → reuse across different physical demo schemas. Each stage must produce observable results and the final acceptance must exercise the real DataTug product path. Component/schema tests alone cannot establish that journey.
 
@@ -56,7 +56,7 @@ The root `.ingitdb/root-collections.yaml` registers six collections. Definitions
 
 | Collection | Purpose and queries |
 |---|---|
-| `fabric.candidates` | `kind` selects meaning/source/dataset/recordset/scenario/bundle indexes. Status selects rejected/blocked/low-priority and research depth. Source/dataset/member/dependency/demo IDs connect them. Identifier representations, canonical pins, source/licence/coverage/freshness and separate practical/showcase value are typed optional evidence fields. |
+| `fabric.candidates` | `kind` selects meaning/source/dataset/recordset/scenario/bundle indexes. Status selects lifecycle decisions such as rejected/blocked/low-priority; optional `research_depth` records inspection depth independently. Source/dataset/member/dependency/demo IDs connect them. Identifier representations, canonical pins, source/licence/coverage/freshness and separate practical/showcase value are typed optional evidence fields. |
 | `fabric.assertions` | Mapping or join edge: recordset/meaning endpoints, actual field names, identifier namespaces, physical role, expected cardinality, compatibility kind, assumptions, confidence, transformation, evidence and rejection reason. `meaning_id` permits joins by meaning; candidate `demo_ids` preserves reuse demand. |
 | `fabric.evidence` | Dated observations, decisions, exact commands/revisions, outcomes and reviewer receipts. `review_stage` separates dedicated reconciliation from ordinary observations. `independent` alone is never a passing outcome. |
 | `fabric.questions` | Classified blocking/nonblocking/unrelated findings with owners, linked candidates, `gate_ids` membership and evidence-backed closure/escalation. Every blocking question must name its gate(s); each gate's blocker list must exactly match assigned blocking questions. |
@@ -65,7 +65,7 @@ The root `.ingitdb/root-collections.yaml` registers six collections. Definitions
 
 Records require evidence for lifecycle decisions. Rejected/blocked records require reasons. Mapping/edge endpoints must have the correct kinds, transformations must be explicit, reconciled assertions require a fresh dedicated reconciliation receipt, implemented integrations require actual canonical/query/publication receipts, and passed gates require resolved/declined assigned decision questions, the fixed programme prerequisite graph and passing named independent-review evidence for that gate's stage. All required gate records must remain present. Phase 3 also requires a portfolio architect distinct from Phase 2's reconciliation reviewer. Gate evidence can link new acceptance receipts while question history retains older failing/partial observations. Checks validate declared receipts and relationships; they do not prove the truth of a human review or replace live verification.
 
-Useful lookup procedures: find meaning IDs, filter mapping assertions by `to_id`, then follow recordsets to datasets; filter `identifier_representations` for a representation; inspect candidate `demo_ids` for cross-demo coverage; follow scenario/bundle `member_ids` and `dependency_ids` for prerequisites; filter rejected status and licence reason; compare `revalidate_after` against current time. Zero matches remain a useful gap, not a reason to invent data. inGitDB scalar filters handle simple cases; structured JSON output supports array membership and graph traversal.
+[Deterministic query recipes and definitions](index-queries.md) cover all mission index questions and missing-data branches. Useful lookup procedures: find meaning IDs, filter mapping assertions by `to_id`, then follow recordsets to datasets; filter `identifier_representations` for a representation; inspect candidate `demo_ids` for cross-demo coverage; follow scenario/bundle `member_ids` and `dependency_ids` for prerequisites; filter rejected status and licence reason; compare `revalidate_after` against current time. Zero matches remain a useful gap, not a reason to invent data. inGitDB scalar filters handle simple cases; structured JSON output supports array membership and graph traversal.
 
 ```sh
 ingitdb list collections --path .
@@ -81,6 +81,7 @@ Run from repository root before committing:
 ```sh
 ingitdb validate --path .
 python3 spec/research/public-data-fabric/check.py --self-test
+python3 spec/research/public-data-fabric/test_query_index.py
 specscore spec lint
 git diff --check
 ```

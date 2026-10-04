@@ -1,0 +1,12 @@
+{
+  "title": "d1 independent discovery review r1",
+  "observed_at": "2026-10-04T22:50:15Z",
+  "outcome": "fail",
+  "summary": "Durable import observation of the existing exact-head reviewer disposition; original execution timing is not inferred. Independent local Codex GPT-6 Astra High discovery review r1 of d1, PR83, exact head 381267d295ef700d7e2fb9d0ac4e15afdc897508. Findings retained as history and superseded by r2 corrections. ECB regional currency multiplicity and GLEIF API/CDF field-path fidelity required correction. Source review SHA256 d571883b8ab1dbf3cdf503d94ab8b7c3ae56114659ff14fb2bef3c58717a730d.",
+  "repository": "datatug/datatug",
+  "commit": "381267d295ef700d7e2fb9d0ac4e15afdc897508",
+  "reviewer": "phase1-independent-review / GPT-6 Astra High / local Codex",
+  "independent": true,
+  "review_stage": "discovery",
+  "url": "https://github.com/datatug/datatug/pull/83"
+}

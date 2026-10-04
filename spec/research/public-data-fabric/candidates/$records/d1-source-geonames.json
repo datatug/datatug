@@ -8,5 +8,6 @@
   "source_url": "https://download.geonames.org/export/dump/",
   "licence": "CC-BY-4.0",
   "licence_notes": "CC-BY-4.0: credit GeoNames and indicate changes; commercial use, copying, caching, adaptation and redistribution permitted. No warranty.",
-  "reason": "Publisher reference only. Candidate-specific permissions, access constraints and coverage are retained in linked evidence."
+  "reason": "Publisher reference only. Candidate-specific permissions, access constraints and coverage are retained in linked evidence.",
+  "research_depth": "documented"
 }

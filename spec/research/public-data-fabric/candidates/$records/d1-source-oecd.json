@@ -8,5 +8,6 @@
   "source_url": "https://data-explorer.oecd.org/",
   "licence": "OECD data-use terms",
   "licence_notes": "OECD data-use terms section 3 permit commercial reuse with citation unless additional or third-party restrictions apply. No specific dataflow rights verified.",
-  "reason": "Publisher reference only. Candidate-specific permissions, access constraints and coverage are retained in linked evidence."
+  "reason": "Publisher reference only. Candidate-specific permissions, access constraints and coverage are retained in linked evidence.",
+  "research_depth": "shallow"
 }

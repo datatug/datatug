@@ -14,7 +14,8 @@
     "From roles: ROR ID, schema domains",
     "To roles: DNS domain name"
   ],
-  "reason": "Direction m1-ror \u2192 m1-domain. Expected cardinality: organisation may declare several domains; reverse uniqueness must be measured. Unresolved compatibility, no universal organisational identity claim.",
+  "reason": "Direction m1-ror → m1-domain. Expected cardinality: organisation may declare several domains; reverse uniqueness must be measured. Unresolved compatibility, no universal organisational identity claim.",
   "practical_value": "ROR schema offers publisher-asserted domain associations, stronger than inferring organisation from arbitrary website URL. Exact current schema, record version and association quality still need dataset verification.",
-  "showcase_value": "Affiliation/domain lookup explanation."
+  "showcase_value": "Affiliation/domain lookup explanation.",
+  "research_depth": "documented"
 }

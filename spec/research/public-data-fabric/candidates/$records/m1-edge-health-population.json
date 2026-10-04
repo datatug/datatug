@@ -14,6 +14,7 @@
     "Proposed to roles: area, period, age/sex/cohort"
   ],
   "practical_value": "Denominator may be at-risk or standard population; never automatic divide by total residents. Conceptual field roles only; no dataset field contract or measured join exists.",
-  "reason": "Conceptual relationship hypothesis only. Compatibility unresolved; confidence medium in research path; expected cardinality: definition-dependent. Preserved as bundle because assertion edge requires actual recordset endpoints. No executable or accepted join. Direction: m1-health-rate \u2192 m1-population. Proposed field roles are separately labelled in identifier_representations.",
-  "showcase_value": "Relationship graph after source-specific identifiers and scope are established."
+  "reason": "Conceptual relationship hypothesis only. Compatibility unresolved; confidence medium in research path; expected cardinality: definition-dependent. Preserved as bundle because assertion edge requires actual recordset endpoints. No executable or accepted join. Direction: m1-health-rate → m1-population. Proposed field roles are separately labelled in identifier_representations.",
+  "showcase_value": "Relationship graph after source-specific identifiers and scope are established.",
+  "research_depth": "documented"
 }

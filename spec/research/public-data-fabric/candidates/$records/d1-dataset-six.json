@@ -16,5 +16,6 @@
   "freshness": "needs-review",
   "reason": "Research candidate; no canonical publication or accepted mapping. Linked source evidence records research depth, source fields, observed samples and unresolved access/permission constraints.",
   "practical_value": "Supports proposed connected scenarios after identity, temporal and legal review.",
-  "showcase_value": "Secondary to practical joinability."
+  "showcase_value": "Secondary to practical joinability.",
+  "research_depth": "documented"
 }
