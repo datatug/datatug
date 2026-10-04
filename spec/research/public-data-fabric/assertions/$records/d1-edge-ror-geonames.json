@@ -24,6 +24,6 @@
     "p2-dedicated-reconciliation",
     "p2-bridge-probes"
   ],
-  "physical_role": "Proposed contextual join; not executed or reconciled",
+  "physical_role": "Accepted provider-declared GeoNames feature reference in the inspected ROR location contract; not executed in DataTug",
   "reason": "Phase 2 ACCEPTED: ROR locations.geonames_id explicitly references GeoNames feature identity (the observed record points to3688689). Accept namespace-qualified feature reference; explode locations and retain role/multiplicity. It does not prove each organisation has one site, or that all GeoNames features are cities."
 }

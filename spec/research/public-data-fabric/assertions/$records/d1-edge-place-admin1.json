@@ -24,7 +24,7 @@
     "p2-dedicated-reconciliation",
     "p2-bridge-probes"
   ],
-  "physical_role": "Proposed contextual join; not executed or reconciled",
+  "physical_role": "Accepted provider-scoped country/admin1 composite projection and reference; not executed in DataTug",
   "transformation": "After validating nonempty countrycode/admin1code, construct countrycode + \".\" + admin1code exactly as strings and lookup admin1.code in the same snapshot. Retain both source components and report missing/nonunique keys.",
   "reason": "Phase 2 ACCEPTED: GeoNames admin1CodesASCII key is the country-code and provider admin1-code tuple rendered as country.admin1. This is a GeoNames-specific administrative reference; admin1 code is often FIPS-derived and must not be silently relabelled ISO3166-2. Null/missing levels remain unmatched."
 }

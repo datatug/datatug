@@ -14,7 +14,7 @@
   ],
   "meaning_id": "d1-meaning-country-area",
   "compatibility": "unresolved",
-  "assumptions": "Follow local address to city to country foreign keys before label matching. Sakila local integer IDs are not external geographic identifiers.",
+  "assumptions": "Follow local address to city to country foreign keys before label matching. Sakila local integer IDs are not external geographic identifiers. Snapshot denominator: 102/109 nonnull rows matched and 102/109 total rows matched; 0 NULL, 0 empty-string, 7 unmatched nonnull and 0 ambiguous rows. Preserve all unlinked source rows.",
   "confidence": "low",
   "from_identifier_namespace": "demo:demand-sakila-country:label",
   "to_identifier_namespace": "GeoNames:countryInfoISO2",
@@ -24,9 +24,10 @@
     "d1-geonames",
     "p2-geography",
     "p2-dedicated-reconciliation",
-    "p2-bridge-probes"
+    "p2-bridge-probes",
+    "p2-review-corrections"
   ],
   "physical_role": "Proposed contextual join; not executed or reconciled",
   "transformation": "Preserve raw values. Review any normalization or conversion explicitly before joining.",
-  "reason": "Phase 2 UNRESOLVED: Explicit raw-label bridge matches102 of109 Sakila country rows. Seven unresolved names are retained in p2-bridge-probes.json, including historical Yugoslavia; do not map that value to a modern successor or erase historical boundaries. Others require reviewed aliases, not accent folding/fuzzy guessing. Implement a partial bridge only with unmatched visibility; this whole proposal remains unaccepted."
+  "reason": "Phase 2 UNRESOLVED: Explicit raw-label bridge matches102 of109 Sakila country rows. Seven unresolved names are retained in p2-bridge-probes.json, including historical Yugoslavia; do not map that value to a modern successor or erase historical boundaries. Others require reviewed aliases, not accent folding/fuzzy guessing. Implement a partial bridge only with unmatched visibility; this whole proposal remains unaccepted.\n\nSnapshot denominator: 102/109 nonnull rows matched and 102/109 total rows matched; 0 NULL, 0 empty-string, 7 unmatched nonnull and 0 ambiguous rows. Preserve all unlinked source rows."
 }

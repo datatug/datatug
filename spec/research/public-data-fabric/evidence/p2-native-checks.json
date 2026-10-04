@@ -2452,7 +2452,14 @@
       "match": "labels",
       "matched_rows": 59,
       "unmatched": [],
-      "ambiguous": []
+      "ambiguous": [],
+      "source_rows": 59,
+      "nonnull_source_rows": 59,
+      "null_source_rows": 0,
+      "empty_string_rows": 0,
+      "unmatched_nonnull_rows": 0,
+      "ambiguous_nonnull_rows": 0,
+      "unlinked_source_rows": 0
     },
     "demand-map-1114afbf7290a7c7": {
       "demo": "sakila",
@@ -2822,7 +2829,14 @@
           "rows": 1
         }
       ],
-      "ambiguous": []
+      "ambiguous": [],
+      "source_rows": 109,
+      "nonnull_source_rows": 109,
+      "null_source_rows": 0,
+      "empty_string_rows": 0,
+      "unmatched_nonnull_rows": 90,
+      "ambiguous_nonnull_rows": 0,
+      "unlinked_source_rows": 90
     },
     "demand-map-12b2ef108e447324": {
       "demo": "adventureworks",
@@ -3688,7 +3702,14 @@
           "rows": 1
         }
       ],
-      "ambiguous": []
+      "ambiguous": [],
+      "source_rows": 238,
+      "nonnull_source_rows": 238,
+      "null_source_rows": 0,
+      "empty_string_rows": 0,
+      "unmatched_nonnull_rows": 214,
+      "ambiguous_nonnull_rows": 0,
+      "unlinked_source_rows": 214
     },
     "demand-map-21ac649bc80953ee": {
       "demo": "adventureworks",
@@ -3697,7 +3718,14 @@
       "match": "labels",
       "matched_rows": 712,
       "unmatched": [],
-      "ambiguous": []
+      "ambiguous": [],
+      "source_rows": 712,
+      "nonnull_source_rows": 712,
+      "null_source_rows": 0,
+      "empty_string_rows": 0,
+      "unmatched_nonnull_rows": 0,
+      "ambiguous_nonnull_rows": 0,
+      "unlinked_source_rows": 0
     },
     "demand-map-2f3ce17b307876c4": {
       "demo": "northwind",
@@ -3719,7 +3747,14 @@
           "rows": 4
         }
       ],
-      "ambiguous": []
+      "ambiguous": [],
+      "source_rows": 93,
+      "nonnull_source_rows": 91,
+      "null_source_rows": 2,
+      "empty_string_rows": 0,
+      "unmatched_nonnull_rows": 11,
+      "ambiguous_nonnull_rows": 0,
+      "unlinked_source_rows": 13
     },
     "demand-map-31e7d8b77e299440": {
       "demo": "chinook",
@@ -3728,7 +3763,14 @@
       "match": "labels",
       "matched_rows": 8,
       "unmatched": [],
-      "ambiguous": []
+      "ambiguous": [],
+      "source_rows": 8,
+      "nonnull_source_rows": 8,
+      "null_source_rows": 0,
+      "empty_string_rows": 0,
+      "unmatched_nonnull_rows": 0,
+      "ambiguous_nonnull_rows": 0,
+      "unlinked_source_rows": 0
     },
     "demand-map-3bd216edbeffd9af": {
       "demo": "adventureworks",
@@ -3737,7 +3779,14 @@
       "match": "codes.alpha2",
       "matched_rows": 10,
       "unmatched": [],
-      "ambiguous": []
+      "ambiguous": [],
+      "source_rows": 10,
+      "nonnull_source_rows": 10,
+      "null_source_rows": 0,
+      "empty_string_rows": 0,
+      "unmatched_nonnull_rows": 0,
+      "ambiguous_nonnull_rows": 0,
+      "unlinked_source_rows": 0
     },
     "demand-map-4bfa3738f11e4a5f": {
       "demo": "sakila",
@@ -3746,7 +3795,14 @@
       "match": "labels",
       "matched_rows": 2,
       "unmatched": [],
-      "ambiguous": []
+      "ambiguous": [],
+      "source_rows": 2,
+      "nonnull_source_rows": 2,
+      "null_source_rows": 0,
+      "empty_string_rows": 0,
+      "unmatched_nonnull_rows": 0,
+      "ambiguous_nonnull_rows": 0,
+      "unlinked_source_rows": 0
     },
     "demand-map-5de1c43ab2a3cef3": {
       "demo": "pubs",
@@ -3755,7 +3811,14 @@
       "match": "labels",
       "matched_rows": 8,
       "unmatched": [],
-      "ambiguous": []
+      "ambiguous": [],
+      "source_rows": 8,
+      "nonnull_source_rows": 8,
+      "null_source_rows": 0,
+      "empty_string_rows": 0,
+      "unmatched_nonnull_rows": 0,
+      "ambiguous_nonnull_rows": 0,
+      "unlinked_source_rows": 0
     },
     "demand-map-654fc78ddaba47bb": {
       "demo": "adventureworks",
@@ -3789,7 +3852,14 @@
           "rows": 1
         }
       ],
-      "ambiguous": []
+      "ambiguous": [],
+      "source_rows": 181,
+      "nonnull_source_rows": 181,
+      "null_source_rows": 0,
+      "empty_string_rows": 0,
+      "unmatched_nonnull_rows": 6,
+      "ambiguous_nonnull_rows": 0,
+      "unlinked_source_rows": 6
     },
     "demand-map-69decfde3396ceb6": {
       "demo": "chinook",
@@ -3798,7 +3868,14 @@
       "match": "labels",
       "matched_rows": 412,
       "unmatched": [],
-      "ambiguous": []
+      "ambiguous": [],
+      "source_rows": 412,
+      "nonnull_source_rows": 412,
+      "null_source_rows": 0,
+      "empty_string_rows": 0,
+      "unmatched_nonnull_rows": 0,
+      "ambiguous_nonnull_rows": 0,
+      "unlinked_source_rows": 0
     },
     "demand-map-74a9861e93d49428": {
       "demo": "northwind",
@@ -3820,7 +3897,14 @@
           "rows": 1
         }
       ],
-      "ambiguous": []
+      "ambiguous": [],
+      "source_rows": 29,
+      "nonnull_source_rows": 29,
+      "null_source_rows": 0,
+      "empty_string_rows": 0,
+      "unmatched_nonnull_rows": 4,
+      "ambiguous_nonnull_rows": 0,
+      "unlinked_source_rows": 4
     },
     "demand-map-7bc58b9c854352c6": {
       "demo": "adventureworks",
@@ -3829,7 +3913,14 @@
       "match": "labels",
       "matched_rows": 17,
       "unmatched": [],
-      "ambiguous": []
+      "ambiguous": [],
+      "source_rows": 17,
+      "nonnull_source_rows": 17,
+      "null_source_rows": 0,
+      "empty_string_rows": 0,
+      "unmatched_nonnull_rows": 0,
+      "ambiguous_nonnull_rows": 0,
+      "unlinked_source_rows": 0
     },
     "demand-map-7d5331bb11aba4c5": {
       "demo": "sakila",
@@ -4199,7 +4290,14 @@
           "rows": 1
         }
       ],
-      "ambiguous": []
+      "ambiguous": [],
+      "source_rows": 599,
+      "nonnull_source_rows": 599,
+      "null_source_rows": 0,
+      "empty_string_rows": 0,
+      "unmatched_nonnull_rows": 402,
+      "ambiguous_nonnull_rows": 0,
+      "unlinked_source_rows": 402
     },
     "demand-map-91607300046e411c": {
       "demo": "adventureworks",
@@ -4497,7 +4595,14 @@
           "rows": 1
         }
       ],
-      "ambiguous": []
+      "ambiguous": [],
+      "source_rows": 109,
+      "nonnull_source_rows": 109,
+      "null_source_rows": 0,
+      "empty_string_rows": 0,
+      "unmatched_nonnull_rows": 74,
+      "ambiguous_nonnull_rows": 0,
+      "unlinked_source_rows": 74
     },
     "demand-map-9306fe94b8c67e2d": {
       "demo": "northwind",
@@ -4506,7 +4611,14 @@
       "match": "labels",
       "matched_rows": 9,
       "unmatched": [],
-      "ambiguous": []
+      "ambiguous": [],
+      "source_rows": 9,
+      "nonnull_source_rows": 9,
+      "null_source_rows": 0,
+      "empty_string_rows": 0,
+      "unmatched_nonnull_rows": 0,
+      "ambiguous_nonnull_rows": 0,
+      "unlinked_source_rows": 0
     },
     "demand-map-94823163d377eeaa": {
       "demo": "northwind",
@@ -4528,7 +4640,14 @@
           "rows": 46
         }
       ],
-      "ambiguous": []
+      "ambiguous": [],
+      "source_rows": 830,
+      "nonnull_source_rows": 830,
+      "null_source_rows": 0,
+      "empty_string_rows": 0,
+      "unmatched_nonnull_rows": 92,
+      "ambiguous_nonnull_rows": 0,
+      "unlinked_source_rows": 92
     },
     "demand-map-a87fbaefdd1accac": {
       "demo": "adventureworks",
@@ -4537,7 +4656,14 @@
       "match": "labels",
       "matched_rows": 290,
       "unmatched": [],
-      "ambiguous": []
+      "ambiguous": [],
+      "source_rows": 290,
+      "nonnull_source_rows": 290,
+      "null_source_rows": 0,
+      "empty_string_rows": 0,
+      "unmatched_nonnull_rows": 0,
+      "ambiguous_nonnull_rows": 0,
+      "unlinked_source_rows": 0
     },
     "demand-map-c9ca2aa62c18b6c7": {
       "demo": "adventureworks",
@@ -4546,7 +4672,14 @@
       "match": "labels",
       "matched_rows": 104,
       "unmatched": [],
-      "ambiguous": []
+      "ambiguous": [],
+      "source_rows": 104,
+      "nonnull_source_rows": 104,
+      "null_source_rows": 0,
+      "empty_string_rows": 0,
+      "unmatched_nonnull_rows": 0,
+      "ambiguous_nonnull_rows": 0,
+      "unlinked_source_rows": 0
     },
     "demand-map-cfe9ec0b99971068": {
       "demo": "adventureworks",
@@ -4555,7 +4688,14 @@
       "match": "labels",
       "matched_rows": 18508,
       "unmatched": [],
-      "ambiguous": []
+      "ambiguous": [],
+      "source_rows": 18508,
+      "nonnull_source_rows": 18508,
+      "null_source_rows": 0,
+      "empty_string_rows": 0,
+      "unmatched_nonnull_rows": 0,
+      "ambiguous_nonnull_rows": 0,
+      "unlinked_source_rows": 0
     },
     "demand-map-d5b717b50421f2ad": {
       "demo": "adventureworks",
@@ -4589,7 +4729,14 @@
           "rows": 1
         }
       ],
-      "ambiguous": []
+      "ambiguous": [],
+      "source_rows": 181,
+      "nonnull_source_rows": 181,
+      "null_source_rows": 0,
+      "empty_string_rows": 0,
+      "unmatched_nonnull_rows": 6,
+      "ambiguous_nonnull_rows": 0,
+      "unlinked_source_rows": 6
     },
     "demand-map-ef65e0be516653ec": {
       "demo": "adventureworks",
@@ -5455,7 +5602,14 @@
           "rows": 1
         }
       ],
-      "ambiguous": []
+      "ambiguous": [],
+      "source_rows": 238,
+      "nonnull_source_rows": 238,
+      "null_source_rows": 0,
+      "empty_string_rows": 0,
+      "unmatched_nonnull_rows": 214,
+      "ambiguous_nonnull_rows": 0,
+      "unlinked_source_rows": 214
     },
     "demand-map-f56c7b5ed26d3451": {
       "demo": "adventureworks",
@@ -5489,7 +5643,14 @@
           "rows": 1
         }
       ],
-      "ambiguous": []
+      "ambiguous": [],
+      "source_rows": 181,
+      "nonnull_source_rows": 181,
+      "null_source_rows": 0,
+      "empty_string_rows": 0,
+      "unmatched_nonnull_rows": 6,
+      "ambiguous_nonnull_rows": 0,
+      "unlinked_source_rows": 6
     }
   },
   "alternate_keys": {

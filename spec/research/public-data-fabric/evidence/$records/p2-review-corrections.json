@@ -1,0 +1,8 @@
+{
+  "title": "Phase2 independent-review corrections",
+  "observed_at": "2026-10-04T23:48:34.344194+00:00",
+  "outcome": "decision",
+  "summary": "Author corrections responding to independent review of0b514301:8current-role descriptions retain historical text;16 source-local identifier/entity/reference proposals corrected with5 explicit duplicate binding aliases; all5 country-probe denominators retain NULL/empty/unmatched/ambiguous rows. This is an author correction receipt, not independent acceptance. No external identity, gate or publication change.",
+  "reviewer": "fresh-phase2-semantic-reconciler",
+  "path": "spec/research/public-data-fabric/evidence/p2-preservation.json"
+}

@@ -1848,8 +1848,8 @@
     "demand-map-ff35fa05c00e07ba"
   ],
   "assertion_dispositions": {
-    "unresolved": 904,
-    "accepted": 247,
+    "unresolved": 888,
+    "accepted": 263,
     "rejected": 19
   },
   "meaning_dispositions": {
@@ -2200,8 +2200,8 @@
         "demand-map-3cecf94ed091ca3a"
       ],
       "disposition_counts": {
-        "unresolved": 13,
-        "accepted": 5
+        "unresolved": 11,
+        "accepted": 7
       },
       "member_ids": [],
       "dependency_ids": [],
@@ -3250,8 +3250,8 @@
         "demand-map-b0a5edd12b06e233"
       ],
       "disposition_counts": {
-        "accepted": 6,
-        "unresolved": 8
+        "accepted": 7,
+        "unresolved": 7
       },
       "member_ids": [],
       "dependency_ids": [],
@@ -4037,8 +4037,8 @@
         "demand-map-4d3bac9fbab5d0b1"
       ],
       "disposition_counts": {
-        "unresolved": 17,
-        "accepted": 5
+        "unresolved": 15,
+        "accepted": 7
       },
       "member_ids": [],
       "dependency_ids": [],
@@ -4330,8 +4330,8 @@
         "p2-edge-aw-mass-units"
       ],
       "disposition_counts": {
-        "unresolved": 1,
-        "accepted": 1
+        "accepted": 1,
+        "unresolved": 1
       },
       "member_ids": [],
       "dependency_ids": [],
@@ -5829,8 +5829,8 @@
         "demand-edge-0165bbf556c3b7e7"
       ],
       "disposition_counts": {
-        "unresolved": 3,
-        "accepted": 2
+        "accepted": 3,
+        "unresolved": 2
       },
       "member_ids": [],
       "dependency_ids": [],
@@ -6085,8 +6085,8 @@
         "demand-map-08b26bd5f1e88ea9"
       ],
       "disposition_counts": {
-        "accepted": 4,
-        "unresolved": 11
+        "accepted": 5,
+        "unresolved": 10
       },
       "member_ids": [],
       "dependency_ids": [],
@@ -6115,8 +6115,8 @@
         "demand-map-52895bef3414a55f"
       ],
       "disposition_counts": {
-        "accepted": 3,
-        "unresolved": 5
+        "accepted": 4,
+        "unresolved": 4
       },
       "member_ids": [],
       "dependency_ids": [],
@@ -6460,8 +6460,8 @@
         "demand-map-94823163d377eeaa"
       ],
       "disposition_counts": {
-        "unresolved": 15,
-        "accepted": 5
+        "unresolved": 11,
+        "accepted": 9
       },
       "member_ids": [],
       "dependency_ids": [],
@@ -6531,8 +6531,8 @@
         "demand-map-75370f1ace512c91"
       ],
       "disposition_counts": {
-        "unresolved": 8,
-        "accepted": 3
+        "unresolved": 7,
+        "accepted": 4
       },
       "member_ids": [],
       "dependency_ids": [],
@@ -6562,8 +6562,8 @@
         "demand-map-9862e4385e839445"
       ],
       "disposition_counts": {
-        "accepted": 4,
-        "unresolved": 14
+        "accepted": 6,
+        "unresolved": 12
       },
       "member_ids": [],
       "dependency_ids": [],
@@ -7473,8 +7473,8 @@
         "demand-map-fb1d4ac4373bae27"
       ],
       "disposition_counts": {
-        "accepted": 2,
-        "unresolved": 3
+        "accepted": 3,
+        "unresolved": 2
       },
       "member_ids": [],
       "dependency_ids": [],
@@ -8116,10 +8116,38 @@
     "p2-map-chinook-catalogue-price"
   ],
   "accepted_scopes": {
-    "demo-field-implementation": 53,
+    "demo-field-implementation": 69,
     "native-demo-reference": 152,
     "public-source-reference-or-mapping": 33,
     "cross-demo-to-public-bridge": 4,
     "native-alternate-key": 5
+  },
+  "duplicate_local_binding_aliases": [
+    {
+      "alias_assertion_id": "demand-map-3ccf92f050b580af",
+      "same_local_binding_as": "demand-map-83295a6dbbbf1911"
+    },
+    {
+      "alias_assertion_id": "demand-map-f7008974af7ffb36",
+      "same_local_binding_as": "demand-map-79c8d0b54f51acd3"
+    },
+    {
+      "alias_assertion_id": "demand-map-73526b5b12870997",
+      "same_local_binding_as": "demand-map-2496611403b90a56"
+    },
+    {
+      "alias_assertion_id": "demand-map-0c059b23056f43b0",
+      "same_local_binding_as": "demand-map-d2dc5dda9bf2161c"
+    },
+    {
+      "alias_assertion_id": "demand-map-03f2614b38097665",
+      "same_local_binding_as": "demand-map-67e7d31645d6b0b1"
+    }
+  ],
+  "local_role_correction_accounting": {
+    "accepted_assertion_records": 16,
+    "aliases_of_previously_accepted_bindings": 5,
+    "other_local_role_records": 11,
+    "new_cross_source_paths": 0
   }
 }

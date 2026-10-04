@@ -23,6 +23,6 @@
     "p2-dedicated-reconciliation",
     "p2-bridge-probes"
   ],
-  "physical_role": "Proposed contextual join; not executed or reconciled",
+  "physical_role": "Accepted provider-declared GeoNames country-code reference; not executed in DataTug",
   "reason": "Phase 2 ACCEPTED: GeoNames place countrycode references countryInfo ISO in its country-code namespace. Accept only nonempty ISO2 values resolved against the same pinned country snapshot; unsupported/special areas stay unmatched. Country relation is not city-name identity."
 }

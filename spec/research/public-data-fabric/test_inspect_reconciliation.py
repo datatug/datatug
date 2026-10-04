@@ -10,6 +10,14 @@ import inspect_reconciliation as probe
 
 
 class EvidenceCounterexamples(unittest.TestCase):
+    def test_country_denominators_keep_null_empty_and_ambiguous(self):
+        counts = probe.country_counts([(None, 2), ('', 1), ('US', 3), ('Congo', 1)],
+                                      3, [{'rows': 1}], [{'rows': 1}])
+        self.assertEqual({'source_rows': 7, 'nonnull_source_rows': 5,
+                          'null_source_rows': 2, 'empty_string_rows': 1,
+                          'unmatched_nonnull_rows': 1, 'ambiguous_nonnull_rows': 1,
+                          'unlinked_source_rows': 4}, counts)
+
     def test_composite_orphan_null_duplicate_and_exact_country(self):
         with tempfile.TemporaryDirectory() as tmp:
             base = Path(tmp)

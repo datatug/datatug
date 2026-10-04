@@ -17,6 +17,20 @@ def q(value):
     return '"' + value.replace('"', '""') + '"'
 
 
+def country_counts(values, matched, unmatched, ambiguous):
+    """Retain every source row; empty strings remain nonnull unmatched values."""
+    total = sum(count for _, count in values)
+    nulls = sum(count for value, count in values if value is None)
+    missing = sum(row['rows'] for row in unmatched)
+    uncertain = sum(row['rows'] for row in ambiguous)
+    assert matched + missing + uncertain == total - nulls
+    return dict(source_rows=total, nonnull_source_rows=total-nulls,
+                null_source_rows=nulls,
+                empty_string_rows=sum(count for value, count in values if value == ''),
+                unmatched_nonnull_rows=missing, ambiguous_nonnull_rows=uncertain,
+                unlinked_source_rows=nulls+missing+uncertain)
+
+
 def inspect(fixtures, countries):
     demand = json.loads((BASE / 'evidence/demo-demand.json').read_text())['corpora']
     candidates = {p.stem: json.loads(p.read_text()) for p in (BASE / 'candidates/$records').glob('*.json')}
@@ -80,7 +94,8 @@ def inspect(fixtures, countries):
                 else:
                     unmatched.append({'value': value, 'rows': count})
             result['country_representations'][key] = dict(demo=demo, table=table, field=field,
-                match=mode, matched_rows=matched, unmatched=unmatched, ambiguous=ambiguous)
+                match=mode, matched_rows=matched, unmatched=unmatched, ambiguous=ambiguous,
+                **country_counts(values, matched, unmatched, ambiguous))
     for demo, info in sorted(demand.items()):
         for table, rs in sorted(info['recordsets'].items()):
             unique = [i for i in rs['indexes'] if i['unique'] and i['origin'] != 'pk']

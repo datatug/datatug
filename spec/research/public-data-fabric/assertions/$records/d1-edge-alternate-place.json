@@ -23,6 +23,6 @@
     "p2-dedicated-reconciliation",
     "p2-bridge-probes"
   ],
-  "physical_role": "Proposed contextual join; not executed or reconciled",
+  "physical_role": "Accepted provider-declared GeoNames feature reference for alternate names; not executed in DataTug",
   "reason": "Phase 2 ACCEPTED: GeoNames alternate geonameid references the gazetteer geonameid namespace. Accept the documented feature reference; language/flags/validity describe the alias, not identity. Names can repeat; full selected snapshots require target uniqueness/orphan measurement."
 }

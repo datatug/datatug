@@ -152,7 +152,16 @@
           "ISO": "GB",
           "rows": 3
         }
-      ]
+      ],
+      "source_rows": 59,
+      "nonnull_source_rows": 59,
+      "null_source_rows": 0,
+      "empty_string_rows": 0,
+      "unmatched_nonnull_rows": 0,
+      "ambiguous_nonnull_rows": 0,
+      "unlinked_source_rows": 0,
+      "source_fixture_sha256": "7651ba378ac2fcd0dfc3c66fb101f7a7eed3ba39a612ec642b96e20702061f15",
+      "missing_policy": "Preserve NULL/empty/unmatched/ambiguous source rows explicitly; no inner-join filtering presented as complete source coverage."
     },
     "d1-edge-northwind-country": {
       "matched_rows": 91,
@@ -264,7 +273,16 @@
           "ISO": "VE",
           "rows": 4
         }
-      ]
+      ],
+      "source_rows": 93,
+      "nonnull_source_rows": 91,
+      "null_source_rows": 2,
+      "empty_string_rows": 0,
+      "unmatched_nonnull_rows": 0,
+      "ambiguous_nonnull_rows": 0,
+      "unlinked_source_rows": 2,
+      "source_fixture_sha256": "279b34136771aee75d802094b3329515a2b01da65d2a20a4a9e3b58c29b4fd20",
+      "missing_policy": "Preserve NULL/empty/unmatched/ambiguous source rows explicitly; no inner-join filtering presented as complete source coverage."
     },
     "d1-edge-northwind-shipping-country": {
       "matched_rows": 830,
@@ -376,7 +394,16 @@
           "ISO": "VE",
           "rows": 46
         }
-      ]
+      ],
+      "source_rows": 830,
+      "nonnull_source_rows": 830,
+      "null_source_rows": 0,
+      "empty_string_rows": 0,
+      "unmatched_nonnull_rows": 0,
+      "ambiguous_nonnull_rows": 0,
+      "unlinked_source_rows": 0,
+      "source_fixture_sha256": "279b34136771aee75d802094b3329515a2b01da65d2a20a4a9e3b58c29b4fd20",
+      "missing_policy": "Preserve NULL/empty/unmatched/ambiguous source rows explicitly; no inner-join filtering presented as complete source coverage."
     },
     "d1-edge-pubs-publisher-country": {
       "matched_rows": 8,
@@ -398,7 +425,16 @@
           "ISO": "US",
           "rows": 6
         }
-      ]
+      ],
+      "source_rows": 8,
+      "nonnull_source_rows": 8,
+      "null_source_rows": 0,
+      "empty_string_rows": 0,
+      "unmatched_nonnull_rows": 0,
+      "ambiguous_nonnull_rows": 0,
+      "unlinked_source_rows": 0,
+      "source_fixture_sha256": "b45b08b7c06441cc0b138b031ea5bd32bd5866aebf874c89d2ebf7fc6abb3691",
+      "missing_policy": "Preserve NULL/empty/unmatched/ambiguous source rows explicitly; no inner-join filtering presented as complete source coverage."
     },
     "d1-edge-sakila-country": {
       "matched_rows": 102,
@@ -944,7 +980,16 @@
           "ISO": "ZM",
           "rows": 1
         }
-      ]
+      ],
+      "source_rows": 109,
+      "nonnull_source_rows": 109,
+      "null_source_rows": 0,
+      "empty_string_rows": 0,
+      "unmatched_nonnull_rows": 7,
+      "ambiguous_nonnull_rows": 0,
+      "unlinked_source_rows": 7,
+      "source_fixture_sha256": "9bebeee50fecb1fee115c206a4f380f2f6d1f009e7796b18b8a8cfba7c810454",
+      "missing_policy": "Preserve NULL/empty/unmatched/ambiguous source rows explicitly; no inner-join filtering presented as complete source coverage."
     }
   },
   "aw_cldr": {

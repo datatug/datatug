@@ -2558,5 +2558,287 @@
     "assertions/demand-map-ff35fa05c00e07ba": "154a85b69360bf82716e36cf8aec45af0b952a99140ffb8a789b4fade9f19eab"
   },
   "source_commit": "70791b1f05cfabe7815304ec810022c98776958a",
-  "notice": "Original reasons/assumptions and evidence preserved directly; exact original bytes remain recoverable from this immutable commit. Mapping to_fields changes identify symbolic semantic role; four country edge to_fields changes resolve alternative labels to actual ISO target key."
+  "notice": "Original reasons/assumptions and evidence preserved directly; exact original bytes remain recoverable from this immutable commit. Mapping to_fields changes identify symbolic semantic role; four country edge to_fields changes resolve alternative labels to actual ISO target key.",
+  "historical_physical_role_corrections": [
+    {
+      "id": "d1-edge-chinook-country",
+      "field": "physical_role",
+      "historical_source_commit": "0b514301e2faa434bfe855d55396cedc6a3291e8",
+      "historical_value": "Proposed contextual join; not executed or reconciled",
+      "current_value": "Accepted scoped raw country-label representation bridge to GeoNames ISO; not executed in DataTug",
+      "reason": "Independent review r1: align current role text with existing scoped disposition while retaining the DataTug execution limitation. No semantic acceptance or gate change."
+    },
+    {
+      "id": "d1-edge-northwind-country",
+      "field": "physical_role",
+      "historical_source_commit": "0b514301e2faa434bfe855d55396cedc6a3291e8",
+      "historical_value": "Proposed contextual join; not executed or reconciled",
+      "current_value": "Accepted scoped raw country-label representation bridge to GeoNames ISO; not executed in DataTug",
+      "reason": "Independent review r1: align current role text with existing scoped disposition while retaining the DataTug execution limitation. No semantic acceptance or gate change."
+    },
+    {
+      "id": "d1-edge-northwind-shipping-country",
+      "field": "physical_role",
+      "historical_source_commit": "0b514301e2faa434bfe855d55396cedc6a3291e8",
+      "historical_value": "Proposed contextual join; not executed or reconciled",
+      "current_value": "Accepted scoped raw shipping-country-label representation bridge to GeoNames ISO; not executed in DataTug",
+      "reason": "Independent review r1: align current role text with existing scoped disposition while retaining the DataTug execution limitation. No semantic acceptance or gate change."
+    },
+    {
+      "id": "d1-edge-pubs-publisher-country",
+      "field": "physical_role",
+      "historical_source_commit": "0b514301e2faa434bfe855d55396cedc6a3291e8",
+      "historical_value": "Proposed contextual join; not executed or reconciled",
+      "current_value": "Accepted scoped raw publisher-country-label representation bridge to GeoNames ISO; not executed in DataTug",
+      "reason": "Independent review r1: align current role text with existing scoped disposition while retaining the DataTug execution limitation. No semantic acceptance or gate change."
+    },
+    {
+      "id": "d1-edge-place-admin1",
+      "field": "physical_role",
+      "historical_source_commit": "0b514301e2faa434bfe855d55396cedc6a3291e8",
+      "historical_value": "Proposed contextual join; not executed or reconciled",
+      "current_value": "Accepted provider-scoped country/admin1 composite projection and reference; not executed in DataTug",
+      "reason": "Independent review r1: align current role text with existing scoped disposition while retaining the DataTug execution limitation. No semantic acceptance or gate change."
+    },
+    {
+      "id": "d1-edge-ror-geonames",
+      "field": "physical_role",
+      "historical_source_commit": "0b514301e2faa434bfe855d55396cedc6a3291e8",
+      "historical_value": "Proposed contextual join; not executed or reconciled",
+      "current_value": "Accepted provider-declared GeoNames feature reference in the inspected ROR location contract; not executed in DataTug",
+      "reason": "Independent review r1: align current role text with existing scoped disposition while retaining the DataTug execution limitation. No semantic acceptance or gate change."
+    },
+    {
+      "id": "d1-edge-alternate-place",
+      "field": "physical_role",
+      "historical_source_commit": "0b514301e2faa434bfe855d55396cedc6a3291e8",
+      "historical_value": "Proposed contextual join; not executed or reconciled",
+      "current_value": "Accepted provider-declared GeoNames feature reference for alternate names; not executed in DataTug",
+      "reason": "Independent review r1: align current role text with existing scoped disposition while retaining the DataTug execution limitation. No semantic acceptance or gate change."
+    },
+    {
+      "id": "d1-edge-place-country",
+      "field": "physical_role",
+      "historical_source_commit": "0b514301e2faa434bfe855d55396cedc6a3291e8",
+      "historical_value": "Proposed contextual join; not executed or reconciled",
+      "current_value": "Accepted provider-declared GeoNames country-code reference; not executed in DataTug",
+      "reason": "Independent review r1: align current role text with existing scoped disposition while retaining the DataTug execution limitation. No semantic acceptance or gate change."
+    }
+  ],
+  "independent_review_corrections": {
+    "reviewed_head": "0b514301e2faa434bfe855d55396cedc6a3291e8",
+    "local_role_corrections": [
+      {
+        "id": "demand-map-7f735d4c1c112eb8",
+        "previous_status": "needs-review",
+        "current_status": "reconciled",
+        "previous_reason": "Phase 2 UNRESOLVED: northwind.CustomerCustomerDemo.CustomerID: Source-local person, customer, employee, supplier, store and business-entity IDs have no cross-demo or real-world identity. Customer/supplier/employer/operator are roles; organisation, legal entity, site and registration differ. A native PK/FK supports only its declared source relationship. Alternate unique names/GUIDs are source-scoped; names are not LEI/ROR/ORCID or a portable person key. Evidence gap: no complete role-specific canonical binding and validated external representation bridge has been established for this exact proposal.\n\nOriginal discovery reason (historical): Research hypothesis only. Preserve source value; external reference matching requires evidence.",
+        "native_edge_ids": [
+          "demand-edge-bff330ce3ac4295c"
+        ],
+        "duplicate_of": [],
+        "physical_role": "foreign-key",
+        "scope": "Source-local binding only; no external identity bridge"
+      },
+      {
+        "id": "demand-map-3ccf92f050b580af",
+        "previous_status": "needs-review",
+        "current_status": "reconciled",
+        "previous_reason": "Phase 2 UNRESOLVED: chinook.Customer.CustomerId: Source-local person, customer, employee, supplier, store and business-entity IDs have no cross-demo or real-world identity. Customer/supplier/employer/operator are roles; organisation, legal entity, site and registration differ. A native PK/FK supports only its declared source relationship. Alternate unique names/GUIDs are source-scoped; names are not LEI/ROR/ORCID or a portable person key. Evidence gap: no complete role-specific canonical binding and validated external representation bridge has been established for this exact proposal.\n\nOriginal discovery reason (historical): Research hypothesis only. Preserve source value; external reference matching requires evidence.",
+        "native_edge_ids": [],
+        "duplicate_of": [
+          "demand-map-83295a6dbbbf1911"
+        ],
+        "physical_role": "identifier",
+        "scope": "Source-local binding only; no external identity bridge"
+      },
+      {
+        "id": "demand-map-609c71bc44a74b27",
+        "previous_status": "needs-review",
+        "current_status": "reconciled",
+        "previous_reason": "Phase 2 UNRESOLVED: northwind.Orders.EmployeeID: Source-local person, customer, employee, supplier, store and business-entity IDs have no cross-demo or real-world identity. Customer/supplier/employer/operator are roles; organisation, legal entity, site and registration differ. A native PK/FK supports only its declared source relationship. Alternate unique names/GUIDs are source-scoped; names are not LEI/ROR/ORCID or a portable person key. Evidence gap: no complete role-specific canonical binding and validated external representation bridge has been established for this exact proposal.\n\nOriginal discovery reason (historical): Research hypothesis only. Preserve source value; external reference matching requires evidence.",
+        "native_edge_ids": [
+          "demand-edge-0394593b0e2a48d0"
+        ],
+        "duplicate_of": [],
+        "physical_role": "foreign-key",
+        "scope": "Source-local binding only; no external identity bridge"
+      },
+      {
+        "id": "demand-map-f7008974af7ffb36",
+        "previous_status": "needs-review",
+        "current_status": "reconciled",
+        "previous_reason": "Phase 2 UNRESOLVED: pubs.employee.emp_id: Source-local person, customer, employee, supplier, store and business-entity IDs have no cross-demo or real-world identity. Customer/supplier/employer/operator are roles; organisation, legal entity, site and registration differ. A native PK/FK supports only its declared source relationship. Alternate unique names/GUIDs are source-scoped; names are not LEI/ROR/ORCID or a portable person key. Evidence gap: no complete role-specific canonical binding and validated external representation bridge has been established for this exact proposal.\n\nOriginal discovery reason (historical): Research hypothesis only. Preserve source value; external reference matching requires evidence.",
+        "native_edge_ids": [],
+        "duplicate_of": [
+          "demand-map-79c8d0b54f51acd3"
+        ],
+        "physical_role": "identifier",
+        "scope": "Source-local binding only; no external identity bridge"
+      },
+      {
+        "id": "demand-map-49d9bff0dca82d8c",
+        "previous_status": "needs-review",
+        "current_status": "reconciled",
+        "previous_reason": "Phase 2 UNRESOLVED: northwind.Employees.ReportsTo: Source-local person, customer, employee, supplier, store and business-entity IDs have no cross-demo or real-world identity. Customer/supplier/employer/operator are roles; organisation, legal entity, site and registration differ. A native PK/FK supports only its declared source relationship. Alternate unique names/GUIDs are source-scoped; names are not LEI/ROR/ORCID or a portable person key. Evidence gap: no complete role-specific canonical binding and validated external representation bridge has been established for this exact proposal.\n\nOriginal discovery reason (historical): Research hypothesis only. Preserve source value; external reference matching requires evidence.",
+        "native_edge_ids": [
+          "demand-edge-034e03730c5af1ca"
+        ],
+        "duplicate_of": [],
+        "physical_role": "foreign-key",
+        "scope": "Source-local binding only; no external identity bridge"
+      },
+      {
+        "id": "demand-map-5a79f7ac03f099cc",
+        "previous_status": "needs-review",
+        "current_status": "reconciled",
+        "previous_reason": "Phase 2 UNRESOLVED: northwind.EmployeeTerritories.EmployeeID: Source-local person, customer, employee, supplier, store and business-entity IDs have no cross-demo or real-world identity. Customer/supplier/employer/operator are roles; organisation, legal entity, site and registration differ. A native PK/FK supports only its declared source relationship. Alternate unique names/GUIDs are source-scoped; names are not LEI/ROR/ORCID or a portable person key. Evidence gap: no complete role-specific canonical binding and validated external representation bridge has been established for this exact proposal.\n\nOriginal discovery reason (historical): Research hypothesis only. Preserve source value; external reference matching requires evidence.",
+        "native_edge_ids": [
+          "demand-edge-e8ad437de00ca509"
+        ],
+        "duplicate_of": [],
+        "physical_role": "foreign-key",
+        "scope": "Source-local binding only; no external identity bridge"
+      },
+      {
+        "id": "demand-map-2200fd833d310193",
+        "previous_status": "needs-review",
+        "current_status": "reconciled",
+        "previous_reason": "Phase 2 UNRESOLVED: chinook.Employee.ReportsTo: Source-local person, customer, employee, supplier, store and business-entity IDs have no cross-demo or real-world identity. Customer/supplier/employer/operator are roles; organisation, legal entity, site and registration differ. A native PK/FK supports only its declared source relationship. Alternate unique names/GUIDs are source-scoped; names are not LEI/ROR/ORCID or a portable person key. Evidence gap: no complete role-specific canonical binding and validated external representation bridge has been established for this exact proposal.\n\nOriginal discovery reason (historical): Research hypothesis only. Preserve source value; external reference matching requires evidence.",
+        "native_edge_ids": [
+          "demand-edge-87a0723f6326230c"
+        ],
+        "duplicate_of": [],
+        "physical_role": "foreign-key",
+        "scope": "Source-local binding only; no external identity bridge"
+      },
+      {
+        "id": "demand-map-73526b5b12870997",
+        "previous_status": "needs-review",
+        "current_status": "reconciled",
+        "previous_reason": "Phase 2 UNRESOLVED: northwind.Employees.EmployeeID: Source-local person, customer, employee, supplier, store and business-entity IDs have no cross-demo or real-world identity. Customer/supplier/employer/operator are roles; organisation, legal entity, site and registration differ. A native PK/FK supports only its declared source relationship. Alternate unique names/GUIDs are source-scoped; names are not LEI/ROR/ORCID or a portable person key. Evidence gap: no complete role-specific canonical binding and validated external representation bridge has been established for this exact proposal.\n\nOriginal discovery reason (historical): Research hypothesis only. Preserve source value; external reference matching requires evidence.",
+        "native_edge_ids": [],
+        "duplicate_of": [
+          "demand-map-2496611403b90a56"
+        ],
+        "physical_role": "identifier",
+        "scope": "Source-local binding only; no external identity bridge"
+      },
+      {
+        "id": "demand-map-7817897ce9585213",
+        "previous_status": "needs-review",
+        "current_status": "reconciled",
+        "previous_reason": "Phase 2 UNRESOLVED: northwind.Orders.CustomerID: Source-local person, customer, employee, supplier, store and business-entity IDs have no cross-demo or real-world identity. Customer/supplier/employer/operator are roles; organisation, legal entity, site and registration differ. A native PK/FK supports only its declared source relationship. Alternate unique names/GUIDs are source-scoped; names are not LEI/ROR/ORCID or a portable person key. Evidence gap: no complete role-specific canonical binding and validated external representation bridge has been established for this exact proposal.\n\nOriginal discovery reason (historical): Research hypothesis only. Preserve source value; external reference matching requires evidence.",
+        "native_edge_ids": [
+          "demand-edge-efccdb52286fa787"
+        ],
+        "duplicate_of": [],
+        "physical_role": "foreign-key",
+        "scope": "Source-local binding only; no external identity bridge"
+      },
+      {
+        "id": "demand-map-0c059b23056f43b0",
+        "previous_status": "needs-review",
+        "current_status": "reconciled",
+        "previous_reason": "Phase 2 UNRESOLVED: northwind.Customers.CustomerID: Source-local person, customer, employee, supplier, store and business-entity IDs have no cross-demo or real-world identity. Customer/supplier/employer/operator are roles; organisation, legal entity, site and registration differ. A native PK/FK supports only its declared source relationship. Alternate unique names/GUIDs are source-scoped; names are not LEI/ROR/ORCID or a portable person key. Evidence gap: no complete role-specific canonical binding and validated external representation bridge has been established for this exact proposal.\n\nOriginal discovery reason (historical): Research hypothesis only. Preserve source value; external reference matching requires evidence.",
+        "native_edge_ids": [],
+        "duplicate_of": [
+          "demand-map-d2dc5dda9bf2161c"
+        ],
+        "physical_role": "identifier",
+        "scope": "Source-local binding only; no external identity bridge"
+      },
+      {
+        "id": "demand-map-e1190ebf41c7e93d",
+        "previous_status": "needs-review",
+        "current_status": "reconciled",
+        "previous_reason": "Phase 2 UNRESOLVED: northwind.Order Details.OrderID: A physical schema role is retained, but a single broad demand label does not define a reusable common meaning. Distinguish entity, identifier, display name, descriptive value and computed aggregate. A field implementation needs a precise concept and reviewed binding role; source strings and value samples alone do not establish external equivalence. Evidence gap: no complete role-specific canonical binding and validated external representation bridge has been established for this exact proposal.\n\nOriginal discovery reason (historical): Research hypothesis only. Preserve source value; external reference matching requires evidence.",
+        "native_edge_ids": [
+          "demand-edge-f9fdae95ad9ea754"
+        ],
+        "duplicate_of": [],
+        "physical_role": "foreign-key",
+        "scope": "Source-local binding only; no external identity bridge"
+      },
+      {
+        "id": "demand-map-dd6d1ecbae3658ed",
+        "previous_status": "needs-review",
+        "current_status": "reconciled",
+        "previous_reason": "Phase 2 UNRESOLVED: chinook.Customer.SupportRepId: Source-local person, customer, employee, supplier, store and business-entity IDs have no cross-demo or real-world identity. Customer/supplier/employer/operator are roles; organisation, legal entity, site and registration differ. A native PK/FK supports only its declared source relationship. Alternate unique names/GUIDs are source-scoped; names are not LEI/ROR/ORCID or a portable person key. Evidence gap: no complete role-specific canonical binding and validated external representation bridge has been established for this exact proposal.\n\nOriginal discovery reason (historical): Research hypothesis only. Preserve source value; external reference matching requires evidence.",
+        "native_edge_ids": [
+          "demand-edge-fd3e41a35e8ce762"
+        ],
+        "duplicate_of": [],
+        "physical_role": "foreign-key",
+        "scope": "Source-local binding only; no external identity bridge"
+      },
+      {
+        "id": "demand-map-03f2614b38097665",
+        "previous_status": "needs-review",
+        "current_status": "reconciled",
+        "previous_reason": "Phase 2 UNRESOLVED: chinook.Employee.EmployeeId: Source-local person, customer, employee, supplier, store and business-entity IDs have no cross-demo or real-world identity. Customer/supplier/employer/operator are roles; organisation, legal entity, site and registration differ. A native PK/FK supports only its declared source relationship. Alternate unique names/GUIDs are source-scoped; names are not LEI/ROR/ORCID or a portable person key. Evidence gap: no complete role-specific canonical binding and validated external representation bridge has been established for this exact proposal.\n\nOriginal discovery reason (historical): Research hypothesis only. Preserve source value; external reference matching requires evidence.",
+        "native_edge_ids": [],
+        "duplicate_of": [
+          "demand-map-67e7d31645d6b0b1"
+        ],
+        "physical_role": "identifier",
+        "scope": "Source-local binding only; no external identity bridge"
+      },
+      {
+        "id": "demand-map-3c59303aa479e260",
+        "previous_status": "needs-review",
+        "current_status": "reconciled",
+        "previous_reason": "Phase 2 UNRESOLVED: northwind.Orders.OrderID: A physical schema role is retained, but a single broad demand label does not define a reusable common meaning. Distinguish entity, identifier, display name, descriptive value and computed aggregate. A field implementation needs a precise concept and reviewed binding role; source strings and value samples alone do not establish external equivalence. Evidence gap: no complete role-specific canonical binding and validated external representation bridge has been established for this exact proposal.\n\nOriginal discovery reason (historical): Research hypothesis only. Preserve source value; external reference matching requires evidence.",
+        "native_edge_ids": [],
+        "duplicate_of": [],
+        "physical_role": "identifier",
+        "scope": "Source-local binding only; no external identity bridge"
+      },
+      {
+        "id": "demand-map-b0a5edd12b06e233",
+        "previous_status": "needs-review",
+        "current_status": "reconciled",
+        "previous_reason": "Phase 2 UNRESOLVED: chinook.Invoice.CustomerId: Source-local person, customer, employee, supplier, store and business-entity IDs have no cross-demo or real-world identity. Customer/supplier/employer/operator are roles; organisation, legal entity, site and registration differ. A native PK/FK supports only its declared source relationship. Alternate unique names/GUIDs are source-scoped; names are not LEI/ROR/ORCID or a portable person key. Evidence gap: no complete role-specific canonical binding and validated external representation bridge has been established for this exact proposal.\n\nOriginal discovery reason (historical): Research hypothesis only. Preserve source value; external reference matching requires evidence.",
+        "native_edge_ids": [
+          "demand-edge-7bccf3b6f28faf7e"
+        ],
+        "duplicate_of": [],
+        "physical_role": "foreign-key",
+        "scope": "Source-local binding only; no external identity bridge"
+      },
+      {
+        "id": "demand-map-840ad1c060fb5e05",
+        "previous_status": "needs-review",
+        "current_status": "reconciled",
+        "previous_reason": "Phase 2 UNRESOLVED: northwind.Orders.OrderID: A physical schema role is retained, but a single broad demand label does not define a reusable common meaning. Distinguish entity, identifier, display name, descriptive value and computed aggregate. A field implementation needs a precise concept and reviewed binding role; source strings and value samples alone do not establish external equivalence. Evidence gap: no complete role-specific canonical binding and validated external representation bridge has been established for this exact proposal.\n\nOriginal discovery reason (historical): Research hypothesis only. Entity-specific reference and classifications; geographic/calendar lookup through observed attributes",
+        "native_edge_ids": [],
+        "duplicate_of": [],
+        "physical_role": "entity",
+        "scope": "Source-local binding only; no external identity bridge"
+      }
+    ],
+    "duplicate_local_binding_aliases": [
+      {
+        "alias_assertion_id": "demand-map-3ccf92f050b580af",
+        "same_local_binding_as": "demand-map-83295a6dbbbf1911"
+      },
+      {
+        "alias_assertion_id": "demand-map-f7008974af7ffb36",
+        "same_local_binding_as": "demand-map-79c8d0b54f51acd3"
+      },
+      {
+        "alias_assertion_id": "demand-map-73526b5b12870997",
+        "same_local_binding_as": "demand-map-2496611403b90a56"
+      },
+      {
+        "alias_assertion_id": "demand-map-0c059b23056f43b0",
+        "same_local_binding_as": "demand-map-d2dc5dda9bf2161c"
+      },
+      {
+        "alias_assertion_id": "demand-map-03f2614b38097665",
+        "same_local_binding_as": "demand-map-67e7d31645d6b0b1"
+      }
+    ],
+    "denominator_correction": "All5 country probes now expose total/nonnull/null/empty/unmatched/ambiguous counts. Northwind Customers91/93 total,91/91 nonnull,2NULL; no bridge meanings changed."
+  }
 }
