@@ -1,9 +1,11 @@
 {
   "title": "sakila.film.language_id proposes Language",
   "kind": "mapping",
-  "status": "researched",
+  "status": "needs-review",
   "evidence_ids": [
-    "demand-corpus-sakila"
+    "demand-corpus-sakila",
+    "p2-media",
+    "p2-dedicated-reconciliation"
   ],
   "from_id": "demand-sakila-film",
   "to_id": "demand-meaning-language",
@@ -15,11 +17,11 @@
     "proposed-role"
   ],
   "compatibility": "unresolved",
-  "confidence": "high",
+  "confidence": "low",
   "physical_role": "language_id: primary-language local-FK",
   "from_identifier_namespace": "sakila/language",
   "to_identifier_namespace": "unreconciled:language",
   "expected_cardinality": "Not established; repeated names/codes and reference roles are retained.",
   "assumptions": "Proposed only; dedicated semantic reconciliation required. Native source-local IDs are not portable across demo databases. Field-level demand signal; proposed concept includes explicitly qualified source role, not entity equivalence. Confidence concerns the proposed source role only. Raw profiles and context are in evidence/demo-demand.json; no normalization applied.",
-  "reason": "Research hypothesis only. Candidate reference/calendar/identifier lookup with contextual bridge and measured match rate; local transaction/person IDs support internal joins only."
+  "reason": "Phase 2 UNRESOLVED: sakila.film.language_id: Work, edition, media item, file, codec, Internet media type, genre and language are distinct. Local publication/track/film IDs are source-scoped; no inferred ISBN/DOI identity. Language is distinct from locale/tag and formatting culture. Compound composer/actor strings require a reviewed multiplicity policy; padding/legacy locale aliases require raw-preserving bridges. Evidence gap: no complete role-specific canonical binding and validated external representation bridge has been established for this exact proposal.\n\nOriginal discovery reason (historical): Research hypothesis only. Candidate reference/calendar/identifier lookup with contextual bridge and measured match rate; local transaction/person IDs support internal joins only."
 }

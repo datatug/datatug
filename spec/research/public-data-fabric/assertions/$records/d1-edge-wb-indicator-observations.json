@@ -1,7 +1,7 @@
 {
   "title": "edge wb indicator observations",
   "kind": "edge",
-  "status": "researched",
+  "status": "reconciled",
   "from_id": "d1-wb-indicators",
   "to_id": "d1-wb-observations",
   "from_fields": [
@@ -11,14 +11,17 @@
     "indicator.id"
   ],
   "meaning_id": "d1-meaning-economic-observation",
-  "compatibility": "unresolved",
-  "assumptions": "Join exact indicator IDs within source 2 WDI. Preserve unit, decimal, observation status, nulls, source and revision; do not treat missing as zero.",
+  "compatibility": "identifier-equivalence",
+  "assumptions": "Current scoped acceptance: World Bank indicator metadata id references observation indicator.id within the same source/release. Retain indicator definition, unit, frequency, denominator and sourceid; equal display names never substitute for IDs. Implementation remains subject to the source licence, current pin, canonical binding validation, explicit null/multiplicity policy and independent end-to-end checks. Discovery assumptions retained as history: Join exact indicator IDs within source 2 WDI. Preserve unit, decimal, observation status, nulls, source and revision; do not treat missing as zero.",
   "confidence": "high",
   "from_identifier_namespace": "WorldBank:indicatorid",
   "to_identifier_namespace": "WorldBank:indicatorid",
   "expected_cardinality": "One indicator to many economy/year observations within the WDI source",
   "evidence_ids": [
-    "d1-worldbank"
+    "d1-worldbank",
+    "p2-observation",
+    "p2-dedicated-reconciliation"
   ],
-  "physical_role": "Proposed contextual join; not executed or reconciled"
+  "physical_role": "namespace-qualified source reference",
+  "reason": "Phase 2 ACCEPTED: World Bank indicator metadata id references observation indicator.id within the same source/release. Retain indicator definition, unit, frequency, denominator and sourceid; equal display names never substitute for IDs."
 }

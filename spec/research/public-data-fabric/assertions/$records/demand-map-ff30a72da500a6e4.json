@@ -1,9 +1,11 @@
 {
   "title": "adventureworks.Production.Product.StandardCost proposes Monetary Amount",
   "kind": "mapping",
-  "status": "researched",
+  "status": "needs-review",
   "evidence_ids": [
-    "demand-corpus-adventureworks"
+    "demand-corpus-adventureworks",
+    "p2-money",
+    "p2-dedicated-reconciliation"
   ],
   "from_id": "demand-adventureworks-production-product",
   "to_id": "demand-meaning-monetary-amount",
@@ -15,11 +17,11 @@
     "proposed-role"
   ],
   "compatibility": "unresolved",
-  "confidence": "high",
+  "confidence": "low",
   "physical_role": "StandardCost: cost",
   "from_identifier_namespace": "literal:adventureworks/Production.Product/StandardCost",
   "to_identifier_namespace": "unreconciled:monetary-amount",
   "expected_cardinality": "Not established; repeated names/codes and reference roles are retained.",
   "assumptions": "Proposed only; dedicated semantic reconciliation required. Native source-local IDs are not portable across demo databases. Currency is not implied by amount; no universal USD claim. AW NUMERIC conversion uses binary floating point. Field-level demand signal; proposed concept includes explicitly qualified source role, not entity equivalence. Confidence concerns the proposed source role only. Raw profiles and context are in evidence/demo-demand.json; no normalization applied.",
-  "reason": "Research hypothesis only. Candidate reference/calendar/identifier lookup with contextual bridge and measured match rate; local transaction/person IDs support internal joins only."
+  "reason": "Phase 2 UNRESOLVED: adventureworks.Production.Product.StandardCost: Money needs currency, amount role and time basis. Core money-amount requires a stated unit; most demo numeric columns lack established currency. Currency entity differs from code, fund and territory assignment. FX requires directed pair, quote kind and observation/publication date. Employees salary currency is unknown. No country-to-transaction-currency inference; no cross-currency totals. Preserve binary-float conversion limits. Evidence gap: no complete role-specific canonical binding and validated external representation bridge has been established for this exact proposal.\n\nOriginal discovery reason (historical): Research hypothesis only. Candidate reference/calendar/identifier lookup with contextual bridge and measured match rate; local transaction/person IDs support internal joins only."
 }

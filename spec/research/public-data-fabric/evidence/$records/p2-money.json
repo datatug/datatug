@@ -1,0 +1,8 @@
+{
+  "title": "Phase 2 money reconciliation boundary",
+  "observed_at": "2026-10-04T23:30:33.173750+00:00",
+  "outcome": "decision",
+  "summary": "Money needs currency, amount role and time basis. Core money-amount requires a stated unit; most demo numeric columns lack established currency. Currency entity differs from code, fund and territory assignment. FX requires directed pair, quote kind and observation/publication date. Employees salary currency is unknown. No country-to-transaction-currency inference; no cross-currency totals. Preserve binary-float conversion limits.",
+  "reviewer": "fresh-phase2-semantic-reconciler",
+  "path": "spec/research/public-data-fabric/p2-reconciliation.md"
+}

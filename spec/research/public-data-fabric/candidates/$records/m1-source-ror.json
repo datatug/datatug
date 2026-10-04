@@ -3,11 +3,12 @@
   "kind": "source",
   "status": "researched",
   "evidence_ids": [
-    "m1-ev-ror"
+    "m1-ev-ror",
+    "p2-context-review"
   ],
   "source_url": "https://ror.org/about/",
   "licence": "CC0-1.0",
   "licence_notes": "ROR explicitly CC0 data, MIT code; this report uses factual paraphrases only.",
-  "reason": "Identifier evidence, not selected dataset integration.",
+  "reason": "Identifier evidence, not selected dataset integration.\n\nPhase 2 context reviewed: source; directly attached assertion dispositions are enumerated in p2-coverage.json. Authority/terms are provenance context, not a semantic mapping or publication grant. ",
   "research_depth": "documented"
 }

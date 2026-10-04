@@ -4,7 +4,9 @@
   "status": "researched",
   "evidence_ids": [
     "demand-corpus-adventureworks",
-    "demand-corpus-sakila"
+    "demand-corpus-sakila",
+    "p2-geography",
+    "p2-dedicated-reconciliation"
   ],
   "demo_ids": [
     "adventureworks",
@@ -26,5 +28,6 @@
   ],
   "practical_value": "Proposed field-role demand in 2 demos. Candidate reference/calendar/identifier lookup with contextual bridge and measured match rate; local transaction/person IDs support internal joins only.",
   "licence_notes": "Candidate metadata is unreconciled. Per-input data/model/meaning licences remain in demand-plan.json and recordset records; Employees-derived evidence retains CC-BY-SA-3.0. No blanket CC0 or canonical new meaning licence is asserted.",
-  "reason": "Related concepts, entity keys/names/attributes and physical roles remain separately qualified in assertions. Coverage means inspected hypothesis presence, not accepted semantic equivalence or external match rate."
+  "reason": "Related concepts, entity keys/names/attributes and physical roles remain separately qualified in assertions. Coverage means inspected hypothesis presence, not accepted semantic equivalence or external match rate.\n\nPhase 2 UNRESOLVED: Country/territory in ISO scope is distinct from sovereignty, jurisdiction, statistical area, sales territory and locality. A place label is not a globally unique key. Country context is necessary but insufficient for same-named settlements; postcode associations can be many-to-many. Retain leading zeros and historical/category scope. Implement a versioned raw-value-to-reviewed-code bridge with ambiguity and unmatched outputs before external lookup. Definition gap: the candidate combines source roles or lacks a sufficiently bounded reusable definition and binding domain. Retain the candidate; do not infer absence from literal query results. Examined 24 physical field-role hypotheses for this group; their individual dispositions govern implementation.",
+  "semantic_disposition": "unresolved"
 }

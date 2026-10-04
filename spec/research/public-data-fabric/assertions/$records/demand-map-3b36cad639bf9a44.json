@@ -1,9 +1,11 @@
 {
   "title": "chinook.Artist.ArtistId proposes Artist",
   "kind": "mapping",
-  "status": "researched",
+  "status": "needs-review",
   "evidence_ids": [
-    "demand-corpus-chinook"
+    "demand-corpus-chinook",
+    "p2-media",
+    "p2-dedicated-reconciliation"
   ],
   "from_id": "demand-chinook-artist",
   "to_id": "demand-meaning-artist",
@@ -15,11 +17,11 @@
     "proposed-role"
   ],
   "compatibility": "unresolved",
-  "confidence": "high",
+  "confidence": "low",
   "physical_role": "entity",
   "from_identifier_namespace": "chinook/Artist",
   "to_identifier_namespace": "unreconciled:artist",
   "expected_cardinality": "Not established; repeated names/codes and reference roles are retained.",
   "assumptions": "Native source entity/key shape; no external identifier equivalence. Composite keys preserved in order.  Confidence concerns the proposed source role only. Raw profiles and context are in evidence/demo-demand.json; no normalization applied.",
-  "reason": "Research hypothesis only. Entity-specific reference and classifications; geographic/calendar lookup through observed attributes"
+  "reason": "Phase 2 UNRESOLVED: chinook.Artist.ArtistId: Work, edition, media item, file, codec, Internet media type, genre and language are distinct. Local publication/track/film IDs are source-scoped; no inferred ISBN/DOI identity. Language is distinct from locale/tag and formatting culture. Compound composer/actor strings require a reviewed multiplicity policy; padding/legacy locale aliases require raw-preserving bridges. Evidence gap: no complete role-specific canonical binding and validated external representation bridge has been established for this exact proposal.\n\nOriginal discovery reason (historical): Research hypothesis only. Entity-specific reference and classifications; geographic/calendar lookup through observed attributes"
 }

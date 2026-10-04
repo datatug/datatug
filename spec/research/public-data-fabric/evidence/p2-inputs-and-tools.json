@@ -1,0 +1,378 @@
+{
+  "observed_at": "2026-10-04T23:31:30.245934+00:00",
+  "hub_input": "70791b1f05cfabe7815304ec810022c98776958a",
+  "canonical_pins": {
+    "meaninggraph-core": {
+      "repository": "git@github.com:meaninggraph/core.git",
+      "commit": "982916d73f0a35ff2558b0062f58aa3ac4f24d97"
+    },
+    "meaninggraph-registry": {
+      "repository": "git@github.com:meaninggraph/registry.git",
+      "commit": "2d92bbdd45fc2552f231f8f993a5b8b8d5b7fa29"
+    },
+    "meaninggraph-cli": {
+      "repository": "git@github.com:meaninggraph/cli.git",
+      "commit": "a58a506d9e6f76660cc8586478521787976111d0"
+    },
+    "modelspec-registry": {
+      "repository": "git@github.com:modelspec-org/registry.git",
+      "commit": "48b30b250a61385d94d46a70968677870750ea35"
+    },
+    "modelspec-cli": {
+      "repository": "git@github.com:modelspec-org/cli.git",
+      "commit": "a8de98b4565ae669b6fba00c334b4649c9d40b11"
+    },
+    "modelspec-spec": {
+      "repository": "git@github.com:specscore/modelspec.git",
+      "commit": "ff2393a99e0bd093272c1765a57eefdea01c0a90"
+    }
+  },
+  "provider_inputs": {
+    "adventureworks": {
+      "repository": "demo-db/adventureworks",
+      "fresh_origin_main": "cd8dcdf2079fe31480ad6d6c024b8c17cb91beea",
+      "research_input_commit": "cd8dcdf2079fe31480ad6d6c024b8c17cb91beea",
+      "sqlite_sha256": "e0f352f0e3a28ff15158130c237a91d58f1b60fffa7f30d2c412b92df4065dfd"
+    },
+    "chinook": {
+      "repository": "demo-db/chinook",
+      "fresh_origin_main": "26e852cca00101f53a84ef8ee1f1ae389067f5cf",
+      "research_input_commit": "26e852cca00101f53a84ef8ee1f1ae389067f5cf",
+      "sqlite_sha256": "7651ba378ac2fcd0dfc3c66fb101f7a7eed3ba39a612ec642b96e20702061f15"
+    },
+    "employees": {
+      "repository": "demo-db/employees",
+      "fresh_origin_main": "2455bb327aa8444ec496d36e2fe6dcacfc58dc0a",
+      "research_input_commit": "2455bb327aa8444ec496d36e2fe6dcacfc58dc0a",
+      "sqlite_sha256": "46b49dd0e141cd8db66d57680a10febfccc15e6f54dc7b8f3c2316b55e11c5f0"
+    },
+    "northwind": {
+      "repository": "demo-db/northwind",
+      "fresh_origin_main": "e74726515c3833620b54b7a50d1d273276dd23c1",
+      "research_input_commit": "e74726515c3833620b54b7a50d1d273276dd23c1",
+      "sqlite_sha256": "279b34136771aee75d802094b3329515a2b01da65d2a20a4a9e3b58c29b4fd20"
+    },
+    "pubs": {
+      "repository": "demo-db/pubs",
+      "fresh_origin_main": "6c06c5c7395b03ff1a02c2b1a21485add3e1b65b",
+      "research_input_commit": "6c06c5c7395b03ff1a02c2b1a21485add3e1b65b",
+      "sqlite_sha256": "b45b08b7c06441cc0b138b031ea5bd32bd5866aebf874c89d2ebf7fc6abb3691"
+    },
+    "sakila": {
+      "repository": "demo-db/sakila",
+      "fresh_origin_main": "6567d30aec1592fe0917934a8bbe74ff70b04b01",
+      "research_input_commit": "6567d30aec1592fe0917934a8bbe74ff70b04b01",
+      "sqlite_sha256": "9bebeee50fecb1fee115c206a4f380f2f6d1f009e7796b18b8a8cfba7c810454"
+    }
+  },
+  "core_scope": "All six root meaning files read;23 concepts. Canonical graph/ModelSpec artifacts remain unchanged.",
+  "tool_build_provenance": {
+    "meaninggraph": "vcs.revision=a58a506d9e6f76660cc8586478521787976111d0 vcs.modified=false",
+    "modelspec": "vcs.revision=a8de98b4565ae669b6fba00c334b4649c9d40b11 vcs.modified=false"
+  },
+  "core_country_values_sha256": "197dda37ca279fa47a1a4ba988b55520919575d31bae3daeeb43dabd0d75c843",
+  "checks": [
+    {
+      "demo": "chinook",
+      "argv": [
+        "wb",
+        "run",
+        "--",
+        "/private/tmp/data-fabric-phase0-semantics/modelspec",
+        "lint",
+        "--profile",
+        "publish",
+        "--format",
+        "json",
+        "/private/tmp/fabric-phase2-native/sources/chinook/model"
+      ],
+      "exit_code": 0
+    },
+    {
+      "demo": "chinook",
+      "argv": [
+        "wb",
+        "run",
+        "--",
+        "/private/tmp/data-fabric-phase0-semantics/modelspec",
+        "export",
+        "--check",
+        "/private/tmp/fabric-phase2-native/sources/chinook/model/chinook.modelspec.hcl",
+        "/private/tmp/fabric-phase2-native/sources/chinook/model/chinook.modelspec.json"
+      ],
+      "exit_code": 0
+    },
+    {
+      "demo": "chinook",
+      "argv": [
+        "wb",
+        "run",
+        "--",
+        "/private/tmp/data-fabric-phase0-semantics/meaninggraph",
+        "check",
+        "--format",
+        "json",
+        "--address",
+        "github.com/demo-db/chinook",
+        "--graph",
+        "github.com/meaninggraph/core=/Users/alex/projects/github.com/meaninggraph/core",
+        "/private/tmp/fabric-phase2-native/sources/chinook/model"
+      ],
+      "exit_code": 0
+    },
+    {
+      "demo": "northwind",
+      "argv": [
+        "wb",
+        "run",
+        "--",
+        "/private/tmp/data-fabric-phase0-semantics/modelspec",
+        "lint",
+        "--profile",
+        "publish",
+        "--format",
+        "json",
+        "/private/tmp/fabric-phase2-native/sources/northwind/model"
+      ],
+      "exit_code": 0
+    },
+    {
+      "demo": "northwind",
+      "argv": [
+        "wb",
+        "run",
+        "--",
+        "/private/tmp/data-fabric-phase0-semantics/modelspec",
+        "export",
+        "--check",
+        "/private/tmp/fabric-phase2-native/sources/northwind/model/northwind.modelspec.hcl",
+        "/private/tmp/fabric-phase2-native/sources/northwind/model/northwind.modelspec.json"
+      ],
+      "exit_code": 0
+    },
+    {
+      "demo": "northwind",
+      "argv": [
+        "wb",
+        "run",
+        "--",
+        "/private/tmp/data-fabric-phase0-semantics/meaninggraph",
+        "check",
+        "--format",
+        "json",
+        "--address",
+        "github.com/demo-db/northwind",
+        "--graph",
+        "github.com/meaninggraph/core=/Users/alex/projects/github.com/meaninggraph/core",
+        "/private/tmp/fabric-phase2-native/sources/northwind/model"
+      ],
+      "exit_code": 0
+    },
+    {
+      "demo": "pubs",
+      "argv": [
+        "wb",
+        "run",
+        "--",
+        "/private/tmp/data-fabric-phase0-semantics/modelspec",
+        "lint",
+        "--profile",
+        "publish",
+        "--format",
+        "json",
+        "/private/tmp/fabric-phase2-native/sources/pubs/model"
+      ],
+      "exit_code": 0
+    },
+    {
+      "demo": "pubs",
+      "argv": [
+        "wb",
+        "run",
+        "--",
+        "/private/tmp/data-fabric-phase0-semantics/modelspec",
+        "export",
+        "--check",
+        "/private/tmp/fabric-phase2-native/sources/pubs/model/pubs.modelspec.hcl",
+        "/private/tmp/fabric-phase2-native/sources/pubs/model/pubs.modelspec.json"
+      ],
+      "exit_code": 0
+    },
+    {
+      "demo": "pubs",
+      "argv": [
+        "wb",
+        "run",
+        "--",
+        "/private/tmp/data-fabric-phase0-semantics/meaninggraph",
+        "check",
+        "--format",
+        "json",
+        "--address",
+        "github.com/demo-db/pubs",
+        "--graph",
+        "github.com/meaninggraph/core=/Users/alex/projects/github.com/meaninggraph/core",
+        "/private/tmp/fabric-phase2-native/sources/pubs/model"
+      ],
+      "exit_code": 0
+    },
+    {
+      "demo": "sakila",
+      "argv": [
+        "wb",
+        "run",
+        "--",
+        "/private/tmp/data-fabric-phase0-semantics/modelspec",
+        "lint",
+        "--profile",
+        "publish",
+        "--format",
+        "json",
+        "/private/tmp/fabric-phase2-native/sources/sakila/model"
+      ],
+      "exit_code": 0
+    },
+    {
+      "demo": "sakila",
+      "argv": [
+        "wb",
+        "run",
+        "--",
+        "/private/tmp/data-fabric-phase0-semantics/modelspec",
+        "export",
+        "--check",
+        "/private/tmp/fabric-phase2-native/sources/sakila/model/sakila.modelspec.hcl",
+        "/private/tmp/fabric-phase2-native/sources/sakila/model/sakila.modelspec.json"
+      ],
+      "exit_code": 0
+    },
+    {
+      "demo": "sakila",
+      "argv": [
+        "wb",
+        "run",
+        "--",
+        "/private/tmp/data-fabric-phase0-semantics/meaninggraph",
+        "check",
+        "--format",
+        "json",
+        "--address",
+        "github.com/demo-db/sakila",
+        "--graph",
+        "github.com/meaninggraph/core=/Users/alex/projects/github.com/meaninggraph/core",
+        "/private/tmp/fabric-phase2-native/sources/sakila/model"
+      ],
+      "exit_code": 0
+    },
+    {
+      "demo": "adventureworks",
+      "argv": [
+        "wb",
+        "run",
+        "--",
+        "/private/tmp/data-fabric-phase0-semantics/modelspec",
+        "lint",
+        "--profile",
+        "publish",
+        "--format",
+        "json",
+        "/private/tmp/fabric-phase2-native/sources/adventureworks/model"
+      ],
+      "exit_code": 0
+    },
+    {
+      "demo": "adventureworks",
+      "argv": [
+        "wb",
+        "run",
+        "--",
+        "/private/tmp/data-fabric-phase0-semantics/modelspec",
+        "export",
+        "--check",
+        "/private/tmp/fabric-phase2-native/sources/adventureworks/model/adventureworks.modelspec.hcl",
+        "/private/tmp/fabric-phase2-native/sources/adventureworks/model/adventureworks.modelspec.json"
+      ],
+      "exit_code": 0
+    },
+    {
+      "demo": "adventureworks",
+      "argv": [
+        "wb",
+        "run",
+        "--",
+        "/private/tmp/data-fabric-phase0-semantics/meaninggraph",
+        "check",
+        "--format",
+        "json",
+        "--address",
+        "github.com/demo-db/adventureworks",
+        "--graph",
+        "github.com/meaninggraph/core=/Users/alex/projects/github.com/meaninggraph/core",
+        "/private/tmp/fabric-phase2-native/sources/adventureworks/model"
+      ],
+      "exit_code": 0
+    },
+    {
+      "demo": "employees",
+      "argv": [
+        "wb",
+        "run",
+        "--",
+        "/private/tmp/data-fabric-phase0-semantics/modelspec",
+        "lint",
+        "--profile",
+        "publish",
+        "--format",
+        "json",
+        "/private/tmp/fabric-phase2-native/sources/employees/model"
+      ],
+      "exit_code": 0
+    },
+    {
+      "demo": "employees",
+      "argv": [
+        "wb",
+        "run",
+        "--",
+        "/private/tmp/data-fabric-phase0-semantics/modelspec",
+        "export",
+        "--check",
+        "/private/tmp/fabric-phase2-native/sources/employees/model/employees.modelspec.hcl",
+        "/private/tmp/fabric-phase2-native/sources/employees/model/employees.modelspec.json"
+      ],
+      "exit_code": 0
+    },
+    {
+      "demo": "employees",
+      "argv": [
+        "wb",
+        "run",
+        "--",
+        "/private/tmp/data-fabric-phase0-semantics/meaninggraph",
+        "check",
+        "--format",
+        "json",
+        "--address",
+        "github.com/demo-db/employees",
+        "--graph",
+        "github.com/meaninggraph/core=/Users/alex/projects/github.com/meaninggraph/core",
+        "/private/tmp/fabric-phase2-native/sources/employees/model"
+      ],
+      "exit_code": 0
+    }
+  ],
+  "standards_consulted": [
+    {
+      "url": "https://www.w3.org/TR/vocab-org/",
+      "scope": "organisation, unit, membership, role and site distinctions"
+    },
+    {
+      "url": "https://www.w3.org/TR/owl-time/",
+      "scope": "instant, interval and temporal-reference distinctions"
+    },
+    {
+      "url": "https://gtfs.org/documentation/schedule/reference/",
+      "scope": "location types, feed-scoped IDs and service-day semantics"
+    }
+  ]
+}

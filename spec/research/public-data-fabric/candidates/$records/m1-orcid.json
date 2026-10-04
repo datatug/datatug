@@ -3,14 +3,17 @@
   "kind": "meaning",
   "status": "needs-review",
   "evidence_ids": [
-    "m1-ev-orcid"
+    "m1-ev-orcid",
+    "p2-identity",
+    "p2-dedicated-reconciliation"
   ],
   "source_id": "m1-source-orcid",
   "identifier_representations": [
     "ORCID iD"
   ],
-  "reason": "Depth: shallow. Confidence medium in scope distinction; no canonical mapping. Researcher scope does not identify every author/person; provenance/trusted assertions matter.",
+  "reason": "Depth: shallow. Confidence medium in scope distinction; no canonical mapping. Researcher scope does not identify every author/person; provenance/trusted assertions matter.\n\nPhase 2 UNRESOLVED: Source-local person, customer, employee, supplier, store and business-entity IDs have no cross-demo or real-world identity. Customer/supplier/employer/operator are roles; organisation, legal entity, site and registration differ. A native PK/FK supports only its declared source relationship. Alternate unique names/GUIDs are source-scoped; names are not LEI/ROR/ORCID or a portable person key. Retain the specific research distinction from this candidate. Evidence gap: final concept boundaries/operational source scope remain unproven; a source implementation and potential overlap with canonical or related research must be resolved before promotion.",
   "practical_value": "Researcher scope does not identify every author/person; provenance/trusted assertions matter.",
   "showcase_value": "Research affiliation/output graph or contact/network explanation when portable keys actually exist.",
-  "research_depth": "shallow"
+  "research_depth": "shallow",
+  "semantic_disposition": "unresolved"
 }

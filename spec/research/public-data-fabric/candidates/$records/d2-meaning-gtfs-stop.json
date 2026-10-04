@@ -3,11 +3,14 @@
   "kind": "meaning",
   "status": "researched",
   "evidence_ids": [
-    "d2-e-nta"
+    "d2-e-nta",
+    "p2-mobility",
+    "p2-dedicated-reconciliation"
   ],
   "identifier_representations": [
     "publisher+feed version+stop_id"
   ],
-  "reason": "Provisional source-informed meaning. No canonical MeaningGraph entry or accepted equivalence; fresh Phase2 reconciliation required.",
-  "research_depth": "unknown"
+  "reason": "Provisional source-informed meaning. No canonical MeaningGraph entry or accepted equivalence; fresh Phase2 reconciliation required.\n\nPhase 2 ACCEPTED: Accepted source-scoped/proposed concept relationship: Source identifier implementing transit location; retain location_type and feed namespace. Canonical definition or dataset-local binding remains a Phase4 prerequisite.",
+  "research_depth": "unknown",
+  "semantic_disposition": "accepted"
 }

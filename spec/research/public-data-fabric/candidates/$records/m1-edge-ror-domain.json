@@ -4,7 +4,8 @@
   "status": "needs-review",
   "evidence_ids": [
     "m1-ev-ror",
-    "m1-ev-ror-schema"
+    "m1-ev-ror-schema",
+    "p2-context-review"
   ],
   "member_ids": [
     "m1-ror",
@@ -14,7 +15,7 @@
     "From roles: ROR ID, schema domains",
     "To roles: DNS domain name"
   ],
-  "reason": "Direction m1-ror → m1-domain. Expected cardinality: organisation may declare several domains; reverse uniqueness must be measured. Unresolved compatibility, no universal organisational identity claim.",
+  "reason": "Direction m1-ror → m1-domain. Expected cardinality: organisation may declare several domains; reverse uniqueness must be measured. Unresolved compatibility, no universal organisational identity claim.\n\nPhase 2 context reviewed: bundle; directly attached assertion dispositions are enumerated in p2-coverage.json. Member/dependency IDs preserved. Each unresolved/rejected mapping, source rights and temporal/domain gap remains a readiness prerequisite; no portfolio selection or executable bundle acceptance. Conceptual relationship retained as related-distinct, not equivalence or physical FK. Source-specific cardinality/crosswalk still required. ",
   "practical_value": "ROR schema offers publisher-asserted domain associations, stronger than inferring organisation from arbitrary website URL. Exact current schema, record version and association quality still need dataset verification.",
   "showcase_value": "Affiliation/domain lookup explanation.",
   "research_depth": "documented"

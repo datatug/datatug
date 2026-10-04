@@ -7,7 +7,8 @@
     "d1-geonames",
     "d1-iana",
     "d1-cldr",
-    "d1-govuk"
+    "d1-govuk",
+    "p2-context-review"
   ],
   "member_ids": [
     "d1-geo-places",
@@ -23,7 +24,7 @@
     "pubs",
     "employees"
   ],
-  "reason": "User orders,rentals or invoices specify location,event timestamp and optional timezone. Proposed place→IANA zone and explicit local-date policy lead to CLDR week conventions and jurisdiction holiday events. Ask weekend versus holiday counts and which rows lack timezone/jurisdiction. Visuals: calendar heatmap and unresolved grid. GOVUK2019–2028 overlaps Chinook but not Northwind2016–2018 or Pubs1992–1994. UK alone cannot choose Scotland or England/Wales. Naive timestamps need event-zone policy; Employees9999 is a validity sentinel,not a holiday observation. Historical holiday sources remain a gap.",
+  "reason": "User orders,rentals or invoices specify location,event timestamp and optional timezone. Proposed place→IANA zone and explicit local-date policy lead to CLDR week conventions and jurisdiction holiday events. Ask weekend versus holiday counts and which rows lack timezone/jurisdiction. Visuals: calendar heatmap and unresolved grid. GOVUK2019–2028 overlaps Chinook but not Northwind2016–2018 or Pubs1992–1994. UK alone cannot choose Scotland or England/Wales. Naive timestamps need event-zone policy; Employees9999 is a validity sentinel,not a holiday observation. Historical holiday sources remain a gap.\n\nPhase 2 context reviewed: scenario; directly attached assertion dispositions are enumerated in p2-coverage.json. Member/dependency IDs preserved. Each unresolved/rejected mapping, source rights and temporal/domain gap remains a readiness prerequisite; no portfolio selection or executable bundle acceptance. ",
   "practical_value": "Proposed connected bundle; identity, temporal, legal and match-rate review required. Not selected or implemented.",
   "showcase_value": "Named visualisations support the questions; practical joinability dominates.",
   "research_depth": "documented"

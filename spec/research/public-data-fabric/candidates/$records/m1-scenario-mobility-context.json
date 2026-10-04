@@ -7,7 +7,8 @@
     "m1-ev-gtfs",
     "m1-ev-observation",
     "m1-ev-postal",
-    "m1-ev-wigos"
+    "m1-ev-wigos",
+    "p2-context-review"
   ],
   "member_ids": [
     "m1-transit-stop",
@@ -34,6 +35,6 @@
   "demo_ids": [],
   "practical_value": "User ticket/journey/station records → operator/feed-scoped stop crosswalk → route/trip/calendar → local observation and catchment population. Ask whether decline matches scheduled supply, observed network usage, weather or local demographic change. Need licensed real feeds, usage observations, feed revision stability, station crosswalk, catchment definition and spatial/weather associations; schedules alone cannot answer usage.",
   "showcase_value": "Network map and aligned series; service-day vs civil-day explained.",
-  "reason": "All dependencies are research concepts; suitable dataset/recordset, identifier reconciliation, licensing and measured join dependencies remain open. Not selected, implemented or validated.",
+  "reason": "All dependencies are research concepts; suitable dataset/recordset, identifier reconciliation, licensing and measured join dependencies remain open. Not selected, implemented or validated.\n\nPhase 2 context reviewed: scenario; directly attached assertion dispositions are enumerated in p2-coverage.json. Member/dependency IDs preserved. Each unresolved/rejected mapping, source rights and temporal/domain gap remains a readiness prerequisite; no portfolio selection or executable bundle acceptance. ",
   "research_depth": "documented"
 }

@@ -3,14 +3,15 @@
   "kind": "recordset",
   "status": "promising",
   "evidence_ids": [
-    "d1-cldr"
+    "d1-cldr",
+    "p2-context-review"
   ],
   "dataset_id": "d1-dataset-cldr",
   "source_id": "d1-source-cldr",
   "identifier_representations": [
     "type,numeric,alpha3,fips10,internet"
   ],
-  "reason": "Proposed source recordset. Field inventory: type,numeric,alpha3,fips10,internet. Exact names and parsing depth remain source-qualified; see the linked evidence receipt and dated observations. All compatibility remains unresolved. 309 territory mapping elements observed. Aggregates, deprecated and reserved identifiers are not accepted country equivalents.",
+  "reason": "Proposed source recordset. Field inventory: type,numeric,alpha3,fips10,internet. Exact names and parsing depth remain source-qualified; see the linked evidence receipt and dated observations. All compatibility remains unresolved. 309 territory mapping elements observed. Aggregates, deprecated and reserved identifiers are not accepted country equivalents.\n\nPhase 2 context reviewed: recordset; directly attached assertion dispositions are enumerated in p2-coverage.json. Native/source schema and grain remain authoritative; acceptance of an attached field/edge never accepts every field or a global identity. ",
   "source_url": "https://www.unicode.org/Public/cldr/48/",
   "licence": "Unicode-3.0",
   "licence_notes": "Unicode License V3: preserve copyright and permission notice in data copies or documentation. Commercial use, copy, cache, adapt and redistribute permitted; no endorsement.",

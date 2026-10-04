@@ -2,7 +2,7 @@
 
 Snapshot: 2026-10-04. Owner: main orchestrator. [Owning Feature](../../features/public-data-fabric/README.md).
 
-**Phase 0 and Phase 0.5 passed for bounded research. Independently reviewed M1, D1 and D2 discovery streams are landed; root has accepted bounded combined Phase1 discovery readiness at independently reviewed source `6be819afab1483a6c5592f1d7b6ad4d41c95ac6d`. The passed gate/receipt candidate still requires final delta review, exact-head CI and WB landing.** Phase0.5 landed at `90cd16e8ad42131f66145b643697cc97bae8a295`; M1 at `306d3104f995a5185077fb81f6569b04ed8f48de`; D1 at `1b2ec71a593c9edd64e011f5949c48721956b817`; D2 at `e031937c4e52c48e3103da4b346c44ee20e8de06`. Exact-head independent reviews and CI are retained in consolidation evidence records. No mappings are reconciled, no portfolio selected and no public-data launch integration claimed. Six demo fixtures and TPC-H exclusion remain retained; implementation is empty. B1 remains open at Phase4/5/6. Earlier dated pending/failure snapshots below remain historical evidence.
+**Phases 0, 0.5 and 1 passed and landed. Root has accepted bounded Phase 2 semantic reconciliation readiness at independently reviewed source `c26c3ee5d8e5e0edce629b66fd15d6d3cf323192`.** The [acceptance receipt](evidence/p2-phase-acceptance.json) preserves distinct dedicated reconciler and adversarial reviewer identities, failed r1/passing r2 history, exact pins and checks. The Phase 2 gate/receipt delta still requires final independent delta review, exact-head CI and root WB landing. Current assertions: 263 scoped accepted, 19 rejected, 888 unresolved; the 69 field records include five explicit duplicate aliases. No portfolio is selected and implementation is empty. Phase 3 remains pending for a separate fresh portfolio architect. B1 stays OPEN/BLOCKING at phases 4/5/6; no canonical publication, DataTug runtime execution or launch acceptance is claimed. Six demo fixtures and the TPC-H exclusion remain retained. Earlier dated pending/failure snapshots below are historical evidence.
 
 The product journey is connect a supported source → inspect meanings/identifiers → receive explained compatible public suggestions → execute bounded joins/lookups/enrichment → reuse across different physical demo schemas. Each stage must produce observable results and the final acceptance must exercise the real DataTug product path. Component/schema tests alone cannot establish that journey.
 
@@ -46,7 +46,7 @@ Research candidates are not published registry entries. Do not add lifecycle/con
 
 [Phase 0.5 analysis r1](demo-demand-analysis.md) describes the proposed hubs, raw representation diversity, counterexamples, licence/subset limits and seven scenario proposals. [Pinned inputs and hypotheses](evidence/demand-plan.json), [reproducible native observations](evidence/demo-demand.json), and [coverage matrix](evidence/demo-demand-coverage.json) retain the machine-readable evidence. `inspect_demand.py` verifies six native SQLite hashes and reproduces the bounded observations using local read-only paths supplied separately. The matrix distinguishes structural presence, nonnull observations, empty/all-null fields and derived views. Meaning hypotheses use `demand-meaning-*`, physical/derived recordsets `demand-<demo>-*`, field-role mappings `demand-map-*` and local FK observations `demand-edge-*`.
 
-`compatibility: unresolved` and a qualified physical role preserve proposed meaning/identifier assumptions; confidence concerns the source-role hypothesis, not accepted cross-demo compatibility. Mapping `to_fields: ["proposed-role"]` is a research placeholder, not a canonical target field. Related candidate groups remain separate for fresh Phase 2 reconciliation. Per-input licence scopes remain distinct, including Employees share-alike evidence. Historical Phase 0 snapshots are unchanged; current pins live in the new dated demand evidence. B1 publication remains assigned to Phase 4/5/6.
+`compatibility: unresolved` and a qualified physical role preserve proposed meaning/identifier assumptions; confidence concerns the source-role hypothesis, not accepted cross-demo compatibility. Mapping `to_fields: ["proposed-role"]` is a research placeholder, not a canonical target field. Related candidate groups and original hypotheses remain available alongside the Phase 2 dispositions. Per-input licence scopes remain distinct, including Employees share-alike evidence. Historical Phase 0 snapshots are unchanged; current pins live in the new dated demand evidence. B1 publication remains assigned to Phase 4/5/6.
 
 For machine-answerable prevalence, filter `rows[].structural_demo_count >= 4` in `evidence/demo-demand-coverage.json`; inspect each row's `observed_demo_ids` and six `cells` before treating presence as populated demand. Candidate `demo_ids` and mapping `meaning_id` provide equivalent ledger graph queries. Counts do not indicate accepted semantics, match rates or implementation priority.
 
@@ -58,6 +58,16 @@ For machine-answerable prevalence, filter `rows[].structural_demo_count >= 4` in
 - [Combined index preparation and query receipt](consolidation-preparation.md)
 
 ## Machine-readable collections
+
+[Phase 2 dedicated reconciliation](p2-reconciliation.md) records scoped accepted,
+rejected and unresolved decisions; root accepted the bounded Phase 2 gate after
+a separate independent adversarial review. Optional
+`semantic_disposition` on meaning candidates separates concept reuse/new-definition
+judgments from lifecycle and licensing. It is forbidden on other candidate kinds
+and requires named dedicated reconciliation evidence. Assertion compatibility and
+status retain their existing meanings. A reconciled local FK is not a cross-source
+join or a publication receipt. [Coverage](evidence/p2-coverage.json) accounts for
+every original candidate/assertion ID and separates acceptance scopes.
 
 The root `.ingitdb/root-collections.yaml` registers six collections. Definitions reuse the ecosystem's `.collection/definition.yaml` + `$records` conventions. Definition files use JSON syntax, which is valid YAML, to make the additional consistency checker dependency-free. Stable IDs are record filenames; references contain keys within their declared target collection, not display titles.
 

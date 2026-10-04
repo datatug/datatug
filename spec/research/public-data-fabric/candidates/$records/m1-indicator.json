@@ -3,15 +3,18 @@
   "kind": "meaning",
   "status": "needs-review",
   "evidence_ids": [
-    "m1-ev-cube"
+    "m1-ev-cube",
+    "p2-observation",
+    "p2-dedicated-reconciliation"
   ],
   "source_id": "m1-source-cube",
   "identifier_representations": [
     "provider indicator ID + definition/version"
   ],
-  "reason": "Depth: focused. Confidence high in research distinction, not accepted mapping. An indicator label does not establish methodology equivalence. Public dataset coverage/rights require separate discovery.",
+  "reason": "Depth: focused. Confidence high in research distinction, not accepted mapping. An indicator label does not establish methodology equivalence. Public dataset coverage/rights require separate discovery.\n\nPhase 2 UNRESOLVED: An observation needs feature/support, property, measure, unit, period, method and quality. Grid context is not station measurement; nearby water stage is not flood risk. Rates, totals, current population and dated population cannot be interchanged. Preserve geography version, aggregation and denominator; no causal or individual inference from contextual series. Retain the specific research distinction from this candidate. Evidence gap: final concept boundaries/operational source scope remain unproven; a source implementation and potential overlap with canonical or related research must be resolved before promotion.",
   "practical_value": "An indicator label does not establish methodology equivalence.",
   "showcase_value": "Contextual graph/map/time-series opportunity; practical compatibility remains prerequisite.",
   "observed_at": "2026-10-04T22:10:00Z",
-  "research_depth": "documented"
+  "research_depth": "documented",
+  "semantic_disposition": "unresolved"
 }

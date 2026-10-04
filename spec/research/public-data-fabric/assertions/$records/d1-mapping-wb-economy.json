@@ -1,7 +1,7 @@
 {
   "title": "mapping wb economy",
   "kind": "mapping",
-  "status": "researched",
+  "status": "rejected",
   "from_id": "d1-wb-economies",
   "to_id": "d1-meaning-country-area",
   "meaning_id": "d1-meaning-country-area",
@@ -12,12 +12,15 @@
   "to_fields": [
     "proposed-role"
   ],
-  "compatibility": "unresolved",
+  "compatibility": "incompatible",
   "assumptions": "Provisional field meaning only. Preserve provider namespace, edition, category, units and validity period; fresh Phase2 review must decide compatibility.",
-  "confidence": "medium",
+  "confidence": "high",
   "physical_role": "Proposed contextual join; not executed or reconciled",
   "evidence_ids": [
-    "d1-worldbank"
+    "d1-worldbank",
+    "p2-geography",
+    "p2-dedicated-reconciliation"
   ],
-  "expected_cardinality": "Field-level meaning hypothesis; record join cardinality not applicable"
+  "expected_cardinality": "Field-level meaning hypothesis; record join cardinality not applicable",
+  "reason": "Phase 2 REJECTED: World Bank economy metadata includes aggregate regions and non-ISO source codes. Mapping every id/iso2Code to country/territory is false. A separately validated country-only projection with explicit code crosswalk is required."
 }

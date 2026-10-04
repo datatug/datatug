@@ -3,15 +3,18 @@
   "kind": "meaning",
   "status": "needs-review",
   "evidence_ids": [
-    "m1-ev-economic"
+    "m1-ev-economic",
+    "p2-classification",
+    "p2-dedicated-reconciliation"
   ],
   "source_id": "m1-source-economic",
   "identifier_representations": [
     "scheme + revision + code"
   ],
-  "reason": "Depth: focused. Confidence high in research distinction, not accepted mapping. Industry classification differs from products sold; correspondence may split/merge. Public dataset coverage/rights require separate discovery.",
+  "reason": "Depth: focused. Confidence high in research distinction, not accepted mapping. Industry classification differs from products sold; correspondence may split/merge. Public dataset coverage/rights require separate discovery.\n\nPhase 2 ACCEPTED: Accepted new reusable concept proposal: Edition-scoped economic activity category, distinct from product and occupation. Complete core inventory has23 concepts and no definition for this distinct scope. Canonical naming/definition and source bindings remain Phase4 work; this is not canonical publication.",
   "practical_value": "Industry classification differs from products sold; correspondence may split/merge.",
   "showcase_value": "Contextual graph/map/time-series opportunity; practical compatibility remains prerequisite.",
   "observed_at": "2026-10-04T22:10:00Z",
-  "research_depth": "documented"
+  "research_depth": "documented",
+  "semantic_disposition": "accepted"
 }

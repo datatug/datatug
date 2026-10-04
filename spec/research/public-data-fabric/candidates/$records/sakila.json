@@ -3,7 +3,8 @@
   "kind": "dataset",
   "status": "discovered",
   "evidence_ids": [
-    "corpus-sakila"
+    "corpus-sakila",
+    "p2-context-review"
   ],
   "repository": "demo-db/sakila",
   "commit": "0cb13fd76b2ce590f68efa99a6fbf7effcf6e4ce",
@@ -11,5 +12,5 @@
   "source_url": "https://github.com/demo-db/sakila",
   "freshness": "needs-review",
   "observed_at": "2026-10-04T19:26:00Z",
-  "reason": "Existing demo demand fixture; launch publication readiness is governed by Phase 0, not this discovery status."
+  "reason": "Existing demo demand fixture; launch publication readiness is governed by Phase 0, not this discovery status.\n\nPhase 2 context reviewed: dataset; directly attached assertion dispositions are enumerated in p2-coverage.json. Dataset scope, edition and licence remain independent of particular field compatibility. "
 }

@@ -3,15 +3,18 @@
   "kind": "meaning",
   "status": "needs-review",
   "evidence_ids": [
-    "m1-ev-iso-country"
+    "m1-ev-iso-country",
+    "p2-geography",
+    "p2-dedicated-reconciliation"
   ],
   "source_id": "m1-source-iso-country",
   "identifier_representations": [
     "ISO3166-2 + validity"
   ],
-  "reason": "Depth: focused. Confidence high in research distinction, not accepted mapping. Principal administrative subdivisions vary by country; raw State text not proven code. Public dataset coverage/rights require separate discovery.",
+  "reason": "Depth: focused. Confidence high in research distinction, not accepted mapping. Principal administrative subdivisions vary by country; raw State text not proven code. Public dataset coverage/rights require separate discovery.\n\nPhase 2 ACCEPTED: Accepted new reusable concept proposal: Country-scoped administrative subdivision, distinct from country and sales region. Complete core inventory has23 concepts and no definition for this distinct scope. Canonical naming/definition and source bindings remain Phase4 work; this is not canonical publication.",
   "practical_value": "Principal administrative subdivisions vary by country; raw State text not proven code.",
   "showcase_value": "Contextual graph/map/time-series opportunity; practical compatibility remains prerequisite.",
   "observed_at": "2026-10-04T22:10:00Z",
-  "research_depth": "documented"
+  "research_depth": "documented",
+  "semantic_disposition": "accepted"
 }

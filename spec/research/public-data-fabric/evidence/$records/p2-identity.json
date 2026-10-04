@@ -1,0 +1,8 @@
+{
+  "title": "Phase 2 identity reconciliation boundary",
+  "observed_at": "2026-10-04T23:30:33.173750+00:00",
+  "outcome": "decision",
+  "summary": "Source-local person, customer, employee, supplier, store and business-entity IDs have no cross-demo or real-world identity. Customer/supplier/employer/operator are roles; organisation, legal entity, site and registration differ. A native PK/FK supports only its declared source relationship. Alternate unique names/GUIDs are source-scoped; names are not LEI/ROR/ORCID or a portable person key.",
+  "reviewer": "fresh-phase2-semantic-reconciler",
+  "path": "spec/research/public-data-fabric/p2-reconciliation.md"
+}

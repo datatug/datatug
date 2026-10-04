@@ -3,14 +3,15 @@
   "kind": "recordset",
   "status": "needs-review",
   "evidence_ids": [
-    "d1-six"
+    "d1-six",
+    "p2-context-review"
   ],
   "dataset_id": "d1-dataset-six",
   "source_id": "d1-source-six",
   "identifier_representations": [
     "CtryNm,CcyNm,Ccy,CcyNbr,WthdrwlDt"
   ],
-  "reason": "Proposed source recordset. Field inventory: CtryNm,CcyNm,Ccy,CcyNbr,WthdrwlDt. Exact names and parsing depth remain source-qualified; see the linked evidence receipt and dated observations. All compatibility remains unresolved. 169 entries. Withdrawal month is not an exact legal-tender validity end. Publication permission unresolved.",
+  "reason": "Proposed source recordset. Field inventory: CtryNm,CcyNm,Ccy,CcyNbr,WthdrwlDt. Exact names and parsing depth remain source-qualified; see the linked evidence receipt and dated observations. All compatibility remains unresolved. 169 entries. Withdrawal month is not an exact legal-tender validity end. Publication permission unresolved.\n\nPhase 2 context reviewed: recordset; directly attached assertion dispositions are enumerated in p2-coverage.json. Native/source schema and grain remain authoritative; acceptance of an attached field/edge never accepts every field or a global identity. ",
   "source_url": "https://www.six-group.com/en/products-services/financial-information/market-reference-data/data-standards.html",
   "licence": "needs-review",
   "licence_notes": "Needs review: official lists are free to download; the inspected primary terms did not establish commercial cache, derivative or redistribution rights.",

@@ -1,7 +1,7 @@
 {
   "title": "Ember country/fuel annual↔monthly comparison",
   "kind": "edge",
-  "status": "researched",
+  "status": "needs-review",
   "from_id": "d2-rs-ember-year",
   "to_id": "d2-rs-ember-month",
   "from_fields": [
@@ -18,11 +18,13 @@
   "to_identifier_namespace": "Emberarea/month/source",
   "expected_cardinality": "1:0..12 aftercountry/sourcefilter",
   "compatibility": "unresolved",
-  "confidence": "medium",
+  "confidence": "low",
   "assumptions": "MonthDate is reportingperiodstart;annualnotdirectDateequality. Coverage88vs>200different,missingmonthsratherthanzero. Aggregates/boundary/methodologyrevisionsmustalign.",
   "evidence_ids": [
-    "d2-e-ember"
+    "d2-e-ember",
+    "p2-source-role",
+    "p2-dedicated-reconciliation"
   ],
-  "reason": "Research hypothesis only; confidence describes evidence supporting investigation, never acceptance or automatic matching.",
+  "reason": "Phase 2 UNRESOLVED: MonthDate is reportingperiodstart;annualnotdirectDateequality. Coverage88vs>200different,missingmonthsratherthanzero. Aggregates/boundary/methodologyrevisionsmustalign. Evidence gap: the full endpoint projection/crosswalk and stated cardinality/temporal constraints have not been verified. A physical schema role is retained, but a single broad demand label does not define a reusable common meaning. Distinguish entity, identifier, display name, descriptive value and computed aggregate. A field implementation needs a precise concept and reviewed binding role; source strings and value samples alone do not establish external equivalence.\n\nOriginal discovery reason (historical): Research hypothesis only; confidence describes evidence supporting investigation, never acceptance or automatic matching.",
   "transformation": "ExtractyearfrommonthlyDate;aggregateonlycompletecompatiblemonthlyGenerationTWh;comparewithannualsameArea/source,reportdifferences."
 }

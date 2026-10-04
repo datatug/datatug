@@ -1,7 +1,7 @@
 {
   "title": "Value → provisional http-status",
   "kind": "mapping",
-  "status": "researched",
+  "status": "needs-review",
   "from_id": "d2-rs-iana-http",
   "to_id": "d2-meaning-http-status",
   "from_fields": [
@@ -15,9 +15,12 @@
   "physical_role": "observed field hypothesis",
   "compatibility": "unresolved",
   "assumptions": "Rangesunassigned; noapplication-specificmeaninginferred.",
-  "confidence": "medium",
+  "confidence": "high",
   "evidence_ids": [
-    "d2-e-iana"
+    "d2-e-iana",
+    "p2-classification",
+    "p2-dedicated-reconciliation",
+    "p2-technical"
   ],
-  "reason": "No semantic reconciliation; names alone do not authorize mapping."
+  "reason": "Phase 2 UNRESOLVED: Value includes ranges/reserved/unassigned entries; preserve range semantics and define a scalar status-code projection before accepting full-column mapping.\n\nOriginal discovery reason (historical): No semantic reconciliation; names alone do not authorize mapping."
 }

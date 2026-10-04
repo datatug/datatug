@@ -1,7 +1,7 @@
 {
   "title": "edge cldr geonames country",
   "kind": "edge",
-  "status": "researched",
+  "status": "needs-review",
   "from_id": "d1-cldr-codes",
   "to_id": "d1-geo-countries",
   "from_fields": [
@@ -17,13 +17,16 @@
   "meaning_id": "d1-meaning-country-area",
   "compatibility": "unresolved",
   "assumptions": "CLDR territory references include aggregates; GeoNames country/area ISO fields have their own scope. Two-letter equality requires category and edition audit.",
-  "confidence": "high",
+  "confidence": "low",
   "from_identifier_namespace": "CLDR48:territorycodes",
   "to_identifier_namespace": "GeoNames:ISO3166countryreference",
   "expected_cardinality": "Many source rows to zero or one reference row after category, edition and alias review; validate target-key uniqueness",
   "evidence_ids": [
     "d1-cldr",
-    "d1-geonames"
+    "d1-geonames",
+    "p2-geography",
+    "p2-dedicated-reconciliation"
   ],
-  "physical_role": "Proposed contextual join; not executed or reconciled"
+  "physical_role": "Proposed contextual join; not executed or reconciled",
+  "reason": "Phase 2 UNRESOLVED: CLDR territory references include aggregates; GeoNames country/area ISO fields have their own scope. Two-letter equality requires category and edition audit. Evidence gap: the full endpoint projection/crosswalk and stated cardinality/temporal constraints have not been verified. Country/territory in ISO scope is distinct from sovereignty, jurisdiction, statistical area, sales territory and locality. A place label is not a globally unique key. Country context is necessary but insufficient for same-named settlements; postcode associations can be many-to-many. Retain leading zeros and historical/category scope. Implement a versioned raw-value-to-reviewed-code bridge with ambiguity and unmatched outputs before external lookup."
 }

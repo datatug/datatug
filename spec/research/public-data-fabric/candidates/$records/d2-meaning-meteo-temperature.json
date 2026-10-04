@@ -3,11 +3,14 @@
   "kind": "meaning",
   "status": "researched",
   "evidence_ids": [
-    "d2-e-power"
+    "d2-e-power",
+    "p2-observation",
+    "p2-dedicated-reconciliation"
   ],
   "identifier_representations": [
     "POWER T2M C gridded2m, notstation"
   ],
-  "reason": "Provisional source-informed meaning. No canonical MeaningGraph entry or accepted equivalence; fresh Phase2 reconciliation required.",
-  "research_depth": "unknown"
+  "reason": "Provisional source-informed meaning. No canonical MeaningGraph entry or accepted equivalence; fresh Phase2 reconciliation required.\n\nPhase 2 UNRESOLVED: An observation needs feature/support, property, measure, unit, period, method and quality. Grid context is not station measurement; nearby water stage is not flood risk. Rates, totals, current population and dated population cannot be interchanged. Preserve geography version, aggregation and denominator; no causal or individual inference from contextual series. Definition gap: the candidate combines source roles or lacks a sufficiently bounded reusable definition and binding domain. Retain the candidate; do not infer absence from literal query results.",
+  "research_depth": "unknown",
+  "semantic_disposition": "unresolved"
 }

@@ -3,13 +3,14 @@
   "kind": "recordset",
   "status": "researched",
   "evidence_ids": [
-    "d2-e-nptg"
+    "d2-e-nptg",
+    "p2-context-review"
   ],
   "dataset_id": "d2-data-nptg",
   "identifier_representations": [
     "GB NPTG locality code; separate from administrative and district codes",
     "Physical/documented fields: [\"NptgLocalityCode\", \"LocalityName\", \"LocalityNameLang\", \"ShortName\", \"ShortNameLang\", \"QualifierName\", \"QualifierNameLang\", \"QualifierLocalityRef\", \"QualifierDistrictRef\", \"ParentLocalityName\", \"ParentLocalityNameLang\", \"AdministrativeAreaCode\", \"NptgDistrictCode\", \"SourceLocalityType\", \"GridType\", \"Easting\", \"Northing\", \"CreationDateTime\", \"ModificationDateTime\", \"RevisionNumber\", \"Modification\"]"
   ],
-  "reason": "Grain: one transport locality per NptgLocalityCode. Current snapshot; Easting/Northing need CRS interpretation, GridType can be blank. ParentLocalityName is text, not observed parent ID.",
+  "reason": "Grain: one transport locality per NptgLocalityCode. Current snapshot; Easting/Northing need CRS interpretation, GridType can be blank. ParentLocalityName is text, not observed parent ID.\n\nPhase 2 context reviewed: recordset; directly attached assertion dispositions are enumerated in p2-coverage.json. Native/source schema and grain remain authoritative; acceptance of an attached field/edge never accepts every field or a global identity. ",
   "research_depth": "sampled"
 }

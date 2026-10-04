@@ -1,9 +1,11 @@
 {
   "title": "northwind.Products.UnitPrice proposes Unit price",
   "kind": "mapping",
-  "status": "researched",
+  "status": "rejected",
   "evidence_ids": [
-    "demand-corpus-northwind"
+    "demand-corpus-northwind",
+    "p2-money",
+    "p2-dedicated-reconciliation"
   ],
   "from_id": "demand-northwind-products",
   "to_id": "demand-meaning-unit-price",
@@ -14,12 +16,12 @@
   "to_fields": [
     "proposed-role"
   ],
-  "compatibility": "unresolved",
-  "confidence": "medium",
+  "compatibility": "incompatible",
+  "confidence": "high",
   "physical_role": "product-unit-price",
   "from_identifier_namespace": "literal:northwind/Products/UnitPrice",
   "to_identifier_namespace": "unreconciled:unit-price",
   "expected_cardinality": "Not established; repeated names/codes and reference roles are retained.",
   "assumptions": "Proposed demand only; dedicated reconciliation required. Numeric value does not identify currency. No raw currency field; source meaning declarations remain separate.  Confidence concerns the proposed source role only. Raw profiles and context are in evidence/demo-demand.json; no normalization applied.",
-  "reason": "Research hypothesis only. Numeric price/charge comparison; currency/FX only with explicit source declaration and applicable date."
+  "reason": "Phase 2 REJECTED: This is a catalogue asking price. Core unit-price is charged on an invoice line; use core price for the catalogue role. A column named UnitPrice does not establish invoice-line semantics.\n\nOriginal discovery reason (historical): Research hypothesis only. Numeric price/charge comparison; currency/FX only with explicit source declaration and applicable date."
 }

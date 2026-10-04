@@ -3,14 +3,15 @@
   "kind": "recordset",
   "status": "needs-review",
   "evidence_ids": [
-    "d1-ucum"
+    "d1-ucum",
+    "p2-context-review"
   ],
   "dataset_id": "d1-dataset-ucum",
   "source_id": "d1-source-ucum",
   "identifier_representations": [
     "Code,CodeUC,name,property,value,unit,metric"
   ],
-  "reason": "Proposed source recordset. Field inventory: Code,CodeUC,name,property,value,unit,metric. Exact names and parsing depth remain source-qualified; see the linked evidence receipt and dated observations. All compatibility remains unresolved. Essence artifact exceeded500k read bound; no version/count parsed. Derivative licence blocks assumed flattening.",
+  "reason": "Proposed source recordset. Field inventory: Code,CodeUC,name,property,value,unit,metric. Exact names and parsing depth remain source-qualified; see the linked evidence receipt and dated observations. All compatibility remains unresolved. Essence artifact exceeded500k read bound; no version/count parsed. Derivative licence blocks assumed flattening.\n\nPhase 2 context reviewed: recordset; directly attached assertion dispositions are enumerated in p2-coverage.json. Native/source schema and grain remain authoritative; acceptance of an attached field/edge never accepts every field or a global identity. ",
   "source_url": "https://ucum.org/docs/artifacts",
   "licence": "UCUM licence1.1",
   "licence_notes": "UCUM licence 1.1 permits unmodified redistribution and commercial software interoperability with notices; modification and derivatives prohibited. OVDB reformatting needs review.",

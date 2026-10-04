@@ -7,7 +7,8 @@
     "northwind"
   ],
   "evidence_ids": [
-    "demand-corpus-northwind"
+    "demand-corpus-northwind",
+    "p2-context-review"
   ],
   "repository": "demo-db/northwind",
   "commit": "e74726515c3833620b54b7a50d1d273276dd23c1",
@@ -19,5 +20,5 @@
     "Source-local identity; external identity not established"
   ],
   "practical_value": "Observed table; 4 rows. Derived views reuse native tables; empty tables preserve structure without observed values.",
-  "reason": "Actual pinned schema demand fixture. No selected or reconciled status."
+  "reason": "Actual pinned schema demand fixture. No selected or reconciled status.\n\nPhase 2 context reviewed: recordset; directly attached assertion dispositions are enumerated in p2-coverage.json. Native/source schema and grain remain authoritative; acceptance of an attached field/edge never accepts every field or a global identity. "
 }

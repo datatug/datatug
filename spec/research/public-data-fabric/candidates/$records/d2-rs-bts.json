@@ -3,13 +3,14 @@
   "kind": "recordset",
   "status": "low-priority",
   "evidence_ids": [
-    "d2-e-bts"
+    "d2-e-bts",
+    "p2-context-review"
   ],
   "dataset_id": "d2-data-bts",
   "identifier_representations": [
     "BTS/FAA source-local loc_id/site_num; ICAO field separate",
     "Physical/documented fields: [\"objectid\", \"site_num\", \"loc_id\", \"icao_ident\", \"fac_name\", \"city\", \"county\", \"county_pos\", \"eff_date\", \"the_geom\"]"
   ],
-  "reason": "Grain: catalogueairport row at effective date. Two oldrows; effective2020/modified2021. Bahamasobserved. objectid notstableairportidentity; loc_id notautomaticallyIATA; no mapping to separateDOTMasterCoordinate.",
+  "reason": "Grain: catalogueairport row at effective date. Two oldrows; effective2020/modified2021. Bahamasobserved. objectid notstableairportidentity; loc_id notautomaticallyIATA; no mapping to separateDOTMasterCoordinate.\n\nPhase 2 context reviewed: recordset; directly attached assertion dispositions are enumerated in p2-coverage.json. Native/source schema and grain remain authoritative; acceptance of an attached field/edge never accepts every field or a global identity. ",
   "research_depth": "sampled"
 }

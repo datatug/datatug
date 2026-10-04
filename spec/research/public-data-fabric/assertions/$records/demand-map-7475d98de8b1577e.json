@@ -1,9 +1,11 @@
 {
   "title": "northwind.Territories.TerritoryDescription proposes Sales territory",
   "kind": "mapping",
-  "status": "researched",
+  "status": "needs-review",
   "evidence_ids": [
-    "demand-corpus-northwind"
+    "demand-corpus-northwind",
+    "p2-geography",
+    "p2-dedicated-reconciliation"
   ],
   "from_id": "demand-northwind-territories",
   "to_id": "demand-meaning-sales-territory",
@@ -15,11 +17,11 @@
     "proposed-role"
   ],
   "compatibility": "unresolved",
-  "confidence": "medium",
+  "confidence": "low",
   "physical_role": "classification-label",
   "from_identifier_namespace": "literal:northwind/Territories/TerritoryDescription",
   "to_identifier_namespace": "unreconciled:sales-territory",
   "expected_cardinality": "Not established; repeated names/codes and reference roles are retained.",
   "assumptions": "Proposed demand only; dedicated reconciliation required. Internal labels or titles; Northwind Territories/Regions are sales assignments, not postal/subdivision identities.  Confidence concerns the proposed source role only. Raw profiles and context are in evidence/demo-demand.json; no normalization applied.",
-  "reason": "Research hypothesis only. Source category/name bridges; reference metadata for product/publication/media with independent keys."
+  "reason": "Phase 2 UNRESOLVED: northwind.Territories.TerritoryDescription: Country/territory in ISO scope is distinct from sovereignty, jurisdiction, statistical area, sales territory and locality. A place label is not a globally unique key. Country context is necessary but insufficient for same-named settlements; postcode associations can be many-to-many. Retain leading zeros and historical/category scope. Implement a versioned raw-value-to-reviewed-code bridge with ambiguity and unmatched outputs before external lookup. Evidence gap: no complete role-specific canonical binding and validated external representation bridge has been established for this exact proposal.\n\nOriginal discovery reason (historical): Research hypothesis only. Source category/name bridges; reference metadata for product/publication/media with independent keys."
 }

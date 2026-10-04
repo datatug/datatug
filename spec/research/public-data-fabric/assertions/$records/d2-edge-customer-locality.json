@@ -1,7 +1,7 @@
 {
   "title": "Chinook customer locality→transport place candidates",
   "kind": "edge",
-  "status": "researched",
+  "status": "needs-review",
   "from_id": "demand-chinook-customer",
   "to_id": "d2-rs-nptg",
   "from_fields": [
@@ -20,8 +20,10 @@
   "assumptions": "DemandfixturehasdirtyEdinburghtrailingwhitespace;keeporiginalandqualifiedtrimproposal. VerifyGBcountryfirst,disambiguateparent/adminarea;city/localitynotacceptedidentity. No geocoder orjoinrun;NPTGnotaddressmaster.",
   "evidence_ids": [
     "d2-e-scope",
-    "d2-e-nptg"
+    "d2-e-nptg",
+    "p2-mobility",
+    "p2-dedicated-reconciliation"
   ],
-  "reason": "Research hypothesis only; confidence describes evidence supporting investigation, never acceptance or automatic matching.",
+  "reason": "Phase 2 UNRESOLVED: DemandfixturehasdirtyEdinburghtrailingwhitespace;keeporiginalandqualifiedtrimproposal. VerifyGBcountryfirst,disambiguateparent/adminarea;city/localitynotacceptedidentity. No geocoder orjoinrun;NPTGnotaddressmaster. Evidence gap: the full endpoint projection/crosswalk and stated cardinality/temporal constraints have not been verified. Stop, platform, station, locality, route, trip and service day are distinct. Keys are authority/feed/version scoped; NaPTAN ATCO, NaptanCode, NPTG, ORR NLC/TLC, GTFS stop_id and WIGOS must never be equated by spelling. Schedules describe supply, annual rail usage is an estimate, and geography/weather associations do not establish station identity.\n\nOriginal discovery reason (historical): Research hypothesis only; confidence describes evidence supporting investigation, never acceptance or automatic matching.",
   "transformation": "Proposecountry-qualifiednamecandidate search; whitespace normalizationdoesnotproveequivalence."
 }

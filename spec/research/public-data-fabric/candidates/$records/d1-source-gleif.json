@@ -3,11 +3,12 @@
   "kind": "source",
   "status": "researched",
   "evidence_ids": [
-    "d1-gleif"
+    "d1-gleif",
+    "p2-context-review"
   ],
   "source_url": "https://www.gleif.org/en/lei-data/gleif-concatenated-file/download-the-concatenated-file",
   "licence": "CC0-1.0",
   "licence_notes": "LEI and LE-RD are CC0. Supported access and no false affiliation service conditions apply; separate mapping-file rights must be checked.",
-  "reason": "Publisher reference only. Candidate-specific permissions, access constraints and coverage are retained in linked evidence.",
+  "reason": "Publisher reference only. Candidate-specific permissions, access constraints and coverage are retained in linked evidence.\n\nPhase 2 context reviewed: source; directly attached assertion dispositions are enumerated in p2-coverage.json. Authority/terms are provenance context, not a semantic mapping or publication grant. ",
   "research_depth": "documented"
 }

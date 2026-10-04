@@ -1,9 +1,11 @@
 {
   "title": "northwind.Suppliers.Region proposes Geographic region",
   "kind": "mapping",
-  "status": "researched",
+  "status": "needs-review",
   "evidence_ids": [
-    "demand-corpus-northwind"
+    "demand-corpus-northwind",
+    "p2-geography",
+    "p2-dedicated-reconciliation"
   ],
   "from_id": "demand-northwind-suppliers",
   "to_id": "demand-meaning-geographic-region",
@@ -15,11 +17,11 @@
     "proposed-role"
   ],
   "compatibility": "unresolved",
-  "confidence": "medium",
+  "confidence": "low",
   "physical_role": "supplier-region",
   "from_identifier_namespace": "literal:northwind/Suppliers/Region",
   "to_identifier_namespace": "unreconciled:geographic-region",
   "expected_cardinality": "Not established; repeated names/codes and reference roles are retained.",
   "assumptions": "Proposed demand only; dedicated reconciliation required. Region names/codes need country context; Northwind Region/ShipRegion include supranational areas such as British Isles and Western Europe, Suppliers mixes these with NSW/Victoria; no subdivision equivalence. Northwind Regions table is a separate sales-region namespace.  Confidence concerns the proposed source role only. Raw profiles and context are in evidence/demo-demand.json; no normalization applied.",
-  "reason": "Research hypothesis only. Country-scoped subdivision/address lookup."
+  "reason": "Phase 2 UNRESOLVED: northwind.Suppliers.Region: Country/territory in ISO scope is distinct from sovereignty, jurisdiction, statistical area, sales territory and locality. A place label is not a globally unique key. Country context is necessary but insufficient for same-named settlements; postcode associations can be many-to-many. Retain leading zeros and historical/category scope. Implement a versioned raw-value-to-reviewed-code bridge with ambiguity and unmatched outputs before external lookup. Evidence gap: no complete role-specific canonical binding and validated external representation bridge has been established for this exact proposal.\n\nOriginal discovery reason (historical): Research hypothesis only. Country-scoped subdivision/address lookup."
 }

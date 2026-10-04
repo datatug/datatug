@@ -3,15 +3,18 @@
   "kind": "meaning",
   "status": "needs-review",
   "evidence_ids": [
-    "m1-ev-observation"
+    "m1-ev-observation",
+    "p2-observation",
+    "p2-dedicated-reconciliation"
   ],
   "source_id": "m1-source-observation",
   "identifier_representations": [
     "feature + property + phenomenon time + procedure"
   ],
-  "reason": "Depth: focused. Confidence high in research distinction, not accepted mapping. Observation/result time and sample/support differ; retain quality. Public dataset coverage/rights require separate discovery.",
+  "reason": "Depth: focused. Confidence high in research distinction, not accepted mapping. Observation/result time and sample/support differ; retain quality. Public dataset coverage/rights require separate discovery.\n\nPhase 2 ACCEPTED: Accepted new reusable concept proposal: Feature/property/procedure/result/temporal-support record; preserve grain and quality. Complete core inventory has23 concepts and no definition for this distinct scope. Canonical naming/definition and source bindings remain Phase4 work; this is not canonical publication.",
   "practical_value": "Observation/result time and sample/support differ; retain quality.",
   "showcase_value": "Contextual graph/map/time-series opportunity; practical compatibility remains prerequisite.",
   "observed_at": "2026-10-04T22:10:00Z",
-  "research_depth": "documented"
+  "research_depth": "documented",
+  "semantic_disposition": "accepted"
 }

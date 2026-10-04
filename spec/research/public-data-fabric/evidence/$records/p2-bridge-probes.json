@@ -1,0 +1,8 @@
+{
+  "title": "Focused country/unit/culture reference probes",
+  "observed_at": "2026-10-04T23:30:33.173750+00:00",
+  "outcome": "observation",
+  "summary": "Fresh bounded GeoNames and CLDR48 responses, hashes and exact probe counts. Country bridges are explicitly enumerated for observed inputs. AW238/238 code strings occur in CLDR territoryCodes, but category/history compatibility remains unaccepted. Padding and ambiguous units are retained.",
+  "path": "spec/research/public-data-fabric/evidence/p2-bridge-probes.json",
+  "reviewer": "fresh-phase2-semantic-reconciler"
+}

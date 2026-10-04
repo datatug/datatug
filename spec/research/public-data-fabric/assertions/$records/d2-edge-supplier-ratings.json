@@ -1,7 +1,7 @@
 {
   "title": "Northwind suppliers→food establishment candidate lookup",
   "kind": "edge",
-  "status": "researched",
+  "status": "needs-review",
   "from_id": "demand-northwind-suppliers",
   "to_id": "d2-rs-fsa",
   "from_fields": [
@@ -21,8 +21,10 @@
   "assumptions": "Countrycoverageandaddressvalidityfirst. CompanyName/postcodearenotdeterministicidentity;NorthwindSupplierID hasnosourceFHRSmeaning. Do not assertfictionalentityactualratedbusiness; noexecution.",
   "evidence_ids": [
     "d2-e-scope",
-    "d2-e-fsa"
+    "d2-e-fsa",
+    "p2-source-role",
+    "p2-dedicated-reconciliation"
   ],
-  "reason": "Research hypothesis only; confidence describes evidence supporting investigation, never acceptance or automatic matching.",
+  "reason": "Phase 2 UNRESOLVED: Countrycoverageandaddressvalidityfirst. CompanyName/postcodearenotdeterministicidentity;NorthwindSupplierID hasnosourceFHRSmeaning. Do not assertfictionalentityactualratedbusiness; noexecution. Evidence gap: the full endpoint projection/crosswalk and stated cardinality/temporal constraints have not been verified. A physical schema role is retained, but a single broad demand label does not define a reusable common meaning. Distinguish entity, identifier, display name, descriptive value and computed aggregate. A field implementation needs a precise concept and reviewed binding role; source strings and value samples alone do not establish external equivalence.\n\nOriginal discovery reason (historical): Research hypothesis only; confidence describes evidence supporting investigation, never acceptance or automatic matching.",
   "transformation": "Postcode-normalizedcandidate searchwithname/addressreview;retainunmatched andmultipleestablishments."
 }

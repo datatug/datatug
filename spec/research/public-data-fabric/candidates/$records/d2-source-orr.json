@@ -3,9 +3,10 @@
   "kind": "source",
   "status": "researched",
   "evidence_ids": [
-    "d2-e-orr"
+    "d2-e-orr",
+    "p2-context-review"
   ],
   "source_url": "https://dataportal.orr.gov.uk/",
-  "reason": "GB official statistics; ticket estimates rather than counts.",
+  "reason": "GB official statistics; ticket estimates rather than counts.\n\nPhase 2 context reviewed: source; directly attached assertion dispositions are enumerated in p2-coverage.json. Authority/terms are provenance context, not a semantic mapping or publication grant. ",
   "research_depth": "documented"
 }

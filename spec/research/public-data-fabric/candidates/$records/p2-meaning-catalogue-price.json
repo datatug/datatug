@@ -1,0 +1,17 @@
+{
+  "title": "Catalogue asking price",
+  "kind": "meaning",
+  "status": "researched",
+  "semantic_disposition": "accepted",
+  "canonical_address": "meaning://github.com/meaninggraph/core/price?ref=982916d73f0a35ff2558b0062f58aa3ac4f24d97",
+  "reason": "Phase2 accepted reuse: core price is catalogue asking price, while unit-price is charged on an invoice line. Currency must still be established per field. No new canonical concept is required.",
+  "demo_ids": [
+    "chinook",
+    "northwind"
+  ],
+  "evidence_ids": [
+    "p2-money",
+    "p2-core-contracts",
+    "p2-dedicated-reconciliation"
+  ]
+}

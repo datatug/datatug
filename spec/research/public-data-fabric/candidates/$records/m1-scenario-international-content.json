@@ -7,7 +7,8 @@
     "m1-ev-language",
     "m1-ev-media",
     "m1-ev-uri",
-    "m1-ev-isbn"
+    "m1-ev-isbn",
+    "p2-context-review"
   ],
   "member_ids": [
     "m1-language",
@@ -33,6 +34,6 @@
   ],
   "practical_value": "User media/catalog/content metadata → reconciled language or tag → explicit language/script/region components and registered representation format. Ask which content is accessible to chosen language contexts and which digital formats need support. Need actual language/tag/format fields and valid identifiers; Chinook genre/MediaType name is not automatically MIME type; locale is not audience nationality. Publication product lookup additionally requires ISBN edition/format identifiers; Pubs has no established ISBN bridge.",
   "showcase_value": "Language/format coverage matrix; film primary/original language absence retained.",
-  "reason": "All dependencies are research concepts; suitable dataset/recordset, identifier reconciliation, licensing and measured join dependencies remain open. Not selected, implemented or validated.",
+  "reason": "All dependencies are research concepts; suitable dataset/recordset, identifier reconciliation, licensing and measured join dependencies remain open. Not selected, implemented or validated.\n\nPhase 2 context reviewed: scenario; directly attached assertion dispositions are enumerated in p2-coverage.json. Member/dependency IDs preserved. Each unresolved/rejected mapping, source rights and temporal/domain gap remains a readiness prerequisite; no portfolio selection or executable bundle acceptance. ",
   "research_depth": "documented"
 }

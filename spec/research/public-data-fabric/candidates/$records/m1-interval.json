@@ -3,15 +3,18 @@
   "kind": "meaning",
   "status": "needs-review",
   "evidence_ids": [
-    "m1-ev-time"
+    "m1-ev-time",
+    "p2-source-role",
+    "p2-dedicated-reconciliation"
   ],
   "source_id": "m1-source-time",
   "identifier_representations": [
     "start + end + endpoint convention"
   ],
-  "reason": "Depth: focused. Confidence high in research distinction, not accepted mapping. Valid-time vs transaction-time vs observation-period differ. Public dataset coverage/rights require separate discovery.",
+  "reason": "Depth: focused. Confidence high in research distinction, not accepted mapping. Valid-time vs transaction-time vs observation-period differ. Public dataset coverage/rights require separate discovery.\n\nPhase 2 ACCEPTED: Accepted new reusable concept proposal: Bounded/open-ended validity interval with explicit endpoint semantics; not observation timestamp. Complete core inventory has23 concepts and no definition for this distinct scope. Canonical naming/definition and source bindings remain Phase4 work; this is not canonical publication.",
   "practical_value": "Valid-time vs transaction-time vs observation-period differ.",
   "showcase_value": "Contextual graph/map/time-series opportunity; practical compatibility remains prerequisite.",
   "observed_at": "2026-10-04T22:10:00Z",
-  "research_depth": "documented"
+  "research_depth": "documented",
+  "semantic_disposition": "accepted"
 }

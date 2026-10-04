@@ -66,6 +66,17 @@ def check(base=BASE):
         return candidates.get(id, {}).get('kind') in allowed
 
     for key, row in candidates.items():
+        if 'semantic_disposition' in row:
+            require(row['kind'] == 'meaning', key + ': semantic disposition is only for meanings')
+            require(row['semantic_disposition'] in ('accepted', 'rejected', 'unresolved'),
+                    key + ': invalid semantic disposition')
+            require(bool(row.get('reason')), key + ': semantic disposition needs rationale')
+            require(any(rows['evidence'].get(e, {}).get('review_stage') == 'reconciliation'
+                        and rows['evidence'].get(e, {}).get('independent') is True
+                        and rows['evidence'].get(e, {}).get('outcome') == 'pass'
+                        and rows['evidence'].get(e, {}).get('reviewer')
+                        for e in row.get('evidence_ids', [])),
+                    key + ': semantic disposition needs named dedicated reconciliation receipt')
         if 'source_id' in row:
             require(kind(row['source_id'], ['source']), key + ': source_id must name source')
         if 'dataset_id' in row:
@@ -245,6 +256,10 @@ def self_test():
         'phase ordering': mutate_accepted_programme(
             lambda r: r['gates']['phase1'].update(status='pending')),
         'missing rejection reason': lambda r: r['candidates']['tpch'].pop('reason'),
+        'semantic disposition on dataset': lambda r: r['candidates']['chinook'].update(
+            semantic_disposition='accepted'),
+        'meaning disposition without reconciliation': lambda r: r['candidates']['m1-money'].update(
+            semantic_disposition='accepted', evidence_ids=['corpus-chinook']),
         'dangling evidence': lambda r: r['candidates']['chinook'].update(evidence_ids=['absent']),
         'wrong link kind': lambda r: r['candidates']['chinook'].update(source_id='northwind'),
         'false validation': lambda r: r['candidates']['tpch'].update(status='validated'),

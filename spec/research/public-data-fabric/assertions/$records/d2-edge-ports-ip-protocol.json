@@ -1,7 +1,7 @@
 {
   "title": "IANA port transport token→IP keyword",
   "kind": "edge",
-  "status": "researched",
+  "status": "reconciled",
   "from_id": "d2-rs-iana-ports",
   "to_id": "d2-rs-iana-ip",
   "from_fields": [
@@ -13,12 +13,15 @@
   "from_identifier_namespace": "IANAporttransporttoken",
   "to_identifier_namespace": "IANAIPkeyword",
   "expected_cardinality": "many:0..1 forreviewedtokens",
-  "compatibility": "unresolved",
-  "confidence": "medium",
-  "assumptions": "TCP6/UDP17 literalcase-transformcomparisoninvestigation. Othertransportprotocols/reservedrangesnotautomaticallymapped;portassignmentdoesnotproveobservedIPtraffic.",
+  "compatibility": "transformable",
+  "confidence": "high",
+  "assumptions": "Current scoped acceptance: Only literal registered transport tokens tcp and udp resolve by the reviewed map to IP keywords TCP and UDP / numbers6 and17. Restrict the source domain to these tokens; do not uppercase every transport name and infer identity. Implementation remains subject to the source licence, current pin, canonical binding validation, explicit null/multiplicity policy and independent end-to-end checks. Discovery assumptions retained as history: TCP6/UDP17 literalcase-transformcomparisoninvestigation. Othertransportprotocols/reservedrangesnotautomaticallymapped;portassignmentdoesnotproveobservedIPtraffic.",
   "evidence_ids": [
-    "d2-e-iana"
+    "d2-e-iana",
+    "p2-source-role",
+    "p2-dedicated-reconciliation",
+    "p2-technical"
   ],
-  "reason": "Research hypothesis only; confidence describes evidence supporting investigation, never acceptance or automatic matching.",
-  "transformation": "Explicitreviewedtoken table tcp→TCP→6,udp→UDP→17;uppercasenamealoneinsufficientforotherprotocols."
+  "reason": "Phase 2 ACCEPTED: Only literal registered transport tokens tcp and udp resolve by the reviewed map to IP keywords TCP and UDP / numbers6 and17. Restrict the source domain to these tokens; do not uppercase every transport name and infer identity.\n\nOriginal discovery reason (historical): Research hypothesis only; confidence describes evidence supporting investigation, never acceptance or automatic matching.",
+  "transformation": "Filter Transport Protocol to tcp or udp; use explicit table tcp -> TCP (6), udp -> UDP (17); preserve source token and unmatched other values."
 }

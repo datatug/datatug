@@ -1,9 +1,11 @@
 {
   "title": "chinook.Employee.Fax proposes Fax number",
   "kind": "mapping",
-  "status": "researched",
+  "status": "needs-review",
   "evidence_ids": [
-    "demand-corpus-chinook"
+    "demand-corpus-chinook",
+    "p2-source-role",
+    "p2-dedicated-reconciliation"
   ],
   "from_id": "demand-chinook-employee",
   "to_id": "demand-meaning-fax-number",
@@ -15,11 +17,11 @@
     "proposed-role"
   ],
   "compatibility": "unresolved",
-  "confidence": "medium",
+  "confidence": "low",
   "physical_role": "employee-fax-number",
   "from_identifier_namespace": "literal:chinook/Employee/Fax",
   "to_identifier_namespace": "unreconciled:fax-number",
   "expected_cardinality": "Not established; repeated names/codes and reference roles are retained.",
   "assumptions": "Proposed demand only; dedicated reconciliation required. Display/contact strings, not stable person identity; country context required for phone parsing.  Confidence concerns the proposed source role only. Raw profiles and context are in evidence/demo-demand.json; no normalization applied.",
-  "reason": "Research hypothesis only. Telephone numbering plans or email-domain classification after parsing."
+  "reason": "Phase 2 UNRESOLVED: chinook.Employee.Fax: A physical schema role is retained, but a single broad demand label does not define a reusable common meaning. Distinguish entity, identifier, display name, descriptive value and computed aggregate. A field implementation needs a precise concept and reviewed binding role; source strings and value samples alone do not establish external equivalence. Evidence gap: no complete role-specific canonical binding and validated external representation bridge has been established for this exact proposal.\n\nOriginal discovery reason (historical): Research hypothesis only. Telephone numbering plans or email-domain classification after parsing."
 }

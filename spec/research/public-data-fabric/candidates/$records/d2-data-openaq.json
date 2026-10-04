@@ -5,7 +5,8 @@
   "source_id": "d2-source-openaq",
   "source_url": "https://docs.openaq.org/about/terms",
   "evidence_ids": [
-    "d2-e-openaq"
+    "d2-e-openaq",
+    "p2-context-review"
   ],
   "licence": "Provider/time-specific; no blanket permission",
   "licence_notes": "Provider licence and attribution, including license dateFrom/dateTo, must be checked. Terms do not guarantee absence of third-party claims. Dataset example licences do not authorize the global corpus. Commercial/cache/derivative conditions vary by provider.",
@@ -15,7 +16,7 @@
   "observed_at": "2026-10-04T22:42:29.641466+00:00",
   "revalidate_after": "2026-11-04T00:00:00Z",
   "freshness": "needs-review",
-  "reason": "API v3 requires X-API-Key and signup; neither used. Documented location fields id,country.code,provider,owner,coordinates,sensors,licenses,timezones; units parameter-specific. Actual access/coverage/size not verified. Candidate grid weather/monitoring association requires source, location, units and time review.",
+  "reason": "API v3 requires X-API-Key and signup; neither used. Documented location fields id,country.code,provider,owner,coordinates,sensors,licenses,timezones; units parameter-specific. Actual access/coverage/size not verified. Candidate grid weather/monitoring association requires source, location, units and time review.\n\nPhase 2 context reviewed: dataset; directly attached assertion dispositions are enumerated in p2-coverage.json. Dataset scope, edition and licence remain independent of particular field compatibility. ",
   "practical_value": "Potential places/weather or sensor-data enrichment, conditional on rights and access review.",
   "showcase_value": "Qualified monitoring/map context; not selected.",
   "research_depth": "shallow"

@@ -4,7 +4,9 @@
   "status": "low-priority",
   "evidence_ids": [
     "demand-corpus-adventureworks",
-    "demand-corpus-sakila"
+    "demand-corpus-sakila",
+    "p2-source-role",
+    "p2-dedicated-reconciliation"
   ],
   "demo_ids": [
     "adventureworks",
@@ -22,5 +24,6 @@
   ],
   "practical_value": "Proposed field-role demand in 2 demos. Candidate reference/calendar/identifier lookup with contextual bridge and measured match rate; local transaction/person IDs support internal joins only.",
   "licence_notes": "Candidate metadata is unreconciled. Per-input data/model/meaning licences remain in demand-plan.json and recordset records; Employees-derived evidence retains CC-BY-SA-3.0. No blanket CC0 or canonical new meaning licence is asserted.",
-  "reason": "Related concepts, entity keys/names/attributes and physical roles remain separately qualified in assertions. Coverage means inspected hypothesis presence, not accepted semantic equivalence or external match rate."
+  "reason": "Related concepts, entity keys/names/attributes and physical roles remain separately qualified in assertions. Coverage means inspected hypothesis presence, not accepted semantic equivalence or external match rate.\n\nPhase 2 REJECTED: Groups credentials and different identifiers by sensitivity, not semantic equivalence. Retain protected-field research; no general joinable meaning. Historical demand stays indexed; reject collapsing the group, not its useful individual fields.",
+  "semantic_disposition": "rejected"
 }

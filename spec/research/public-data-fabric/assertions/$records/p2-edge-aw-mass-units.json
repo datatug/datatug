@@ -1,0 +1,29 @@
+{
+  "title": "Accept two literal padded source rows: KG[space]/Kilogram -> kilogram and LB[space]/US pound -> pound",
+  "kind": "edge",
+  "status": "reconciled",
+  "from_id": "demand-adventureworks-production-unitmeasure",
+  "to_id": "d1-cldr-units",
+  "from_fields": [
+    "UnitMeasureCode",
+    "Name"
+  ],
+  "to_fields": [
+    "convertUnit.source"
+  ],
+  "compatibility": "transformable",
+  "assumptions": "Accept two literal padded source rows: KG[space]/Kilogram -> kilogram and LB[space]/US pound -> pound. CLDR48 identifies both as mass; pound base kilogram has factor lb_to_kg. No GAL/OZ/KT/packaging inference or conversion of every unit.",
+  "reason": "Phase 2 ACCEPTED: Accept two literal padded source rows: KG[space]/Kilogram -> kilogram and LB[space]/US pound -> pound. CLDR48 identifies both as mass; pound base kilogram has factor lb_to_kg. No GAL/OZ/KT/packaging inference or conversion of every unit.",
+  "confidence": "high",
+  "transformation": "Select exactly raw \"KG \" with Name Kilogram or \"LB \" with Name US pound; explicit bridge to kilogram/pound; preserve raw code. If converting Weight, require matching WeightUnitMeasureCode and evaluate the pinned CLDR constant lb_to_kg with decimal arithmetic.",
+  "from_identifier_namespace": "AdventureWorks:pinned native source code",
+  "to_identifier_namespace": "CLDR48:typed reference identifier",
+  "expected_cardinality": "many:0..1 after explicit allowed-domain bridge and target projection",
+  "evidence_ids": [
+    "p2-bridge-probes",
+    "p2-units",
+    "p2-dedicated-reconciliation",
+    "d1-cldr",
+    "demand-corpus-adventureworks"
+  ]
+}

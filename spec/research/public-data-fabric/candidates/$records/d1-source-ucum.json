@@ -3,11 +3,12 @@
   "kind": "source",
   "status": "researched",
   "evidence_ids": [
-    "d1-ucum"
+    "d1-ucum",
+    "p2-context-review"
   ],
   "source_url": "https://ucum.org/docs/artifacts",
   "licence": "UCUM licence1.1",
   "licence_notes": "UCUM licence 1.1 permits unmodified redistribution and commercial software interoperability with notices; modification and derivatives prohibited. OVDB reformatting needs review.",
-  "reason": "Publisher reference only. Candidate-specific permissions, access constraints and coverage are retained in linked evidence.",
+  "reason": "Publisher reference only. Candidate-specific permissions, access constraints and coverage are retained in linked evidence.\n\nPhase 2 context reviewed: source; directly attached assertion dispositions are enumerated in p2-coverage.json. Authority/terms are provenance context, not a semantic mapping or publication grant. ",
   "research_depth": "documented"
 }

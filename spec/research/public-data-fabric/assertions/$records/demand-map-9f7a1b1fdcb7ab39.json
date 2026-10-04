@@ -1,9 +1,11 @@
 {
   "title": "northwind.CustomerDemographics.CustomerTypeID proposes Customer demographic classification",
   "kind": "mapping",
-  "status": "researched",
+  "status": "needs-review",
   "evidence_ids": [
-    "demand-corpus-northwind"
+    "demand-corpus-northwind",
+    "p2-classification",
+    "p2-dedicated-reconciliation"
   ],
   "from_id": "demand-northwind-customerdemographics",
   "to_id": "demand-meaning-customer-demographic-classification",
@@ -15,11 +17,11 @@
     "proposed-role"
   ],
   "compatibility": "unresolved",
-  "confidence": "high",
+  "confidence": "low",
   "physical_role": "entity",
   "from_identifier_namespace": "northwind/CustomerDemographics",
   "to_identifier_namespace": "unreconciled:customer-demographic-classification",
   "expected_cardinality": "Not established; repeated names/codes and reference roles are retained.",
   "assumptions": "Native source entity/key shape; no external identifier equivalence. Composite keys preserved in order.  Confidence concerns the proposed source role only. Raw profiles and context are in evidence/demo-demand.json; no normalization applied.",
-  "reason": "Research hypothesis only. Entity-specific reference and classifications; geographic/calendar lookup through observed attributes"
+  "reason": "Phase 2 UNRESOLVED: northwind.CustomerDemographics.CustomerTypeID: Each classification needs scheme, edition and source definition. A local status/category/title/genre code cannot be joined to another scheme by equal value. Assignment and correspondence require evidence; splits/merges may be many-to-many. Preserve source codes and nulls; no automatic NAICS/SOC/ISCO/GTIN assignment. Evidence gap: no complete role-specific canonical binding and validated external representation bridge has been established for this exact proposal.\n\nOriginal discovery reason (historical): Research hypothesis only. Entity-specific reference and classifications; geographic/calendar lookup through observed attributes"
 }

@@ -1,0 +1,29 @@
+{
+  "title": "Accept only padded language-only CultureID codes ar,en,es,fr,he,th as corresponding language subtags",
+  "kind": "edge",
+  "status": "reconciled",
+  "from_id": "demand-adventureworks-production-culture",
+  "to_id": "d1-cldr-names",
+  "from_fields": [
+    "CultureID",
+    "Name"
+  ],
+  "to_fields": [
+    "language.type"
+  ],
+  "compatibility": "transformable",
+  "assumptions": "Accept only padded language-only CultureID codes ar,en,es,fr,he,th as corresponding language subtags. This establishes the language component of a culture, not locale identity/equivalence or actual spoken language of people. Invariant whitespace and zh-cht remain unresolved.",
+  "reason": "Phase 2 ACCEPTED: Accept only padded language-only CultureID codes ar,en,es,fr,he,th as corresponding language subtags. This establishes the language component of a culture, not locale identity/equivalence or actual spoken language of people. Invariant whitespace and zh-cht remain unresolved.",
+  "confidence": "high",
+  "transformation": "Explicit raw padding map {\"ar    \":\"ar\",\"en    \":\"en\",\"es    \":\"es\",\"fr    \":\"fr\",\"he    \":\"he\",\"th    \":\"th\"}; select CLDR language display names for a stated display locale. No generic trim/legacy alias conversion; one display locale avoids duplicate label rows.",
+  "from_identifier_namespace": "AdventureWorks:pinned native source code",
+  "to_identifier_namespace": "CLDR48:typed reference identifier",
+  "expected_cardinality": "many:0..1 after explicit allowed-domain bridge and target projection",
+  "evidence_ids": [
+    "p2-bridge-probes",
+    "p2-media",
+    "p2-dedicated-reconciliation",
+    "d1-cldr",
+    "demand-corpus-adventureworks"
+  ]
+}

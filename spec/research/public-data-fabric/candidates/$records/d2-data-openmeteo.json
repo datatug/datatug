@@ -5,7 +5,8 @@
   "source_id": "d2-source-openmeteo",
   "source_url": "https://open-meteo.com/en/terms",
   "evidence_ids": [
-    "d2-e-openmeteo"
+    "d2-e-openmeteo",
+    "p2-context-review"
   ],
   "licence": "CC-BY-4.0 data; restricted free API",
   "licence_notes": "Free API service explicitly non-commercial; subscriptions/advertising/commercial integration/promotional use are examples of commercial use. Paid service/data rights differ. No free endpoint commercial deployment, no paid workaround/account. CC BY4 data attribution/derivative rights do not remove endpoint conditions.",
@@ -15,7 +16,7 @@
   "observed_at": "2026-10-04T22:42:29.641466+00:00",
   "revalidate_after": "2026-11-04T00:00:00Z",
   "freshness": "needs-review",
-  "reason": "Documentation only; no API requested. Free limits10000/day5000/hour600/minute and advertised300000/month. Historical archive and current forecast have different time coverage; exact schema/size not verified. Useful blocked alternative for date/place context.",
+  "reason": "Documentation only; no API requested. Free limits10000/day5000/hour600/minute and advertised300000/month. Historical archive and current forecast have different time coverage; exact schema/size not verified. Useful blocked alternative for date/place context.\n\nPhase 2 context reviewed: dataset; directly attached assertion dispositions are enumerated in p2-coverage.json. Dataset scope, edition and licence remain independent of particular field compatibility. ",
   "practical_value": "Potential places/weather or sensor-data enrichment, conditional on rights and access review.",
   "showcase_value": "Qualified monitoring/map context; not selected.",
   "research_depth": "shallow"

@@ -3,7 +3,8 @@
   "kind": "dataset",
   "status": "needs-review",
   "evidence_ids": [
-    "d1-census"
+    "d1-census",
+    "p2-context-review"
   ],
   "source_id": "d1-source-census",
   "source_url": "https://www.census.gov/data/developers/data-sets/cbp-zbp/cbp-api.html",
@@ -14,7 +15,7 @@
   "update_frequency": "Annual CBP; periodic classification and geography revisions",
   "observed_at": "2026-10-04T22:20:00Z",
   "freshness": "needs-review",
-  "reason": "Research candidate; no canonical publication or accepted mapping. Linked source evidence records research depth, source fields, observed samples and unresolved access/permission constraints.",
+  "reason": "Research candidate; no canonical publication or accepted mapping. Linked source evidence records research depth, source fields, observed samples and unresolved access/permission constraints.\n\nPhase 2 context reviewed: dataset; directly attached assertion dispositions are enumerated in p2-coverage.json. Dataset scope, edition and licence remain independent of particular field compatibility. ",
   "practical_value": "Supports proposed connected scenarios after identity, temporal and legal review.",
   "showcase_value": "Secondary to practical joinability.",
   "research_depth": "documented"

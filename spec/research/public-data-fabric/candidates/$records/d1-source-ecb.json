@@ -3,11 +3,12 @@
   "kind": "source",
   "status": "researched",
   "evidence_ids": [
-    "d1-ecb"
+    "d1-ecb",
+    "p2-context-review"
   ],
   "source_url": "https://www.ecb.europa.eu/stats/eurofxref/eurofxref-hist.xml",
   "licence": "ECB reuse conditions",
   "licence_notes": "ECB custom reuse terms: accurate reproduction with ECB source credit, label modifications, and disclose free availability to purchasers of sold documents.",
-  "reason": "Publisher reference only. Candidate-specific permissions, access constraints and coverage are retained in linked evidence.",
+  "reason": "Publisher reference only. Candidate-specific permissions, access constraints and coverage are retained in linked evidence.\n\nPhase 2 context reviewed: source; directly attached assertion dispositions are enumerated in p2-coverage.json. Authority/terms are provenance context, not a semantic mapping or publication grant. ",
   "research_depth": "documented"
 }

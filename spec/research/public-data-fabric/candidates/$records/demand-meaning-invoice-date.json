@@ -3,7 +3,9 @@
   "kind": "meaning",
   "status": "researched",
   "evidence_ids": [
-    "demand-corpus-chinook"
+    "demand-corpus-chinook",
+    "p2-time",
+    "p2-dedicated-reconciliation"
   ],
   "demo_ids": [
     "chinook"
@@ -13,5 +15,7 @@
   ],
   "practical_value": "Proposed field-role demand in 1 demos. Calendar dimensions/holidays; economic observations by explicitly selected date role.",
   "licence_notes": "Candidate metadata is unreconciled. Per-input data/model/meaning licences remain in demand-plan.json and recordset records; Employees-derived evidence retains CC-BY-SA-3.0. No blanket CC0 or canonical new meaning licence is asserted.",
-  "reason": "Related concepts, entity keys/names/attributes and physical roles remain separately qualified in assertions. Coverage means inspected hypothesis presence, not accepted semantic equivalence or external match rate."
+  "reason": "Related concepts, entity keys/names/attributes and physical roles remain separately qualified in assertions. Coverage means inspected hypothesis presence, not accepted semantic equivalence or external match rate.\n\nPhase 2 ACCEPTED: Accepted reuse of core date; this is concept/role reuse, not raw-value or cross-dataset identity equivalence. Separate calendar date, local wall time, UTC instant, duration, observation period and validity bounds. Timezone, calendar and source event role are prerequisites for conversion. Employees 9999-01-01 is an open-ended validity sentinel; shift time lacks a date. A midnight string alone does not establish a UTC instant. Date-only native/source semantics can reuse core date; timestamp truncation needs an explicit query transformation.",
+  "canonical_address": "meaning://github.com/meaninggraph/core/date?ref=982916d73f0a35ff2558b0062f58aa3ac4f24d97",
+  "semantic_disposition": "accepted"
 }

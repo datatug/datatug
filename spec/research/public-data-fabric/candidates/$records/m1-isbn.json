@@ -3,14 +3,17 @@
   "kind": "meaning",
   "status": "needs-review",
   "evidence_ids": [
-    "m1-ev-isbn"
+    "m1-ev-isbn",
+    "p2-media",
+    "p2-dedicated-reconciliation"
   ],
   "source_id": "m1-source-isbn",
   "identifier_representations": [
     "ISBN scheme/version + complete identifier"
   ],
-  "reason": "Depth: focused scope research. Confidence high in distinction, no accepted mapping. Local Pubs title_id is not ISBN; edition and format need evidence. Book metadata source/rights remain a gap.",
+  "reason": "Depth: focused scope research. Confidence high in distinction, no accepted mapping. Local Pubs title_id is not ISBN; edition and format need evidence. Book metadata source/rights remain a gap.\n\nPhase 2 UNRESOLVED: Work, edition, media item, file, codec, Internet media type, genre and language are distinct. Local publication/track/film IDs are source-scoped; no inferred ISBN/DOI identity. Language is distinct from locale/tag and formatting culture. Compound composer/actor strings require a reviewed multiplicity policy; padding/legacy locale aliases require raw-preserving bridges. Retain the specific research distinction from this candidate. Evidence gap: final concept boundaries/operational source scope remain unproven; a source implementation and potential overlap with canonical or related research must be resolved before promotion.",
   "practical_value": "Portable book-product lookup can bridge publishers, catalogues and sales when actual ISBN exists; title label alone insufficient.",
   "showcase_value": "Edition/format/publication network with sales, only with portable keys.",
-  "research_depth": "documented"
+  "research_depth": "documented",
+  "semantic_disposition": "unresolved"
 }

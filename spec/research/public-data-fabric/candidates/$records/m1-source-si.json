@@ -3,13 +3,14 @@
   "kind": "source",
   "status": "researched",
   "evidence_ids": [
-    "m1-ev-si"
+    "m1-ev-si",
+    "p2-context-review"
   ],
   "source_url": "https://www.bipm.org/en/measurement-units",
   "licence": "needs-review",
   "licence_notes": "BIPM document terms not established; no brochure copied.",
   "observed_at": "2026-10-04T22:10:00Z",
   "freshness": "needs-review",
-  "reason": "Standards/publisher evidence; no public dataset integration selected or data copied.",
+  "reason": "Standards/publisher evidence; no public dataset integration selected or data copied.\n\nPhase 2 context reviewed: source; directly attached assertion dispositions are enumerated in p2-coverage.json. Authority/terms are provenance context, not a semantic mapping or publication grant. ",
   "research_depth": "documented"
 }

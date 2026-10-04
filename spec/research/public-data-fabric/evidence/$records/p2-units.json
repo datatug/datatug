@@ -1,0 +1,8 @@
+{
+  "title": "Phase 2 units reconciliation boundary",
+  "observed_at": "2026-10-04T23:30:33.173750+00:00",
+  "outcome": "decision",
+  "summary": "Quantity kind, unit identifier, measured value, ordinal rating and packaging are distinct. Conversion requires both reviewed units and compatible quantity kinds, including scale/offset and product quantity for packaging. BOX is not a mass unit; weight unit code is not weight; film rating is not physical measurement. Retain datum, unit, interval and quality metadata.",
+  "reviewer": "fresh-phase2-semantic-reconciler",
+  "path": "spec/research/public-data-fabric/p2-reconciliation.md"
+}

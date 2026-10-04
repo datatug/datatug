@@ -1,7 +1,7 @@
 {
   "title": "NaPTAN stop→NPTG locality",
   "kind": "edge",
-  "status": "researched",
+  "status": "reconciled",
   "from_id": "d2-rs-naptan",
   "to_id": "d2-rs-nptg",
   "from_fields": [
@@ -13,13 +13,17 @@
   "from_identifier_namespace": "GB NPTGlocalityreference",
   "to_identifier_namespace": "GB NPTGlocalityID",
   "expected_cardinality": "many:1 in bounded snapshot",
-  "compatibility": "unresolved",
+  "compatibility": "identifier-equivalence",
   "confidence": "high",
-  "assumptions": "Actual1679/1679matchesunique43900targets;validonly2026-10-04area010/currentgazetteer. Noadminarea/name identity. Preserveunmatched/blankoutsideprobedarea.",
+  "assumptions": "Current scoped acceptance: NaPTAN NptgLocalityCode references NPTG NptgLocalityCode. The actual dated area010 sample has 1679/1679 matches to 43900 unique locality IDs. Accept the authority-qualified reference, not locality-name, administrative-area or station identity; wider snapshots require revalidation. Implementation remains subject to the source licence, current pin, canonical binding validation, explicit null/multiplicity policy and independent end-to-end checks. Discovery assumptions retained as history: Actual1679/1679matchesunique43900targets;validonly2026-10-04area010/currentgazetteer. Noadminarea/name identity. Preserveunmatched/blankoutsideprobedarea.",
   "evidence_ids": [
     "d2-e-naptan",
-    "d2-e-nptg"
+    "d2-e-nptg",
+    "p2-geography",
+    "p2-dedicated-reconciliation",
+    "p2-mobility"
   ],
-  "reason": "Research hypothesis only; confidence describes evidence supporting investigation, never acceptance or automatic matching.",
-  "meaning_id": "d2-meaning-nptg-locality"
+  "reason": "Phase 2 ACCEPTED: NaPTAN NptgLocalityCode references NPTG NptgLocalityCode. The actual dated area010 sample has 1679/1679 matches to 43900 unique locality IDs. Accept the authority-qualified reference, not locality-name, administrative-area or station identity; wider snapshots require revalidation.\n\nOriginal discovery reason (historical): Research hypothesis only; confidence describes evidence supporting investigation, never acceptance or automatic matching.",
+  "meaning_id": "d2-meaning-nptg-locality",
+  "physical_role": "namespace-qualified source reference"
 }

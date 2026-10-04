@@ -1,0 +1,8 @@
+{
+  "title": "Phase 2 local reconciliation boundary",
+  "observed_at": "2026-10-04T23:30:33.173750+00:00",
+  "outcome": "decision",
+  "summary": "Ordered native FK components refer only to the target key in the same pinned fixture. Actual nonnull match and target uniqueness were measured. Empty/all-null relationships are schema-only; nulls stay absent. No cross-demo identity, real-world linkage, or universal collation equivalence follows.",
+  "reviewer": "fresh-phase2-semantic-reconciler",
+  "path": "spec/research/public-data-fabric/p2-reconciliation.md"
+}

@@ -3,15 +3,18 @@
   "kind": "meaning",
   "status": "needs-review",
   "evidence_ids": [
-    "m1-ev-economic"
+    "m1-ev-economic",
+    "p2-classification",
+    "p2-dedicated-reconciliation"
   ],
   "source_id": "m1-source-economic",
   "identifier_representations": [
     "source scheme/version/code + target scheme/version/code"
   ],
-  "reason": "Depth: focused. Confidence high in research distinction, not accepted mapping. Bridge can be many-to-many and approximate; retain scope weights if provided. Public dataset coverage/rights require separate discovery.",
+  "reason": "Depth: focused. Confidence high in research distinction, not accepted mapping. Bridge can be many-to-many and approximate; retain scope weights if provided. Public dataset coverage/rights require separate discovery.\n\nPhase 2 UNRESOLVED: Each classification needs scheme, edition and source definition. A local status/category/title/genre code cannot be joined to another scheme by equal value. Assignment and correspondence require evidence; splits/merges may be many-to-many. Preserve source codes and nulls; no automatic NAICS/SOC/ISCO/GTIN assignment. Retain the specific research distinction from this candidate. Evidence gap: final concept boundaries/operational source scope remain unproven; a source implementation and potential overlap with canonical or related research must be resolved before promotion.",
   "practical_value": "Bridge can be many-to-many and approximate; retain scope weights if provided.",
   "showcase_value": "Contextual graph/map/time-series opportunity; practical compatibility remains prerequisite.",
   "observed_at": "2026-10-04T22:10:00Z",
-  "research_depth": "documented"
+  "research_depth": "documented",
+  "semantic_disposition": "unresolved"
 }

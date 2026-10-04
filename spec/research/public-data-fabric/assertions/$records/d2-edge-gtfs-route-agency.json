@@ -1,7 +1,7 @@
 {
   "title": "nta-routes→nta-agency",
   "kind": "edge",
-  "status": "researched",
+  "status": "reconciled",
   "from_id": "d2-rs-nta-routes",
   "to_id": "d2-rs-nta-agency",
   "from_fields": [
@@ -13,11 +13,15 @@
   "from_identifier_namespace": "NTA Allenscurrentfeed",
   "to_identifier_namespace": "NTA Allenscurrentfeed",
   "expected_cardinality": "many:1",
-  "compatibility": "unresolved",
+  "compatibility": "identifier-equivalence",
   "confidence": "high",
-  "assumptions": "Nativekeyreferences within observedfeed version;allboundedrowsverified. Future/crossfeedIDsnotaccepted;termsconflict blocksproductionuse. Serviceperiod/weeklycalendar and >24h agencytime handledexplicitly.",
+  "assumptions": "Current scoped acceptance: The observed NTA Allens feed declares this exact native ID reference; five paths were profiled with zero unmatched rows. Accept only within the same dated feed namespace and target file. Preserve service calendar/timezone and IDs as strings. The feed has 2026-27 service dates, not Chinook 2021-25 coverage; unresolved NTA reuse terms still block production use. Implementation remains subject to the source licence, current pin, canonical binding validation, explicit null/multiplicity policy and independent end-to-end checks. Discovery assumptions retained as history: Nativekeyreferences within observedfeed version;allboundedrowsverified. Future/crossfeedIDsnotaccepted;termsconflict blocksproductionuse. Serviceperiod/weeklycalendar and >24h agencytime handledexplicitly.",
   "evidence_ids": [
-    "d2-e-nta"
+    "d2-e-nta",
+    "p2-source-role",
+    "p2-dedicated-reconciliation",
+    "p2-mobility"
   ],
-  "reason": "Research hypothesis only; confidence describes evidence supporting investigation, never acceptance or automatic matching."
+  "reason": "Phase 2 ACCEPTED: The observed NTA Allens feed declares this exact native ID reference; five paths were profiled with zero unmatched rows. Accept only within the same dated feed namespace and target file. Preserve service calendar/timezone and IDs as strings. The feed has 2026-27 service dates, not Chinook 2021-25 coverage; unresolved NTA reuse terms still block production use.\n\nOriginal discovery reason (historical): Research hypothesis only; confidence describes evidence supporting investigation, never acceptance or automatic matching.",
+  "physical_role": "feed-version-scoped foreign-key reference"
 }
