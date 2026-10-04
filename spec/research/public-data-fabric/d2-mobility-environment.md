@@ -1,6 +1,6 @@
 # Mobility, environment, civic and technology discovery
 
-This bounded first pass proposes connected research bundles for a user who has places, dated transactions, assets, service identifiers or operational logs. It was researched by Codex **gpt-6.1-sol, High, on the local Mac**, independently of the later reviewer. It starts from the accepted six-demo demand evidence and incorporates main `306d3104f995a5185077fb81f6569b04ed8f48de` without modifying the meanings lane.
+This bounded first pass proposes connected research bundles for a user who has places, dated transactions, assets, service identifiers or operational logs. It was researched by Codex **gpt-6.1-sol, High, on the local Mac**, independently of the later reviewer. It starts from the accepted six-demo demand evidence. The final review branch incorporates main `1b2ec71a593c9edd64e011f5949c48721956b817`, preserving the landed meanings and geography/commerce lanes.
 
 The authoritative records are the existing `fabric.candidates`, `fabric.assertions`, `fabric.evidence` and `fabric.questions` collections, using new `d2-` IDs only. The derived inventory is **108 candidates: 21 provider/source records, 22 datasets, 32 recordsets, 21 provisional meanings, eight scenarios and four bundles**, plus 37 assertions, 22 observation evidence records and seven open follow-up questions. These counts describe the work; they are not quotas or selected integrations. Several datasets share a publisher, and indicator series are not counted as separate datasets.
 

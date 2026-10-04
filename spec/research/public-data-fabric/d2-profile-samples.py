@@ -38,6 +38,11 @@ def main():
         if digest != receipt['sha256_read_bytes']:
             raise ValueError('Capture hash mismatch: ' + raw.name)
         verified[raw.name] = {'sha256_read_bytes': digest, 'observed_at': receipt['observed_at']}
+    consumed = ['naptan-010.raw', 'nptg-full.raw', 'nta-feed.raw', 'cisa.raw',
+                'nvd.raw', 'police.raw', 'police-small.raw', 'fsa-bulk.raw']
+    missing_receipts = [name for name in consumed if name not in verified]
+    if missing_receipts:
+        raise ValueError('Consumed captures lack verified receipts: ' + ', '.join(missing_receipts))
     nc, n = csv_rows(p / 'naptan-010.raw')
     gc, g = csv_rows(p / 'nptg-full.raw')
     target = collections.Counter(row['NptgLocalityCode'] for row in g)
