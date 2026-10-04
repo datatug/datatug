@@ -16,7 +16,7 @@
   "confidence": "high",
   "from_identifier_namespace": "RORv2:GeoNameslocationid",
   "to_identifier_namespace": "GeoNames:geonameid",
-  "expected_cardinality": "Provisional: validate key uniqueness and multiplicity against a pinned snapshot before use",
+  "expected_cardinality": "Many organisation locations to zero or one GeoNames feature per location; organisation can have several locations",
   "evidence_ids": [
     "d1-ror",
     "d1-geonames"

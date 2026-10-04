@@ -16,7 +16,7 @@
   "confidence": "high",
   "from_identifier_namespace": "WorldBank:v2economyid",
   "to_identifier_namespace": "WorldBank:indicator.countryiso3code",
-  "expected_cardinality": "Provisional: validate key uniqueness and multiplicity against a pinned snapshot before use",
+  "expected_cardinality": "One economy to many indicator/year observations; source and revision qualify the observation key",
   "evidence_ids": [
     "d1-worldbank"
   ],

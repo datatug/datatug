@@ -17,7 +17,7 @@
   "confidence": "medium",
   "from_identifier_namespace": "Census2023CBP:NAICS2017",
   "to_identifier_namespace": "NAICS:edition+code",
-  "expected_cardinality": "Provisional: validate key uniqueness and multiplicity against a pinned snapshot before use",
+  "expected_cardinality": "Many observation rows to one industry definition qualified by NAICS edition; total/range codes require separate handling",
   "evidence_ids": [
     "d1-census"
   ],

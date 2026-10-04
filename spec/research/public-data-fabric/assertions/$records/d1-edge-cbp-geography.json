@@ -18,7 +18,7 @@
   "confidence": "medium",
   "from_identifier_namespace": "Census:summaryqualifiedGEO_ID",
   "to_identifier_namespace": "Census:vintage+GEOID",
-  "expected_cardinality": "Provisional: validate key uniqueness and multiplicity against a pinned snapshot before use",
+  "expected_cardinality": "Many observation rows to one geography qualified by type and vintage; ZIP is distinct from ZCTA",
   "evidence_ids": [
     "d1-census"
   ],

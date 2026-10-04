@@ -16,7 +16,7 @@
   "confidence": "high",
   "from_identifier_namespace": "GeoNames:ISO2",
   "to_identifier_namespace": "CLDR48:currencyregionISO2",
-  "expected_cardinality": "Provisional: validate key uniqueness and multiplicity against a pinned snapshot before use",
+  "expected_cardinality": "One country/area to many currency assignments over time; several concurrent non-tender assignments possible",
   "evidence_ids": [
     "d1-geonames",
     "d1-cldr"

@@ -19,7 +19,7 @@
   "confidence": "high",
   "from_identifier_namespace": "ECB:quotedcurrency/date",
   "to_identifier_namespace": "CLDR48:currencycode+regioninterval",
-  "expected_cardinality": "Provisional: validate key uniqueness and multiplicity against a pinned snapshot before use",
+  "expected_cardinality": "Many source rows to zero or one reference row after category, edition and alias review; validate target-key uniqueness",
   "evidence_ids": [
     "d1-ecb",
     "d1-cldr"

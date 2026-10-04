@@ -19,5 +19,5 @@
   "evidence_ids": [
     "d1-cldr"
   ],
-  "expected_cardinality": "Provisional: validate key uniqueness and multiplicity against a pinned snapshot before use"
+  "expected_cardinality": "Field-level meaning hypothesis; record join cardinality not applicable"
 }

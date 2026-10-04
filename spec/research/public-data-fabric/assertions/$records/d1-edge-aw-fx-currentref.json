@@ -19,7 +19,7 @@
   "confidence": "medium",
   "from_identifier_namespace": "AW:currencyratepair+naivedate",
   "to_identifier_namespace": "ECB:EURquotedcurrency+publicationdate",
-  "expected_cardinality": "Provisional: validate key uniqueness and multiplicity against a pinned snapshot before use",
+  "expected_cardinality": "Many fixture rows to zero or one same-day cross-rate after quote/rate-kind policy; weekends and unsupported codes unmatched",
   "evidence_ids": [
     "d1-demo-roles",
     "d1-ecb"

@@ -18,7 +18,7 @@
   "confidence": "medium",
   "from_identifier_namespace": "AW:UnitMeasureCode",
   "to_identifier_namespace": "CLDR:unitidentifier",
-  "expected_cardinality": "Provisional: validate key uniqueness and multiplicity against a pinned snapshot before use",
+  "expected_cardinality": "Many fixture rows to zero or one reviewed unit definition; packaging may remain unmatched",
   "evidence_ids": [
     "d1-demo-roles",
     "d1-cldr"

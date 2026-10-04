@@ -16,7 +16,7 @@
   "confidence": "high",
   "from_identifier_namespace": "BLS:CPIseriesid",
   "to_identifier_namespace": "BLS:CPIseriesid",
-  "expected_cardinality": "Provisional: validate key uniqueness and multiplicity against a pinned snapshot before use",
+  "expected_cardinality": "One series definition to many year/period observations; M13 is a separate annual-average period",
   "evidence_ids": [
     "d1-bls"
   ],

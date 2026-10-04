@@ -16,7 +16,7 @@
   "confidence": "high",
   "from_identifier_namespace": "WorldBank:indicatorid",
   "to_identifier_namespace": "WorldBank:indicatorid",
-  "expected_cardinality": "Provisional: validate key uniqueness and multiplicity against a pinned snapshot before use",
+  "expected_cardinality": "One indicator to many economy/year observations within the WDI source",
   "evidence_ids": [
     "d1-worldbank"
   ],

@@ -16,7 +16,7 @@
   "confidence": "high",
   "from_identifier_namespace": "CLDR:Windowszone→IANAtypes",
   "to_identifier_namespace": "IANA:TZ2026e",
-  "expected_cardinality": "Provisional: validate key uniqueness and multiplicity against a pinned snapshot before use",
+  "expected_cardinality": "One Windows ID plus territory to one or many IANA zones; reverse mapping can also be many",
   "evidence_ids": [
     "d1-cldr",
     "d1-iana"

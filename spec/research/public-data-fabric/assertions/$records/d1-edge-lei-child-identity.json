@@ -16,7 +16,7 @@
   "confidence": "medium",
   "from_identifier_namespace": "GLEIF:RRnodeLEI",
   "to_identifier_namespace": "GLEIF:LEI",
-  "expected_cardinality": "Provisional: validate key uniqueness and multiplicity against a pinned snapshot before use",
+  "expected_cardinality": "Many relationship rows to one registered child LEI per pinned snapshot; historical/status exceptions require review",
   "evidence_ids": [
     "d1-gleif"
   ],

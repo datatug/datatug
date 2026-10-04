@@ -16,7 +16,7 @@
   "confidence": "high",
   "from_identifier_namespace": "GeoNames:geonameid",
   "to_identifier_namespace": "GeoNames:geonameid",
-  "expected_cardinality": "Provisional: validate key uniqueness and multiplicity against a pinned snapshot before use",
+  "expected_cardinality": "Many alternate-name rows to one geographic feature by GeoNames ID; name text is not unique",
   "evidence_ids": [
     "d1-geonames"
   ],

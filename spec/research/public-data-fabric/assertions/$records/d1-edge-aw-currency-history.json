@@ -16,7 +16,7 @@
   "confidence": "high",
   "from_identifier_namespace": "AW:CurrencyCode",
   "to_identifier_namespace": "SIX:ISO4217alpha",
-  "expected_cardinality": "Provisional: validate key uniqueness and multiplicity against a pinned snapshot before use",
+  "expected_cardinality": "One local currency code to zero or many historical country/currency entries; code is not unique across country assignments",
   "evidence_ids": [
     "d1-demo-roles",
     "d1-six"

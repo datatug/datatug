@@ -18,7 +18,7 @@
   "confidence": "medium",
   "from_identifier_namespace": "demo:demand-chinook-customer:label",
   "to_identifier_namespace": "GeoNames:countryInfoISO2",
-  "expected_cardinality": "Provisional: validate key uniqueness and multiplicity against a pinned snapshot before use",
+  "expected_cardinality": "Many source rows to zero or one reference row after category, edition and alias review; validate target-key uniqueness",
   "evidence_ids": [
     "d1-demo-roles",
     "d1-geonames"
