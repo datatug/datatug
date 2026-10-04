@@ -1,0 +1,24 @@
+{
+  "title": "edge alternate place",
+  "kind": "edge",
+  "status": "researched",
+  "from_id": "d1-geo-alternates",
+  "to_id": "d1-geo-places",
+  "from_fields": [
+    "geonameid"
+  ],
+  "to_fields": [
+    "geonameid"
+  ],
+  "meaning_id": "d1-meaning-geographic-feature",
+  "compatibility": "unresolved",
+  "assumptions": "Alternate names use GeoNames feature IDs. Preserve language, preferred/short flags and optional validity intervals; duplicate names do not identify unique places.",
+  "confidence": "high",
+  "from_identifier_namespace": "GeoNames:geonameid",
+  "to_identifier_namespace": "GeoNames:geonameid",
+  "expected_cardinality": "Many alternate-name rows to one geographic feature by GeoNames ID; name text is not unique",
+  "evidence_ids": [
+    "d1-geonames"
+  ],
+  "physical_role": "Proposed contextual join; not executed or reconciled"
+}

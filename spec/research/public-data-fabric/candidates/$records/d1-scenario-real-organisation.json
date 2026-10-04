@@ -1,0 +1,25 @@
+{
+  "title": "Resolve real supplier and affiliation identity through explicit global keys",
+  "kind": "scenario",
+  "status": "promising",
+  "evidence_ids": [
+    "d1-demo-roles",
+    "d1-gleif",
+    "d1-ror",
+    "d1-geonames",
+    "d1-worldbank"
+  ],
+  "member_ids": [
+    "d1-lei-entities",
+    "d1-lei-relationships",
+    "d1-lei-exceptions",
+    "d1-ror-organisations",
+    "d1-geo-places",
+    "d1-geo-countries",
+    "d1-wb-economies"
+  ],
+  "demo_ids": [],
+  "reason": "User vendors carry LEI or registration authority+number; scholarly affiliations carry ROR. Proposed LEI→accounting parents/exceptions/jurisdiction and ROR→GeoNames feature/country→economic context support group-concentration and affiliation-coverage questions. Visuals: relationship network with role/period badges and map. Actual ROR sample exposes GeoNames ID,an observed public bridge. No accepted synthetic-demo organisation match; all six demo roles are only schema analogies. Needs real keyed user fixture,authority namespace checks,exact relationship schema/periods and code-list rights. ROR organisations need not be legal entities.",
+  "practical_value": "Proposed connected bundle; identity, temporal, legal and match-rate review required. Not selected or implemented.",
+  "showcase_value": "Named visualisations support the questions; practical joinability dominates."
+}

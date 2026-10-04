@@ -1,0 +1,12 @@
+{
+  "title": "IANA tzdb project",
+  "kind": "source",
+  "status": "researched",
+  "evidence_ids": [
+    "d1-iana"
+  ],
+  "source_url": "https://www.iana.org/time-zones",
+  "licence": "public-domain",
+  "licence_notes": "tzdb data public domain; optional code file exceptions use BSD-3-Clause. Data and code rights remain distinct.",
+  "reason": "Publisher reference only. Candidate-specific permissions, access constraints and coverage are retained in linked evidence."
+}

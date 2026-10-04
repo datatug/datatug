@@ -1,0 +1,20 @@
+{
+  "title": "BLS consumer-price and occupational-wage series",
+  "kind": "dataset",
+  "status": "screened",
+  "evidence_ids": [
+    "d1-bls"
+  ],
+  "source_id": "d1-source-bls",
+  "source_url": "https://www.bls.gov/cpi/data.htm",
+  "licence": "public-domain",
+  "licence_notes": "BLS-authored numeric publications public domain, with separately copyrighted image exceptions. Cite data source/revision; API operational terms need revalidation.",
+  "geographic_coverage": "United States selected areas, occupations and industries",
+  "temporal_coverage": "CPI long series and OEWS May 2025 plus archives; observations not sampled",
+  "update_frequency": "Monthly CPI and annual OEWS",
+  "observed_at": "2026-10-04T22:20:00Z",
+  "freshness": "unknown",
+  "reason": "Research candidate; no canonical publication or accepted mapping. Linked source evidence records research depth, source fields, observed samples and unresolved access/permission constraints.",
+  "practical_value": "Supports proposed connected scenarios after identity, temporal and legal review.",
+  "showcase_value": "Secondary to practical joinability."
+}

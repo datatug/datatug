@@ -1,0 +1,24 @@
+{
+  "title": "edge cpi series observations",
+  "kind": "edge",
+  "status": "researched",
+  "from_id": "d1-cpi-observations",
+  "to_id": "d1-cpi-series",
+  "from_fields": [
+    "series_id"
+  ],
+  "to_fields": [
+    "series_id"
+  ],
+  "meaning_id": "d1-meaning-economic-observation",
+  "compatibility": "unresolved",
+  "assumptions": "Join BLS series_id to exact series metadata. Period M13 is annual average, not month 13; seasonal adjustment, population and base must be preserved.",
+  "confidence": "high",
+  "from_identifier_namespace": "BLS:CPIseriesid",
+  "to_identifier_namespace": "BLS:CPIseriesid",
+  "expected_cardinality": "One series definition to many year/period observations; M13 is a separate annual-average period",
+  "evidence_ids": [
+    "d1-bls"
+  ],
+  "physical_role": "Proposed contextual join; not executed or reconciled"
+}

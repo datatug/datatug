@@ -1,0 +1,12 @@
+{
+  "title": "SIX ISO4217 maintenance agency",
+  "kind": "source",
+  "status": "researched",
+  "evidence_ids": [
+    "d1-six"
+  ],
+  "source_url": "https://www.six-group.com/en/products-services/financial-information/market-reference-data/data-standards.html",
+  "licence": "needs-review",
+  "licence_notes": "Needs review: official lists are free to download; the inspected primary terms did not establish commercial cache, derivative or redistribution rights.",
+  "reason": "Publisher reference only. Candidate-specific permissions, access constraints and coverage are retained in linked evidence."
+}

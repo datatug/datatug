@@ -1,0 +1,17 @@
+{
+  "title": "CPI series metadata",
+  "kind": "recordset",
+  "status": "screened",
+  "evidence_ids": [
+    "d1-bls"
+  ],
+  "dataset_id": "d1-dataset-bls",
+  "source_id": "d1-source-bls",
+  "identifier_representations": [
+    "series_id,area_code,item_code,seasonal,periodicity_code,base_code,begin_year,end_year"
+  ],
+  "reason": "Proposed source recordset. Field inventory: series_id,area_code,item_code,seasonal,periodicity_code,base_code,begin_year,end_year. Exact names and parsing depth remain source-qualified; see the linked evidence receipt and dated observations. All compatibility remains unresolved. Flatfile documentation inspected, actual metadata file not parsed. Base,area,item,population and seasonality remain constraints.",
+  "source_url": "https://www.bls.gov/cpi/data.htm",
+  "licence": "public-domain",
+  "licence_notes": "BLS-authored numeric publications public domain, with separately copyrighted image exceptions. Cite data source/revision; API operational terms need revalidation."
+}

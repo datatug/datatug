@@ -1,0 +1,12 @@
+{
+  "title": "US Census Bureau",
+  "kind": "source",
+  "status": "researched",
+  "evidence_ids": [
+    "d1-census"
+  ],
+  "source_url": "https://www.census.gov/data/developers/data-sets/cbp-zbp/cbp-api.html",
+  "licence": "needs-review",
+  "licence_notes": "Needs review: source-specific rights not established by consulted Open Data policy. Small API query returned Missing Key; do not publish credentials.",
+  "reason": "Publisher reference only. Candidate-specific permissions, access constraints and coverage are retained in linked evidence."
+}

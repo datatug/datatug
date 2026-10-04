@@ -1,0 +1,17 @@
+{
+  "title": "WDI dated indicator observations",
+  "kind": "recordset",
+  "status": "promising",
+  "evidence_ids": [
+    "d1-worldbank"
+  ],
+  "dataset_id": "d1-dataset-worldbank",
+  "source_id": "d1-source-worldbank",
+  "identifier_representations": [
+    "indicator.id,country.id,countryiso3code,date,value,unit,obs_status,decimal"
+  ],
+  "reason": "Proposed source recordset. Field inventory: indicator.id,country.id,countryiso3code,date,value,unit,obs_status,decimal. Exact names and parsing depth remain source-qualified; see the linked evidence receipt and dated observations. All compatibility remains unresolved. Two US population rows2023/2024 observed. Key needs economy+indicator+year and coherent revision; null values are not zero.",
+  "source_url": "https://api.worldbank.org/v2/",
+  "licence": "CC-BY-4.0",
+  "licence_notes": "Three inspected WDI indicators explicitly CC-BY-4.0, with World Bank mandatory terms: attribute indicator/provider/source and changes. Recheck every other indicator."
+}

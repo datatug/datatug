@@ -1,0 +1,24 @@
+{
+  "title": "Resolve specific publication/access rights before source promotion",
+  "status": "open",
+  "classification": "important/non-blocking",
+  "owner": "Phase2 reconciler / portfolio architect / source-specific implementation owner",
+  "candidate_ids": [
+    "d1-dataset-six",
+    "d1-dataset-census",
+    "d1-dataset-un-m49",
+    "d1-dataset-comtrade",
+    "d1-dataset-ucum",
+    "d1-dataset-geonames-postal",
+    "d1-dataset-oecd"
+  ],
+  "evidence_ids": [
+    "d1-six",
+    "d1-census",
+    "d1-un-m49",
+    "d1-comtrade",
+    "d1-ucum",
+    "d1-geonames-postal",
+    "d1-oecd"
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "title": "UCUM unit specification and developer artifacts",
+  "kind": "dataset",
+  "status": "needs-review",
+  "evidence_ids": [
+    "d1-ucum"
+  ],
+  "source_id": "d1-source-ucum",
+  "source_url": "https://ucum.org/docs/artifacts",
+  "licence": "UCUM licence1.1",
+  "licence_notes": "UCUM licence 1.1 permits unmodified redistribution and commercial software interoperability with notices; modification and derivatives prohibited. OVDB reformatting needs review.",
+  "geographic_coverage": "Measurement units; not product packaging classification",
+  "temporal_coverage": "Actual specification version not verified",
+  "update_frequency": "Versioned",
+  "observed_at": "2026-10-04T22:20:00Z",
+  "freshness": "needs-review",
+  "reason": "Research candidate; no canonical publication or accepted mapping. Linked source evidence records research depth, source fields, observed samples and unresolved access/permission constraints.",
+  "practical_value": "Supports proposed connected scenarios after identity, temporal and legal review.",
+  "showcase_value": "Secondary to practical joinability."
+}

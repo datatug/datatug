@@ -1,0 +1,20 @@
+{
+  "title": "GOVUK regional bank holidays",
+  "kind": "dataset",
+  "status": "promising",
+  "evidence_ids": [
+    "d1-govuk"
+  ],
+  "source_id": "d1-source-govuk",
+  "source_url": "https://www.gov.uk/bank-holidays.json",
+  "licence": "OGL-UK-3.0",
+  "licence_notes": "OGL-UK-3.0: copy, cache, commercially use, adapt and redistribute with source attribution/licence link; third-party exemptions and no endorsement apply.",
+  "temporal_coverage": "Observed 2019–2028; no Northwind 2016–2018 coverage",
+  "geographic_coverage": "England and Wales, Scotland, Northern Ireland as separate divisions",
+  "update_frequency": "Rolling feed; exact cadence unpublished",
+  "observed_at": "2026-10-04T22:20:00Z",
+  "freshness": "unknown",
+  "reason": "Research candidate; no canonical publication or accepted mapping. Linked source evidence records research depth, source fields, observed samples and unresolved access/permission constraints.",
+  "practical_value": "Supports proposed connected scenarios after identity, temporal and legal review.",
+  "showcase_value": "Secondary to practical joinability."
+}

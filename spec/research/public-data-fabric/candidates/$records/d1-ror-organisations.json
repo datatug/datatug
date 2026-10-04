@@ -1,0 +1,17 @@
+{
+  "title": "ROR organisation references",
+  "kind": "recordset",
+  "status": "researched",
+  "evidence_ids": [
+    "d1-ror"
+  ],
+  "dataset_id": "d1-dataset-ror",
+  "source_id": "d1-source-ror",
+  "identifier_representations": [
+    "id,names,domains,types,status,external_ids,locations.geonames_id,relationships.id/type"
+  ],
+  "reason": "Proposed source recordset. Field inventory: id,names,domains,types,status,external_ids,locations.geonames_id,relationships.id/type. Exact names and parsing depth remain source-qualified; see the linked evidence receipt and dated observations. All compatibility remains unresolved. Actual APIv2 fields inspected, including GeoNames location ID and child ROR ID. Embedded relations remain role-aware.",
+  "source_url": "https://api.ror.org/v2/organizations",
+  "licence": "CC0-1.0",
+  "licence_notes": "ROR IDs and metadata CC0. Website prose is separately CC-BY-4.0. Organisation identity is not necessarily legal-entity identity."
+}

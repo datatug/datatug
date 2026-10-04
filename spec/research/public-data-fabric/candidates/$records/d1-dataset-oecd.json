@@ -1,0 +1,20 @@
+{
+  "title": "OECD SDMX economic dataflows",
+  "kind": "dataset",
+  "status": "needs-review",
+  "evidence_ids": [
+    "d1-oecd"
+  ],
+  "source_id": "d1-source-oecd",
+  "source_url": "https://data-explorer.oecd.org/",
+  "licence": "OECD data-use terms",
+  "licence_notes": "OECD data-use terms section 3 permit commercial reuse with citation unless additional or third-party restrictions apply. No specific dataflow rights verified.",
+  "geographic_coverage": "Country/industry groups depend on selected dataflow",
+  "temporal_coverage": "Not verified",
+  "update_frequency": "Dataflow dependent",
+  "observed_at": "2026-10-04T22:20:00Z",
+  "freshness": "needs-review",
+  "reason": "Research candidate; no canonical publication or accepted mapping. Linked source evidence records research depth, source fields, observed samples and unresolved access/permission constraints.",
+  "practical_value": "Supports proposed connected scenarios after identity, temporal and legal review.",
+  "showcase_value": "Secondary to practical joinability."
+}

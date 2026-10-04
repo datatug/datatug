@@ -1,0 +1,24 @@
+{
+  "title": "edge wb economy observations",
+  "kind": "edge",
+  "status": "researched",
+  "from_id": "d1-wb-economies",
+  "to_id": "d1-wb-observations",
+  "from_fields": [
+    "id"
+  ],
+  "to_fields": [
+    "countryiso3code"
+  ],
+  "meaning_id": "d1-meaning-economic-observation",
+  "compatibility": "unresolved",
+  "assumptions": "Observation countryiso3code is the proposed economy key. Country.id in observations can be ISO2 while economy catalogue id is ISO3; preserve source and period.",
+  "confidence": "high",
+  "from_identifier_namespace": "WorldBank:v2economyid",
+  "to_identifier_namespace": "WorldBank:indicator.countryiso3code",
+  "expected_cardinality": "One economy to many indicator/year observations; source and revision qualify the observation key",
+  "evidence_ids": [
+    "d1-worldbank"
+  ],
+  "physical_role": "Proposed contextual join; not executed or reconciled"
+}

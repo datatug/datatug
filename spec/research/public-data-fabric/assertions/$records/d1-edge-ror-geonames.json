@@ -1,0 +1,25 @@
+{
+  "title": "edge ror geonames",
+  "kind": "edge",
+  "status": "researched",
+  "from_id": "d1-ror-organisations",
+  "to_id": "d1-geo-places",
+  "from_fields": [
+    "locations.geonames_id"
+  ],
+  "to_fields": [
+    "geonameid"
+  ],
+  "meaning_id": "d1-meaning-geographic-feature",
+  "compatibility": "unresolved",
+  "assumptions": "ROR sample directly exposes GeoNames 3688689 for Bogotá. Validate location.geonames_id coverage and release; a research organisation can have multiple places.",
+  "confidence": "high",
+  "from_identifier_namespace": "RORv2:GeoNameslocationid",
+  "to_identifier_namespace": "GeoNames:geonameid",
+  "expected_cardinality": "Many organisation locations to zero or one GeoNames feature per location; organisation can have several locations",
+  "evidence_ids": [
+    "d1-ror",
+    "d1-geonames"
+  ],
+  "physical_role": "Proposed contextual join; not executed or reconciled"
+}

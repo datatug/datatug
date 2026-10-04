@@ -1,0 +1,20 @@
+{
+  "title": "ROR research organisations",
+  "kind": "dataset",
+  "status": "researched",
+  "evidence_ids": [
+    "d1-ror"
+  ],
+  "source_id": "d1-source-ror",
+  "source_url": "https://api.ror.org/v2/organizations",
+  "licence": "CC0-1.0",
+  "licence_notes": "ROR IDs and metadata CC0. Website prose is separately CC-BY-4.0. Organisation identity is not necessarily legal-entity identity.",
+  "geographic_coverage": "Worldwide research affiliations; not a general business register",
+  "temporal_coverage": "Current registry with establishment year and status",
+  "update_frequency": "Monthly dumps and rolling curation",
+  "observed_at": "2026-10-04T22:20:00Z",
+  "freshness": "unknown",
+  "reason": "Research candidate; no canonical publication or accepted mapping. Linked source evidence records research depth, source fields, observed samples and unresolved access/permission constraints.",
+  "practical_value": "Supports proposed connected scenarios after identity, temporal and legal review.",
+  "showcase_value": "Secondary to practical joinability."
+}

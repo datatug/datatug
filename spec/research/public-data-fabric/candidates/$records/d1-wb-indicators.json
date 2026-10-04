@@ -1,0 +1,17 @@
+{
+  "title": "API indicator definitions",
+  "kind": "recordset",
+  "status": "promising",
+  "evidence_ids": [
+    "d1-worldbank"
+  ],
+  "dataset_id": "d1-dataset-worldbank",
+  "source_id": "d1-source-worldbank",
+  "identifier_representations": [
+    "id,name,unit,source,sourceNote,sourceOrganization,topics"
+  ],
+  "reason": "Proposed source recordset. Field inventory: id,name,unit,source,sourceNote,sourceOrganization,topics. Exact names and parsing depth remain source-qualified; see the linked evidence receipt and dated observations. All compatibility remains unresolved. Three inspected indicator codes:SP.POP.TOTL,NY.GDP.PCAP.CD,FP.CPI.TOTL.ZG. Unit and provenance metadata must accompany observations.",
+  "source_url": "https://api.worldbank.org/v2/",
+  "licence": "CC-BY-4.0",
+  "licence_notes": "Three inspected WDI indicators explicitly CC-BY-4.0, with World Bank mandatory terms: attribute indicator/provider/source and changes. Recheck every other indicator."
+}

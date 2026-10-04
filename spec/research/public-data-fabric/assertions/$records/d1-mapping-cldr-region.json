@@ -1,0 +1,23 @@
+{
+  "title": "mapping cldr region",
+  "kind": "mapping",
+  "status": "researched",
+  "from_id": "d1-cldr-containment",
+  "to_id": "d1-meaning-region-group",
+  "meaning_id": "d1-meaning-region-group",
+  "from_fields": [
+    "group.type",
+    "contains"
+  ],
+  "to_fields": [
+    "proposed-role"
+  ],
+  "compatibility": "unresolved",
+  "assumptions": "Provisional field meaning only. Preserve provider namespace, edition, category, units and validity period; fresh Phase2 review must decide compatibility.",
+  "confidence": "medium",
+  "physical_role": "Proposed contextual join; not executed or reconciled",
+  "evidence_ids": [
+    "d1-cldr"
+  ],
+  "expected_cardinality": "Field-level meaning hypothesis; record join cardinality not applicable"
+}

@@ -1,0 +1,20 @@
+{
+  "title": "Wikidata identifiers and multilingual entity bridges",
+  "kind": "dataset",
+  "status": "screened",
+  "evidence_ids": [
+    "d1-wikidata"
+  ],
+  "source_id": "d1-source-wikidata",
+  "source_url": "https://www.wikidata.org/wiki/Wikidata:Data_access",
+  "licence": "CC0-1.0",
+  "licence_notes": "Structured data CC0; prose and media excluded. Secondary identifier assertions need rank, qualifier and reference review.",
+  "geographic_coverage": "Worldwide community-maintained entities",
+  "temporal_coverage": "Current claims with qualifiers; no uniform history",
+  "update_frequency": "Continuous",
+  "observed_at": "2026-10-04T22:20:00Z",
+  "freshness": "needs-review",
+  "reason": "Research candidate; no canonical publication or accepted mapping. Linked source evidence records research depth, source fields, observed samples and unresolved access/permission constraints.",
+  "practical_value": "Supports proposed connected scenarios after identity, temporal and legal review.",
+  "showcase_value": "Secondary to practical joinability."
+}

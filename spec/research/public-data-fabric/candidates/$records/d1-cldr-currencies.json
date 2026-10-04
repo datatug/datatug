@@ -1,0 +1,17 @@
+{
+  "title": "currencyData regional currency intervals",
+  "kind": "recordset",
+  "status": "promising",
+  "evidence_ids": [
+    "d1-cldr"
+  ],
+  "dataset_id": "d1-dataset-cldr",
+  "source_id": "d1-source-cldr",
+  "identifier_representations": [
+    "region.iso3166,currency.iso4217,from,to,tender"
+  ],
+  "reason": "Proposed source recordset. Field inventory: region.iso3166,currency.iso4217,from,to,tender. Exact names and parsing depth remain source-qualified; see the linked evidence receipt and dated observations. All compatibility remains unresolved. 266 regions,507 currency entries. Multiple concurrent currencies and non-tender funds; interval lookup never supplies transaction currency.",
+  "source_url": "https://www.unicode.org/Public/cldr/48/",
+  "licence": "Unicode-3.0",
+  "licence_notes": "Unicode License V3: preserve copyright and permission notice in data copies or documentation. Commercial use, copy, cache, adapt and redistribute permitted; no endorsement."
+}
