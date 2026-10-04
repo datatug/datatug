@@ -7,10 +7,11 @@
     "ovdb-review-r1",
     "semantic-review-r1",
     "cloud-merge-observation",
-    "corpus-publication-r2"
+    "corpus-publication-r2",
+    "corpus-publication-fresh-r1"
   ],
   "gate_ids": [
     "phase0"
   ],
-  "resolution": "Still open: complete AW/Employees mounts, reciprocal registries/Directory and corrected Sakila/Employees deployed HCL pins, or root explicit evidence-backed scope escalation. Sakila source/registry licence defect is resolved; stale deployment remains this blocker."
+  "resolution": "Open at20:58:53Z snapshot: AW/Employees runtime metadata mounts, missing MeaningGraph/Directory registrations, liveSakila/AW/EmployeesDirectory and final immutable-file mount validation. ModelSpec allsix and all18liveprovider metadata parity/licence publication now pass. Existing DemoDB owner publishing; no later state inferred."
 }

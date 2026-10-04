@@ -1,13 +1,14 @@
 {
   "title": "Resolve exact app postmerge main CI failure",
-  "status": "open",
+  "status": "resolved",
   "classification": "blocking",
   "owner": "DataTug demo fix lane, root gate owner",
   "evidence_ids": [
-    "app-main-ci-failure"
+    "app-main-ci-failure",
+    "app-main-ci-closure"
   ],
   "gate_ids": [
     "phase0"
   ],
-  "resolution": "Pending diagnosis and fix at exact app main revision followed by independent acceptance; successful deploy/browser receipt is not a CI pass."
+  "resolution": "B3 closed by independently inspected root complete-workflow receipt at exact95fff83 main: all five observed/four required checks successful. PR191 landed/synced/cleaned; original failure unknown and same-source successful retry preserved. Production acceptance independently passes but is not substituted for CI."
 }
