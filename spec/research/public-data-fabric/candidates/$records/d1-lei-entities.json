@@ -10,8 +10,8 @@
   "identifier_representations": [
     "lei,entity.legalName,legalAddress.country,registeredAt.id,registeredAs,jurisdiction,legalForm,status;registration"
   ],
-  "reason": "Proposed source recordset. Field inventory: lei,entity.legalName,legalAddress.country,registeredAt.id,registeredAs,jurisdiction,legalForm,status;registration. Exact names and parsing depth remain source-qualified; see the linked evidence receipt and dated observations. All compatibility remains unresolved. Actual API entity schema inspected. LEI differs from local BusinessEntityID; authority+registration number is a separate scoped key.",
-  "source_url": "https://www.gleif.org/en/lei-data/gleif-concatenated-file/download-the-concatenated-file",
+  "reason": "Proposed source recordset. Field inventory: lei,entity.legalName,legalAddress.country,registeredAt.id,registeredAs,jurisdiction,legalForm,status;registration. Exact names and parsing depth remain source-qualified; see the linked evidence receipt and dated observations. All compatibility remains unresolved. Actual API entity schema inspected. LEI differs from local BusinessEntityID; authority+registration number is a separate scoped key. Inspected representation is the JSON API: each recordset row is extracted from data[].attributes, with lowercase relative field lei (full source path data[].attributes.lei). The uppercase CDF LEI field is not part of this inspected representation; CDF extraction remains separately unverified.",
+  "source_url": "https://api.gleif.org/api/v1/lei-records?page%5Bsize%5D=1",
   "licence": "CC0-1.0",
   "licence_notes": "LEI and LE-RD are CC0. Supported access and no false affiliation service conditions apply; separate mapping-file rights must be checked."
 }

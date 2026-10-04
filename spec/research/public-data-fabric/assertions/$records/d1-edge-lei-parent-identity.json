@@ -8,17 +8,18 @@
     "EndNode.NodeID"
   ],
   "to_fields": [
-    "LEI"
+    "lei"
   ],
   "meaning_id": "d1-meaning-legal-entity-id",
   "compatibility": "unresolved",
-  "assumptions": "Relationship EndNode.NodeID in the LEI namespace proposes parent entity lookup. Accounting consolidation is not beneficial ownership; exceptions mean unknown rather than no parent.",
+  "assumptions": "Relationship EndNode.NodeID in the LEI namespace proposes parent entity lookup. Accounting consolidation is not beneficial ownership; exceptions mean unknown rather than no parent. Source EndNode.NodeID is a proposed RR-CDF relative field path; exact XML extraction root remains unverified. Target lei is the inspected JSON API field relative to each data[].attributes object, not uppercase CDF LEI. Cross-format extraction and snapshot alignment remain unresolved.",
   "confidence": "medium",
   "from_identifier_namespace": "GLEIF:RRnodeLEI",
-  "to_identifier_namespace": "GLEIF:LEI",
+  "to_identifier_namespace": "GLEIF LEI; inspected JSON API data[].attributes.lei representation",
   "expected_cardinality": "Many relationship rows to zero or one registered parent LEI per pinned snapshot; missing/exception endpoints remain unknown",
   "evidence_ids": [
     "d1-gleif"
   ],
-  "physical_role": "Proposed contextual join; not executed or reconciled"
+  "physical_role": "Proposed contextual join; not executed or reconciled",
+  "transformation": "Proposed only: extract RR-CDF EndNode.NodeID after source-path verification; compare with JSON API data[].attributes.lei exposed as recordset field lei. Preserve relationship period/status and source snapshot; no CDF-to-API join executed."
 }

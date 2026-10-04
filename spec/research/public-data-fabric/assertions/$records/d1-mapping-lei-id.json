@@ -12,7 +12,7 @@
     "proposed-role"
   ],
   "compatibility": "unresolved",
-  "assumptions": "Provisional field meaning only. Preserve provider namespace, edition, category, units and validity period; fresh Phase2 review must decide compatibility.",
+  "assumptions": "Provisional field meaning only. Preserve provider namespace, edition, category, units and validity period; fresh Phase2 review must decide compatibility. The lowercase lei field is relative to the inspected JSON API row extraction root data[].attributes; full source path is data[].attributes.lei. No uppercase CDF field equivalence is asserted.",
   "confidence": "medium",
   "physical_role": "Proposed contextual join; not executed or reconciled",
   "evidence_ids": [

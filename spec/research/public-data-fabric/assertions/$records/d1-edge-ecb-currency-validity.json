@@ -15,11 +15,11 @@
   ],
   "meaning_id": "d1-meaning-currency-code",
   "compatibility": "unresolved",
-  "assumptions": "Join quoted currency to dated CLDR assignments only with publication date and tender policy. ECB quoted-currency scope and CLDR territory assignment scope differ.",
+  "assumptions": "Join quoted currency to dated CLDR assignments only with publication date and tender policy. ECB quoted-currency scope and CLDR territory assignment scope differ. Currency/date does not determine a region. CLDR48 has 21 open-ended USD regional assignments, including US, EC and PA. Do not infer transaction region or aggregate multiplied quote rows as independent rates; any region selection or currency-only projection needs a later explicit policy.",
   "confidence": "high",
   "from_identifier_namespace": "ECB:quotedcurrency/date",
   "to_identifier_namespace": "CLDR48:currencycode+regioninterval",
-  "expected_cardinality": "Many source rows to zero or one reference row after category, edition and alias review; validate target-key uniqueness",
+  "expected_cardinality": "One ECB currency/date quote to zero or many CLDR regional currency assignments valid on that date; preserve region and interval multiplicity",
   "evidence_ids": [
     "d1-ecb",
     "d1-cldr"
