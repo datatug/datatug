@@ -1,0 +1,25 @@
+{
+  "title": "edge aw countrycode",
+  "kind": "edge",
+  "status": "researched",
+  "from_id": "demand-adventureworks-person-countryregion",
+  "to_id": "d1-cldr-codes",
+  "from_fields": [
+    "CountryRegionCode"
+  ],
+  "to_fields": [
+    "type"
+  ],
+  "meaning_id": "d1-meaning-country-area",
+  "compatibility": "unresolved",
+  "assumptions": "Two-letter code equality is a hypothesis only. Audit all 238 AdventureWorks values against the pinned CLDR edition, including historical and territory categories.",
+  "confidence": "medium",
+  "from_identifier_namespace": "AW:CountryRegionCode",
+  "to_identifier_namespace": "CLDR48:territorytype",
+  "expected_cardinality": "Provisional: validate key uniqueness and multiplicity against a pinned snapshot before use",
+  "evidence_ids": [
+    "d1-demo-roles",
+    "d1-cldr"
+  ],
+  "physical_role": "Proposed contextual join; not executed or reconciled"
+}

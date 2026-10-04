@@ -1,0 +1,20 @@
+{
+  "title": "GeoNames postal-place references",
+  "kind": "dataset",
+  "status": "needs-review",
+  "evidence_ids": [
+    "d1-geonames-postal"
+  ],
+  "source_id": "d1-source-geonames-postal",
+  "source_url": "https://download.geonames.org/export/zip/",
+  "licence": "needs-review",
+  "licence_notes": "Needs review: postal readme declares CC-BY-4.0 but links CC-BY3.0; GB_full includes Royal Mail copyright/database rights. Do not infer permission for all subsets.",
+  "geographic_coverage": "Nearly 100 countries; many partial postal prefixes",
+  "temporal_coverage": "Current reference; dated coverage unknown",
+  "update_frequency": "Not established",
+  "observed_at": "2026-10-04T22:20:00Z",
+  "freshness": "unknown",
+  "reason": "Research candidate; no canonical publication or accepted mapping. Linked source evidence records research depth, source fields, observed samples and unresolved access/permission constraints.",
+  "practical_value": "Supports proposed connected scenarios after identity, temporal and legal review.",
+  "showcase_value": "Secondary to practical joinability."
+}

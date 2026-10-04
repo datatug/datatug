@@ -1,0 +1,25 @@
+{
+  "title": "edge place zone",
+  "kind": "edge",
+  "status": "researched",
+  "from_id": "d1-geo-places",
+  "to_id": "d1-tz-zones",
+  "from_fields": [
+    "timezone"
+  ],
+  "to_fields": [
+    "TZ"
+  ],
+  "meaning_id": "d1-meaning-civil-zone",
+  "compatibility": "unresolved",
+  "assumptions": "GeoNames timezone strings propose IANA lookup. Civil-time conversion uses dated tzdb rules; fixed current GMT/DST offsets are not historical conversion rules.",
+  "confidence": "high",
+  "from_identifier_namespace": "GeoNames:IANA-zone-name",
+  "to_identifier_namespace": "IANA:TZ2026e",
+  "expected_cardinality": "Provisional: validate key uniqueness and multiplicity against a pinned snapshot before use",
+  "evidence_ids": [
+    "d1-geonames",
+    "d1-iana"
+  ],
+  "physical_role": "Proposed contextual join; not executed or reconciled"
+}

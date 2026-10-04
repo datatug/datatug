@@ -1,0 +1,24 @@
+{
+  "title": "edge lei parent identity",
+  "kind": "edge",
+  "status": "researched",
+  "from_id": "d1-lei-relationships",
+  "to_id": "d1-lei-entities",
+  "from_fields": [
+    "EndNode.NodeID"
+  ],
+  "to_fields": [
+    "LEI"
+  ],
+  "meaning_id": "d1-meaning-legal-entity-id",
+  "compatibility": "unresolved",
+  "assumptions": "Relationship EndNode.NodeID in the LEI namespace proposes parent entity lookup. Accounting consolidation is not beneficial ownership; exceptions mean unknown rather than no parent.",
+  "confidence": "medium",
+  "from_identifier_namespace": "GLEIF:RRnodeLEI",
+  "to_identifier_namespace": "GLEIF:LEI",
+  "expected_cardinality": "Provisional: validate key uniqueness and multiplicity against a pinned snapshot before use",
+  "evidence_ids": [
+    "d1-gleif"
+  ],
+  "physical_role": "Proposed contextual join; not executed or reconciled"
+}

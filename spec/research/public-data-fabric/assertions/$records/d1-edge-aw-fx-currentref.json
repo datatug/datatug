@@ -1,0 +1,29 @@
+{
+  "title": "edge aw fx currentref",
+  "kind": "edge",
+  "status": "researched",
+  "from_id": "demand-adventureworks-sales-currencyrate",
+  "to_id": "d1-ecb-fx",
+  "from_fields": [
+    "FromCurrencyCode",
+    "ToCurrencyCode",
+    "CurrencyRateDate"
+  ],
+  "to_fields": [
+    "Cube.currency",
+    "Cube.time"
+  ],
+  "meaning_id": "d1-meaning-fx-reference",
+  "compatibility": "unresolved",
+  "assumptions": "AdventureWorks fixture dates span 2022–2025, with USD base and obsolete DEM, FRF and VEB targets. ECB uses EUR base and indicative business-day rates. Confirm quote direction, date and rate kind; preserve unmatched obsolete currencies and weekends.",
+  "confidence": "medium",
+  "from_identifier_namespace": "AW:currencyratepair+naivedate",
+  "to_identifier_namespace": "ECB:EURquotedcurrency+publicationdate",
+  "expected_cardinality": "Provisional: validate key uniqueness and multiplicity against a pinned snapshot before use",
+  "evidence_ids": [
+    "d1-demo-roles",
+    "d1-ecb"
+  ],
+  "physical_role": "Proposed contextual join; not executed or reconciled",
+  "transformation": "Proposed USD to q rate = ECB q-per-EUR / ECB USD-per-EUR for identical publication date. Preserve original rate kind and missing-date flags."
+}

@@ -1,0 +1,24 @@
+{
+  "title": "edge wb indicator observations",
+  "kind": "edge",
+  "status": "researched",
+  "from_id": "d1-wb-indicators",
+  "to_id": "d1-wb-observations",
+  "from_fields": [
+    "id"
+  ],
+  "to_fields": [
+    "indicator.id"
+  ],
+  "meaning_id": "d1-meaning-economic-observation",
+  "compatibility": "unresolved",
+  "assumptions": "Join exact indicator IDs within source 2 WDI. Preserve unit, decimal, observation status, nulls, source and revision; do not treat missing as zero.",
+  "confidence": "high",
+  "from_identifier_namespace": "WorldBank:indicatorid",
+  "to_identifier_namespace": "WorldBank:indicatorid",
+  "expected_cardinality": "Provisional: validate key uniqueness and multiplicity against a pinned snapshot before use",
+  "evidence_ids": [
+    "d1-worldbank"
+  ],
+  "physical_role": "Proposed contextual join; not executed or reconciled"
+}

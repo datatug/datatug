@@ -1,0 +1,10 @@
+{
+  "title": "Wikidata secondary multilingual and identifier bridge",
+  "observed_at": "2026-10-04T22:20:00Z",
+  "outcome": "observation",
+  "url": "https://www.wikidata.org/wiki/Wikidata:Licensing",
+  "summary": "Primary licensing page consulted: structured main/property/lexeme/entity-schema dataCC0; other proseCC-BY-SA4. Retained shallow secondary QID and multilingual alias/identifier bridge candidate. Suggested P297/P298/P299 country codes,P1566GeoNames claims need exact definitions,samples,rank/qualifier/reference and multiplicity review. No accepted authoritative identity. Bulk snapshots or bounded entityJSON/SPARQL access possible; source operational limits uninspected.",
+  "review_stage": "discovery",
+  "independent": false,
+  "reviewer": "research_geo_commerce"
+}

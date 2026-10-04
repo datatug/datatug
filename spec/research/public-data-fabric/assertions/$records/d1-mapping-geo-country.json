@@ -1,0 +1,24 @@
+{
+  "title": "mapping geo country",
+  "kind": "mapping",
+  "status": "researched",
+  "from_id": "d1-geo-countries",
+  "to_id": "d1-meaning-country-area",
+  "meaning_id": "d1-meaning-country-area",
+  "from_fields": [
+    "ISO",
+    "ISO3",
+    "ISO-Numeric"
+  ],
+  "to_fields": [
+    "proposed-role"
+  ],
+  "compatibility": "unresolved",
+  "assumptions": "Provisional field meaning only. Preserve provider namespace, edition, category, units and validity period; fresh Phase2 review must decide compatibility.",
+  "confidence": "medium",
+  "physical_role": "Proposed contextual join; not executed or reconciled",
+  "evidence_ids": [
+    "d1-geonames"
+  ],
+  "expected_cardinality": "Provisional: validate key uniqueness and multiplicity against a pinned snapshot before use"
+}

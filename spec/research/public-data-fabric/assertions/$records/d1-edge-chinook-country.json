@@ -1,0 +1,28 @@
+{
+  "title": "edge chinook country",
+  "kind": "edge",
+  "status": "researched",
+  "from_id": "demand-chinook-customer",
+  "to_id": "d1-geo-countries",
+  "from_fields": [
+    "Country"
+  ],
+  "to_fields": [
+    "ISO",
+    "Country",
+    "ISO3"
+  ],
+  "meaning_id": "d1-meaning-country-area",
+  "compatibility": "unresolved",
+  "assumptions": "Country labels include USA and Czech Republic. Use reviewed aliases to geographic country/area records; do not use current population as historical observations.",
+  "confidence": "medium",
+  "from_identifier_namespace": "demo:demand-chinook-customer:label",
+  "to_identifier_namespace": "GeoNames:countryInfoISO2",
+  "expected_cardinality": "Provisional: validate key uniqueness and multiplicity against a pinned snapshot before use",
+  "evidence_ids": [
+    "d1-demo-roles",
+    "d1-geonames"
+  ],
+  "physical_role": "Proposed contextual join; not executed or reconciled",
+  "transformation": "Preserve raw values. Review any normalization or conversion explicitly before joining."
+}

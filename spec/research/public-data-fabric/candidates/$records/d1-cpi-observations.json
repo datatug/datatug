@@ -1,0 +1,17 @@
+{
+  "title": "CPI dated observations",
+  "kind": "recordset",
+  "status": "screened",
+  "evidence_ids": [
+    "d1-bls"
+  ],
+  "dataset_id": "d1-dataset-bls",
+  "source_id": "d1-source-bls",
+  "identifier_representations": [
+    "series_id,year,period,value,footnote_codes"
+  ],
+  "reason": "Proposed source recordset. Field inventory: series_id,year,period,value,footnote_codes. Exact names and parsing depth remain source-qualified; see the linked evidence receipt and dated observations. All compatibility remains unresolved. Documentation inspected; no actual observation sampled. M13 annual average is not a month.",
+  "source_url": "https://www.bls.gov/cpi/data.htm",
+  "licence": "public-domain",
+  "licence_notes": "BLS-authored numeric publications public domain, with separately copyrighted image exceptions. Cite data source/revision; API operational terms need revalidation."
+}

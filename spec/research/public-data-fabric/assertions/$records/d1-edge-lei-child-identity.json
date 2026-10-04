@@ -1,0 +1,24 @@
+{
+  "title": "edge lei child identity",
+  "kind": "edge",
+  "status": "researched",
+  "from_id": "d1-lei-relationships",
+  "to_id": "d1-lei-entities",
+  "from_fields": [
+    "StartNode.NodeID"
+  ],
+  "to_fields": [
+    "LEI"
+  ],
+  "meaning_id": "d1-meaning-legal-entity-id",
+  "compatibility": "unresolved",
+  "assumptions": "Relationship StartNode.NodeID in the LEI namespace proposes child entity lookup. Relationship periods and validation status remain required; CDF rows were not sampled.",
+  "confidence": "medium",
+  "from_identifier_namespace": "GLEIF:RRnodeLEI",
+  "to_identifier_namespace": "GLEIF:LEI",
+  "expected_cardinality": "Provisional: validate key uniqueness and multiplicity against a pinned snapshot before use",
+  "evidence_ids": [
+    "d1-gleif"
+  ],
+  "physical_role": "Proposed contextual join; not executed or reconciled"
+}

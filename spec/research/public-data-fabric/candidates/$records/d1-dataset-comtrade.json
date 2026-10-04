@@ -1,0 +1,20 @@
+{
+  "title": "UN Comtrade international trade observations and classifications",
+  "kind": "dataset",
+  "status": "blocked",
+  "evidence_ids": [
+    "d1-comtrade"
+  ],
+  "source_id": "d1-source-comtrade",
+  "source_url": "https://comtradeplus.un.org/",
+  "licence": "needs-review",
+  "licence_notes": "Redistribution blocked pending exact licence/access plan: premium subscription and dissemination conditions apply; transformation does not establish unrestricted access rights.",
+  "geographic_coverage": "Reporter and partner statistical territories",
+  "temporal_coverage": "Annual/monthly observations; actual coverage uninspected",
+  "update_frequency": "Reporter updates and revisions",
+  "observed_at": "2026-10-04T22:20:00Z",
+  "freshness": "needs-review",
+  "reason": "Research candidate; no canonical publication or accepted mapping. Linked source evidence records research depth, source fields, observed samples and unresolved access/permission constraints.",
+  "practical_value": "Supports proposed connected scenarios after identity, temporal and legal review.",
+  "showcase_value": "Secondary to practical joinability."
+}

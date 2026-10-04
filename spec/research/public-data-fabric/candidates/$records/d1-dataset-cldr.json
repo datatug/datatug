@@ -1,0 +1,20 @@
+{
+  "title": "CLDR supplemental and localized references",
+  "kind": "dataset",
+  "status": "promising",
+  "evidence_ids": [
+    "d1-cldr"
+  ],
+  "source_id": "d1-source-cldr",
+  "source_url": "https://www.unicode.org/Public/cldr/48/",
+  "licence": "Unicode-3.0",
+  "licence_notes": "Unicode License V3: preserve copyright and permission notice in data copies or documentation. Commercial use, copy, cache, adapt and redistribute permitted; no endorsement.",
+  "geographic_coverage": "Worldwide locales and territory references, including regional aggregates",
+  "temporal_coverage": "Inspected release 48; currency intervals include history",
+  "update_frequency": "Periodic versioned releases",
+  "observed_at": "2026-10-04T22:20:00Z",
+  "freshness": "needs-review",
+  "reason": "Research candidate; no canonical publication or accepted mapping. Linked source evidence records research depth, source fields, observed samples and unresolved access/permission constraints.",
+  "practical_value": "Supports proposed connected scenarios after identity, temporal and legal review.",
+  "showcase_value": "Secondary to practical joinability."
+}

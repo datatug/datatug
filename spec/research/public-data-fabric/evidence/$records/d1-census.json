@@ -1,0 +1,10 @@
+{
+  "title": "Census geography/CBP/NAICS screened with observed key gate",
+  "observed_at": "2026-10-04T22:20:00Z",
+  "outcome": "observation",
+  "url": "https://www.census.gov/data/developers/data-sets/cbp-zbp/cbp-api.html",
+  "summary": "Primary CBP API/datasets,NAICS homepage,GEOID guide and OpenData policy consulted. 2023 variable table uses NAICS2017,not2022;28 variables includeESTAB,EMP,PAYANN($1000),LFO,EMPSZES,YEAR,GEOCOMP and noise/flags. Geography county key isSTATE+COUNTY,2+3 digit strings; ZIP and ZCTA differ and vintages matter. Annual US/state/county snapshots start1986,ZIP1994. Corrected bounded API query returned HTML Missing Key; access requires review. MetadataJSON hit500k bound and was stopped. OpenData policy did not establish specific redistribution grant; copyright URL inaccessible. Needs-review on rights and credentials, no blanket federal-law inference accepted.",
+  "review_stage": "discovery",
+  "independent": false,
+  "reviewer": "research_geo_commerce"
+}

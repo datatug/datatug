@@ -1,0 +1,10 @@
+{
+  "title": "GeoNames postal subset licence and quality limits",
+  "observed_at": "2026-10-04T22:20:00Z",
+  "outcome": "observation",
+  "url": "https://download.geonames.org/export/zip/readme.txt",
+  "summary": "Primary postal readme consulted. It declares CC-BY-4.0 while linking CC-BY3.0, and GB_full adds Royal Mail2022 copyright/database rights. Blanket redistribution remains needs-review. Near100 countries; Irish/Chilean/Maltese/Chinese codes can be truncated, Brazil mostly major codes. Coordinates can be calculated averages with accuracy flags. country+postcode can name multiple places. No postal dump downloaded.",
+  "review_stage": "discovery",
+  "independent": false,
+  "reviewer": "research_geo_commerce"
+}

@@ -1,0 +1,28 @@
+{
+  "title": "edge aw unit definition",
+  "kind": "edge",
+  "status": "researched",
+  "from_id": "demand-adventureworks-production-unitmeasure",
+  "to_id": "d1-cldr-units",
+  "from_fields": [
+    "UnitMeasureCode",
+    "Name"
+  ],
+  "to_fields": [
+    "convertUnit.source",
+    "baseUnit"
+  ],
+  "meaning_id": "d1-meaning-unit-definition",
+  "compatibility": "unresolved",
+  "assumptions": "Local padded AdventureWorks unit codes require manual dimensional and packaging review. KG and LB are hypotheses; BOX is packaging and cannot be converted without product quantities.",
+  "confidence": "medium",
+  "from_identifier_namespace": "AW:UnitMeasureCode",
+  "to_identifier_namespace": "CLDR:unitidentifier",
+  "expected_cardinality": "Provisional: validate key uniqueness and multiplicity against a pinned snapshot before use",
+  "evidence_ids": [
+    "d1-demo-roles",
+    "d1-cldr"
+  ],
+  "physical_role": "Proposed contextual join; not executed or reconciled",
+  "transformation": "Preserve raw values. Review any normalization or conversion explicitly before joining."
+}

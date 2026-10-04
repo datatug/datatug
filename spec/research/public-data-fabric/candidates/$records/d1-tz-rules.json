@@ -1,0 +1,17 @@
+{
+  "title": "tzdata source rules and links",
+  "kind": "recordset",
+  "status": "promising",
+  "evidence_ids": [
+    "d1-iana"
+  ],
+  "dataset_id": "d1-dataset-iana",
+  "source_id": "d1-source-iana",
+  "identifier_representations": [
+    "Zone.NAME,STDOFF,RULES,FORMAT,UNTIL;Rule.NAME,FROM,TO,IN,ON,AT,SAVE,LETTER;Link.TARGET,LINK-NAME"
+  ],
+  "reason": "Proposed source recordset. Field inventory: Zone.NAME,STDOFF,RULES,FORMAT,UNTIL;Rule.NAME,FROM,TO,IN,ON,AT,SAVE,LETTER;Link.TARGET,LINK-NAME. Exact names and parsing depth remain source-qualified; see the linked evidence receipt and dated observations. All compatibility remains unresolved. Source rules and links, not a flat observations CSV. Any generated date-bounded transitions must record derivation and version.",
+  "source_url": "https://www.iana.org/time-zones",
+  "licence": "public-domain",
+  "licence_notes": "tzdb data public domain; optional code file exceptions use BSD-3-Clause. Data and code rights remain distinct."
+}

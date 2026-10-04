@@ -1,0 +1,12 @@
+{
+  "title": "Regenstrief Institute",
+  "kind": "source",
+  "status": "researched",
+  "evidence_ids": [
+    "d1-ucum"
+  ],
+  "source_url": "https://ucum.org/docs/artifacts",
+  "licence": "UCUM licence1.1",
+  "licence_notes": "UCUM licence 1.1 permits unmodified redistribution and commercial software interoperability with notices; modification and derivatives prohibited. OVDB reformatting needs review.",
+  "reason": "Publisher reference only. Candidate-specific permissions, access constraints and coverage are retained in linked evidence."
+}

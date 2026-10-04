@@ -1,0 +1,10 @@
+{
+  "title": "IANA tzdb2026e source licence and zone semantics",
+  "observed_at": "2026-10-04T22:20:00Z",
+  "outcome": "observation",
+  "url": "https://data.iana.org/time-zones/tzdb/LICENSE",
+  "summary": "Primary tzdb LICENSE consulted: data public domain; optional date.c,newstrftime.3,strftime.c haveBSD3 code terms separately. Primary IANA page and bounded version file identify2026e,release2026-09-29. zone1970.tab17592 bytes,312 rows: overlappingISO2 country list,principal point inISO6709,ZoneID,comments. Country↔zone is many-to-many; catalogue points are not polygons. Historical rules and links are downloadable; reliable cross-zone equivalence targets since1970,earlier dates limited. GeoNames current-year fixed offsets cannot substitute historical rules or prove naive demo timestamp zones.",
+  "review_stage": "discovery",
+  "independent": false,
+  "reviewer": "research_geo_commerce"
+}

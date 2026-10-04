@@ -1,0 +1,26 @@
+{
+  "title": "edge windows zone",
+  "kind": "edge",
+  "status": "researched",
+  "from_id": "d1-cldr-windows-zones",
+  "to_id": "d1-tz-zones",
+  "from_fields": [
+    "type"
+  ],
+  "to_fields": [
+    "TZ"
+  ],
+  "meaning_id": "d1-meaning-civil-zone",
+  "compatibility": "unresolved",
+  "assumptions": "CLDR Windows mappings depend on territory and can contain several IANA zones. Preserve territory 001 default and list cardinality; do not select a country zone arbitrarily.",
+  "confidence": "high",
+  "from_identifier_namespace": "CLDR:Windowszone→IANAtypes",
+  "to_identifier_namespace": "IANA:TZ2026e",
+  "expected_cardinality": "Provisional: validate key uniqueness and multiplicity against a pinned snapshot before use",
+  "evidence_ids": [
+    "d1-cldr",
+    "d1-iana"
+  ],
+  "physical_role": "Proposed contextual join; not executed or reconciled",
+  "transformation": "Preserve raw values. Review any normalization or conversion explicitly before joining."
+}

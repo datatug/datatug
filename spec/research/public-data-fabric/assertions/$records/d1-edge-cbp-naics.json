@@ -1,0 +1,25 @@
+{
+  "title": "edge cbp naics",
+  "kind": "edge",
+  "status": "researched",
+  "from_id": "d1-cbp-observations",
+  "to_id": "d1-naics-codes",
+  "from_fields": [
+    "NAICS2017"
+  ],
+  "to_fields": [
+    "code",
+    "edition"
+  ],
+  "meaning_id": "d1-meaning-industry-edition",
+  "compatibility": "unresolved",
+  "assumptions": "Inspected 2023 CBP schema uses NAICS2017. Industry codes require edition and hierarchy level; product SKUs and employer names are not industry codes.",
+  "confidence": "medium",
+  "from_identifier_namespace": "Census2023CBP:NAICS2017",
+  "to_identifier_namespace": "NAICS:edition+code",
+  "expected_cardinality": "Provisional: validate key uniqueness and multiplicity against a pinned snapshot before use",
+  "evidence_ids": [
+    "d1-census"
+  ],
+  "physical_role": "Proposed contextual join; not executed or reconciled"
+}

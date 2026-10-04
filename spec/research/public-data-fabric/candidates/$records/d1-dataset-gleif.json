@@ -1,0 +1,20 @@
+{
+  "title": "GLEIF LEI reference and consolidation relationships",
+  "kind": "dataset",
+  "status": "researched",
+  "evidence_ids": [
+    "d1-gleif"
+  ],
+  "source_id": "d1-source-gleif",
+  "source_url": "https://www.gleif.org/en/lei-data/gleif-concatenated-file/download-the-concatenated-file",
+  "licence": "CC0-1.0",
+  "licence_notes": "LEI and LE-RD are CC0. Supported access and no false affiliation service conditions apply; separate mapping-file rights must be checked.",
+  "geographic_coverage": "Worldwide legal entities with LEI registrations; not all businesses",
+  "temporal_coverage": "Daily snapshot with separate entity, registration and relationship periods",
+  "update_frequency": "Daily concatenated files; Golden Copy timing differs",
+  "observed_at": "2026-10-04T22:20:00Z",
+  "freshness": "unknown",
+  "reason": "Research candidate; no canonical publication or accepted mapping. Linked source evidence records research depth, source fields, observed samples and unresolved access/permission constraints.",
+  "practical_value": "Supports proposed connected scenarios after identity, temporal and legal review.",
+  "showcase_value": "Secondary to practical joinability."
+}

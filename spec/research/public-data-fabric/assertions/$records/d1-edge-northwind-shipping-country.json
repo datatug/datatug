@@ -1,0 +1,28 @@
+{
+  "title": "edge northwind shipping country",
+  "kind": "edge",
+  "status": "researched",
+  "from_id": "demand-northwind-orders",
+  "to_id": "d1-geo-countries",
+  "from_fields": [
+    "ShipCountry"
+  ],
+  "to_fields": [
+    "ISO",
+    "Country",
+    "ISO3"
+  ],
+  "meaning_id": "d1-meaning-country-area",
+  "compatibility": "unresolved",
+  "assumptions": "Shipping country is destination context, distinct from customer location. Review UK and USA aliases and preserve fixture dates from 2016–2018.",
+  "confidence": "medium",
+  "from_identifier_namespace": "demo:demand-northwind-orders:label",
+  "to_identifier_namespace": "GeoNames:countryInfoISO2",
+  "expected_cardinality": "Provisional: validate key uniqueness and multiplicity against a pinned snapshot before use",
+  "evidence_ids": [
+    "d1-demo-roles",
+    "d1-geonames"
+  ],
+  "physical_role": "Proposed contextual join; not executed or reconciled",
+  "transformation": "Preserve raw values. Review any normalization or conversion explicitly before joining."
+}

@@ -1,0 +1,25 @@
+{
+  "title": "edge aw currency history",
+  "kind": "edge",
+  "status": "researched",
+  "from_id": "demand-adventureworks-sales-currency",
+  "to_id": "d1-six-historical",
+  "from_fields": [
+    "CurrencyCode"
+  ],
+  "to_fields": [
+    "Ccy"
+  ],
+  "meaning_id": "d1-meaning-currency-code",
+  "compatibility": "unresolved",
+  "assumptions": "AdventureWorks currency codes require current and historical ISO 4217 lookup. Withdrawal dates are not transaction dates; obsolete codes in recent fixtures remain unresolved.",
+  "confidence": "high",
+  "from_identifier_namespace": "AW:CurrencyCode",
+  "to_identifier_namespace": "SIX:ISO4217alpha",
+  "expected_cardinality": "Provisional: validate key uniqueness and multiplicity against a pinned snapshot before use",
+  "evidence_ids": [
+    "d1-demo-roles",
+    "d1-six"
+  ],
+  "physical_role": "Proposed contextual join; not executed or reconciled"
+}

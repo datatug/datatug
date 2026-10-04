@@ -1,0 +1,26 @@
+{
+  "title": "edge cbp geography",
+  "kind": "edge",
+  "status": "researched",
+  "from_id": "d1-cbp-observations",
+  "to_id": "d1-census-geographies",
+  "from_fields": [
+    "GEO_ID",
+    "YEAR"
+  ],
+  "to_fields": [
+    "GEOID",
+    "vintage"
+  ],
+  "meaning_id": "d1-meaning-geographic-feature",
+  "compatibility": "unresolved",
+  "assumptions": "Use vintage-qualified state and county composite GEOID. ZIP and ZCTA are distinct; API rows were blocked by Missing Key and only metadata was inspected.",
+  "confidence": "medium",
+  "from_identifier_namespace": "Census:summaryqualifiedGEO_ID",
+  "to_identifier_namespace": "Census:vintage+GEOID",
+  "expected_cardinality": "Provisional: validate key uniqueness and multiplicity against a pinned snapshot before use",
+  "evidence_ids": [
+    "d1-census"
+  ],
+  "physical_role": "Proposed contextual join; not executed or reconciled"
+}

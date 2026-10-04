@@ -1,0 +1,29 @@
+{
+  "title": "edge cldr geonames country",
+  "kind": "edge",
+  "status": "researched",
+  "from_id": "d1-cldr-codes",
+  "to_id": "d1-geo-countries",
+  "from_fields": [
+    "type",
+    "alpha3",
+    "numeric"
+  ],
+  "to_fields": [
+    "ISO",
+    "ISO3",
+    "ISO-Numeric"
+  ],
+  "meaning_id": "d1-meaning-country-area",
+  "compatibility": "unresolved",
+  "assumptions": "CLDR territory references include aggregates; GeoNames country/area ISO fields have their own scope. Two-letter equality requires category and edition audit.",
+  "confidence": "high",
+  "from_identifier_namespace": "CLDR48:territorycodes",
+  "to_identifier_namespace": "GeoNames:ISO3166countryreference",
+  "expected_cardinality": "Provisional: validate key uniqueness and multiplicity against a pinned snapshot before use",
+  "evidence_ids": [
+    "d1-cldr",
+    "d1-geonames"
+  ],
+  "physical_role": "Proposed contextual join; not executed or reconciled"
+}

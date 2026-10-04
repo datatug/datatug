@@ -1,0 +1,22 @@
+{
+  "title": "mapping ror id",
+  "kind": "mapping",
+  "status": "researched",
+  "from_id": "d1-ror-organisations",
+  "to_id": "d1-meaning-research-org-id",
+  "meaning_id": "d1-meaning-research-org-id",
+  "from_fields": [
+    "id"
+  ],
+  "to_fields": [
+    "proposed-role"
+  ],
+  "compatibility": "unresolved",
+  "assumptions": "Provisional field meaning only. Preserve provider namespace, edition, category, units and validity period; fresh Phase2 review must decide compatibility.",
+  "confidence": "medium",
+  "physical_role": "Proposed contextual join; not executed or reconciled",
+  "evidence_ids": [
+    "d1-ror"
+  ],
+  "expected_cardinality": "Provisional: validate key uniqueness and multiplicity against a pinned snapshot before use"
+}

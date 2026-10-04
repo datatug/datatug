@@ -1,0 +1,25 @@
+{
+  "title": "edge geo wb economy",
+  "kind": "edge",
+  "status": "researched",
+  "from_id": "d1-geo-countries",
+  "to_id": "d1-wb-economies",
+  "from_fields": [
+    "ISO3"
+  ],
+  "to_fields": [
+    "id"
+  ],
+  "meaning_id": "d1-meaning-country-area",
+  "compatibility": "unresolved",
+  "assumptions": "Match reviewed GeoNames ISO3 to World Bank economy ID. World Bank aggregates and territory categories require explicit filtering; ISO2 differs between API endpoints.",
+  "confidence": "high",
+  "from_identifier_namespace": "GeoNames:ISO3",
+  "to_identifier_namespace": "WorldBank:v2economyid",
+  "expected_cardinality": "Provisional: validate key uniqueness and multiplicity against a pinned snapshot before use",
+  "evidence_ids": [
+    "d1-geonames",
+    "d1-worldbank"
+  ],
+  "physical_role": "Proposed contextual join; not executed or reconciled"
+}
