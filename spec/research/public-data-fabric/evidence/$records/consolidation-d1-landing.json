@@ -1,0 +1,11 @@
+{
+  "title": "d1 governed landing and exact-main CI",
+  "observed_at": "2026-10-04T22:43:43.100116Z",
+  "outcome": "pass",
+  "summary": "WB PR83 landing success: reviewed head 0f8f6f67ae001a7cde68bfea7d4c1ef8f8485ed3, merge 1b2ec71a593c9edd64e011f5949c48721956b817; canonical synchronized and task cleanup recorded. Exact-main CI status passed, stable observations 2. This is a delivery receipt, not combined Phase1 acceptance.",
+  "repository": "datatug/datatug",
+  "commit": "1b2ec71a593c9edd64e011f5949c48721956b817",
+  "url": "https://github.com/datatug/datatug/pull/83",
+  "independent": false,
+  "review_stage": "discovery"
+}

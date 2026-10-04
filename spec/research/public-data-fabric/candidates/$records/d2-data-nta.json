@@ -17,5 +17,6 @@
   "freshness": "needs-review",
   "reason": "Public operator CSV34773B and scopedGTFS ZIP33861B; no key used. Realtime not fetched. Operator rows repeat across all/not-Dublin feeds; not unique publisher code.",
   "practical_value": "Trips/stops/operator/service calendar provide connected schedule demo with user trip records.",
-  "showcase_value": "Route map and calendar, time standards explicit."
+  "showcase_value": "Route map and calendar, time standards explicit.",
+  "research_depth": "documented"
 }

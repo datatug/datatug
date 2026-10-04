@@ -14,6 +14,7 @@
     "Proposed to roles: country, postal code association, validity"
   ],
   "practical_value": "Requires authoritative postal association; a postcode may cover several localities or delivery types. Source gap. Conceptual field roles only; no dataset field contract or measured join exists.",
-  "reason": "Conceptual relationship hypothesis only. Compatibility unresolved; confidence medium in research path; expected cardinality: many-to-many possible. Preserved as bundle because assertion edge requires actual recordset endpoints. No executable or accepted join. Direction: m1-postcode \u2192 m1-locality. Proposed field roles are separately labelled in identifier_representations.",
-  "showcase_value": "Relationship graph after source-specific identifiers and scope are established."
+  "reason": "Conceptual relationship hypothesis only. Compatibility unresolved; confidence medium in research path; expected cardinality: many-to-many possible. Preserved as bundle because assertion edge requires actual recordset endpoints. No executable or accepted join. Direction: m1-postcode → m1-locality. Proposed field roles are separately labelled in identifier_representations.",
+  "showcase_value": "Relationship graph after source-specific identifiers and scope are established.",
+  "research_depth": "documented"
 }

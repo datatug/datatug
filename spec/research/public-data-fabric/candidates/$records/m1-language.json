@@ -16,5 +16,6 @@
   "observed_at": "2026-10-04T22:10:00Z",
   "demo_ids": [
     "sakila"
-  ]
+  ],
+  "research_depth": "documented"
 }

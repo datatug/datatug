@@ -13,5 +13,6 @@
   "reason": "Proposed source recordset. Field inventory: id,iso2Code,name,region,incomeLevel,lendingType,capitalCity. Exact names and parsing depth remain source-qualified; see the linked evidence receipt and dated observations. All compatibility remains unresolved. Observed economy idUSA and iso2CodeUS. Observation country.id usesUS. Aggregate and income/lending IDs remain separate.",
   "source_url": "https://api.worldbank.org/v2/",
   "licence": "CC-BY-4.0",
-  "licence_notes": "Three inspected WDI indicators explicitly CC-BY-4.0, with World Bank mandatory terms: attribute indicator/provider/source and changes. Recheck every other indicator."
+  "licence_notes": "Three inspected WDI indicators explicitly CC-BY-4.0, with World Bank mandatory terms: attribute indicator/provider/source and changes. Recheck every other indicator.",
+  "research_depth": "sampled"
 }

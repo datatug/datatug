@@ -34,5 +34,6 @@
   ],
   "practical_value": "User price/invoice/compensation amount → explicit currency and role → compatible dated directed FX observation; quantity and product class contextualise unit price. Ask what changed in nominal currency vs compatible converted price. Need missing raw currency declarations, licensed rate definitions/coverage and monetary precision; historic codes remain time-qualified; no inflation/PPP equivalence presumed.",
   "showcase_value": "Nominal/converted series with base currency, rate date/type and unmatched cases.",
-  "reason": "All dependencies are research concepts; suitable dataset/recordset, identifier reconciliation, licensing and measured join dependencies remain open. Not selected, implemented or validated."
+  "reason": "All dependencies are research concepts; suitable dataset/recordset, identifier reconciliation, licensing and measured join dependencies remain open. Not selected, implemented or validated.",
+  "research_depth": "documented"
 }

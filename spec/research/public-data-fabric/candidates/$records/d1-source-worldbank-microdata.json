@@ -8,5 +8,6 @@
   "source_url": "https://datacatalog.worldbank.org/public-licenses",
   "licence": "Microdata Research License (many datasets; varies)",
   "licence_notes": "Manydatasetsnoredistribution/salewithoutwrittenpermission;researchonly;noidentificationlinks. Specificsurveyunselected.",
-  "reason": "Encounteredpermissionclass: genericuseridentityenrichment/redistributionunsuitable; retain research and survey-specificexceptions mayexist."
+  "reason": "Encounteredpermissionclass: genericuseridentityenrichment/redistributionunsuitable; retain research and survey-specificexceptions mayexist.",
+  "research_depth": "shallow"
 }

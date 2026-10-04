@@ -10,5 +10,6 @@
     "HTTP status code namespace",
     "Physical/documented fields: [\"Value\", \"Description\", \"Reference\"]"
   ],
-  "reason": "Grain: status value or unassigned range. CSV extraction must handle embedded newlines/ranges/blank assignments. Registry lookup is a proposal, not traffic protocol or content sniffing proof."
+  "reason": "Grain: status value or unassigned range. CSV extraction must handle embedded newlines/ranges/blank assignments. Registry lookup is a proposal, not traffic protocol or content sniffing proof.",
+  "research_depth": "sampled"
 }

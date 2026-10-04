@@ -13,5 +13,6 @@
   "reason": "Proposed source recordset. Field inventory: countrycode,postalcode,placename,adminname/code1–3,latitude,longitude,accuracy. Exact names and parsing depth remain source-qualified; see the linked evidence receipt and dated observations. All compatibility remains unresolved. One country/postcode can map to many places. Partial postal coverage, estimated coordinates and GB_full rights remain needs-review.",
   "source_url": "https://download.geonames.org/export/zip/",
   "licence": "needs-review",
-  "licence_notes": "Needs review: postal readme declares CC-BY-4.0 but links CC-BY3.0; GB_full includes Royal Mail copyright/database rights. Do not infer permission for all subsets."
+  "licence_notes": "Needs review: postal readme declares CC-BY-4.0 but links CC-BY3.0; GB_full includes Royal Mail copyright/database rights. Do not infer permission for all subsets.",
+  "research_depth": "documented"
 }

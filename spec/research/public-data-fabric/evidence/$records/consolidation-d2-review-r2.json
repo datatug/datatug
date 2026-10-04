@@ -1,0 +1,12 @@
+{
+  "title": "d2 independent discovery review r2",
+  "observed_at": "2026-10-04T22:56:48.852216Z",
+  "outcome": "pass",
+  "summary": "Durable import of independent local Codex reviewer disposition. Date finding resolved to actual 2021-01-01 through 2025-12-22 range. No remaining findings; provisional stream approved for root landing only. Exact-head source CI37241617657 succeeded. No combined Phase1, reconciliation, portfolio or publication approval. Source report SHA256 94316b6927f2d06eb863acc15558962db4d10121388ee87752dafc21002113fc.",
+  "repository": "datatug/datatug",
+  "commit": "4f073c99adaed117bdcfc1bc3cdcf2a584ca06f4",
+  "reviewer": "phase1-independent-review / local Codex research reviewer",
+  "independent": true,
+  "review_stage": "discovery",
+  "url": "https://github.com/datatug/datatug/pull/84"
+}

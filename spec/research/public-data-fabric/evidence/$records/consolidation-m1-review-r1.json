@@ -1,0 +1,12 @@
+{
+  "title": "m1 independent discovery review r1",
+  "observed_at": "2026-10-04T22:50:15Z",
+  "outcome": "fail",
+  "summary": "Durable import observation of the existing exact-head reviewer disposition; original execution timing is not inferred. Independent local Codex GPT-6 Astra High discovery review r1 of m1, PR82, exact head 6211f9b5f3d8175c8997658113458e82eb27ad69. Findings retained as history and superseded by r2 corrections. Pubs author/store country absence distinguished from publishers.country. Source review SHA256 67c1182ad9dffd41f085672c4fd3e03f13687c88f45a3e0c787929f68cd93b62.",
+  "repository": "datatug/datatug",
+  "commit": "6211f9b5f3d8175c8997658113458e82eb27ad69",
+  "reviewer": "phase1-independent-review / GPT-6 Astra High / local Codex",
+  "independent": true,
+  "review_stage": "discovery",
+  "url": "https://github.com/datatug/datatug/pull/82"
+}

@@ -17,5 +17,6 @@
   "freshness": "needs-review",
   "reason": "AnonymousSocrataJSON2rows2167B;truncatedfieldnames; separateDOTMasterCoordinateAirportID/SeqID tables notsampled/notinterchangeable.",
   "practical_value": "Potentialairportreference/weatherexposure ifcurrentauthoritative replacementfound.",
-  "showcase_value": "Airportmap; no IATA identity inference from loc_id."
+  "showcase_value": "Airportmap; no IATA identity inference from loc_id.",
+  "research_depth": "documented"
 }

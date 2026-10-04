@@ -8,5 +8,6 @@
   "source_url": "https://info.orcid.org/what-is-orcid/",
   "licence": "needs-review",
   "licence_notes": "Documentation and public record terms require separate screening; no person records downloaded.",
-  "reason": "Identifier evidence, not selected dataset integration."
+  "reason": "Identifier evidence, not selected dataset integration.",
+  "research_depth": "documented"
 }

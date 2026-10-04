@@ -10,5 +10,6 @@
     "GHCND ID and element",
     "Physical/documented fields: [\"ID\", \"YEAR\", \"MONTH\", \"ELEMENT\", \"VALUE1..VALUE31\", \"MFLAG1..MFLAG31\", \"QFLAG1..QFLAG31\", \"SFLAG1..SFLAG31\"]"
   ],
-  "reason": "Grain: station × year × month × element; per-day values nestedwide. Documented schema, no .dly file sampled. -9999 missing; invaliddaymonthsentinels; PRCPtenthsmm,TMIN/TMAXtenthsC,SNOW/SNWDmm. Local observation-day/time_source differ; QC flags mandatory before analysis."
+  "reason": "Grain: station × year × month × element; per-day values nestedwide. Documented schema, no .dly file sampled. -9999 missing; invaliddaymonthsentinels; PRCPtenthsmm,TMIN/TMAXtenthsC,SNOW/SNWDmm. Local observation-day/time_source differ; QC flags mandatory before analysis.",
+  "research_depth": "documented"
 }

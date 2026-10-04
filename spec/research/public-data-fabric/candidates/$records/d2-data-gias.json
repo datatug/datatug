@@ -17,5 +17,6 @@
   "freshness": "needs-review",
   "reason": "403download/policypages; approvedAPI/bulk route only, exactCSVschema/size unverified. Shallow crediblefollow-up.",
   "practical_value": "Potential school-service access/locality joins for user establishmentID tables.",
-  "showcase_value": "Catchment/accessibility exploration after establishment/geography grain review."
+  "showcase_value": "Catchment/accessibility exploration after establishment/geography grain review.",
+  "research_depth": "shallow"
 }

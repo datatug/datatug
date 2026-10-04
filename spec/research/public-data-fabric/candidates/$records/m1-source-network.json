@@ -8,5 +8,6 @@
   "source_url": "https://www.iana.org/numbers",
   "licence": "needs-review",
   "licence_notes": "IANA/RIR source terms require screening; no allocation list copied.",
-  "reason": "Identifier evidence, not selected dataset integration."
+  "reason": "Identifier evidence, not selected dataset integration.",
+  "research_depth": "documented"
 }

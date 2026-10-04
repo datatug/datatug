@@ -13,5 +13,6 @@
   "reason": "Proposed source recordset. Field inventory: Code,CodeUC,name,property,value,unit,metric. Exact names and parsing depth remain source-qualified; see the linked evidence receipt and dated observations. All compatibility remains unresolved. Essence artifact exceeded500k read bound; no version/count parsed. Derivative licence blocks assumed flattening.",
   "source_url": "https://ucum.org/docs/artifacts",
   "licence": "UCUM licence1.1",
-  "licence_notes": "UCUM licence 1.1 permits unmodified redistribution and commercial software interoperability with notices; modification and derivatives prohibited. OVDB reformatting needs review."
+  "licence_notes": "UCUM licence 1.1 permits unmodified redistribution and commercial software interoperability with notices; modification and derivatives prohibited. OVDB reformatting needs review.",
+  "research_depth": "documented"
 }

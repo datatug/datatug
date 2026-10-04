@@ -1,0 +1,165 @@
+{
+  "reviewed_head": "6be819afab1483a6c5592f1d7b6ad4d41c95ac6d",
+  "reviewed_base": "e031937c4e52c48e3103da4b346c44ee20e8de06",
+  "repository": "datatug/datatug",
+  "pull_request": 85,
+  "observed_at": "2026-10-04T23:03:55.433708+00:00",
+  "reviewer": "phase1-independent-review / independent Codex research reviewer / local macOS",
+  "independent": true,
+  "review_stage": "discovery",
+  "outcome": "pass",
+  "scope": "Combined bounded Phase1 discovery readiness; no semantic reconciliation, portfolio selection, publication or implementation approval.",
+  "reviewed_stream_heads": {
+    "d1": "0f8f6f67ae001a7cde68bfea7d4c1ef8f8485ed3",
+    "d2": "4f073c99adaed117bdcfc1bc3cdcf2a584ca06f4",
+    "m1": "21a9751ef82fc22f00d28a3bee35ae9b2037b3c2"
+  },
+  "stream_preservation": {
+    "m1_files": 183,
+    "d1_files": 160,
+    "d2_files": 178,
+    "permitted_delta": "Only optional research_depth in candidate records; all other reviewed stream bytes unchanged.",
+    "source_review_hashes_verified": 6
+  },
+  "query_receipt": {
+    "path": "spec/research/public-data-fabric/evidence/consolidation-query-2026-10-04.json",
+    "sha256": "586f82358f5c221e65c272b97d8c3342926e0ba1e8df4a536062cf6634637ffc",
+    "as_of": "2026-10-04T22:56:48.852216+00:00",
+    "input_sha256": "4779a5a60a192e320686aa69db1be1a3ab1f5ed45c812e3e92852295c3edcbd6",
+    "input_file_count": 1973,
+    "input_digest_verified": true,
+    "result_reproduction": "Exact parsed JSON equality after removing receipt wrapper",
+    "digest_recipe": "Sort all candidate/assertion/evidence $records/*.json plus evidence/demo-demand-coverage.json and query_index.py by Path; SHA256 concat(relative-to-research-base UTF8 path, NUL, exact file bytes, NUL) for each. Excludes generated result, schemas, gates, questions, tests and reports."
+  },
+  "query_outcomes": {
+    "meaning_datasets": {
+      "outcome": "pass",
+      "Geo.Country": {
+        "accepted_datasets": [],
+        "associations": [],
+        "candidate_exists": false
+      },
+      "d1_country_association_count": 11,
+      "accepted_dataset_count": 0,
+      "limitation": "Exact IDs only; no equivalence inferred between canonical requests and provisional IDs."
+    },
+    "alpha2_datasets": {
+      "outcome": "pass",
+      "datasets": [
+        "d1-dataset-un-m49",
+        "d1-dataset-worldbank"
+      ],
+      "limitation": "Literal candidate representations only; assertion-only or differently named ISO fields are explicitly outside query scope; conceptual matches imply no dataset."
+    },
+    "four_plus_demos": {
+      "outcome": "pass",
+      "groups": 6,
+      "limitation": "Structural and observed nonnull evidence remain separate; no cross-demo identity inference."
+    },
+    "demo_enrichments": {
+      "outcome": "pass",
+      "proposal_routes": {
+        "adventureworks": 10,
+        "chinook": 10,
+        "employees": 1,
+        "northwind": 7,
+        "pubs": 4,
+        "sakila": 5
+      },
+      "limitation": "Proposed relevance, not verified join success or selected integrations."
+    },
+    "scenario_dependents": {
+      "outcome": "pass",
+      "scenario_and_bundle_nodes": 57,
+      "dataset_keys": 41,
+      "limitation": "Both members and dependencies traversed with cycle protection; conceptual bundles not executable joins."
+    },
+    "licensing_rejections": {
+      "outcome": "pass",
+      "ids": [
+        "d1-dataset-comtrade",
+        "d1-dataset-un-m49",
+        "d1-m49-areas",
+        "d1-source-worldbank-microdata",
+        "d1-trade-classifications",
+        "d1-trade-observations",
+        "tpch"
+      ],
+      "limitation": "Recorded blocked/rejected decisions; needs-review rights remain in source records."
+    },
+    "freshness_revalidation": {
+      "outcome": "pass",
+      "groups": {
+        "due": 0,
+        "missing_observation": 47,
+        "stale_or_needs_review": 254,
+        "unknown_or_missing": 80,
+        "unscheduled": 307
+      },
+      "limitation": "Groups overlap; effective-value origin shown; inspection time not upstream release, missing schedules not clearance."
+    },
+    "promising_shallow": {
+      "outcome": "pass",
+      "depth_counts": {
+        "documented": 232,
+        "sampled": 47,
+        "shallow": 26,
+        "unknown": 376
+      },
+      "promising_shallow_ids": [],
+      "limitation": "Unknown/missing and all shallow also returned; lifecycle does not imply depth."
+    },
+    "meaning_dataset_gaps": {
+      "outcome": "pass",
+      "linkage_counts": {
+        "explicit-public-dataset-candidates": 31,
+        "no-explicit-public-dataset-link": 232
+      },
+      "limitation": "Suitability undetermined; no explicit link does not mean no suitable dataset exists."
+    },
+    "unreconciled_dataset_mappings": {
+      "outcome": "pass",
+      "classifications": {
+        "no-mapping-recorded": 23,
+        "unresolved-only": 18
+      },
+      "limitation": "41 non-demo dataset candidates include rejected TPC-H; no mapping, unresolved and accepted-receipt-backed branches distinct."
+    }
+  },
+  "validation": {
+    "committed_query_tests": 3,
+    "independent_counterexamples": 15,
+    "ledger_mutation_tests": 22,
+    "ingitdb_counts": {
+      "candidates": 681,
+      "assertions": 1162,
+      "evidence": 128,
+      "questions": 37,
+      "gates": 8,
+      "implementation": 0
+    },
+    "diff_check": "pass",
+    "exact_head_ci": {
+      "run_id": 37242036718,
+      "conclusion": "SUCCESS",
+      "completed_at": "2026-10-04T22:59:09Z",
+      "url": "https://github.com/datatug/datatug/actions/runs/37242036718/job/111552528202"
+    }
+  },
+  "findings": [],
+  "boundaries": {
+    "phase1_gate": "pending until root acceptance and independently reviewed gate/receipt delta",
+    "phase2": "fresh dedicated reconciliation required",
+    "phase3": "separate portfolio architect required",
+    "B1": "corpus-publication remains open at phases4/5/6",
+    "TPC-H": "rejected; excluded from publication",
+    "canonical_changes": "none"
+  },
+  "verdict": {
+    "blockers": 0,
+    "majors": 0,
+    "minors": 0,
+    "discovery_readiness": "accepted",
+    "land": true
+  }
+}

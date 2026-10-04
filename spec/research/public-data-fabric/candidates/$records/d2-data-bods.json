@@ -17,5 +17,6 @@
   "freshness": "needs-review",
   "reason": "Screened official TransXChange2.4/PTI, SIRI-VM, NeTEx guidance; no data fetched, size unknown.",
   "practical_value": "Potential schedule-to-actual delay analysis using explicit journey/block reference.",
-  "showcase_value": "Bus movement map if later access/legal conditions permit."
+  "showcase_value": "Bus movement map if later access/legal conditions permit.",
+  "research_depth": "shallow"
 }

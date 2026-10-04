@@ -17,5 +17,6 @@
   "freshness": "needs-review",
   "reason": "Public339359BJSONobserved; version, licenceID, deprecated flag, name, seeAlso,detailsUrl. No detail licence-text harvest; facts only retained.",
   "practical_value": "Source/provider licence labels can resolve proposed SPDXIDs after meaning/rights review.",
-  "showcase_value": "Licence-reference explanations without automatic legal approval."
+  "showcase_value": "Licence-reference explanations without automatic legal approval.",
+  "research_depth": "documented"
 }

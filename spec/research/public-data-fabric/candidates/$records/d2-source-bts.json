@@ -6,5 +6,6 @@
     "d2-e-bts"
   ],
   "source_url": "https://data.bts.gov/",
-  "reason": "Specific Citizen Connect airport catalogue, not interchangeable airport code tables."
+  "reason": "Specific Citizen Connect airport catalogue, not interchangeable airport code tables.",
+  "research_depth": "documented"
 }

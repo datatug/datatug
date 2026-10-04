@@ -1,0 +1,13 @@
+{
+  "title": "Combined Phase1 index preparation",
+  "observed_at": "2026-10-04T22:56:48.852216Z",
+  "outcome": "pass",
+  "summary": "Author preparation only: integrated reviewed streams on maine031937c4e52c48e3103da4b346c44ee20e8de06. Added optional typed research depth and deterministic ten-question graph queries, with three counterexample tests. inGitDB, ledger22 mutation checks, SpecScore and diff checks pass. Source review r1/r2 histories and landing/CI receipts are retained. Phase1 gate stays pending fresh independent combined acceptance/root decision; no reconciliation or portfolio selection.",
+  "repository": "datatug/datatug",
+  "commit": "e031937c4e52c48e3103da4b346c44ee20e8de06",
+  "path": "spec/research/public-data-fabric/consolidation-preparation.md",
+  "command": "python3 spec/research/public-data-fabric/query_index.py --as-of 2026-10-04T22:56:48.852216Z --meaning-id Geo.Country --meaning-id d1-meaning-country-area --meaning-id m1-country-area",
+  "independent": false,
+  "reviewer": "consolidation author / local Codex GPT-6.1 Sol",
+  "review_stage": "discovery"
+}

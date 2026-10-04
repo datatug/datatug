@@ -6,5 +6,6 @@
     "d2-e-orr"
   ],
   "source_url": "https://dataportal.orr.gov.uk/",
-  "reason": "GB official statistics; ticket estimates rather than counts."
+  "reason": "GB official statistics; ticket estimates rather than counts.",
+  "research_depth": "documented"
 }

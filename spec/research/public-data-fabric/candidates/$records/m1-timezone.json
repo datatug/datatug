@@ -12,5 +12,6 @@
   "reason": "Depth: focused. Confidence high in research distinction, not accepted mapping. TZID differs from fixed UTC offset; country alone insufficient. Public dataset coverage/rights require separate discovery.",
   "practical_value": "TZID differs from fixed UTC offset; country alone insufficient.",
   "showcase_value": "Contextual graph/map/time-series opportunity; practical compatibility remains prerequisite.",
-  "observed_at": "2026-10-04T22:10:00Z"
+  "observed_at": "2026-10-04T22:10:00Z",
+  "research_depth": "documented"
 }

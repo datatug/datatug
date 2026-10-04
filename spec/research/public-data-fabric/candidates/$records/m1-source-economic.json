@@ -10,5 +10,6 @@
   "licence_notes": "UN classification publication/data terms require source-specific screening; no tables copied.",
   "observed_at": "2026-10-04T22:10:00Z",
   "freshness": "needs-review",
-  "reason": "Standards/publisher evidence; no public dataset integration selected or data copied."
+  "reason": "Standards/publisher evidence; no public dataset integration selected or data copied.",
+  "research_depth": "documented"
 }

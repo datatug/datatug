@@ -13,5 +13,6 @@
   "reason": "Proposed source recordset. Field inventory: CtryNm,CcyNm,Ccy,CcyNbr,CcyMnrUnts. Exact names and parsing depth remain source-qualified; see the linked evidence receipt and dated observations. All compatibility remains unresolved. 280 country-currency/fund rows, not280 distinct currencies. Publication permission unresolved.",
   "source_url": "https://www.six-group.com/en/products-services/financial-information/market-reference-data/data-standards.html",
   "licence": "needs-review",
-  "licence_notes": "Needs review: official lists are free to download; the inspected primary terms did not establish commercial cache, derivative or redistribution rights."
+  "licence_notes": "Needs review: official lists are free to download; the inspected primary terms did not establish commercial cache, derivative or redistribution rights.",
+  "research_depth": "sampled"
 }

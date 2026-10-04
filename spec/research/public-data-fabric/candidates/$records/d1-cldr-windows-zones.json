@@ -13,5 +13,6 @@
   "reason": "Proposed source recordset. Field inventory: mapZone.other,territory,type. Exact names and parsing depth remain source-qualified; see the linked evidence receipt and dated observations. All compatibility remains unresolved. 500 mapping elements observed. type can contain multiple IANA IDs; territory001 default is not global equivalence.",
   "source_url": "https://www.unicode.org/Public/cldr/48/",
   "licence": "Unicode-3.0",
-  "licence_notes": "Unicode License V3: preserve copyright and permission notice in data copies or documentation. Commercial use, copy, cache, adapt and redistribute permitted; no endorsement."
+  "licence_notes": "Unicode License V3: preserve copyright and permission notice in data copies or documentation. Commercial use, copy, cache, adapt and redistribute permitted; no endorsement.",
+  "research_depth": "sampled"
 }

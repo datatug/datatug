@@ -10,5 +10,6 @@
     "SPDX LicenseID, case/aliases/deprecation require matching-guideline review",
     "Physical/documented fields: [\"licenseId\", \"name\", \"isDeprecatedLicenseId\", \"isOsiApproved\", \"reference\", \"detailsUrl\", \"seeAlso\"]"
   ],
-  "reason": "Grain: one licence identifier at list release. 740summaries3.29.0; exception IDs and local LicenseRef are different. Not automatic rights approval for a dataset."
+  "reason": "Grain: one licence identifier at list release. 740summaries3.29.0; exception IDs and local LicenseRef are different. Not automatic rights approval for a dataset.",
+  "research_depth": "sampled"
 }

@@ -12,5 +12,6 @@
   "reason": "Depth: shallow. Confidence medium in research distinction, not accepted mapping. Crude vs standardised and population-at-risk denominator require reconciliation. Public dataset coverage/rights require separate discovery.",
   "practical_value": "Crude vs standardised and population-at-risk denominator require reconciliation.",
   "showcase_value": "Contextual graph/map/time-series opportunity; practical compatibility remains prerequisite.",
-  "observed_at": "2026-10-04T22:10:00Z"
+  "observed_at": "2026-10-04T22:10:00Z",
+  "research_depth": "shallow"
 }

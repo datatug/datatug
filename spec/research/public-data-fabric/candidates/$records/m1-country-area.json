@@ -24,5 +24,6 @@
     "northwind",
     "pubs",
     "sakila"
-  ]
+  ],
+  "research_depth": "documented"
 }

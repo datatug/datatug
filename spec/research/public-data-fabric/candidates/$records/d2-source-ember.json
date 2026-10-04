@@ -6,5 +6,6 @@
     "d2-e-ember"
   ],
   "source_url": "https://ember-energy.org/data/",
-  "reason": "Established curated electricity data, underlying national/international sources."
+  "reason": "Established curated electricity data, underlying national/international sources.",
+  "research_depth": "documented"
 }

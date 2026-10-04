@@ -17,5 +17,6 @@
   "freshness": "current",
   "reason": "16,084,305B CSV download anonymous; API1.2.0requireskey, no key acquired. Wide metrics currentJuly2026format; aggregates/countries must be separated. Underlying estimates and revisions not universal primary measurements.",
   "practical_value": "Country electricity context for customer/market/energy data, annual↔monthly comparisons after grain normalization.",
-  "showcase_value": "Country fuel mix/total trend; no double-count aggregates with constituents."
+  "showcase_value": "Country fuel mix/total trend; no double-count aggregates with constituents.",
+  "research_depth": "documented"
 }

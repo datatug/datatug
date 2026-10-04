@@ -28,3 +28,5 @@ jobs:
           "${RUNNER_TEMP}/ingitdb" validate --path .
       - name: Check relationships, evidence, gates and invalid-state mutations
         run: python3 spec/research/public-data-fabric/check.py --self-test
+      - name: Check deterministic research queries against counterexample fixtures
+        run: python3 spec/research/public-data-fabric/test_query_index.py

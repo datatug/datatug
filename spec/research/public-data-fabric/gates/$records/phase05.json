@@ -12,5 +12,5 @@
     "independent-demo-analysis-r2"
   ],
   "blocker_ids": [],
-  "decision": "Root accepts bounded all-six Phase 0.5 demand evidence and independent corpus-analysis r2 receipt at reviewed source head 0c03efa6dc0d1cc136bf3bcd682d9f4f692f45e0. Final receipt/gate delta exact-head review, CI and WB landing remain required before opening Phase 1. Hypotheses remain unresolved; no semantic reconciliation or live publication acceptance. B1 remains open at Phase 4/5/6."
+  "decision": "Root accepts bounded all-six Phase 0.5 demand evidence and independent corpus-analysis r2 receipt at reviewed source head 0c03efa6dc0d1cc136bf3bcd682d9f4f692f45e0. The final reviewed receipt/gate delta and exact-main CI were accepted and WB-landed at 90cd16e8ad42131f66145b643697cc97bae8a295; Phase1 bounded discovery subsequently opened. Hypotheses remain unresolved; no semantic reconciliation or live publication acceptance. B1 remains open at Phase 4/5/6."
 }

@@ -8,5 +8,6 @@
   "source_url": "https://www.unicode.org/Public/cldr/48/",
   "licence": "Unicode-3.0",
   "licence_notes": "Unicode License V3: preserve copyright and permission notice in data copies or documentation. Commercial use, copy, cache, adapt and redistribute permitted; no endorsement.",
-  "reason": "Publisher reference only. Candidate-specific permissions, access constraints and coverage are retained in linked evidence."
+  "reason": "Publisher reference only. Candidate-specific permissions, access constraints and coverage are retained in linked evidence.",
+  "research_depth": "documented"
 }

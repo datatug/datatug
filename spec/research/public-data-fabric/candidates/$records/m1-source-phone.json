@@ -8,5 +8,6 @@
   "source_url": "https://www.itu.int/rec/T-REC-E.164/en",
   "licence": "needs-review",
   "licence_notes": "ITU standard copyright; no numbering plan/list copied.",
-  "reason": "Identifier evidence, not selected dataset integration."
+  "reason": "Identifier evidence, not selected dataset integration.",
+  "research_depth": "documented"
 }

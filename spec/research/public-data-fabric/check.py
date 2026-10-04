@@ -241,7 +241,9 @@ def self_test():
         'missing passing receipts': mutate_accepted_foundation(lambda r: r['gates']['phase0'].update(evidence_ids=[])),
         'unresolved gate': mutate_accepted_foundation(
             lambda r: r['questions']['independent-verification'].update(status='open')),
-        'phase ordering': lambda r: r['gates']['phase1'].update(status='passed'),
+        # Remain invalid after real research gates legitimately pass.
+        'phase ordering': mutate_accepted_programme(
+            lambda r: r['gates']['phase1'].update(status='pending')),
         'missing rejection reason': lambda r: r['candidates']['tpch'].pop('reason'),
         'dangling evidence': lambda r: r['candidates']['chinook'].update(evidence_ids=['absent']),
         'wrong link kind': lambda r: r['candidates']['chinook'].update(source_id='northwind'),

@@ -14,6 +14,7 @@
     "Proposed to roles: TZID, rule release"
   ],
   "practical_value": "Wall time needs offset/DST ambiguity policy; zone boundary source separate. Conceptual field roles only; no dataset field contract or measured join exists.",
-  "reason": "Conceptual relationship hypothesis only. Compatibility unresolved; confidence medium in research path; expected cardinality: zone-time lookup. Preserved as bundle because assertion edge requires actual recordset endpoints. No executable or accepted join. Direction: m1-instant \u2192 m1-timezone. Proposed field roles are separately labelled in identifier_representations.",
-  "showcase_value": "Relationship graph after source-specific identifiers and scope are established."
+  "reason": "Conceptual relationship hypothesis only. Compatibility unresolved; confidence medium in research path; expected cardinality: zone-time lookup. Preserved as bundle because assertion edge requires actual recordset endpoints. No executable or accepted join. Direction: m1-instant → m1-timezone. Proposed field roles are separately labelled in identifier_representations.",
+  "showcase_value": "Relationship graph after source-specific identifiers and scope are established.",
+  "research_depth": "documented"
 }

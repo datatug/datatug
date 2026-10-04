@@ -6,5 +6,6 @@
     "d2-e-iana"
   ],
   "source_url": "https://www.iana.org/protocols",
-  "reason": "Protocol scope CC0, not a licence for other IANA content."
+  "reason": "Protocol scope CC0, not a licence for other IANA content.",
+  "research_depth": "documented"
 }

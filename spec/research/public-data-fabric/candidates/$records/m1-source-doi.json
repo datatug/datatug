@@ -8,5 +8,6 @@
   "source_url": "https://www.doi.org/the-identifier/what-is-a-doi/",
   "licence": "CC-BY-4.0",
   "licence_notes": "CC-BY-4.0 website stated by DOI Foundation; metadata/content licences separate.",
-  "reason": "Identifier evidence, not selected dataset integration."
+  "reason": "Identifier evidence, not selected dataset integration.",
+  "research_depth": "documented"
 }

@@ -6,5 +6,6 @@
     "d2-e-nta"
   ],
   "source_url": "https://www.transportforireland.ie/transitData/PT_Data.html",
-  "reason": "Production static page; avoid UAT/development copies."
+  "reason": "Production static page; avoid UAT/development copies.",
+  "research_depth": "documented"
 }

@@ -8,5 +8,6 @@
   "identifier_representations": [
     "TWh period/area/source; aggregates explicit"
   ],
-  "reason": "Provisional source-informed meaning. No canonical MeaningGraph entry or accepted equivalence; fresh Phase2 reconciliation required."
+  "reason": "Provisional source-informed meaning. No canonical MeaningGraph entry or accepted equivalence; fresh Phase2 reconciliation required.",
+  "research_depth": "unknown"
 }

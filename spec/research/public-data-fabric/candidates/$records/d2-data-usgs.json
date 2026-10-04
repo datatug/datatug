@@ -17,5 +17,6 @@
   "freshness": "current",
   "reason": "Anonymous filtered GeoJSON/CSV/QuakeML;1891B2events; currentautomateddisplay should use preferred realtime feeds. Null alert/tz, magnitude types and depth separate.",
   "practical_value": "Asset exposure/context for coordinate-bearing user data; weaker all-six demand fit.",
-  "showcase_value": "Event map/timeline; association distance/time is approximate, not hazard forecast."
+  "showcase_value": "Event map/timeline; association distance/time is approximate, not hazard forecast.",
+  "research_depth": "documented"
 }

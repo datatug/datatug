@@ -8,5 +8,6 @@
   "source_url": "https://api.worldbank.org/v2/",
   "licence": "CC-BY-4.0",
   "licence_notes": "Three inspected WDI indicators explicitly CC-BY-4.0, with World Bank mandatory terms: attribute indicator/provider/source and changes. Recheck every other indicator.",
-  "reason": "Publisher reference only. Candidate-specific permissions, access constraints and coverage are retained in linked evidence."
+  "reason": "Publisher reference only. Candidate-specific permissions, access constraints and coverage are retained in linked evidence.",
+  "research_depth": "documented"
 }

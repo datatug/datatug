@@ -123,6 +123,15 @@
     },
     "showcase_value": {
       "type": "string"
+    },
+    "research_depth": {
+      "type": "string",
+      "enum": [
+        "shallow",
+        "documented",
+        "sampled",
+        "unknown"
+      ]
     }
   },
   "columns_order": [
@@ -131,6 +140,7 @@
     "kind",
     "status",
     "reason",
+    "research_depth",
     "dependency_ids",
     "source_id",
     "dataset_id",

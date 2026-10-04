@@ -10,5 +10,6 @@
     "CVE identifier; CWE list distinct weakness namespace",
     "Physical/documented fields: [\"cveID\", \"vendorProject\", \"product\", \"vulnerabilityName\", \"dateAdded\", \"requiredAction\", \"dueDate\", \"knownRansomwareCampaignUse\", \"forensicTriage\", \"cwes\", \"notes\"]"
   ],
-  "reason": "Grain: one cataloguedCVE atcatalogVersion. Current1734rows; fields may evolve. Unknown ransomware use is not false; dueDate mandate scoped under source directive; external notes not copied/licensed by KEV CC0."
+  "reason": "Grain: one cataloguedCVE atcatalogVersion. Current1734rows; fields may evolve. Unknown ransomware use is not false; dueDate mandate scoped under source directive; external notes not copied/licensed by KEV CC0.",
+  "research_depth": "sampled"
 }

@@ -17,5 +17,6 @@
   "freshness": "current",
   "reason": "Anonymous CSV/XML API; 400/404/429 documented. Scoped atcoAreaCodes010 response367629B,1679rows; no national size claim.",
   "practical_value": "Transport stop lookup and locality reference bridge; user stop-code tables useful.",
-  "showcase_value": "Stops on map with separate point/area namespaces."
+  "showcase_value": "Stops on map with separate point/area namespaces.",
+  "research_depth": "documented"
 }

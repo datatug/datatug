@@ -13,5 +13,6 @@
   "demo_ids": [],
   "reason": "User problem/schema: User assets(asset_id,lat,lon,valid_from/to) andevent/event_time;airportcodesmustsupplynamespace. Proposed joins: USGSeventgeometry/time toapprovedassetdistance/timewindowapproximateassociation;POWERgridscontext. BTSlocalcode/ICAOcrosswalkunverified; noactualdemo coordinatesassumedfromAWopaquegeometry. Answerable questions: Whicheventsobservations fallwithinconfiguredcontext windows?Whichassetslackvalidcoordinates? Visualizations: Map/timelinewithdistance-depth-magnitude-type labels. Gaps/cost/risks: Weakersix-demofit;USGScontributorrigthsandmutablepreferredsolutions;oldBTS2020–21cataloguelowpriority;spatialproximitynotriskprediction;unitsaxes/sourceIDsremainseparate.",
   "practical_value": "Whicheventsobservations fallwithinconfiguredcontext windows?Whichassetslackvalidcoordinates?",
-  "showcase_value": "Map/timelinewithdistance-depth-magnitude-type labels."
+  "showcase_value": "Map/timelinewithdistance-depth-magnitude-type labels.",
+  "research_depth": "documented"
 }

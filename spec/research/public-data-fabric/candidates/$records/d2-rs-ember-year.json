@@ -10,5 +10,6 @@
     "ISO3 only where Area type Country or economy and code present; named region aggregates separate",
     "Physical/documented fields: [\"Area\", \"ISO 3 code\", \"Year\", \"Area type\", \"Electricity source\", \"Is aggregated source\", \"Generation (TWh)\", \"Generation YoY change (TWh)\", \"Generation YoY change (%)\", \"Share of generation (%)\", \"Share of generation YoY change (% points)\", \"Capacity (GW)\", \"Emissions (MtCO2e)\", \"Emissions YoY change (MtCO2e)\", \"Emissions YoY change (%)\", \"Share of emissions (%)\", \"Emissions intensity (gCO2e/kWh)\", \"Continent\", \"Ember region\", \"EU member\", \"OECD member\", \"G20 member\", \"G7 member\", \"ASEAN member\"]"
   ],
-  "reason": "Grain: Area × Year × Electricity source. 262144Bprefix1914complete rows, not global count; AfghanistanAFG observed; annual Year not Date. Blank intensity/YoY fields and region ISO3 valid. Do not sum Total/Clean/Fossil with constituent fuels."
+  "reason": "Grain: Area × Year × Electricity source. 262144Bprefix1914complete rows, not global count; AfghanistanAFG observed; annual Year not Date. Blank intensity/YoY fields and region ISO3 valid. Do not sum Total/Clean/Fossil with constituent fuels.",
+  "research_depth": "sampled"
 }

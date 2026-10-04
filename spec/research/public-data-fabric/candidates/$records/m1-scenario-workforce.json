@@ -35,5 +35,6 @@
   ],
   "practical_value": "User employee histories → dated assignments/membership → evidenced occupation classification → region/date labour benchmarks. Ask whether role mix/compensation changed versus comparable markets. Need role tasks/context, employer/site geography, currency and benchmark denominator; fabricated Employees people are never matched to public personal identities.",
   "showcase_value": "Role-composition/alluvial and valid-time compensation series; benchmark comparability panel.",
-  "reason": "All dependencies are research concepts; suitable dataset/recordset, identifier reconciliation, licensing and measured join dependencies remain open. Not selected, implemented or validated."
+  "reason": "All dependencies are research concepts; suitable dataset/recordset, identifier reconciliation, licensing and measured join dependencies remain open. Not selected, implemented or validated.",
+  "research_depth": "documented"
 }

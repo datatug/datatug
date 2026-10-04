@@ -17,5 +17,6 @@
   "freshness": "needs-review",
   "reason": "Public CSV388340B/ODS;16KiBprefix sampled; preamble rows, numeric thousands separators, [z] codes. NLC/TLC↔NaPTAN rail bridge unverified.",
   "practical_value": "Compare station annual usage to local business/customer footprints after explicit code crosswalk.",
-  "showcase_value": "Ranked station map/time series, no inference of actual daily footfall."
+  "showcase_value": "Ranked station map/time series, no inference of actual daily footfall.",
+  "research_depth": "documented"
 }

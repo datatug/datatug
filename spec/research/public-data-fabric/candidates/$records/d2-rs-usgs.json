@@ -10,5 +10,6 @@
     "Data-centre/event ID; net+code provenance; alternate ids list",
     "Physical/documented fields: [\"id\", \"properties.net\", \"properties.code\", \"properties.mag\", \"properties.magType\", \"properties.time\", \"properties.updated\", \"properties.status\", \"properties.place\", \"geometry.coordinates\"]"
   ],
-  "reason": "Grain: event preferred solution at query time. 2netus historicalevents;lonlatdepth order depthkm,timeUTCmillis, nullable alert/tz. EventIDs and solutions can change; descriptiveplace not localityidentifier."
+  "reason": "Grain: event preferred solution at query time. 2netus historicalevents;lonlatdepth order depthkm,timeUTCmillis, nullable alert/tz. EventIDs and solutions can change; descriptiveplace not localityidentifier.",
+  "research_depth": "sampled"
 }

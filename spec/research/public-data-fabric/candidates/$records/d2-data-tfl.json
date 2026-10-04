@@ -17,5 +17,6 @@
   "freshness": "needs-review",
   "reason": "Primarypagediscovery only; noAPIkey/signup/download. Dataset size/schema unverified.",
   "practical_value": "Potential Londonstation/transportaccess facts with verifiedstationnamespace.",
-  "showcase_value": "Footfall/PTALvisuals; no acceptedstationidentity bridge."
+  "showcase_value": "Footfall/PTALvisuals; no acceptedstationidentity bridge.",
+  "research_depth": "shallow"
 }

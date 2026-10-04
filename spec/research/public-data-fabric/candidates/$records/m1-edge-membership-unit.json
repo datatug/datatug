@@ -14,6 +14,7 @@
     "Proposed to roles: organisation/unit ID, valid interval"
   ],
   "practical_value": "Issuer-scoped IDs and overlap convention; no public synthetic-person identity joins. Conceptual field roles only; no dataset field contract or measured join exists.",
-  "reason": "Conceptual relationship hypothesis only. Compatibility unresolved; confidence medium in research path; expected cardinality: many memberships per unit/time. Preserved as bundle because assertion edge requires actual recordset endpoints. No executable or accepted join. Direction: m1-membership \u2192 m1-organisation-unit. Proposed field roles are separately labelled in identifier_representations.",
-  "showcase_value": "Relationship graph after source-specific identifiers and scope are established."
+  "reason": "Conceptual relationship hypothesis only. Compatibility unresolved; confidence medium in research path; expected cardinality: many memberships per unit/time. Preserved as bundle because assertion edge requires actual recordset endpoints. No executable or accepted join. Direction: m1-membership → m1-organisation-unit. Proposed field roles are separately labelled in identifier_representations.",
+  "showcase_value": "Relationship graph after source-specific identifiers and scope are established.",
+  "research_depth": "documented"
 }

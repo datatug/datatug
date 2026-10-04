@@ -25,5 +25,6 @@
   ],
   "reason": "User orders,rentals or invoices specify location,event timestamp and optional timezone. Proposed place→IANA zone and explicit local-date policy lead to CLDR week conventions and jurisdiction holiday events. Ask weekend versus holiday counts and which rows lack timezone/jurisdiction. Visuals: calendar heatmap and unresolved grid. GOVUK2019–2028 overlaps Chinook but not Northwind2016–2018 or Pubs1992–1994. UK alone cannot choose Scotland or England/Wales. Naive timestamps need event-zone policy; Employees9999 is a validity sentinel,not a holiday observation. Historical holiday sources remain a gap.",
   "practical_value": "Proposed connected bundle; identity, temporal, legal and match-rate review required. Not selected or implemented.",
-  "showcase_value": "Named visualisations support the questions; practical joinability dominates."
+  "showcase_value": "Named visualisations support the questions; practical joinability dominates.",
+  "research_depth": "documented"
 }
