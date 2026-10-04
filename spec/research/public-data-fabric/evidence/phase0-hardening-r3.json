@@ -335,6 +335,44 @@
     "status": "completed",
     "updatedAt": "2026-10-04T20:15:32Z",
     "url": "https://github.com/datatug/datatug-apps/actions/runs/37230543024",
-    "scope": "Current separate open Phase0blocker; independent_review historical r3 verdict predates terminal failure. No cause inferred."
+    "scope": "Current separate open Phase0blocker; independent_review historical r3 verdict predates terminal failure. No cause inferred.",
+    "independent_job_receipts": [
+      {
+        "name": "test",
+        "conclusion": "failure",
+        "url": "https://github.com/datatug/datatug-apps/actions/runs/37230543024/job/111519084601",
+        "completedAt": "2026-10-04T20:05:27Z"
+      },
+      {
+        "name": "build",
+        "conclusion": "success",
+        "url": "https://github.com/datatug/datatug-apps/actions/runs/37230543024/job/111519084772",
+        "completedAt": "2026-10-04T20:03:50Z"
+      },
+      {
+        "name": "journey e2e (real datatug-cli agent)",
+        "conclusion": "success",
+        "url": "https://github.com/datatug/datatug-apps/actions/runs/37230543024/job/111519408570",
+        "completedAt": "2026-10-04T20:07:47Z"
+      },
+      {
+        "name": "e2e",
+        "conclusion": "success",
+        "url": "https://github.com/datatug/datatug-apps/actions/runs/37230543024/job/111519408607",
+        "completedAt": "2026-10-04T20:15:32Z"
+      }
+    ],
+    "independent_reviewer": "phase0_verify r4"
+  },
+  "current_readiness": {
+    "review_round": 4,
+    "blockers": 2,
+    "majors": 3,
+    "minors": 0,
+    "readiness": "pending",
+    "blocking_findings": [
+      "B1 corpus publication",
+      "B3 app postmerge main CI"
+    ]
   }
 }
