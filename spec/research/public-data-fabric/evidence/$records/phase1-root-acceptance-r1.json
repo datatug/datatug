@@ -1,0 +1,11 @@
+{
+  "title": "Root bounded Phase1 discovery gate acceptance r1",
+  "observed_at": "2026-10-04T23:05:30.207826+00:00",
+  "outcome": "decision",
+  "summary": "Root accepts bounded combined Phase1 discovery readiness at independently reviewed source 6be819afab1483a6c5592f1d7b6ad4d41c95ac6d, based on consolidation-independent-discovery-r1 and its zero-finding reproducible query/preservation review. Phase1 is passed in this candidate delta, subject to final independent delta review, exact-head CI and governed landing. This decision does not reconcile meanings, establish suitable datasets, select a portfolio or authorize publication. B1 remains open/blocking at phases4/5/6 and TPC-H remains rejected. Phase2 requires a fresh dedicated reconciler and Phase3 a distinct portfolio architect.",
+  "repository": "datatug/datatug",
+  "commit": "6be819afab1483a6c5592f1d7b6ad4d41c95ac6d",
+  "reviewer": "Main orchestrator / root acceptance",
+  "independent": false,
+  "review_stage": "discovery"
+}

@@ -34,3 +34,32 @@ Redirect the first command to a local JSON file when inspecting full results. Ex
 Population is conservative. M1's explicit shallow concepts retain shallow depth; focused primary-standard concepts, standards sources and documented conceptual proposals use documented. D1 provisional meanings use unknown; documentation-only recordsets and dataset/provider summaries use documented, bounded source recordsets use sampled, and retained shallow leads use shallow. D2 provisional meanings use unknown; its primary documentation and conceptual proposals use documented; explicit discovery-only follow-ups use shallow. Its bounded actual recordsets use sampled, except GHCND daily and crime rows, which remain documented because no actual observation rows were sampled. Inspected empty GTFS headers remain structure samples, not populated values. Depth is never derived from promising/researched lifecycle. Dated source observations and original reason prose remain intact. Depth does not automatically inherit from another recordset in the same dataset.
 
 Three counterexample tests cover graph routes, conceptual member dependencies, structural-but-unobserved demand, missing canonical IDs, unresolved mapping acceptance, missing schedules, inheritance provenance, and reconciliation-receipt requirements. Synthetic accepted data appears only in tests and does not mutate the ledger. The existing ledger checker remains unchanged; CI adds the query fixture check.
+
+## Reproduce the reviewed source input digest
+
+The dated result in `evidence/consolidation-query-2026-10-04.json` is pinned to reviewed source `6be819afab1483a6c5592f1d7b6ad4d41c95ac6d`. Later acceptance receipts and gate changes are outside that input digest; the result remains unchanged as historical query evidence. Run this read-only recipe from repository root with that source commit available locally:
+
+```sh
+python3 - <<'PY'
+import hashlib
+from pathlib import Path
+import subprocess
+revision = '6be819afab1483a6c5592f1d7b6ad4d41c95ac6d'
+base = 'spec/research/public-data-fabric/'
+listed = subprocess.check_output(
+    ['git', 'ls-tree', '-r', '--name-only', revision], text=True).splitlines()
+extras = {base + 'evidence/demo-demand-coverage.json', base + 'query_index.py'}
+paths = sorted(Path(p) for p in listed if p in extras or any(
+    p.startswith(base + table + '/$records/') and p.endswith('.json')
+    for table in ('candidates', 'assertions', 'evidence')))
+digest = hashlib.sha256()
+for path in paths:
+    name = str(path)
+    content = subprocess.check_output(['git', 'show', revision + ':' + name])
+    relative = name.removeprefix(base).encode('utf-8')
+    digest.update(relative + b'\0' + content + b'\0')
+print(len(paths), digest.hexdigest())
+PY
+```
+
+Expected: 1973 files and `4779a5a60a192e320686aa69db1be1a3ab1f5ed45c812e3e92852295c3edcbd6`. Paths are Python Path lexical order; framing is UTF-8 relative path, NUL, exact file bytes including trailing newline, NUL. Inputs are all candidate/assertion/evidence record JSON files plus the actual-six coverage matrix and query helper. Generated query output, schemas, gates, questions, implementation, tests and reports are excluded. This recipe reads immutable Git objects and does not check out or mutate the worktree.

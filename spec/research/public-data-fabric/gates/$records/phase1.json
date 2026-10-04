@@ -1,6 +1,6 @@
 {
   "title": "Bidirectional broad discovery",
-  "status": "pending",
+  "status": "passed",
   "owner": "Main orchestrator",
   "prerequisite_ids": [
     "phase0"
@@ -10,7 +10,9 @@
     "Machine-answerable required index questions with truthful missing/unknown/unreconciled branches and actual-six structural/observed demand",
     "Fresh independent combined discovery acceptance after reviewed stream integration"
   ],
-  "evidence_ids": [],
+  "evidence_ids": [
+    "consolidation-independent-discovery-r1"
+  ],
   "blocker_ids": [],
-  "decision": "M1, D1 and D2 independently reviewed provisional discovery streams are landed with exact-main CI. Typed depth and deterministic combined query/coverage preparation are available for fresh independent combined acceptance. Phase1 remains pending that review and root decision. No semantic reconciliation, portfolio selection or canonical publication; B1 remains open at Phase4/5/6."
+  "decision": "Root accepts bounded combined discovery at independently reviewed source6be819afab1483a6c5592f1d7b6ad4d41c95ac6d, with zero findings and reproducible all-ten query/preservation evidence. This gate/receipt delta remains subject to final independent exact-delta review, CI and WB landing. Root decision retained in phase1-root-acceptance-r1. No semantic reconciliation, suitable-dataset verdict, portfolio selection, implementation or publication acceptance. B1 remains open at Phase4/5/6 and TPC-H excluded; fresh Phase2 reconciler and separate Phase3 architect remain required."
 }
