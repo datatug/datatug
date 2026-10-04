@@ -140,3 +140,28 @@ Measurements are observation receipts, not redistributed datasets.
 - `ucum`: {"url": "https://ucum.org/ucum-essence.xml"}
 - `ogl`: {"url": "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/", "bytes": 10450}
 - `six-page`: {"url": "https://www.six-group.com/en/products-services/financial-information/market-reference-data/data-standards.html", "bytes": 213936}
+
+## Primary rights pages consulted
+
+Public download access was assessed separately from publication permission. Generic policy and unavailable grant cases remain blocked or needs-review as described above.
+
+- [GeoNames](https://www.geonames.org/export/)
+- [GeoNames postal scope](https://download.geonames.org/export/zip/readme.txt)
+- [Unicode CLDR](https://www.unicode.org/license.txt)
+- [World Bank WDI](https://datacatalog.worldbank.org/public-licenses)
+- [ECB](https://www.ecb.europa.eu/services/using-our-site/disclaimer/html/index.en.html)
+- [SIX](https://www.six-group.com/en/services/legal/terms-and-conditions.html)
+- [IANA data and optional code exceptions](https://data.iana.org/time-zones/tzdb/LICENSE)
+- [GLEIF](https://www.gleif.org/en/meta/lei-data-terms-of-use)
+- [ROR](https://ror.org/about/terms/)
+- [Natural Earth](https://www.naturalearthdata.com/about/terms-of-use/)
+- [Census policy (no specific redistribution grant established)](https://www.census.gov/topics/research/research-transparency-public-access/open-data.html)
+- [BLS](https://www.bls.gov/opub/copyright-information.htm)
+- [UCUM](https://ucum.org/license)
+- [UN generic terms (M49-specific grant unestablished)](https://www.un.org/en/about-us/terms-of-use)
+- [Comtrade dissemination FAQ](https://uncomtrade.org/docs/faqs-on-use-and-re-dissemination/)
+- [Comtrade licence (JS page/search indexed terms)](https://comtradeplus.un.org/LicenseAgreement)
+- [OECD section 3 data terms](https://www.oecd.org/en/about/terms-conditions.html)
+- [Wikidata structured data](https://www.wikidata.org/wiki/Wikidata:Licensing)
+- [GOV.UK](https://www.gov.uk/help/terms-conditions)
+- [Open Government Licence v3](https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/)
