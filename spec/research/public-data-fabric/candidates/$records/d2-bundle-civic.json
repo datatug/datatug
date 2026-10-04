@@ -1,0 +1,12 @@
+{
+  "title": "Civic premises and access",
+  "kind": "bundle",
+  "status": "researched",
+  "evidence_ids": [
+    "d2-e-fsa"
+  ],
+  "member_ids": [
+    "d2-scenario-civic-services"
+  ],
+  "reason": "Proposed connected bundle; component constraints retained. Practical relevance distinct from showcase. No portfolio selection or implementation status."
+}

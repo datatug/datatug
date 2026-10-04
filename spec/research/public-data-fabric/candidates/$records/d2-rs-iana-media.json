@@ -1,0 +1,14 @@
+{
+  "title": "IANA application media types",
+  "kind": "recordset",
+  "status": "researched",
+  "evidence_ids": [
+    "d2-e-iana"
+  ],
+  "dataset_id": "d2-data-iana",
+  "identifier_representations": [
+    "full application/subtype token; parameters excluded from token",
+    "Physical/documented fields: [\"Name\", \"Template\", \"Reference\"]"
+  ],
+  "reason": "Grain: registered subtype within application family. CSV extraction must handle embedded newlines/ranges/blank assignments. Registry lookup is a proposal, not traffic protocol or content sniffing proof."
+}

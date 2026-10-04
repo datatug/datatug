@@ -1,0 +1,11 @@
+{
+  "title": "Police monthly anonymised facts and empty bounded results",
+  "observed_at": "2026-10-04T22:37:20.841414+00:00",
+  "outcome": "observation",
+  "summary": "Primary OGL3, monthly England/Wales/NI; documented CSV/API persistent_id/category/month and anonymised points. Latest API availability2026-08; two tiny polygon queries returned [] rather than invented rows. Point locations are intentionally approximate and must not become premise/crime victim identity.",
+  "url": "https://data.police.uk/about/",
+  "path": "spec/research/public-data-fabric/evidence/d2-discovery-2026-10-04.json",
+  "reviewer": "Codex gpt-6.1-sol High on local Mac; stream researcher",
+  "independent": false,
+  "review_stage": "discovery"
+}

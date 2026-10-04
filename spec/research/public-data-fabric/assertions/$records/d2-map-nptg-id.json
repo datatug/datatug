@@ -1,0 +1,23 @@
+{
+  "title": "NptgLocalityCode → provisional nptg-locality",
+  "kind": "mapping",
+  "status": "researched",
+  "from_id": "d2-rs-nptg",
+  "to_id": "d2-meaning-nptg-locality",
+  "from_fields": [
+    "NptgLocalityCode"
+  ],
+  "to_fields": [
+    "provisional concept"
+  ],
+  "from_identifier_namespace": "GB NPTG",
+  "to_identifier_namespace": "d2 provisional meaning; not canonical",
+  "physical_role": "observed field hypothesis",
+  "compatibility": "unresolved",
+  "assumptions": "43900unique snapshot; noadminareaequivalence.",
+  "confidence": "medium",
+  "evidence_ids": [
+    "d2-e-nptg"
+  ],
+  "reason": "No semantic reconciliation; names alone do not authorize mapping."
+}

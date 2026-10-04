@@ -1,0 +1,10 @@
+{
+  "title": "NOAA NCEI GHCN Daily",
+  "kind": "source",
+  "status": "researched",
+  "evidence_ids": [
+    "d2-e-ghcnd"
+  ],
+  "source_url": "https://www.ncei.noaa.gov/pub/data/ghcn/daily/",
+  "reason": "International station archive; contributor rights vary."
+}

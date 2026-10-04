@@ -1,0 +1,23 @@
+{
+  "title": "FHRSID → provisional food-establishment",
+  "kind": "mapping",
+  "status": "researched",
+  "from_id": "d2-rs-fsa",
+  "to_id": "d2-meaning-food-establishment",
+  "from_fields": [
+    "FHRSID"
+  ],
+  "to_fields": [
+    "provisional concept"
+  ],
+  "from_identifier_namespace": "FSAFHRS",
+  "to_identifier_namespace": "d2 provisional meaning; not canonical",
+  "physical_role": "observed field hypothesis",
+  "compatibility": "unresolved",
+  "assumptions": "MaybereusedregistrationorchangeonLAmerger;noeternalcompanyidentity.",
+  "confidence": "medium",
+  "evidence_ids": [
+    "d2-e-fsa"
+  ],
+  "reason": "No semantic reconciliation; names alone do not authorize mapping."
+}

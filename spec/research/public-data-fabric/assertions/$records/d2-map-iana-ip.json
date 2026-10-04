@@ -1,0 +1,23 @@
+{
+  "title": "Decimal → provisional ip-protocol",
+  "kind": "mapping",
+  "status": "researched",
+  "from_id": "d2-rs-iana-ip",
+  "to_id": "d2-meaning-ip-protocol",
+  "from_fields": [
+    "Decimal"
+  ],
+  "to_fields": [
+    "provisional concept"
+  ],
+  "from_identifier_namespace": "IANAIPprotocol",
+  "to_identifier_namespace": "d2 provisional meaning; not canonical",
+  "physical_role": "observed field hypothesis",
+  "compatibility": "unresolved",
+  "assumptions": "Ranges/reservedvaluesarenotordinarysinglecode.",
+  "confidence": "medium",
+  "evidence_ids": [
+    "d2-e-iana"
+  ],
+  "reason": "No semantic reconciliation; names alone do not authorize mapping."
+}

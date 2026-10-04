@@ -1,0 +1,23 @@
+{
+  "title": "Port Number → provisional service-port",
+  "kind": "mapping",
+  "status": "researched",
+  "from_id": "d2-rs-iana-ports",
+  "to_id": "d2-meaning-service-port",
+  "from_fields": [
+    "Port Number"
+  ],
+  "to_fields": [
+    "provisional concept"
+  ],
+  "from_identifier_namespace": "IANAport/protocol",
+  "to_identifier_namespace": "d2 provisional meaning; not canonical",
+  "physical_role": "observed field hypothesis",
+  "compatibility": "unresolved",
+  "assumptions": "RequireTransportProtocol;trafficnotproofassignment.",
+  "confidence": "medium",
+  "evidence_ids": [
+    "d2-e-iana"
+  ],
+  "reason": "No semantic reconciliation; names alone do not authorize mapping."
+}

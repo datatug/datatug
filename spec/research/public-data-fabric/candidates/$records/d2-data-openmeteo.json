@@ -1,0 +1,21 @@
+{
+  "title": "Open-Meteo weather/archive API alternative",
+  "kind": "dataset",
+  "status": "blocked",
+  "source_id": "d2-source-openmeteo",
+  "source_url": "https://open-meteo.com/en/terms",
+  "evidence_ids": [
+    "d2-e-openmeteo"
+  ],
+  "licence": "CC-BY-4.0 data; restricted free API",
+  "licence_notes": "Free API service explicitly non-commercial; subscriptions/advertising/commercial integration/promotional use are examples of commercial use. Paid service/data rights differ. No free endpoint commercial deployment, no paid workaround/account. CC BY4 data attribution/derivative rights do not remove endpoint conditions.",
+  "geographic_coverage": "Global model grids; not physical monitoring station identity",
+  "temporal_coverage": "Source/endpoint-specific; not sampled",
+  "update_frequency": "Provider/model updates; exact cadence unverified",
+  "observed_at": "2026-10-04T22:42:29.641466+00:00",
+  "revalidate_after": "2026-11-04T00:00:00Z",
+  "freshness": "needs-review",
+  "reason": "Documentation only; no API requested. Free limits10000/day5000/hour600/minute and advertised300000/month. Historical archive and current forecast have different time coverage; exact schema/size not verified. Useful blocked alternative for date/place context.",
+  "practical_value": "Potential places/weather or sensor-data enrichment, conditional on rights and access review.",
+  "showcase_value": "Qualified monitoring/map context; not selected."
+}

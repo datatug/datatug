@@ -1,0 +1,12 @@
+{
+  "title": "Precipitation rate/accumulation",
+  "kind": "meaning",
+  "status": "researched",
+  "evidence_ids": [
+    "d2-e-power"
+  ],
+  "identifier_representations": [
+    "POWER PRECTOTCORR mm/day; otherunitsnotaccepted"
+  ],
+  "reason": "Provisional source-informed meaning. No canonical MeaningGraph entry or accepted equivalence; fresh Phase2 reconciliation required."
+}

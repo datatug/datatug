@@ -1,0 +1,12 @@
+{
+  "title": "IP protocol/next-header number",
+  "kind": "meaning",
+  "status": "researched",
+  "evidence_ids": [
+    "d2-e-iana"
+  ],
+  "identifier_representations": [
+    "8bit IANA Protocol/NextHeader"
+  ],
+  "reason": "Provisional source-informed meaning. No canonical MeaningGraph entry or accepted equivalence; fresh Phase2 reconciliation required."
+}

@@ -1,0 +1,11 @@
+{
+  "title": "OpenAQ air-quality locations/sensors/measurements terms screen",
+  "observed_at": "2026-10-04T22:42:29.641466+00:00",
+  "outcome": "observation",
+  "summary": "Provider licence and attribution, including license dateFrom/dateTo, must be checked. Terms do not guarantee absence of third-party claims. Dataset example licences do not authorize the global corpus. Commercial/cache/derivative conditions vary by provider. Primary docs directly consulted; no API credentials or data access.",
+  "url": "https://docs.openaq.org/about/terms",
+  "path": "spec/research/public-data-fabric/d2-mobility-environment.md",
+  "reviewer": "Codex gpt-6.1-sol High on local Mac",
+  "independent": false,
+  "review_stage": "discovery"
+}

@@ -1,0 +1,14 @@
+{
+  "title": "Environment/energy context",
+  "kind": "bundle",
+  "status": "researched",
+  "evidence_ids": [
+    "d2-e-power"
+  ],
+  "member_ids": [
+    "d2-scenario-water-weather",
+    "d2-scenario-electricity",
+    "d2-scenario-geophysical"
+  ],
+  "reason": "Proposed connected bundle; component constraints retained. Practical relevance distinct from showcase. No portfolio selection or implementation status."
+}

@@ -1,0 +1,11 @@
+{
+  "title": "Phase1 d2 research boundary",
+  "observed_at": "2026-10-04T22:37:20.841414+00:00",
+  "outcome": "observation",
+  "summary": "Research started at main90cd16e8 and WB-rebased onto main306d3104f995a5185077fb81f6569b04ed8f48de, incorporating m1 unchanged. Phase0/0.5 passed for bounded readiness; Phase1 pending. Root landing owner; all six demo observations retained, B1 OPEN and TPC-H excluded. Researcher cannot independently accept own results.",
+  "url": "https://github.com/datatug/datatug/tree/90cd16e8ad42131f66145b643697cc97bae8a295",
+  "path": "spec/research/public-data-fabric/evidence/d2-discovery-2026-10-04.json",
+  "reviewer": "Codex gpt-6.1-sol High on local Mac; stream researcher",
+  "independent": false,
+  "review_stage": "discovery"
+}

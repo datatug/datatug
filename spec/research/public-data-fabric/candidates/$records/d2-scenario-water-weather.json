@@ -1,0 +1,21 @@
+{
+  "title": "Asset and water observations with weather context",
+  "kind": "scenario",
+  "status": "researched",
+  "evidence_ids": [
+    "d2-e-ea"
+  ],
+  "member_ids": [
+    "d2-data-ea",
+    "d2-data-power",
+    "d2-data-ghcnd",
+    "d2-data-openaq",
+    "d2-data-openmeteo"
+  ],
+  "demo_ids": [
+    "chinook"
+  ],
+  "reason": "User problem/schema: User assets(asset_id,station_URI optional,lat,lon) and readings(measure_URI,time,value,unit,datum). Proposed joins: NativeEAreading\u2192measure\u2192station; proposedgridweathercontextnotstationidentity. DemoChinookInvoiceplace/date requiresapprovedcoordinatebridgehistoricaldates;GHCNDalternativeblockedglobalrights. Answerable questions: Whichmeasure/datumbelongs toareading?Doapproveddailystage/rainperiods covary?Howlateareobservations? Visualizations: Unit/datumlabeledlinecharts;point/gridmap;latencyandmissingcoverageview. Gaps/cost/risks: NoSLA/safetycriticaluse;negativevalidstage,15minstageversusdailyUTCprecipitation;modelresolution,missing/QC,geocoding/timeinterpretation;no causalclaims.",
+  "practical_value": "Whichmeasure/datumbelongs toareading?Doapproveddailystage/rainperiods covary?Howlateareobservations?",
+  "showcase_value": "Unit/datumlabeledlinecharts;point/gridmap;latencyandmissingcoverageview."
+}

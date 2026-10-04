@@ -1,0 +1,21 @@
+{
+  "title": "Ember annual electricity generation/emissions/capacity",
+  "kind": "dataset",
+  "status": "promising",
+  "evidence_ids": [
+    "d2-e-ember"
+  ],
+  "source_id": "d2-source-ember",
+  "source_url": "https://ember-energy.org/data/yearly-electricity-data/",
+  "licence": "CC-BY-4.0",
+  "licence_notes": "CC-BY-4.0; attribute source, retain licence link and indicate adaptations; commercial use/redistribution allowed, no additional restrictions. No deployment or data publication authorized by this record.",
+  "geographic_coverage": "Annual>200 geographies; monthly88 advertised; regions mixed with countries",
+  "temporal_coverage": "Annual2000+; prefix2000–2025; no complete latest-year coverage proof",
+  "update_frequency": "Twice monthly page summary; annual page headline monthly, retain discrepancy",
+  "observed_at": "2026-10-04T22:37:20.841414+00:00",
+  "revalidate_after": "2026-11-04T00:00:00Z",
+  "freshness": "current",
+  "reason": "16,084,305B CSV download anonymous; API1.2.0requireskey, no key acquired. Wide metrics currentJuly2026format; aggregates/countries must be separated. Underlying estimates and revisions not universal primary measurements.",
+  "practical_value": "Country electricity context for customer/market/energy data, annual↔monthly comparisons after grain normalization.",
+  "showcase_value": "Country fuel mix/total trend; no double-count aggregates with constituents."
+}

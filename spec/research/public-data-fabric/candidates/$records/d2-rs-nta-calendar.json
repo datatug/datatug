@@ -1,0 +1,14 @@
+{
+  "title": "NTA Allens GTFS calendar.txt",
+  "kind": "recordset",
+  "status": "needs-review",
+  "evidence_ids": [
+    "d2-e-nta"
+  ],
+  "dataset_id": "d2-data-nta",
+  "identifier_representations": [
+    "NTA Allens feed892A3408-F422-4978-8896-7420CF625122; IDs scoped to publisher/feed",
+    "Physical/documented fields: [\"service_id\", \"monday\", \"tuesday\", \"wednesday\", \"thursday\", \"friday\", \"saturday\", \"sunday\", \"start_date\", \"end_date\"]"
+  ],
+  "reason": "Grain: source GTFS calendar.txt rows within feed version. Native archive observed2026-10-04; no cross-feed stable identity asserted. GTFS time in agency timezone, can exceed24h; shapes distance unit unverified. Empty calendar_dates retains its header, not values."
+}

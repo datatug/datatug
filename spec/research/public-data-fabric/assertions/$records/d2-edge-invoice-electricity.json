@@ -1,0 +1,27 @@
+{
+  "title": "Chinook billing geography/year→electricity context",
+  "kind": "edge",
+  "status": "researched",
+  "from_id": "demand-chinook-invoice",
+  "to_id": "d2-rs-ember-year",
+  "from_fields": [
+    "BillingCountry",
+    "InvoiceDate"
+  ],
+  "to_fields": [
+    "ISO 3 code",
+    "Year"
+  ],
+  "from_identifier_namespace": "Chinookcountrytext/date",
+  "to_identifier_namespace": "ISO3/year",
+  "expected_cardinality": "many:many acrossfuelrows",
+  "compatibility": "unresolved",
+  "confidence": "low",
+  "assumptions": "Countryname→ISO3crosswalknotprovidedbythisstream;mustbe independentlyaccepted. Historicalinvoiceyearalignsannualseriesnotcurrentfeed. Fictitiousbilling geographyonly,notcustomeridentity;do notinventinvoicecurrency/carbonfootprint.",
+  "evidence_ids": [
+    "d2-e-scope",
+    "d2-e-ember"
+  ],
+  "reason": "Research hypothesis only; confidence describes evidence supporting investigation, never acceptance or automatic matching.",
+  "transformation": "Reviewedcountrycrosswalk +extractInvoiceDateyear;excludeareaaggregates,chooseoneElectricitysourcecategorywithoutdoublecount."
+}

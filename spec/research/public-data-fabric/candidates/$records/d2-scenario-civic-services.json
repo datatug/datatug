@@ -1,0 +1,21 @@
+{
+  "title": "Food premises and public-service access",
+  "kind": "scenario",
+  "status": "researched",
+  "evidence_ids": [
+    "d2-e-fsa"
+  ],
+  "member_ids": [
+    "d2-data-fsa",
+    "d2-data-naptan",
+    "d2-data-nptg",
+    "d2-data-gias",
+    "d2-data-police"
+  ],
+  "demo_ids": [
+    "northwind"
+  ],
+  "reason": "User problem/schema: Userpremises(FHRSID optional,LAcode,localbusinessID,country,postcode,name,coordinates)orserviceestablishmentIDs. Proposed joins: FHRSID/LAcompositeonlywithinprovenregistration/snapshot;spatialstopassociationnotidentity. NorthwindSupplierspostcode/name lookup purelycandidate,notfictionalrealbusinessmatch. Schoolidentifiers/schemaunverified,crimeonlyarea/monthcontextnotexactpremise. Answerable questions: WhichknownFHRSestablishmentschangedrating orhave data gaps?Whichpremiseshavecandidatepublicstops?Whichsources cannot currently bejoined? Visualizations: Datedratingtable/map;schemetype/coveragefilters;accessibilitycandidateview. Gaps/cost/risks: Privateaddresssuppression,LAcode reuse/mergers,FHISnotFHRSnumericrating;currentrating/update-dateobligation;V2API403bulkXMLworks;GIASscope/terms403;crimeanonymisationandmonthlylag.",
+  "practical_value": "WhichknownFHRSestablishmentschangedrating orhave data gaps?Whichpremiseshavecandidatepublicstops?Whichsources cannot currently bejoined?",
+  "showcase_value": "Datedratingtable/map;schemetype/coveragefilters;accessibilitycandidateview."
+}

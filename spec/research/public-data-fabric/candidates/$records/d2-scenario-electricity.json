@@ -1,0 +1,19 @@
+{
+  "title": "Market-country electricity comparisons",
+  "kind": "scenario",
+  "status": "researched",
+  "evidence_ids": [
+    "d2-e-ember"
+  ],
+  "member_ids": [
+    "d2-data-ember-year",
+    "d2-data-ember-month"
+  ],
+  "demo_ids": [
+    "chinook",
+    "adventureworks"
+  ],
+  "reason": "User problem/schema: User countryISO3/year/fuel/energytable or customerbillingcountrydate;explicitenergyunits. Proposed joins: Emberannual↔monthlyaftercompleteperiodaggregation;demoInvoiceBillingCountry→reviewedISO3crosswalk andInvoiceDateyear. AWCountryRegionCodealpha2 needs acceptedbridge,not directalpha3match. Answerable questions: Whatfuelmix/context applies toa reviewedmarket/year?Whichcountries lackmonthlycoverage?Howannual totals compareto complete monthly sums? Visualizations: Countryfuelmix/time seriesandcoverageheatmap. Gaps/cost/risks: Annual>200/monthly88geographies;regionsblankcodes;revisions/sourceestimates;avoidaggregate+constituentdoublecount;do notderiveinvoicecarbonorcurrency. APIkeyrequired,usepublicCSVroutefirst.",
+  "practical_value": "Whatfuelmix/context applies toa reviewedmarket/year?Whichcountries lackmonthlycoverage?Howannual totals compareto complete monthly sums?",
+  "showcase_value": "Countryfuelmix/time seriesandcoverageheatmap."
+}

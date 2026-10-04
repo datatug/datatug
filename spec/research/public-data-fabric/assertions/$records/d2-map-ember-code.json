@@ -1,0 +1,23 @@
+{
+  "title": "ISO 3 code → provisional country-iso3",
+  "kind": "mapping",
+  "status": "researched",
+  "from_id": "d2-rs-ember-year",
+  "to_id": "d2-meaning-country-iso3",
+  "from_fields": [
+    "ISO 3 code"
+  ],
+  "to_fields": [
+    "provisional concept"
+  ],
+  "from_identifier_namespace": "Embercountry/economyISO3",
+  "to_identifier_namespace": "d2 provisional meaning; not canonical",
+  "physical_role": "observed field hypothesis",
+  "compatibility": "unresolved",
+  "assumptions": "Regionaggregatesblank;countrycrosswalkreviewneeded.",
+  "confidence": "medium",
+  "evidence_ids": [
+    "d2-e-ember"
+  ],
+  "reason": "No semantic reconciliation; names alone do not authorize mapping."
+}
