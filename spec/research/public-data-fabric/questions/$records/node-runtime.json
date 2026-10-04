@@ -5,5 +5,8 @@
   "owner": "Independent foundation verifier",
   "evidence_ids": [
     "semantic-review-r1"
+  ],
+  "gate_ids": [
+    "phase0"
   ]
 }

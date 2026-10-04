@@ -6,5 +6,8 @@
   "evidence_ids": [
     "datatug-review-pending"
   ],
-  "resolution": "Phase 4 launch prerequisite; current supported foundation does not claim this capability."
+  "resolution": "Phase 4 launch prerequisite; current supported foundation does not claim this capability.",
+  "gate_ids": [
+    "phase4"
+  ]
 }

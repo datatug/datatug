@@ -5,5 +5,8 @@
   "owner": "Existing DemoDB source owner",
   "evidence_ids": [
     "ovdb-review-r1"
+  ],
+  "gate_ids": [
+    "phase0"
   ]
 }

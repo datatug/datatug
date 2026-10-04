@@ -5,5 +5,8 @@
   "owner": "DataTug demo fix lane",
   "evidence_ids": [
     "datatug-review-pending"
+  ],
+  "gate_ids": [
+    "phase0"
   ]
 }

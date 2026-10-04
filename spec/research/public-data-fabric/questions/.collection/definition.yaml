@@ -47,6 +47,10 @@
     },
     "resolution": {
       "type": "string"
+    },
+    "gate_ids": {
+      "type": "[]string",
+      "foreign_key": "fabric.gates"
     }
   },
   "columns_order": [
@@ -56,6 +60,7 @@
     "classification",
     "owner",
     "candidate_ids",
-    "resolution"
+    "resolution",
+    "gate_ids"
   ]
 }

@@ -60,9 +60,12 @@
       "type": "string",
       "enum": [
         "foundation",
+        "corpus-analysis",
+        "discovery",
         "reconciliation",
         "portfolio",
         "implementation",
+        "product-journey",
         "launch"
       ]
     }

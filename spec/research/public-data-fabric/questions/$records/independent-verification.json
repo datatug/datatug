@@ -5,5 +5,8 @@
   "owner": "Fresh independent verifier",
   "evidence_ids": [
     "independent-gate-pending"
+  ],
+  "gate_ids": [
+    "phase0"
   ]
 }

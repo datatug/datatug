@@ -9,6 +9,17 @@ import tempfile
 
 BASE = Path(__file__).resolve().parent
 TABLES = ('candidates', 'assertions', 'evidence', 'questions', 'implementation', 'gates')
+# These are programme requirements, not mutable claims in a gate record.
+GATE_REQUIREMENTS = {
+    'phase0': ((), 'foundation'),
+    'phase05': (('phase0',), 'corpus-analysis'),
+    'phase1': (('phase0',), 'discovery'),
+    'phase2': (('phase05', 'phase1'), 'reconciliation'),
+    'phase3': (('phase2',), 'portfolio'),
+    'phase4': (('phase3',), 'implementation'),
+    'phase5': (('phase4',), 'product-journey'),
+    'phase6': (('phase5',), 'launch'),
+}
 
 
 def load(base):
@@ -94,19 +105,42 @@ def check(base=BASE):
                         for e in row.get(name, [])), key + ': publication/query needs passing receipts')
 
     for key, row in rows['questions'].items():
+        if row.get('classification') == 'blocking':
+            require(bool(row.get('gate_ids')), key + ': blocking question needs gate membership')
         if row.get('status') in ('resolved', 'declined'):
             require(bool(row.get('resolution')) and bool(row.get('evidence_ids')), key + ': closure needs rationale/evidence')
 
+    require(set(rows['gates']) == set(GATE_REQUIREMENTS), 'required programme gate set differs')
+
+    def accepted_reviewers(gate_id, stage):
+        gate = rows['gates'].get(gate_id, {})
+        return {e.get('reviewer') for id in gate.get('evidence_ids', [])
+                if (e := rows['evidence'].get(id, {})).get('outcome') == 'pass'
+                and e.get('independent') is True and e.get('review_stage') == stage
+                and e.get('reviewer')}
+
     for key, row in rows['gates'].items():
+        prerequisites, stage = GATE_REQUIREMENTS.get(key, ((), None))
+        require(set(prerequisites).issubset(row.get('prerequisite_ids', [])),
+                key + ': required programme prerequisites omitted')
+        blockers = {q for q, question in rows['questions'].items()
+                    if question.get('classification') == 'blocking'
+                    and key in question.get('gate_ids', [])}
+        require(set(row.get('blocker_ids', [])) == blockers,
+                key + ': blocker_ids must match assigned blocking questions')
         if row.get('status') == 'passed':
             require(all(rows['gates'].get(p, {}).get('status') == 'passed'
                         for p in row.get('prerequisite_ids', [])), key + ': prerequisite not passed')
-            require(all(rows['questions'].get(q, {}).get('status') in ('resolved', 'declined')
-                        for q in row.get('blocker_ids', [])), key + ': unresolved blocker')
+            require(all(rows['questions'][q].get('status') in ('resolved', 'declined')
+                        for q in blockers), key + ': unresolved assigned blocker')
             evidence = [rows['evidence'].get(e, {}) for e in row.get('evidence_ids', [])]
             require(bool(evidence) and all(e.get('outcome') == 'pass' for e in evidence), key + ': passing receipts required')
-            require(any(e.get('independent') is True and e.get('reviewer')
-                        for e in evidence), key + ': independent reviewer receipt required')
+            reviewers = accepted_reviewers(key, stage)
+            require(bool(reviewers), key + ': independent ' + str(stage) + ' reviewer receipt required')
+            if key == 'phase3':
+                reconciliation_reviewers = accepted_reviewers('phase2', 'reconciliation')
+                require(bool(reviewers - reconciliation_reviewers),
+                        key + ': portfolio architect must differ from reconciliation reviewer')
 
     def acyclic(table, field):
         visiting, visited = set(), set()
@@ -138,7 +172,58 @@ def check(base=BASE):
 
 def self_test():
     """Mutation checks for the guards that collection definitions cannot express."""
+    def passing_foundation(rows):
+        for question in rows['questions'].values():
+            if question.get('classification') == 'blocking' and 'phase0' in question.get('gate_ids', []):
+                question.update(status='resolved', resolution='Independent fixture closure')
+        rows['evidence']['fresh'] = {
+            'title': 'Fresh foundation acceptance', 'observed_at': '2026-10-04T19:40:00Z',
+            'outcome': 'pass', 'summary': 'Test fixture only', 'reviewer': 'foundation-verifier',
+            'independent': True, 'review_stage': 'foundation'}
+        rows['gates']['phase0'].update(status='passed', evidence_ids=['fresh'])
+
+    def passing_programme(rows):
+        passing_foundation(rows)
+        for key, (_, stage) in GATE_REQUIREMENTS.items():
+            receipt_id = 'accepted-' + key
+            rows['evidence'][receipt_id] = {
+                'title': stage + ' acceptance', 'observed_at': '2026-10-04T19:40:00Z',
+                'outcome': 'pass', 'summary': 'Test fixture only', 'reviewer': stage + '-reviewer',
+                'independent': True, 'review_stage': stage}
+            rows['gates'][key].update(status='passed', evidence_ids=[receipt_id])
+
+    def mutate_accepted_programme(mutate):
+        def run(rows):
+            passing_programme(rows)
+            mutate(rows)
+        return run
+
+    def mutate_accepted_foundation(mutate):
+        def run(rows):
+            passing_foundation(rows)
+            mutate(rows)
+        return run
+
+    def new_blocker(rows, assigned):
+        rows['questions']['new-blocker'] = {
+            'title': 'New foundation failure', 'status': 'open', 'classification': 'blocking',
+            'owner': 'test', 'evidence_ids': ['fresh']}
+        if assigned:
+            rows['questions']['new-blocker']['gate_ids'] = ['phase0']
+
     mutations = {
+        'portfolio uses foundation stage': mutate_accepted_programme(
+            lambda r: r['evidence']['accepted-phase3'].update(review_stage='foundation')),
+        'portfolio reuses reconciler': mutate_accepted_programme(
+            lambda r: r['evidence']['accepted-phase3'].update(reviewer='reconciliation-reviewer')),
+        'omitted new assigned blocker': mutate_accepted_foundation(lambda r: new_blocker(r, True)),
+        'unassigned blocking question': mutate_accepted_foundation(lambda r: new_blocker(r, False)),
+        'deleted gate': lambda r: r['gates'].pop('phase0'),
+        'erased ordering and reused foundation receipt': mutate_accepted_foundation(
+            lambda r: r['gates']['phase3'].update(status='passed', prerequisite_ids=[], evidence_ids=['fresh'])),
+        'wrong reviewer stage': mutate_accepted_foundation(lambda r: r['evidence']['fresh'].update(review_stage='portfolio')),
+        'missing named reviewer': mutate_accepted_foundation(lambda r: r['evidence']['fresh'].pop('reviewer')),
+        'missing passing receipts': mutate_accepted_foundation(lambda r: r['gates']['phase0'].update(evidence_ids=[])),
         'unresolved gate': lambda r: r['gates']['phase0'].update(status='passed'),
         'phase ordering': lambda r: r['gates']['phase1'].update(status='passed'),
         'missing rejection reason': lambda r: r['candidates']['tpch'].pop('reason'),
@@ -152,17 +237,31 @@ def self_test():
             'owner': 'test', 'evidence_ids': ['corpus-chinook']}),
     }
     assert not check(), check()
+    def write_rows(base, rows):
+        for table in TABLES:
+            for path in (base / table / '$records').glob('*.json'):
+                path.unlink()
+            for key, row in rows[table].items():
+                (base / table / '$records' / (key + '.json')).write_text(json.dumps(row))
+
+    with tempfile.TemporaryDirectory(prefix='fabric-ledger-control-') as tmp:
+        base = Path(tmp) / 'fabric'
+        shutil.copytree(BASE, base)
+        rows = load(base)
+        passing_foundation(rows)
+        write_rows(base, rows)
+        assert not check(base), 'valid foundation control rejected: ' + str(check(base))
+        passing_programme(rows)
+        write_rows(base, rows)
+        assert not check(base), 'valid full-programme control rejected: ' + str(check(base))
+
     for label, mutate in mutations.items():
         with tempfile.TemporaryDirectory(prefix='fabric-ledger-test-') as tmp:
             base = Path(tmp) / 'fabric'
             shutil.copytree(BASE, base)
             rows = load(base)
             mutate(rows)
-            for table in TABLES:
-                for p in (base / table / '$records').glob('*.json'):
-                    p.unlink()
-                for key, row in rows[table].items():
-                    (base / table / '$records' / (key + '.json')).write_text(json.dumps(row))
+            write_rows(base, rows)
             assert check(base), 'accepted invalid mutation: ' + label
     print(f'{len(mutations)} ledger mutation checks passed')
 

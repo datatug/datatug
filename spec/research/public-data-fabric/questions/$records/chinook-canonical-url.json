@@ -8,5 +8,8 @@
   ],
   "candidate_ids": [
     "chinook"
+  ],
+  "gate_ids": [
+    "phase0"
   ]
 }
