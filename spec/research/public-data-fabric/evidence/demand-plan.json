@@ -4977,23 +4977,7 @@
       "role": "AddressTypeID: source address-use classification key/name",
       "namespace": "adventureworks:Person.AddressType",
       "confidence": "medium",
-      "limits": "Proposed only; dedicated semantic reconciliation required. Native source-local IDs are not portable across demo databases. Geographic names/postcodes require parent jurisdiction context; do not fuzzy-match as deterministic identity. Field-level demand signal; proposed concept includes explicitly qualified source role, not entity equivalence. Address use/type is not an address line or an administrative geography identifier.",
-      "enrichment": "Candidate reference/calendar/identifier lookup with contextual bridge and measured match rate; local transaction/person IDs support internal joins only.",
-      "representation_summary": "INTEGER",
-      "priority": "researched"
-    },
-    {
-      "demo": "adventureworks",
-      "table": "Person.AddressType",
-      "fields": [
-        "AddressTypeID"
-      ],
-      "meaning_slug": "address-type-classification",
-      "title": "Address type classification",
-      "role": "AddressTypeID: source address-use classification key/name",
-      "namespace": "adventureworks:Person.AddressType",
-      "confidence": "medium",
-      "limits": "Proposed only; dedicated semantic reconciliation required. Native source-local IDs are not portable across demo databases. Field-level demand signal; proposed concept includes explicitly qualified source role, not entity equivalence. Address use/type is not an address line or an administrative geography identifier.",
+      "limits": "Proposed only; dedicated semantic reconciliation required. Native source-local IDs are not portable across demo databases. Geographic names/postcodes require parent jurisdiction context; do not fuzzy-match as deterministic identity. Field-level demand signal; proposed concept includes explicitly qualified source role, not entity equivalence. Address use/type is not an address line or an administrative geography identifier. Proposed only; dedicated semantic reconciliation required. Native source-local IDs are not portable across demo databases. Field-level demand signal; proposed concept includes explicitly qualified source role, not entity equivalence. Address use/type is not an address line or an administrative geography identifier. Duplicate source proposals combined after explicit role correction; no new compatibility claim.",
       "enrichment": "Candidate reference/calendar/identifier lookup with contextual bridge and measured match rate; local transaction/person IDs support internal joins only.",
       "representation_summary": "INTEGER",
       "priority": "researched"
@@ -5105,23 +5089,7 @@
       "role": "AddressTypeID: source address-use classification key/name",
       "namespace": "adventureworks:Person.BusinessEntityAddress",
       "confidence": "medium",
-      "limits": "Proposed only; dedicated semantic reconciliation required. Native source-local IDs are not portable across demo databases. Geographic names/postcodes require parent jurisdiction context; do not fuzzy-match as deterministic identity. Field-level demand signal; proposed concept includes explicitly qualified source role, not entity equivalence. Address use/type is not an address line or an administrative geography identifier.",
-      "enrichment": "Candidate reference/calendar/identifier lookup with contextual bridge and measured match rate; local transaction/person IDs support internal joins only.",
-      "representation_summary": "INTEGER",
-      "priority": "researched"
-    },
-    {
-      "demo": "adventureworks",
-      "table": "Person.BusinessEntityAddress",
-      "fields": [
-        "AddressTypeID"
-      ],
-      "meaning_slug": "address-type-classification",
-      "title": "Address type classification",
-      "role": "AddressTypeID: source address-use classification key/name",
-      "namespace": "adventureworks:Person.BusinessEntityAddress",
-      "confidence": "medium",
-      "limits": "Proposed only; dedicated semantic reconciliation required. Native source-local IDs are not portable across demo databases. Field-level demand signal; proposed concept includes explicitly qualified source role, not entity equivalence. Address use/type is not an address line or an administrative geography identifier.",
+      "limits": "Proposed only; dedicated semantic reconciliation required. Native source-local IDs are not portable across demo databases. Geographic names/postcodes require parent jurisdiction context; do not fuzzy-match as deterministic identity. Field-level demand signal; proposed concept includes explicitly qualified source role, not entity equivalence. Address use/type is not an address line or an administrative geography identifier. Proposed only; dedicated semantic reconciliation required. Native source-local IDs are not portable across demo databases. Field-level demand signal; proposed concept includes explicitly qualified source role, not entity equivalence. Address use/type is not an address line or an administrative geography identifier. Duplicate source proposals combined after explicit role correction; no new compatibility claim.",
       "enrichment": "Candidate reference/calendar/identifier lookup with contextual bridge and measured match rate; local transaction/person IDs support internal joins only.",
       "representation_summary": "INTEGER",
       "priority": "researched"
@@ -5617,23 +5585,7 @@
       "role": "PhoneNumberTypeID: source telephone-type classification key/name",
       "namespace": "adventureworks:Person.PersonPhone",
       "confidence": "medium",
-      "limits": "Proposed only; dedicated semantic reconciliation required. Native source-local IDs are not portable across demo databases. Field-level demand signal; proposed concept includes explicitly qualified source role, not entity equivalence. This field classifies phone use (Cell/Home/Work); it is not a telephone number.",
-      "enrichment": "Candidate reference/calendar/identifier lookup with contextual bridge and measured match rate; local transaction/person IDs support internal joins only.",
-      "representation_summary": "INTEGER",
-      "priority": "researched"
-    },
-    {
-      "demo": "adventureworks",
-      "table": "Person.PersonPhone",
-      "fields": [
-        "PhoneNumberTypeID"
-      ],
-      "meaning_slug": "telephone-type-classification",
-      "title": "Telephone type classification",
-      "role": "PhoneNumberTypeID: source telephone-type classification key/name",
-      "namespace": "adventureworks:Person.PersonPhone",
-      "confidence": "medium",
-      "limits": "Proposed only; dedicated semantic reconciliation required. Native source-local IDs are not portable across demo databases. Field-level demand signal; proposed concept includes explicitly qualified source role, not entity equivalence. This field classifies phone use (Cell/Home/Work); it is not a telephone number.",
+      "limits": "Proposed only; dedicated semantic reconciliation required. Native source-local IDs are not portable across demo databases. Field-level demand signal; proposed concept includes explicitly qualified source role, not entity equivalence. This field classifies phone use (Cell/Home/Work); it is not a telephone number. Duplicate source proposals combined after explicit role correction; no new compatibility claim.",
       "enrichment": "Candidate reference/calendar/identifier lookup with contextual bridge and measured match rate; local transaction/person IDs support internal joins only.",
       "representation_summary": "INTEGER",
       "priority": "researched"
@@ -5665,23 +5617,7 @@
       "role": "PhoneNumberTypeID: source telephone-type classification key/name",
       "namespace": "adventureworks:Person.PhoneNumberType",
       "confidence": "medium",
-      "limits": "Proposed only; dedicated semantic reconciliation required. Native source-local IDs are not portable across demo databases. Field-level demand signal; proposed concept includes explicitly qualified source role, not entity equivalence. This field classifies phone use (Cell/Home/Work); it is not a telephone number.",
-      "enrichment": "Candidate reference/calendar/identifier lookup with contextual bridge and measured match rate; local transaction/person IDs support internal joins only.",
-      "representation_summary": "INTEGER",
-      "priority": "researched"
-    },
-    {
-      "demo": "adventureworks",
-      "table": "Person.PhoneNumberType",
-      "fields": [
-        "PhoneNumberTypeID"
-      ],
-      "meaning_slug": "telephone-type-classification",
-      "title": "Telephone type classification",
-      "role": "PhoneNumberTypeID: source telephone-type classification key/name",
-      "namespace": "adventureworks:Person.PhoneNumberType",
-      "confidence": "medium",
-      "limits": "Proposed only; dedicated semantic reconciliation required. Native source-local IDs are not portable across demo databases. Field-level demand signal; proposed concept includes explicitly qualified source role, not entity equivalence. This field classifies phone use (Cell/Home/Work); it is not a telephone number.",
+      "limits": "Proposed only; dedicated semantic reconciliation required. Native source-local IDs are not portable across demo databases. Field-level demand signal; proposed concept includes explicitly qualified source role, not entity equivalence. This field classifies phone use (Cell/Home/Work); it is not a telephone number. Duplicate source proposals combined after explicit role correction; no new compatibility claim.",
       "enrichment": "Candidate reference/calendar/identifier lookup with contextual bridge and measured match rate; local transaction/person IDs support internal joins only.",
       "representation_summary": "INTEGER",
       "priority": "researched"
@@ -9153,23 +9089,7 @@
       "role": "PersonID: optional customer person local FK",
       "namespace": "adventureworks:Sales.Customer",
       "confidence": "medium",
-      "limits": "Proposed only; dedicated semantic reconciliation required. Native source-local IDs are not portable across demo databases. Field-level demand signal; proposed concept includes explicitly qualified source role, not entity equivalence. Customer account, optional person and optional store are distinct source roles.",
-      "enrichment": "Candidate reference/calendar/identifier lookup with contextual bridge and measured match rate; local transaction/person IDs support internal joins only.",
-      "representation_summary": "INTEGER",
-      "priority": "researched"
-    },
-    {
-      "demo": "adventureworks",
-      "table": "Sales.Customer",
-      "fields": [
-        "PersonID"
-      ],
-      "meaning_slug": "person",
-      "title": "Customer person relationship",
-      "role": "PersonID: optional customer person local FK",
-      "namespace": "adventureworks:Sales.Customer",
-      "confidence": "medium",
-      "limits": "Proposed only; dedicated semantic reconciliation required. Native source-local IDs are not portable across demo databases. Field-level demand signal; proposed concept includes explicitly qualified source role, not entity equivalence. Customer account, optional person and optional store are distinct source roles.",
+      "limits": "Proposed only; dedicated semantic reconciliation required. Native source-local IDs are not portable across demo databases. Field-level demand signal; proposed concept includes explicitly qualified source role, not entity equivalence. Customer account, optional person and optional store are distinct source roles. Duplicate source proposals combined after explicit role correction; no new compatibility claim.",
       "enrichment": "Candidate reference/calendar/identifier lookup with contextual bridge and measured match rate; local transaction/person IDs support internal joins only.",
       "representation_summary": "INTEGER",
       "priority": "researched"
@@ -9185,23 +9105,7 @@
       "role": "StoreID: optional customer store local FK",
       "namespace": "adventureworks:Sales.Customer",
       "confidence": "medium",
-      "limits": "Proposed only; dedicated semantic reconciliation required. Native source-local IDs are not portable across demo databases. Field-level demand signal; proposed concept includes explicitly qualified source role, not entity equivalence. Customer account, optional person and optional store are distinct source roles.",
-      "enrichment": "Candidate reference/calendar/identifier lookup with contextual bridge and measured match rate; local transaction/person IDs support internal joins only.",
-      "representation_summary": "INTEGER",
-      "priority": "researched"
-    },
-    {
-      "demo": "adventureworks",
-      "table": "Sales.Customer",
-      "fields": [
-        "StoreID"
-      ],
-      "meaning_slug": "organisation-store",
-      "title": "Customer store relationship",
-      "role": "StoreID: optional customer store local FK",
-      "namespace": "adventureworks:Sales.Customer",
-      "confidence": "medium",
-      "limits": "Proposed only; dedicated semantic reconciliation required. Native source-local IDs are not portable across demo databases. Field-level demand signal; proposed concept includes explicitly qualified source role, not entity equivalence. Customer account, optional person and optional store are distinct source roles.",
+      "limits": "Proposed only; dedicated semantic reconciliation required. Native source-local IDs are not portable across demo databases. Field-level demand signal; proposed concept includes explicitly qualified source role, not entity equivalence. Customer account, optional person and optional store are distinct source roles. Duplicate source proposals combined after explicit role correction; no new compatibility claim.",
       "enrichment": "Candidate reference/calendar/identifier lookup with contextual bridge and measured match rate; local transaction/person IDs support internal joins only.",
       "representation_summary": "INTEGER",
       "priority": "researched"
@@ -13105,23 +13009,7 @@
       "role": "store_id: customer servicing-store local FK",
       "namespace": "sakila:customer",
       "confidence": "medium",
-      "limits": "Proposed only; dedicated semantic reconciliation required. Native source-local IDs are not portable across demo databases. Field-level demand signal; proposed concept includes explicitly qualified source role, not entity equivalence. Store reference is not customer identity; source relationship only.",
-      "enrichment": "Candidate reference/calendar/identifier lookup with contextual bridge and measured match rate; local transaction/person IDs support internal joins only.",
-      "representation_summary": "INTEGER",
-      "priority": "researched"
-    },
-    {
-      "demo": "sakila",
-      "table": "customer",
-      "fields": [
-        "store_id"
-      ],
-      "meaning_slug": "organisation-store",
-      "title": "Store relationship",
-      "role": "store_id: customer servicing-store local FK",
-      "namespace": "sakila:customer",
-      "confidence": "medium",
-      "limits": "Proposed only; dedicated semantic reconciliation required. Native source-local IDs are not portable across demo databases. Field-level demand signal; proposed concept includes explicitly qualified source role, not entity equivalence. Store reference is not customer identity; source relationship only.",
+      "limits": "Proposed only; dedicated semantic reconciliation required. Native source-local IDs are not portable across demo databases. Field-level demand signal; proposed concept includes explicitly qualified source role, not entity equivalence. Store reference is not customer identity; source relationship only. Duplicate source proposals combined after explicit role correction; no new compatibility claim.",
       "enrichment": "Candidate reference/calendar/identifier lookup with contextual bridge and measured match rate; local transaction/person IDs support internal joins only.",
       "representation_summary": "INTEGER",
       "priority": "researched"

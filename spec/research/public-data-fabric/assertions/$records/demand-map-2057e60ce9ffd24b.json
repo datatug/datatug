@@ -20,6 +20,6 @@
   "from_identifier_namespace": "adventureworks/Person.Person",
   "to_identifier_namespace": "unreconciled:person",
   "expected_cardinality": "Not established; repeated names/codes and reference roles are retained.",
-  "assumptions": "Proposed only; dedicated semantic reconciliation required. Native source-local IDs are not portable across demo databases. Field-level demand signal; proposed concept includes explicitly qualified source role, not entity equivalence. Customer account, optional person and optional store are distinct source roles. Confidence concerns the proposed source role only. Raw profiles and context are in evidence/demo-demand.json; no normalization applied.",
+  "assumptions": "Proposed only; dedicated semantic reconciliation required. Native source-local IDs are not portable across demo databases. Field-level demand signal; proposed concept includes explicitly qualified source role, not entity equivalence. Customer account, optional person and optional store are distinct source roles. Duplicate source proposals combined after explicit role correction; no new compatibility claim. Confidence concerns the proposed source role only. Raw profiles and context are in evidence/demo-demand.json; no normalization applied.",
   "reason": "Research hypothesis only. Candidate reference/calendar/identifier lookup with contextual bridge and measured match rate; local transaction/person IDs support internal joins only."
 }

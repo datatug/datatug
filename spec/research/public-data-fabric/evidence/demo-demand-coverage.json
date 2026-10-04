@@ -424,36 +424,6 @@
             ]
           },
           {
-            "assertion_id": "demand-map-725c4600e3cab046",
-            "recordset_id": "demand-adventureworks-person-addresstype",
-            "native_recordset": "Person.AddressType",
-            "object_kind": "table",
-            "fields": [
-              "AddressTypeID"
-            ],
-            "physical_role": "AddressTypeID: source address-use classification key/name",
-            "rows": 6,
-            "has_observed_nonnull_values": true,
-            "profile_paths": [
-              "corpora/adventureworks/recordsets/Person.AddressType/profiles/AddressTypeID"
-            ]
-          },
-          {
-            "assertion_id": "demand-map-2fda20b5152935bb",
-            "recordset_id": "demand-adventureworks-person-businessentityaddress",
-            "native_recordset": "Person.BusinessEntityAddress",
-            "object_kind": "table",
-            "fields": [
-              "AddressTypeID"
-            ],
-            "physical_role": "AddressTypeID: source address-use classification key/name",
-            "rows": 19614,
-            "has_observed_nonnull_values": true,
-            "profile_paths": [
-              "corpora/adventureworks/recordsets/Person.BusinessEntityAddress/profiles/AddressTypeID"
-            ]
-          },
-          {
             "assertion_id": "demand-map-2fda20b5152935bb",
             "recordset_id": "demand-adventureworks-person-businessentityaddress",
             "native_recordset": "Person.BusinessEntityAddress",
@@ -11340,21 +11310,6 @@
             ]
           },
           {
-            "assertion_id": "demand-map-51e3c4cf69e35b5a",
-            "recordset_id": "demand-adventureworks-sales-customer",
-            "native_recordset": "Sales.Customer",
-            "object_kind": "table",
-            "fields": [
-              "StoreID"
-            ],
-            "physical_role": "StoreID: optional customer store local FK",
-            "rows": 19820,
-            "has_observed_nonnull_values": true,
-            "profile_paths": [
-              "corpora/adventureworks/recordsets/Sales.Customer/profiles/StoreID"
-            ]
-          },
-          {
             "assertion_id": "demand-map-66e040aacd57b404",
             "recordset_id": "demand-adventureworks-sales-store",
             "native_recordset": "Sales.Store",
@@ -11387,21 +11342,6 @@
         ],
         "employees": [],
         "sakila": [
-          {
-            "assertion_id": "demand-map-2067067f666e1c3e",
-            "recordset_id": "demand-sakila-customer",
-            "native_recordset": "customer",
-            "object_kind": "table",
-            "fields": [
-              "store_id"
-            ],
-            "physical_role": "store_id: customer servicing-store local FK",
-            "rows": 599,
-            "has_observed_nonnull_values": true,
-            "profile_paths": [
-              "corpora/sakila/recordsets/customer/profiles/store_id"
-            ]
-          },
           {
             "assertion_id": "demand-map-2067067f666e1c3e",
             "recordset_id": "demand-sakila-customer",
@@ -11854,21 +11794,6 @@
             "has_observed_nonnull_values": true,
             "profile_paths": [
               "corpora/adventureworks/recordsets/Person.Person/profiles/BusinessEntityID"
-            ]
-          },
-          {
-            "assertion_id": "demand-map-2057e60ce9ffd24b",
-            "recordset_id": "demand-adventureworks-sales-customer",
-            "native_recordset": "Sales.Customer",
-            "object_kind": "table",
-            "fields": [
-              "PersonID"
-            ],
-            "physical_role": "PersonID: optional customer person local FK",
-            "rows": 19820,
-            "has_observed_nonnull_values": true,
-            "profile_paths": [
-              "corpora/adventureworks/recordsets/Sales.Customer/profiles/PersonID"
             ]
           },
           {
@@ -17292,36 +17217,6 @@
             "has_observed_nonnull_values": true,
             "profile_paths": [
               "corpora/adventureworks/recordsets/Person.PersonPhone/profiles/PhoneNumberTypeID"
-            ]
-          },
-          {
-            "assertion_id": "demand-map-d51b8577c3b805d1",
-            "recordset_id": "demand-adventureworks-person-personphone",
-            "native_recordset": "Person.PersonPhone",
-            "object_kind": "table",
-            "fields": [
-              "PhoneNumberTypeID"
-            ],
-            "physical_role": "PhoneNumberTypeID: source telephone-type classification key/name",
-            "rows": 19972,
-            "has_observed_nonnull_values": true,
-            "profile_paths": [
-              "corpora/adventureworks/recordsets/Person.PersonPhone/profiles/PhoneNumberTypeID"
-            ]
-          },
-          {
-            "assertion_id": "demand-map-06e27ce8714b8cde",
-            "recordset_id": "demand-adventureworks-person-phonenumbertype",
-            "native_recordset": "Person.PhoneNumberType",
-            "object_kind": "table",
-            "fields": [
-              "PhoneNumberTypeID"
-            ],
-            "physical_role": "PhoneNumberTypeID: source telephone-type classification key/name",
-            "rows": 3,
-            "has_observed_nonnull_values": true,
-            "profile_paths": [
-              "corpora/adventureworks/recordsets/Person.PhoneNumberType/profiles/PhoneNumberTypeID"
             ]
           },
           {
