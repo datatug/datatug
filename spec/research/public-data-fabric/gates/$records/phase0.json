@@ -17,7 +17,11 @@
     "production-chat-r3",
     "canonical-source-r3",
     "corpus-publication-r2",
-    "app-main-ci-failure"
+    "app-main-ci-failure",
+    "app-main-ci-closure",
+    "production-acceptance-fresh-r1",
+    "corpus-publication-fresh-r1",
+    "independent-foundation-fresh-r1"
   ],
   "blocker_ids": [
     "demo-chat",
@@ -26,5 +30,5 @@
     "chinook-canonical-url",
     "app-main-ci"
   ],
-  "decision": "Pending; r3 production Chat/source acceptance remains valid, but current blockers are corpus publication and exact app postmerge main CI failure37230543024. Overall independent acceptance/root decision remain pending. Broad public-data research remains prohibited."
+  "decision": "Pending; exact corrected appmain fullCI and fresh productionChat/source acceptance close B3. One substantive B1 corpus-publication blocker remains at20:58:53Z independent snapshot; final corpus acceptance/rootdecision pending. Broad research prohibited."
 }

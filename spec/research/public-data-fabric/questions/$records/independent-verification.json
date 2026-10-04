@@ -5,10 +5,11 @@
   "owner": "Fresh independent verifier",
   "evidence_ids": [
     "independent-gate-pending",
-    "independent-foundation-r3"
+    "independent-foundation-r3",
+    "independent-foundation-fresh-r1"
   ],
   "gate_ids": [
     "phase0"
   ],
-  "resolution": "Independent r3 verification completed with one corpus-publication blocker; overall acceptance remains pending final corpus receipt and root gate decision."
+  "resolution": "Fresh independent acceptance verifies corrected app95fff83 liveChat/source and exactmain fullCI, leaving solely B1 corpuspublication before overall acceptance/rootgate decision. No scope escalation or gatepass approved."
 }

@@ -1,0 +1,484 @@
+{
+  "corpus_observed_at": "2026-10-04T20:58:53.017479+00:00",
+  "app_ci_observed_at": "2026-10-04T21:03:08.273197Z",
+  "scope": "Fresh independent supported foundation acceptance; no research, reconciliation, gate pass or launch corpus claim",
+  "reviewer": "Configured GPT-6 Astra, High; Codex local Mac fresh acceptance r1",
+  "original_verifier_artifacts": {
+    "base": "/private/tmp/data-fabric-phase0-fresh-acceptance",
+    "scope": "Original relative evidence paths in fresh findings are ephemeral artifacts relative to this base, not repository paths. Durable sanitized results retained here."
+  },
+  "fresh_independent_findings": {
+    "reviewRound": "r1",
+    "reviewerModel": "Configured GPT-6 Astra, High reasoning effort; serving identity independently unavailable",
+    "runtime": "Codex subagent on local Mac",
+    "observedAt": "2026-10-04T20:58:53.017479+00:00",
+    "writtenAt": "2026-10-04T21:02:51.543584+00:00",
+    "gate": "phase0",
+    "verdict": "pending",
+    "broadResearchAllowed": false,
+    "scopeEscalationApproved": false,
+    "findings": [
+      {
+        "id": "B1",
+        "severity": "blocking",
+        "status": "open",
+        "title": "Incomplete six-corpus publication",
+        "owner": "existing DemoDB delivery chat",
+        "residual": [
+          "AdventureWorks and Employees advertised read=true metadata endpoints return404",
+          "AdventureWorks and Employees absent MeaningGraph canonical registry",
+          "AdventureWorks and Employees absent canonical Directory Git index",
+          "Sakila, AdventureWorks and Employees live Directory URLs return404",
+          "Final corrected runtime immutable-file mount acceptance pending existing owner"
+        ],
+        "resolvedSincePrior": [
+          "All six provider pins current on deployed website",
+          "All eighteen live model/meaning files equal pinned provider bytes",
+          "Sakila and Employees model licence declarations now served live",
+          "ModelSpec registry contains all six",
+          "Sakila present Directory Git index"
+        ],
+        "evidence": [
+          "live.json",
+          "corpus-summary.json",
+          "metadata-parity.json",
+          "authoritative-refs.json",
+          "current-checks.json"
+        ]
+      },
+      {
+        "id": "L1",
+        "severity": "important-nonblocking",
+        "status": "phase4-prerequisite",
+        "title": "Canonical semantic discovery adapter and catalog UI ingestion"
+      },
+      {
+        "id": "L2",
+        "severity": "important-nonblocking",
+        "status": "phase4-prerequisite",
+        "title": "Dedicated semantic reconciliation and justified identifier/transform matching"
+      },
+      {
+        "id": "L3",
+        "severity": "important-nonblocking",
+        "status": "phase4-prerequisite",
+        "title": "Selected-scenario federation and access-mode validation"
+      }
+    ],
+    "pendingAcceptance": [
+      {
+        "id": "durable-final-delta",
+        "status": "pending",
+        "owner": "root",
+        "note": "Record fresh acceptance and final corpus/main CI receipts coherently before gate decision."
+      }
+    ],
+    "checks": {
+      "productionBuild": {
+        "version": "0.1.0+258",
+        "gitHash": "95fff83f82c39ea1bb1a00847ad381586b6d8f09",
+        "buildTimestamp": "2026-10-04T20:49:19.604Z"
+      },
+      "canonicalChat": {
+        "status": "pass",
+        "tests": 1,
+        "durationSeconds": 3.5,
+        "tables": 11,
+        "customerRowsRendered": 3,
+        "aiResponseMocked": true,
+        "productDataAndExecutionReal": true,
+        "evidence": [
+          "production-browser.log",
+          "browser-results.json"
+        ]
+      },
+      "canonicalSource": {
+        "pageOrigin": "https://datatug.app",
+        "url": "https://chinook.demodb.dev/data/json/chinook.Invoice.json",
+        "status": 200,
+        "rows": 412,
+        "bytes": 115781,
+        "sha256": "88eb7faede360988e9c0f8f8d107e5093db5e712141de14d868f8947b43c373c"
+      },
+      "manifests": {
+        "status": "pass",
+        "pairs": 6,
+        "byteIdentical": true
+      },
+      "metadata": {
+        "status": "pass",
+        "urls": 18,
+        "byteEqualProviderPin": true
+      },
+      "ledger": {
+        "status": "pass",
+        "commit": "be7dcf6855219757d3f96dde382a4ed7b50c9e7c",
+        "mutationChecks": 18,
+        "evidence": "ledger-check.log"
+      },
+      "employeesSourceDigests": {
+        "status": "pass",
+        "files": 9,
+        "fullRebuildRepeated": false,
+        "evidence": "employees-source-digest-audit.json"
+      },
+      "appExactMainCI": {
+        "status": "pass",
+        "commit": "95fff83f82c39ea1bb1a00847ad381586b6d8f09",
+        "checks": [
+          {
+            "name": "check-run:build",
+            "bucket": "pass",
+            "conclusion": "success",
+            "link": "https://github.com/datatug/datatug-apps/actions/runs/37233520214/job/111527988917",
+            "app_id": 15368,
+            "check_run_id": 111527988917
+          },
+          {
+            "name": "check-run:deploy / build \u00b7 deploy",
+            "bucket": "pass",
+            "conclusion": "success",
+            "link": "https://github.com/datatug/datatug-apps/actions/runs/37233520541/job/111527990307",
+            "app_id": 15368,
+            "check_run_id": 111527990307
+          },
+          {
+            "name": "check-run:e2e",
+            "bucket": "pass",
+            "conclusion": "success",
+            "link": "https://github.com/datatug/datatug-apps/actions/runs/37233520214/job/111528208919",
+            "app_id": 15368,
+            "check_run_id": 111528208919
+          },
+          {
+            "name": "check-run:journey e2e (real datatug-cli agent)",
+            "bucket": "pass",
+            "conclusion": "success",
+            "link": "https://github.com/datatug/datatug-apps/actions/runs/37233520214/job/111528208864",
+            "app_id": 15368,
+            "check_run_id": 111528208864
+          },
+          {
+            "name": "check-run:test",
+            "bucket": "pass",
+            "conclusion": "success",
+            "link": "https://github.com/datatug/datatug-apps/actions/runs/37233520214/job/111527988690",
+            "app_id": 15368,
+            "check_run_id": 111527988690
+          }
+        ],
+        "evidence": "app-exact-main-ci.json"
+      }
+    },
+    "refs": {
+      "meaninggraph/core": "982916d73f0a35ff2558b0062f58aa3ac4f24d97",
+      "meaninggraph/cli": "a58a506d9e6f76660cc8586478521787976111d0",
+      "meaninggraph/registry": "548b0064868a32f0a465d844c18a7989adc9ba0c",
+      "modelspec-org/cli": "a8de98b4565ae669b6fba00c334b4649c9d40b11",
+      "modelspec-org/registry": "48b30b250a61385d94d46a70968677870750ea35",
+      "openvaultdb/openvaultdb-go": "9cf8ca20be40b8c8afaff304bbf476dbcebbdfec",
+      "openvaultdb/ovdb": "417f4806a3334991f0ef4ef78665da4ad73c7d5c",
+      "openvaultdb/ovdb-directory": "f1a1a6650716f9e488b17150a25f34a87e136f6f",
+      "openvaultdb/directory": "02db362144d7924c6081dd6768cc0d7187ac9bc3",
+      "datatug/datatug": "be7dcf6855219757d3f96dde382a4ed7b50c9e7c",
+      "datatug/datatug-apps": "95fff83f82c39ea1bb1a00847ad381586b6d8f09",
+      "datatug/datatug-core": "269b5e8b670c7af23813b1db83b31777995b52be",
+      "datatug/datatug-cli": "cefd4a1c107dd774f9af1aaaf511604c65404f20",
+      "demo-db/websites": "27967f26fa87e67c8d7a7b3d2784a0cc4c1bfdf6",
+      "demo-db/chinook": "26e852cca00101f53a84ef8ee1f1ae389067f5cf",
+      "demo-db/northwind": "e74726515c3833620b54b7a50d1d273276dd23c1",
+      "demo-db/pubs": "6c06c5c7395b03ff1a02c2b1a21485add3e1b65b",
+      "demo-db/sakila": "6567d30aec1592fe0917934a8bbe74ff70b04b01",
+      "demo-db/adventureworks": "cd8dcdf2079fe31480ad6d6c024b8c17cb91beea",
+      "demo-db/employees": "2455bb327aa8444ec496d36e2fe6dcacfc58dc0a",
+      "specscore/modelspec": "ff2393a99e0bd093272c1765a57eefdea01c0a90"
+    },
+    "corpus": [
+      {
+        "database": "chinook",
+        "providerRevision": "26e852cca00101f53a84ef8ee1f1ae389067f5cf",
+        "capabilities": {
+          "read": true,
+          "query": true,
+          "write": false
+        },
+        "manifestByteParity": true,
+        "runtimeMetadataStatus": 200,
+        "runtimeQueryStatus": 200,
+        "queryRows": 2,
+        "meaningRegistryPin": "26e852cca00101f53a84ef8ee1f1ae389067f5cf",
+        "modelRegistryPin": "26e852cca00101f53a84ef8ee1f1ae389067f5cf",
+        "directoryRegistryPin": "26e852cca00101f53a84ef8ee1f1ae389067f5cf",
+        "liveDirectoryStatus": 200,
+        "licences": {
+          "data": "MIT",
+          "model": "MIT",
+          "meaning": "CC0-1.0"
+        }
+      },
+      {
+        "database": "northwind",
+        "providerRevision": "e74726515c3833620b54b7a50d1d273276dd23c1",
+        "capabilities": {
+          "read": true,
+          "query": true,
+          "write": false
+        },
+        "manifestByteParity": true,
+        "runtimeMetadataStatus": 200,
+        "runtimeQueryStatus": 200,
+        "queryRows": 2,
+        "meaningRegistryPin": "e74726515c3833620b54b7a50d1d273276dd23c1",
+        "modelRegistryPin": "e74726515c3833620b54b7a50d1d273276dd23c1",
+        "directoryRegistryPin": "e74726515c3833620b54b7a50d1d273276dd23c1",
+        "liveDirectoryStatus": 200,
+        "licences": {
+          "data": "MIT",
+          "model": "MIT",
+          "meaning": "CC0-1.0"
+        }
+      },
+      {
+        "database": "pubs",
+        "providerRevision": "6c06c5c7395b03ff1a02c2b1a21485add3e1b65b",
+        "capabilities": {
+          "read": true,
+          "query": true,
+          "write": false
+        },
+        "manifestByteParity": true,
+        "runtimeMetadataStatus": 200,
+        "runtimeQueryStatus": 200,
+        "queryRows": 2,
+        "meaningRegistryPin": "6c06c5c7395b03ff1a02c2b1a21485add3e1b65b",
+        "modelRegistryPin": "6c06c5c7395b03ff1a02c2b1a21485add3e1b65b",
+        "directoryRegistryPin": "6c06c5c7395b03ff1a02c2b1a21485add3e1b65b",
+        "liveDirectoryStatus": 200,
+        "licences": {
+          "data": "MIT",
+          "model": "MIT",
+          "meaning": "CC0-1.0"
+        }
+      },
+      {
+        "database": "sakila",
+        "providerRevision": "6567d30aec1592fe0917934a8bbe74ff70b04b01",
+        "capabilities": {
+          "read": true,
+          "query": false,
+          "write": false
+        },
+        "manifestByteParity": true,
+        "runtimeMetadataStatus": 200,
+        "runtimeQueryStatus": 404,
+        "queryRows": 0,
+        "meaningRegistryPin": "6567d30aec1592fe0917934a8bbe74ff70b04b01",
+        "modelRegistryPin": "6567d30aec1592fe0917934a8bbe74ff70b04b01",
+        "directoryRegistryPin": "6567d30aec1592fe0917934a8bbe74ff70b04b01",
+        "liveDirectoryStatus": 404,
+        "licences": {
+          "data": "BSD-3-Clause",
+          "model": "BSD-3-Clause",
+          "meaning": "CC0-1.0"
+        }
+      },
+      {
+        "database": "adventureworks",
+        "providerRevision": "cd8dcdf2079fe31480ad6d6c024b8c17cb91beea",
+        "capabilities": {
+          "read": true,
+          "query": false,
+          "write": false
+        },
+        "manifestByteParity": true,
+        "runtimeMetadataStatus": 404,
+        "runtimeQueryStatus": 404,
+        "queryRows": 0,
+        "meaningRegistryPin": null,
+        "modelRegistryPin": "cd8dcdf2079fe31480ad6d6c024b8c17cb91beea",
+        "directoryRegistryPin": null,
+        "liveDirectoryStatus": 404,
+        "licences": {
+          "data": "MIT",
+          "model": "MIT",
+          "meaning": "CC0-1.0"
+        }
+      },
+      {
+        "database": "employees",
+        "providerRevision": "2455bb327aa8444ec496d36e2fe6dcacfc58dc0a",
+        "capabilities": {
+          "read": true,
+          "query": false,
+          "write": false
+        },
+        "manifestByteParity": true,
+        "runtimeMetadataStatus": 404,
+        "runtimeQueryStatus": 404,
+        "queryRows": 0,
+        "meaningRegistryPin": null,
+        "modelRegistryPin": "2455bb327aa8444ec496d36e2fe6dcacfc58dc0a",
+        "directoryRegistryPin": null,
+        "liveDirectoryStatus": 404,
+        "licences": {
+          "data": "CC-BY-SA-3.0",
+          "model": "CC-BY-SA-3.0",
+          "meaning": "CC-BY-SA-3.0"
+        }
+      }
+    ],
+    "limits": [
+      "One bounded live corpus snapshot; active external corpus fixes not repeatedly polled",
+      "Completed exact app-main CI receipt read and checked; durable landing receipts owned by root",
+      "No catalog ingestion UI or canonical suggestion journey claimed",
+      "No new semantic reconciliation or broad dataset research",
+      "Full historical suites not needlessly repeated for unchanged sources"
+    ],
+    "counts": {
+      "blockers": 1,
+      "majors": 3,
+      "minors": 0
+    },
+    "land": false,
+    "updatedAt": "2026-10-04T21:04:31.103211+00:00",
+    "closedFindings": [
+      {
+        "id": "B3",
+        "status": "closed",
+        "title": "Exact corrected app main checks passed",
+        "observedAt": "2026-10-04T21:03:08.273197Z",
+        "commit": "95fff83f82c39ea1bb1a00847ad381586b6d8f09",
+        "checkCount": 5,
+        "requiredCheckCount": 4,
+        "stableObservations": 2,
+        "requiredChecksAuthority": "github-branch-protection+active-branch-rules",
+        "evidence": "app-exact-main-ci.json",
+        "note": "Original failure cause remains unknown; same-source rerun success does not establish the cause or repeated-run stability."
+      }
+    ]
+  },
+  "app_exact_main_ci": {
+    "schema_version": 1,
+    "observed_at": "2026-10-04T21:03:08.273197Z",
+    "status": "passed",
+    "repository": "datatug/datatug-apps",
+    "target": "main",
+    "head": "95fff83f82c39ea1bb1a00847ad381586b6d8f09",
+    "observed_head": "95fff83f82c39ea1bb1a00847ad381586b6d8f09",
+    "observed_target_head": "95fff83f82c39ea1bb1a00847ad381586b6d8f09",
+    "candidate_contains_target": true,
+    "target_contains_head": true,
+    "checks": [
+      {
+        "name": "check-run:build",
+        "bucket": "pass",
+        "conclusion": "success",
+        "link": "https://github.com/datatug/datatug-apps/actions/runs/37233520214/job/111527988917",
+        "app_id": 15368,
+        "check_run_id": 111527988917
+      },
+      {
+        "name": "check-run:deploy / build \u00b7 deploy",
+        "bucket": "pass",
+        "conclusion": "success",
+        "link": "https://github.com/datatug/datatug-apps/actions/runs/37233520541/job/111527990307",
+        "app_id": 15368,
+        "check_run_id": 111527990307
+      },
+      {
+        "name": "check-run:e2e",
+        "bucket": "pass",
+        "conclusion": "success",
+        "link": "https://github.com/datatug/datatug-apps/actions/runs/37233520214/job/111528208919",
+        "app_id": 15368,
+        "check_run_id": 111528208919
+      },
+      {
+        "name": "check-run:journey e2e (real datatug-cli agent)",
+        "bucket": "pass",
+        "conclusion": "success",
+        "link": "https://github.com/datatug/datatug-apps/actions/runs/37233520214/job/111528208864",
+        "app_id": 15368,
+        "check_run_id": 111528208864
+      },
+      {
+        "name": "check-run:test",
+        "bucket": "pass",
+        "conclusion": "success",
+        "link": "https://github.com/datatug/datatug-apps/actions/runs/37233520214/job/111527988690",
+        "app_id": 15368,
+        "check_run_id": 111527988690
+      }
+    ],
+    "required_checks": [
+      {
+        "name": "build",
+        "integration_id": 15368
+      },
+      {
+        "name": "e2e",
+        "integration_id": 15368
+      },
+      {
+        "name": "journey e2e (real datatug-cli agent)",
+        "integration_id": 15368
+      },
+      {
+        "name": "test",
+        "integration_id": 15368
+      }
+    ],
+    "required_checks_authority": "github-branch-protection+active-branch-rules",
+    "stable_observations": 2,
+    "reason": "GitHub's required-check policy was enumerated (possibly empty), every required check was present, and the exact remote target's observed check set stayed terminal across a bounded stable reread"
+  },
+  "app_pr191_landing": {
+    "outcome": "success",
+    "repository": "datatug/datatug-apps",
+    "pull_request": 191,
+    "url": "https://github.com/datatug/datatug-apps/pull/191",
+    "head_sha": "cfd14b0712b6fcf8a55c580f5313b2c76236a00a",
+    "merge_sha": "95fff83f82c39ea1bb1a00847ad381586b6d8f09",
+    "canonical_sync": "fast_forwarded",
+    "branch_deleted": true,
+    "cleaned_tasks": [
+      "public-data-fabric-test-pool"
+    ]
+  },
+  "app_change": {
+    "path": "libs/datatug/main/vite.config.mts",
+    "change": "Retain shared test configuration and coverage scope; override pool with forks for datatug-main only",
+    "independent_review_head": "cfd14b0712b6fcf8a55c580f5313b2c76236a00a",
+    "independent_review_verdict": "blockers=0 majors=0 minors=0 land=yes",
+    "local_full_target": "150 files / 2165 tests pass with coverage; actual Vitest80.25s/WB1m31s",
+    "original_ci_failure": "Original run37230543024 attempt1 fails without assertion/final summary; original cause remains unknown. Same-source attempt2 passes at bddd27a; no proven OOM or repeated-run stability claim."
+  },
+  "production_build": {
+    "version": "0.1.0+258",
+    "gitHash": "95fff83f82c39ea1bb1a00847ad381586b6d8f09",
+    "buildTimestamp": "2026-10-04T20:49:19.604Z"
+  },
+  "production_browser": {
+    "stats": {
+      "startTime": "2026-10-04T20:59:03.998Z",
+      "duration": 3545.5589999999997,
+      "expected": 1,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "tables": 11,
+    "customer_rows": 3,
+    "ai_response": "deterministic mock; actual productionUI,fixture,IndexedDB,DALgo,grid real"
+  },
+  "production_source_read": {
+    "pageOrigin": "https://datatug.app",
+    "url": "https://chinook.demodb.dev/data/json/chinook.Invoice.json",
+    "status": 200,
+    "rows": 412,
+    "bytes": 115781,
+    "sha256": "88eb7faede360988e9c0f8f8d107e5093db5e712141de14d868f8947b43c373c"
+  },
+  "source_report_sha256": "c19c028d16a89b7ca3bf3997352e56e953aabb31eeb06d4439f41cde5b9ca09d",
+  "later_phase4_prerequisites": "Canonical semantic loader/explained suggestions/catalogUI; dedicated identifier/transform reconciliation; selected-scenario federation/access-mode validation unchanged"
+}

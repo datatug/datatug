@@ -1,0 +1,13 @@
+{
+  "title": "Fresh corrected-app production Chat and source acceptance",
+  "observed_at": "2026-10-04T21:03:08.273197Z",
+  "outcome": "pass",
+  "summary": "Deployed95fff83 version0.1.0+258. Independent real canonical Chat1pass3.5s, all eleven exact table counts, source/table chips and three ordered Customer rows. AI response only mocked. Production-origin Invoice200/412rows/115781bytes/SHA25688eb7faede360988e9c0f8f8d107e5093db5e712141de14d868f8947b43c373c; credentials omitted, redirects refused.",
+  "reviewer": "Configured GPT-6 Astra, High; Codex local Mac fresh acceptance r1",
+  "independent": true,
+  "review_stage": "foundation",
+  "path": "evidence/phase0-fresh-acceptance-r1.json",
+  "repository": "datatug/datatug-apps",
+  "commit": "95fff83f82c39ea1bb1a00847ad381586b6d8f09",
+  "url": "https://datatug.app/project/github.com/datatug/chinook-demo/chat"
+}
