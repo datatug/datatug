@@ -1,0 +1,79 @@
+{
+  "reviewer": "fresh-phase2-independent-reviewer",
+  "runtime": "Codex local macOS",
+  "pr": "https://github.com/datatug/datatug/pull/86",
+  "base": "70791b1f05cfabe7815304ec810022c98776958a",
+  "canonical_pins": {
+    "meaninggraph-core": {
+      "repository": "git@github.com:meaninggraph/core.git",
+      "commit": "982916d73f0a35ff2558b0062f58aa3ac4f24d97"
+    },
+    "meaninggraph-registry": {
+      "repository": "git@github.com:meaninggraph/registry.git",
+      "commit": "2d92bbdd45fc2552f231f8f993a5b8b8d5b7fa29"
+    },
+    "meaninggraph-cli": {
+      "repository": "git@github.com:meaninggraph/cli.git",
+      "commit": "a58a506d9e6f76660cc8586478521787976111d0"
+    },
+    "modelspec-registry": {
+      "repository": "git@github.com:modelspec-org/registry.git",
+      "commit": "48b30b250a61385d94d46a70968677870750ea35"
+    },
+    "modelspec-cli": {
+      "repository": "git@github.com:modelspec-org/cli.git",
+      "commit": "a8de98b4565ae669b6fba00c334b4649c9d40b11"
+    },
+    "modelspec-spec": {
+      "repository": "git@github.com:specscore/modelspec.git",
+      "commit": "ff2393a99e0bd093272c1765a57eefdea01c0a90"
+    }
+  },
+  "limits": [
+    "No portfolio selection or deployment readiness",
+    "No DataTug execution acceptance",
+    "Not every public payload independently refetched",
+    "B1 remains open phase4/5/6",
+    "Canonical/source publication unchanged"
+  ],
+  "review_round": 2,
+  "observed_at": "2026-10-04T23:52:32.777977+00:00",
+  "reviewed_head": "c26c3ee5d8e5e0edce629b66fd15d6d3cf323192",
+  "delta_base": "0b514301e2faa434bfe855d55396cedc6a3291e8",
+  "outcome": "pass",
+  "independent_phase2_readiness": true,
+  "phase_gate_mutated": false,
+  "root_phase_decision": "pending",
+  "resolved_findings": [
+    "R1-1",
+    "R1-2",
+    "R1-3"
+  ],
+  "findings": [],
+  "checks": {
+    "remote_head_verified": true,
+    "remote_ci": "SUCCESS",
+    "run_id": 37245147958,
+    "job_id": 111561454631,
+    "worktree_clean": true,
+    "original_records_preserved": 1843,
+    "mutations": 24,
+    "native_country_fixtures": 2,
+    "query_fixtures": 3,
+    "native_receipt_exact_equal": true,
+    "local_roles_verified": 16,
+    "duplicate_aliases_verified": 5,
+    "new_cross_source_paths": 0
+  },
+  "assertion_counts": {
+    "accepted": 263,
+    "rejected": 19,
+    "unresolved": 888
+  },
+  "verdict": {
+    "blockers": 0,
+    "majors": 0,
+    "minors": 0,
+    "land": true
+  }
+}

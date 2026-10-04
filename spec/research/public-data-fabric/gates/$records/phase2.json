@@ -1,6 +1,6 @@
 {
   "title": "Dedicated semantic reconciliation",
-  "status": "pending",
+  "status": "passed",
   "owner": "Main orchestrator",
   "prerequisite_ids": [
     "phase05",
@@ -9,7 +9,11 @@
   "requirements": [
     "Fresh dedicated reconciler preserves accepted/rejected/ambiguous mapping decisions and evidence"
   ],
-  "evidence_ids": [],
+  "evidence_ids": [
+    "p2-dedicated-reconciliation",
+    "p2-independent-review-r2",
+    "p2-root-acceptance"
+  ],
   "blocker_ids": [],
-  "decision": "Not started; no phase completion claim."
+  "decision": "Root accepts bounded Phase2 semantic reconciliation readiness at reviewed source c26c3ee5d8e5e0edce629b66fd15d6d3cf323192 after distinct independent r2 review with zero findings. Preserve scoped accepted/rejected/unresolved dispositions and source snapshot limits. B1 remains open at4/5/6; Phase3 remains pending for a different fresh portfolio architect. Final gate/receipt delta review, exact-head CI and root WB landing remain before durable completion."
 }
