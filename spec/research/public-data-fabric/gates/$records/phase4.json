@@ -9,7 +9,11 @@
     "Publish coherent 5\u201310 integration waves through existing canonical artifacts and registries",
     "Validate licence/provenance, queryability, freshness and explainability"
   ],
-  "evidence_ids": [],
-  "blocker_ids": [],
-  "decision": "Not started; no phase completion claim."
+  "evidence_ids": [
+    "phase0-scope-root-decision"
+  ],
+  "blocker_ids": [
+    "corpus-publication"
+  ],
+  "decision": "Not started; cannot pass while assigned open corpus-publication remains unresolved. Full six-corpus publication and independent closure obligations preserved by accepted Phase0 timing escalation."
 }

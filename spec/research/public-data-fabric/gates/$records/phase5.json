@@ -8,7 +8,11 @@
   "requirements": [
     "Demonstrate multi-public-data joins and cross-demo enrichment despite representation differences"
   ],
-  "evidence_ids": [],
-  "blocker_ids": [],
-  "decision": "Not started; no phase completion claim."
+  "evidence_ids": [
+    "phase0-scope-root-decision"
+  ],
+  "blocker_ids": [
+    "corpus-publication"
+  ],
+  "decision": "Not started; cannot pass while assigned open corpus-publication remains unresolved. Full six-corpus publication and independent closure obligations preserved by accepted Phase0 timing escalation."
 }

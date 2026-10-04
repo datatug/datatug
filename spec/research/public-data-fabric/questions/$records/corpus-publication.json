@@ -8,10 +8,15 @@
     "semantic-review-r1",
     "cloud-merge-observation",
     "corpus-publication-r2",
-    "corpus-publication-fresh-r1"
+    "corpus-publication-fresh-r1",
+    "phase0-scope-architecture-r1",
+    "phase0-scope-root-decision",
+    "foundation-research-readiness-r2"
   ],
   "gate_ids": [
-    "phase0"
+    "phase4",
+    "phase5",
+    "phase6"
   ],
-  "resolution": "Open at20:58:53Z snapshot: AW/Employees runtime metadata mounts, missing MeaningGraph/Directory registrations, liveSakila/AW/EmployeesDirectory and final immutable-file mount validation. ModelSpec allsix and all18liveprovider metadata parity/licence publication now pass. Existing DemoDB owner publishing; no later state inferred."
+  "resolution": "Open at20:58:53Z snapshot: AW/Employees runtime metadata mounts, missing MeaningGraph/Directory registrations, liveSakila/AW/EmployeesDirectory and final immutable-file mount validation. ModelSpec allsix and all18liveprovider metadata parity/licence publication now pass. Existing DemoDB owner publishing; no later state inferred. Root accepted evidence-backed timing escalation from Phase0 to phases4/5/6; former membership/history is retained in evidence/phase0-publication-escalation-r1.json. Defect is not resolved/declined. All six scope and original finalpublication, canonical/live registries/Directory, advertisedmetadata/intendedbehavior, immutablemountintegrity, consumerpins and independentvalidation closure obligations remain. Existing owner publication authorization dependency remains pending in its chat."
 }
