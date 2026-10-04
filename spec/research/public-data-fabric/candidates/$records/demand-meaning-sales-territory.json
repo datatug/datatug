@@ -1,0 +1,31 @@
+{
+  "title": "Sales territory (proposed demo demand)",
+  "kind": "meaning",
+  "status": "researched",
+  "evidence_ids": [
+    "demand-corpus-adventureworks",
+    "demand-corpus-northwind"
+  ],
+  "demo_ids": [
+    "adventureworks",
+    "northwind"
+  ],
+  "identifier_representations": [
+    "INTEGER; TerritoryID: source-local-key-or-FK; namespace adventureworks:Person.StateProvince",
+    "INTEGER; TerritoryID: source-local-key-or-FK; namespace adventureworks:Person.vStateProvinceCountryRegion",
+    "INTEGER; TerritoryID: source-local-key-or-FK; namespace adventureworks:Sales.Customer",
+    "INTEGER; TerritoryID: source-local-key-or-FK; namespace adventureworks:Sales.SalesOrderHeader",
+    "INTEGER; TerritoryID: source-local-key-or-FK; namespace adventureworks:Sales.SalesPerson",
+    "INTEGER; TerritoryID: source-local-key-or-FK; namespace adventureworks:Sales.SalesTerritory",
+    "INTEGER; TerritoryID: source-local-key-or-FK; namespace adventureworks:Sales.SalesTerritoryHistory",
+    "TEXT; Group: source-specific sales-territory attribute; namespace source-representation:adventureworks",
+    "TEXT; Name: source-name; namespace source-representation:adventureworks",
+    "TEXT; TerritoryGroup: source-specific sales-territory attribute; namespace source-representation:adventureworks",
+    "TEXT; TerritoryName: source-specific sales-territory attribute; namespace source-representation:adventureworks",
+    "TEXT; classification-label; namespace northwind/Territories",
+    "TEXT; entity; namespace northwind/Territories"
+  ],
+  "practical_value": "Proposed field-role demand in 2 demos. Candidate reference/calendar/identifier lookup with contextual bridge and measured match rate; local transaction/person IDs support internal joins only. Entity-specific reference and classifications; geographic/calendar lookup through observed attributes Source category/name bridges; reference metadata for product/publication/media with independent keys.",
+  "licence_notes": "Candidate metadata is unreconciled. Per-input data/model/meaning licences remain in demand-plan.json and recordset records; Employees-derived evidence retains CC-BY-SA-3.0. No blanket CC0 or canonical new meaning licence is asserted.",
+  "reason": "Related concepts, entity keys/names/attributes and physical roles remain separately qualified in assertions. Coverage means inspected hypothesis presence, not accepted semantic equivalence or external match rate."
+}

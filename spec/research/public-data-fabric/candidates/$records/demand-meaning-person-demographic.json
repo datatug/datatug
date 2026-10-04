@@ -1,0 +1,23 @@
+{
+  "title": "Person Demographic (proposed demo demand)",
+  "kind": "meaning",
+  "status": "low-priority",
+  "evidence_ids": [
+    "demand-corpus-adventureworks",
+    "demand-corpus-employees"
+  ],
+  "demo_ids": [
+    "adventureworks",
+    "employees"
+  ],
+  "identifier_representations": [
+    "TEXT; BirthDate: source-specific person-demographic attribute; namespace source-representation:adventureworks",
+    "TEXT; Gender: source-specific person-demographic attribute; namespace source-representation:adventureworks",
+    "TEXT; MaritalStatus: source-specific person-demographic attribute; namespace source-representation:adventureworks",
+    "TEXT; birth_date: source-specific person-demographic attribute; namespace source-representation:employees",
+    "TEXT; gender: source-specific person-demographic attribute; namespace source-representation:employees"
+  ],
+  "practical_value": "Proposed field-role demand in 2 demos. Candidate reference/calendar/identifier lookup with contextual bridge and measured match rate; local transaction/person IDs support internal joins only.",
+  "licence_notes": "Candidate metadata is unreconciled. Per-input data/model/meaning licences remain in demand-plan.json and recordset records; Employees-derived evidence retains CC-BY-SA-3.0. No blanket CC0 or canonical new meaning licence is asserted.",
+  "reason": "Related concepts, entity keys/names/attributes and physical roles remain separately qualified in assertions. Coverage means inspected hypothesis presence, not accepted semantic equivalence or external match rate."
+}

@@ -1,0 +1,23 @@
+{
+  "title": "chinook.PlaylistTrack declared local reference to Track",
+  "kind": "edge",
+  "status": "researched",
+  "evidence_ids": [
+    "demand-corpus-chinook"
+  ],
+  "from_id": "demand-chinook-playlisttrack",
+  "to_id": "demand-chinook-track",
+  "from_fields": [
+    "TrackId"
+  ],
+  "to_fields": [
+    "TrackId"
+  ],
+  "compatibility": "unresolved",
+  "confidence": "high",
+  "physical_role": "Native declared local FK, ordered composite members retained",
+  "from_identifier_namespace": "chinook/Track",
+  "to_identifier_namespace": "chinook/Track",
+  "expected_cardinality": "Declared FK to native target; actual nonnull match rate and multiplicity require scenario validation.",
+  "assumptions": "Schema reference exists at pinned source; high confidence refers to literal declaration only. No cross-demo identity or semantic equivalence is accepted. SQLite enforcement is connection-specific."
+}

@@ -1,0 +1,24 @@
+{
+  "title": "Transaction calendars across invoices/orders/rentals (proposed scenario)",
+  "kind": "scenario",
+  "status": "researched",
+  "evidence_ids": [
+    "demo-demand-analysis"
+  ],
+  "demo_ids": [
+    "chinook",
+    "northwind",
+    "pubs",
+    "sakila",
+    "adventureworks"
+  ],
+  "dependency_ids": [
+    "demand-meaning-invoice-date",
+    "demand-meaning-order-date",
+    "demand-meaning-sale-order-date",
+    "demand-meaning-calendar-date-time"
+  ],
+  "practical_value": "Calendar/holiday sources still undiscovered; transaction event roles, locality and timezone/date-only definitions need reconciliation. Compare dated commerce activity within actual fixture periods.",
+  "reason": "Scenario proposal only; no public source selected, accepted join, measured match rate, implementation or publication receipt. Calendar/holiday sources still undiscovered; transaction event roles, locality and timezone/date-only definitions need reconciliation. Compare dated commerce activity within actual fixture periods.",
+  "showcase_value": "Possible comparison chart/calendar/map after identifier and coverage acceptance; not a rendered or validated product journey."
+}

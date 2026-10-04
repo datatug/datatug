@@ -1,0 +1,32 @@
+{
+  "title": "Business Entity (proposed demo demand)",
+  "kind": "meaning",
+  "status": "researched",
+  "evidence_ids": [
+    "demand-corpus-adventureworks"
+  ],
+  "demo_ids": [
+    "adventureworks"
+  ],
+  "identifier_representations": [
+    "INTEGER; BusinessEntityID: source-local-key-or-FK; namespace adventureworks:HumanResources.JobCandidate",
+    "INTEGER; BusinessEntityID: source-local-key-or-FK; namespace adventureworks:Person.BusinessEntity",
+    "INTEGER; BusinessEntityID: source-local-key-or-FK; namespace adventureworks:Person.BusinessEntityAddress",
+    "INTEGER; BusinessEntityID: source-local-key-or-FK; namespace adventureworks:Person.BusinessEntityContact",
+    "INTEGER; BusinessEntityID: source-local-key-or-FK; namespace adventureworks:Person.EmailAddress",
+    "INTEGER; BusinessEntityID: source-local-key-or-FK; namespace adventureworks:Person.Password",
+    "INTEGER; BusinessEntityID: source-local-key-or-FK; namespace adventureworks:Person.Person",
+    "INTEGER; BusinessEntityID: source-local-key-or-FK; namespace adventureworks:Person.PersonPhone",
+    "INTEGER; BusinessEntityID: source-local-key-or-FK; namespace adventureworks:Purchasing.ProductVendor",
+    "INTEGER; BusinessEntityID: source-local-key-or-FK; namespace adventureworks:Purchasing.vVendorWithAddresses",
+    "INTEGER; BusinessEntityID: source-local-key-or-FK; namespace adventureworks:Purchasing.vVendorWithContacts",
+    "INTEGER; BusinessEntityID: source-local-key-or-FK; namespace adventureworks:Sales.PersonCreditCard",
+    "INTEGER; BusinessEntityID: source-local-key-or-FK; namespace adventureworks:Sales.SalesTerritoryHistory",
+    "INTEGER; BusinessEntityID: source-local-key-or-FK; namespace adventureworks:Sales.vIndividualCustomer",
+    "INTEGER; BusinessEntityID: source-local-key-or-FK; namespace adventureworks:Sales.vStoreWithAddresses",
+    "INTEGER; BusinessEntityID: source-local-key-or-FK; namespace adventureworks:Sales.vStoreWithContacts"
+  ],
+  "practical_value": "Proposed field-role demand in 1 demos. Candidate reference/calendar/identifier lookup with contextual bridge and measured match rate; local transaction/person IDs support internal joins only.",
+  "licence_notes": "Candidate metadata is unreconciled. Per-input data/model/meaning licences remain in demand-plan.json and recordset records; Employees-derived evidence retains CC-BY-SA-3.0. No blanket CC0 or canonical new meaning licence is asserted.",
+  "reason": "Related concepts, entity keys/names/attributes and physical roles remain separately qualified in assertions. Coverage means inspected hypothesis presence, not accepted semantic equivalence or external match rate."
+}

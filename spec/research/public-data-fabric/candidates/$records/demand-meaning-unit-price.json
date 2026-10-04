@@ -1,0 +1,22 @@
+{
+  "title": "Unit price (proposed demo demand)",
+  "kind": "meaning",
+  "status": "researched",
+  "evidence_ids": [
+    "demand-corpus-chinook",
+    "demand-corpus-northwind"
+  ],
+  "demo_ids": [
+    "chinook",
+    "northwind"
+  ],
+  "identifier_representations": [
+    "NUMERIC(10,2); invoice-line-unit-price; namespace chinook/InvoiceLine",
+    "NUMERIC(10,2); media-track-unit-price; namespace chinook/Track",
+    "NUMERIC; order-line-unit-price; namespace northwind/Order Details",
+    "NUMERIC; product-unit-price; namespace northwind/Products"
+  ],
+  "practical_value": "Proposed field-role demand in 2 demos. Numeric price/charge comparison; currency/FX only with explicit source declaration and applicable date.",
+  "licence_notes": "Candidate metadata is unreconciled. Per-input data/model/meaning licences remain in demand-plan.json and recordset records; Employees-derived evidence retains CC-BY-SA-3.0. No blanket CC0 or canonical new meaning licence is asserted.",
+  "reason": "Related concepts, entity keys/names/attributes and physical roles remain separately qualified in assertions. Coverage means inspected hypothesis presence, not accepted semantic equivalence or external match rate."
+}

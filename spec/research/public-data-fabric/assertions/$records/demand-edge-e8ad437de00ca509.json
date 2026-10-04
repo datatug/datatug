@@ -1,0 +1,23 @@
+{
+  "title": "northwind.EmployeeTerritories declared local reference to Employees",
+  "kind": "edge",
+  "status": "researched",
+  "evidence_ids": [
+    "demand-corpus-northwind"
+  ],
+  "from_id": "demand-northwind-employeeterritories",
+  "to_id": "demand-northwind-employees",
+  "from_fields": [
+    "EmployeeID"
+  ],
+  "to_fields": [
+    "EmployeeID"
+  ],
+  "compatibility": "unresolved",
+  "confidence": "high",
+  "physical_role": "Native declared local FK, ordered composite members retained",
+  "from_identifier_namespace": "northwind/Employees",
+  "to_identifier_namespace": "northwind/Employees",
+  "expected_cardinality": "Declared FK to native target; actual nonnull match rate and multiplicity require scenario validation.",
+  "assumptions": "Schema reference exists at pinned source; high confidence refers to literal declaration only. No cross-demo identity or semantic equivalence is accepted. SQLite enforcement is connection-specific."
+}

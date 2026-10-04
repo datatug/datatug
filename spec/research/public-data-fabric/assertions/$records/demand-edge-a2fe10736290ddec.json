@@ -1,0 +1,23 @@
+{
+  "title": "adventureworks.Production.WorkOrderRouting declared local reference to Production.Location",
+  "kind": "edge",
+  "status": "researched",
+  "evidence_ids": [
+    "demand-corpus-adventureworks"
+  ],
+  "from_id": "demand-adventureworks-production-workorderrouting",
+  "to_id": "demand-adventureworks-production-location",
+  "from_fields": [
+    "LocationID"
+  ],
+  "to_fields": [
+    "LocationID"
+  ],
+  "compatibility": "unresolved",
+  "confidence": "high",
+  "physical_role": "Native declared local FK, ordered composite members retained",
+  "from_identifier_namespace": "adventureworks/Production.Location",
+  "to_identifier_namespace": "adventureworks/Production.Location",
+  "expected_cardinality": "Declared FK to native target; actual nonnull match rate and multiplicity require scenario validation.",
+  "assumptions": "Schema reference exists at pinned source; high confidence refers to literal declaration only. No cross-demo identity or semantic equivalence is accepted. SQLite enforcement is connection-specific."
+}

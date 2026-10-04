@@ -1,0 +1,23 @@
+{
+  "title": "adventureworks.Sales.Store declared local reference to Person.BusinessEntity",
+  "kind": "edge",
+  "status": "researched",
+  "evidence_ids": [
+    "demand-corpus-adventureworks"
+  ],
+  "from_id": "demand-adventureworks-sales-store",
+  "to_id": "demand-adventureworks-person-businessentity",
+  "from_fields": [
+    "BusinessEntityID"
+  ],
+  "to_fields": [
+    "BusinessEntityID"
+  ],
+  "compatibility": "unresolved",
+  "confidence": "high",
+  "physical_role": "Native declared local FK, ordered composite members retained",
+  "from_identifier_namespace": "adventureworks/Person.BusinessEntity",
+  "to_identifier_namespace": "adventureworks/Person.BusinessEntity",
+  "expected_cardinality": "Declared FK to native target; actual nonnull match rate and multiplicity require scenario validation.",
+  "assumptions": "Schema reference exists at pinned source; high confidence refers to literal declaration only. No cross-demo identity or semantic equivalence is accepted. SQLite enforcement is connection-specific."
+}

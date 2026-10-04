@@ -1,0 +1,44 @@
+{
+  "title": "Monetary Amount (proposed demo demand)",
+  "kind": "meaning",
+  "status": "researched",
+  "evidence_ids": [
+    "demand-corpus-adventureworks",
+    "demand-corpus-employees",
+    "demand-corpus-sakila"
+  ],
+  "demo_ids": [
+    "adventureworks",
+    "employees",
+    "sakila"
+  ],
+  "identifier_representations": [
+    "; total_sales: monetary-aggregate; namespace source-representation:sakila",
+    "INTEGER; salary: compensation-amount (currency unproven); namespace source-representation:employees",
+    "NUMERIC; ActualCost: cost; namespace source-representation:adventureworks",
+    "NUMERIC; Bonus: monetary-amount (currency unproven); namespace source-representation:adventureworks",
+    "NUMERIC; CostLastYear: cost; namespace source-representation:adventureworks",
+    "NUMERIC; CostRate: cost; namespace source-representation:adventureworks",
+    "NUMERIC; CostYTD: cost; namespace source-representation:adventureworks",
+    "NUMERIC; Freight: monetary-amount (currency unproven); namespace source-representation:adventureworks",
+    "NUMERIC; LastReceiptCost: cost; namespace source-representation:adventureworks",
+    "NUMERIC; LineTotal: monetary-aggregate; namespace source-representation:adventureworks",
+    "NUMERIC; ListPrice: price; namespace source-representation:adventureworks",
+    "NUMERIC; PlannedCost: cost; namespace source-representation:adventureworks",
+    "NUMERIC; Rate: compensation-amount (currency unproven); namespace source-representation:adventureworks",
+    "NUMERIC; SalesLastYear: monetary-amount (currency unproven); namespace source-representation:adventureworks",
+    "NUMERIC; SalesQuota: monetary-amount (currency unproven); namespace source-representation:adventureworks",
+    "NUMERIC; SalesYTD: monetary-amount (currency unproven); namespace source-representation:adventureworks",
+    "NUMERIC; StandardCost: cost; namespace source-representation:adventureworks",
+    "NUMERIC; StandardPrice: price; namespace source-representation:adventureworks",
+    "NUMERIC; SubTotal: monetary-aggregate; namespace source-representation:adventureworks",
+    "NUMERIC; TotalDue: monetary-aggregate; namespace source-representation:adventureworks",
+    "NUMERIC; UnitPrice: price; namespace source-representation:adventureworks",
+    "NUMERIC; UnitPriceDiscount: price; namespace source-representation:adventureworks",
+    "NUMERIC; price: price; namespace source-representation:sakila",
+    "NUMERIC; replacement_cost: cost; namespace source-representation:sakila"
+  ],
+  "practical_value": "Proposed field-role demand in 3 demos. Candidate reference/calendar/identifier lookup with contextual bridge and measured match rate; local transaction/person IDs support internal joins only.",
+  "licence_notes": "Candidate metadata is unreconciled. Per-input data/model/meaning licences remain in demand-plan.json and recordset records; Employees-derived evidence retains CC-BY-SA-3.0. No blanket CC0 or canonical new meaning licence is asserted.",
+  "reason": "Related concepts, entity keys/names/attributes and physical roles remain separately qualified in assertions. Coverage means inspected hypothesis presence, not accepted semantic equivalence or external match rate."
+}

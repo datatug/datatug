@@ -1,0 +1,23 @@
+{
+  "title": "pubs.sales",
+  "kind": "recordset",
+  "status": "researched",
+  "dataset_id": "pubs",
+  "demo_ids": [
+    "pubs"
+  ],
+  "evidence_ids": [
+    "demand-corpus-pubs"
+  ],
+  "repository": "demo-db/pubs",
+  "commit": "6c06c5c7395b03ff1a02c2b1a21485add3e1b65b",
+  "source_url": "https://github.com/demo-db/pubs/blob/6c06c5c7395b03ff1a02c2b1a21485add3e1b65b/data-source/source.sqlite",
+  "licence": "MIT",
+  "licence_notes": "Native data licence MIT; source ModelSpec licence MIT; existing meaning licence CC0-1.0. Research proposal is not a new canonical licence or mapping.",
+  "identifier_representations": [
+    "Native ordered primary key: [\"stor_id\", \"ord_num\", \"title_id\"]",
+    "Source-local identity; external identity not established"
+  ],
+  "practical_value": "Observed table; 21 rows. Derived views reuse native tables; empty tables preserve structure without observed values.",
+  "reason": "Actual pinned schema demand fixture. No selected or reconciled status."
+}

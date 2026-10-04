@@ -1,0 +1,17 @@
+{
+  "title": "Name honorific (proposed demo demand)",
+  "kind": "meaning",
+  "status": "researched",
+  "evidence_ids": [
+    "demand-corpus-northwind"
+  ],
+  "demo_ids": [
+    "northwind"
+  ],
+  "identifier_representations": [
+    "TEXT; employee-name-honorific; namespace northwind/Employees"
+  ],
+  "practical_value": "Proposed field-role demand in 1 demos. Occupation or role classification crosswalk after label reconciliation.",
+  "licence_notes": "Candidate metadata is unreconciled. Per-input data/model/meaning licences remain in demand-plan.json and recordset records; Employees-derived evidence retains CC-BY-SA-3.0. No blanket CC0 or canonical new meaning licence is asserted.",
+  "reason": "Related concepts, entity keys/names/attributes and physical roles remain separately qualified in assertions. Coverage means inspected hypothesis presence, not accepted semantic equivalence or external match rate."
+}

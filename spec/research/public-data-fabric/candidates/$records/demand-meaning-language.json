@@ -1,0 +1,20 @@
+{
+  "title": "Language (proposed demo demand)",
+  "kind": "meaning",
+  "status": "researched",
+  "evidence_ids": [
+    "demand-corpus-sakila"
+  ],
+  "demo_ids": [
+    "sakila"
+  ],
+  "identifier_representations": [
+    "INTEGER; language_id: language-local-key; namespace sakila:language",
+    "INTEGER; language_id: primary-language local-FK; namespace sakila:film",
+    "INTEGER; original_language_id: original-language local-FK; namespace sakila:film",
+    "TEXT; name: language-name; namespace source-representation:sakila"
+  ],
+  "practical_value": "Proposed field-role demand in 1 demos. Candidate reference/calendar/identifier lookup with contextual bridge and measured match rate; local transaction/person IDs support internal joins only.",
+  "licence_notes": "Candidate metadata is unreconciled. Per-input data/model/meaning licences remain in demand-plan.json and recordset records; Employees-derived evidence retains CC-BY-SA-3.0. No blanket CC0 or canonical new meaning licence is asserted.",
+  "reason": "Related concepts, entity keys/names/attributes and physical roles remain separately qualified in assertions. Coverage means inspected hypothesis presence, not accepted semantic equivalence or external match rate."
+}

@@ -1,0 +1,25 @@
+{
+  "title": "sakila.staff_list.country proposes Country",
+  "kind": "mapping",
+  "status": "researched",
+  "evidence_ids": [
+    "demand-corpus-sakila"
+  ],
+  "from_id": "demand-sakila-staff-list",
+  "to_id": "demand-meaning-country",
+  "meaning_id": "demand-meaning-country",
+  "from_fields": [
+    "country"
+  ],
+  "to_fields": [
+    "proposed-role"
+  ],
+  "compatibility": "unresolved",
+  "confidence": "high",
+  "physical_role": "country: label-or-name",
+  "from_identifier_namespace": "literal:sakila/staff_list/country",
+  "to_identifier_namespace": "unreconciled:country",
+  "expected_cardinality": "Not established; repeated names/codes and reference roles are retained.",
+  "assumptions": "Proposed only; dedicated semantic reconciliation required. Native source-local IDs are not portable across demo databases. CountryRegionCode is ISO-like source text, not independently certified current ISO coverage; Sakila country_id is local and country is a label. Field-level demand signal; proposed concept includes explicitly qualified source role, not entity equivalence. Confidence concerns the proposed source role only. Raw profiles and context are in evidence/demo-demand.json; no normalization applied.",
+  "reason": "Research hypothesis only. Candidate reference/calendar/identifier lookup with contextual bridge and measured match rate; local transaction/person IDs support internal joins only."
+}

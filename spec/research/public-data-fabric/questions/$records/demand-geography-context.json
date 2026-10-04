@@ -1,0 +1,21 @@
+{
+  "title": "Geography and postal identifiers require contextual reconciliation",
+  "status": "open",
+  "classification": "important/non-blocking",
+  "owner": "Fresh Phase 2 semantic reconciliation agent",
+  "candidate_ids": [
+    "demand-meaning-country",
+    "demand-meaning-postal-code",
+    "demand-meaning-region",
+    "demand-meaning-geographic-region",
+    "demand-meaning-city",
+    "demand-meaning-locality"
+  ],
+  "gate_ids": [
+    "phase2"
+  ],
+  "evidence_ids": [
+    "demo-demand-analysis"
+  ],
+  "resolution": "Unresolved research limits: Resolve country/territory definitions and historical labels; local Sakila IDs, AW padded codes, Northwind broad/mixed Region labels, Pubs country absence and dirty values. No postal-only/city-only join or unconditional trim."
+}

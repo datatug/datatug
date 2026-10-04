@@ -1,0 +1,26 @@
+{
+  "title": "Authentication Or Sensitive Identifier (proposed demo demand)",
+  "kind": "meaning",
+  "status": "low-priority",
+  "evidence_ids": [
+    "demand-corpus-adventureworks",
+    "demand-corpus-sakila"
+  ],
+  "demo_ids": [
+    "adventureworks",
+    "sakila"
+  ],
+  "identifier_representations": [
+    "TEXT; CardNumber: source-specific authentication-or-sensitive-identifier attribute; namespace source-representation:adventureworks",
+    "TEXT; LoginID: source-local-key-or-FK; namespace adventureworks:HumanResources.Employee",
+    "TEXT; NationalIDNumber: source-specific authentication-or-sensitive-identifier attribute; namespace source-representation:adventureworks",
+    "TEXT; PasswordHash: source-specific authentication-or-sensitive-identifier attribute; namespace source-representation:adventureworks",
+    "TEXT; PasswordSalt: source-specific authentication-or-sensitive-identifier attribute; namespace source-representation:adventureworks",
+    "TEXT; UserName: source-specific authentication-or-sensitive-identifier attribute; namespace source-representation:adventureworks",
+    "TEXT; password: source-specific authentication-or-sensitive-identifier attribute; namespace source-representation:sakila",
+    "TEXT; username: source-specific authentication-or-sensitive-identifier attribute; namespace source-representation:sakila"
+  ],
+  "practical_value": "Proposed field-role demand in 2 demos. Candidate reference/calendar/identifier lookup with contextual bridge and measured match rate; local transaction/person IDs support internal joins only.",
+  "licence_notes": "Candidate metadata is unreconciled. Per-input data/model/meaning licences remain in demand-plan.json and recordset records; Employees-derived evidence retains CC-BY-SA-3.0. No blanket CC0 or canonical new meaning licence is asserted.",
+  "reason": "Related concepts, entity keys/names/attributes and physical roles remain separately qualified in assertions. Coverage means inspected hypothesis presence, not accepted semantic equivalence or external match rate."
+}

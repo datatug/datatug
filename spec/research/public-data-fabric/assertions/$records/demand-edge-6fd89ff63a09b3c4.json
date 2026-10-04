@@ -1,0 +1,23 @@
+{
+  "title": "northwind.Products declared local reference to Categories",
+  "kind": "edge",
+  "status": "researched",
+  "evidence_ids": [
+    "demand-corpus-northwind"
+  ],
+  "from_id": "demand-northwind-products",
+  "to_id": "demand-northwind-categories",
+  "from_fields": [
+    "CategoryID"
+  ],
+  "to_fields": [
+    "CategoryID"
+  ],
+  "compatibility": "unresolved",
+  "confidence": "high",
+  "physical_role": "Native declared local FK, ordered composite members retained",
+  "from_identifier_namespace": "northwind/Categories",
+  "to_identifier_namespace": "northwind/Categories",
+  "expected_cardinality": "Declared FK to native target; actual nonnull match rate and multiplicity require scenario validation.",
+  "assumptions": "Schema reference exists at pinned source; high confidence refers to literal declaration only. No cross-demo identity or semantic equivalence is accepted. SQLite enforcement is connection-specific."
+}

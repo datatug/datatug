@@ -1,0 +1,23 @@
+{
+  "title": "employees.titles",
+  "kind": "recordset",
+  "status": "researched",
+  "dataset_id": "employees",
+  "demo_ids": [
+    "employees"
+  ],
+  "evidence_ids": [
+    "demand-corpus-employees"
+  ],
+  "repository": "demo-db/employees",
+  "commit": "2455bb327aa8444ec496d36e2fe6dcacfc58dc0a",
+  "source_url": "https://github.com/demo-db/employees/blob/2455bb327aa8444ec496d36e2fe6dcacfc58dc0a/data-source/source.sqlite.gz",
+  "licence": "CC-BY-SA-3.0",
+  "licence_notes": "Native data licence CC-BY-SA-3.0; source ModelSpec licence CC-BY-SA-3.0; existing meaning licence CC-BY-SA-3.0. Research proposal is not a new canonical licence or mapping.",
+  "identifier_representations": [
+    "Native ordered primary key: [\"emp_no\", \"title\", \"from_date\"]",
+    "Source-local identity; external identity not established"
+  ],
+  "practical_value": "Observed table; 1524 rows. Derived views reuse native tables; empty tables preserve structure without observed values.",
+  "reason": "Actual pinned schema demand fixture. No selected or reconciled status."
+}

@@ -1,0 +1,45 @@
+{
+  "stage": "Phase 0.5 author validation, independent review pending",
+  "base_commit": "ba2927fd24292c68a336651085b747aef14e2876",
+  "checks": [
+    {
+      "argv": [
+        "ingitdb",
+        "validate",
+        "--path",
+        "."
+      ],
+      "exit_code": 0
+    },
+    {
+      "argv": [
+        "python3",
+        "spec/research/public-data-fabric/check.py",
+        "--self-test"
+      ],
+      "exit_code": 0,
+      "mutation_checks": 22
+    },
+    {
+      "argv": [
+        "specscore",
+        "spec",
+        "lint"
+      ],
+      "exit_code": 0,
+      "violations": 0
+    },
+    {
+      "argv": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "exit_code": 0
+    }
+  ],
+  "native_evidence_sha256": "1d435010339c8e1d4d090773947b73c84c076f4c14624ca3fef29f046be58988",
+  "plan_sha256": "d734fe74dfc289244ee26a56f7cc2cf13b819d4136f77ae48c73087b1e7b6c9a",
+  "coverage_sha256": "b1548a4f4064a84488603667294b9499400b1648ff6c4cff3dc99a25ed9c3907",
+  "scope": "No schema/validator/canonical provider changes. Gates after Phase0 remain pending; B1 and TPC-H preserved. Profiles reproduced from verified immutable native inputs; no live publication acceptance."
+}

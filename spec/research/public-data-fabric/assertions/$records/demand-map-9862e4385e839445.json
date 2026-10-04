@@ -1,0 +1,25 @@
+{
+  "title": "chinook.Employee.HireDate proposes Employment start date",
+  "kind": "mapping",
+  "status": "researched",
+  "evidence_ids": [
+    "demand-corpus-chinook"
+  ],
+  "from_id": "demand-chinook-employee",
+  "to_id": "demand-meaning-employment-start-date",
+  "meaning_id": "demand-meaning-employment-start-date",
+  "from_fields": [
+    "HireDate"
+  ],
+  "to_fields": [
+    "proposed-role"
+  ],
+  "compatibility": "unresolved",
+  "confidence": "medium",
+  "physical_role": "employment-start-date",
+  "from_identifier_namespace": "literal:chinook/Employee/HireDate",
+  "to_identifier_namespace": "unreconciled:employment-start-date",
+  "expected_cardinality": "Not established; repeated names/codes and reference roles are retained.",
+  "assumptions": "Proposed demand only; dedicated reconciliation required. Stored date text without explicit timezone; frozen/default dates distinguished in provenance.  Confidence concerns the proposed source role only. Raw profiles and context are in evidence/demo-demand.json; no normalization applied.",
+  "reason": "Research hypothesis only. Calendar dimensions/holidays; economic observations by explicitly selected date role."
+}

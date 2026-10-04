@@ -1,0 +1,21 @@
+{
+  "title": "Amounts, rates, currency and units need explicit context",
+  "status": "open",
+  "classification": "important/non-blocking",
+  "owner": "Fresh Phase 2 semantic reconciliation agent",
+  "candidate_ids": [
+    "demand-meaning-currency",
+    "demand-meaning-exchange-rate",
+    "demand-meaning-monetary-amount",
+    "demand-meaning-discount-rate",
+    "demand-meaning-unit-price",
+    "demand-meaning-unit-of-measure"
+  ],
+  "gate_ids": [
+    "phase2"
+  ],
+  "evidence_ids": [
+    "demo-demand-analysis"
+  ],
+  "resolution": "Unresolved research limits: No currency inference from country. Chinook meaning declares USD without raw currency field. AW contains historical currency codes/dates and floating-point NUMERIC; Pubs percentage vs Northwind fraction differs."
+}

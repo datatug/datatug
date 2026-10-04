@@ -8,7 +8,9 @@
   "requirements": [
     "Analyse all six actual demo schemas, representation diversity and reusable enrichment demand"
   ],
-  "evidence_ids": [],
+  "evidence_ids": [
+    "demo-demand-analysis"
+  ],
   "blocker_ids": [],
-  "decision": "Not started; no phase completion claim."
+  "decision": "Actual six-native-corpus proposed demand analysis r1 recorded; independent exact-diff corpus review and root acceptance remain pending. No final semantic reconciliation."
 }

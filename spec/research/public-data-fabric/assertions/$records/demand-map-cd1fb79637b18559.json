@@ -1,0 +1,25 @@
+{
+  "title": "employees.employees.last_name proposes Person Name",
+  "kind": "mapping",
+  "status": "researched",
+  "evidence_ids": [
+    "demand-corpus-employees"
+  ],
+  "from_id": "demand-employees-employees",
+  "to_id": "demand-meaning-person-name",
+  "meaning_id": "demand-meaning-person-name",
+  "from_fields": [
+    "last_name"
+  ],
+  "to_fields": [
+    "proposed-role"
+  ],
+  "compatibility": "unresolved",
+  "confidence": "high",
+  "physical_role": "last_name: source-name",
+  "from_identifier_namespace": "literal:employees/employees/last_name",
+  "to_identifier_namespace": "unreconciled:person-name",
+  "expected_cardinality": "Not established; repeated names/codes and reference roles are retained.",
+  "assumptions": "Proposed only; dedicated semantic reconciliation required. Native source-local IDs are not portable across demo databases. Fabricated FK-closed 1024-employee subset; no population or real employee identity inference. Field-level demand signal; proposed concept includes explicitly qualified source role, not entity equivalence. Confidence concerns the proposed source role only. Raw profiles and context are in evidence/demo-demand.json; no normalization applied.",
+  "reason": "Research hypothesis only. Candidate reference/calendar/identifier lookup with contextual bridge and measured match rate; local transaction/person IDs support internal joins only."
+}

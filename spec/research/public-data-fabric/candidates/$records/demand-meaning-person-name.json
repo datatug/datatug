@@ -1,0 +1,49 @@
+{
+  "title": "Person name (proposed demo demand)",
+  "kind": "meaning",
+  "status": "researched",
+  "evidence_ids": [
+    "demand-corpus-adventureworks",
+    "demand-corpus-chinook",
+    "demand-corpus-employees",
+    "demand-corpus-northwind",
+    "demand-corpus-pubs",
+    "demand-corpus-sakila"
+  ],
+  "demo_ids": [
+    "adventureworks",
+    "chinook",
+    "employees",
+    "northwind",
+    "pubs",
+    "sakila"
+  ],
+  "identifier_representations": [
+    "CHAR(1); middle-initial; namespace pubs/employee",
+    "INTEGER; NameStyle: source-specific person-name attribute; namespace source-representation:adventureworks",
+    "NVARCHAR(20); customer-lastname; namespace chinook/Customer",
+    "NVARCHAR(20); employee-firstname; namespace chinook/Employee",
+    "NVARCHAR(20); employee-lastname; namespace chinook/Employee",
+    "NVARCHAR(220); composer-credit; namespace chinook/Track",
+    "NVARCHAR(40); customer-firstname; namespace chinook/Customer",
+    "TEXT; FirstName: source-name; namespace source-representation:adventureworks",
+    "TEXT; LastName: source-name; namespace source-representation:adventureworks",
+    "TEXT; MiddleName: source-specific person-name attribute; namespace source-representation:adventureworks",
+    "TEXT; Suffix: source-specific person-name attribute; namespace source-representation:adventureworks",
+    "TEXT; contact-person-name; namespace northwind/Customers",
+    "TEXT; contact-person-name; namespace northwind/Suppliers",
+    "TEXT; employee-firstname; namespace northwind/Employees",
+    "TEXT; employee-lastname; namespace northwind/Employees",
+    "TEXT; first_name: source-name; namespace source-representation:employees",
+    "TEXT; first_name: source-name; namespace source-representation:sakila",
+    "TEXT; last_name: source-name; namespace source-representation:employees",
+    "TEXT; last_name: source-name; namespace source-representation:sakila",
+    "VARCHAR(20); author-au_fname; namespace pubs/authors",
+    "VARCHAR(20); employee-fname; namespace pubs/employee",
+    "VARCHAR(30); employee-lname; namespace pubs/employee",
+    "VARCHAR(40); author-au_lname; namespace pubs/authors"
+  ],
+  "practical_value": "Proposed field-role demand in 6 demos. Candidate reference/calendar/identifier lookup with contextual bridge and measured match rate; local transaction/person IDs support internal joins only. Name structure/credit interpretation; named-entity references only with independent identifiers.",
+  "licence_notes": "Candidate metadata is unreconciled. Per-input data/model/meaning licences remain in demand-plan.json and recordset records; Employees-derived evidence retains CC-BY-SA-3.0. No blanket CC0 or canonical new meaning licence is asserted.",
+  "reason": "Related concepts, entity keys/names/attributes and physical roles remain separately qualified in assertions. Coverage means inspected hypothesis presence, not accepted semantic equivalence or external match rate."
+}

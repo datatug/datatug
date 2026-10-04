@@ -1,0 +1,25 @@
+{
+  "title": "sakila.city.city proposes City",
+  "kind": "mapping",
+  "status": "researched",
+  "evidence_ids": [
+    "demand-corpus-sakila"
+  ],
+  "from_id": "demand-sakila-city",
+  "to_id": "demand-meaning-city",
+  "meaning_id": "demand-meaning-city",
+  "from_fields": [
+    "city"
+  ],
+  "to_fields": [
+    "proposed-role"
+  ],
+  "compatibility": "unresolved",
+  "confidence": "high",
+  "physical_role": "city: label-or-name",
+  "from_identifier_namespace": "literal:sakila/city/city",
+  "to_identifier_namespace": "unreconciled:city",
+  "expected_cardinality": "Not established; repeated names/codes and reference roles are retained.",
+  "assumptions": "Proposed only; dedicated semantic reconciliation required. Native source-local IDs are not portable across demo databases. Geographic names/postcodes require parent jurisdiction context; do not fuzzy-match as deterministic identity. Field-level demand signal; proposed concept includes explicitly qualified source role, not entity equivalence. Confidence concerns the proposed source role only. Raw profiles and context are in evidence/demo-demand.json; no normalization applied.",
+  "reason": "Research hypothesis only. Candidate reference/calendar/identifier lookup with contextual bridge and measured match rate; local transaction/person IDs support internal joins only."
+}

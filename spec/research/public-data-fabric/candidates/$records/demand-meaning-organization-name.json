@@ -1,0 +1,27 @@
+{
+  "title": "Organization name (proposed demo demand)",
+  "kind": "meaning",
+  "status": "researched",
+  "evidence_ids": [
+    "demand-corpus-chinook",
+    "demand-corpus-northwind",
+    "demand-corpus-pubs"
+  ],
+  "demo_ids": [
+    "chinook",
+    "northwind",
+    "pubs"
+  ],
+  "identifier_representations": [
+    "NVARCHAR(80); customer-organization-name; namespace chinook/Customer",
+    "TEXT; customer-organization-name; namespace northwind/Customers",
+    "TEXT; shipper-organization-name; namespace northwind/Shippers",
+    "TEXT; shipping-recipient-name; namespace northwind/Orders",
+    "TEXT; supplier-organization-name; namespace northwind/Suppliers",
+    "VARCHAR(40); publisher-organization-name; namespace pubs/publishers",
+    "VARCHAR(40); retail-store-organization-name; namespace pubs/stores"
+  ],
+  "practical_value": "Proposed field-role demand in 3 demos. Organization classification/fuzzy discovery with explicit ambiguity.",
+  "licence_notes": "Candidate metadata is unreconciled. Per-input data/model/meaning licences remain in demand-plan.json and recordset records; Employees-derived evidence retains CC-BY-SA-3.0. No blanket CC0 or canonical new meaning licence is asserted.",
+  "reason": "Related concepts, entity keys/names/attributes and physical roles remain separately qualified in assertions. Coverage means inspected hypothesis presence, not accepted semantic equivalence or external match rate."
+}

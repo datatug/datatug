@@ -1,0 +1,10 @@
+{
+  "title": "pubs pinned native schema and bounded value profiles",
+  "observed_at": "2026-10-04T21:41:09Z",
+  "outcome": "observation",
+  "repository": "demo-db/pubs",
+  "commit": "6c06c5c7395b03ff1a02c2b1a21485add3e1b65b",
+  "path": "spec/research/public-data-fabric/evidence/demo-demand.json",
+  "command": "python3 spec/research/public-data-fabric/inspect_demand.py --fixtures LOCAL_FIXTURES_JSON --output OUTPUT_JSON",
+  "summary": "11 physical tables; 1 executable views; 255 physical rows. Verified native SHA256 b45b08b7c06441cc0b138b031ea5bd32bd5866aebf874c89d2ebf7fc6abb3691. Literal table/field statistics and native PK/FK/indexes; source/model/meaning licences retained separately. Proposed demand only; no live deployment acceptance or semantic reconciliation."
+}

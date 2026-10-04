@@ -1,0 +1,21 @@
+{
+  "title": "Person (proposed demo demand)",
+  "kind": "meaning",
+  "status": "researched",
+  "evidence_ids": [
+    "demand-corpus-adventureworks"
+  ],
+  "demo_ids": [
+    "adventureworks"
+  ],
+  "identifier_representations": [
+    "INTEGER; BusinessEntityID: source-local-key-or-FK; namespace adventureworks:Person.Person",
+    "INTEGER; PersonID: optional customer person local FK; namespace adventureworks:Sales.Customer",
+    "INTEGER; PersonID: source-local-key-or-FK; namespace adventureworks:Person.BusinessEntityContact",
+    "INTEGER; SalesPersonID: source-local-key-or-FK; namespace adventureworks:Sales.SalesOrderHeader",
+    "INTEGER; SalesPersonID: source-local-key-or-FK; namespace adventureworks:Sales.Store"
+  ],
+  "practical_value": "Proposed field-role demand in 1 demos. Candidate reference/calendar/identifier lookup with contextual bridge and measured match rate; local transaction/person IDs support internal joins only.",
+  "licence_notes": "Candidate metadata is unreconciled. Per-input data/model/meaning licences remain in demand-plan.json and recordset records; Employees-derived evidence retains CC-BY-SA-3.0. No blanket CC0 or canonical new meaning licence is asserted.",
+  "reason": "Related concepts, entity keys/names/attributes and physical roles remain separately qualified in assertions. Coverage means inspected hypothesis presence, not accepted semantic equivalence or external match rate."
+}

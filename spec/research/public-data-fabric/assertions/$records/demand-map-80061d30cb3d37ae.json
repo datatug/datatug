@@ -1,0 +1,25 @@
+{
+  "title": "chinook.Invoice.Total proposes Invoice total",
+  "kind": "mapping",
+  "status": "researched",
+  "evidence_ids": [
+    "demand-corpus-chinook"
+  ],
+  "from_id": "demand-chinook-invoice",
+  "to_id": "demand-meaning-invoice-total",
+  "meaning_id": "demand-meaning-invoice-total",
+  "from_fields": [
+    "Total"
+  ],
+  "to_fields": [
+    "proposed-role"
+  ],
+  "compatibility": "unresolved",
+  "confidence": "medium",
+  "physical_role": "invoice-invoice-total",
+  "from_identifier_namespace": "literal:chinook/Invoice/Total",
+  "to_identifier_namespace": "unreconciled:invoice-total",
+  "expected_cardinality": "Not established; repeated names/codes and reference roles are retained.",
+  "assumptions": "Proposed demand only; dedicated reconciliation required. Numeric value does not identify currency. No raw currency field; source meaning declarations remain separate.  Confidence concerns the proposed source role only. Raw profiles and context are in evidence/demo-demand.json; no normalization applied.",
+  "reason": "Research hypothesis only. Numeric price/charge comparison; currency/FX only with explicit source declaration and applicable date."
+}

@@ -1,0 +1,22 @@
+{
+  "title": "Fax number (proposed demo demand)",
+  "kind": "meaning",
+  "status": "researched",
+  "evidence_ids": [
+    "demand-corpus-chinook",
+    "demand-corpus-northwind"
+  ],
+  "demo_ids": [
+    "chinook",
+    "northwind"
+  ],
+  "identifier_representations": [
+    "NVARCHAR(24); customer-fax-number; namespace chinook/Customer",
+    "NVARCHAR(24); employee-fax-number; namespace chinook/Employee",
+    "TEXT; customer-fax-number; namespace northwind/Customers",
+    "TEXT; supplier-fax-number; namespace northwind/Suppliers"
+  ],
+  "practical_value": "Proposed field-role demand in 2 demos. Telephone numbering plans or email-domain classification after parsing.",
+  "licence_notes": "Candidate metadata is unreconciled. Per-input data/model/meaning licences remain in demand-plan.json and recordset records; Employees-derived evidence retains CC-BY-SA-3.0. No blanket CC0 or canonical new meaning licence is asserted.",
+  "reason": "Related concepts, entity keys/names/attributes and physical roles remain separately qualified in assertions. Coverage means inspected hypothesis presence, not accepted semantic equivalence or external match rate."
+}

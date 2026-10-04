@@ -1,0 +1,25 @@
+{
+  "title": "adventureworks.Sales.vStoreWithAddresses.AddressType proposes Address type classification",
+  "kind": "mapping",
+  "status": "researched",
+  "evidence_ids": [
+    "demand-corpus-adventureworks"
+  ],
+  "from_id": "demand-adventureworks-sales-vstorewithaddresses",
+  "to_id": "demand-meaning-address-type-classification",
+  "meaning_id": "demand-meaning-address-type-classification",
+  "from_fields": [
+    "AddressType"
+  ],
+  "to_fields": [
+    "proposed-role"
+  ],
+  "compatibility": "unresolved",
+  "confidence": "medium",
+  "physical_role": "AddressType: source address-use classification key/name",
+  "from_identifier_namespace": "literal:adventureworks/Sales.vStoreWithAddresses/AddressType",
+  "to_identifier_namespace": "unreconciled:address-type-classification",
+  "expected_cardinality": "Not established; repeated names/codes and reference roles are retained.",
+  "assumptions": "Proposed only; dedicated semantic reconciliation required. Native source-local IDs are not portable across demo databases. Geographic names/postcodes require parent jurisdiction context; do not fuzzy-match as deterministic identity. Field-level demand signal; proposed concept includes explicitly qualified source role, not entity equivalence. Address use/type is not an address line or an administrative geography identifier. Confidence concerns the proposed source role only. Raw profiles and context are in evidence/demo-demand.json; no normalization applied.",
+  "reason": "Research hypothesis only. Candidate reference/calendar/identifier lookup with contextual bridge and measured match rate; local transaction/person IDs support internal joins only."
+}

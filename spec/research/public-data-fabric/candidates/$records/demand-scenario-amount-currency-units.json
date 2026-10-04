@@ -1,0 +1,27 @@
+{
+  "title": "Contextual amounts, currencies and dated rates (proposed scenario)",
+  "kind": "scenario",
+  "status": "researched",
+  "evidence_ids": [
+    "demo-demand-analysis"
+  ],
+  "demo_ids": [
+    "chinook",
+    "northwind",
+    "pubs",
+    "sakila",
+    "adventureworks",
+    "employees"
+  ],
+  "dependency_ids": [
+    "demand-meaning-currency",
+    "demand-meaning-exchange-rate",
+    "demand-meaning-monetary-amount",
+    "demand-meaning-unit-price",
+    "demand-meaning-discount-rate",
+    "demand-meaning-unit-of-measure"
+  ],
+  "practical_value": "Public currency/rate/unit sources and monetary denominators remain gaps. Actual currency/FX bridge exists only in AdventureWorks; every other amount needs explicit currency evidence. Preserve precision and percentage/fraction differences.",
+  "reason": "Scenario proposal only; no public source selected, accepted join, measured match rate, implementation or publication receipt. Public currency/rate/unit sources and monetary denominators remain gaps. Actual currency/FX bridge exists only in AdventureWorks; every other amount needs explicit currency evidence. Preserve precision and percentage/fraction differences.",
+  "showcase_value": "Possible comparison chart/calendar/map after identifier and coverage acceptance; not a rendered or validated product journey."
+}

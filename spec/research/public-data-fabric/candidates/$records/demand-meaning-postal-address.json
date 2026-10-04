@@ -1,0 +1,29 @@
+{
+  "title": "Postal address (proposed demo demand)",
+  "kind": "meaning",
+  "status": "researched",
+  "evidence_ids": [
+    "demand-corpus-chinook",
+    "demand-corpus-northwind",
+    "demand-corpus-pubs"
+  ],
+  "demo_ids": [
+    "chinook",
+    "northwind",
+    "pubs"
+  ],
+  "identifier_representations": [
+    "NVARCHAR(70); billing-address; namespace chinook/Invoice",
+    "NVARCHAR(70); customer-address; namespace chinook/Customer",
+    "NVARCHAR(70); employee-address; namespace chinook/Employee",
+    "TEXT; customer-address; namespace northwind/Customers",
+    "TEXT; employee-address; namespace northwind/Employees",
+    "TEXT; shipping-address; namespace northwind/Orders",
+    "TEXT; supplier-address; namespace northwind/Suppliers",
+    "VARCHAR(40); author-address; namespace pubs/authors",
+    "VARCHAR(40); retail-store-address; namespace pubs/stores"
+  ],
+  "practical_value": "Proposed field-role demand in 3 demos. Contextual geocoding/address parsing after reconciliation.",
+  "licence_notes": "Candidate metadata is unreconciled. Per-input data/model/meaning licences remain in demand-plan.json and recordset records; Employees-derived evidence retains CC-BY-SA-3.0. No blanket CC0 or canonical new meaning licence is asserted.",
+  "reason": "Related concepts, entity keys/names/attributes and physical roles remain separately qualified in assertions. Coverage means inspected hypothesis presence, not accepted semantic equivalence or external match rate."
+}

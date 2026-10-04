@@ -1,0 +1,23 @@
+{
+  "title": "employees.dept_emp declared local reference to departments",
+  "kind": "edge",
+  "status": "researched",
+  "evidence_ids": [
+    "demand-corpus-employees"
+  ],
+  "from_id": "demand-employees-dept-emp",
+  "to_id": "demand-employees-departments",
+  "from_fields": [
+    "dept_no"
+  ],
+  "to_fields": [
+    "dept_no"
+  ],
+  "compatibility": "unresolved",
+  "confidence": "high",
+  "physical_role": "Native declared local FK, ordered composite members retained",
+  "from_identifier_namespace": "employees/departments",
+  "to_identifier_namespace": "employees/departments",
+  "expected_cardinality": "Declared FK to native target; actual nonnull match rate and multiplicity require scenario validation.",
+  "assumptions": "Schema reference exists at pinned source; high confidence refers to literal declaration only. No cross-demo identity or semantic equivalence is accepted. SQLite enforcement is connection-specific."
+}

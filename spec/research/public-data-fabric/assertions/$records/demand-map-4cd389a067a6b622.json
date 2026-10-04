@@ -1,0 +1,25 @@
+{
+  "title": "chinook.Customer.State proposes Subnational region",
+  "kind": "mapping",
+  "status": "researched",
+  "evidence_ids": [
+    "demand-corpus-chinook"
+  ],
+  "from_id": "demand-chinook-customer",
+  "to_id": "demand-meaning-subnational-region",
+  "meaning_id": "demand-meaning-subnational-region",
+  "from_fields": [
+    "State"
+  ],
+  "to_fields": [
+    "proposed-role"
+  ],
+  "compatibility": "unresolved",
+  "confidence": "medium",
+  "physical_role": "customer-region",
+  "from_identifier_namespace": "literal:chinook/Customer/State",
+  "to_identifier_namespace": "unreconciled:subnational-region",
+  "expected_cardinality": "Not established; repeated names/codes and reference roles are retained.",
+  "assumptions": "Proposed demand only; dedicated reconciliation required. Region names/codes need country context; Northwind Region/ShipRegion include supranational areas such as British Isles and Western Europe, Suppliers mixes these with NSW/Victoria; no subdivision equivalence. Northwind Regions table is a separate sales-region namespace.  Confidence concerns the proposed source role only. Raw profiles and context are in evidence/demo-demand.json; no normalization applied.",
+  "reason": "Research hypothesis only. Country-scoped subdivision/address lookup."
+}

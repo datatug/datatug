@@ -1,0 +1,25 @@
+{
+  "title": "sakila.nicer_but_slower_film_list.rating proposes Measurement Or Rating",
+  "kind": "mapping",
+  "status": "low-priority",
+  "evidence_ids": [
+    "demand-corpus-sakila"
+  ],
+  "from_id": "demand-sakila-nicer-but-slower-film-list",
+  "to_id": "demand-meaning-measurement-or-rating",
+  "meaning_id": "demand-meaning-measurement-or-rating",
+  "from_fields": [
+    "rating"
+  ],
+  "to_fields": [
+    "proposed-role"
+  ],
+  "compatibility": "unresolved",
+  "confidence": "low",
+  "physical_role": "rating: source-specific measurement-or-rating attribute",
+  "from_identifier_namespace": "literal:sakila/nicer_but_slower_film_list/rating",
+  "to_identifier_namespace": "unreconciled:measurement-or-rating",
+  "expected_cardinality": "Not established; repeated names/codes and reference roles are retained.",
+  "assumptions": "Proposed only; dedicated semantic reconciliation required. Native source-local IDs are not portable across demo databases. Field-level demand signal; proposed concept includes explicitly qualified source role, not entity equivalence. Confidence concerns the proposed source role only. Raw profiles and context are in evidence/demo-demand.json; no normalization applied.",
+  "reason": "Research hypothesis only. Candidate reference/calendar/identifier lookup with contextual bridge and measured match rate; local transaction/person IDs support internal joins only."
+}

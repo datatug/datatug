@@ -1,0 +1,23 @@
+{
+  "title": "chinook.InvoiceLine declared local reference to Invoice",
+  "kind": "edge",
+  "status": "researched",
+  "evidence_ids": [
+    "demand-corpus-chinook"
+  ],
+  "from_id": "demand-chinook-invoiceline",
+  "to_id": "demand-chinook-invoice",
+  "from_fields": [
+    "InvoiceId"
+  ],
+  "to_fields": [
+    "InvoiceId"
+  ],
+  "compatibility": "unresolved",
+  "confidence": "high",
+  "physical_role": "Native declared local FK, ordered composite members retained",
+  "from_identifier_namespace": "chinook/Invoice",
+  "to_identifier_namespace": "chinook/Invoice",
+  "expected_cardinality": "Declared FK to native target; actual nonnull match rate and multiplicity require scenario validation.",
+  "assumptions": "Schema reference exists at pinned source; high confidence refers to literal declaration only. No cross-demo identity or semantic equivalence is accepted. SQLite enforcement is connection-specific."
+}

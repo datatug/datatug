@@ -1,0 +1,35 @@
+{
+  "title": "Postal code (proposed demo demand)",
+  "kind": "meaning",
+  "status": "researched",
+  "evidence_ids": [
+    "demand-corpus-adventureworks",
+    "demand-corpus-chinook",
+    "demand-corpus-northwind",
+    "demand-corpus-pubs",
+    "demand-corpus-sakila"
+  ],
+  "demo_ids": [
+    "adventureworks",
+    "chinook",
+    "northwind",
+    "pubs",
+    "sakila"
+  ],
+  "identifier_representations": [
+    "CHAR(5); author-postal-code; namespace pubs/authors",
+    "CHAR(5); retail-store-postal-code; namespace pubs/stores",
+    "NVARCHAR(10); billing-postal-code; namespace chinook/Invoice",
+    "NVARCHAR(10); customer-postal-code; namespace chinook/Customer",
+    "NVARCHAR(10); employee-postal-code; namespace chinook/Employee",
+    "TEXT; PostalCode: source-code; namespace source-representation:adventureworks",
+    "TEXT; customer-postal-code; namespace northwind/Customers",
+    "TEXT; employee-postal-code; namespace northwind/Employees",
+    "TEXT; postal_code: source-code; namespace source-representation:sakila",
+    "TEXT; shipping-postal-code; namespace northwind/Orders",
+    "TEXT; supplier-postal-code; namespace northwind/Suppliers"
+  ],
+  "practical_value": "Proposed field-role demand in 5 demos. Candidate reference/calendar/identifier lookup with contextual bridge and measured match rate; local transaction/person IDs support internal joins only. Country-scoped postal geography; preserve leading zero and spaces.",
+  "licence_notes": "Candidate metadata is unreconciled. Per-input data/model/meaning licences remain in demand-plan.json and recordset records; Employees-derived evidence retains CC-BY-SA-3.0. No blanket CC0 or canonical new meaning licence is asserted.",
+  "reason": "Related concepts, entity keys/names/attributes and physical roles remain separately qualified in assertions. Coverage means inspected hypothesis presence, not accepted semantic equivalence or external match rate."
+}

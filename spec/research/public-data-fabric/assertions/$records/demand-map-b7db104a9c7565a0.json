@@ -1,0 +1,25 @@
+{
+  "title": "northwind.Orders.Freight proposes Freight charge",
+  "kind": "mapping",
+  "status": "researched",
+  "evidence_ids": [
+    "demand-corpus-northwind"
+  ],
+  "from_id": "demand-northwind-orders",
+  "to_id": "demand-meaning-freight-charge",
+  "meaning_id": "demand-meaning-freight-charge",
+  "from_fields": [
+    "Freight"
+  ],
+  "to_fields": [
+    "proposed-role"
+  ],
+  "compatibility": "unresolved",
+  "confidence": "medium",
+  "physical_role": "order-freight-charge",
+  "from_identifier_namespace": "literal:northwind/Orders/Freight",
+  "to_identifier_namespace": "unreconciled:freight-charge",
+  "expected_cardinality": "Not established; repeated names/codes and reference roles are retained.",
+  "assumptions": "Proposed demand only; dedicated reconciliation required. Numeric value does not identify currency. No raw currency field; source meaning declarations remain separate.  Confidence concerns the proposed source role only. Raw profiles and context are in evidence/demo-demand.json; no normalization applied.",
+  "reason": "Research hypothesis only. Numeric price/charge comparison; currency/FX only with explicit source declaration and applicable date."
+}

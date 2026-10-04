@@ -1,0 +1,25 @@
+{
+  "title": "chinook.Track.Milliseconds proposes Media duration",
+  "kind": "mapping",
+  "status": "researched",
+  "evidence_ids": [
+    "demand-corpus-chinook"
+  ],
+  "from_id": "demand-chinook-track",
+  "to_id": "demand-meaning-media-duration",
+  "meaning_id": "demand-meaning-media-duration",
+  "from_fields": [
+    "Milliseconds"
+  ],
+  "to_fields": [
+    "proposed-role"
+  ],
+  "compatibility": "unresolved",
+  "confidence": "medium",
+  "physical_role": "duration",
+  "from_identifier_namespace": "literal:chinook/Track/Milliseconds",
+  "to_identifier_namespace": "unreconciled:media-duration",
+  "expected_cardinality": "Not established; repeated names/codes and reference roles are retained.",
+  "assumptions": "Proposed demand only; dedicated reconciliation required. Explicit milliseconds; do not equate bytes or monetary values.  Confidence concerns the proposed source role only. Raw profiles and context are in evidence/demo-demand.json; no normalization applied.",
+  "reason": "Research hypothesis only. Duration/unit references."
+}

@@ -1,0 +1,25 @@
+{
+  "title": "adventureworks.Sales.vSalesPerson.CountryRegionName proposes Country",
+  "kind": "mapping",
+  "status": "researched",
+  "evidence_ids": [
+    "demand-corpus-adventureworks"
+  ],
+  "from_id": "demand-adventureworks-sales-vsalesperson",
+  "to_id": "demand-meaning-country",
+  "meaning_id": "demand-meaning-country",
+  "from_fields": [
+    "CountryRegionName"
+  ],
+  "to_fields": [
+    "proposed-role"
+  ],
+  "compatibility": "unresolved",
+  "confidence": "high",
+  "physical_role": "CountryRegionName: label-or-name",
+  "from_identifier_namespace": "literal:adventureworks/Sales.vSalesPerson/CountryRegionName",
+  "to_identifier_namespace": "unreconciled:country",
+  "expected_cardinality": "Not established; repeated names/codes and reference roles are retained.",
+  "assumptions": "Proposed only; dedicated semantic reconciliation required. Native source-local IDs are not portable across demo databases. CountryRegionCode is ISO-like source text, not independently certified current ISO coverage; Sakila country_id is local and country is a label. Field-level demand signal; proposed concept includes explicitly qualified source role, not entity equivalence. Confidence concerns the proposed source role only. Raw profiles and context are in evidence/demo-demand.json; no normalization applied.",
+  "reason": "Research hypothesis only. Candidate reference/calendar/identifier lookup with contextual bridge and measured match rate; local transaction/person IDs support internal joins only."
+}

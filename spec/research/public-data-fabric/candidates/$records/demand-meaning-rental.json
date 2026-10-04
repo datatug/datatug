@@ -1,0 +1,22 @@
+{
+  "title": "Rental (proposed demo demand)",
+  "kind": "meaning",
+  "status": "researched",
+  "evidence_ids": [
+    "demand-corpus-sakila"
+  ],
+  "demo_ids": [
+    "sakila"
+  ],
+  "identifier_representations": [
+    "INTEGER; rental_duration: source-specific rental attribute; namespace source-representation:sakila",
+    "INTEGER; rental_id: source-local-key-or-FK; namespace sakila:payment",
+    "INTEGER; rental_id: source-local-key-or-FK; namespace sakila:rental",
+    "NUMERIC; rental_rate: source-specific rental attribute; namespace source-representation:sakila",
+    "TEXT; rental_date: source-specific rental attribute; namespace source-representation:sakila",
+    "TEXT; return_date: source-specific rental attribute; namespace source-representation:sakila"
+  ],
+  "practical_value": "Proposed field-role demand in 1 demos. Candidate reference/calendar/identifier lookup with contextual bridge and measured match rate; local transaction/person IDs support internal joins only.",
+  "licence_notes": "Candidate metadata is unreconciled. Per-input data/model/meaning licences remain in demand-plan.json and recordset records; Employees-derived evidence retains CC-BY-SA-3.0. No blanket CC0 or canonical new meaning licence is asserted.",
+  "reason": "Related concepts, entity keys/names/attributes and physical roles remain separately qualified in assertions. Coverage means inspected hypothesis presence, not accepted semantic equivalence or external match rate."
+}

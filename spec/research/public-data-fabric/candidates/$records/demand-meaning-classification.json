@@ -1,0 +1,39 @@
+{
+  "title": "Classification (proposed demo demand)",
+  "kind": "meaning",
+  "status": "researched",
+  "evidence_ids": [
+    "demand-corpus-adventureworks",
+    "demand-corpus-sakila"
+  ],
+  "demo_ids": [
+    "adventureworks",
+    "sakila"
+  ],
+  "identifier_representations": [
+    "INTEGER; ActiveFlag: source-specific classification attribute; namespace source-representation:adventureworks",
+    "INTEGER; ContactTypeID: source-local-key-or-FK; namespace adventureworks:Person.BusinessEntityContact",
+    "INTEGER; ContactTypeID: source-local-key-or-FK; namespace adventureworks:Person.ContactType",
+    "INTEGER; CreditRating: source-specific classification attribute; namespace source-representation:adventureworks",
+    "INTEGER; CurrentFlag: source-specific classification attribute; namespace source-representation:adventureworks",
+    "INTEGER; PreferredVendorStatus: source-specific classification attribute; namespace source-representation:adventureworks",
+    "INTEGER; Rating: source-specific classification attribute; namespace source-representation:adventureworks",
+    "INTEGER; ScrapReasonID: source-local-key-or-FK; namespace adventureworks:Production.ScrapReason",
+    "INTEGER; ScrapReasonID: source-local-key-or-FK; namespace adventureworks:Production.WorkOrder",
+    "INTEGER; Status: source-specific classification attribute; namespace source-representation:adventureworks",
+    "INTEGER; active: source-specific classification attribute; namespace source-representation:sakila",
+    "TEXT; Class: source-specific classification attribute; namespace source-representation:adventureworks",
+    "TEXT; Name: source-name; namespace source-representation:adventureworks",
+    "TEXT; PersonType: source-specific classification attribute; namespace source-representation:adventureworks",
+    "TEXT; ProductLine: source-specific classification attribute; namespace source-representation:adventureworks",
+    "TEXT; ReasonType: source-specific classification attribute; namespace source-representation:adventureworks",
+    "TEXT; Style: source-specific classification attribute; namespace source-representation:adventureworks",
+    "TEXT; TransactionType: source-specific classification attribute; namespace source-representation:adventureworks",
+    "TEXT; Type: source-specific classification attribute; namespace source-representation:adventureworks",
+    "TEXT; rating: source-specific classification attribute; namespace source-representation:sakila",
+    "TEXT; special_features: source-specific classification attribute; namespace source-representation:sakila"
+  ],
+  "practical_value": "Proposed field-role demand in 2 demos. Candidate reference/calendar/identifier lookup with contextual bridge and measured match rate; local transaction/person IDs support internal joins only.",
+  "licence_notes": "Candidate metadata is unreconciled. Per-input data/model/meaning licences remain in demand-plan.json and recordset records; Employees-derived evidence retains CC-BY-SA-3.0. No blanket CC0 or canonical new meaning licence is asserted.",
+  "reason": "Related concepts, entity keys/names/attributes and physical roles remain separately qualified in assertions. Coverage means inspected hypothesis presence, not accepted semantic equivalence or external match rate."
+}

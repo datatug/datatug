@@ -1,0 +1,25 @@
+{
+  "title": "chinook.Track.Bytes proposes Data size",
+  "kind": "mapping",
+  "status": "researched",
+  "evidence_ids": [
+    "demand-corpus-chinook"
+  ],
+  "from_id": "demand-chinook-track",
+  "to_id": "demand-meaning-data-size",
+  "meaning_id": "demand-meaning-data-size",
+  "from_fields": [
+    "Bytes"
+  ],
+  "to_fields": [
+    "proposed-role"
+  ],
+  "compatibility": "unresolved",
+  "confidence": "medium",
+  "physical_role": "byte-length",
+  "from_identifier_namespace": "literal:chinook/Track/Bytes",
+  "to_identifier_namespace": "unreconciled:data-size",
+  "expected_cardinality": "Not established; repeated names/codes and reference roles are retained.",
+  "assumptions": "Proposed demand only; dedicated reconciliation required.  Confidence concerns the proposed source role only. Raw profiles and context are in evidence/demo-demand.json; no normalization applied.",
+  "reason": "Research hypothesis only. Digital size/unit reference."
+}

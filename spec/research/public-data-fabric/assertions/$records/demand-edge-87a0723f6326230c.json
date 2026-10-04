@@ -1,0 +1,23 @@
+{
+  "title": "chinook.Employee declared local reference to Employee",
+  "kind": "edge",
+  "status": "researched",
+  "evidence_ids": [
+    "demand-corpus-chinook"
+  ],
+  "from_id": "demand-chinook-employee",
+  "to_id": "demand-chinook-employee",
+  "from_fields": [
+    "ReportsTo"
+  ],
+  "to_fields": [
+    "EmployeeId"
+  ],
+  "compatibility": "unresolved",
+  "confidence": "high",
+  "physical_role": "Native declared local FK, ordered composite members retained",
+  "from_identifier_namespace": "chinook/Employee",
+  "to_identifier_namespace": "chinook/Employee",
+  "expected_cardinality": "Declared FK to native target; actual nonnull match rate and multiplicity require scenario validation.",
+  "assumptions": "Schema reference exists at pinned source; high confidence refers to literal declaration only. No cross-demo identity or semantic equivalence is accepted. SQLite enforcement is connection-specific."
+}

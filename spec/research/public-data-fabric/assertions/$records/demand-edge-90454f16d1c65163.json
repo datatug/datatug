@@ -1,0 +1,23 @@
+{
+  "title": "adventureworks.Production.ProductProductPhoto declared local reference to Production.ProductPhoto",
+  "kind": "edge",
+  "status": "researched",
+  "evidence_ids": [
+    "demand-corpus-adventureworks"
+  ],
+  "from_id": "demand-adventureworks-production-productproductphoto",
+  "to_id": "demand-adventureworks-production-productphoto",
+  "from_fields": [
+    "ProductPhotoID"
+  ],
+  "to_fields": [
+    "ProductPhotoID"
+  ],
+  "compatibility": "unresolved",
+  "confidence": "high",
+  "physical_role": "Native declared local FK, ordered composite members retained",
+  "from_identifier_namespace": "adventureworks/Production.ProductPhoto",
+  "to_identifier_namespace": "adventureworks/Production.ProductPhoto",
+  "expected_cardinality": "Declared FK to native target; actual nonnull match rate and multiplicity require scenario validation.",
+  "assumptions": "Schema reference exists at pinned source; high confidence refers to literal declaration only. No cross-demo identity or semantic equivalence is accepted. SQLite enforcement is connection-specific."
+}

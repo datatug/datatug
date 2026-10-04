@@ -1,0 +1,25 @@
+{
+  "title": "northwind.Categories.Description proposes Product category description",
+  "kind": "mapping",
+  "status": "researched",
+  "evidence_ids": [
+    "demand-corpus-northwind"
+  ],
+  "from_id": "demand-northwind-categories",
+  "to_id": "demand-meaning-product-category-description",
+  "meaning_id": "demand-meaning-product-category-description",
+  "from_fields": [
+    "Description"
+  ],
+  "to_fields": [
+    "proposed-role"
+  ],
+  "compatibility": "unresolved",
+  "confidence": "low",
+  "physical_role": "source-attribute",
+  "from_identifier_namespace": "literal:northwind/Categories/Description",
+  "to_identifier_namespace": "unreconciled:product-category-description",
+  "expected_cardinality": "Not established; repeated names/codes and reference roles are retained.",
+  "assumptions": "Proposed demand only; dedicated reconciliation required. Retained lower-priority source attribute; no generic meaning inferred.  Confidence concerns the proposed source role only. Raw profiles and context are in evidence/demo-demand.json; no normalization applied.",
+  "reason": "Research hypothesis only. Preserve source value; external reference matching requires evidence."
+}

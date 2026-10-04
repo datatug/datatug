@@ -1,0 +1,25 @@
+{
+  "title": "Employee identifier (proposed demo demand)",
+  "kind": "meaning",
+  "status": "researched",
+  "evidence_ids": [
+    "demand-corpus-chinook",
+    "demand-corpus-northwind",
+    "demand-corpus-pubs"
+  ],
+  "demo_ids": [
+    "chinook",
+    "northwind",
+    "pubs"
+  ],
+  "identifier_representations": [
+    "CHAR(10); identifier; namespace pubs/employee",
+    "INTEGER; foreign-key; namespace chinook/Employee",
+    "INTEGER; foreign-key; namespace northwind/Employees",
+    "INTEGER; identifier; namespace chinook/Employee",
+    "INTEGER; identifier; namespace northwind/Employees"
+  ],
+  "practical_value": "Proposed field-role demand in 3 demos. Preserve source value; external reference matching requires evidence.",
+  "licence_notes": "Candidate metadata is unreconciled. Per-input data/model/meaning licences remain in demand-plan.json and recordset records; Employees-derived evidence retains CC-BY-SA-3.0. No blanket CC0 or canonical new meaning licence is asserted.",
+  "reason": "Related concepts, entity keys/names/attributes and physical roles remain separately qualified in assertions. Coverage means inspected hypothesis presence, not accepted semantic equivalence or external match rate."
+}
