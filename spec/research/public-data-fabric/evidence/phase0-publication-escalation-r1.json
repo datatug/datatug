@@ -1,0 +1,185 @@
+{
+  "recorded_at": "2026-10-04T21:17:14.778768+00:00",
+  "base_commit": "afaa706fafff280fca5e40c5b0a5d8e3aa2e3311",
+  "architectural_decision": {
+    "review_round": "r1",
+    "review_kind": "independent-architectural-gate-scope",
+    "configured_model": "GPT-6 Astra",
+    "configured_reasoning_effort": "High",
+    "runtime_host": "Codex subagent, local Mac",
+    "serving_identity_verified": false,
+    "written_at": "2026-10-04T21:14:40.313257+00:00",
+    "interpretation": "explicit-evidence-backed-escalation-permitted",
+    "all_six_public_deployments_unconditional_preresearch_requirement": false,
+    "full_actual_six_corpus_scope_retained": true,
+    "current_phase0_status": "pending",
+    "research_allowed_now": false,
+    "recommended_phase0_after_preconditions": "passed-for-research-readiness-with-publication-escalated",
+    "is_foundation_acceptance_receipt": false,
+    "requires_additional_user_scope_approval": false,
+    "external_publication_permission": "remains-pending-in-existing-owner-chat; no-authority-granted-here",
+    "ledger_main_verified": "afaa706fafff280fca5e40c5b0a5d8e3aa2e3311",
+    "ledger_checker_blob_verified": "bff6719dc9ef45ab3e34d5ff21a97b662e7697ee",
+    "recommended_representation": {
+      "corpus_publication": {
+        "status": "open",
+        "classification": "blocking",
+        "gate_ids": [
+          "phase4",
+          "phase5",
+          "phase6"
+        ],
+        "preserve_original_phase0_history": true
+      },
+      "separate_phase0_escalation_decision": {
+        "status_after_root_acceptance": "resolved",
+        "must_link_original_blocker_and_independent_acceptance": true
+      },
+      "generic_validator_change_required": false,
+      "readme_clarification_required": true
+    },
+    "advance_preconditions": [
+      "Root accepts bounded evidence-backed escalation",
+      "Distinct fresh independent foundation acceptance inspects proposed boundary and actual evidence",
+      "Keep publication blocker open at phase4/phase5/phase6 with original closure requirements",
+      "Preserve original partial receipts and publication permission block",
+      "Coherent durable ledger decision independently reviewed, checked and landed",
+      "Reread mission before research"
+    ],
+    "receipt_must_include": [
+      "Named independent foundation reviewer and runtime",
+      "Exact reviewed source/deployment refs and observation times",
+      "Inspected passing golden-path and relevant validation evidence",
+      "Explicit acceptance of research readiness with enumerated unresolved publication obligations",
+      "Confirmed full actual-six demand scope and legal/provenance limitations",
+      "Reopening conditions and later gate closure obligations"
+    ],
+    "allowed_after_advance": [
+      "Phase0.5 actual-six schema/representation demand analysis",
+      "Phase1 meaning and public-data discovery",
+      "Persistent candidate/evidence/scenario indexes"
+    ],
+    "forbidden": [
+      "Publication action rejected by approval review without authorization",
+      "Any bypass or unauthorized cross-chat messaging",
+      "All-six-publication or launch-complete claim",
+      "Automatic semantic ingestion or federation claims unsupported by actual paths",
+      "Closing phase4/phase5/phase6 while assigned corpus blocker remains open",
+      "Treating query=false as cure for broken advertised metadata reads"
+    ],
+    "falsifiers": [
+      "Direct user instruction explicitly requires all-six deployment before research",
+      "New evidence shows corpus issue invalidates golden fixture, source integrity, legal clarity or schema demand evidence",
+      "Escalation not preserved at receiving gates or independently accepted"
+    ],
+    "source_artifact_sha256": {
+      "/Users/alex/projects/datatug-public-data-fabric-agent-brief.md": "d3597006ed81c62514ff9bb1b45850441836247747fa93edb5ac81118a4f2535",
+      "/private/tmp/data-fabric-phase0-fresh-acceptance/report.md": "c19c028d16a89b7ca3bf3997352e56e953aabb31eeb06d4439f41cde5b9ca09d",
+      "/private/tmp/data-fabric-phase0-fresh-acceptance/findings.json": "d0f89d064d3b20352b807ccc7fa2df8a4a3e28b9675a0732ee86fc868fcd75b7",
+      "/private/tmp/data-fabric-test-pool-main-ci.json": "0dc399e579cff1b9f839b7e6dd54d9051ddf003c5106eee47e8e690bcd79c7ef",
+      "/Users/alex/projects/demodb-delivery-report.md": "304e3dfa361ae3b714601020b4ab1a02d06e5d13a90ec498612cc404e98a979b"
+    },
+    "independently_reverified_later_meaninggraph_publication": false,
+    "counts": {
+      "blockers": 0,
+      "majors": 0,
+      "minors": 0
+    },
+    "land": true,
+    "land_scope": "acceptance of architectural recommendation only, not Phase0 pass or publication authorization"
+  },
+  "architectural_report_sha256": "b0a9ad7acc9198e6f7090d2dd4f79fc582e0c7b8842459636cf0e0d4af97f65c",
+  "original_ephemeral_artifacts": {
+    "base": "/private/tmp/data-fabric-phase0-gate-scope",
+    "note": "Original review artifact paths are ephemeral execution inputs, not repository-relative links."
+  },
+  "original_phase0_assignment": {
+    "corpus_publication_question": {
+      "title": "Complete existing six-corpus deployment and reciprocal publication",
+      "status": "open",
+      "classification": "blocking",
+      "owner": "Existing DemoDB deployment/registry lane",
+      "evidence_ids": [
+        "ovdb-review-r1",
+        "semantic-review-r1",
+        "cloud-merge-observation",
+        "corpus-publication-r2",
+        "corpus-publication-fresh-r1"
+      ],
+      "gate_ids": [
+        "phase0"
+      ],
+      "resolution": "Open at20:58:53Z snapshot: AW/Employees runtime metadata mounts, missing MeaningGraph/Directory registrations, liveSakila/AW/EmployeesDirectory and final immutable-file mount validation. ModelSpec allsix and all18liveprovider metadata parity/licence publication now pass. Existing DemoDB owner publishing; no later state inferred."
+    },
+    "phase0_gate": {
+      "title": "Foundation review and hardening",
+      "status": "pending",
+      "owner": "Main orchestrator",
+      "prerequisite_ids": [],
+      "requirements": [
+        "All blocking findings resolved or explicitly escalated with evidence",
+        "Golden Chinook meaning \u2192 model \u2192 OVDB \u2192 Directory \u2192 DataTug journey passes to the supported extent",
+        "Fresh independent verifier accepts exact deployed revisions"
+      ],
+      "evidence_ids": [
+        "semantic-review-r1",
+        "ovdb-review-r1",
+        "datatug-review-pending",
+        "independent-gate-pending",
+        "independent-foundation-r3",
+        "production-chat-r3",
+        "canonical-source-r3",
+        "corpus-publication-r2",
+        "app-main-ci-failure",
+        "app-main-ci-closure",
+        "production-acceptance-fresh-r1",
+        "corpus-publication-fresh-r1",
+        "independent-foundation-fresh-r1"
+      ],
+      "blocker_ids": [
+        "demo-chat",
+        "corpus-publication",
+        "independent-verification",
+        "chinook-canonical-url",
+        "app-main-ci"
+      ],
+      "decision": "Pending; exact corrected appmain fullCI and fresh productionChat/source acceptance close B3. One substantive B1 corpus-publication blocker remains at20:58:53Z independent snapshot; final corpus acceptance/rootdecision pending. Broad research prohibited."
+    }
+  },
+  "root_acceptance": {
+    "outcome": "accepted bounded architecture recommendation",
+    "authority": "Autonomous mission orchestrator root; accepted in direct dispatch for this task",
+    "limits": "Timing decision only; no publication permission, no corpus closure, no gatepass until distinct independentfoundation acceptance and durable review/landing"
+  },
+  "linked_question_ids": [
+    "corpus-publication",
+    "phase0-publication-escalation",
+    "independent-verification"
+  ],
+  "external_dependency": {
+    "owner": "Existing DemoDB delivery chat / deployment-registry lane",
+    "report": "/Users/alex/projects/demodb-delivery-report.md",
+    "report_sha256": "304e3dfa361ae3b714601020b4ab1a02d06e5d13a90ec498612cc404e98a979b",
+    "attributed_statement": "Report remaining gate2 says locally tested SQLite legacy-read fix publication awaits explicit authorization after automatic approval review rejected GitHub egress to dal-go/dalgo2sql. This lane has inspected the report, not the rejection event or unpublished fix. No authority is granted to bypass or message the owner chat.",
+    "later_meaninggraph_statement": "Delivery report claims PR17/all six graphs registered; gate-scope review did not independently verify newer publication. Preserve last independent20:58:53 snapshot until owner supplies exact acceptance."
+  },
+  "corpus_closure_obligations": [
+    "Keep all six existing demo demand fixtures in actualschema analysis and programme scope",
+    "Exact final provider/runtime publication and consumer pins; all six advertised runtime metadata paths resolve",
+    "All relevant canonical and live MeaningGraph, ModelSpec, OVDB Directory registrations/derived publications resolve",
+    "Intended query/record/relationship behavior matches advertised capabilities without inventing query=true for metadata-only providers",
+    "Immutable-file mount acceptance preserves fixture integrity, licence/provenance and constraints; existing owner provides independent validation"
+  ],
+  "reopening_conditions": [
+    "Direct user instruction explicitly requires all-six deployment before research",
+    "New evidence shows corpus issue invalidates golden fixture, source integrity, legal clarity or schema demand evidence",
+    "Escalation not preserved at receiving gates or independently accepted"
+  ],
+  "foundation_acceptance": "Distinct independent r2foundationPASS linked via foundation-research-readiness-r2; root finalacceptance recorded separately. Original proposedPhase0pending history retained verbatim.",
+  "linked_evidence_ids": [
+    "phase0-scope-architecture-r1",
+    "phase0-scope-root-decision",
+    "foundation-research-readiness-r2",
+    "phase0-root-acceptance"
+  ]
+}

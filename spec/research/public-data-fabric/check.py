@@ -184,6 +184,9 @@ def self_test():
 
     def passing_programme(rows):
         passing_foundation(rows)
+        for question in rows['questions'].values():
+            if question.get('classification') == 'blocking':
+                question.update(status='resolved', resolution='Independent full-programme fixture closure')
         for key, (_, stage) in GATE_REQUIREMENTS.items():
             receipt_id = 'accepted-' + key
             rows['evidence'][receipt_id] = {
@@ -211,7 +214,19 @@ def self_test():
         if assigned:
             rows['questions']['new-blocker']['gate_ids'] = ['phase0']
 
+    def reopen_publication_at(rows, gate_id):
+        rows['questions']['corpus-publication'].update(status='open', gate_ids=[gate_id])
+        for key, gate in rows['gates'].items():
+            if key != gate_id:
+                gate['blocker_ids'] = [q for q in gate.get('blocker_ids', [])
+                                       if q != 'corpus-publication']
+
     mutations = {
+        **{f'open escalated publication blocks {gate_id}': mutate_accepted_programme(
+            lambda r, gate_id=gate_id: reopen_publication_at(r, gate_id))
+           for gate_id in ('phase4', 'phase5', 'phase6')},
+        'omitted receiving publication blocker': mutate_accepted_foundation(
+            lambda r: r['gates']['phase4'].update(blocker_ids=[])),
         'portfolio uses foundation stage': mutate_accepted_programme(
             lambda r: r['evidence']['accepted-phase3'].update(review_stage='foundation')),
         'portfolio reuses reconciler': mutate_accepted_programme(
@@ -224,7 +239,8 @@ def self_test():
         'wrong reviewer stage': mutate_accepted_foundation(lambda r: r['evidence']['fresh'].update(review_stage='portfolio')),
         'missing named reviewer': mutate_accepted_foundation(lambda r: r['evidence']['fresh'].pop('reviewer')),
         'missing passing receipts': mutate_accepted_foundation(lambda r: r['gates']['phase0'].update(evidence_ids=[])),
-        'unresolved gate': lambda r: r['gates']['phase0'].update(status='passed'),
+        'unresolved gate': mutate_accepted_foundation(
+            lambda r: r['questions']['independent-verification'].update(status='open')),
         'phase ordering': lambda r: r['gates']['phase1'].update(status='passed'),
         'missing rejection reason': lambda r: r['candidates']['tpch'].pop('reason'),
         'dangling evidence': lambda r: r['candidates']['chinook'].update(evidence_ids=['absent']),

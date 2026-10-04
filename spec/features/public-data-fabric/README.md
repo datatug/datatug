@@ -58,7 +58,7 @@ Each wave MUST be independently reviewed for semantic correctness, model fidelit
 
 ### AC: phase0-controls-discovery (verifies REQ:foundation-gate)
 
-**Given** any unresolved blocking finding or missing independent Phase 0 receipt
+**Given** an unresolved blocking finding still assigned to Phase 0 or a missing independent Phase 0 receipt
 **When** an agent tries to mark Phase 0 passed
 **Then** ledger validation fails and broad research remains prohibited.
 

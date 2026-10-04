@@ -1,0 +1,140 @@
+{
+  "id": "independent-foundation-research-readiness-r2",
+  "review_round": "r2",
+  "review_stage": "foundation",
+  "outcome": "pass",
+  "reviewer": "phase0_fresh_acceptance: configured GPT-6 Astra High, independent foundation reviewer",
+  "configured_model": "gpt-6-astra",
+  "configured_reasoning_effort": "high",
+  "runtime": "Codex subagent local Mac",
+  "serving_identity_verified": false,
+  "observed_at": "2026-10-04T21:21:42.057252+00:00",
+  "acceptance_scope": "Bounded Phase0 research readiness with explicit root-accepted B1 publication escalation",
+  "six_corpus_publication_accepted": false,
+  "research_may_start_before_reviewed_durable_gate_landing": false,
+  "root_owns_gate_and_landing": true,
+  "base_commit": "afaa706fafff280fca5e40c5b0a5d8e3aa2e3311",
+  "reviewed_proposal_snapshot_sha256": "8e4a4a970b9fa620e6b92c05f8b72bfe77fbf259ba264d43e5ccf4dcd8da3ec3",
+  "proposal_observed_at": "2026-10-04T21:19:22.268629+00:00",
+  "proposal_phase0_status": "pending",
+  "validator_review": {
+    "production_validator_byte_unchanged": true,
+    "state_enum_unchanged": true,
+    "self_test_mutations_passed": 22,
+    "each_receiving_gate_refused_for_exact_expected_reason": true,
+    "evidence": [
+      "r2-ledger-selftest.log",
+      "r2-receiving-gates.json"
+    ],
+    "historical_files_unchanged": 58
+  },
+  "execution_reuse": {
+    "live_snapshot": "2026-10-04T20:58:53.017479+00:00",
+    "app_commit": "95fff83f82c39ea1bb1a00847ad381586b6d8f09",
+    "app_ci_observed_at": "2026-10-04T21:03:08.273197Z",
+    "programme_base_ci_observed_at": "2026-10-04T21:11:48.135868Z",
+    "golden_browser_tests": 1,
+    "golden_browser_duration_seconds": 3.5,
+    "golden_tables": 11,
+    "customer_rows": 3,
+    "AI_reply_mocked": true,
+    "production_UI_data_query_real": true,
+    "canonical_source_url": "https://chinook.demodb.dev/data/json/chinook.Invoice.json",
+    "canonical_source_rows": 412,
+    "canonical_source_sha256": "88eb7faede360988e9c0f8f8d107e5093db5e712141de14d868f8947b43c373c",
+    "provider_semantic_checks": 18,
+    "fixture_integrity_checks": 6,
+    "employees_input_digests_reverified": 9,
+    "full_unchanged_suites_repeated": false,
+    "new_live_corpus_poll": false
+  },
+  "refs": {
+    "meaninggraph/core": "982916d73f0a35ff2558b0062f58aa3ac4f24d97",
+    "meaninggraph/cli": "a58a506d9e6f76660cc8586478521787976111d0",
+    "meaninggraph/registry": "548b0064868a32f0a465d844c18a7989adc9ba0c",
+    "modelspec-org/cli": "a8de98b4565ae669b6fba00c334b4649c9d40b11",
+    "modelspec-org/registry": "48b30b250a61385d94d46a70968677870750ea35",
+    "openvaultdb/openvaultdb-go": "9cf8ca20be40b8c8afaff304bbf476dbcebbdfec",
+    "openvaultdb/ovdb": "417f4806a3334991f0ef4ef78665da4ad73c7d5c",
+    "openvaultdb/ovdb-directory": "f1a1a6650716f9e488b17150a25f34a87e136f6f",
+    "openvaultdb/directory": "02db362144d7924c6081dd6768cc0d7187ac9bc3",
+    "datatug/datatug": "be7dcf6855219757d3f96dde382a4ed7b50c9e7c",
+    "datatug/datatug-apps": "95fff83f82c39ea1bb1a00847ad381586b6d8f09",
+    "datatug/datatug-core": "269b5e8b670c7af23813b1db83b31777995b52be",
+    "datatug/datatug-cli": "cefd4a1c107dd774f9af1aaaf511604c65404f20",
+    "demo-db/websites": "27967f26fa87e67c8d7a7b3d2784a0cc4c1bfdf6",
+    "demo-db/chinook": "26e852cca00101f53a84ef8ee1f1ae389067f5cf",
+    "demo-db/northwind": "e74726515c3833620b54b7a50d1d273276dd23c1",
+    "demo-db/pubs": "6c06c5c7395b03ff1a02c2b1a21485add3e1b65b",
+    "demo-db/sakila": "6567d30aec1592fe0917934a8bbe74ff70b04b01",
+    "demo-db/adventureworks": "cd8dcdf2079fe31480ad6d6c024b8c17cb91beea",
+    "demo-db/employees": "2455bb327aa8444ec496d36e2fe6dcacfc58dc0a",
+    "specscore/modelspec": "ff2393a99e0bd093272c1765a57eefdea01c0a90"
+  },
+  "corpus_limits": {
+    "chinook": "Pinned original SQLite; data/model MIT and meaning CC0",
+    "northwind": "Classic seed and empty tables retained; native Order Details and composite keys; data/model MIT and meaning CC0",
+    "pubs": "Converted fixture; keyless tables, frozen defaults, numeric/collation/null/blob representation limits; data/model MIT and meaning CC0",
+    "sakila": "MySQL-to-SQLite conversion; raw geometry and unsupported server behavior retained; data/model BSD-3-Clause and meaning CC0",
+    "adventureworks": "71tables;11 executable of20source views; opaque geography/hierarchyid; numeric precision loss and nonnative behavior explicit; data/model MIT and meaning CC0",
+    "employees": "1024person fabricated FK-closed subset,13584rows,not300024personfullsource; attribution/share-alike retained; data/model/meaning CC-BY-SA-3.0",
+    "tpch": "Excluded under preserved permission decision"
+  },
+  "open_publication_obligation": {
+    "id": "B1",
+    "question_id": "corpus-publication",
+    "status": "open",
+    "classification": "blocking",
+    "gate_ids": [
+      "phase4",
+      "phase5",
+      "phase6"
+    ],
+    "owner": "Existing DemoDB delivery chat / deployment-registry lane",
+    "last_accepted_state_at": "2026-10-04T20:58:53.017479+00:00",
+    "obligations": [
+      "Exact final provider/runtime publications and consumer pins",
+      "All six advertised runtime metadata paths resolve",
+      "Relevant canonical and live registry/Directory publication complete",
+      "Intended query/record/relationship behavior matches advertised capabilities",
+      "Immutable-file mounting acceptance preserves fixtures and constraints",
+      "Independent validation and intact licence/provenance"
+    ],
+    "external_repository_publication_authority_granted": false
+  },
+  "later_prerequisites": [
+    "Canonical semantic loader, explainable suggestions and HTTPS catalog UI ingestion",
+    "Dedicated identifier/transform/ambiguity reconciliation",
+    "Selected-scenario federation and access-mode validation"
+  ],
+  "reopening_conditions": [
+    "Golden supported path regression",
+    "Source integrity, legal clarity or six-schema demand assumptions invalidated",
+    "Receiving gate assignments/enforcement removed or weakened",
+    "Root decision/history/independent receipt not preserved",
+    "Stronger direct user instruction requires all six live deployments before research",
+    "Changed relevant fixture/source invalidates reused immutable receipts"
+  ],
+  "original_failed_CI_cause": "unknown; no cause or repeated-run stability invented",
+  "counts": {
+    "blockers": 0,
+    "majors": 0,
+    "minors": 0
+  },
+  "land_scope": "Foundation acceptance and proposed bounded gate representation; final source transition still reviewed/landed by root; no publication acceptance",
+  "original_ephemeral_artifacts": {
+    "base": "/private/tmp/data-fabric-phase0-fresh-acceptance",
+    "reviewed_proposal_snapshot": "r2-proposal-snapshot.json",
+    "input_audit": "r2-input-audit.json",
+    "report": "research-readiness-r2.md",
+    "scope": "Original relative audit/proposal artifact references are ephemeral review execution inputs under this base; durable summarized acceptance retained here."
+  },
+  "report_sha256": "8ec8e8ed82d1045ccedd0aea7e97efbad2378cd8bc6a7af2f501f810f487e85f",
+  "root_final_acceptance": {
+    "recorded_at": "2026-10-04T21:23:15.767781+00:00",
+    "authority": "Main orchestrator root, direct dispatch after reading complete independent r2 report",
+    "decision": "Accept Phase0 bounded research readiness with B1 publication timing escalated; exact finaldiffreview/CI/durablelanding and rereadmission required before research",
+    "publication_authority_granted": false,
+    "all_six_scope_retained": true
+  }
+}
