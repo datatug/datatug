@@ -3,11 +3,14 @@
   "kind": "meaning",
   "status": "researched",
   "evidence_ids": [
-    "d2-e-nptg"
+    "d2-e-nptg",
+    "p2-geography",
+    "p2-dedicated-reconciliation"
   ],
   "identifier_representations": [
     "GB NPTG locality code"
   ],
-  "reason": "Provisional source-informed meaning. No canonical MeaningGraph entry or accepted equivalence; fresh Phase2 reconciliation required.",
-  "research_depth": "unknown"
+  "reason": "Provisional source-informed meaning. No canonical MeaningGraph entry or accepted equivalence; fresh Phase2 reconciliation required.\n\nPhase 2 ACCEPTED: Accepted source-scoped/proposed concept relationship: Authority-specific locality identifier; broader transport gazetteer scope may not equal core settlement city. Canonical definition or dataset-local binding remains a Phase4 prerequisite.",
+  "research_depth": "unknown",
+  "semantic_disposition": "accepted"
 }

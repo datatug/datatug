@@ -3,13 +3,14 @@
   "kind": "recordset",
   "status": "researched",
   "evidence_ids": [
-    "d2-e-iana"
+    "d2-e-iana",
+    "p2-context-review"
   ],
   "dataset_id": "d2-data-iana",
   "identifier_representations": [
     "IANA service/port/protocol tuple",
     "Physical/documented fields: [\"Service Name\", \"Port Number\", \"Transport Protocol\", \"Description\", \"Assignee\", \"Contact\", \"Registration Date\", \"Modification Date\", \"Reference\", \"Service Code\", \"Unauthorized Use Reported\", \"Assignment Notes\"]"
   ],
-  "reason": "Grain: registration numeric port or range × transport protocol; service-only entries may exist. CSV extraction must handle embedded newlines/ranges/blank assignments. Registry lookup is a proposal, not traffic protocol or content sniffing proof.",
+  "reason": "Grain: registration numeric port or range × transport protocol; service-only entries may exist. CSV extraction must handle embedded newlines/ranges/blank assignments. Registry lookup is a proposal, not traffic protocol or content sniffing proof.\n\nPhase 2 context reviewed: recordset; directly attached assertion dispositions are enumerated in p2-coverage.json. Native/source schema and grain remain authoritative; acceptance of an attached field/edge never accepts every field or a global identity. ",
   "research_depth": "sampled"
 }

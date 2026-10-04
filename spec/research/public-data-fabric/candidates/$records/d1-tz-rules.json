@@ -3,14 +3,15 @@
   "kind": "recordset",
   "status": "promising",
   "evidence_ids": [
-    "d1-iana"
+    "d1-iana",
+    "p2-context-review"
   ],
   "dataset_id": "d1-dataset-iana",
   "source_id": "d1-source-iana",
   "identifier_representations": [
     "Zone.NAME,STDOFF,RULES,FORMAT,UNTIL;Rule.NAME,FROM,TO,IN,ON,AT,SAVE,LETTER;Link.TARGET,LINK-NAME"
   ],
-  "reason": "Proposed source recordset. Field inventory: Zone.NAME,STDOFF,RULES,FORMAT,UNTIL;Rule.NAME,FROM,TO,IN,ON,AT,SAVE,LETTER;Link.TARGET,LINK-NAME. Exact names and parsing depth remain source-qualified; see the linked evidence receipt and dated observations. All compatibility remains unresolved. Source rules and links, not a flat observations CSV. Any generated date-bounded transitions must record derivation and version.",
+  "reason": "Proposed source recordset. Field inventory: Zone.NAME,STDOFF,RULES,FORMAT,UNTIL;Rule.NAME,FROM,TO,IN,ON,AT,SAVE,LETTER;Link.TARGET,LINK-NAME. Exact names and parsing depth remain source-qualified; see the linked evidence receipt and dated observations. All compatibility remains unresolved. Source rules and links, not a flat observations CSV. Any generated date-bounded transitions must record derivation and version.\n\nPhase 2 context reviewed: recordset; directly attached assertion dispositions are enumerated in p2-coverage.json. Native/source schema and grain remain authoritative; acceptance of an attached field/edge never accepts every field or a global identity. ",
   "source_url": "https://www.iana.org/time-zones",
   "licence": "public-domain",
   "licence_notes": "tzdb data public domain; optional code file exceptions use BSD-3-Clause. Data and code rights remain distinct.",

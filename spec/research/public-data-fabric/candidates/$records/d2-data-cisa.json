@@ -3,7 +3,8 @@
   "kind": "dataset",
   "status": "promising",
   "evidence_ids": [
-    "d2-e-cisa"
+    "d2-e-cisa",
+    "p2-context-review"
   ],
   "source_id": "d2-source-cisa",
   "source_url": "https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json",
@@ -15,7 +16,7 @@
   "observed_at": "2026-10-04T22:37:20.841414+00:00",
   "revalidate_after": "2026-11-04T00:00:00Z",
   "freshness": "current",
-  "reason": "AnonymousJSON/CSV;1,767,828Bcomplete boundedcurrentcatalogue; current schema includes forensicTriage. No exploit code retained; titles/requiredActions not universal severity/asset compatibility.",
+  "reason": "AnonymousJSON/CSV;1,767,828Bcomplete boundedcurrentcatalogue; current schema includes forensicTriage. No exploit code retained; titles/requiredActions not universal severity/asset compatibility.\n\nPhase 2 context reviewed: dataset; directly attached assertion dispositions are enumerated in p2-coverage.json. Dataset scope, edition and licence remain independent of particular field compatibility. ",
   "practical_value": "User vulnerability inventories with exact CVEID can enrich exploitation evidence and dated required actions.",
   "showcase_value": "Dated catalogue timeline; mandate due dates explicitly scoped.",
   "research_depth": "documented"

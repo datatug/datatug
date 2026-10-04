@@ -3,7 +3,9 @@
   "kind": "meaning",
   "status": "researched",
   "evidence_ids": [
-    "demand-corpus-pubs"
+    "demand-corpus-pubs",
+    "p2-source-role",
+    "p2-dedicated-reconciliation"
   ],
   "demo_ids": [
     "pubs"
@@ -13,5 +15,6 @@
   ],
   "practical_value": "Proposed field-role demand in 1 demos. Preserve source value; external reference matching requires evidence.",
   "licence_notes": "Candidate metadata is unreconciled. Per-input data/model/meaning licences remain in demand-plan.json and recordset records; Employees-derived evidence retains CC-BY-SA-3.0. No blanket CC0 or canonical new meaning licence is asserted.",
-  "reason": "Related concepts, entity keys/names/attributes and physical roles remain separately qualified in assertions. Coverage means inspected hypothesis presence, not accepted semantic equivalence or external match rate."
+  "reason": "Related concepts, entity keys/names/attributes and physical roles remain separately qualified in assertions. Coverage means inspected hypothesis presence, not accepted semantic equivalence or external match rate.\n\nPhase 2 UNRESOLVED: A physical schema role is retained, but a single broad demand label does not define a reusable common meaning. Distinguish entity, identifier, display name, descriptive value and computed aggregate. A field implementation needs a precise concept and reviewed binding role; source strings and value samples alone do not establish external equivalence. Definition gap: the candidate combines source roles or lacks a sufficiently bounded reusable definition and binding domain. Retain the candidate; do not infer absence from literal query results. Examined 1 physical field-role hypotheses for this group; their individual dispositions govern implementation.",
+  "semantic_disposition": "unresolved"
 }

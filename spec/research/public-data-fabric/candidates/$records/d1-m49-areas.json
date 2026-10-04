@@ -3,14 +3,15 @@
   "kind": "recordset",
   "status": "blocked",
   "evidence_ids": [
-    "d1-un-m49"
+    "d1-un-m49",
+    "p2-context-review"
   ],
   "dataset_id": "d1-dataset-un-m49",
   "source_id": "d1-source-un-m49",
   "identifier_representations": [
     "Global/Region/Subregion/IntermediateRegion codes/names,CountryorArea,M49Code,ISOalpha2,ISOalpha3"
   ],
-  "reason": "Proposed source recordset. Field inventory: Global/Region/Subregion/IntermediateRegion codes/names,CountryorArea,M49Code,ISOalpha2,ISOalpha3. Exact names and parsing depth remain source-qualified; see the linked evidence receipt and dated observations. All compatibility remains unresolved. Primary area hierarchy page inspected. Three-digit codes preserve leading zeros; distribution blocked pending specific grant.",
+  "reason": "Proposed source recordset. Field inventory: Global/Region/Subregion/IntermediateRegion codes/names,CountryorArea,M49Code,ISOalpha2,ISOalpha3. Exact names and parsing depth remain source-qualified; see the linked evidence receipt and dated observations. All compatibility remains unresolved. Primary area hierarchy page inspected. Three-digit codes preserve leading zeros; distribution blocked pending specific grant.\n\nPhase 2 context reviewed: recordset; directly attached assertion dispositions are enumerated in p2-coverage.json. Native/source schema and grain remain authoritative; acceptance of an attached field/edge never accepts every field or a global identity. ",
   "source_url": "https://unstats.un.org/unsd/methodology/m49/",
   "licence": "needs-review",
   "licence_notes": "Redistribution blocked pending specific permission. Generic UN terms limit personal noncommercial use and exclude resale, redistribution and derivatives.",

@@ -1,0 +1,8 @@
+{
+  "title": "Phase 2 technical reconciliation boundary",
+  "observed_at": "2026-10-04T23:30:33.173750+00:00",
+  "outcome": "decision",
+  "summary": "Registry identifiers require their specific namespaces and composite keys. CVE ID identifies a vulnerability, port plus transport identifies an assignment, and HTTP/IP reserved ranges are not ordinary codes. Registered values do not establish actual traffic, product vulnerability, safe software or reuse permission.",
+  "reviewer": "fresh-phase2-semantic-reconciler",
+  "path": "spec/research/public-data-fabric/p2-reconciliation.md"
+}

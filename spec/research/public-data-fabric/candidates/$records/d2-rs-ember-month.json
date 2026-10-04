@@ -3,13 +3,14 @@
   "kind": "recordset",
   "status": "researched",
   "evidence_ids": [
-    "d2-e-ember"
+    "d2-e-ember",
+    "p2-context-review"
   ],
   "dataset_id": "d2-data-ember-month",
   "identifier_representations": [
     "Same provider area/source labels; monthly geographic subset",
     "Physical/documented fields: [\"Area\", \"ISO 3 code\", \"Date\", \"Area type\", \"Electricity source\", \"Is aggregated source\", \"Generation (TWh)\", \"Generation YoY change (TWh)\", \"Generation YoY change (%)\", \"Share of generation (%)\", \"Share of generation YoY change (% points)\", \"Emissions (MtCO2e)\", \"Emissions YoY change (MtCO2e)\", \"Emissions YoY change (%)\", \"Share of emissions (%)\", \"Emissions intensity (gCO2e/kWh)\", \"Continent\", \"Ember region\", \"EU member\", \"OECD member\", \"G20 member\", \"G7 member\", \"ASEAN member\"]"
   ],
-  "reason": "Grain: Area × Date(month start) × Electricity source. 16384Bprefix only; no completecoverage/minmaxclaim. Date2019-01-01 in first row denotes month, not daily measurement. Annual Capacity column absent in monthly observed header.",
+  "reason": "Grain: Area × Date(month start) × Electricity source. 16384Bprefix only; no completecoverage/minmaxclaim. Date2019-01-01 in first row denotes month, not daily measurement. Annual Capacity column absent in monthly observed header.\n\nPhase 2 context reviewed: recordset; directly attached assertion dispositions are enumerated in p2-coverage.json. Native/source schema and grain remain authoritative; acceptance of an attached field/edge never accepts every field or a global identity. ",
   "research_depth": "sampled"
 }

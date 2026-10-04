@@ -59,6 +59,15 @@ For machine-answerable prevalence, filter `rows[].structural_demo_count >= 4` in
 
 ## Machine-readable collections
 
+[Phase 2 dedicated reconciliation](p2-reconciliation.md) records scoped accepted,
+rejected and unresolved decisions without advancing the phase gate. Optional
+`semantic_disposition` on meaning candidates separates concept reuse/new-definition
+judgments from lifecycle and licensing. It is forbidden on other candidate kinds
+and requires named dedicated reconciliation evidence. Assertion compatibility and
+status retain their existing meanings. A reconciled local FK is not a cross-source
+join or a publication receipt. [Coverage](evidence/p2-coverage.json) accounts for
+every original candidate/assertion ID and separates acceptance scopes.
+
 The root `.ingitdb/root-collections.yaml` registers six collections. Definitions reuse the ecosystem's `.collection/definition.yaml` + `$records` conventions. Definition files use JSON syntax, which is valid YAML, to make the additional consistency checker dependency-free. Stable IDs are record filenames; references contain keys within their declared target collection, not display titles.
 
 | Collection | Purpose and queries |

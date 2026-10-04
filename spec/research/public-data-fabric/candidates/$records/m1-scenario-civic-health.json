@@ -6,7 +6,8 @@
     "m1-ev-cube",
     "m1-ev-health",
     "m1-ev-ra",
-    "m1-ev-spatial"
+    "m1-ev-spatial",
+    "p2-context-review"
   ],
   "member_ids": [
     "m1-population",
@@ -29,6 +30,6 @@
   "demo_ids": [],
   "practical_value": "User service-coverage area/period counts → boundary-aware statistical geography → population cohort → aggregate health/service indicators. Ask whether provision rates differ under matched denominators or where coverage gaps exist. Need service/civic indicators and denominator definitions, statistical territorial bridges and licensed aggregates. No individual health inference from regional values.",
   "showcase_value": "Choropleth and cohort comparison with denominator/methodology/uncertainty.",
-  "reason": "All dependencies are research concepts; suitable dataset/recordset, identifier reconciliation, licensing and measured join dependencies remain open. Not selected, implemented or validated.",
+  "reason": "All dependencies are research concepts; suitable dataset/recordset, identifier reconciliation, licensing and measured join dependencies remain open. Not selected, implemented or validated.\n\nPhase 2 context reviewed: scenario; directly attached assertion dispositions are enumerated in p2-coverage.json. Member/dependency IDs preserved. Each unresolved/rejected mapping, source rights and temporal/domain gap remains a readiness prerequisite; no portfolio selection or executable bundle acceptance. ",
   "research_depth": "documented"
 }

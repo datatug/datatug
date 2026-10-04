@@ -1,0 +1,9 @@
+{
+  "title": "B1 publication dependency refresh; remains open",
+  "observed_at": "2026-10-04T23:22:40.378383+00:00",
+  "outcome": "partial",
+  "summary": "Canonical MG registration now includes six exact provider pins at2d92bbdd45fc2552f231f8f993a5b8b8d5b7fa29; root corroborated mergedPR17/exactCI37234277079 SUCCESS. Runtime AW/Employees metadata404; live Sakila/AW/Employees Directory404; Pubs live pin stale; Sakila advertised DTQL404 versus typed queryfalse. Existing owner retains outstanding publication-approval hold. B1 stays OPEN blocking4/5/6; no phase change.",
+  "path": "spec/research/public-data-fabric/evidence/p2-corpus-publication-refresh.json",
+  "reviewer": "read-only-dependency-verifier; root-corroborated registration",
+  "independent": true
+}

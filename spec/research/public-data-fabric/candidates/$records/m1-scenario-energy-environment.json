@@ -9,7 +9,8 @@
     "m1-ev-si",
     "m1-ev-spatial",
     "m1-ev-time",
-    "m1-ev-units"
+    "m1-ev-units",
+    "p2-context-review"
   ],
   "member_ids": [
     "m1-site",
@@ -36,6 +37,6 @@
   "demo_ids": [],
   "practical_value": "User facilities/meters/time-stamped energy records → site geometry/support → source-compatible energy/weather/air-quality observations and regional energy flow. Ask whether demand tracks weather and which regional energy mix contextualises operations. Need licensed local/grid observations, spatial support, energy-flow definitions and correct power-vs-energy units; region averages do not measure site emissions.",
   "showcase_value": "Energy and weather series, support-aware map; no causal or facility-emission claim.",
-  "reason": "All dependencies are research concepts; suitable dataset/recordset, identifier reconciliation, licensing and measured join dependencies remain open. Not selected, implemented or validated.",
+  "reason": "All dependencies are research concepts; suitable dataset/recordset, identifier reconciliation, licensing and measured join dependencies remain open. Not selected, implemented or validated.\n\nPhase 2 context reviewed: scenario; directly attached assertion dispositions are enumerated in p2-coverage.json. Member/dependency IDs preserved. Each unresolved/rejected mapping, source rights and temporal/domain gap remains a readiness prerequisite; no portfolio selection or executable bundle acceptance. ",
   "research_depth": "documented"
 }

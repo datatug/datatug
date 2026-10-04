@@ -1,23 +1,26 @@
 {
   "title": "NptgLocalityCode → provisional nptg-locality",
   "kind": "mapping",
-  "status": "researched",
+  "status": "reconciled",
   "from_id": "d2-rs-nptg",
   "to_id": "d2-meaning-nptg-locality",
   "from_fields": [
     "NptgLocalityCode"
   ],
   "to_fields": [
-    "provisional concept"
+    "source-concept"
   ],
   "from_identifier_namespace": "GB NPTG",
   "to_identifier_namespace": "d2 provisional meaning; not canonical",
-  "physical_role": "observed field hypothesis",
-  "compatibility": "unresolved",
-  "assumptions": "43900unique snapshot; noadminareaequivalence.",
-  "confidence": "medium",
+  "physical_role": "value implementing the stated source concept",
+  "compatibility": "semantic-equivalence",
+  "assumptions": "Current scoped acceptance: NptgLocalityCode is NPTG locality identity at the dated snapshot. Do not equate to municipality, city-name identity or administrative-area code. Implementation remains subject to the source licence, current pin, canonical binding validation, explicit null/multiplicity policy and independent end-to-end checks. Discovery assumptions retained as history: 43900unique snapshot; noadminareaequivalence.",
+  "confidence": "high",
   "evidence_ids": [
-    "d2-e-nptg"
+    "d2-e-nptg",
+    "p2-geography",
+    "p2-dedicated-reconciliation",
+    "p2-mobility"
   ],
-  "reason": "No semantic reconciliation; names alone do not authorize mapping."
+  "reason": "Phase 2 ACCEPTED: NptgLocalityCode is NPTG locality identity at the dated snapshot. Do not equate to municipality, city-name identity or administrative-area code.\n\nOriginal discovery reason (historical): No semantic reconciliation; names alone do not authorize mapping."
 }

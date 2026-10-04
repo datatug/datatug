@@ -1,9 +1,12 @@
 {
   "title": "adventureworks.Sales.vIndividualCustomer.CountryRegionName proposes Country",
   "kind": "mapping",
-  "status": "researched",
+  "status": "reconciled",
   "evidence_ids": [
-    "demand-corpus-adventureworks"
+    "demand-corpus-adventureworks",
+    "p2-geography",
+    "p2-dedicated-reconciliation",
+    "p2-native-probes"
   ],
   "from_id": "demand-adventureworks-sales-vindividualcustomer",
   "to_id": "demand-meaning-country",
@@ -12,14 +15,14 @@
     "CountryRegionName"
   ],
   "to_fields": [
-    "proposed-role"
+    "country"
   ],
-  "compatibility": "unresolved",
+  "compatibility": "semantic-equivalence",
   "confidence": "high",
-  "physical_role": "CountryRegionName: label-or-name",
+  "physical_role": "value of a role-qualified country attribute",
   "from_identifier_namespace": "literal:adventureworks/Sales.vIndividualCustomer/CountryRegionName",
   "to_identifier_namespace": "unreconciled:country",
   "expected_cardinality": "Not established; repeated names/codes and reference roles are retained.",
-  "assumptions": "Proposed only; dedicated semantic reconciliation required. Native source-local IDs are not portable across demo databases. CountryRegionCode is ISO-like source text, not independently certified current ISO coverage; Sakila country_id is local and country is a label. Field-level demand signal; proposed concept includes explicitly qualified source role, not entity equivalence. Confidence concerns the proposed source role only. Raw profiles and context are in evidence/demo-demand.json; no normalization applied.",
-  "reason": "Research hypothesis only. Candidate reference/calendar/identifier lookup with contextual bridge and measured match rate; local transaction/person IDs support internal joins only."
+  "assumptions": "Current scoped acceptance: adventureworks.Sales.vIndividualCustomer.CountryRegionName implements a role-qualified country/territory reference, using labels. All 18508 nonnull source rows resolve uniquely in the pinned core starter values. Retain customer/billing/shipping/employee/sales-territory role; neither sovereignty nor transaction currency follows. Implementation remains subject to the source licence, current pin, canonical binding validation, explicit null/multiplicity policy and independent end-to-end checks. Discovery assumptions retained as history: Proposed only; dedicated semantic reconciliation required. Native source-local IDs are not portable across demo databases. CountryRegionCode is ISO-like source text, not independently certified current ISO coverage; Sakila country_id is local and country is a label. Field-level demand signal; proposed concept includes explicitly qualified source role, not entity equivalence. Confidence concerns the proposed source role only. Raw profiles and context are in evidence/demo-demand.json; no normalization applied.",
+  "reason": "Phase 2 ACCEPTED: adventureworks.Sales.vIndividualCustomer.CountryRegionName implements a role-qualified country/territory reference, using labels. All 18508 nonnull source rows resolve uniquely in the pinned core starter values. Retain customer/billing/shipping/employee/sales-territory role; neither sovereignty nor transaction currency follows.\n\nOriginal discovery reason (historical): Research hypothesis only. Candidate reference/calendar/identifier lookup with contextual bridge and measured match rate; local transaction/person IDs support internal joins only."
 }

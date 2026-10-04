@@ -3,14 +3,17 @@
   "kind": "meaning",
   "status": "needs-review",
   "evidence_ids": [
-    "m1-ev-network"
+    "m1-ev-network",
+    "p2-technical",
+    "p2-dedicated-reconciliation"
   ],
   "source_id": "m1-source-network",
   "identifier_representations": [
     "IPv4/IPv6 prefix; ASN; allocation registry/time"
   ],
-  "reason": "Depth: shallow. Confidence medium in scope distinction; no canonical mapping. Allocation network organisation differs from endpoint geolocation or end-user identity; actual traffic source gap.",
+  "reason": "Depth: shallow. Confidence medium in scope distinction; no canonical mapping. Allocation network organisation differs from endpoint geolocation or end-user identity; actual traffic source gap.\n\nPhase 2 UNRESOLVED: Registry identifiers require their specific namespaces and composite keys. CVE ID identifies a vulnerability, port plus transport identifies an assignment, and HTTP/IP reserved ranges are not ordinary codes. Registered values do not establish actual traffic, product vulnerability, safe software or reuse permission. Retain the specific research distinction from this candidate. Evidence gap: final concept boundaries/operational source scope remain unproven; a source implementation and potential overlap with canonical or related research must be resolved before promotion.",
   "practical_value": "Allocation network organisation differs from endpoint geolocation or end-user identity; actual traffic source gap.",
   "showcase_value": "Research affiliation/output graph or contact/network explanation when portable keys actually exist.",
-  "research_depth": "shallow"
+  "research_depth": "shallow",
+  "semantic_disposition": "unresolved"
 }

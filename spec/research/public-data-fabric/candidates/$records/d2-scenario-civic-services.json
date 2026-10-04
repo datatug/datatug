@@ -3,7 +3,8 @@
   "kind": "scenario",
   "status": "researched",
   "evidence_ids": [
-    "d2-e-fsa"
+    "d2-e-fsa",
+    "p2-context-review"
   ],
   "member_ids": [
     "d2-data-fsa",
@@ -15,7 +16,7 @@
   "demo_ids": [
     "northwind"
   ],
-  "reason": "User problem/schema: Userpremises(FHRSID optional,LAcode,localbusinessID,country,postcode,name,coordinates)orserviceestablishmentIDs. Proposed joins: FHRSID/LAcompositeonlywithinprovenregistration/snapshot;spatialstopassociationnotidentity. NorthwindSupplierspostcode/name lookup purelycandidate,notfictionalrealbusinessmatch. Schoolidentifiers/schemaunverified,crimeonlyarea/monthcontextnotexactpremise. Answerable questions: WhichknownFHRSestablishmentschangedrating orhave data gaps?Whichpremiseshavecandidatepublicstops?Whichsources cannot currently bejoined? Visualizations: Datedratingtable/map;schemetype/coveragefilters;accessibilitycandidateview. Gaps/cost/risks: Privateaddresssuppression,LAcode reuse/mergers,FHISnotFHRSnumericrating;currentrating/update-dateobligation;V2API403bulkXMLworks;GIASscope/terms403;crimeanonymisationandmonthlylag.",
+  "reason": "User problem/schema: Userpremises(FHRSID optional,LAcode,localbusinessID,country,postcode,name,coordinates)orserviceestablishmentIDs. Proposed joins: FHRSID/LAcompositeonlywithinprovenregistration/snapshot;spatialstopassociationnotidentity. NorthwindSupplierspostcode/name lookup purelycandidate,notfictionalrealbusinessmatch. Schoolidentifiers/schemaunverified,crimeonlyarea/monthcontextnotexactpremise. Answerable questions: WhichknownFHRSestablishmentschangedrating orhave data gaps?Whichpremiseshavecandidatepublicstops?Whichsources cannot currently bejoined? Visualizations: Datedratingtable/map;schemetype/coveragefilters;accessibilitycandidateview. Gaps/cost/risks: Privateaddresssuppression,LAcode reuse/mergers,FHISnotFHRSnumericrating;currentrating/update-dateobligation;V2API403bulkXMLworks;GIASscope/terms403;crimeanonymisationandmonthlylag.\n\nPhase 2 context reviewed: scenario; directly attached assertion dispositions are enumerated in p2-coverage.json. Member/dependency IDs preserved. Each unresolved/rejected mapping, source rights and temporal/domain gap remains a readiness prerequisite; no portfolio selection or executable bundle acceptance. ",
   "practical_value": "WhichknownFHRSestablishmentschangedrating orhave data gaps?Whichpremiseshavecandidatepublicstops?Whichsources cannot currently bejoined?",
   "showcase_value": "Datedratingtable/map;schemetype/coveragefilters;accessibilitycandidateview.",
   "research_depth": "documented"

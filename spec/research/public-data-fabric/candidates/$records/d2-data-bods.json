@@ -3,7 +3,8 @@
   "kind": "dataset",
   "status": "needs-review",
   "evidence_ids": [
-    "d2-e-bods"
+    "d2-e-bods",
+    "p2-context-review"
   ],
   "source_id": "d2-source-bods",
   "source_url": "https://www.gov.uk/government/collections/bus-open-data-service",
@@ -15,7 +16,7 @@
   "observed_at": "2026-10-04T22:37:20.841414+00:00",
   "revalidate_after": "2026-11-04T00:00:00Z",
   "freshness": "needs-review",
-  "reason": "Screened official TransXChange2.4/PTI, SIRI-VM, NeTEx guidance; no data fetched, size unknown.",
+  "reason": "Screened official TransXChange2.4/PTI, SIRI-VM, NeTEx guidance; no data fetched, size unknown.\n\nPhase 2 context reviewed: dataset; directly attached assertion dispositions are enumerated in p2-coverage.json. Dataset scope, edition and licence remain independent of particular field compatibility. ",
   "practical_value": "Potential schedule-to-actual delay analysis using explicit journey/block reference.",
   "showcase_value": "Bus movement map if later access/legal conditions permit.",
   "research_depth": "shallow"

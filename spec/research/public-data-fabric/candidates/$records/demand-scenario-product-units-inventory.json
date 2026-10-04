@@ -3,7 +3,8 @@
   "kind": "scenario",
   "status": "researched",
   "evidence_ids": [
-    "demo-demand-analysis"
+    "demo-demand-analysis",
+    "p2-context-review"
   ],
   "demo_ids": [
     "northwind",
@@ -17,6 +18,6 @@
     "demand-meaning-bill-of-materials"
   ],
   "practical_value": "Public units/category references and SKU namespace bridges remain gaps; packaging text versus coded measures needs reconciliation. Explain stock/BOM quantities and category rollups without joining product IDs across demos.",
-  "reason": "Scenario proposal only; no public source selected, accepted join, measured match rate, implementation or publication receipt. Public units/category references and SKU namespace bridges remain gaps; packaging text versus coded measures needs reconciliation. Explain stock/BOM quantities and category rollups without joining product IDs across demos.",
+  "reason": "Scenario proposal only; no public source selected, accepted join, measured match rate, implementation or publication receipt. Public units/category references and SKU namespace bridges remain gaps; packaging text versus coded measures needs reconciliation. Explain stock/BOM quantities and category rollups without joining product IDs across demos.\n\nPhase 2 context reviewed: scenario; directly attached assertion dispositions are enumerated in p2-coverage.json. Member/dependency IDs preserved. Each unresolved/rejected mapping, source rights and temporal/domain gap remains a readiness prerequisite; no portfolio selection or executable bundle acceptance. ",
   "showcase_value": "Possible comparison chart/calendar/map after identifier and coverage acceptance; not a rendered or validated product journey."
 }

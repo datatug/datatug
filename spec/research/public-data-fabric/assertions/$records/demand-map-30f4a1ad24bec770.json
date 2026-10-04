@@ -1,9 +1,11 @@
 {
   "title": "northwind.Employees.Notes proposes Employee notes",
   "kind": "mapping",
-  "status": "researched",
+  "status": "needs-review",
   "evidence_ids": [
-    "demand-corpus-northwind"
+    "demand-corpus-northwind",
+    "p2-identity",
+    "p2-dedicated-reconciliation"
   ],
   "from_id": "demand-northwind-employees",
   "to_id": "demand-meaning-employee-notes",
@@ -21,5 +23,5 @@
   "to_identifier_namespace": "unreconciled:employee-notes",
   "expected_cardinality": "Not established; repeated names/codes and reference roles are retained.",
   "assumptions": "Proposed demand only; dedicated reconciliation required. Retained lower-priority source attribute; no generic meaning inferred.  Confidence concerns the proposed source role only. Raw profiles and context are in evidence/demo-demand.json; no normalization applied.",
-  "reason": "Research hypothesis only. Preserve source value; external reference matching requires evidence."
+  "reason": "Phase 2 UNRESOLVED: northwind.Employees.Notes: Source-local person, customer, employee, supplier, store and business-entity IDs have no cross-demo or real-world identity. Customer/supplier/employer/operator are roles; organisation, legal entity, site and registration differ. A native PK/FK supports only its declared source relationship. Alternate unique names/GUIDs are source-scoped; names are not LEI/ROR/ORCID or a portable person key. Evidence gap: no complete role-specific canonical binding and validated external representation bridge has been established for this exact proposal.\n\nOriginal discovery reason (historical): Research hypothesis only. Preserve source value; external reference matching requires evidence."
 }

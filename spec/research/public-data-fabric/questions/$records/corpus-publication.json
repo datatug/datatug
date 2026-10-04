@@ -11,7 +11,8 @@
     "corpus-publication-fresh-r1",
     "phase0-scope-architecture-r1",
     "phase0-scope-root-decision",
-    "foundation-research-readiness-r2"
+    "foundation-research-readiness-r2",
+    "p2-publication-refresh"
   ],
   "gate_ids": [
     "phase4",

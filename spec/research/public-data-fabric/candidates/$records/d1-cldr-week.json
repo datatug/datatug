@@ -3,14 +3,15 @@
   "kind": "recordset",
   "status": "promising",
   "evidence_ids": [
-    "d1-cldr"
+    "d1-cldr",
+    "p2-context-review"
   ],
   "dataset_id": "d1-dataset-cldr",
   "source_id": "d1-source-cldr",
   "identifier_representations": [
     "firstDay.day,territories,minDays.count,weekendStart.day,weekendEnd.day"
   ],
-  "reason": "Proposed source recordset. Field inventory: firstDay.day,territories,minDays.count,weekendStart.day,weekendEnd.day. Exact names and parsing depth remain source-qualified; see the linked evidence receipt and dated observations. All compatibility remains unresolved. Global001 fallback and territory conventions; weekends are distinct from statutory holidays.",
+  "reason": "Proposed source recordset. Field inventory: firstDay.day,territories,minDays.count,weekendStart.day,weekendEnd.day. Exact names and parsing depth remain source-qualified; see the linked evidence receipt and dated observations. All compatibility remains unresolved. Global001 fallback and territory conventions; weekends are distinct from statutory holidays.\n\nPhase 2 context reviewed: recordset; directly attached assertion dispositions are enumerated in p2-coverage.json. Native/source schema and grain remain authoritative; acceptance of an attached field/edge never accepts every field or a global identity. ",
   "source_url": "https://www.unicode.org/Public/cldr/48/",
   "licence": "Unicode-3.0",
   "licence_notes": "Unicode License V3: preserve copyright and permission notice in data copies or documentation. Commercial use, copy, cache, adapt and redistribute permitted; no endorsement.",

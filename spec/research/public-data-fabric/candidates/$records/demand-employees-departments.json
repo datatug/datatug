@@ -7,7 +7,8 @@
     "employees"
   ],
   "evidence_ids": [
-    "demand-corpus-employees"
+    "demand-corpus-employees",
+    "p2-context-review"
   ],
   "repository": "demo-db/employees",
   "commit": "2455bb327aa8444ec496d36e2fe6dcacfc58dc0a",
@@ -19,5 +20,5 @@
     "Source-local identity; external identity not established"
   ],
   "practical_value": "Observed table; 9 rows. Derived views reuse native tables; empty tables preserve structure without observed values.",
-  "reason": "Actual pinned schema demand fixture. No selected or reconciled status."
+  "reason": "Actual pinned schema demand fixture. No selected or reconciled status.\n\nPhase 2 context reviewed: recordset; directly attached assertion dispositions are enumerated in p2-coverage.json. Native/source schema and grain remain authoritative; acceptance of an attached field/edge never accepts every field or a global identity. "
 }

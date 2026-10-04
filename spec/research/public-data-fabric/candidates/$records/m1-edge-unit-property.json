@@ -7,14 +7,15 @@
     "m1-quantity-kind"
   ],
   "evidence_ids": [
-    "m1-ev-units"
+    "m1-ev-units",
+    "p2-context-review"
   ],
   "identifier_representations": [
     "Proposed from roles: unit common code, quantity category",
     "Proposed to roles: quantity category"
   ],
   "practical_value": "Compatible quantity plus unit needed; packaging and count qualifiers retained. Conceptual field roles only; no dataset field contract or measured join exists.",
-  "reason": "Conceptual relationship hypothesis only. Compatibility unresolved; confidence medium in research path; expected cardinality: many units per quantity kind. Preserved as bundle because assertion edge requires actual recordset endpoints. No executable or accepted join. Direction: m1-unit → m1-quantity-kind. Proposed field roles are separately labelled in identifier_representations.",
+  "reason": "Conceptual relationship hypothesis only. Compatibility unresolved; confidence medium in research path; expected cardinality: many units per quantity kind. Preserved as bundle because assertion edge requires actual recordset endpoints. No executable or accepted join. Direction: m1-unit → m1-quantity-kind. Proposed field roles are separately labelled in identifier_representations.\n\nPhase 2 context reviewed: bundle; directly attached assertion dispositions are enumerated in p2-coverage.json. Member/dependency IDs preserved. Each unresolved/rejected mapping, source rights and temporal/domain gap remains a readiness prerequisite; no portfolio selection or executable bundle acceptance. Conceptual relationship retained as related-distinct, not equivalence or physical FK. Source-specific cardinality/crosswalk still required. ",
   "showcase_value": "Relationship graph after source-specific identifiers and scope are established.",
   "research_depth": "documented"
 }

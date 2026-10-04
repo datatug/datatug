@@ -1,9 +1,11 @@
 {
   "title": "adventureworks.Production.TransactionHistoryArchive.ModifiedDate proposes Calendar Date Time",
   "kind": "mapping",
-  "status": "researched",
+  "status": "needs-review",
   "evidence_ids": [
-    "demand-corpus-adventureworks"
+    "demand-corpus-adventureworks",
+    "p2-time",
+    "p2-dedicated-reconciliation"
   ],
   "from_id": "demand-adventureworks-production-transactionhistoryarchive",
   "to_id": "demand-meaning-calendar-date-time",
@@ -15,11 +17,11 @@
     "proposed-role"
   ],
   "compatibility": "unresolved",
-  "confidence": "high",
+  "confidence": "low",
   "physical_role": "ModifiedDate: metadata-modified",
   "from_identifier_namespace": "literal:adventureworks/Production.TransactionHistoryArchive/ModifiedDate",
   "to_identifier_namespace": "unreconciled:calendar-date-time",
   "expected_cardinality": "Not established; repeated names/codes and reference roles are retained.",
   "assumptions": "Proposed only; dedicated semantic reconciliation required. Native source-local IDs are not portable across demo databases. Source role preserved; date-only vs timestamp distinguished by actual examples; Employees 9999-01-01 is current sentinel, not observation. Field-level demand signal; proposed concept includes explicitly qualified source role, not entity equivalence. Confidence concerns the proposed source role only. Raw profiles and context are in evidence/demo-demand.json; no normalization applied.",
-  "reason": "Research hypothesis only. Candidate reference/calendar/identifier lookup with contextual bridge and measured match rate; local transaction/person IDs support internal joins only."
+  "reason": "Phase 2 UNRESOLVED: adventureworks.Production.TransactionHistoryArchive.ModifiedDate: Separate calendar date, local wall time, UTC instant, duration, observation period and validity bounds. Timezone, calendar and source event role are prerequisites for conversion. Employees 9999-01-01 is an open-ended validity sentinel; shift time lacks a date. A midnight string alone does not establish a UTC instant. Date-only native/source semantics can reuse core date; timestamp truncation needs an explicit query transformation. Evidence gap: no complete role-specific canonical binding and validated external representation bridge has been established for this exact proposal.\n\nOriginal discovery reason (historical): Research hypothesis only. Candidate reference/calendar/identifier lookup with contextual bridge and measured match rate; local transaction/person IDs support internal joins only."
 }

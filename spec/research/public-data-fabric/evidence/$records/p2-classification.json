@@ -1,0 +1,8 @@
+{
+  "title": "Phase 2 classification reconciliation boundary",
+  "observed_at": "2026-10-04T23:30:33.173750+00:00",
+  "outcome": "decision",
+  "summary": "Each classification needs scheme, edition and source definition. A local status/category/title/genre code cannot be joined to another scheme by equal value. Assignment and correspondence require evidence; splits/merges may be many-to-many. Preserve source codes and nulls; no automatic NAICS/SOC/ISCO/GTIN assignment.",
+  "reviewer": "fresh-phase2-semantic-reconciler",
+  "path": "spec/research/public-data-fabric/p2-reconciliation.md"
+}

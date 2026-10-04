@@ -3,12 +3,13 @@
   "kind": "recordset",
   "status": "promising",
   "evidence_ids": [
-    "d1-govuk"
+    "d1-govuk",
+    "p2-context-review"
   ],
   "dataset_id": "d1-dataset-govuk",
   "source_id": "d1-source-govuk",
   "source_url": "https://www.gov.uk/bank-holidays.json",
-  "reason": "Proposed source recordset. Field inventory: See linked source evidence.. Exact names and parsing depth remain source-qualified; see the linked evidence receipt and dated observations. All compatibility remains unresolved. 280 events observed across three divisions. division+date is the minimum context; coverage2019–2028 only.",
+  "reason": "Proposed source recordset. Field inventory: See linked source evidence.. Exact names and parsing depth remain source-qualified; see the linked evidence receipt and dated observations. All compatibility remains unresolved. 280 events observed across three divisions. division+date is the minimum context; coverage2019–2028 only.\n\nPhase 2 context reviewed: recordset; directly attached assertion dispositions are enumerated in p2-coverage.json. Native/source schema and grain remain authoritative; acceptance of an attached field/edge never accepts every field or a global identity. ",
   "licence_notes": "OGL-UK-3.0: copy, cache, commercially use, adapt and redistribute with source attribution/licence link; third-party exemptions and no endorsement apply.",
   "research_depth": "sampled"
 }

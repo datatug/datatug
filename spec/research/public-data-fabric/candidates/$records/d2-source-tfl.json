@@ -3,9 +3,10 @@
   "kind": "source",
   "status": "researched",
   "evidence_ids": [
-    "d2-e-tfl"
+    "d2-e-tfl",
+    "p2-context-review"
   ],
   "source_url": "https://tfl.gov.uk/info-for/open-data-users/",
-  "reason": "Dataset-specific transport terms needed.",
+  "reason": "Dataset-specific transport terms needed.\n\nPhase 2 context reviewed: source; directly attached assertion dispositions are enumerated in p2-coverage.json. Authority/terms are provenance context, not a semantic mapping or publication grant. ",
   "research_depth": "shallow"
 }

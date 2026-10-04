@@ -1,9 +1,11 @@
 {
   "title": "chinook.Invoice.InvoiceDate proposes Invoice date",
   "kind": "mapping",
-  "status": "researched",
+  "status": "reconciled",
   "evidence_ids": [
-    "demand-corpus-chinook"
+    "demand-corpus-chinook",
+    "p2-time",
+    "p2-dedicated-reconciliation"
   ],
   "from_id": "demand-chinook-invoice",
   "to_id": "demand-meaning-invoice-date",
@@ -12,14 +14,14 @@
     "InvoiceDate"
   ],
   "to_fields": [
-    "proposed-role"
+    "date"
   ],
-  "compatibility": "unresolved",
-  "confidence": "medium",
-  "physical_role": "invoice-date",
+  "compatibility": "semantic-equivalence",
+  "confidence": "high",
+  "physical_role": "value",
   "from_identifier_namespace": "literal:chinook/Invoice/InvoiceDate",
   "to_identifier_namespace": "unreconciled:invoice-date",
   "expected_cardinality": "Not established; repeated names/codes and reference roles are retained.",
-  "assumptions": "Proposed demand only; dedicated reconciliation required. Stored date text without explicit timezone; frozen/default dates distinguished in provenance.  Confidence concerns the proposed source role only. Raw profiles and context are in evidence/demo-demand.json; no normalization applied.",
-  "reason": "Research hypothesis only. Calendar dimensions/holidays; economic observations by explicitly selected date role."
+  "assumptions": "Current scoped acceptance: Pinned Chinook meaning/model explicitly declares this role. InvoiceDate is modelled as calendar date, observed 2021-01-01 through 2025-12-22; do not infer timezone/UTC. Implementation remains subject to the source licence, current pin, canonical binding validation, explicit null/multiplicity policy and independent end-to-end checks. Discovery assumptions retained as history: Proposed demand only; dedicated reconciliation required. Stored date text without explicit timezone; frozen/default dates distinguished in provenance.  Confidence concerns the proposed source role only. Raw profiles and context are in evidence/demo-demand.json; no normalization applied.",
+  "reason": "Phase 2 ACCEPTED: Pinned Chinook meaning/model explicitly declares this role. InvoiceDate is modelled as calendar date, observed 2021-01-01 through 2025-12-22; do not infer timezone/UTC.\n\nOriginal discovery reason (historical): Research hypothesis only. Calendar dimensions/holidays; economic observations by explicitly selected date role."
 }

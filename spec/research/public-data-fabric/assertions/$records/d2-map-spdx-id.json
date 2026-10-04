@@ -1,23 +1,25 @@
 {
   "title": "licenseId → provisional license-id",
   "kind": "mapping",
-  "status": "researched",
+  "status": "reconciled",
   "from_id": "d2-rs-spdx",
   "to_id": "d2-meaning-license-id",
   "from_fields": [
     "licenseId"
   ],
   "to_fields": [
-    "provisional concept"
+    "source-concept"
   ],
   "from_identifier_namespace": "SPDX",
   "to_identifier_namespace": "d2 provisional meaning; not canonical",
-  "physical_role": "observed field hypothesis",
-  "compatibility": "unresolved",
-  "assumptions": "Permission to listmetadata stillunresolved;notapproveeachsource.",
-  "confidence": "medium",
+  "physical_role": "value implementing the stated source concept",
+  "compatibility": "semantic-equivalence",
+  "assumptions": "Current scoped acceptance: licenseId identifies an SPDX licence-list entry; identifiers are versioned by the list. This does not establish the licence of a dataset or resolve metadata reuse rights. Implementation remains subject to the source licence, current pin, canonical binding validation, explicit null/multiplicity policy and independent end-to-end checks. Discovery assumptions retained as history: Permission to listmetadata stillunresolved;notapproveeachsource.",
+  "confidence": "high",
   "evidence_ids": [
-    "d2-e-spdx"
+    "d2-e-spdx",
+    "p2-technical",
+    "p2-dedicated-reconciliation"
   ],
-  "reason": "No semantic reconciliation; names alone do not authorize mapping."
+  "reason": "Phase 2 ACCEPTED: licenseId identifies an SPDX licence-list entry; identifiers are versioned by the list. This does not establish the licence of a dataset or resolve metadata reuse rights.\n\nOriginal discovery reason (historical): No semantic reconciliation; names alone do not authorize mapping."
 }

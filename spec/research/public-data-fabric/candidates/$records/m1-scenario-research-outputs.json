@@ -5,7 +5,8 @@
   "evidence_ids": [
     "m1-ev-doi",
     "m1-ev-ror",
-    "m1-ev-orcid"
+    "m1-ev-orcid",
+    "p2-context-review"
   ],
   "member_ids": [
     "m1-doi",
@@ -22,6 +23,6 @@
   ],
   "practical_value": "User grants/publications/researcher affiliation metadata → explicit DOI/ORCID/ROR IDs → publication-object metadata and dated organisational affiliations → optional area/domain classifications. Ask which outputs link institutions or funder/affiliation cohorts. Need actual public metadata records with issuer assertion/provenance, identifier bridges and dataset-specific terms; Pubs synthetic author/title IDs are not automatically portable.",
   "showcase_value": "Institution/output network and dated affiliation timeline.",
-  "reason": "Shallow extra application scenario beyond demo schemas; no metadata dataset selected or accepted crosswalk.",
+  "reason": "Shallow extra application scenario beyond demo schemas; no metadata dataset selected or accepted crosswalk.\n\nPhase 2 context reviewed: scenario; directly attached assertion dispositions are enumerated in p2-coverage.json. Member/dependency IDs preserved. Each unresolved/rejected mapping, source rights and temporal/domain gap remains a readiness prerequisite; no portfolio selection or executable bundle acceptance. ",
   "research_depth": "documented"
 }

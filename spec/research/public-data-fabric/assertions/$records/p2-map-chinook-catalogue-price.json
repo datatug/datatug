@@ -1,0 +1,25 @@
+{
+  "title": "Chinook Track.UnitPrice implements catalogue price",
+  "kind": "mapping",
+  "status": "reconciled",
+  "from_id": "demand-chinook-track",
+  "to_id": "p2-meaning-catalogue-price",
+  "meaning_id": "p2-meaning-catalogue-price",
+  "from_fields": [
+    "UnitPrice"
+  ],
+  "to_fields": [
+    "price"
+  ],
+  "compatibility": "semantic-equivalence",
+  "confidence": "high",
+  "physical_role": "value",
+  "assumptions": "Existing pinned Chinook list-price meaning binds Track.UnitPrice to core price with a stated USD fixture modelling assumption. It is separate from charged InvoiceLine.UnitPrice.",
+  "reason": "Phase2 accepted correction of the rejected generic unit-price hypothesis; native amount remains unchanged.",
+  "evidence_ids": [
+    "demand-corpus-chinook",
+    "p2-money",
+    "p2-core-contracts",
+    "p2-dedicated-reconciliation"
+  ]
+}

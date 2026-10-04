@@ -3,14 +3,15 @@
   "kind": "recordset",
   "status": "promising",
   "evidence_ids": [
-    "d1-worldbank"
+    "d1-worldbank",
+    "p2-context-review"
   ],
   "dataset_id": "d1-dataset-worldbank",
   "source_id": "d1-source-worldbank",
   "identifier_representations": [
     "id,name,unit,source,sourceNote,sourceOrganization,topics"
   ],
-  "reason": "Proposed source recordset. Field inventory: id,name,unit,source,sourceNote,sourceOrganization,topics. Exact names and parsing depth remain source-qualified; see the linked evidence receipt and dated observations. All compatibility remains unresolved. Three inspected indicator codes:SP.POP.TOTL,NY.GDP.PCAP.CD,FP.CPI.TOTL.ZG. Unit and provenance metadata must accompany observations.",
+  "reason": "Proposed source recordset. Field inventory: id,name,unit,source,sourceNote,sourceOrganization,topics. Exact names and parsing depth remain source-qualified; see the linked evidence receipt and dated observations. All compatibility remains unresolved. Three inspected indicator codes:SP.POP.TOTL,NY.GDP.PCAP.CD,FP.CPI.TOTL.ZG. Unit and provenance metadata must accompany observations.\n\nPhase 2 context reviewed: recordset; directly attached assertion dispositions are enumerated in p2-coverage.json. Native/source schema and grain remain authoritative; acceptance of an attached field/edge never accepts every field or a global identity. ",
   "source_url": "https://api.worldbank.org/v2/",
   "licence": "CC-BY-4.0",
   "licence_notes": "Three inspected WDI indicators explicitly CC-BY-4.0, with World Bank mandatory terms: attribute indicator/provider/source and changes. Recheck every other indicator.",

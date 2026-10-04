@@ -1,7 +1,7 @@
 {
   "title": "mapping lei id",
   "kind": "mapping",
-  "status": "researched",
+  "status": "reconciled",
   "from_id": "d1-lei-entities",
   "to_id": "d1-meaning-legal-entity-id",
   "meaning_id": "d1-meaning-legal-entity-id",
@@ -9,14 +9,17 @@
     "lei"
   ],
   "to_fields": [
-    "proposed-role"
+    "source-concept"
   ],
-  "compatibility": "unresolved",
-  "assumptions": "Provisional field meaning only. Preserve provider namespace, edition, category, units and validity period; fresh Phase2 review must decide compatibility. The lowercase lei field is relative to the inspected JSON API row extraction root data[].attributes; full source path is data[].attributes.lei. No uppercase CDF field equivalence is asserted.",
-  "confidence": "medium",
-  "physical_role": "Proposed contextual join; not executed or reconciled",
+  "compatibility": "semantic-equivalence",
+  "assumptions": "Current scoped acceptance: The inspected JSON API data[].attributes.lei identifies the LEI legal-entity record. Preserve LEI namespace, registration/entity status and snapshot. This does not equate CDF extraction paths, ROR IDs or arbitrary organisation names. Implementation remains subject to the source licence, current pin, canonical binding validation, explicit null/multiplicity policy and independent end-to-end checks. Discovery assumptions retained as history: Provisional field meaning only. Preserve provider namespace, edition, category, units and validity period; fresh Phase2 review must decide compatibility. The lowercase lei field is relative to the inspected JSON API row extraction root data[].attributes; full source path is data[].attributes.lei. No uppercase CDF field equivalence is asserted.",
+  "confidence": "high",
+  "physical_role": "value implementing the stated source concept",
   "evidence_ids": [
-    "d1-gleif"
+    "d1-gleif",
+    "p2-identity",
+    "p2-dedicated-reconciliation"
   ],
-  "expected_cardinality": "Field-level meaning hypothesis; record join cardinality not applicable"
+  "expected_cardinality": "Field-level meaning hypothesis; record join cardinality not applicable",
+  "reason": "Phase 2 ACCEPTED: The inspected JSON API data[].attributes.lei identifies the LEI legal-entity record. Preserve LEI namespace, registration/entity status and snapshot. This does not equate CDF extraction paths, ROR IDs or arbitrary organisation names."
 }

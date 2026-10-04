@@ -3,13 +3,14 @@
   "kind": "recordset",
   "status": "needs-review",
   "evidence_ids": [
-    "d2-e-nta"
+    "d2-e-nta",
+    "p2-context-review"
   ],
   "dataset_id": "d2-data-nta",
   "identifier_representations": [
     "NTA Allens feed892A3408-F422-4978-8896-7420CF625122; IDs scoped to publisher/feed",
     "Physical/documented fields: [\"route_id\", \"agency_id\", \"route_short_name\", \"route_long_name\", \"route_desc\", \"route_type\", \"route_url\", \"route_color\", \"route_text_color\"]"
   ],
-  "reason": "Grain: source GTFS routes.txt rows within feed version. Native archive observed2026-10-04; no cross-feed stable identity asserted. GTFS time in agency timezone, can exceed24h; shapes distance unit unverified. Empty calendar_dates retains its header, not values.",
+  "reason": "Grain: source GTFS routes.txt rows within feed version. Native archive observed2026-10-04; no cross-feed stable identity asserted. GTFS time in agency timezone, can exceed24h; shapes distance unit unverified. Empty calendar_dates retains its header, not values.\n\nPhase 2 context reviewed: recordset; directly attached assertion dispositions are enumerated in p2-coverage.json. Native/source schema and grain remain authoritative; acceptance of an attached field/edge never accepts every field or a global identity. ",
   "research_depth": "sampled"
 }

@@ -1,7 +1,7 @@
 {
   "title": "FHRSID → provisional food-establishment",
   "kind": "mapping",
-  "status": "researched",
+  "status": "needs-review",
   "from_id": "d2-rs-fsa",
   "to_id": "d2-meaning-food-establishment",
   "from_fields": [
@@ -15,9 +15,12 @@
   "physical_role": "observed field hypothesis",
   "compatibility": "unresolved",
   "assumptions": "MaybereusedregistrationorchangeonLAmerger;noeternalcompanyidentity.",
-  "confidence": "medium",
+  "confidence": "high",
   "evidence_ids": [
-    "d2-e-fsa"
+    "d2-e-fsa",
+    "p2-source-role",
+    "p2-dedicated-reconciliation",
+    "p2-identity"
   ],
-  "reason": "No semantic reconciliation; names alone do not authorize mapping."
+  "reason": "Phase 2 UNRESOLVED: FHRSID is a source registration/establishment record identifier which may be reused or change at local-authority mergers. Need snapshot/authority validity and establishment-versus-organisation scope; no timeless company identity accepted.\n\nOriginal discovery reason (historical): No semantic reconciliation; names alone do not authorize mapping."
 }

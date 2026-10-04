@@ -3,7 +3,8 @@
   "kind": "scenario",
   "status": "researched",
   "evidence_ids": [
-    "d2-e-usgs"
+    "d2-e-usgs",
+    "p2-context-review"
   ],
   "member_ids": [
     "d2-data-usgs",
@@ -11,7 +12,7 @@
     "d2-data-bts"
   ],
   "demo_ids": [],
-  "reason": "User problem/schema: User assets(asset_id,lat,lon,valid_from/to) andevent/event_time;airportcodesmustsupplynamespace. Proposed joins: USGSeventgeometry/time toapprovedassetdistance/timewindowapproximateassociation;POWERgridscontext. BTSlocalcode/ICAOcrosswalkunverified; noactualdemo coordinatesassumedfromAWopaquegeometry. Answerable questions: Whicheventsobservations fallwithinconfiguredcontext windows?Whichassetslackvalidcoordinates? Visualizations: Map/timelinewithdistance-depth-magnitude-type labels. Gaps/cost/risks: Weakersix-demofit;USGScontributorrigthsandmutablepreferredsolutions;oldBTS2020–21cataloguelowpriority;spatialproximitynotriskprediction;unitsaxes/sourceIDsremainseparate.",
+  "reason": "User problem/schema: User assets(asset_id,lat,lon,valid_from/to) andevent/event_time;airportcodesmustsupplynamespace. Proposed joins: USGSeventgeometry/time toapprovedassetdistance/timewindowapproximateassociation;POWERgridscontext. BTSlocalcode/ICAOcrosswalkunverified; noactualdemo coordinatesassumedfromAWopaquegeometry. Answerable questions: Whicheventsobservations fallwithinconfiguredcontext windows?Whichassetslackvalidcoordinates? Visualizations: Map/timelinewithdistance-depth-magnitude-type labels. Gaps/cost/risks: Weakersix-demofit;USGScontributorrigthsandmutablepreferredsolutions;oldBTS2020–21cataloguelowpriority;spatialproximitynotriskprediction;unitsaxes/sourceIDsremainseparate.\n\nPhase 2 context reviewed: scenario; directly attached assertion dispositions are enumerated in p2-coverage.json. Member/dependency IDs preserved. Each unresolved/rejected mapping, source rights and temporal/domain gap remains a readiness prerequisite; no portfolio selection or executable bundle acceptance. ",
   "practical_value": "Whicheventsobservations fallwithinconfiguredcontext windows?Whichassetslackvalidcoordinates?",
   "showcase_value": "Map/timelinewithdistance-depth-magnitude-type labels.",
   "research_depth": "documented"

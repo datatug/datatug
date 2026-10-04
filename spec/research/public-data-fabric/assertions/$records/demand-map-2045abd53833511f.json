@@ -1,9 +1,11 @@
 {
   "title": "chinook.Invoice.BillingAddress proposes Postal address",
   "kind": "mapping",
-  "status": "researched",
+  "status": "needs-review",
   "evidence_ids": [
-    "demand-corpus-chinook"
+    "demand-corpus-chinook",
+    "p2-geography",
+    "p2-dedicated-reconciliation"
   ],
   "from_id": "demand-chinook-invoice",
   "to_id": "demand-meaning-postal-address",
@@ -15,11 +17,11 @@
     "proposed-role"
   ],
   "compatibility": "unresolved",
-  "confidence": "medium",
+  "confidence": "low",
   "physical_role": "billing-address",
   "from_identifier_namespace": "literal:chinook/Invoice/BillingAddress",
   "to_identifier_namespace": "unreconciled:postal-address",
   "expected_cardinality": "Not established; repeated names/codes and reference roles are retained.",
   "assumptions": "Proposed demand only; dedicated reconciliation required. Unstructured address; no direct deterministic address identity.  Confidence concerns the proposed source role only. Raw profiles and context are in evidence/demo-demand.json; no normalization applied.",
-  "reason": "Research hypothesis only. Contextual geocoding/address parsing after reconciliation."
+  "reason": "Phase 2 UNRESOLVED: chinook.Invoice.BillingAddress: Country/territory in ISO scope is distinct from sovereignty, jurisdiction, statistical area, sales territory and locality. A place label is not a globally unique key. Country context is necessary but insufficient for same-named settlements; postcode associations can be many-to-many. Retain leading zeros and historical/category scope. Implement a versioned raw-value-to-reviewed-code bridge with ambiguity and unmatched outputs before external lookup. Evidence gap: no complete role-specific canonical binding and validated external representation bridge has been established for this exact proposal.\n\nOriginal discovery reason (historical): Research hypothesis only. Contextual geocoding/address parsing after reconciliation."
 }

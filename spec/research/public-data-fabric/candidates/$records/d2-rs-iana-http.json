@@ -3,13 +3,14 @@
   "kind": "recordset",
   "status": "researched",
   "evidence_ids": [
-    "d2-e-iana"
+    "d2-e-iana",
+    "p2-context-review"
   ],
   "dataset_id": "d2-data-iana",
   "identifier_representations": [
     "HTTP status code namespace",
     "Physical/documented fields: [\"Value\", \"Description\", \"Reference\"]"
   ],
-  "reason": "Grain: status value or unassigned range. CSV extraction must handle embedded newlines/ranges/blank assignments. Registry lookup is a proposal, not traffic protocol or content sniffing proof.",
+  "reason": "Grain: status value or unassigned range. CSV extraction must handle embedded newlines/ranges/blank assignments. Registry lookup is a proposal, not traffic protocol or content sniffing proof.\n\nPhase 2 context reviewed: recordset; directly attached assertion dispositions are enumerated in p2-coverage.json. Native/source schema and grain remain authoritative; acceptance of an attached field/edge never accepts every field or a global identity. ",
   "research_depth": "sampled"
 }

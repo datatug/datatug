@@ -3,14 +3,17 @@
   "kind": "meaning",
   "status": "needs-review",
   "evidence_ids": [
-    "m1-ev-phone"
+    "m1-ev-phone",
+    "p2-identity",
+    "p2-dedicated-reconciliation"
   ],
   "source_id": "m1-source-phone",
   "identifier_representations": [
     "E.164 international number; national number + numbering-plan context"
   ],
-  "reason": "Depth: shallow. Confidence medium in scope distinction; no canonical mapping. Telephone number allocation/contact channel differs from person identity, residence and current geographic location.",
+  "reason": "Depth: shallow. Confidence medium in scope distinction; no canonical mapping. Telephone number allocation/contact channel differs from person identity, residence and current geographic location.\n\nPhase 2 UNRESOLVED: Source-local person, customer, employee, supplier, store and business-entity IDs have no cross-demo or real-world identity. Customer/supplier/employer/operator are roles; organisation, legal entity, site and registration differ. A native PK/FK supports only its declared source relationship. Alternate unique names/GUIDs are source-scoped; names are not LEI/ROR/ORCID or a portable person key. Retain the specific research distinction from this candidate. Evidence gap: final concept boundaries/operational source scope remain unproven; a source implementation and potential overlap with canonical or related research must be resolved before promotion.",
   "practical_value": "Telephone number allocation/contact channel differs from person identity, residence and current geographic location.",
   "showcase_value": "Research affiliation/output graph or contact/network explanation when portable keys actually exist.",
-  "research_depth": "shallow"
+  "research_depth": "shallow",
+  "semantic_disposition": "unresolved"
 }

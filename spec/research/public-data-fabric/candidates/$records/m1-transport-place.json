@@ -3,15 +3,18 @@
   "kind": "meaning",
   "status": "needs-review",
   "evidence_ids": [
-    "m1-ev-locode"
+    "m1-ev-locode",
+    "p2-mobility",
+    "p2-dedicated-reconciliation"
   ],
   "source_id": "m1-source-locode",
   "identifier_representations": [
     "UNLOCODE + release/status"
   ],
-  "reason": "Depth: focused. Confidence high in research distinction, not accepted mapping. Location function/code not necessarily individual airport/port/station. Public dataset coverage/rights require separate discovery.",
+  "reason": "Depth: focused. Confidence high in research distinction, not accepted mapping. Location function/code not necessarily individual airport/port/station. Public dataset coverage/rights require separate discovery.\n\nPhase 2 UNRESOLVED: Stop, platform, station, locality, route, trip and service day are distinct. Keys are authority/feed/version scoped; NaPTAN ATCO, NaptanCode, NPTG, ORR NLC/TLC, GTFS stop_id and WIGOS must never be equated by spelling. Schedules describe supply, annual rail usage is an estimate, and geography/weather associations do not establish station identity. Retain the specific research distinction from this candidate. Evidence gap: final concept boundaries/operational source scope remain unproven; a source implementation and potential overlap with canonical or related research must be resolved before promotion.",
   "practical_value": "Location function/code not necessarily individual airport/port/station.",
   "showcase_value": "Contextual graph/map/time-series opportunity; practical compatibility remains prerequisite.",
   "observed_at": "2026-10-04T22:10:00Z",
-  "research_depth": "documented"
+  "research_depth": "documented",
+  "semantic_disposition": "unresolved"
 }

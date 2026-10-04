@@ -3,7 +3,8 @@
   "kind": "dataset",
   "status": "promising",
   "evidence_ids": [
-    "d2-e-iana"
+    "d2-e-iana",
+    "p2-context-review"
   ],
   "source_id": "d2-source-iana",
   "source_url": "https://www.iana.org/protocols",
@@ -15,7 +16,7 @@
   "observed_at": "2026-10-04T22:37:20.841414+00:00",
   "revalidate_after": "2026-11-04T00:00:00Z",
   "freshness": "current",
-  "reason": "Anonymous CSV/XML/HTML;IP9230B,HTTP3269Bcomplete;ports/applicationmedia16KiBprefix. No registry count padding; these four recordsets are one coherent source family.",
+  "reason": "Anonymous CSV/XML/HTML;IP9230B,HTTP3269Bcomplete;ports/applicationmedia16KiBprefix. No registry count padding; these four recordsets are one coherent source family.\n\nPhase 2 context reviewed: dataset; directly attached assertion dispositions are enumerated in p2-coverage.json. Dataset scope, edition and licence remain independent of particular field compatibility. ",
   "practical_value": "Deterministic lookup proposals for user logs/network/service metadata; little native six-demo field demand.",
   "showcase_value": "Explain unexpected HTTP/port/IP codes and reserved/unassigned ranges.",
   "research_depth": "documented"

@@ -3,7 +3,8 @@
   "kind": "dataset",
   "status": "needs-review",
   "evidence_ids": [
-    "d2-e-spdx"
+    "d2-e-spdx",
+    "p2-context-review"
   ],
   "source_id": "d2-source-spdx",
   "source_url": "https://spdx.org/licenses/licenses.json",
@@ -15,7 +16,7 @@
   "observed_at": "2026-10-04T22:37:20.841414+00:00",
   "revalidate_after": "2026-11-04T00:00:00Z",
   "freshness": "needs-review",
-  "reason": "Public339359BJSONobserved; version, licenceID, deprecated flag, name, seeAlso,detailsUrl. No detail licence-text harvest; facts only retained.",
+  "reason": "Public339359BJSONobserved; version, licenceID, deprecated flag, name, seeAlso,detailsUrl. No detail licence-text harvest; facts only retained.\n\nPhase 2 context reviewed: dataset; directly attached assertion dispositions are enumerated in p2-coverage.json. Dataset scope, edition and licence remain independent of particular field compatibility. ",
   "practical_value": "Source/provider licence labels can resolve proposed SPDXIDs after meaning/rights review.",
   "showcase_value": "Licence-reference explanations without automatic legal approval.",
   "research_depth": "documented"

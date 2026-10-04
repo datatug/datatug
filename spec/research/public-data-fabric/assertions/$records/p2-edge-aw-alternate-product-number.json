@@ -1,0 +1,28 @@
+{
+  "title": "AdventureWorks alternate-key lookup: product-number",
+  "kind": "edge",
+  "status": "reconciled",
+  "from_id": "demand-adventureworks-production-product",
+  "to_id": "demand-adventureworks-production-product",
+  "from_fields": [
+    "ProductNumber"
+  ],
+  "to_fields": [
+    "ProductID"
+  ],
+  "compatibility": "transformable",
+  "assumptions": "The native schema declares unique alternate key ['ProductNumber'] for the row identified by ['ProductID']. Accept same-source row lookup only; values are not equal encodings of one key. Preserve the full composite, source collation, null policy and snapshot. No global identity follows. MeaningGraph identifier binding is restricted to ModelSpec key members; encode an explicit lookup/query projection rather than falsely marking each alternate property identifier.",
+  "reason": "Phase 2 ACCEPTED: The native schema declares unique alternate key ['ProductNumber'] for the row identified by ['ProductID']. Accept same-source row lookup only; values are not equal encodings of one key. Preserve the full composite, source collation, null policy and snapshot. No global identity follows. MeaningGraph identifier binding is restricted to ModelSpec key members; encode an explicit lookup/query projection rather than falsely marking each alternate property identifier.",
+  "confidence": "high",
+  "transformation": "Lookup the same pinned recordset by the complete unique alternate tuple and project its native primary key; never compare alternate and primary values by equality.",
+  "from_identifier_namespace": "AdventureWorks:production-product:alternate-tuple",
+  "to_identifier_namespace": "AdventureWorks:production-product:native-primary-key",
+  "expected_cardinality": "one nonnull valid alternate tuple to0..1 row/native primary key; validate null/collation behavior before implementation",
+  "evidence_ids": [
+    "p2-native-probes",
+    "p2-identity",
+    "p2-core-contracts",
+    "p2-dedicated-reconciliation",
+    "demand-corpus-adventureworks"
+  ]
+}

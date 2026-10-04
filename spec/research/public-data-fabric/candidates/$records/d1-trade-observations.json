@@ -3,14 +3,15 @@
   "kind": "recordset",
   "status": "blocked",
   "evidence_ids": [
-    "d1-comtrade"
+    "d1-comtrade",
+    "p2-context-review"
   ],
   "dataset_id": "d1-dataset-comtrade",
   "source_id": "d1-source-comtrade",
   "identifier_representations": [
     "reporterCode,partnerCode,period,flowCode,cmdCode,classificationCode,primaryValue,netWgt,qtyUnitCode,qty"
   ],
-  "reason": "Proposed source recordset. Field inventory: reporterCode,partnerCode,period,flowCode,cmdCode,classificationCode,primaryValue,netWgt,qtyUnitCode,qty. Exact names and parsing depth remain source-qualified; see the linked evidence receipt and dated observations. All compatibility remains unresolved. Conceptual API key inventory only; no response schema/count sampled. Licence/access blocked; HS classification/version required.",
+  "reason": "Proposed source recordset. Field inventory: reporterCode,partnerCode,period,flowCode,cmdCode,classificationCode,primaryValue,netWgt,qtyUnitCode,qty. Exact names and parsing depth remain source-qualified; see the linked evidence receipt and dated observations. All compatibility remains unresolved. Conceptual API key inventory only; no response schema/count sampled. Licence/access blocked; HS classification/version required.\n\nPhase 2 context reviewed: recordset; directly attached assertion dispositions are enumerated in p2-coverage.json. Native/source schema and grain remain authoritative; acceptance of an attached field/edge never accepts every field or a global identity. ",
   "source_url": "https://comtradeplus.un.org/",
   "licence": "needs-review",
   "licence_notes": "Redistribution blocked pending exact licence/access plan: premium subscription and dissemination conditions apply; transformation does not establish unrestricted access rights.",

@@ -3,15 +3,18 @@
   "kind": "meaning",
   "status": "needs-review",
   "evidence_ids": [
-    "m1-ev-uri"
+    "m1-ev-uri",
+    "p2-technical",
+    "p2-dedicated-reconciliation"
   ],
   "source_id": "m1-source-uri",
   "identifier_representations": [
     "URI scheme + scheme-specific value"
   ],
-  "reason": "Depth: focused. Confidence high in research distinction, not accepted mapping. String normalisation needs scheme semantics; resource not organisation. Public dataset coverage/rights require separate discovery.",
+  "reason": "Depth: focused. Confidence high in research distinction, not accepted mapping. String normalisation needs scheme semantics; resource not organisation. Public dataset coverage/rights require separate discovery.\n\nPhase 2 ACCEPTED: Accepted new reusable concept proposal: Scheme-governed resource identifier; not a generic textual name. Complete core inventory has23 concepts and no definition for this distinct scope. Canonical naming/definition and source bindings remain Phase4 work; this is not canonical publication.",
   "practical_value": "String normalisation needs scheme semantics; resource not organisation.",
   "showcase_value": "Contextual graph/map/time-series opportunity; practical compatibility remains prerequisite.",
   "observed_at": "2026-10-04T22:10:00Z",
-  "research_depth": "documented"
+  "research_depth": "documented",
+  "semantic_disposition": "accepted"
 }

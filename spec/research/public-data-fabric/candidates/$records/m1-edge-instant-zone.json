@@ -7,14 +7,15 @@
     "m1-timezone"
   ],
   "evidence_ids": [
-    "m1-ev-tz"
+    "m1-ev-tz",
+    "p2-context-review"
   ],
   "identifier_representations": [
     "Proposed from roles: TZID, event date/time",
     "Proposed to roles: TZID, rule release"
   ],
   "practical_value": "Wall time needs offset/DST ambiguity policy; zone boundary source separate. Conceptual field roles only; no dataset field contract or measured join exists.",
-  "reason": "Conceptual relationship hypothesis only. Compatibility unresolved; confidence medium in research path; expected cardinality: zone-time lookup. Preserved as bundle because assertion edge requires actual recordset endpoints. No executable or accepted join. Direction: m1-instant → m1-timezone. Proposed field roles are separately labelled in identifier_representations.",
+  "reason": "Conceptual relationship hypothesis only. Compatibility unresolved; confidence medium in research path; expected cardinality: zone-time lookup. Preserved as bundle because assertion edge requires actual recordset endpoints. No executable or accepted join. Direction: m1-instant → m1-timezone. Proposed field roles are separately labelled in identifier_representations.\n\nPhase 2 context reviewed: bundle; directly attached assertion dispositions are enumerated in p2-coverage.json. Member/dependency IDs preserved. Each unresolved/rejected mapping, source rights and temporal/domain gap remains a readiness prerequisite; no portfolio selection or executable bundle acceptance. Conceptual relationship retained as related-distinct, not equivalence or physical FK. Source-specific cardinality/crosswalk still required. ",
   "showcase_value": "Relationship graph after source-specific identifiers and scope are established.",
   "research_depth": "documented"
 }

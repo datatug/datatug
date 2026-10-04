@@ -1,9 +1,11 @@
 {
   "title": "adventureworks.Sales.SalesOrderDetail.OrderQty proposes Order",
   "kind": "mapping",
-  "status": "low-priority",
+  "status": "rejected",
   "evidence_ids": [
-    "demand-corpus-adventureworks"
+    "demand-corpus-adventureworks",
+    "p2-source-role",
+    "p2-dedicated-reconciliation"
   ],
   "from_id": "demand-adventureworks-sales-salesorderdetail",
   "to_id": "demand-meaning-order",
@@ -14,12 +16,12 @@
   "to_fields": [
     "proposed-role"
   ],
-  "compatibility": "unresolved",
-  "confidence": "low",
+  "compatibility": "incompatible",
+  "confidence": "high",
   "physical_role": "OrderQty: source-specific order attribute",
   "from_identifier_namespace": "literal:adventureworks/Sales.SalesOrderDetail/OrderQty",
   "to_identifier_namespace": "unreconciled:order",
   "expected_cardinality": "Not established; repeated names/codes and reference roles are retained.",
   "assumptions": "Proposed only; dedicated semantic reconciliation required. Native source-local IDs are not portable across demo databases. Field-level demand signal; proposed concept includes explicitly qualified source role, not entity equivalence. Confidence concerns the proposed source role only. Raw profiles and context are in evidence/demo-demand.json; no normalization applied.",
-  "reason": "Research hypothesis only. Candidate reference/calendar/identifier lookup with contextual bridge and measured match rate; local transaction/person IDs support internal joins only."
+  "reason": "Phase 2 REJECTED: OrderQty is an order-related quantity, threshold or date, not an order entity key/name; use a separate role-qualified attribute.\n\nOriginal discovery reason (historical): Research hypothesis only. Candidate reference/calendar/identifier lookup with contextual bridge and measured match rate; local transaction/person IDs support internal joins only."
 }

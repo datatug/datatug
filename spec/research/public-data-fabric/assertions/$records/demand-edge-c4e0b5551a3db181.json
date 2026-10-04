@@ -1,9 +1,13 @@
 {
   "title": "adventureworks.Person.StateProvince declared local reference to Person.CountryRegion",
   "kind": "edge",
-  "status": "researched",
+  "status": "reconciled",
   "evidence_ids": [
-    "demand-corpus-adventureworks"
+    "demand-corpus-adventureworks",
+    "p2-geography",
+    "p2-dedicated-reconciliation",
+    "p2-local",
+    "p2-native-probes"
   ],
   "from_id": "demand-adventureworks-person-stateprovince",
   "to_id": "demand-adventureworks-person-countryregion",
@@ -13,11 +17,12 @@
   "to_fields": [
     "CountryRegionCode"
   ],
-  "compatibility": "unresolved",
+  "compatibility": "identifier-equivalence",
   "confidence": "high",
-  "physical_role": "Native declared local FK, ordered composite members retained",
+  "physical_role": "Ordered native foreign-key reference in one pinned demo namespace",
   "from_identifier_namespace": "adventureworks/Person.CountryRegion",
   "to_identifier_namespace": "adventureworks/Person.CountryRegion",
-  "expected_cardinality": "Declared FK to native target; actual nonnull match rate and multiplicity require scenario validation.",
-  "assumptions": "Schema reference exists at pinned source; high confidence refers to literal declaration only. No cross-demo identity or semantic equivalence is accepted. SQLite enforcement is connection-specific."
+  "expected_cardinality": "many:0..1 per complete source key; null/partial-null excluded; target key unique in pinned fixture",
+  "assumptions": "Current scoped acceptance: adventureworks.Person.StateProvince ['CountryRegionCode'] references Person.CountryRegion ['CountryRegionCode'] in this fixture only. Measured 181 populated keys, 0 null/partial-null rows, zero nonnull orphans and zero duplicate target groups. Accept the declared local identifier reference, with each component retained in order. Implementation remains subject to the source licence, current pin, canonical binding validation, explicit null/multiplicity policy and independent end-to-end checks. Discovery assumptions retained as history: Schema reference exists at pinned source; high confidence refers to literal declaration only. No cross-demo identity or semantic equivalence is accepted. SQLite enforcement is connection-specific.",
+  "reason": "Phase 2 ACCEPTED: adventureworks.Person.StateProvince ['CountryRegionCode'] references Person.CountryRegion ['CountryRegionCode'] in this fixture only. Measured 181 populated keys, 0 null/partial-null rows, zero nonnull orphans and zero duplicate target groups. Accept the declared local identifier reference, with each component retained in order."
 }

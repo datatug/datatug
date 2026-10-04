@@ -1,9 +1,11 @@
 {
   "title": "adventureworks.Person.PhoneNumberType.Name proposes Classification",
   "kind": "mapping",
-  "status": "researched",
+  "status": "needs-review",
   "evidence_ids": [
-    "demand-corpus-adventureworks"
+    "demand-corpus-adventureworks",
+    "p2-classification",
+    "p2-dedicated-reconciliation"
   ],
   "from_id": "demand-adventureworks-person-phonenumbertype",
   "to_id": "demand-meaning-classification",
@@ -15,11 +17,11 @@
     "proposed-role"
   ],
   "compatibility": "unresolved",
-  "confidence": "medium",
+  "confidence": "low",
   "physical_role": "Name: source-name",
   "from_identifier_namespace": "literal:adventureworks/Person.PhoneNumberType/Name",
   "to_identifier_namespace": "unreconciled:classification",
   "expected_cardinality": "Not established; repeated names/codes and reference roles are retained.",
   "assumptions": "Proposed only; dedicated semantic reconciliation required. Native source-local IDs are not portable across demo databases. Field-level demand signal; proposed concept includes explicitly qualified source role, not entity equivalence. Confidence concerns the proposed source role only. Raw profiles and context are in evidence/demo-demand.json; no normalization applied.",
-  "reason": "Research hypothesis only. Candidate reference/calendar/identifier lookup with contextual bridge and measured match rate; local transaction/person IDs support internal joins only."
+  "reason": "Phase 2 UNRESOLVED: adventureworks.Person.PhoneNumberType.Name: Each classification needs scheme, edition and source definition. A local status/category/title/genre code cannot be joined to another scheme by equal value. Assignment and correspondence require evidence; splits/merges may be many-to-many. Preserve source codes and nulls; no automatic NAICS/SOC/ISCO/GTIN assignment. Evidence gap: no complete role-specific canonical binding and validated external representation bridge has been established for this exact proposal.\n\nOriginal discovery reason (historical): Research hypothesis only. Candidate reference/calendar/identifier lookup with contextual bridge and measured match rate; local transaction/person IDs support internal joins only."
 }

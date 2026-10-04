@@ -1,9 +1,11 @@
 {
   "title": "pubs.sales.ord_num proposes Sale line identifier",
   "kind": "mapping",
-  "status": "researched",
+  "status": "rejected",
   "evidence_ids": [
-    "demand-corpus-pubs"
+    "demand-corpus-pubs",
+    "p2-source-role",
+    "p2-dedicated-reconciliation"
   ],
   "from_id": "demand-pubs-sales",
   "to_id": "demand-meaning-sale-line-identifier",
@@ -14,12 +16,12 @@
   "to_fields": [
     "proposed-role"
   ],
-  "compatibility": "unresolved",
-  "confidence": "medium",
+  "compatibility": "incompatible",
+  "confidence": "high",
   "physical_role": "identifier",
   "from_identifier_namespace": "pubs/sales",
   "to_identifier_namespace": "unreconciled:sale-line-identifier",
   "expected_cardinality": "Not established; repeated names/codes and reference roles are retained.",
   "assumptions": "Proposed demand only; dedicated reconciliation required. Native composite component; do not join numerically/textually to other demos.  Confidence concerns the proposed source role only. Raw profiles and context are in evidence/demo-demand.json; no normalization applied.",
-  "reason": "Research hypothesis only. Preserve source value; external reference matching requires evidence."
+  "reason": "Phase 2 REJECTED: ord_num alone is not the Pubs sales row identifier: native primary key is (stor_id, ord_num, title_id). Retain the complete composite; an order-number role needs store scope.\n\nOriginal discovery reason (historical): Research hypothesis only. Preserve source value; external reference matching requires evidence."
 }

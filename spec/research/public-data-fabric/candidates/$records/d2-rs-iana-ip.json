@@ -3,13 +3,14 @@
   "kind": "recordset",
   "status": "researched",
   "evidence_ids": [
-    "d2-e-iana"
+    "d2-e-iana",
+    "p2-context-review"
   ],
   "dataset_id": "d2-data-iana",
   "identifier_representations": [
     "IANA IP decimal protocol; IPv6 extension flag is separate",
     "Physical/documented fields: [\"Decimal\", \"Keyword\", \"Protocol\", \"IPv6 Extension Header\", \"Reference\"]"
   ],
-  "reason": "Grain: number or range in8bitProtocol/NextHeader registry. CSV extraction must handle embedded newlines/ranges/blank assignments. Registry lookup is a proposal, not traffic protocol or content sniffing proof.",
+  "reason": "Grain: number or range in8bitProtocol/NextHeader registry. CSV extraction must handle embedded newlines/ranges/blank assignments. Registry lookup is a proposal, not traffic protocol or content sniffing proof.\n\nPhase 2 context reviewed: recordset; directly attached assertion dispositions are enumerated in p2-coverage.json. Native/source schema and grain remain authoritative; acceptance of an attached field/edge never accepts every field or a global identity. ",
   "research_depth": "sampled"
 }

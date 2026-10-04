@@ -3,11 +3,12 @@
   "kind": "bundle",
   "status": "researched",
   "evidence_ids": [
-    "d2-e-fsa"
+    "d2-e-fsa",
+    "p2-context-review"
   ],
   "member_ids": [
     "d2-scenario-civic-services"
   ],
-  "reason": "Proposed connected bundle; component constraints retained. Practical relevance distinct from showcase. No portfolio selection or implementation status.",
+  "reason": "Proposed connected bundle; component constraints retained. Practical relevance distinct from showcase. No portfolio selection or implementation status.\n\nPhase 2 context reviewed: bundle; directly attached assertion dispositions are enumerated in p2-coverage.json. Member/dependency IDs preserved. Each unresolved/rejected mapping, source rights and temporal/domain gap remains a readiness prerequisite; no portfolio selection or executable bundle acceptance. ",
   "research_depth": "documented"
 }

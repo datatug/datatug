@@ -3,11 +3,12 @@
   "kind": "source",
   "status": "researched",
   "evidence_ids": [
-    "d1-iana"
+    "d1-iana",
+    "p2-context-review"
   ],
   "source_url": "https://www.iana.org/time-zones",
   "licence": "public-domain",
   "licence_notes": "tzdb data public domain; optional code file exceptions use BSD-3-Clause. Data and code rights remain distinct.",
-  "reason": "Publisher reference only. Candidate-specific permissions, access constraints and coverage are retained in linked evidence.",
+  "reason": "Publisher reference only. Candidate-specific permissions, access constraints and coverage are retained in linked evidence.\n\nPhase 2 context reviewed: source; directly attached assertion dispositions are enumerated in p2-coverage.json. Authority/terms are provenance context, not a semantic mapping or publication grant. ",
   "research_depth": "documented"
 }

@@ -3,15 +3,18 @@
   "kind": "meaning",
   "status": "needs-review",
   "evidence_ids": [
-    "m1-ev-org"
+    "m1-ev-org",
+    "p2-identity",
+    "p2-dedicated-reconciliation"
   ],
   "source_id": "m1-source-org",
   "identifier_representations": [
     "organisation/site authority ID"
   ],
-  "reason": "Depth: focused. Confidence high in research distinction, not accepted mapping. Registered, primary and operational sites are roles, not synonymous addresses. Public dataset coverage/rights require separate discovery.",
+  "reason": "Depth: focused. Confidence high in research distinction, not accepted mapping. Registered, primary and operational sites are roles, not synonymous addresses. Public dataset coverage/rights require separate discovery.\n\nPhase 2 ACCEPTED: Accepted new reusable concept proposal: Organisation location/site with role and validity, not organisation identity. Complete core inventory has23 concepts and no definition for this distinct scope. Canonical naming/definition and source bindings remain Phase4 work; this is not canonical publication.",
   "practical_value": "Registered, primary and operational sites are roles, not synonymous addresses.",
   "showcase_value": "Contextual graph/map/time-series opportunity; practical compatibility remains prerequisite.",
   "observed_at": "2026-10-04T22:10:00Z",
-  "research_depth": "documented"
+  "research_depth": "documented",
+  "semantic_disposition": "accepted"
 }

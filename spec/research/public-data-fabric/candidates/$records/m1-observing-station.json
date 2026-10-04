@@ -3,15 +3,18 @@
   "kind": "meaning",
   "status": "needs-review",
   "evidence_ids": [
-    "m1-ev-wigos"
+    "m1-ev-wigos",
+    "p2-mobility",
+    "p2-dedicated-reconciliation"
   ],
   "source_id": "m1-source-wigos",
   "identifier_representations": [
     "WSI + validity"
   ],
-  "reason": "Depth: focused. Confidence high in research distinction, not accepted mapping. Meteorological station differs from transit station; bridge is spatial not raw ID. Public dataset coverage/rights require separate discovery.",
+  "reason": "Depth: focused. Confidence high in research distinction, not accepted mapping. Meteorological station differs from transit station; bridge is spatial not raw ID. Public dataset coverage/rights require separate discovery.\n\nPhase 2 ACCEPTED: Accepted new reusable concept proposal: Authority-scoped observing platform, not passenger station. Complete core inventory has23 concepts and no definition for this distinct scope. Canonical naming/definition and source bindings remain Phase4 work; this is not canonical publication.",
   "practical_value": "Meteorological station differs from transit station; bridge is spatial not raw ID.",
   "showcase_value": "Contextual graph/map/time-series opportunity; practical compatibility remains prerequisite.",
   "observed_at": "2026-10-04T22:10:00Z",
-  "research_depth": "documented"
+  "research_depth": "documented",
+  "semantic_disposition": "accepted"
 }

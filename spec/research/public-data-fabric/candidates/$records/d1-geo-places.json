@@ -3,14 +3,15 @@
   "kind": "recordset",
   "status": "promising",
   "evidence_ids": [
-    "d1-geonames"
+    "d1-geonames",
+    "p2-context-review"
   ],
   "dataset_id": "d1-dataset-geonames",
   "source_id": "d1-source-geonames",
   "identifier_representations": [
     "geonameid,name,asciiname,countrycode,cc2,admin1–4,latitude,longitude,timezone,modificationdate"
   ],
-  "reason": "Proposed source recordset. Field inventory: geonameid,name,asciiname,countrycode,cc2,admin1–4,latitude,longitude,timezone,modificationdate. Exact names and parsing depth remain source-qualified; see the linked evidence receipt and dated observations. All compatibility remains unresolved. Documented cities5000 subset is about 50,000 features. Same-name places require country, administrative and feature-type context. No place dump parsed.",
+  "reason": "Proposed source recordset. Field inventory: geonameid,name,asciiname,countrycode,cc2,admin1–4,latitude,longitude,timezone,modificationdate. Exact names and parsing depth remain source-qualified; see the linked evidence receipt and dated observations. All compatibility remains unresolved. Documented cities5000 subset is about 50,000 features. Same-name places require country, administrative and feature-type context. No place dump parsed.\n\nPhase 2 context reviewed: recordset; directly attached assertion dispositions are enumerated in p2-coverage.json. Native/source schema and grain remain authoritative; acceptance of an attached field/edge never accepts every field or a global identity. ",
   "source_url": "https://download.geonames.org/export/dump/",
   "licence": "CC-BY-4.0",
   "licence_notes": "CC-BY-4.0: credit GeoNames and indicate changes; commercial use, copying, caching, adaptation and redistribution permitted. No warranty.",

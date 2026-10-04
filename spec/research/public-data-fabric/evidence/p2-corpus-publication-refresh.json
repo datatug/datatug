@@ -1,0 +1,103 @@
+{
+  "observed_at": "2026-10-04T23:22:40.378383+00:00",
+  "hub_main": "70791b1f05cfabe7815304ec810022c98776958a",
+  "source_registry_remote_pins": {
+    "datatug/datatug": "70791b1f05cfabe7815304ec810022c98776958a",
+    "demo-db/websites": "27967f26fa87e67c8d7a7b3d2784a0cc4c1bfdf6",
+    "demo-db/chinook": "26e852cca00101f53a84ef8ee1f1ae389067f5cf",
+    "demo-db/northwind": "e74726515c3833620b54b7a50d1d273276dd23c1",
+    "demo-db/pubs": "6c06c5c7395b03ff1a02c2b1a21485add3e1b65b",
+    "demo-db/sakila": "6567d30aec1592fe0917934a8bbe74ff70b04b01",
+    "demo-db/adventureworks": "cd8dcdf2079fe31480ad6d6c024b8c17cb91beea",
+    "demo-db/employees": "2455bb327aa8444ec496d36e2fe6dcacfc58dc0a",
+    "meaninggraph/registry": "2d92bbdd45fc2552f231f8f993a5b8b8d5b7fa29",
+    "modelspec-org/registry": "48b30b250a61385d94d46a70968677870750ea35",
+    "openvaultdb/directory": "02db362144d7924c6081dd6768cc0d7187ac9bc3",
+    "openvaultdb/cloud": "56867743b4dd7e7a13772ddd0fd377cdc7feee2e",
+    "dal-go/dalgo2sql": "c3f67fc7e65d3cb717ded9064f89b8bbee5bbc3a",
+    "openvaultdb/openvaultdb-go": "2ed8748df9c1dfe5ced8127c29e53251c2594c66"
+  },
+  "obligations": [
+    {
+      "id": "canonical-meaninggraph-six",
+      "status": "closed",
+      "evidence": "New canonical registrations at main2d92bbdd45fc2552f231f8f993a5b8b8d5b7fa29. PR17 MERGED; exact-mainCI37234277079 success. All six exact provider pins and explicit licences; no semantic acceptance."
+    },
+    {
+      "id": "canonical-modelspec-six",
+      "status": "closed",
+      "evidence": "Previously verified registration retained; current remote48b30b250a61385d94d46a70968677870750ea35 index rechecked, all six exact provider pins."
+    },
+    {
+      "id": "provider-public-metadata-six",
+      "status": "closed",
+      "evidence": "Provider heads unchanged; six canonical/server descriptors byte-identical. AW/Employees six metadata files freshly match prior pinned bytes. Other twelve files and immutable source integrity receipts reused, not freshly downloaded."
+    },
+    {
+      "id": "runtime-metadata-six",
+      "status": "open",
+      "evidence": "AW/Employees advertised apiUrl404; Cloud inventory has four mounts."
+    },
+    {
+      "id": "canonical-directory-six",
+      "status": "open",
+      "evidence": "Main02db362144d7924c6081dd6768cc0d7187ac9bc3 contains four corpus entries; AW/Employees absent. Local candidate23ec40c29186944bca38f78e1ebc666341325baa remains owner-reported local work, not current main."
+    },
+    {
+      "id": "live-directory-six",
+      "status": "open",
+      "evidence": "Sakila/AW/Employees pages404. Pubs live page links34501946b0478b7e2ae13c15b4c57019109b5edc; canonical index pins6c06c5c7395b03ff1a02c2b1a21485add3e1b65b."
+    },
+    {
+      "id": "advertised-native-api-six",
+      "status": "open",
+      "evidence": "Metadata-advertised DTQL one-row read GETs: Chinook/Northwind/Pubs200; Sakila404 despite metadata query/dtqltrue and typed manifest queryfalse. No AW/Employees query paths guessed after metadata404."
+    },
+    {
+      "id": "native-reader-publication-consumer-pins",
+      "status": "open",
+      "evidence": "Cloud main56867743b4dd7e7a13772ddd0fd377cdc7feee2e unchanged. Actual nested server/go.mod pins openvaultdb-go0.11.1, dalgo2sql0.18.0, dalgo2sqlite0.2.0. Library remote main2ed8748df9c1dfe5ced8127c29e53251c2594c66 is database-as-source PR43, not proof of final corpus deployment."
+    },
+    {
+      "id": "derived-mg-modelspec-sites",
+      "status": "unverified",
+      "evidence": "Canonical registration/CI verified; final derived-site deployment/build pins not verified in this bounded refresh."
+    },
+    {
+      "id": "immutable-mount-independent-acceptance",
+      "status": "open",
+      "evidence": "No production AW/Employees mount. No mount/rebuild/BLOB/memory/readonly acceptance repeated. Source/provider and local candidate tests do not substitute for deployed runtime proof."
+    },
+    {
+      "id": "external-publication-authorization",
+      "status": "open",
+      "evidence": "Trusted root dispatch says approval question unanswered; delivery report records automatic publication review rejection. No owner chat inspection/message, permission request or publication performed."
+    }
+  ],
+  "remaining_closure": [
+    "Existing owner obtains outstanding publication authorization; no bypass.",
+    "Publish reviewed native-reader fixes/immutable releases and repin consumers.",
+    "Deploy all six mounts; prove metadata, queries, records, relationships, empty tables, BLOBs, readonly, memory and immutable integrity.",
+    "Publish AW/Employees Directory entries and deploy all six live pages with final provider pins; refresh stale Pubs page.",
+    "Align final capability flags with actual supported paths, including Sakila central DTQL.",
+    "Verify final derived MeaningGraph/ModelSpec/Directory consumer pins and independent final corpus acceptance."
+  ],
+  "B1": "OPEN blocking phases4/5/6; root owns gate decisions; existing DemoDB owner owns publication",
+  "limits": [
+    "No repository writes, mounts/rebuilds/large downloads, suites/browser tests, publishing, reconciliation or gate changes.",
+    "Canonical chinook.demodb.dev; TPC-H excluded and absent from six inventories.",
+    "HTTP reads capped2MB, redirects refused; UTC URLs/methods/hash receipts retained.",
+    "Wrong root go.mod404 retained, correct nested server/go.mod fetched at exact pin.",
+    "Immutable native inputs/18-file schema/licence receipts reused; six relevant metadata files freshly compared."
+  ],
+  "receipt_sha256": {
+    "input-hashes.json": "276ebfd57296e3d69cf49116a5d2916159d337330ee47f66a17b13b40f753916",
+    "live.json": "8fcf6ec9de3f0ff51b6f3bdad1d2bfb34e63f7f2c878a765c54978ca6ae94f48",
+    "cloud-server-gomod-receipt.json": "299263c04e1fc9335ee5aedf7ee662db473b640520043c56d34a145b95cf257b",
+    "remote.json": "591a5a910e85dc014f5dd3c0747de712fb07f9b23dd0df2af654a0a48e0134dd",
+    "additional-remote.json": "b2828445ea0be1f2bcab6517155a3dc4eaba201e2a0a0b7e76a35e2754dbdba9"
+  },
+  "report_sha256": "f07ce9c2110bd4a2655500b36db54d9dd486161c3a6eacab623fa1bfd7b6b6d8",
+  "source_summary_sha256": "6e45c947a772850711ec88348c1dd39051dce4bc27bfc3440a3d72f92e7d9eb4",
+  "attribution": "Read-only deployment refresh by separate D2 dependency verifier; root independently corroborated MG registry merge/head/CI. Included as external dependency evidence, not semantic acceptance."
+}

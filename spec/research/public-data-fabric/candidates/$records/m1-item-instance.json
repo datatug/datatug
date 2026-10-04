@@ -3,15 +3,18 @@
   "kind": "meaning",
   "status": "needs-review",
   "evidence_ids": [
-    "m1-ev-gs1"
+    "m1-ev-gs1",
+    "p2-source-role",
+    "p2-dedicated-reconciliation"
   ],
   "source_id": "m1-source-gs1",
   "identifier_representations": [
     "GTIN + serial qualifier"
   ],
-  "reason": "Depth: focused. Confidence medium in research distinction, not accepted mapping. Class ID alone cannot join individual asset telemetry. Public dataset coverage/rights require separate discovery.",
+  "reason": "Depth: focused. Confidence medium in research distinction, not accepted mapping. Class ID alone cannot join individual asset telemetry. Public dataset coverage/rights require separate discovery.\n\nPhase 2 UNRESOLVED: A physical schema role is retained, but a single broad demand label does not define a reusable common meaning. Distinguish entity, identifier, display name, descriptive value and computed aggregate. A field implementation needs a precise concept and reviewed binding role; source strings and value samples alone do not establish external equivalence. Retain the specific research distinction from this candidate. Evidence gap: final concept boundaries/operational source scope remain unproven; a source implementation and potential overlap with canonical or related research must be resolved before promotion.",
   "practical_value": "Class ID alone cannot join individual asset telemetry.",
   "showcase_value": "Contextual graph/map/time-series opportunity; practical compatibility remains prerequisite.",
   "observed_at": "2026-10-04T22:10:00Z",
-  "research_depth": "documented"
+  "research_depth": "documented",
+  "semantic_disposition": "unresolved"
 }

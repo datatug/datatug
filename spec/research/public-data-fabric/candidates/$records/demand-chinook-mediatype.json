@@ -7,7 +7,8 @@
     "chinook"
   ],
   "evidence_ids": [
-    "demand-corpus-chinook"
+    "demand-corpus-chinook",
+    "p2-context-review"
   ],
   "repository": "demo-db/chinook",
   "commit": "26e852cca00101f53a84ef8ee1f1ae389067f5cf",
@@ -19,5 +20,5 @@
     "Source-local identity; external identity not established"
   ],
   "practical_value": "Observed table; 5 rows. Derived views reuse native tables; empty tables preserve structure without observed values.",
-  "reason": "Actual pinned schema demand fixture. No selected or reconciled status."
+  "reason": "Actual pinned schema demand fixture. No selected or reconciled status.\n\nPhase 2 context reviewed: recordset; directly attached assertion dispositions are enumerated in p2-coverage.json. Native/source schema and grain remain authoritative; acceptance of an attached field/edge never accepts every field or a global identity. "
 }

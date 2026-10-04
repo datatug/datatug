@@ -3,14 +3,15 @@
   "kind": "recordset",
   "status": "needs-review",
   "evidence_ids": [
-    "d1-geonames-postal"
+    "d1-geonames-postal",
+    "p2-context-review"
   ],
   "dataset_id": "d1-dataset-geonames-postal",
   "source_id": "d1-source-geonames-postal",
   "identifier_representations": [
     "countrycode,postalcode,placename,adminname/code1–3,latitude,longitude,accuracy"
   ],
-  "reason": "Proposed source recordset. Field inventory: countrycode,postalcode,placename,adminname/code1–3,latitude,longitude,accuracy. Exact names and parsing depth remain source-qualified; see the linked evidence receipt and dated observations. All compatibility remains unresolved. One country/postcode can map to many places. Partial postal coverage, estimated coordinates and GB_full rights remain needs-review.",
+  "reason": "Proposed source recordset. Field inventory: countrycode,postalcode,placename,adminname/code1–3,latitude,longitude,accuracy. Exact names and parsing depth remain source-qualified; see the linked evidence receipt and dated observations. All compatibility remains unresolved. One country/postcode can map to many places. Partial postal coverage, estimated coordinates and GB_full rights remain needs-review.\n\nPhase 2 context reviewed: recordset; directly attached assertion dispositions are enumerated in p2-coverage.json. Native/source schema and grain remain authoritative; acceptance of an attached field/edge never accepts every field or a global identity. ",
   "source_url": "https://download.geonames.org/export/zip/",
   "licence": "needs-review",
   "licence_notes": "Needs review: postal readme declares CC-BY-4.0 but links CC-BY3.0; GB_full includes Royal Mail copyright/database rights. Do not infer permission for all subsets.",

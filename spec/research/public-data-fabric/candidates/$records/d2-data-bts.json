@@ -3,7 +3,8 @@
   "kind": "dataset",
   "status": "low-priority",
   "evidence_ids": [
-    "d2-e-bts"
+    "d2-e-bts",
+    "p2-context-review"
   ],
   "source_id": "d2-source-bts",
   "source_url": "https://data.bts.gov/Aviation/Airports-Citizen-Connect/kfcv-nyy3",
@@ -15,7 +16,7 @@
   "observed_at": "2026-10-04T22:37:20.841414+00:00",
   "revalidate_after": "2026-11-04T00:00:00Z",
   "freshness": "needs-review",
-  "reason": "AnonymousSocrataJSON2rows2167B;truncatedfieldnames; separateDOTMasterCoordinateAirportID/SeqID tables notsampled/notinterchangeable.",
+  "reason": "AnonymousSocrataJSON2rows2167B;truncatedfieldnames; separateDOTMasterCoordinateAirportID/SeqID tables notsampled/notinterchangeable.\n\nPhase 2 context reviewed: dataset; directly attached assertion dispositions are enumerated in p2-coverage.json. Dataset scope, edition and licence remain independent of particular field compatibility. ",
   "practical_value": "Potentialairportreference/weatherexposure ifcurrentauthoritative replacementfound.",
   "showcase_value": "Airportmap; no IATA identity inference from loc_id.",
   "research_depth": "documented"

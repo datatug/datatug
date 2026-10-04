@@ -3,7 +3,8 @@
   "kind": "dataset",
   "status": "promising",
   "evidence_ids": [
-    "d2-e-ember"
+    "d2-e-ember",
+    "p2-context-review"
   ],
   "source_id": "d2-source-ember",
   "source_url": "https://ember-energy.org/data/yearly-electricity-data/",
@@ -15,7 +16,7 @@
   "observed_at": "2026-10-04T22:37:20.841414+00:00",
   "revalidate_after": "2026-11-04T00:00:00Z",
   "freshness": "current",
-  "reason": "16,084,305B CSV download anonymous; API1.2.0requireskey, no key acquired. Wide metrics currentJuly2026format; aggregates/countries must be separated. Underlying estimates and revisions not universal primary measurements.",
+  "reason": "16,084,305B CSV download anonymous; API1.2.0requireskey, no key acquired. Wide metrics currentJuly2026format; aggregates/countries must be separated. Underlying estimates and revisions not universal primary measurements.\n\nPhase 2 context reviewed: dataset; directly attached assertion dispositions are enumerated in p2-coverage.json. Dataset scope, edition and licence remain independent of particular field compatibility. ",
   "practical_value": "Country electricity context for customer/market/energy data, annual↔monthly comparisons after grain normalization.",
   "showcase_value": "Country fuel mix/total trend; no double-count aggregates with constituents.",
   "research_depth": "documented"

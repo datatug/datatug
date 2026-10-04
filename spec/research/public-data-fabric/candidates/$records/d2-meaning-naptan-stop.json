@@ -3,11 +3,14 @@
   "kind": "meaning",
   "status": "researched",
   "evidence_ids": [
-    "d2-e-naptan"
+    "d2-e-naptan",
+    "p2-mobility",
+    "p2-dedicated-reconciliation"
   ],
   "identifier_representations": [
     "GB NaPTAN ATCOCode"
   ],
-  "reason": "Provisional source-informed meaning. No canonical MeaningGraph entry or accepted equivalence; fresh Phase2 reconciliation required.",
-  "research_depth": "unknown"
+  "reason": "Provisional source-informed meaning. No canonical MeaningGraph entry or accepted equivalence; fresh Phase2 reconciliation required.\n\nPhase 2 ACCEPTED: Accepted source-scoped/proposed concept relationship: Authority-specific access-point identifier implementing transport location; not a universal station key. Canonical definition or dataset-local binding remains a Phase4 prerequisite.",
+  "research_depth": "unknown",
+  "semantic_disposition": "accepted"
 }

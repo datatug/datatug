@@ -132,6 +132,14 @@
         "sampled",
         "unknown"
       ]
+    },
+    "semantic_disposition": {
+      "type": "string",
+      "enum": [
+        "accepted",
+        "rejected",
+        "unresolved"
+      ]
     }
   },
   "columns_order": [
@@ -160,6 +168,7 @@
     "revalidate_after",
     "freshness",
     "practical_value",
-    "showcase_value"
+    "showcase_value",
+    "semantic_disposition"
   ]
 }

@@ -1,7 +1,7 @@
 {
   "title": "Generation (TWh) → provisional electricity",
   "kind": "mapping",
-  "status": "researched",
+  "status": "needs-review",
   "from_id": "d2-rs-ember-year",
   "to_id": "d2-meaning-electricity",
   "from_fields": [
@@ -15,9 +15,12 @@
   "physical_role": "observed field hypothesis",
   "compatibility": "unresolved",
   "assumptions": "Noaggregate+fuel doublecount;demand/netimports source labelsreview.",
-  "confidence": "medium",
+  "confidence": "high",
   "evidence_ids": [
-    "d2-e-ember"
+    "d2-e-ember",
+    "p2-geography",
+    "p2-dedicated-reconciliation",
+    "p2-observation"
   ],
-  "reason": "No semantic reconciliation; names alone do not authorize mapping."
+  "reason": "Phase 2 UNRESOLVED: Generation (TWh) needs area/year/source grain and exact category filter. Reject summing overlapping totals/fuels or treating demand/net imports as generation; a disjoint generated-energy projection remains unimplemented.\n\nOriginal discovery reason (historical): No semantic reconciliation; names alone do not authorize mapping."
 }
