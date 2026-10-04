@@ -1,0 +1,21 @@
+{
+  "title": "NTA Ireland static GTFS and operator references",
+  "kind": "dataset",
+  "status": "needs-review",
+  "evidence_ids": [
+    "d2-e-nta"
+  ],
+  "source_id": "d2-source-nta",
+  "source_url": "https://www.transportforireland.ie/transitData/PT_Data.html",
+  "licence": "CC-BY-4.0 with conflicting access restrictions",
+  "licence_notes": "Static page CC BY4 plus NTA attribution; https://developer.nationaltransport.ie/usagepolicy prohibits primarily profit use without significant public-transit value. Commercial/redistribution/cache scope needs clarification; realtime tokens non-transferable once60sec.",
+  "geographic_coverage": "Ireland public transport; example Allens regional bus only",
+  "temporal_coverage": "Allens feed start20261003,end20271003; sampled services20261002–20271001",
+  "update_frequency": "Regular static updates; sample ZIP Last-Modified2026-10-03",
+  "observed_at": "2026-10-04T22:37:20.841414+00:00",
+  "revalidate_after": "2026-11-04T00:00:00Z",
+  "freshness": "needs-review",
+  "reason": "Public operator CSV34773B and scopedGTFS ZIP33861B; no key used. Realtime not fetched. Operator rows repeat across all/not-Dublin feeds; not unique publisher code.",
+  "practical_value": "Trips/stops/operator/service calendar provide connected schedule demo with user trip records.",
+  "showcase_value": "Route map and calendar, time standards explicit."
+}

@@ -1,0 +1,13 @@
+{
+  "title": "Mobility reference and dated observations",
+  "kind": "bundle",
+  "status": "researched",
+  "evidence_ids": [
+    "d2-e-naptan"
+  ],
+  "member_ids": [
+    "d2-scenario-transport",
+    "d2-scenario-irish"
+  ],
+  "reason": "Proposed connected bundle; component constraints retained. Practical relevance distinct from showcase. No portfolio selection or implementation status."
+}

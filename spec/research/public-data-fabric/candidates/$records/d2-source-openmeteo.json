@@ -1,0 +1,10 @@
+{
+  "title": "Open-Meteo weather/archive API alternative provider",
+  "kind": "source",
+  "status": "researched",
+  "source_url": "https://open-meteo.com/en/terms",
+  "evidence_ids": [
+    "d2-e-openmeteo"
+  ],
+  "reason": "Source-specific terms, access and licence boundaries; no publication."
+}

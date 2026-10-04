@@ -1,0 +1,12 @@
+{
+  "title": "Calendar date or dated reporting period",
+  "kind": "meaning",
+  "status": "researched",
+  "evidence_ids": [
+    "d2-e-ember"
+  ],
+  "identifier_representations": [
+    "Explicittimebasis and grain"
+  ],
+  "reason": "Provisional source-informed meaning. No canonical MeaningGraph entry or accepted equivalence; fresh Phase2 reconciliation required."
+}

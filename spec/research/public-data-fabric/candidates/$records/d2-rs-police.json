@@ -1,0 +1,14 @@
+{
+  "title": "Police street-crime API documented records",
+  "kind": "recordset",
+  "status": "researched",
+  "evidence_ids": [
+    "d2-e-police"
+  ],
+  "dataset_id": "d2-data-police",
+  "identifier_representations": [
+    "Hashed persistent_id for eligible crimes; ASB may lack persistent identity",
+    "Physical/documented fields: [\"persistent_id\", \"id\", \"category\", \"month\", \"location.latitude\", \"location.longitude\", \"location.street.id\", \"outcome_status\"]"
+  ],
+  "reason": "Grain: reported crime × month; published location anonymised. Documented field names, actual boundedcrimeAPI [] twice. No nonemptyvalues/rowqualityverified; use availability/force coverage first. Publishedpoint deliberatelynotexactcrime/premise."
+}

@@ -1,0 +1,23 @@
+{
+  "title": "stop_id → provisional gtfs-stop",
+  "kind": "mapping",
+  "status": "researched",
+  "from_id": "d2-rs-nta-stops",
+  "to_id": "d2-meaning-gtfs-stop",
+  "from_fields": [
+    "stop_id"
+  ],
+  "to_fields": [
+    "provisional concept"
+  ],
+  "from_identifier_namespace": "NTA Allensfeed",
+  "to_identifier_namespace": "d2 provisional meaning; not canonical",
+  "physical_role": "observed field hypothesis",
+  "compatibility": "unresolved",
+  "assumptions": "Feedscoped; stop_code separate presentationcode.",
+  "confidence": "medium",
+  "evidence_ids": [
+    "d2-e-nta"
+  ],
+  "reason": "No semantic reconciliation; names alone do not authorize mapping."
+}

@@ -1,0 +1,23 @@
+{
+  "title": "id → provisional cve-id",
+  "kind": "mapping",
+  "status": "researched",
+  "from_id": "d2-rs-nvd",
+  "to_id": "d2-meaning-cve-id",
+  "from_fields": [
+    "id"
+  ],
+  "to_fields": [
+    "provisional concept"
+  ],
+  "from_identifier_namespace": "CVE",
+  "to_identifier_namespace": "d2 provisional meaning; not canonical",
+  "physical_role": "observed field hypothesis",
+  "compatibility": "unresolved",
+  "assumptions": "Sourceprovenance+revisionneeded;licenceunresolved.",
+  "confidence": "medium",
+  "evidence_ids": [
+    "d2-e-nvd"
+  ],
+  "reason": "No semantic reconciliation; names alone do not authorize mapping."
+}

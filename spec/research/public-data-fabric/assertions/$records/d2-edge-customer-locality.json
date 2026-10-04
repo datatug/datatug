@@ -1,0 +1,27 @@
+{
+  "title": "Chinook customer locality→transport place candidates",
+  "kind": "edge",
+  "status": "researched",
+  "from_id": "demand-chinook-customer",
+  "to_id": "d2-rs-nptg",
+  "from_fields": [
+    "Country",
+    "City"
+  ],
+  "to_fields": [
+    "LocalityName",
+    "ParentLocalityName"
+  ],
+  "from_identifier_namespace": "Chinookcountry/citytext",
+  "to_identifier_namespace": "GBNPTGplace/localitynames",
+  "expected_cardinality": "many:many candidateassociation",
+  "compatibility": "unresolved",
+  "confidence": "low",
+  "assumptions": "DemandfixturehasdirtyEdinburghtrailingwhitespace;keeporiginalandqualifiedtrimproposal. VerifyGBcountryfirst,disambiguateparent/adminarea;city/localitynotacceptedidentity. No geocoder orjoinrun;NPTGnotaddressmaster.",
+  "evidence_ids": [
+    "d2-e-scope",
+    "d2-e-nptg"
+  ],
+  "reason": "Research hypothesis only; confidence describes evidence supporting investigation, never acceptance or automatic matching.",
+  "transformation": "Proposecountry-qualifiednamecandidate search; whitespace normalizationdoesnotproveequivalence."
+}

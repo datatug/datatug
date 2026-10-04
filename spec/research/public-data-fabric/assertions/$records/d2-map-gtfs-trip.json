@@ -1,0 +1,23 @@
+{
+  "title": "trip_id → provisional gtfs-trip",
+  "kind": "mapping",
+  "status": "researched",
+  "from_id": "d2-rs-nta-trips",
+  "to_id": "d2-meaning-gtfs-trip",
+  "from_fields": [
+    "trip_id"
+  ],
+  "to_fields": [
+    "provisional concept"
+  ],
+  "from_identifier_namespace": "NTA Allensfeed",
+  "to_identifier_namespace": "d2 provisional meaning; not canonical",
+  "physical_role": "observed field hypothesis",
+  "compatibility": "unresolved",
+  "assumptions": "3trips;futurestableIDnotproven.",
+  "confidence": "medium",
+  "evidence_ids": [
+    "d2-e-nta"
+  ],
+  "reason": "No semantic reconciliation; names alone do not authorize mapping."
+}

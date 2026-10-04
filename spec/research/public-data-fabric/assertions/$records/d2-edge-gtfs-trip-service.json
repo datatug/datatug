@@ -1,0 +1,23 @@
+{
+  "title": "nta-trips→nta-calendar",
+  "kind": "edge",
+  "status": "researched",
+  "from_id": "d2-rs-nta-trips",
+  "to_id": "d2-rs-nta-calendar",
+  "from_fields": [
+    "service_id"
+  ],
+  "to_fields": [
+    "service_id"
+  ],
+  "from_identifier_namespace": "NTA Allenscurrentfeed",
+  "to_identifier_namespace": "NTA Allenscurrentfeed",
+  "expected_cardinality": "many:1",
+  "compatibility": "unresolved",
+  "confidence": "high",
+  "assumptions": "Nativekeyreferences within observedfeed version;allboundedrowsverified. Future/crossfeedIDsnotaccepted;termsconflict blocksproductionuse. Serviceperiod/weeklycalendar and >24h agencytime handledexplicitly.",
+  "evidence_ids": [
+    "d2-e-nta"
+  ],
+  "reason": "Research hypothesis only; confidence describes evidence supporting investigation, never acceptance or automatic matching."
+}

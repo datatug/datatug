@@ -1,0 +1,14 @@
+{
+  "title": "EA readings",
+  "kind": "recordset",
+  "status": "researched",
+  "evidence_ids": [
+    "d2-e-ea"
+  ],
+  "dataset_id": "d2-data-ea",
+  "identifier_representations": [
+    "EA reading URI with UTC observation time",
+    "Physical/documented fields: [\"@id\", \"dateTime\", \"measure\", \"value\"]"
+  ],
+  "reason": "Grain: measure URI × dateTime; current readings snapshot. Probe limit2; stations response actually1row. HTTP URIs are identity strings; transport HTTPS endpoint is distinct. Stage unit mASD and negative values valid, not negative rainfall."
+}

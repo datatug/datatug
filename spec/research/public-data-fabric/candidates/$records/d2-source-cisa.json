@@ -1,0 +1,10 @@
+{
+  "title": "CISA Known Exploited Vulnerabilities",
+  "kind": "source",
+  "status": "researched",
+  "evidence_ids": [
+    "d2-e-cisa"
+  ],
+  "source_url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog",
+  "reason": "Dataset-specific CC0, external referenced material excluded."
+}

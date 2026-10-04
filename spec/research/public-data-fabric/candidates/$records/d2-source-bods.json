@@ -1,0 +1,10 @@
+{
+  "title": "DfT Bus Open Data Service",
+  "kind": "source",
+  "status": "researched",
+  "evidence_ids": [
+    "d2-e-bods"
+  ],
+  "source_url": "https://bus-data.dft.gov.uk/",
+  "reason": "England local bus datasets outside London; exemptions apply."
+}

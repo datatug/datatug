@@ -1,0 +1,10 @@
+{
+  "title": "Transport for London",
+  "kind": "source",
+  "status": "researched",
+  "evidence_ids": [
+    "d2-e-tfl"
+  ],
+  "source_url": "https://tfl.gov.uk/info-for/open-data-users/",
+  "reason": "Dataset-specific transport terms needed."
+}

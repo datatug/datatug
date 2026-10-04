@@ -1,0 +1,12 @@
+{
+  "title": "Country/economy alpha3 representation",
+  "kind": "meaning",
+  "status": "researched",
+  "evidence_ids": [
+    "d2-e-ember"
+  ],
+  "identifier_representations": [
+    "ISO3 nonempty; provider coverageexceptionreview"
+  ],
+  "reason": "Provisional source-informed meaning. No canonical MeaningGraph entry or accepted equivalence; fresh Phase2 reconciliation required."
+}

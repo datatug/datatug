@@ -1,0 +1,21 @@
+{
+  "title": "GHCN Daily international station archive",
+  "kind": "dataset",
+  "status": "needs-review",
+  "evidence_ids": [
+    "d2-e-ghcnd"
+  ],
+  "source_id": "d2-source-ghcnd",
+  "source_url": "https://www.ncei.noaa.gov/pub/data/ghcn/daily/",
+  "licence": "Global contributor rights unresolved",
+  "licence_notes": "Older official https://www.ncei.noaa.gov/pub/data/cdo/documentation/GHCND_documentation.pdf restricts certain non-US WMO data and derivative redistribution/commercial use. Current readme does not resolve it; do not claim global public domain or remote-only bypass.",
+  "geographic_coverage": "Global, station/network coverage irregular",
+  "temporal_coverage": "Station/element inventory first/last years; full dly time range not probed",
+  "update_frequency": "Daily appended updates; version3.35-upd-2026100218",
+  "observed_at": "2026-10-04T22:37:20.841414+00:00",
+  "revalidate_after": "2026-11-04T00:00:00Z",
+  "freshness": "needs-review",
+  "reason": "Anonymous fixed-width text/GZ; stations11,441,354B current Content-Range, prefix4096B; multiGBallarchive deliberately not fetched. Country prefixFIPS10-4 not ISO.",
+  "practical_value": "Station-based historical weather alternative with flags and element coverage.",
+  "showcase_value": "Station history/map after rights and time-quality review."
+}

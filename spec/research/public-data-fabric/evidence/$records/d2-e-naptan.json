@@ -1,0 +1,11 @@
+{
+  "title": "DfT access nodes and native CSV probe",
+  "observed_at": "2026-10-04T22:37:20.841414+00:00",
+  "outcome": "observation",
+  "summary": "Dataset-specific OGL catalogue, current beta/API docs, whole bounded area010 CSV. 1679 unique ATCOCodes; 50 empty NaptanCodes; all 1679 locality references matched full 43900-row NPTG snapshot. National scope not probed.",
+  "url": "https://www.data.gov.uk/dataset/ff93ffc1-6656-47d8-9155-85ea0b8f2251/naptan",
+  "path": "spec/research/public-data-fabric/evidence/d2-discovery-2026-10-04.json",
+  "reviewer": "Codex gpt-6.1-sol High on local Mac; stream researcher",
+  "independent": false,
+  "review_stage": "discovery"
+}

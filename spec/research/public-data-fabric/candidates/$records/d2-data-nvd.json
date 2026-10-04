@@ -1,0 +1,21 @@
+{
+  "title": "NVD CVE analysis API",
+  "kind": "dataset",
+  "status": "needs-review",
+  "evidence_ids": [
+    "d2-e-nvd"
+  ],
+  "source_id": "d2-source-nvd",
+  "source_url": "https://services.nvd.nist.gov/rest/json/cves/2.0",
+  "licence": "Not yet verified",
+  "licence_notes": "Primary terms/developer content not recovered beyond JSshell; do not substitute general NIST statement for all contributed CVE/reference content. Redistribution/cache/commercial/API rate policies need review.",
+  "geographic_coverage": "Global CVE namespace; records/source analysis vary",
+  "temporal_coverage": "OneCVE2021-44228published/lastModified fields;updated2026-08-11",
+  "update_frequency": "Updates as CVEs/source analysis change; service cadence not verified",
+  "observed_at": "2026-10-04T22:37:20.841414+00:00",
+  "revalidate_after": "2026-11-04T00:00:00Z",
+  "freshness": "needs-review",
+  "reason": "AnonymousoneCVErequest87139B; API2.0 observed. APIkeyoptional access demonstrated for this request only; no sweeping throughput claim.",
+  "practical_value": "CVE ID bridge to KEV with per-source metrics, vulnerable configuration distinctions.",
+  "showcase_value": "Compare known exploitation vs analysis, without product-name auto matching."
+}

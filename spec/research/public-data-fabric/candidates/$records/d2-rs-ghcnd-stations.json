@@ -1,0 +1,14 @@
+{
+  "title": "GHCND stations fixed-width",
+  "kind": "recordset",
+  "status": "needs-review",
+  "evidence_ids": [
+    "d2-e-ghcnd"
+  ],
+  "dataset_id": "d2-data-ghcnd",
+  "identifier_representations": [
+    "11charGHCND station ID; first2FIPS10-4, thirdnetwork, eightlocalID",
+    "Physical/documented fields: [\"ID\", \"LATITUDE\", \"LONGITUDE\", \"ELEVATION\", \"STATE\", \"NAME\", \"GSN FLAG\", \"HCN/CRN FLAG\", \"WMO ID\"]"
+  ],
+  "reason": "Grain: station/network record. Only4096B prefix, full11,441,354B not downloaded; elevations may be missing-999.9, optionalSTATE/WMO fields. WMO mapping incomplete, not unconditionally alternate key."
+}

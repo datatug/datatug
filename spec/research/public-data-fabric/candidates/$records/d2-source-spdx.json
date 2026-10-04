@@ -1,0 +1,10 @@
+{
+  "title": "SPDX Legal Team",
+  "kind": "source",
+  "status": "researched",
+  "evidence_ids": [
+    "d2-e-spdx"
+  ],
+  "source_url": "https://spdx.org/licenses/",
+  "reason": "Licence identifiers/metadata; not permission for all listed works."
+}

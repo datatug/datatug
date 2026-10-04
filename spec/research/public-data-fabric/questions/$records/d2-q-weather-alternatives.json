@@ -1,0 +1,15 @@
+{
+  "title": "Review OpenAQ provider/time licences and Open-Meteo endpoint commercial access before integration",
+  "status": "open",
+  "classification": "important/non-blocking",
+  "owner": "Root-assigned fresh source-rights/reconciliation reviewer",
+  "candidate_ids": [
+    "d2-data-openaq",
+    "d2-data-openmeteo"
+  ],
+  "evidence_ids": [
+    "d2-e-openaq",
+    "d2-e-openmeteo"
+  ],
+  "resolution": "Useful alternatives preserved. Blocks affected integration only; no paid signup or endpoint-permission bypass."
+}

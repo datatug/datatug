@@ -1,0 +1,14 @@
+{
+  "title": "EA stations",
+  "kind": "recordset",
+  "status": "researched",
+  "evidence_ids": [
+    "d2-e-ea"
+  ],
+  "dataset_id": "d2-data-ea",
+  "identifier_representations": [
+    "EA station URI; RLOI/wiski identifiers distinct",
+    "Physical/documented fields: [\"@id\", \"RLOIid\", \"catchmentName\", \"dateOpened\", \"easting\", \"label\", \"lat\", \"long\", \"measures\", \"northing\", \"notation\", \"riverName\", \"stageScale\", \"stationReference\", \"status\", \"town\", \"wiskiID\"]"
+  ],
+  "reason": "Grain: station metadata snapshot. Probe limit2; stations response actually1row. HTTP URIs are identity strings; transport HTTPS endpoint is distinct. Stage unit mASD and negative values valid, not negative rainfall."
+}

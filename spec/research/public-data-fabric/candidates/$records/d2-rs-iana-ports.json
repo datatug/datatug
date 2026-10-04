@@ -1,0 +1,14 @@
+{
+  "title": "IANA service names/ports",
+  "kind": "recordset",
+  "status": "researched",
+  "evidence_ids": [
+    "d2-e-iana"
+  ],
+  "dataset_id": "d2-data-iana",
+  "identifier_representations": [
+    "IANA service/port/protocol tuple",
+    "Physical/documented fields: [\"Service Name\", \"Port Number\", \"Transport Protocol\", \"Description\", \"Assignee\", \"Contact\", \"Registration Date\", \"Modification Date\", \"Reference\", \"Service Code\", \"Unauthorized Use Reported\", \"Assignment Notes\"]"
+  ],
+  "reason": "Grain: registration numeric port or range × transport protocol; service-only entries may exist. CSV extraction must handle embedded newlines/ranges/blank assignments. Registry lookup is a proposal, not traffic protocol or content sniffing proof."
+}

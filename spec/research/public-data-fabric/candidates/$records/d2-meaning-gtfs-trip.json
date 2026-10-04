@@ -1,0 +1,12 @@
+{
+  "title": "Feed-scoped GTFS trip identifier",
+  "kind": "meaning",
+  "status": "researched",
+  "evidence_ids": [
+    "d2-e-nta"
+  ],
+  "identifier_representations": [
+    "publisher+feed version+trip_id"
+  ],
+  "reason": "Provisional source-informed meaning. No canonical MeaningGraph entry or accepted equivalence; fresh Phase2 reconciliation required."
+}

@@ -1,0 +1,12 @@
+{
+  "title": "Service transport protocol token",
+  "kind": "meaning",
+  "status": "researched",
+  "evidence_ids": [
+    "d2-e-iana"
+  ],
+  "identifier_representations": [
+    "tcp/udp etc portregistrynamespace"
+  ],
+  "reason": "Provisional source-informed meaning. No canonical MeaningGraph entry or accepted equivalence; fresh Phase2 reconciliation required."
+}

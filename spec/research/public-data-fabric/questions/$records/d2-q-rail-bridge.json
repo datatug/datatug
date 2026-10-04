@@ -1,0 +1,15 @@
+{
+  "title": "Verify ORR portal/table rights and NLC/TLC→NaPTAN rail bridge",
+  "status": "open",
+  "classification": "important/non-blocking",
+  "owner": "Root-assigned fresh reconciliation/portfolio reviewer; source rights owner where needed",
+  "candidate_ids": [
+    "d2-data-orr",
+    "d2-data-naptan",
+    "d2-data-bods"
+  ],
+  "evidence_ids": [
+    "d2-e-orr"
+  ],
+  "resolution": "Unresolved follow-up; blocks the affected integration rather than bounded Phase1 discovery. No permission inferred or gate changed."
+}

@@ -1,0 +1,13 @@
+{
+  "title": "Technology identifier lookup and exploitation context",
+  "kind": "bundle",
+  "status": "researched",
+  "evidence_ids": [
+    "d2-e-iana"
+  ],
+  "member_ids": [
+    "d2-scenario-internet",
+    "d2-scenario-vulnerabilities"
+  ],
+  "reason": "Proposed connected bundle; component constraints retained. Practical relevance distinct from showcase. No portfolio selection or implementation status."
+}

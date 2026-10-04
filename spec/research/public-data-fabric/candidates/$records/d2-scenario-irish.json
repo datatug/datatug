@@ -1,0 +1,17 @@
+{
+  "title": "Irish route/operator/service calendar",
+  "kind": "scenario",
+  "status": "needs-review",
+  "evidence_ids": [
+    "d2-e-nta"
+  ],
+  "member_ids": [
+    "d2-data-nta"
+  ],
+  "demo_ids": [
+    "chinook"
+  ],
+  "reason": "User problem/schema: User trip_id/stop_id/departure_date scoped tosamepublisherfeed; businesssites needcoordinatebridge. Proposed joins: Verifiednativeagency/routes/trips/calendar/stops/stop_timesreferences; public POWERweathercontextaftertime/coordinatechoice. DemoInvoiceDate/BillingCityweatherproposalprovidespotentialcalendarreuse,notcurrentIrishschedulematch. Answerable questions: Whichtripsoperateonserviceweekday/effectiveperiod?Whichstopsbelongtooneoperatorroute?Wherewouldhistoricalfeedbe needed? Visualizations: Routemap,stopsequence/servicecalendar,weathercontextseparatepanel. Gaps/cost/risks: NTAtermsconflictblockscommercial/publicationdecision; scopedfeedfuture2026–27doesnotcover2009invoices;agencyliteralEurope/London;multiplefeedduplicates;GTFS>24h,exceptions andshapesunits.",
+  "practical_value": "Whichtripsoperateonserviceweekday/effectiveperiod?Whichstopsbelongtooneoperatorroute?Wherewouldhistoricalfeedbe needed?",
+  "showcase_value": "Routemap,stopsequence/servicecalendar,weathercontextseparatepanel."
+}

@@ -1,0 +1,11 @@
+{
+  "title": "SPDX identifiers observed, metadata rights unresolved",
+  "observed_at": "2026-10-04T22:37:20.841414+00:00",
+  "outcome": "observation",
+  "summary": "Canonical SPDX JSON3.29.0 release2026-09-16,740 license summaries observed. Generated README delegates licensing to source/publisher repositories; no blanket data licence confirmed. Actual license text rights distinct from metadata list and permissions in each listed license. GitHub licence detection mistakenly points to rename-license script; not used as data licence.",
+  "url": "https://github.com/spdx/license-list-data/blob/main/README.md",
+  "path": "spec/research/public-data-fabric/evidence/d2-discovery-2026-10-04.json",
+  "reviewer": "Codex gpt-6.1-sol High on local Mac; stream researcher",
+  "independent": false,
+  "review_stage": "discovery"
+}

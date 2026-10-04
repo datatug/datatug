@@ -1,0 +1,12 @@
+{
+  "title": "HTTP response status classification",
+  "kind": "meaning",
+  "status": "researched",
+  "evidence_ids": [
+    "d2-e-iana"
+  ],
+  "identifier_representations": [
+    "IANA HTTPstatusregistry"
+  ],
+  "reason": "Provisional source-informed meaning. No canonical MeaningGraph entry or accepted equivalence; fresh Phase2 reconciliation required."
+}

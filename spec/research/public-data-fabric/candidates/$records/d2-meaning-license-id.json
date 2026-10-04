@@ -1,0 +1,12 @@
+{
+  "title": "SPDX licence identifier",
+  "kind": "meaning",
+  "status": "researched",
+  "evidence_ids": [
+    "d2-e-spdx"
+  ],
+  "identifier_representations": [
+    "SPDX3.29.0 released IDs;notlicencegrant"
+  ],
+  "reason": "Provisional source-informed meaning. No canonical MeaningGraph entry or accepted equivalence; fresh Phase2 reconciliation required."
+}

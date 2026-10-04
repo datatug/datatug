@@ -1,0 +1,10 @@
+{
+  "title": "IANA protocol registries",
+  "kind": "source",
+  "status": "researched",
+  "evidence_ids": [
+    "d2-e-iana"
+  ],
+  "source_url": "https://www.iana.org/protocols",
+  "reason": "Protocol scope CC0, not a licence for other IANA content."
+}
