@@ -153,7 +153,7 @@
     "sha256": "88eb7faede360988e9c0f8f8d107e5093db5e712141de14d868f8947b43c373c"
   },
   "production_chat": {
-    "command": "wb run -- pnpm exec playwright test apps/datatug-app/e2e/chat-canonical-demo.spec.ts --config=/private/tmp/data-fabric-phase0-verification/round3/playwright.config.ts",
+    "command": "wb run -- pnpm exec playwright test -c /private/tmp/data-fabric-phase0-verification/round3/playwright.config.ts",
     "result": "1 passed (4.5s)",
     "ai_reply": "mocked deterministic bounded DTQL; real UI, fixture seeding, IndexedDB, DALgo and grid",
     "table_rows": {
@@ -169,7 +169,13 @@
       "PlaylistTrack": 8715,
       "Track": 3503
     },
-    "bounded_customers": 3
+    "bounded_customers": 3,
+    "cwd": "/Users/alex/projects/datatug/datatug-apps",
+    "environment": {
+      "PATH": "Node 24 prepended",
+      "NX_DAEMON": "false",
+      "NX_ISOLATE_PLUGINS": "false"
+    }
   },
   "employees_rebuild": {
     "provider": {
@@ -297,5 +303,22 @@
     "meaning_registry_commit": "8e9d6afe8f5a4290d6c18ace31a72552f48f698e"
   },
   "source_report_sha256": "8ae5b73c82d38ed85872bc2478a345210025d48e35340e250d4585044dc4bbca",
-  "builder_status": "Separate obsolete Cloudflare Builds failure remains unclosed in this snapshot; GitHub deployment and production acceptance are independently verified. Await independent before/after receipt for integration correction."
+  "builder_status": "Independent r4 verifies redundant Cloudflare Workers Builds Git integration disconnected; declared GitHub deployment owner preserved. Historical failed build remains Failed; active version and production artifact unchanged.",
+  "deployment_owner_r4": {
+    "observed_at": "2026-10-04T20:17:00Z",
+    "reviewer": "phase0_verify independent r4 Local Codex Mac",
+    "outcome": "pass",
+    "worker": "datatug-apps",
+    "git_integration": "Git repository \u2014 Connect; no repository connected",
+    "active_version": "88fea4cd-915b-4d1d-9ca1-5c13fae4eaa2",
+    "traffic_percent": 100,
+    "github_deployment_run": "https://github.com/datatug/datatug-apps/actions/runs/37230543691",
+    "github_conclusion": "success/completed",
+    "commit": "bddd27a9077b37e3d1e42af8874dd04963afde2b",
+    "historical_failed_build": "58a601e4-4be5-4965-bb09-6d77856cf53a",
+    "historical_failure": "Selected build token deleted or rolled before clone/install/build/deploy; remains Failed",
+    "source_owner": ".github/workflows/deploy.yml:3-8,28-39 declares shared sneat-co/cicd cf-deploy workflow",
+    "review_scope": "Read-only independent fresh dashboard captures, deployment log, successful GitHub run and live build-info. No credentials/code/settings/traffic/deployment changed by reviewer; no suite repeated.",
+    "report_sha256": "b77ad539c864e71f75e88962e58f73044736b49fec0279c20d50551eeac1cdfb"
+  }
 }

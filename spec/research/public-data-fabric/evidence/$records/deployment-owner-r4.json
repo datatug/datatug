@@ -1,0 +1,13 @@
+{
+  "title": "Independent deployment ownership correction r4",
+  "observed_at": "2026-10-04T20:17:00Z",
+  "outcome": "pass",
+  "summary": "Redundant Cloudflare Workers Builds Git integration disconnected. Fresh independent dashboard shows no repository connected; declared GitHub shared cf-deploy owner preserved. Successful run37230543691 ties active version88fea4cd-915b-4d1d-9ca1-5c13fae4eaa2 at100%traffic; live bddd27a artifact unchanged. Historical selected-token failure remains Failed, not rewritten green. Corpus blocker unchanged.",
+  "reviewer": "phase0_verify independent r4 Local Codex Mac",
+  "independent": true,
+  "review_stage": "foundation",
+  "repository": "datatug/datatug-apps",
+  "commit": "bddd27a9077b37e3d1e42af8874dd04963afde2b",
+  "url": "https://github.com/datatug/datatug-apps/actions/runs/37230543691",
+  "path": "evidence/phase0-hardening-r3.json"
+}
