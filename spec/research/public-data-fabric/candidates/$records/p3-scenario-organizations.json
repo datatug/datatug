@@ -1,0 +1,44 @@
+{
+  "title": "Real organization and affiliation exposure",
+  "kind": "scenario",
+  "status": "needs-review",
+  "reason": "Phase3 proposal only. Adds strong portable real identifiers beyond DemoDB while reusing geography. Consolidates affiliation and supplier proposals without pretending ROR and LEI are equivalent. DOI/ORCID output discovery stays backlog. ROR has multiple locations/relationships; avoid multiplying affiliation counts. LEI relationship/exception CDF rows are documented, not sampled; legal entity and organization roles differ. Accounting consolidation is not all ownership or credit risk. Country energy/economy context remains conditional on S1 bridges; current affiliation location does not reconstruct history.",
+  "evidence_ids": [
+    "p3-portfolio-architecture"
+  ],
+  "member_ids": [
+    "d1-ror-organisations",
+    "d1-geo-places",
+    "d1-geo-countries",
+    "d1-wb-economies",
+    "d1-wb-indicators",
+    "d1-wb-observations",
+    "d1-lei-entities",
+    "d1-lei-relationships",
+    "d1-lei-exceptions",
+    "d2-rs-ember-year"
+  ],
+  "dependency_ids": [
+    "d1-geo-countries",
+    "d1-geo-places",
+    "d1-lei-entities",
+    "d1-lei-exceptions",
+    "d1-lei-relationships",
+    "d1-ror-organisations",
+    "d1-scenario-real-organisation",
+    "d1-wb-economies",
+    "d1-wb-indicators",
+    "d1-wb-observations",
+    "d2-rs-ember-year",
+    "m1-edge-address-site",
+    "m1-edge-entity-parent",
+    "m1-edge-registration-entity",
+    "m1-edge-ror-domain",
+    "m1-scenario-research-outputs",
+    "m1-scenario-vendor-network"
+  ],
+  "demo_ids": [],
+  "practical_value": "75.8/100 proposal value; readiness gated independently. I connect affiliations carrying ROR IDs or counterparties carrying LEIs; choose an exact namespace lookup; inspect source identity, geographic exposure and explicitly typed consolidation links, with reporting exceptions visible.",
+  "showcase_value": "4/5, excluded from practical score; Where are identified research affiliations located, and what dated market context surrounds them?",
+  "research_depth": "documented"
+}

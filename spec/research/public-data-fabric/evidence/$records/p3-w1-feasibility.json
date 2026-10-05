@@ -1,0 +1,10 @@
+{
+  "title": "W1 bounded plumbing probe and global import-scope architecture",
+  "observed_at": "2026-10-05T00:15:10.707343+00:00",
+  "outcome": "observation",
+  "summary": "Five capped anonymous source GETs verify complete country/admin1 and Colombia place/alias files plus one knownROR. 475nonemptyadmin1references unmatched are retained. Probe is not chosen scope or launch acceptance. Global W1 scope separately costs country/admin1,cities5000+fullRORlocationclosure and aliasclosure at around640MBcompressed inputs; fullglobalbuild not run. ROR release2.13 metadata explicitly distinguishes embedded GeoNames CC BY4 from RORCC0.",
+  "path": "spec/research/public-data-fabric/evidence/p3-w1-operational-probe.json",
+  "reviewer": "fresh-phase3-portfolio-architect",
+  "independent": false,
+  "url": "https://zenodo.org/records/22902037"
+}

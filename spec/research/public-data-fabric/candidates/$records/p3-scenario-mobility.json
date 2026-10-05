@@ -1,0 +1,36 @@
+{
+  "title": "Premises and transport access context",
+  "kind": "scenario",
+  "status": "needs-review",
+  "reason": "Phase3 proposal only. Compelling connected civic/mobility story but highest bridge/right risk. Rank last for implementation; keep it as a conditional seventh target rather than force a feed-only demo into launch. ORR NLC/TLC→NaPTAN bridge and OGL scope unresolved; FSA FHRS/FHIS schemes, source ID reuse, private location suppression and freshness conditions matter. NaPTAN↔FSA requires independently approved CRS/axis/radius projection. Approximate distance is not route access or identity. NTA feed rights conflict; do not publish despite five accepted native GTFS edges. Irish GTFS and BODS/TfL are preserved alternate branches, not selected counts.",
+  "evidence_ids": [
+    "p3-portfolio-architecture"
+  ],
+  "member_ids": [
+    "d2-rs-naptan",
+    "d2-rs-nptg",
+    "d2-rs-orr",
+    "d2-rs-fsa",
+    "d1-geo-countries"
+  ],
+  "dependency_ids": [
+    "d1-geo-countries",
+    "d2-bundle-civic",
+    "d2-bundle-mobility",
+    "d2-rs-fsa",
+    "d2-rs-naptan",
+    "d2-rs-nptg",
+    "d2-rs-orr",
+    "d2-scenario-civic-services",
+    "d2-scenario-irish",
+    "d2-scenario-transport",
+    "m1-edge-transport-city",
+    "m1-edge-trip-route",
+    "m1-edge-trip-stop",
+    "m1-scenario-mobility-context"
+  ],
+  "demo_ids": [],
+  "practical_value": "51.2/100 proposal value; readiness gated independently. I connect premises with explicit coordinates or known ATCO/locality IDs; request a scoped transport-stop lookup; inspect locality and dated usage/inspection context, distinguishing proximity from actual route accessibility.",
+  "showcase_value": "5/5, excluded from practical score; Which declared premises are near transport stops within an explicitly chosen distance?",
+  "research_depth": "documented"
+}

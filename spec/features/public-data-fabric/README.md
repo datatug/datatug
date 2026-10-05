@@ -88,7 +88,7 @@ Each wave MUST be independently reviewed for semantic correctness, model fidelit
 
 ## Open Questions
 
-Current foundation blockers and later surface-specific integration prerequisites are preserved in [fabric.questions](../../research/public-data-fabric/README.md). Phase0 and Phase0.5 passed for bounded research; broad discovery is underway with individually reviewed streams. Root has accepted bounded Phase1 combined discovery; the gate/receipt delta awaits final review, CI and landing; dedicated reconciliation, portfolio selection and launch implementation have not started. B1 remains open at Phase4/5/6.
+Current blockers and integration prerequisites are preserved in [fabric.questions](../../research/public-data-fabric/README.md). Phases 0, 0.5, 1 and 2 have bounded accepted gates. The separate [Phase 3 portfolio proposal](../../research/public-data-fabric/p3-portfolio.md) recommends seven conditional scenarios and 37 distinct public recordsets, preserving all research and semantic decisions. Independent r2 review passed and root accepted bounded Phase 3 architecture at `caa9e75d9b24c8ddd95266bc46d97670d492849f`; the [acceptance receipt](../../research/public-data-fabric/evidence/p3-phase-acceptance.json) preserves the exact source and limits. Final receipt-delta review/CI/root landing remain pending. No implementation has started; all scenarios remain conditional. B1 and the selected integration conditions remain open/blocking at Phases 4/5/6. Approved implementation plans follow the existing [workbench plan route](https://github.com/sneat-co/workbench/tree/main/spec/plans/github.com/datatug/datatug), not a parallel hub plan tree.
 
 ---
 *This document follows the https://specscore.md/feature-specification*

@@ -1,0 +1,40 @@
+{
+  "title": "Local operating calendars with explicit place and time",
+  "kind": "scenario",
+  "status": "needs-review",
+  "reason": "Phase3 proposal only. Calendar/time is a cross-scenario hub for market years, FX dates and environmental observations. High demand but low current accepted demo coverage keeps it behind initial geography/catalogue bridges. GOVUK has three divisions, not one UK calendar; region mapping and historical coverage are missing. tzdb civil rules must be evaluated by maintained runtime library; source-rule rows are not fixed offsets. CLDR Windows mapping may be one-to-many. Browser local timezone is not source timezone. Existing historical demos cannot be made compatible by moving their dates.",
+  "evidence_ids": [
+    "p3-portfolio-architecture"
+  ],
+  "member_ids": [
+    "d1-geo-places",
+    "d1-tz-zones",
+    "d1-tz-rules",
+    "d1-cldr-week",
+    "d1-cldr-windows-zones",
+    "d1-govuk-holidays"
+  ],
+  "dependency_ids": [
+    "d1-cldr-week",
+    "d1-cldr-windows-zones",
+    "d1-geo-places",
+    "d1-govuk-holidays",
+    "d1-scenario-calendar-context",
+    "d1-tz-rules",
+    "d1-tz-zones",
+    "demand-scenario-transaction-calendar",
+    "m1-edge-instant-zone",
+    "m1-scenario-calendar-demand"
+  ],
+  "demo_ids": [
+    "chinook",
+    "northwind",
+    "pubs",
+    "sakila",
+    "adventureworks",
+    "employees"
+  ],
+  "practical_value": "74.0/100 proposal value; readiness gated independently. I connect dated activity plus an explicitly declared jurisdiction/timezone; review date-only versus instant semantics; choose a local-calendar enrichment; see coverage gaps before comparing activity on working days or holidays.",
+  "showcase_value": "4/5, excluded from practical score; Which transactions fall on declared regional bank holidays?",
+  "research_depth": "documented"
+}
