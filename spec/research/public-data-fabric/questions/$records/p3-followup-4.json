@@ -1,0 +1,15 @@
+{
+  "title": "Actual LEI relation/exception CDF grain and NVD source-specific reuse/rate terms?",
+  "status": "open",
+  "classification": "important/non-blocking",
+  "owner": "bounded identity/legal evidence researcher then separate reconciler",
+  "candidate_ids": [
+    "d1-lei-relationships",
+    "d1-lei-exceptions",
+    "d2-rs-nvd"
+  ],
+  "evidence_ids": [
+    "p3-portfolio-architecture"
+  ],
+  "resolution": "Open: nonblocking to architecture, mandatory before the affected integration. One relation, one exception and official NVD terms; no legal inference from successful API response. Expected payoff: Complete independently useful S4 and S5 branches."
+}

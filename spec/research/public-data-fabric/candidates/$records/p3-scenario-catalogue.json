@@ -1,0 +1,42 @@
+{
+  "title": "Comparable international catalogue, quantities and prices",
+  "kind": "scenario",
+  "status": "needs-review",
+  "reason": "Phase3 proposal only. Consolidates overlapping money, unit and locale proposals into one international catalogue journey. It avoids redundant SIX/UCUM imports; currency, unit and language remain distinct meanings and query steps. ECB indicative quote units/EUR differ from commercial rates; USD→q requires two same-day legs and explicit missing-business-day policy. Recent AW DEM/FRF/VEB quotes remain unsupported. CLDR regional currency intervals can multiply rows; fractions DEFAULT/cash-rounding differ. Conversion requires weight+unit and decimal factor, not unit text alone. Language component is not locale or customer spoken language. SIX rights unresolved and excluded from selected recordsets; no current/historical ISO completeness claim.",
+  "evidence_ids": [
+    "p3-portfolio-architecture"
+  ],
+  "member_ids": [
+    "d1-cldr-units",
+    "d1-cldr-names",
+    "d1-cldr-currencies",
+    "d1-cldr-money-digits",
+    "d1-ecb-fx"
+  ],
+  "dependency_ids": [
+    "d1-cldr-currencies",
+    "d1-cldr-money-digits",
+    "d1-cldr-names",
+    "d1-cldr-units",
+    "d1-ecb-fx",
+    "d1-scenario-fx-audit",
+    "d1-scenario-locale-units",
+    "demand-scenario-amount-currency-units",
+    "demand-scenario-language-locale",
+    "demand-scenario-media-classifications",
+    "demand-scenario-product-units-inventory",
+    "m1-edge-rate-currency",
+    "m1-edge-tag-language",
+    "m1-edge-unit-property",
+    "m1-scenario-international-content",
+    "m1-scenario-price-comparison"
+  ],
+  "demo_ids": [
+    "adventureworks",
+    "chinook",
+    "sakila"
+  ],
+  "practical_value": "81.2/100 proposal value; readiness gated independently. I connect an international product catalogue with raw units, localized descriptions and explicit currency/date prices; inspect each supported representation; request a comparable-unit/price view with unavailable conversions left blank.",
+  "showcase_value": "3/5, excluded from practical score; Which products carry accepted mass units and which are packaging or unsupported?",
+  "research_depth": "documented"
+}

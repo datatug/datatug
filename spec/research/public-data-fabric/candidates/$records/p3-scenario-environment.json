@@ -1,0 +1,39 @@
+{
+  "title": "Asset observations and environmental context",
+  "kind": "scenario",
+  "status": "needs-review",
+  "reason": "Phase3 proposal only. Reuses unit/time foundations and connects reference metadata to observations. Strong showcase after real typed query value; earthquakes remain optional reserve rather than displacing daily operational utility. EA beta service/no SLA, 15-minute periods, datum/qualifier and negative stage; never use rejected whole readings.value→stage mapping. POWER date-keyed parameter objects require typed unpivot, units and fill -999; observed bounded three days do not prove historical coverage. Nearest station/grid is contextual association, not flood or safety prediction; no causal claim. NOAA global rights and Open-Meteo free-service commercial restriction prevent shortcut substitution.",
+  "evidence_ids": [
+    "p3-portfolio-architecture"
+  ],
+  "member_ids": [
+    "d2-rs-ea-stations",
+    "d2-rs-ea-measures",
+    "d2-rs-ea-readings",
+    "d2-rs-power",
+    "d1-cldr-units",
+    "d1-tz-zones",
+    "d1-tz-rules",
+    "d2-rs-naptan"
+  ],
+  "dependency_ids": [
+    "d1-cldr-units",
+    "d1-tz-rules",
+    "d1-tz-zones",
+    "d2-bundle-environment",
+    "d2-rs-ea-measures",
+    "d2-rs-ea-readings",
+    "d2-rs-ea-stations",
+    "d2-rs-naptan",
+    "d2-rs-power",
+    "d2-scenario-geophysical",
+    "d2-scenario-water-weather",
+    "m1-edge-energy-product-flow",
+    "m1-edge-station-observation",
+    "m1-scenario-energy-environment"
+  ],
+  "demo_ids": [],
+  "practical_value": "72.6/100 proposal value; readiness gated independently. I connect assets with explicit coordinates or EA measure URIs; inspect typed observations; choose a bounded date range; compare observed station values with separate grid weather context after approved temporal/spatial aggregation.",
+  "showcase_value": "5/5, excluded from practical score; Which readings and units belong to the selected asset/measure and time window?",
+  "research_depth": "documented"
+}

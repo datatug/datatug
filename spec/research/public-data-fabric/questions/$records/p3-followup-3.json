@@ -1,0 +1,13 @@
+{
+  "title": "Can one declared jurisdiction and zone support dated activity, and which historical calendars are licensed for Northwind/Pubs periods?",
+  "status": "open",
+  "classification": "important/non-blocking",
+  "owner": "bounded calendar researcher then separate reconciler",
+  "candidate_ids": [
+    "d1-govuk-holidays"
+  ],
+  "evidence_ids": [
+    "p3-portfolio-architecture"
+  ],
+  "resolution": "Open: nonblocking to architecture, mandatory before the affected integration. One supported division/zone journey; no global holiday scrape. Preserve out-of-coverage negatives. Expected payoff: S3, future workforce and mobility."
+}

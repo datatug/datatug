@@ -1,0 +1,11 @@
+{
+  "title": "Which date/rate-kind/currency projections and same-day two-leg comparison are supported?",
+  "status": "open",
+  "classification": "important/non-blocking",
+  "owner": "dedicated semantic follow-up",
+  "candidate_ids": [],
+  "evidence_ids": [
+    "p3-portfolio-architecture"
+  ],
+  "resolution": "Open: nonblocking to architecture, mandatory before the affected integration. 14 AW target currencies, one supported pair/day, one missing business day and DEM/FRF/VEB counterexamples; SIX rights separate. Expected payoff: Complete S2 explicit-price comparisons without guessed currency."
+}

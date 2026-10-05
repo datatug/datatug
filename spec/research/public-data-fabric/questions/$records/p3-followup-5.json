@@ -1,0 +1,11 @@
+{
+  "title": "Typed EA measure and POWER scalar unpivot with compatible daily support?",
+  "status": "open",
+  "classification": "important/non-blocking",
+  "owner": "dedicated semantic follow-up after bounded source projection sample",
+  "candidate_ids": [],
+  "evidence_ids": [
+    "p3-portfolio-architecture"
+  ],
+  "resolution": "Open: nonblocking to architecture, mandatory before the affected integration. One EA parameter/datum, two POWER parameters and three UTC days; replacement assertion for rejected unqualified stage mapping. Expected payoff: S6 four-recordset connected observations."
+}

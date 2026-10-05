@@ -120,3 +120,7 @@ TPC-H remains rejected under the previous 2026-10-04 user-confirmed permission e
 ## Open Questions
 
 The authoritative open/closed questions are records in `fabric.questions`; query examples above preserve owners and evidence.
+
+## Phase 3 architecture proposal
+
+The separate [portfolio architecture](p3-portfolio.md) recommends seven conditional targets and 37 distinct public recordsets. [Derived evidence](evidence/p3-portfolio.json) preserves all 57 original scenario/bundle dispositions, every original candidate and assertion, source modes, weighted practical scores, explicit accepted-versus-gapped graphs and proposed waves. The first five-recordset foundation uses accepted country/place/ROR paths; full economic, temporal, legal-entity, spatial and technology projections remain explicitly gated. New `p3-scenario-*` records stay `needs-review`; no semantic decisions or gates change. Fresh independent review and root acceptance are pending.

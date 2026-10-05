@@ -1,0 +1,14 @@
+{
+  "title": "ORR licence and NLC/TLC-to-ATCO bridge; source-valid FSA ID and declared spatial association?",
+  "status": "open",
+  "classification": "important/non-blocking",
+  "owner": "bounded mobility researcher then separate reconciler",
+  "candidate_ids": [
+    "d2-data-orr",
+    "d2-rs-fsa"
+  ],
+  "evidence_ids": [
+    "p3-portfolio-architecture"
+  ],
+  "resolution": "Open: nonblocking to architecture, mandatory before the affected integration. One rail area, one annual period, one local authority, no nationwide geocoder or identity from premises names. Expected payoff: S7 service-access context."
+}
