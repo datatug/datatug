@@ -13,3 +13,7 @@ python3 -B spec/research/public-data-fabric/evidence/w1-provider-attachment-cont
 ```
 
 Like the existing W1 packet verifiers, optional `--repo GITHUB_URL=LOCAL_CHECKOUT` arguments rehash immutable Git objects without fetching; `--review-originals DIRECTORY` and `--landing-originals DIRECTORY` rehash the associated raw originals when available. The output distinguishes declared receipt hashes from actually rehashed originals and Git objects. This command checks continuity; it does not execute data builds, semantic reconciliation, the released-reader harness or a product journey.
+
+## Open Questions
+
+Existing programme questions remain authoritative in [fabric.questions](../../questions/README.md), with phase obligations in [fabric.gates](../../gates/README.md). This packet introduces no new decision or admission.
