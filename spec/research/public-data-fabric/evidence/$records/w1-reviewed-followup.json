@@ -1,0 +1,11 @@
+{
+  "title": "W1 reviewed exact-input, publication-interface and prospective-resource follow-up",
+  "observed_at": "2026-10-05T05:37:58.690538+00:00",
+  "outcome": "partial",
+  "summary": "Independent reviews accepted the original ROR fixture's narrow input-scope clarification, a staged technical interface, the repaired native app component and prospective six-source operation budget. Changed user input remains unaccepted; the new Geo candidate is unpromoted; canonical admission, publication, B1 and the real browser journey remain open.",
+  "repository": "datatug/datatug",
+  "path": "spec/research/public-data-fabric/evidence/w1-followup/README.md",
+  "reviewer": "w1_followup_canonical_evidence",
+  "independent": false,
+  "review_stage": "implementation"
+}
