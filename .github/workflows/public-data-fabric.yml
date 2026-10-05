@@ -36,3 +36,5 @@ jobs:
         run: python3 -B spec/research/public-data-fabric/evidence/w1-followup-decisions/verify.py
       - name: Check accepted P1 wire addendum and immutable review bindings
         run: python3 -B spec/research/public-data-fabric/evidence/w1-p1-wire-addendum/verify.py
+      - name: Check BigQuery research packet and original ledger preservation
+        run: python3 -B spec/research/public-data-fabric/evidence/bigquery-dual-runtime/verify.py
