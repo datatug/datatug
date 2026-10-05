@@ -1,0 +1,45 @@
+{
+  "outcome": "observation",
+  "source_receipt": {
+    "url": "https://zenodo.org/records/22902037",
+    "observed_at": "2026-10-05T00:19:07.766767+00:00",
+    "max_bytes": 1500000,
+    "status": 200,
+    "final_url": "https://zenodo.org/records/22902037",
+    "headers": {
+      "Content-Length": "197128",
+      "Content-Type": "text/html; charset=utf-8"
+    },
+    "bytes": 197128,
+    "sha256": "103c5807802ec3420d021675b521c04fd17f05aeed4c43654577a586e946d14f",
+    "complete": true
+  },
+  "requester": "Phase3 portfolio architect requested independent metadata/rights corroboration only",
+  "informs_candidate_ids": [
+    "d1-source-ror",
+    "d1-dataset-ror",
+    "d1-ror-organisations"
+  ],
+  "informs_assertion_ids": [
+    "d1-edge-ror-geonames"
+  ],
+  "release": {
+    "ROR_data_release_version": "v2.13",
+    "publication_date": "2026-09-22",
+    "schema_version": "2",
+    "organisation_count_publisher_reported": 141528,
+    "file": "v2.13-2026-09-22-ror-data.zip",
+    "size_display": "37.5 MB",
+    "md5_publisher_advertised": "a935217de21e7983b977f5419f1a6b20",
+    "archive_downloaded": false,
+    "archive_checksum_verified": false,
+    "record_format": "JSON; CSV is a convenience subset/flattening, not format of record"
+  },
+  "rights": {
+    "ROR_metadata": "CC0 Public Domain Dedication",
+    "location_data_origin": "GeoNames",
+    "location_data_licence": "CC-BY-4.0",
+    "scope": "The release description explicitly separates GeoNames location rights from ROR metadata CC0. No whole-dump CC0 flattening or blanket rights override is inferred."
+  },
+  "reproduction": "GET https://zenodo.org/records/22902037 with urllib.request, 1,500,000-byte bound; SHA256 source body; inspect release Description and Files. Refreshing changes needs a new dated observation. No archive read or global import performed."
+}
