@@ -1,0 +1,26 @@
+{
+  "title": "Reviewed GeoNames areas to World Bank nonaggregate economy context",
+  "kind": "edge",
+  "status": "reconciled",
+  "from_id": "d1-geo-countries",
+  "to_id": "d1-wb-economies",
+  "from_fields": [
+    "ISO3"
+  ],
+  "to_fields": [
+    "id"
+  ],
+  "compatibility": "transformable",
+  "confidence": "high",
+  "assumptions": "Research acceptance only; use the enumerated tuples at pinned revisions. Preserve raw source identity and NULL, empty, unmatched and ambiguous rows. Fail closed on duplicate targets or changed tuples; no fuzzy match, current-ISO certification, sovereignty or territorial-boundary equivalence is implied. Refresh requires review. Canonical publication, source rights and DataTug execution remain separately gated; B1 stays open at phases 4/5/6.",
+  "transformation": "Use only the 216 GeoNames/WorldBank tuples in f3r-decisions.json.geo_wb.accepted_tuples. Project $[1][*] WHERE region.id != \"NA\"; exact ISO3=id lookup after tuple and unique-key validation. LEFT lookup, retain all 252 source rows; 36 unmatched. Never filter economy.iso2Code != \"NA\".",
+  "reason": "Accepted provider-area to reporting-economy reference context after reviewing both labels, code namespaces and source categories. It is not unconditional ISO identity or identical statistical/geographic boundaries. CHI/JG is not Jersey or Guernsey alone; absent territories remain unmatched. Broad d1-mapping-wb-economy stays rejected; d1-edge-geo-wb-economy remains the unaccepted broad proposal.",
+  "expected_cardinality": "252 GeoNames rows -> 216 single targets + 36 unmatched; reverse 217 economies -> 216 targets + CHI unmatched; no NULL/empty/ambiguous/duplicate keys at the pinned snapshot",
+  "physical_role": "explicit scoped reference/context lookup",
+  "from_identifier_namespace": "GeoNames:countryInfo pinned ISO3",
+  "to_identifier_namespace": "WorldBank:v2 pinned economy.id",
+  "evidence_ids": [
+    "f3-geo-economy-source-probes",
+    "f3r-dedicated-reconciliation"
+  ]
+}
