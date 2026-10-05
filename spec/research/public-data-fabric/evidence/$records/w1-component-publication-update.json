@@ -1,0 +1,11 @@
+{
+  "title": "W1 component publication and bounded licence architecture update",
+  "observed_at": "2026-10-05T07:08:16.306092+00:00",
+  "outcome": "partial",
+  "summary": "Reviewed OVDB, Chinook, declared-demo and app components landed with exact tree/sync/cleanup receipts. Bounded data-only licence conjunction architecture approved, preserving legacy profiles. Pending CI/release/parity, provider admission, attribution delivery, B1 and the real browser journey prevent W1 acceptance. All five implementation states and old decisions remain intact.",
+  "repository": "datatug/datatug",
+  "path": "spec/research/public-data-fabric/evidence/w1-component-update/README.md",
+  "reviewer": "w1_component_evidence_refresh",
+  "independent": false,
+  "review_stage": "implementation"
+}
