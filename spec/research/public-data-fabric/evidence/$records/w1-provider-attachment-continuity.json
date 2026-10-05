@@ -1,0 +1,10 @@
+{
+  "title": "W1 landed provider attachment continuity",
+  "observed_at": "2026-10-05T07:43:01.926485+00:00",
+  "outcome": "observation",
+  "summary": "Records a separate continuity check against exact merged provider trees, original decisions and released-reader receipt hashes. This packet awaits fresh adversarial review; no semantic, canonical publication or runtime admission is asserted.",
+  "reviewer": "w1_provider_landed_continuity",
+  "independent": false,
+  "review_stage": "implementation",
+  "path": "spec/research/public-data-fabric/evidence/w1-provider-attachment-continuity/evidence.json"
+}
