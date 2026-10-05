@@ -4,7 +4,8 @@
   "status": "promising",
   "evidence_ids": [
     "d1-ecb",
-    "p2-context-review"
+    "p2-context-review",
+    "w1-fx-priority-readiness"
   ],
   "source_id": "d1-source-ecb",
   "source_url": "https://www.ecb.europa.eu/stats/eurofxref/eurofxref-hist.xml",
@@ -15,7 +16,7 @@
   "update_frequency": "Working days",
   "observed_at": "2026-10-04T22:20:00Z",
   "freshness": "unknown",
-  "reason": "Research candidate; no canonical publication or accepted mapping. Linked source evidence records research depth, source fields, observed samples and unresolved access/permission constraints.\n\nPhase 2 context reviewed: dataset; directly attached assertion dispositions are enumerated in p2-coverage.json. Dataset scope, edition and licence remain independent of particular field compatibility. ",
+  "reason": "Research candidate; no canonical publication or accepted mapping. Linked source evidence records research depth, source fields, observed samples and unresolved access/permission constraints.\n\nPhase 2 context reviewed: dataset; directly attached assertion dispositions are enumerated in p2-coverage.json. Dataset scope, edition and licence remain independent of particular field compatibility. \n\nRoot accepted reviewed FX readiness on 2026-10-05: prioritize bounded fresh FX reconciliation after the current W1 gate, then decide a small indicative reference lookup packet. Current W1 scope and W2-W7 candidates remain preserved. No selected, implemented, publishable or live claim. Faithful canonical ECB custom source-data terms/provenance, actual publisher validation and registry/Directory acceptance remain an open gate; no standard SPDX substitute or existing compliant publication path is asserted. Source quote acceptance is unchanged; AW/current-reference and currency-validity reconciliation and actual browser acceptance remain required.",
   "practical_value": "Supports proposed connected scenarios after identity, temporal and legal review.",
   "showcase_value": "Secondary to practical joinability.",
   "research_depth": "documented"

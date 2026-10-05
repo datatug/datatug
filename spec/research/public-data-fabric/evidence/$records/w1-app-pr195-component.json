@@ -1,0 +1,11 @@
+{
+  "title": "App PR195 reviewed bounded query transport component receipt",
+  "observed_at": "2026-10-05T12:15:23.201959Z",
+  "outcome": "partial",
+  "summary": "Reviewed head 65ebc741fb5f4ec21a8d9b436a3a5e6998759fa4 landed at fe89a041b99037d9d651d37aec4117da63b0d6d0 with matching tree, canonical sync and cleanup. All five exact-main checks including deployment pass. Original pending histories retained; component delivery does not accept full Task5 or W1 J1-J6 live journey.",
+  "repository": "datatug/datatug",
+  "path": "spec/research/public-data-fabric/evidence/w1-followup-decisions/evidence.json",
+  "reviewer": "w1_followup_evidence_curator",
+  "independent": false,
+  "review_stage": "implementation"
+}

@@ -1,0 +1,273 @@
+{
+  "kind": "w1-accepted-followup-decisions-and-component-evidence",
+  "hub_base": "424c39a9d8fae2e4c5506b76033e70783239b86c",
+  "selection": {
+    "native_physical_tables": 16,
+    "selected_public_physical_tables": 11,
+    "logical_public_recordsets": 5,
+    "geo_native_physical_tables": 13,
+    "geo_selected_public_physical_tables": 8,
+    "ror_native_and_selected_physical_tables": 3,
+    "selected_geo_names": [
+      "geonames_admin1",
+      "geonames_alternate_names",
+      "geonames_chinook_customer_country",
+      "geonames_countries",
+      "geonames_northwind_customer_country",
+      "geonames_northwind_order_country",
+      "geonames_places",
+      "geonames_pubs_publisher_country"
+    ],
+    "mandatory_predicate": "readProfile == bounded-immutable/1",
+    "root_acceptance_source": "selection/root-technical-approval-r2.json",
+    "implementation_admitted": false
+  },
+  "semantic_decision": {
+    "path": "semantic-decision.json",
+    "sha256": "62fa8fa939835e3c745b09d6c097a86780c0187a1f6dc57bd66087275a8dbf51",
+    "authored_markdown_exact": true,
+    "accepted_design_only": true,
+    "native_models_and_snapshots_changed": false
+  },
+  "graph_architecture": {
+    "proposal_source": "graph/proposal-r2.json",
+    "root_acceptance_source": "graph/root-acceptance-r2.json",
+    "metadata_measurement": {
+      "known_bytes": 445186,
+      "known_references": 42,
+      "known_max_depth": 3,
+      "provisional_bytes": 71185,
+      "provisional_references": 3,
+      "measured_total": 516371,
+      "remaining_bytes": 1580781,
+      "remaining_references": 51,
+      "final_closure_complete": false,
+      "holes": [
+        "final canonical index revisions and their size deltas (three replacements)",
+        "final graph wrapper commit/hash and size delta",
+        "final outer Geo legacy tuple at wrapper revision (replacement; old bytes preserved)",
+        "final committed semantic decision bytes/ref (replacement of provisional)",
+        "final independent graph admission record/collection mapping (replacement/extension of provisional acceptance)",
+        "two exact generated runtime manifests and their admitted immutable association refs",
+        "two public runtime descriptors/routes/licence association docs if required by admission; no final bytes selected",
+        "final publisher-manifest revisions (replacement of local candidate tuples)"
+      ]
+    },
+    "limits": {
+      "deadline_ms": 10000,
+      "selected_user_rows": 1000,
+      "ror_keys": 50,
+      "place_keys": 100,
+      "intermediate_rows": 5000,
+      "output_rows": 5000,
+      "decoded_network_bytes": 5242880,
+      "materialized_output_bytes": 5242880,
+      "metadata_unique_files": 96,
+      "metadata_file_bytes": 2097152,
+      "metadata_aggregate_bytes": 2097152,
+      "json_depth": 32,
+      "candidate_evaluations": 100000,
+      "metadata_reference_depth": 8
+    },
+    "result": {
+      "primary": "Affiliations",
+      "related": [
+        "Locations",
+        "Alternate names"
+      ],
+      "flat_alias_expansion": false,
+      "grain": "affiliation token; affiliation plus native ordered location; location plus native alias identity"
+    },
+    "resolution": {
+      "M1": "Restored one operation 2MiB/96 refs/depth8; measured actual tuple closure including four legacy contracts and entry; final publication holes remain bounded gate",
+      "M2": "One materialized flat hash left edge; app predebits C=sum(left multiplicity*right bucket count) and Rout; exact same arrays used; no private counter assumption or refund",
+      "M3": "Explicit cumulative allocation event ledger; native adjacency joins and one occurrence expansion; parent/status holds precede child work; witnessed ordinary1000 and 4location76alias capacity"
+    },
+    "capacity_receipts": [
+      {
+        "name": "ordinary1000",
+        "rows": {
+          "input": 1000,
+          "native": 5,
+          "affiliations": 1000,
+          "locations": 1000,
+          "aliases": 0,
+          "output": 2000
+        },
+        "candidateDebit": 1004,
+        "intermediateDebit": 3011,
+        "remainingIntermediate": 1989,
+        "outputEnvelopeBytes": 664618,
+        "markerReserveBytes": 260096,
+        "conservativeOutputPeakBytes": 1589332,
+        "byteReceiptScope": "Exact architecture witness serialization includes links, typed grid cells, all raw source/input records, snapshot provenance and graph template. Peak assumes full second staging copy plus 128 bytes per parent/location marker and 4096 bytes run marker; actual product encoding remains an implementation gate."
+      },
+      {
+        "name": "witness76",
+        "rows": {
+          "input": 2,
+          "native": 46,
+          "affiliations": 2,
+          "locations": 4,
+          "aliases": 76,
+          "output": 82
+        },
+        "candidateDebit": 48,
+        "intermediateDebit": 180,
+        "remainingIntermediate": 4820,
+        "outputEnvelopeBytes": 36625,
+        "markerReserveBytes": 4864,
+        "conservativeOutputPeakBytes": 78114,
+        "byteReceiptScope": "Exact architecture witness serialization includes links, typed grid cells, all raw source/input records, snapshot provenance and graph template. Peak assumes full second staging copy plus 128 bytes per parent/location marker and 4096 bytes run marker; actual product encoding remains an implementation gate."
+      }
+    ],
+    "production_allocation_proven": false,
+    "final_metadata_closure_complete": false,
+    "execution_admitted": false,
+    "publication_admitted": false
+  },
+  "fx_readiness": {
+    "priority": {
+      "current": "d1-ecb-fx remains in conditional W3 catalogue",
+      "proposed": "After current W1 gate, prioritize bounded FX semantic follow-up and decide a small ECB reference lookup packet before broader W2 work; no automatic W1 expansion or selected/live status change. Keep all existing candidates, dependencies and gates."
+    },
+    "canonical_custom_terms_publication_gate": {
+      "status": "open",
+      "current_limitation": "Pinned publisher enumerates 18 SPDX licence IDs, permits only model/meaning/data within licences, has no terms-reference field, and rejects ECB reuse conditions or ECB LicenseRef values. Research licence strings do not establish canonical acceptance.",
+      "required_path": "Reviewed existing compliant canonical mechanism or separately approved narrow extension; no such path established here.",
+      "required_terms_fidelity": [
+        "ECB custom source-data terms URL/version or dated provenance",
+        "accurate reproduction and ECB attribution",
+        "explicit modification disclosure",
+        "applicable sold-document notice before payment and on each access that ECB information is freely available"
+      ],
+      "required_acceptance": [
+        "actual canonical artifact passes publisher validators",
+        "registry/Directory acceptance checks pass",
+        "custom terms/provenance survive discovery and serving"
+      ],
+      "prohibited_shortcuts": [
+        "fake SPDX or LicenseRef substitution",
+        "relabeling ECB data CC0 or CC-BY",
+        "conflating source-data and model/meaning rights",
+        "validator bypass",
+        "assuming README/free-form research establishes canonical publishability"
+      ],
+      "blocks": [
+        "selected claim",
+        "publishable claim",
+        "live claim"
+      ]
+    },
+    "raw_format_fidelity": {
+      "basis": "independent r1 frozen-byte review",
+      "daily_history_numeric_parity": true,
+      "daily_history_lexical_difference_count": 6,
+      "daily_history_raw_pairs": {
+        "CZK": [
+          "24.470",
+          "24.47"
+        ],
+        "SEK": [
+          "11.2900",
+          "11.29"
+        ],
+        "ISK": [
+          "137.00",
+          "137"
+        ],
+        "TRY": [
+          "55.1650",
+          "55.165"
+        ],
+        "BRL": [
+          "5.8610",
+          "5.861"
+        ],
+        "THB": [
+          "37.710",
+          "37.71"
+        ]
+      },
+      "preserve": "source format and original raw strings; numeric parity distinct from lexical fidelity",
+      "semantic_decision": false
+    },
+    "research_only": true,
+    "selected": false,
+    "implemented": false,
+    "published": false,
+    "new_semantic_acceptance": false,
+    "raw_downloads_republished": false
+  },
+  "app_component": {
+    "repository": "datatug/datatug-apps",
+    "pull_request": 195,
+    "url": "https://github.com/datatug/datatug-apps/pull/195",
+    "reviewed_head": "65ebc741fb5f4ec21a8d9b436a3a5e6998759fa4",
+    "receipt_head": "65ebc741fb5f4ec21a8d9b436a3a5e6998759fa4",
+    "merge_sha": "fe89a041b99037d9d651d37aec4117da63b0d6d0",
+    "reviewed_tree": "a8301cc5f76469ffc721898b2f3a8f94d5ea5cfe",
+    "merge_tree": "a8301cc5f76469ffc721898b2f3a8f94d5ea5cfe",
+    "canonical_sync": "fast_forwarded",
+    "branch_deleted": true,
+    "worktree_absent": true,
+    "main_ci_head": "fe89a041b99037d9d651d37aec4117da63b0d6d0",
+    "main_ci_status": "passed",
+    "main_checks": [
+      {
+        "name": "check-run:build",
+        "bucket": "pass",
+        "conclusion": "success",
+        "link": "https://github.com/datatug/datatug-apps/actions/runs/37306760164/job/111752190014",
+        "app_id": 15368,
+        "check_run_id": 111752190014
+      },
+      {
+        "name": "check-run:deploy / build · deploy",
+        "bucket": "pass",
+        "conclusion": "success",
+        "link": "https://github.com/datatug/datatug-apps/actions/runs/37306761472/job/111752195176",
+        "app_id": 15368,
+        "check_run_id": 111752195176
+      },
+      {
+        "name": "check-run:e2e",
+        "bucket": "pass",
+        "conclusion": "success",
+        "link": "https://github.com/datatug/datatug-apps/actions/runs/37306760164/job/111752819682",
+        "app_id": 15368,
+        "check_run_id": 111752819682
+      },
+      {
+        "name": "check-run:journey e2e (real datatug-cli agent)",
+        "bucket": "pass",
+        "conclusion": "success",
+        "link": "https://github.com/datatug/datatug-apps/actions/runs/37306760164/job/111752819671",
+        "app_id": 15368,
+        "check_run_id": 111752819671
+      },
+      {
+        "name": "check-run:test",
+        "bucket": "pass",
+        "conclusion": "success",
+        "link": "https://github.com/datatug/datatug-apps/actions/runs/37306760164/job/111752190434",
+        "app_id": 15368,
+        "check_run_id": 111752190434
+      }
+    ],
+    "prior_pending_receipts": [
+      "app/land-1.json",
+      "app/main-ci.json"
+    ],
+    "task5_full_live_acceptance": false
+  },
+  "programme": {
+    "w1_complete": false,
+    "b1_open": true,
+    "phase4_passed": false,
+    "phase5_passed": false,
+    "phase6_passed": false,
+    "canonical_admission_and_directory_pending": true,
+    "real_j1_j6_browser_journey_pending": true
+  }
+}

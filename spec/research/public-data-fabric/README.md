@@ -6,6 +6,9 @@ Snapshot: 2026-10-04. Owner: main orchestrator. [Owning Feature](../../features/
 
 The product journey is connect a supported source → inspect meanings/identifiers → receive explained compatible public suggestions → execute bounded joins/lookups/enrichment → reuse across different physical demo schemas. Each stage must produce observable results and the final acceptance must exercise the real DataTug product path. Component/schema tests alone cannot establish that journey.
 
+
+Latest accepted follow-up decisions (2026-10-05): [bounded semantic decision, graph architecture, FX priority and app PR195 receipts](evidence/w1-followup-decisions/README.md) preserve distinct design/component acceptance. The native inventory has **16 physical tables; 11 are selected public tables, representing five logical public recordsets**. B1, canonical admission/publication, phases 4/5/6 and real J1–J6 acceptance remain pending. ECB stays conditional with its custom-terms canonical publication gate open. Earlier evidence packets retain their dated scope and counts.
+
 ## Foundation history and accepted research gate
 
 The dated snapshots below preserve earlier pending states. The current root-accepted decision and distinct r2 foundation receipt supersede their Phase 0 hold while preserving the open publication obligation.
