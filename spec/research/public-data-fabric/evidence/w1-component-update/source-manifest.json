@@ -1,0 +1,121 @@
+{
+  "original_document_hash_declarations": {
+    "app-r1": {
+      "sha256": "4601be55856d51d13d4e79fb4d301db132409b0d50e077426235481c12329e3c",
+      "bytes": 1436
+    },
+    "app-r2": {
+      "sha256": "933069ce96d2cb8dc3872c6eb80c607640218494144d5de8c020c2a377220b41",
+      "bytes": 1341
+    },
+    "demo-r1": {
+      "sha256": "d75239a3a1e22598e63fce644cbb4e806117e0b7cb291000cc7db9a11ec63cad",
+      "bytes": 4733
+    },
+    "chinook-precheck-r1": {
+      "sha256": "99a14fb20a4a36a3d707abfdd405bd8f9c5e807b0a8eb91278e555c1c25c8625",
+      "bytes": 5242
+    },
+    "chinook-precheck-r2": {
+      "sha256": "0f306f50d88f81f9088ecb29e9ceb532d9dd4cc979e92c023a8bfcc42b351ed5",
+      "bytes": 7791
+    },
+    "chinook-precheck-r3": {
+      "sha256": "b32a8e98818b76e1a67d0d7887efdc38e0a291c6ff029a2295099f59843ea082",
+      "bytes": 2689
+    },
+    "licence-proposal-r1": {
+      "sha256": "5a240fb0977cc438a67de3c3f6fc172833b9fe9feab1bceba97962bb9f6fb43d",
+      "bytes": 12486
+    },
+    "licence-independent-r1": {
+      "sha256": "e528f5ac588d2844cf7866f4203ce57204c25e10e1046f1cfa8af1f1be70a40e",
+      "bytes": 3063
+    },
+    "licence-root-approval-r1": {
+      "sha256": "9a900c116b9de45ff40f8c9a59089d95ce3a052a49d56e7f5a366e88ed08a8dc",
+      "bytes": 1285
+    },
+    "chinook-licence-r1": {
+      "sha256": "953712b02ffd8d95b95ed599ea7f6b73887dcf613342dcfeff791f813be749b7",
+      "bytes": 1408
+    },
+    "ovdb-records-reader-r1": {
+      "sha256": "407e3eb449f95688a12e39043339976290f7fae24815928cdf7bfb88b2a3de9f",
+      "bytes": 4911
+    },
+    "chinook-data-licence-land": {
+      "sha256": "d262a7d1105ad6ee4f0535bd64c3a561ed0935b6d627ccf15ba509aadd5b6ab9",
+      "bytes": 4032
+    },
+    "chinook-data-licence-landed-tree": {
+      "sha256": "d617d1854a6d970e537dbfce26717c40c097fd235979176c1dcb4278e6a48570",
+      "bytes": 441
+    },
+    "chinook-data-licence-main-ci": {
+      "sha256": "62adf8a4abc2cf452c857a23e3240d0069b8747b698417eecc1d09512485b3c8",
+      "bytes": 996
+    },
+    "ovdb-records-reader-land": {
+      "sha256": "02e56ac4ffe4bf0cd3ade63c7afcdae42d780b92a583a77c72c9a9fcdb053fa8",
+      "bytes": 6753
+    },
+    "ovdb-records-reader-landed-tree": {
+      "sha256": "f8895ff5ce0b178457d3a9742cc24264b1ed0c867d6d063be5e4f66312459381",
+      "bytes": 441
+    },
+    "app-exact-input-workflow-observation": {
+      "sha256": "a12102d1ba861f08d5e6a78a9efe5f137ecad40437ebbf17192fa036dae4295e",
+      "bytes": 432
+    },
+    "app-exact-input-main-ci-attempt2": {
+      "sha256": "35d36c3b392d136c143f837b751b35fd7a9211bb71e2feccbb9d6c19741d66b2",
+      "bytes": 564
+    },
+    "app-exact-input-main-ci-attempt3": {
+      "sha256": "6eb91390abd8ab4c5ccae0b015b5372f3b8c0d8a22f244d489b03ce4f7ecc1cf",
+      "bytes": 2402
+    }
+  },
+  "root_index_original_sha256": "ea3fc82b2605342b47d2d9238eb171d5b9bcf0b4672d9571e4e7a6c2371c6ebd",
+  "root_index_original_bytes": 24071,
+  "root_receipt_count": 76,
+  "packet_files": {
+    "evidence.json": "17cf073f3714c391e448ab5742d8646a070ef6363aa721086146e1649eef8a53",
+    "publication-receipts.json": "a49defcab500b1a09b59982f37936ec10ce22e63163ef5ae3c6d9051f401f6ac"
+  },
+  "preserved_research_files": {
+    "candidates": {
+      "files": 695,
+      "sha256": "8e79615f3779e8aef1e9f06e16a272967803d131f1c5a867ec66dfa5cf86d9c3"
+    },
+    "assertions": {
+      "files": 1181,
+      "sha256": "30423c931678158302f96085289f8f70e6814645bd35dc28ffd5feb2b10c0415"
+    },
+    "questions": {
+      "files": 49,
+      "sha256": "67102513f23bfa471df3effb7037023a66c91c1ddb6764941ee183062eebb844"
+    },
+    "implementation": {
+      "files": 9,
+      "sha256": "ceb08b4462c2478833f1555324d0db864a30c4f34438da62530bc28f349fa2b9"
+    },
+    "gates": {
+      "files": 12,
+      "sha256": "43daa0bf4fe543674c93a82242178bcfae6354638f97495f11c93b98e68d2c87"
+    },
+    "evidence/w1-followup": {
+      "files": 6,
+      "sha256": "60ed354c987c0e771fc9c3a6c92b1dc04aca97f778a6a09ff9fe8467f4a91c80"
+    },
+    "evidence/w1-component-progress.json": {
+      "files": 1,
+      "sha256": "e47b4ff93d1b55ff5a7e149b92045fa7d77cd4304395700908cf41a74a907d03"
+    },
+    "evidence/w1-ror-user-decision.json": {
+      "files": 1,
+      "sha256": "a4caa4b6461230a3fa2ae8548121344cb286cfb98a9e19761a207c9f74479595"
+    }
+  }
+}
