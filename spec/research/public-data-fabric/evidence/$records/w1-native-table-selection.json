@@ -1,0 +1,11 @@
+{
+  "title": "Accepted native table serving selection boundary",
+  "observed_at": "2026-10-05T12:15:23.201959Z",
+  "outcome": "decision",
+  "summary": "13 Geo plus 3 ROR native physical tables; 8 Geo plus 3 ROR selected public tables; five logical public recordsets. Required publisherManifest and immutable selection linkage for bounded-immutable/1. Architecture acceptance only; runtime, publication, capacity and live gates remain pending.",
+  "repository": "datatug/datatug",
+  "path": "spec/research/public-data-fabric/evidence/w1-followup-decisions/evidence.json",
+  "reviewer": "w1_followup_evidence_curator",
+  "independent": false,
+  "review_stage": "implementation"
+}

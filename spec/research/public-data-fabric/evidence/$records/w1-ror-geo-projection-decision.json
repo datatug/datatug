@@ -1,0 +1,11 @@
+{
+  "title": "Accepted bounded ROR GeoNames semantic projection decision",
+  "observed_at": "2026-10-05T12:15:23.201959Z",
+  "outcome": "decision",
+  "summary": "Fresh dedicated P1 positive integer-to-decimal-string, P2 exact country/admin1 composite and P3 branch/grain proposal accepted by root after distinct independent zero-findings review. Exact authored Markdown and original source hashes retained; execution/publication admission and live product path remain pending.",
+  "repository": "datatug/datatug",
+  "path": "spec/research/public-data-fabric/evidence/w1-followup-decisions/evidence.json",
+  "reviewer": "w1_followup_evidence_curator",
+  "independent": false,
+  "review_stage": "reconciliation"
+}

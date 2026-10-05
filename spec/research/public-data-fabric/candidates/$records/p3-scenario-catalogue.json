@@ -2,9 +2,10 @@
   "title": "Comparable international catalogue, quantities and prices",
   "kind": "scenario",
   "status": "needs-review",
-  "reason": "Phase3 proposal only. Consolidates overlapping money, unit and locale proposals into one international catalogue journey. It avoids redundant SIX/UCUM imports; currency, unit and language remain distinct meanings and query steps. ECB indicative quote units/EUR differ from commercial rates; USD→q requires two same-day legs and explicit missing-business-day policy. Recent AW DEM/FRF/VEB quotes remain unsupported. CLDR regional currency intervals can multiply rows; fractions DEFAULT/cash-rounding differ. Conversion requires weight+unit and decimal factor, not unit text alone. Language component is not locale or customer spoken language. SIX rights unresolved and excluded from selected recordsets; no current/historical ISO completeness claim.",
+  "reason": "Phase3 proposal only. Consolidates overlapping money, unit and locale proposals into one international catalogue journey. It avoids redundant SIX/UCUM imports; currency, unit and language remain distinct meanings and query steps. ECB indicative quote units/EUR differ from commercial rates; USD→q requires two same-day legs and explicit missing-business-day policy. Recent AW DEM/FRF/VEB quotes remain unsupported. CLDR regional currency intervals can multiply rows; fractions DEFAULT/cash-rounding differ. Conversion requires weight+unit and decimal factor, not unit text alone. Language component is not locale or customer spoken language. SIX rights unresolved and excluded from selected recordsets; no current/historical ISO completeness claim.\n\nRoot accepted reviewed FX readiness on 2026-10-05: prioritize bounded fresh FX reconciliation after the current W1 gate, then decide a small indicative reference lookup packet. Current W1 scope and W2-W7 candidates remain preserved. No selected, implemented, publishable or live claim. Faithful canonical ECB custom source-data terms/provenance, actual publisher validation and registry/Directory acceptance remain an open gate; no standard SPDX substitute or existing compliant publication path is asserted. Source quote acceptance is unchanged; AW/current-reference and currency-validity reconciliation and actual browser acceptance remain required.",
   "evidence_ids": [
-    "p3-portfolio-architecture"
+    "p3-portfolio-architecture",
+    "w1-fx-priority-readiness"
   ],
   "member_ids": [
     "d1-cldr-units",
