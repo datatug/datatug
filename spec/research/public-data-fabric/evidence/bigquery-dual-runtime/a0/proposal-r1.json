@@ -1,0 +1,215 @@
+{
+  "format": "bigquery-a0-contract/1",
+  "round": 1,
+  "status": "private-proposal-independent-review-pending",
+  "runtime": "local Codex",
+  "host": "macOS",
+  "landing_owner": "root",
+  "prepared_at": "2026-10-05T19:15:00.693399+00:00",
+  "proposal": {
+    "path": "proposal-r1.md",
+    "sha256": "08e088b6d89016d40acfcd669df2158f83033d89a7a2bbdabe3e4aff1357d7b6"
+  },
+  "source_index": "evidence/source-index.json",
+  "source_revisions": {
+    "datatug/datatug-cli": "a3c68f168dc9d7c1baddbce1e7c7fed775b76eb0",
+    "dal-go/dalgo": "396d03a5c8d504f502d1f283ee80d18ca0346085",
+    "dal-go/dalgo-http-adapters": "a3b35d251ff002e830e865c6a330ef6149ecf340",
+    "dal-go/dalgo-js": "04a7f1293ad57a50a282ecc13314ce7b1488211e",
+    "datatug/datatug-apps": "fe89a041b99037d9d651d37aec4117da63b0d6d0",
+    "datatug/datatug": "0d71452a89d967cb0b10b931fe45af92aa9a3dff"
+  },
+  "mandatory_amendments": [
+    "M1: bounded raw HTTP JSON shape/presence/type validation or lossless adapter decoder before generated Go result decoding; raw-byte parity fixtures distinguish omitted v, explicit null, JSON null, malformed cell counts/types.",
+    "M2: first slice trusted reviewed native TABLE only; dataset location and exact table identity/schema/config eligibility from datasets.get/tables.get; reject view/external/materialized/BigLake/snapshot/unknown configurations; recheck before submission and invalidate changed approval; explicitly disclose non-atomic source replacement race.",
+    "m1: GIS identity grant openid and optional email with same-access-token fixed Google UserInfo; stable sub binds execution identity; missing email allowed; missing sub/partial grants fail; never use Firebase identity as proof."
+  ],
+  "consumer": {
+    "repository": "datatug/datatug-cli",
+    "command": "datatug query bigquery",
+    "subcommands": [
+      "preview",
+      "run",
+      "page",
+      "status",
+      "cancel"
+    ],
+    "new_files": [
+      "apps/datatugapp/commands/cmd_query_bigquery*.go",
+      "pkg/accesspolicies/recordset.go",
+      "pkg/bigqueryread/**"
+    ],
+    "existing_edits": [
+      "apps/datatugapp/commands/cmd_query.go: command registration",
+      "pkg/accesspolicies/run.go: reuse/factor preparation",
+      "go.mod",
+      "go.sum"
+    ],
+    "policy_bridge": "PrepareRecordset -> outer full-query guard -> SecureReadSession around capture-only ReadSession -> effective-query guard -> preview/approval -> repeat authorization before execute and resume",
+    "existing_saved_route": "unchanged; source inspection shows keyed DB/secureread/federation contract",
+    "project_flag": "--execution-project; existing --project keeps DataTug meaning",
+    "full_db": false,
+    "core_api_change": false
+  },
+  "go": {
+    "home": "github.com/dal-go/dalgo2bigquery",
+    "provisioned": false,
+    "provisioning_prerequisite": "Root resolve incomplete current WB ownership and fresh compatible reuse check",
+    "dependencies": {
+      "github.com/dal-go/dalgo": {
+        "version": "v0.89.6",
+        "commit": "d4bc59f0e887e19136d22e25afe862f1415dba61"
+      },
+      "github.com/dal-go/record": {
+        "version": "v0.1.4"
+      },
+      "google.golang.org/api": {
+        "version": "v0.296.0",
+        "commit": "f03a404252af72da386c7cd3b80d99f7516c7008",
+        "sum": "h1:Nn5EHeKdGx70MFClaV/II0gsWUm6xhEjb0xYLylVvaA="
+      }
+    },
+    "proof": "compile/receipt.json",
+    "proof_log": "compile/test.log",
+    "sdk_logger": "forced discard; generated default debug output can include request/response bodies",
+    "submission": "Jobs.Query exactly once; no Jobs.Insert or high-level Query.Read",
+    "existing_dal_contracts": [
+      "dal.QueryExecutor",
+      "dal.RecordsetReader",
+      "access.SecureReadSession"
+    ]
+  },
+  "javascript": {
+    "home": "dal-go/dalgo-http-adapters/packages/bigquery",
+    "canonical_package": "@dalgo/bigquery",
+    "analytical_export": "@dalgo/bigquery/analytical",
+    "archived_repo_untouched": true,
+    "compatibility_core_refs": [
+      "1534acd4d0e4a104c58eba09fb9c25619efc8f24",
+      "04a7f1293ad57a50a282ecc13314ce7b1488211e"
+    ],
+    "preserve_app_pin": true,
+    "release": "Extend existing Changesets independent release check/publish allowlists; coordinate Northwind shared files"
+  },
+  "query_subset": {
+    "source_count": 1,
+    "explicit_columns": [
+      1,
+      128
+    ],
+    "aliases": false,
+    "joins": false,
+    "aggregation": false,
+    "subqueries": false,
+    "raw_sql": false,
+    "offset": false,
+    "predicate_nodes": 128,
+    "predicate_depth": 8,
+    "predicate_ops": [
+      "AND",
+      "OR",
+      "=",
+      "!=",
+      "<",
+      "<=",
+      ">",
+      ">=",
+      "IS NULL",
+      "IS NOT NULL",
+      "IN"
+    ],
+    "scalar_array_max": 1000,
+    "order_columns_max": 16,
+    "whole_query_guards": "before secure recursion; after residual rewrite; at compile/approved executor"
+  },
+  "bounds": {
+    "page_size": {
+      "default": 100,
+      "max": 1000
+    },
+    "rows": {
+      "default": 1000,
+      "max": 10000
+    },
+    "pages": 100,
+    "response_bytes": {
+      "default": 4194304,
+      "max": 10485760
+    },
+    "total_response_bytes": 33554432,
+    "wall_ms": 120000,
+    "http_ms": 15000,
+    "concurrency": 1,
+    "preview_ttl_ms": 300000
+  },
+  "contract_types": [
+    "SourceProfile",
+    "ReadPlan",
+    "Execution",
+    "Bounds",
+    "Observation",
+    "Preview",
+    "Approval",
+    "Receipt",
+    "JobRef",
+    "Cursor",
+    "Cell"
+  ],
+  "proposed_driver_functions": [
+    "NewClient",
+    "ValidateQuery",
+    "Compile",
+    "Observe",
+    "Preview",
+    "Approve",
+    "Execute",
+    "Resume",
+    "Status",
+    "CancelJob"
+  ],
+  "cursor": "same job current request token + consumed offset + page hash; trusted ledger counters; no skipped partial page and no resubmit",
+  "budget": "atomic cap reservation before one-shot submission; unresolved job retains reservation; persistent shared session ledger",
+  "fixture_corpus": {
+    "home": "Go testdata/contract",
+    "manifest_version": 1,
+    "js_consumption": "exact committed bytes and immutable Go revision/hash",
+    "tests": "production raw transport/decoder in both runtimes; scenario-level reports"
+  },
+  "ownership": {
+    "inventory_status": "incomplete; remote machine identity unavailable; root coordination prerequisite remains",
+    "visible_overlap": [
+      "Northwind in dalgo-http-adapters",
+      "W1 graph/history in datatug-apps"
+    ],
+    "one_writer_per_repo": true,
+    "sole_landing_owner": "root"
+  },
+  "acceptance": [
+    "Go adapter full raw corpus",
+    "JS adapter same immutable raw corpus",
+    "both JS core exact refs and actual unchanged app pin",
+    "actual Cobra command route policy and same-job pages",
+    "Go local server harness",
+    "owner-authorized real CLI and local service metadata/dry-run/capped-job/two-pages",
+    "owner-authorized deployed-browser OAuth/CORS/identity/metadata/dry-run/capped-job/two-pages",
+    "source-specific existing rights/access-profile/semantic gates unchanged",
+    "independent acceptance and exact remote CI/release/deploy/cleanup receipts"
+  ],
+  "no_actions": [
+    "source implementation",
+    "repo creation",
+    "cloud mutation",
+    "credential read",
+    "OAuth setup",
+    "BigQuery job",
+    "semantic reconciliation",
+    "source admission"
+  ],
+  "blocking_product_decisions": [],
+  "primary_references": [
+    "https://docs.cloud.google.com/bigquery/docs/reference/rest/v2/jobs/query",
+    "https://docs.cloud.google.com/bigquery/docs/reference/rest/v2/tables",
+    "https://developers.google.com/identity/openid-connect/openid-connect",
+    "https://github.com/googleapis/google-api-go-client/blob/f03a404252af72da386c7cd3b80d99f7516c7008/bigquery/v2/bigquery-gen.go"
+  ]
+}

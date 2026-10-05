@@ -29,7 +29,7 @@ Users should inspect and query useful BigQuery public-data candidates in DataTug
 
 ### REQ: both-runtimes
 
-BigQuery MUST be accessible from both Go and JavaScript. Browser-direct execution is preferred for DataTug. Reuse the maintained `dal-go/dalgo-http-adapters/packages/bigquery`; a Go sibling module remains proposed after current ownership/reuse admission. The existing DataTug CLI query/run family is a candidate real consumer, whose exact bounded analytical input route remains A0. A local Go server harness is also required. The [canonical amended architecture r3](../../../research/public-data-fabric/evidence/bigquery-dual-runtime/README.md) MUST pass fresh review before implementation scoping; approved plans follow the established Workbench SpecScore route.
+BigQuery MUST be accessible from both Go and JavaScript. Browser-direct execution is preferred for DataTug. Reuse the maintained `dal-go/dalgo-http-adapters/packages/bigquery`; a Go sibling module remains proposed after current ownership/reuse admission. Accepted A0 selects the real `datatug query bigquery` command group with released DALgo v0.89.6 and Google API SDK v0.296.0. A local Go server harness is also required. The [accepted A0 contract](../../../research/public-data-fabric/evidence/bigquery-dual-runtime/a0/accepted-contract.md) retains every canonical r3 gate and incorporates the two independently reviewed mandatory minors; approved plans follow the [established Workbench SpecScore route](https://github.com/sneat-co/workbench/blob/main/spec/plans/github.com/datatug/datatug/public-data-fabric-bigquery/README.md).
 
 ### REQ: bounded-source-and-identity
 
@@ -61,7 +61,7 @@ The BigQuery priority MUST preserve W1 GeoNames/ROR, ECB FX and original researc
 
 ## Open Questions
 
-Fresh edited-r3 review and A0 exact bounded Go consumer route remain pending. Source-specific rights/metadata/access-route reconciliation, canonical source-access profile and both live runtime gates remain open. See [fabric.questions](../../../research/public-data-fabric/questions/$records/bigquery-dual-runtime-prerequisites.json).
+A0 architecture and the exact bounded Go consumer route are accepted with mandatory JCS digest and persistent deadline amendments. Exact repository/provisioning ownership and shared JS release-file coordination remain open. Source-specific rights/metadata/access-route reconciliation, canonical source-access profile and both live runtime gates remain open. See [fabric.questions](../../../research/public-data-fabric/questions/$records/bigquery-dual-runtime-prerequisites.json).
 
 ---
 *This document follows the https://specscore.md/feature-specification*

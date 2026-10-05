@@ -1,0 +1,5 @@
+{
+  "transformation": "gofmt only for normal WB hook compliance; original reviewer source bytes retained in contract_test.go.txt",
+  "original_sha256": "a4005a5dc605750b8d24dc7b78c4c2946af24c6844dfef6ab39e2449a2c19cc8",
+  "formatted_sha256": "1aacab2b2d47758453b7990e38cc2441447d109e34024e76b1ee99cfe5ed3856"
+}

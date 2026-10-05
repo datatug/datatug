@@ -54,7 +54,7 @@
     },
     {
       "path": "evidence/bigquery-dual-runtime/README.md",
-      "sha256": "57e8b4a3d4482aa97daefc91893fd1e9923bf961e9f22c8fa314e079e9fec316"
+      "sha256": "eabc1f011dcff525f74cff3631e4aef5ac2a47f55d71569f0f55130bb331b21d"
     },
     {
       "path": "evidence/bigquery-dual-runtime/history/README.md",
@@ -110,11 +110,115 @@
     },
     {
       "path": "evidence/bigquery-dual-runtime/verify.py",
-      "sha256": "4cf457912eed8de24488ae8af9df98df622e318669365d5cae5a9844d575f4e6"
+      "sha256": "4d48b97387f5302f15682cda9dc43e22e4d00f2516ef582ee968148576eb8360"
     },
     {
       "path": "questions/$records/bigquery-dual-runtime-prerequisites.json",
-      "sha256": "6e60d8dc5e80cfeee004a6cf12b3bb74fbc393eca1529339cfea25ca499d2683"
+      "sha256": "2de4fa47b2d745de4acb12162cdb04fe8f98b00c58f76653810fb2c70bd98be7"
+    },
+    {
+      "path": "evidence/bigquery-dual-runtime/a0/accepted-contract.json",
+      "sha256": "c7b68d3c8188d186a191d95ad7c6f1543c1c14868e29984a1850322b30d95e31"
+    },
+    {
+      "path": "evidence/bigquery-dual-runtime/a0/accepted-contract.md",
+      "sha256": "bb3ef9b7f1f280d9805bc77804824eaa4d8a0b1144e39fcb6b9cdc62c417b809"
+    },
+    {
+      "path": "evidence/bigquery-dual-runtime/a0/author-patch-brief.md",
+      "sha256": "b1695408ae5d045270ba87480a3c8eb29a72b35d1ab0fbca5843f01ae0428f85"
+    },
+    {
+      "path": "evidence/bigquery-dual-runtime/a0/compile/contract_test.go",
+      "sha256": "eee27a94dcb58e870ddb1c843cc10e2fec587329410cc910b14a15181caf15c8"
+    },
+    {
+      "path": "evidence/bigquery-dual-runtime/a0/compile/go.mod",
+      "sha256": "a030d6c803ad91f05816b98ce4e06e0e590f154cbb0826339b64dc258bb2e1f9"
+    },
+    {
+      "path": "evidence/bigquery-dual-runtime/a0/compile/go.sum",
+      "sha256": "c2c1dc7e162a5472db8041dc57c6a9c75c7afd2a031c009da790654e858ed8a2"
+    },
+    {
+      "path": "evidence/bigquery-dual-runtime/a0/compile/receipt.json",
+      "sha256": "3e3fd3d8dbf81c0f362f2d2ca363b5d9ec9a6ab66e329ae9840c535d8769b565"
+    },
+    {
+      "path": "evidence/bigquery-dual-runtime/a0/compile/test.log",
+      "sha256": "956a46cbd1ad02c6197002d26b06a9111d5f34787b5592c5985e2c7be6320cfe"
+    },
+    {
+      "path": "evidence/bigquery-dual-runtime/a0/compile-independent/contract_test.go",
+      "sha256": "1aacab2b2d47758453b7990e38cc2441447d109e34024e76b1ee99cfe5ed3856"
+    },
+    {
+      "path": "evidence/bigquery-dual-runtime/a0/compile-independent/go.mod",
+      "sha256": "a030d6c803ad91f05816b98ce4e06e0e590f154cbb0826339b64dc258bb2e1f9"
+    },
+    {
+      "path": "evidence/bigquery-dual-runtime/a0/compile-independent/go.sum",
+      "sha256": "c2c1dc7e162a5472db8041dc57c6a9c75c7afd2a031c009da790654e858ed8a2"
+    },
+    {
+      "path": "evidence/bigquery-dual-runtime/a0/compile-rerun.log",
+      "sha256": "f0032c7d59d98591495a6724852160e83a6e4ea4afcbc05331478265fc21efe3"
+    },
+    {
+      "path": "evidence/bigquery-dual-runtime/a0/hash-index.json",
+      "sha256": "7e4fb164e8c4100421001f589e054013a5e9902b230152d498abb599d534bd38"
+    },
+    {
+      "path": "evidence/bigquery-dual-runtime/a0/independent-tests.log",
+      "sha256": "cfd73fe227fd69804360c6cc02ffd561aaeff74fb4472b3e08f9f039c0dc3c27"
+    },
+    {
+      "path": "evidence/bigquery-dual-runtime/a0/manifest.json",
+      "sha256": "ba44ff07d0d549d4142bbbd141a4ddd3988195f5ffa83ab27db4297e1475fa5a"
+    },
+    {
+      "path": "evidence/bigquery-dual-runtime/a0/proposal-r1.json",
+      "sha256": "87010fa5d0a239847baf72af8fb76a846b4e13e854ceb6a720b808a5e981f379"
+    },
+    {
+      "path": "evidence/bigquery-dual-runtime/a0/proposal-r1.md",
+      "sha256": "08e088b6d89016d40acfcd669df2158f83033d89a7a2bbdabe3e4aff1357d7b6"
+    },
+    {
+      "path": "evidence/bigquery-dual-runtime/a0/review-r1.json",
+      "sha256": "cd5da0d14543aa0cefe395e6032b161c568ec1f158b0df28c9b5b367c7526cb3"
+    },
+    {
+      "path": "evidence/bigquery-dual-runtime/a0/review-r1.md",
+      "sha256": "23dea073fd5ea5f9c3e5876904e0a3e70ccfea2b796e62f7b6112ad2480b080c"
+    },
+    {
+      "path": "evidence/bigquery-dual-runtime/a0/root-decision-r1.json",
+      "sha256": "0a9516308f2a059fb9d4565e5a3530df903e357ff4dbfbe648b5ac23ec309e86"
+    },
+    {
+      "path": "evidence/bigquery-dual-runtime/a0/source-index.json",
+      "sha256": "dd2c928dbc6f3e19599592bfe9410fb5441db8e37b720f4b5816a50927273138"
+    },
+    {
+      "path": "evidence/bigquery-dual-runtime/a0/README.md",
+      "sha256": "6ad1f1306e85e2ca8cecb56349d73cd49ce1810f8bb13fcda00229febfa5a6f2"
+    },
+    {
+      "path": "evidence/bigquery-dual-runtime/a0/compile/README.md",
+      "sha256": "320fc14e8726cfa5bf32cda858cd8e3c0e017f65a843e43778900b37c5716e3e"
+    },
+    {
+      "path": "evidence/bigquery-dual-runtime/a0/compile-independent/README.md",
+      "sha256": "c30e35ca7cb609dd75315c2085ed8bc2432f0a9318c6d116ef484bfd0967bd22"
+    },
+    {
+      "path": "evidence/bigquery-dual-runtime/a0/compile-independent/contract_test.go.txt",
+      "sha256": "a4005a5dc605750b8d24dc7b78c4c2946af24c6844dfef6ab39e2449a2c19cc8"
+    },
+    {
+      "path": "evidence/bigquery-dual-runtime/a0/compile-independent/format-receipt.json",
+      "sha256": "98681c82a8878bb8bca24835a037ffdc990633a40fbfe3b8c7adf0f94e4a3914"
     }
   ],
   "preserved_baseline": {

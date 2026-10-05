@@ -1,0 +1,230 @@
+{
+  "format": "sha256-file-index/1",
+  "files": [
+    {
+      "path": "compile/contract_test.go",
+      "bytes": 5675,
+      "sha256": "eee27a94dcb58e870ddb1c843cc10e2fec587329410cc910b14a15181caf15c8"
+    },
+    {
+      "path": "compile/go.mod",
+      "bytes": 1637,
+      "sha256": "a030d6c803ad91f05816b98ce4e06e0e590f154cbb0826339b64dc258bb2e1f9"
+    },
+    {
+      "path": "compile/go.sum",
+      "bytes": 8736,
+      "sha256": "c2c1dc7e162a5472db8041dc57c6a9c75c7afd2a031c009da790654e858ed8a2"
+    },
+    {
+      "path": "compile/receipt.json",
+      "bytes": 355,
+      "sha256": "3e3fd3d8dbf81c0f362f2d2ca363b5d9ec9a6ab66e329ae9840c535d8769b565"
+    },
+    {
+      "path": "compile/test.log",
+      "bytes": 519,
+      "sha256": "956a46cbd1ad02c6197002d26b06a9111d5f34787b5592c5985e2c7be6320cfe"
+    },
+    {
+      "path": "evidence/architecture-r3.json",
+      "bytes": 43893,
+      "sha256": "a4e64dd8572caabe6e1e08ff598b5e55ac9c71e6e0684e3d8ec3e5f36fbea5e0"
+    },
+    {
+      "path": "evidence/architecture-r3.md",
+      "bytes": 43361,
+      "sha256": "b4bd0c025a46eb1626d902041f9cbb3685424b227f260da7f98a777149939f87"
+    },
+    {
+      "path": "evidence/dal-go--dalgo/AGENTS.md",
+      "bytes": 1350,
+      "sha256": "4e12289c6ce0db0ff5f775288723bd583206c3be8e6f0a155f8ba655946c1ba3"
+    },
+    {
+      "path": "evidence/dal-go--dalgo/access/session.go",
+      "bytes": 18256,
+      "sha256": "1c5ec5fc19782de26ba7961e4fa2f20355af0e29762e51934c55d3846346ea06"
+    },
+    {
+      "path": "evidence/dal-go--dalgo/dal/query.go",
+      "bytes": 1477,
+      "sha256": "eb3d2043130e3d9202d59af7d87931767ba979853ed5231adf716359a6d0c5d2"
+    },
+    {
+      "path": "evidence/dal-go--dalgo/dal/query_executor.go",
+      "bytes": 866,
+      "sha256": "6f733d62c2d3b2694508dfad6f7e09bc24a4b1e374c6acf639ea3c3caefa3002"
+    },
+    {
+      "path": "evidence/dal-go--dalgo/dal/reader.go",
+      "bytes": 731,
+      "sha256": "c900b20a9b73f7038329d6feaa2d46c139507a91dfc568aae31a61628a53b5f0"
+    },
+    {
+      "path": "evidence/dal-go--dalgo/dal/session.go",
+      "bytes": 654,
+      "sha256": "cde5e1b90524b8a871fd298256e0e4dd4d080225032a86120506dba139c38312"
+    },
+    {
+      "path": "evidence/dal-go--dalgo/go.mod",
+      "bytes": 598,
+      "sha256": "7df436b864b4341a6d4f2a618726c7207e40b6478602b7e44c0defe327a17e2c"
+    },
+    {
+      "path": "evidence/dal-go--dalgo-http-adapters/.changeset/config.json",
+      "bytes": 338,
+      "sha256": "a9e1d3a099efedc8a7689ec9e741cd1a31de17f223772de7476c1f7a373a7904"
+    },
+    {
+      "path": "evidence/dal-go--dalgo-http-adapters/.github/workflows/release.yml",
+      "bytes": 6833,
+      "sha256": "e35186675ded4abf1a9a20e7a7aa1d9d90c1ba042381da4458ca97dfa413daf1"
+    },
+    {
+      "path": "evidence/dal-go--dalgo-http-adapters/package.json",
+      "bytes": 772,
+      "sha256": "864ba5d269653c46842a7afea766f137203a5327fba5ccac3451c0e7c66120aa"
+    },
+    {
+      "path": "evidence/dal-go--dalgo-http-adapters/packages/bigquery/package.json",
+      "bytes": 1335,
+      "sha256": "107267ce1bc22232690e034b4942c8f3c20e5f3708736598811ee2e0618f4226"
+    },
+    {
+      "path": "evidence/dal-go--dalgo-http-adapters/packages/bigquery/src/database.ts",
+      "bytes": 23612,
+      "sha256": "ada9e9346c9a17575a951c1204a791f31688e80942ce867176b115430ad27880"
+    },
+    {
+      "path": "evidence/dal-go--dalgo-http-adapters/packages/bigquery/src/sql.ts",
+      "bytes": 10735,
+      "sha256": "5c1f7d5600ac5a0f4389138b85faab1ebb3b5fb130018626b60e267568666b04"
+    },
+    {
+      "path": "evidence/dal-go--dalgo-http-adapters/packages/bigquery/src/types.ts",
+      "bytes": 2324,
+      "sha256": "0dd8562c5a8d2cb60b0673401127cebd52d8708a20ed9cef0eae8be6c6bf937a"
+    },
+    {
+      "path": "evidence/dal-go--dalgo-http-adapters/packages/indexeddb/package.json",
+      "bytes": 1323,
+      "sha256": "b74641e28624cb6d67a97097f4918496a70c6b3f61842e3bfb72dad910aef5f5"
+    },
+    {
+      "path": "evidence/dal-go--dalgo-js/package.json",
+      "bytes": 1339,
+      "sha256": "cfa81fe636a3612996099b761d6b5c068cc90ff60fb0e0cb200e0d8919439cc4"
+    },
+    {
+      "path": "evidence/datatug--datatug-apps/package.json",
+      "bytes": 4972,
+      "sha256": "d7339a05ed04439cedf15207203259eca6632e7f36613432dff342fa44d062e8"
+    },
+    {
+      "path": "evidence/datatug--datatug-cli/apps/datatugapp/commands/cmd_query.go",
+      "bytes": 15127,
+      "sha256": "e9199f8afe0b337065d2636f549ce5863059e53c77d2d52e94dcf47d7f3b0102"
+    },
+    {
+      "path": "evidence/datatug--datatug-cli/apps/datatugapp/commands/cmd_query_run_saved.go",
+      "bytes": 26069,
+      "sha256": "6cba85daff3cd51bf07b8b9176ff1ae260f542c9e738bc322ce7221ee90d4ee3"
+    },
+    {
+      "path": "evidence/datatug--datatug-cli/go.mod",
+      "bytes": 9766,
+      "sha256": "4dbd36454cd78b1c3b2eb4c7382d42a71f1ee9604f92a6fb2c604a7f1aadc294"
+    },
+    {
+      "path": "evidence/datatug--datatug-cli/pkg/accesspolicies/fields.go",
+      "bytes": 5524,
+      "sha256": "af334a599b622094e58ffc49badd7a2b7cad92f6f78933c201c6d4f16046320d"
+    },
+    {
+      "path": "evidence/datatug--datatug-cli/pkg/accesspolicies/params.go",
+      "bytes": 903,
+      "sha256": "e7fd8daf814febb1de7c6d3300ac71b7957c32d59e2f9a4e3348f640a84feda4"
+    },
+    {
+      "path": "evidence/datatug--datatug-cli/pkg/accesspolicies/run.go",
+      "bytes": 6053,
+      "sha256": "d7eab12127eafb4ddb548798d72eaadc247b95222e4022fcd4113f955cb8c18a"
+    },
+    {
+      "path": "evidence/datatug--datatug-cli/pkg/secureread/executor.go",
+      "bytes": 7735,
+      "sha256": "6e729e25e9cdab7b664997e51d8bb7a78fe97f9fa4836918ed393f00f258bc4a"
+    },
+    {
+      "path": "evidence/datatug--datatug-cli/pkg/secureread/session.go",
+      "bytes": 3609,
+      "sha256": "7efc95b91566875a7f044f4f9330c68e4e3367e40a8fee79d07be67d63794862"
+    },
+    {
+      "path": "evidence/datatug--datatug-cli/pkg/server/endpoints/exec_run_query.go",
+      "bytes": 36427,
+      "sha256": "f950423bdf4d4bd686fb1db48294592423a813cbb56931cc1318f3c72b77f302"
+    },
+    {
+      "path": "evidence/go-repo-lookup.json",
+      "bytes": 118,
+      "sha256": "4f50e254a719a6b1b06b529bdaa08980e4acf0878aad0090cba7771f6ebdf0b9"
+    },
+    {
+      "path": "evidence/ownership-dal-go.json",
+      "bytes": 895,
+      "sha256": "e7ea7145085d52bbd07c2f6a9e81c7ce66126b72674cea4bb00a2f8994836c25"
+    },
+    {
+      "path": "evidence/ownership-datatug.json",
+      "bytes": 1572,
+      "sha256": "a3fbececb91a3da32fb3eff609e721fab743fa10bfbcfd5e773b67157e18d769"
+    },
+    {
+      "path": "evidence/reuse-dal-go.json",
+      "bytes": 55,
+      "sha256": "4af480b8ee5b87b369a76c49bd22c9a783908272ebffbe97898f8ab0f0772a5f"
+    },
+    {
+      "path": "evidence/reuse-datatug.json",
+      "bytes": 55,
+      "sha256": "4af480b8ee5b87b369a76c49bd22c9a783908272ebffbe97898f8ab0f0772a5f"
+    },
+    {
+      "path": "evidence/source-index.json",
+      "bytes": 9071,
+      "sha256": "dd2c928dbc6f3e19599592bfe9410fb5441db8e37b720f4b5816a50927273138"
+    },
+    {
+      "path": "evidence/worktrees-adapters.json",
+      "bytes": 2490,
+      "sha256": "6e4c8c2cb003e617f6b16024a9bbea928bf57f6b07f0a0be4feec4ff1ca07a6f"
+    },
+    {
+      "path": "evidence/worktrees-adapters.stderr",
+      "bytes": 173,
+      "sha256": "12f94e6f1a963ad3c80d6b65cf1990d0ec0d525888ab8cbfd6be8013b809218d"
+    },
+    {
+      "path": "evidence/worktrees-cli.json",
+      "bytes": 42024,
+      "sha256": "07a2eef964036b79848293a4f02df607d25d04c6fb0f88c16fd3564252529a80"
+    },
+    {
+      "path": "evidence/worktrees-cli.stderr",
+      "bytes": 10073,
+      "sha256": "c98ff3797fcd18f8f28988ee57cb14d7c385fd6757d26ccd24d6fc3ed1e04f94"
+    },
+    {
+      "path": "proposal-r1.json",
+      "bytes": 7755,
+      "sha256": "87010fa5d0a239847baf72af8fb76a846b4e13e854ceb6a720b808a5e981f379"
+    },
+    {
+      "path": "proposal-r1.md",
+      "bytes": 33519,
+      "sha256": "08e088b6d89016d40acfcd669df2158f83033d89a7a2bbdabe3e4aff1357d7b6"
+    }
+  ]
+}

@@ -1,0 +1,128 @@
+{
+  "format": "bigquery-a0-curation/1",
+  "files": {
+    "accepted-contract.json": {
+      "sha256": "c7b68d3c8188d186a191d95ad7c6f1543c1c14868e29984a1850322b30d95e31",
+      "bytes": 6152
+    },
+    "accepted-contract.md": {
+      "sha256": "bb3ef9b7f1f280d9805bc77804824eaa4d8a0b1144e39fcb6b9cdc62c417b809",
+      "bytes": 6062
+    },
+    "author-patch-brief.md": {
+      "sha256": "b1695408ae5d045270ba87480a3c8eb29a72b35d1ab0fbca5843f01ae0428f85",
+      "bytes": 893
+    },
+    "compile/contract_test.go": {
+      "sha256": "eee27a94dcb58e870ddb1c843cc10e2fec587329410cc910b14a15181caf15c8",
+      "bytes": 5675
+    },
+    "compile/go.mod": {
+      "sha256": "a030d6c803ad91f05816b98ce4e06e0e590f154cbb0826339b64dc258bb2e1f9",
+      "bytes": 1637
+    },
+    "compile/go.sum": {
+      "sha256": "c2c1dc7e162a5472db8041dc57c6a9c75c7afd2a031c009da790654e858ed8a2",
+      "bytes": 8736
+    },
+    "compile/receipt.json": {
+      "sha256": "3e3fd3d8dbf81c0f362f2d2ca363b5d9ec9a6ab66e329ae9840c535d8769b565",
+      "bytes": 355
+    },
+    "compile/test.log": {
+      "sha256": "956a46cbd1ad02c6197002d26b06a9111d5f34787b5592c5985e2c7be6320cfe",
+      "bytes": 519
+    },
+    "compile-independent/contract_test.go": {
+      "sha256": "1aacab2b2d47758453b7990e38cc2441447d109e34024e76b1ee99cfe5ed3856",
+      "bytes": 7043
+    },
+    "compile-independent/go.mod": {
+      "sha256": "a030d6c803ad91f05816b98ce4e06e0e590f154cbb0826339b64dc258bb2e1f9",
+      "bytes": 1637
+    },
+    "compile-independent/go.sum": {
+      "sha256": "c2c1dc7e162a5472db8041dc57c6a9c75c7afd2a031c009da790654e858ed8a2",
+      "bytes": 8736
+    },
+    "compile-rerun.log": {
+      "sha256": "f0032c7d59d98591495a6724852160e83a6e4ea4afcbc05331478265fc21efe3",
+      "bytes": 519
+    },
+    "hash-index.json": {
+      "sha256": "7e4fb164e8c4100421001f589e054013a5e9902b230152d498abb599d534bd38",
+      "bytes": 7964
+    },
+    "independent-tests.log": {
+      "sha256": "cfd73fe227fd69804360c6cc02ffd561aaeff74fb4472b3e08f9f039c0dc3c27",
+      "bytes": 703
+    },
+    "proposal-r1.json": {
+      "sha256": "87010fa5d0a239847baf72af8fb76a846b4e13e854ceb6a720b808a5e981f379",
+      "bytes": 7755
+    },
+    "proposal-r1.md": {
+      "sha256": "08e088b6d89016d40acfcd669df2158f83033d89a7a2bbdabe3e4aff1357d7b6",
+      "bytes": 33519
+    },
+    "review-r1.json": {
+      "sha256": "cd5da0d14543aa0cefe395e6032b161c568ec1f158b0df28c9b5b367c7526cb3",
+      "bytes": 7806
+    },
+    "review-r1.md": {
+      "sha256": "23dea073fd5ea5f9c3e5876904e0a3e70ccfea2b796e62f7b6112ad2480b080c",
+      "bytes": 9437
+    },
+    "root-decision-r1.json": {
+      "sha256": "0a9516308f2a059fb9d4565e5a3530df903e357ff4dbfbe648b5ac23ec309e86",
+      "bytes": 6691
+    },
+    "source-index.json": {
+      "sha256": "dd2c928dbc6f3e19599592bfe9410fb5441db8e37b720f4b5816a50927273138",
+      "bytes": 9071
+    },
+    "README.md": {
+      "sha256": "6ad1f1306e85e2ca8cecb56349d73cd49ce1810f8bb13fcda00229febfa5a6f2",
+      "bytes": 656
+    },
+    "compile/README.md": {
+      "sha256": "320fc14e8726cfa5bf32cda858cd8e3c0e017f65a843e43778900b37c5716e3e",
+      "bytes": 512
+    },
+    "compile-independent/README.md": {
+      "sha256": "c30e35ca7cb609dd75315c2085ed8bc2432f0a9318c6d116ef484bfd0967bd22",
+      "bytes": 696
+    },
+    "compile-independent/contract_test.go.txt": {
+      "sha256": "a4005a5dc605750b8d24dc7b78c4c2946af24c6844dfef6ab39e2449a2c19cc8",
+      "bytes": 6971
+    },
+    "compile-independent/format-receipt.json": {
+      "sha256": "98681c82a8878bb8bca24835a037ffdc990633a40fbfe3b8c7adf0f94e4a3914",
+      "bytes": 311
+    }
+  },
+  "historical_source_snapshots_republished": false,
+  "original_hash_index_sha256": "7e4fb164e8c4100421001f589e054013a5e9902b230152d498abb599d534bd38",
+  "canonical_r3_sha256": "b4bd0c025a46eb1626d902041f9cbb3685424b227f260da7f98a777149939f87",
+  "preserved_baseline": {
+    "candidates": 699,
+    "assertions": 1177
+  },
+  "review_counts": {
+    "blockers": 0,
+    "majors": 0,
+    "minors": 2
+  },
+  "both_minors_adopted": true,
+  "preserved_record_indexes": {
+    "candidates": {
+      "count": 699,
+      "sha256": "1e165d5ccc3d2fc64fcecced8ee2c27e8db6b82fd13c59bf16dd101bc7266211"
+    },
+    "assertions": {
+      "count": 1177,
+      "sha256": "4671365581d56c0c001371908d28276d33a728bd9c558f12550823f637d441cb"
+    }
+  }
+}
