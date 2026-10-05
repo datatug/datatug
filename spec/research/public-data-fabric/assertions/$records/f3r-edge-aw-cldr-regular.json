@@ -1,0 +1,26 @@
+{
+  "title": "AdventureWorks regular-code subset to CLDR48 encoding rows",
+  "kind": "edge",
+  "status": "reconciled",
+  "from_id": "demand-adventureworks-person-countryregion",
+  "to_id": "d1-cldr-codes",
+  "from_fields": [
+    "CountryRegionCode"
+  ],
+  "to_fields": [
+    "type"
+  ],
+  "compatibility": "transformable",
+  "confidence": "high",
+  "assumptions": "Research acceptance only; use the enumerated tuples at pinned revisions. Preserve raw source identity and NULL, empty, unmatched and ambiguous rows. Fail closed on duplicate targets or changed tuples; no fuzzy match, current-ISO certification, sovereignty or territorial-boundary equivalence is implied. Refresh requires review. Canonical publication, source rights and DataTug execution remain separately gated; B1 stays open at phases 4/5/6.",
+  "transformation": "Use only 236 exact (CountryRegionCode,Name) rows in f3r-decisions.json.adventureworks.regular_tuples whose CLDR48 validity is regular; lookup codeMappings/territoryCodes@type and retain alpha3/numeric strings. Leave AN and CS in the source with historical-unresolved disposition.",
+  "reason": "Accept source-code representation lookup into the pinned CLDR encoding table after code/name/category and alpha3/numeric corroboration. CLDR regular is not certification of current ISO assignment or sovereignty. Do not apply territoryAlias replacements; broad 238-row proposal remains unaccepted.",
+  "expected_cardinality": "238 input rows ->236 accepted single targets +2 historically excluded; NULL0 empty0 ambiguous0; raw encoding-only probe238/238 is not accepted coverage",
+  "physical_role": "explicit scoped reference/context lookup",
+  "from_identifier_namespace": "AdventureWorks:pinned Person.CountryRegion.CountryRegionCode",
+  "to_identifier_namespace": "CLDR48:codeMappings/territoryCodes@type",
+  "evidence_ids": [
+    "f3-demo-country-representations",
+    "f3r-dedicated-reconciliation"
+  ]
+}

@@ -1,0 +1,88 @@
+{
+  "observed_at": "2026-10-05T00:48:28.723772+00:00",
+  "base": "0eac8db20e78f984367ed767108b2d06ccc2dbf2",
+  "scope": "Author structural validation after portfolio-base refresh; semantic decisions await independent review. Exact-head CI is separately required.",
+  "results": [
+    {
+      "argv": [
+        "wb",
+        "run",
+        "--",
+        "python3",
+        "spec/research/public-data-fabric/check.py",
+        "--self-test"
+      ],
+      "exit_code": 0,
+      "stdout": "24 ledger mutation checks passed\nPublic Data Fabric ledger relationships, decisions and phase gates valid\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "wb",
+        "run",
+        "--",
+        "python3",
+        "spec/research/public-data-fabric/test_query_index.py"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "...\n----------------------------------------------------------------------\nRan 3 tests in 0.000s\n\nOK\n"
+    },
+    {
+      "argv": [
+        "wb",
+        "run",
+        "--",
+        "python3",
+        "-B",
+        "spec/research/public-data-fabric/test_inspect_reconciliation.py"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "..\n----------------------------------------------------------------------\nRan 2 tests in 0.027s\n\nOK\n"
+    },
+    {
+      "argv": [
+        "wb",
+        "run",
+        "--",
+        "ingitdb",
+        "validate",
+        "--path",
+        "."
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "inGitDB db path:  .\n2026/10/05 01:48:28 .ingitdb/settings.yaml and .ingitdb/root-collections.yaml are valid\n2026/10/05 01:48:28 Definition of collection 'fabric.candidates' is valid\n2026/10/05 01:48:28 Definition of collection 'fabric.assertions' is valid\n2026/10/05 01:48:28 Definition of collection 'fabric.evidence' is valid\n2026/10/05 01:48:28 Definition of collection 'fabric.questions' is valid\n2026/10/05 01:48:28 Definition of collection 'fabric.implementation' is valid\n2026/10/05 01:48:28 Definition of collection 'fabric.gates' is valid\nAll 689 records are valid for collection: fabric.candidates\nAll 1176 records are valid for collection: fabric.assertions\nAll 162 records are valid for collection: fabric.evidence\nAll 45 records are valid for collection: fabric.questions\nAll 0 records are valid for collection: fabric.implementation\nAll 8 records are valid for collection: fabric.gates\n"
+    },
+    {
+      "argv": [
+        "wb",
+        "run",
+        "--",
+        "specscore",
+        "spec",
+        "lint",
+        "--format",
+        "json"
+      ],
+      "exit_code": 0,
+      "stdout": "[]\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "wb",
+        "run",
+        "--",
+        "git",
+        "diff",
+        "--check"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  ],
+  "reproduction": "Nine generated JSON files reproduced byte-for-byte from pinned source observations plus hash-verified native Sakila and Ember CSV; unique targets and NULL/empty/unmatched/ambiguous counterexamples pass."
+}

@@ -1,0 +1,10 @@
+{
+  "title": "Fresh bounded Phase3 semantic follow-up",
+  "observed_at": "2026-10-05",
+  "outcome": "pass",
+  "summary": "Dedicated fresh reconciler completed scoped decisions with explicit rejection and unresolved cases. Not adversarial review, a gate, implementation, source publication or DataTug acceptance.",
+  "reviewer": "fresh-semantic-gap-followup",
+  "independent": true,
+  "review_stage": "reconciliation",
+  "path": "spec/research/public-data-fabric/f3r-reconciliation.md"
+}

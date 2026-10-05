@@ -1,0 +1,27 @@
+{
+  "title": "Reviewed annual Ember reporting areas to GeoNames reference context",
+  "kind": "edge",
+  "status": "reconciled",
+  "from_id": "d2-rs-ember-year",
+  "to_id": "d1-geo-countries",
+  "from_fields": [
+    "ISO 3 code"
+  ],
+  "to_fields": [
+    "ISO3"
+  ],
+  "compatibility": "transformable",
+  "confidence": "high",
+  "assumptions": "Research acceptance only; use the enumerated tuples at pinned revisions. Preserve raw source identity and NULL, empty, unmatched and ambiguous rows. Fail closed on duplicate targets or changed tuples; no fuzzy match, current-ISO certification, sovereignty or territorial-boundary equivalence is implied. Refresh requires review. Canonical publication, source rights and DataTug execution remain separately gated; B1 stays open at phases 4/5/6.",
+  "transformation": "Filter Area type == \"Country or economy\" AND ISO 3 code is nonempty. Use only 209 reviewed tuples in f3r-decisions.json.ember.accepted_tuples. DISTINCT (Area, ISO 3 code, Area type) forms the area projection; exact tuple/code lookup to GeoNames, never fact deduplication. Preserve Year and Electricity source on facts.",
+  "reason": "Accepted annual source-area context after full label/code review. XKX remains a provider extension, not an official ISO certificate. Fifteen Region areas are excluded with their raw rows retained. Historical observation geography follows Ember methodology, not a timeless GeoNames boundary. No monthly acceptance follows.",
+  "expected_cardinality": "209 projected areas -> 209 unique GeoNames targets; 97,937 annual facts -> many:one reference lookup. Reverse GeoNames 252 -> 209 matched + 43 unmatched; 200 of209 areas reach WB and9 remain unmatched",
+  "physical_role": "explicit scoped reference/context lookup",
+  "from_identifier_namespace": "Ember:annual country/economy ISO3",
+  "to_identifier_namespace": "GeoNames:countryInfo pinned ISO3",
+  "evidence_ids": [
+    "f3-ember-area-source-probes",
+    "f3-geo-economy-source-probes",
+    "f3r-dedicated-reconciliation"
+  ]
+}
