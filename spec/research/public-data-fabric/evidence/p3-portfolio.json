@@ -3,7 +3,7 @@
   "semantic_source_commit": "c26c3ee5d8e5e0edce629b66fd15d6d3cf323192",
   "semantic_gate_head": "1205b993d64111e7089d939be0ddec917db2f3a0",
   "architect": "fresh-phase3-portfolio-architect",
-  "review_state": "author proposal; independent adversarial review and root decision pending",
+  "review_state": "Root accepted bounded architecture atcaa9e75d9b24c8ddd95266bc46d97670d492849f after independent r2 zero-findings review; this acceptance delta still needs final review/CI/root landing.",
   "weights": {
     "real_world_joinability": 20,
     "identifier_quality": 15,
@@ -11681,7 +11681,19 @@
       "review": "r1",
       "finding": "P3-R1-1",
       "change": "Calendar accepted-demo-coverage score1→0; weighted practical score75.4→74.0. No accepted public demo calendar bridge exists. Scenario order, scope, semantics and gates unchanged.",
-      "status": "fixed; independent r2 pending"
+      "status": "fixed; independent r2 accepted at exact source head"
     }
+  ],
+  "phase_acceptance": "evidence/p3-phase-acceptance.json",
+  "later_gate_question_ids": [
+    "p3-followup-1",
+    "p3-followup-2",
+    "p3-followup-3",
+    "p3-followup-4",
+    "p3-followup-5",
+    "p3-followup-6",
+    "canonical-semantic-ingestion",
+    "p3-selected-scenario-readiness",
+    "corpus-publication"
   ]
 }

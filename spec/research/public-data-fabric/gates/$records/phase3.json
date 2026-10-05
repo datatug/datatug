@@ -1,6 +1,6 @@
 {
   "title": "Scenario and portfolio architecture",
-  "status": "pending",
+  "status": "passed",
   "owner": "Main orchestrator",
   "prerequisite_ids": [
     "phase2"
@@ -8,7 +8,11 @@
   "requirements": [
     "Separate fresh architect chooses interconnected bundles and retains unselected opportunities"
   ],
-  "evidence_ids": [],
+  "evidence_ids": [
+    "p3-architect-source-acceptance",
+    "p3-independent-review-r2",
+    "p3-root-acceptance"
+  ],
   "blocker_ids": [],
-  "decision": "Not started; no phase completion claim."
+  "decision": "Root accepts bounded Phase3 architecture at reviewed source caa9e75d9b24c8ddd95266bc46d97670d492849f after distinct independent r2 zero-findings review and exact-head CI37247826746SUCCESS. Seven targets/37recordsets remain conditional; no semantic follow-up,canonical publication,implementation or launch acceptance. All selected conditions are bound to open questions at phases4/5/6; B1 remains unchanged. Final acceptance-delta review,exact-headCI and root WB landing remain before durable completion."
 }

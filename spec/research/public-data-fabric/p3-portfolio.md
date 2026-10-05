@@ -1,6 +1,6 @@
 # Phase 3 scenario and dataset portfolio architecture
 
-Author proposal, 5 October 2026. Fresh separate specialist `fresh-phase3-portfolio-architect`, local Codex on macOS. Read the complete mission and full persistent inventory at hub `05eecd54e441d7512cd3dc57f8a888595e152984`; semantic decisions are those of the separate Phase 2 source `c26c3ee5d8e5e0edce629b66fd15d6d3cf323192`. No new semantic decisions, canonical artifacts, deployments or phase pass are made here. Independent adversarial review and root acceptance remain pending.
+Author proposal, 5 October 2026. Fresh separate specialist `fresh-phase3-portfolio-architect`, local Codex on macOS. Read the complete mission and full persistent inventory at hub `05eecd54e441d7512cd3dc57f8a888595e152984`; semantic decisions are those of the separate Phase 2 source `c26c3ee5d8e5e0edce629b66fd15d6d3cf323192`. The architecture source made no new semantic decisions, canonical artifacts or deployments. Root now accepts bounded Phase 3 architecture at `caa9e75d9b24c8ddd95266bc46d97670d492849f` after independent r2 zero-findings review; this separate acceptance delta still requires final independent review, exact-head CI and root landing.
 
 ## User journey and observable results
 
@@ -329,7 +329,7 @@ For each wave: (a) freeze exact recordset scope and rights; (b) dedicated reconc
 
 ## Targeted follow-up and preserved backlog
 
-Questions `p3-followup-1` through `p3-followup-6` name bounded work and payoff. Their classification is nonblocking to Phase3 architecture; affected implementation is expressly gated. Root has commissioned separate `f3-*` evidence work for country/economy/Ember and demo representation gaps; those future receipts are not silently incorporated or treated as semantic acceptance here. Dedicated semantic follow-up must judge them separately.
+Questions `p3-followup-1` through `p3-followup-6` name bounded work and payoff. At root acceptance they remain OPEN and become blocking for phases 4/5/6 completion, while leaving unrelated accepted-path work possible. Root has commissioned separate `f3-*` evidence work for country/economy/Ember and demo representation gaps; the landed source receipts are evidence inputs and are not treated as semantic acceptance here. Dedicated semantic follow-up must judge them separately.
 
 - Priority 1: Bounded exact category/representation evidence, followed by separate semantic specialist decisions. Payoff: Unlock S1/W1, S4 exposure and actual additional demos. Bound: Complete small code/category snapshots and seven Sakila exceptions; no bulk economic import; no blanket bridge. IDs: `d1-edge-geo-wb-economy`, `d2-map-ember-code`, `d2-map-ember-electricity`, `d1-edge-sakila-country`, `d1-edge-aw-countrycode`.
 - Priority 1: Which date/rate-kind/currency projections and same-day two-leg comparison are supported? Payoff: Complete S2 explicit-price comparisons without guessed currency. Bound: 14 AW target currencies, one supported pair/day, one missing business day and DEM/FRF/VEB counterexamples; SIX rights separate. IDs: `d1-edge-aw-fx-currentref`, `d1-edge-ecb-currency-validity`.
@@ -415,8 +415,14 @@ Stop initial launch when root has five to seven excellent independently validate
 
 The separate author validation receipt is `evidence/p3-author-validation.json`. Run the existing inGitDB validation, 24 ledger mutation cases, three query fixtures, two native-probe counterexamples, SpecScore lint and whitespace check. A conservation audit verifies all original 1,170 assertion hashes and 679 unchanged candidate hashes, plus the exact three ROR rights-only deltas, all 57 dispositions, every referenced accepted/unresolved assertion, exact 37-set union and per-wave uniqueness. This checks references and preservation, not correctness of architecture or semantics.
 
-No gate record is modified and no status transitions to selected/implemented/validated occur. The existing owning feature links this proposal while remaining Draft. Root must obtain a fresh independent adversarial review of the exact PR head, resolve findings, and decide Phase3 acceptance separately. Source probes, author checks and this separate-architect receipt cannot substitute for that review.
+At the reviewed architecture source, no gate record was modified and no scenario transitioned to selected/implemented/validated. The owning feature remains Draft. Root has now accepted bounded Phase 3 architecture after the distinct independent r2 review; the receipt delta below records that decision and later blockers. Source probes and author checks do not replace independent review; this delta still needs its own final check.
 
 ### Review correction r1
 
-Finding `P3-R1-1` is fixed: calendar accepted-demo-coverage is 0, reflecting zero accepted public demo calendar bridges. Its weighted practical score is 74.0 rather than 75.4 in the evidence, scenario candidate and score table. Scenario order, scope, conditional prerequisites and semantic decisions are unchanged. Independent r2 review remains pending.
+Finding `P3-R1-1` is fixed: calendar accepted-demo-coverage is 0, reflecting zero accepted public demo calendar bridges. Its weighted practical score is 74.0 rather than 75.4 in the evidence, scenario candidate and score table. Scenario order, scope, conditional prerequisites and semantic decisions are unchanged. Independent r2 review accepted this correction at the exact source head.
+
+## Root bounded Phase 3 acceptance
+
+[Root acceptance](evidence/p3-phase-acceptance.json) pins source `caa9e75d9b24c8ddd95266bc46d97670d492849f`, base `2d355dabf8ef14d80e366f74f8646b9159cd7bf0`, exact CI and SHA256 hashes of the unmodified [independent r1/r2 review history](evidence/p3-independent-review-r2.md). Distinct architect, reconciler and adversarial reviewer identities are retained. Phase 3 passes for architecture only. All seven scenario records stay `needs-review`, all 37 recordsets remain conditional, and implementation is empty.
+
+The six follow-up questions, canonical-semantic-ingestion and p3-selected-scenario-readiness now remain OPEN/BLOCKING at phases 4/5/6 alongside unchanged B1. The combined condition record covers every retained unresolved assertion/user contract, source mode, F2–F6, resource budget, publication and actual product journey; F1 has its own question. A root-reviewed scope reduction must retain deferred research and explicit reasons; an architecture receipt cannot resolve these obligations. Final independent acceptance-delta review, exact-head CI and root WB landing remain required.

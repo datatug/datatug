@@ -1,11 +1,27 @@
 {
   "title": "Bounded exact category/representation evidence, followed by separate semantic specialist decisions.",
   "status": "open",
-  "classification": "important/non-blocking",
+  "classification": "blocking",
   "owner": "root-coordinated f3 evidence researcher, then fresh dedicated semantic reconciler",
-  "candidate_ids": [],
-  "evidence_ids": [
-    "p3-portfolio-architecture"
+  "candidate_ids": [
+    "p3-scenario-markets",
+    "d1-geo-countries",
+    "d1-wb-economies",
+    "d2-rs-ember-year",
+    "demand-sakila-country",
+    "demand-adventureworks-person-countryregion"
   ],
-  "resolution": "Open: nonblocking to architecture, mandatory before the affected integration. Complete small code/category snapshots and seven Sakila exceptions; no bulk economic import; no blanket bridge. Expected payoff: Unlock S1/W1, S4 exposure and actual additional demos."
+  "evidence_ids": [
+    "p3-portfolio-architecture",
+    "p3-root-acceptance",
+    "f3-geo-economy-source-probes",
+    "f3-ember-area-source-probes",
+    "f3-demo-country-representations"
+  ],
+  "resolution": "Open: nonblocking to architecture, mandatory before the affected integration. Complete small code/category snapshots and seven Sakila exceptions; no bulk economic import; no blanket bridge. Expected payoff: Unlock S1/W1, S4 exposure and actual additional demos.\n\nPhase3 root-acceptance binding: remains OPEN and blocks phases4/5/6 completion for the affected selected scenario. It does not block work on unrelated accepted paths. Closure requires dedicated semantic decisions and source/legal/coverage evidence for the scoped integration, or an explicit root-reviewed narrower portfolio with retained rejected/deferred paths. A source observation alone cannot close this question. W1 already accepted provider-reference paths remain separate; country→economy/Ember and additional demo bridges apply to W2/full market scenarios. Landed f3 observations are evidence inputs, not semantic acceptance.",
+  "gate_ids": [
+    "phase4",
+    "phase5",
+    "phase6"
+  ]
 }

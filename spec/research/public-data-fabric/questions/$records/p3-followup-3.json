@@ -1,13 +1,24 @@
 {
   "title": "Can one declared jurisdiction and zone support dated activity, and which historical calendars are licensed for Northwind/Pubs periods?",
   "status": "open",
-  "classification": "important/non-blocking",
+  "classification": "blocking",
   "owner": "bounded calendar researcher then separate reconciler",
   "candidate_ids": [
-    "d1-govuk-holidays"
+    "d1-cldr-week",
+    "d1-cldr-windows-zones",
+    "d1-govuk-holidays",
+    "d1-tz-rules",
+    "d1-tz-zones",
+    "p3-scenario-calendar"
   ],
   "evidence_ids": [
-    "p3-portfolio-architecture"
+    "p3-portfolio-architecture",
+    "p3-root-acceptance"
   ],
-  "resolution": "Open: nonblocking to architecture, mandatory before the affected integration. One supported division/zone journey; no global holiday scrape. Preserve out-of-coverage negatives. Expected payoff: S3, future workforce and mobility."
+  "resolution": "Open: nonblocking to architecture, mandatory before the affected integration. One supported division/zone journey; no global holiday scrape. Preserve out-of-coverage negatives. Expected payoff: S3, future workforce and mobility.\n\nPhase3 root-acceptance binding: remains OPEN and blocks phases4/5/6 completion for the affected selected scenario. It does not block work on unrelated accepted paths. Closure requires dedicated semantic decisions and source/legal/coverage evidence for the scoped integration, or an explicit root-reviewed narrower portfolio with retained rejected/deferred paths. A source observation alone cannot close this question.",
+  "gate_ids": [
+    "phase4",
+    "phase5",
+    "phase6"
+  ]
 }

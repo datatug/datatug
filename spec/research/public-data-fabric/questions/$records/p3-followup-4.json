@@ -1,15 +1,23 @@
 {
   "title": "Actual LEI relation/exception CDF grain and NVD source-specific reuse/rate terms?",
   "status": "open",
-  "classification": "important/non-blocking",
+  "classification": "blocking",
   "owner": "bounded identity/legal evidence researcher then separate reconciler",
   "candidate_ids": [
-    "d1-lei-relationships",
     "d1-lei-exceptions",
-    "d2-rs-nvd"
+    "d1-lei-relationships",
+    "d2-rs-nvd",
+    "p3-scenario-organizations",
+    "p3-scenario-technology"
   ],
   "evidence_ids": [
-    "p3-portfolio-architecture"
+    "p3-portfolio-architecture",
+    "p3-root-acceptance"
   ],
-  "resolution": "Open: nonblocking to architecture, mandatory before the affected integration. One relation, one exception and official NVD terms; no legal inference from successful API response. Expected payoff: Complete independently useful S4 and S5 branches."
+  "resolution": "Open: nonblocking to architecture, mandatory before the affected integration. One relation, one exception and official NVD terms; no legal inference from successful API response. Expected payoff: Complete independently useful S4 and S5 branches.\n\nPhase3 root-acceptance binding: remains OPEN and blocks phases4/5/6 completion for the affected selected scenario. It does not block work on unrelated accepted paths. Closure requires dedicated semantic decisions and source/legal/coverage evidence for the scoped integration, or an explicit root-reviewed narrower portfolio with retained rejected/deferred paths. A source observation alone cannot close this question.",
+  "gate_ids": [
+    "phase4",
+    "phase5",
+    "phase6"
+  ]
 }
