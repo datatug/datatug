@@ -27,7 +27,8 @@
     "landing_receipt_at_packet_freeze": {
       "merge_sha": "213fc355ec91af42ba7a01a7ca1d0f24a9442cf3",
       "reviewed_head": "aeaee43556089828a103643c4d07e7bbc5e15fa3",
-      "landed_tree_sha256": "ae48fc1d9895826126b600e8af2534edd0941eaa",
+      "landed_tree_git_oid": "ae48fc1d9895826126b600e8af2534edd0941eaa",
+      "landed_tree_object_format": "sha1",
       "branch_and_worktree_cleaned": true,
       "canonical_sync": "clean",
       "main_ci": "pending root final receipt",

@@ -40,7 +40,7 @@ def main():
     assert proof["kind"] == "w1-reviewed-followup-evidence"
     assert len(sources["original_reviewed_documents"]) == 38
     for name, entry in sources["original_reviewed_documents"].items():
-        assert "/" not in name and len(entry["sha256"]) == 64 and entry["bytes"] > 0, name
+        assert "/" not in name and re.fullmatch(r"[0-9a-f]{64}", entry["sha256"]) and entry["bytes"] > 0, name
     assert len(receipts["receipts"]) == proof["programme"]["root_publication_receipts_before_pr193"] == 38
     assert sha256((HERE / "root-publication-receipt-index.json").read_bytes()) == proof["programme"]["root_publication_receipt_index_sha256"]
     assert sha256((HERE / "resource-source-deltas-r3.json").read_bytes()) == proof["official_resource"]["r3"]["source_deltas_sha256"]
@@ -87,7 +87,12 @@ def main():
         if path.suffix in {".json", ".md"}:
             content = path.read_bytes()
             assert not re.search(rb"/(?:private/tmp|Users/[^/]+)/", content), path.name
-    print(f"verified 38 source hashes, 38 receipt summaries, 5 unchanged implementation states, {checked_objects} optional Git objects")
+    print(
+        "checked 38 original-document hash declarations (originals not rehashed), "
+        "rehash-verified 2 packet files and the hub decision, "
+        f"checked 38 receipt summaries and 5 implementation states, "
+        f"rehash-verified {checked_objects} optional Git objects"
+    )
 
 
 if __name__ == "__main__":
