@@ -1,0 +1,483 @@
+{
+  "status": "proposed semantic oracle; not product validation",
+  "context": "intact admitted row identity and pins; only geonames_id varies in separate negative controls",
+  "vectors": [
+    {
+      "token": "1",
+      "python_type": "int",
+      "publisher_accepts": true,
+      "publisher_failure": null,
+      "decision": "accepted-conditionally",
+      "expected": "eligible",
+      "reason": "requires independently admitted native type and full source/runtime binding",
+      "derived_key": "1",
+      "retain_parent": true,
+      "target_query": true
+    },
+    {
+      "token": "1.0",
+      "python_type": "float",
+      "publisher_accepts": false,
+      "publisher_failure": "GeoNames ID must be native positive integer or null",
+      "decision": "unresolved",
+      "expected": "invalid-reference",
+      "reason": "representation-ambiguous; valid JSON but unsupported wire spelling for current adapter",
+      "derived_key": null,
+      "retain_parent": true,
+      "target_query": false
+    },
+    {
+      "token": "1e0",
+      "python_type": "float",
+      "publisher_accepts": false,
+      "publisher_failure": "GeoNames ID must be native positive integer or null",
+      "decision": "unresolved",
+      "expected": "invalid-reference",
+      "reason": "representation-ambiguous; valid JSON but unsupported wire spelling for current adapter",
+      "derived_key": null,
+      "retain_parent": true,
+      "target_query": false
+    },
+    {
+      "token": "1000",
+      "python_type": "int",
+      "publisher_accepts": true,
+      "publisher_failure": null,
+      "decision": "accepted-conditionally",
+      "expected": "eligible",
+      "reason": "requires independently admitted native type and full source/runtime binding",
+      "derived_key": "1000",
+      "retain_parent": true,
+      "target_query": true
+    },
+    {
+      "token": "1e3",
+      "python_type": "float",
+      "publisher_accepts": false,
+      "publisher_failure": "GeoNames ID must be native positive integer or null",
+      "decision": "unresolved",
+      "expected": "invalid-reference",
+      "reason": "representation-ambiguous; valid JSON but unsupported wire spelling for current adapter",
+      "derived_key": null,
+      "retain_parent": true,
+      "target_query": false
+    },
+    {
+      "token": "10e-1",
+      "python_type": "float",
+      "publisher_accepts": false,
+      "publisher_failure": "GeoNames ID must be native positive integer or null",
+      "decision": "unresolved",
+      "expected": "invalid-reference",
+      "reason": "representation-ambiguous; valid JSON but unsupported wire spelling for current adapter",
+      "derived_key": null,
+      "retain_parent": true,
+      "target_query": false
+    },
+    {
+      "token": "9007199254740991",
+      "python_type": "int",
+      "publisher_accepts": true,
+      "publisher_failure": null,
+      "decision": "accepted-conditionally",
+      "expected": "eligible",
+      "reason": "requires independently admitted native type and full source/runtime binding",
+      "derived_key": "9007199254740991",
+      "retain_parent": true,
+      "target_query": true
+    },
+    {
+      "token": "9007199254740992",
+      "python_type": "int",
+      "publisher_accepts": true,
+      "publisher_failure": null,
+      "decision": "rejected-as-reference",
+      "expected": "unsupported-precision",
+      "reason": "positive integer outside safe JS integer range",
+      "derived_key": null,
+      "retain_parent": true,
+      "target_query": false
+    },
+    {
+      "token": "9007199254740993",
+      "python_type": "int",
+      "publisher_accepts": true,
+      "publisher_failure": null,
+      "decision": "rejected-as-reference",
+      "expected": "unsupported-precision",
+      "reason": "positive integer outside safe JS integer range",
+      "derived_key": null,
+      "retain_parent": true,
+      "target_query": false
+    },
+    {
+      "token": "9.007199254740992e15",
+      "python_type": "float",
+      "publisher_accepts": false,
+      "publisher_failure": "GeoNames ID must be native positive integer or null",
+      "decision": "rejected-as-reference",
+      "expected": "unsupported-precision",
+      "reason": "positive integer outside safe JS integer range",
+      "derived_key": null,
+      "retain_parent": true,
+      "target_query": false
+    },
+    {
+      "token": "9007199254740992.0",
+      "python_type": "float",
+      "publisher_accepts": false,
+      "publisher_failure": "GeoNames ID must be native positive integer or null",
+      "decision": "rejected-as-reference",
+      "expected": "unsupported-precision",
+      "reason": "positive integer outside safe JS integer range",
+      "derived_key": null,
+      "retain_parent": true,
+      "target_query": false
+    },
+    {
+      "token": "1.5",
+      "python_type": "float",
+      "publisher_accepts": false,
+      "publisher_failure": "GeoNames ID must be native positive integer or null",
+      "decision": "rejected-as-reference",
+      "expected": "invalid-reference",
+      "reason": "exact fractional value",
+      "derived_key": null,
+      "retain_parent": true,
+      "target_query": false
+    },
+    {
+      "token": "1.0000000000000001",
+      "python_type": "float",
+      "publisher_accepts": false,
+      "publisher_failure": "GeoNames ID must be native positive integer or null",
+      "decision": "rejected-as-reference",
+      "expected": "invalid-reference",
+      "reason": "exact fractional value",
+      "derived_key": null,
+      "retain_parent": true,
+      "target_query": false
+    },
+    {
+      "token": "9007199254740990.5",
+      "python_type": "float",
+      "publisher_accepts": false,
+      "publisher_failure": "GeoNames ID must be native positive integer or null",
+      "decision": "rejected-as-reference",
+      "expected": "invalid-reference",
+      "reason": "exact fractional value",
+      "derived_key": null,
+      "retain_parent": true,
+      "target_query": false
+    },
+    {
+      "token": "1e-400",
+      "python_type": "float",
+      "publisher_accepts": false,
+      "publisher_failure": "GeoNames ID must be native positive integer or null",
+      "decision": "rejected-as-reference",
+      "expected": "invalid-reference",
+      "reason": "exact fractional value",
+      "derived_key": null,
+      "retain_parent": true,
+      "target_query": false
+    },
+    {
+      "token": "-0",
+      "python_type": "int",
+      "publisher_accepts": false,
+      "publisher_failure": "GeoNames ID must be native positive integer or null",
+      "decision": "rejected-as-reference",
+      "expected": "invalid-reference",
+      "reason": "nonpositive",
+      "derived_key": null,
+      "retain_parent": true,
+      "target_query": false
+    },
+    {
+      "token": "0",
+      "python_type": "int",
+      "publisher_accepts": false,
+      "publisher_failure": "GeoNames ID must be native positive integer or null",
+      "decision": "rejected-as-reference",
+      "expected": "invalid-reference",
+      "reason": "nonpositive",
+      "derived_key": null,
+      "retain_parent": true,
+      "target_query": false
+    },
+    {
+      "token": "-1",
+      "python_type": "int",
+      "publisher_accepts": false,
+      "publisher_failure": "GeoNames ID must be native positive integer or null",
+      "decision": "rejected-as-reference",
+      "expected": "invalid-reference",
+      "reason": "nonpositive",
+      "derived_key": null,
+      "retain_parent": true,
+      "target_query": false
+    },
+    {
+      "token": "-1.0",
+      "python_type": "float",
+      "publisher_accepts": false,
+      "publisher_failure": "GeoNames ID must be native positive integer or null",
+      "decision": "rejected-as-reference",
+      "expected": "invalid-reference",
+      "reason": "nonpositive",
+      "derived_key": null,
+      "retain_parent": true,
+      "target_query": false
+    },
+    {
+      "token": "\"1\"",
+      "python_type": "str",
+      "publisher_accepts": false,
+      "publisher_failure": "GeoNames ID must be native positive integer or null",
+      "decision": "rejected-as-reference",
+      "expected": "invalid-reference",
+      "reason": "native-type violation",
+      "derived_key": null,
+      "retain_parent": true,
+      "target_query": false
+    },
+    {
+      "token": "\"\"",
+      "python_type": "str",
+      "publisher_accepts": false,
+      "publisher_failure": "GeoNames ID must be native positive integer or null",
+      "decision": "rejected-as-reference",
+      "expected": "empty-reference",
+      "reason": "native-type violation",
+      "derived_key": null,
+      "retain_parent": true,
+      "target_query": false
+    },
+    {
+      "token": "true",
+      "python_type": "bool",
+      "publisher_accepts": false,
+      "publisher_failure": "GeoNames ID must be native positive integer or null",
+      "decision": "rejected-as-reference",
+      "expected": "invalid-reference",
+      "reason": "native-type violation",
+      "derived_key": null,
+      "retain_parent": true,
+      "target_query": false
+    },
+    {
+      "token": "null",
+      "python_type": "NoneType",
+      "publisher_accepts": true,
+      "publisher_failure": null,
+      "decision": "rejected-as-reference",
+      "expected": "null-reference",
+      "reason": "null is not an identifier",
+      "derived_key": null,
+      "retain_parent": true,
+      "target_query": false
+    },
+    {
+      "token": "{}",
+      "python_type": "dict",
+      "publisher_accepts": false,
+      "publisher_failure": "GeoNames ID must be native positive integer or null",
+      "decision": "rejected-as-reference",
+      "expected": "invalid-reference",
+      "reason": "native-type violation",
+      "derived_key": null,
+      "retain_parent": true,
+      "target_query": false
+    },
+    {
+      "token": "[]",
+      "python_type": "list",
+      "publisher_accepts": false,
+      "publisher_failure": "GeoNames ID must be native positive integer or null",
+      "decision": "rejected-as-reference",
+      "expected": "invalid-reference",
+      "reason": "native-type violation",
+      "derived_key": null,
+      "retain_parent": true,
+      "target_query": false
+    }
+  ],
+  "js_probe": [
+    {
+      "token": "1",
+      "typeof": "number",
+      "value": "1",
+      "safe": true,
+      "negativeZero": false
+    },
+    {
+      "token": "1.0",
+      "typeof": "number",
+      "value": "1",
+      "safe": true,
+      "negativeZero": false
+    },
+    {
+      "token": "1e0",
+      "typeof": "number",
+      "value": "1",
+      "safe": true,
+      "negativeZero": false
+    },
+    {
+      "token": "1000",
+      "typeof": "number",
+      "value": "1000",
+      "safe": true,
+      "negativeZero": false
+    },
+    {
+      "token": "1e3",
+      "typeof": "number",
+      "value": "1000",
+      "safe": true,
+      "negativeZero": false
+    },
+    {
+      "token": "10e-1",
+      "typeof": "number",
+      "value": "1",
+      "safe": true,
+      "negativeZero": false
+    },
+    {
+      "token": "9007199254740991",
+      "typeof": "number",
+      "value": "9007199254740991",
+      "safe": true,
+      "negativeZero": false
+    },
+    {
+      "token": "9007199254740992",
+      "typeof": "number",
+      "value": "9007199254740992",
+      "safe": false,
+      "negativeZero": false
+    },
+    {
+      "token": "9007199254740993",
+      "typeof": "number",
+      "value": "9007199254740992",
+      "safe": false,
+      "negativeZero": false
+    },
+    {
+      "token": "9.007199254740992e15",
+      "typeof": "number",
+      "value": "9007199254740992",
+      "safe": false,
+      "negativeZero": false
+    },
+    {
+      "token": "9007199254740992.0",
+      "typeof": "number",
+      "value": "9007199254740992",
+      "safe": false,
+      "negativeZero": false
+    },
+    {
+      "token": "1.5",
+      "typeof": "number",
+      "value": "1.5",
+      "safe": false,
+      "negativeZero": false
+    },
+    {
+      "token": "1.0000000000000001",
+      "typeof": "number",
+      "value": "1",
+      "safe": true,
+      "negativeZero": false
+    },
+    {
+      "token": "9007199254740990.5",
+      "typeof": "number",
+      "value": "9007199254740990",
+      "safe": true,
+      "negativeZero": false
+    },
+    {
+      "token": "1e-400",
+      "typeof": "number",
+      "value": "0",
+      "safe": true,
+      "negativeZero": false
+    },
+    {
+      "token": "-0",
+      "typeof": "number",
+      "value": "0",
+      "safe": true,
+      "negativeZero": true
+    },
+    {
+      "token": "0",
+      "typeof": "number",
+      "value": "0",
+      "safe": true,
+      "negativeZero": false
+    },
+    {
+      "token": "-1",
+      "typeof": "number",
+      "value": "-1",
+      "safe": true,
+      "negativeZero": false
+    },
+    {
+      "token": "-1.0",
+      "typeof": "number",
+      "value": "-1",
+      "safe": true,
+      "negativeZero": false
+    },
+    {
+      "token": "\"1\"",
+      "typeof": "string",
+      "value": "1",
+      "safe": false,
+      "negativeZero": false
+    },
+    {
+      "token": "\"\"",
+      "typeof": "string",
+      "value": "",
+      "safe": false,
+      "negativeZero": false
+    },
+    {
+      "token": "true",
+      "typeof": "boolean",
+      "value": "true",
+      "safe": false,
+      "negativeZero": false
+    },
+    {
+      "token": "null",
+      "typeof": "object",
+      "value": "null",
+      "safe": false,
+      "negativeZero": false
+    },
+    {
+      "token": "{}",
+      "typeof": "object",
+      "value": "[object Object]",
+      "safe": false,
+      "negativeZero": false
+    },
+    {
+      "token": "[]",
+      "typeof": "object",
+      "value": "",
+      "safe": false,
+      "negativeZero": false
+    }
+  ]
+}

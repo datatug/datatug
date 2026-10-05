@@ -119,9 +119,14 @@ def main():
         assert current['evidence_ids'] == original['evidence_ids'] + ['w1-fx-priority-readiness'], key
         for field in set(original) - set(manifest['allowed_candidate_changes']):
             assert current[field] == original[field], (key, field)
+    # A later accepted P1 wire addendum appends one evidence row without
+    # altering this packet's original five rows or any preserved ledger record.
+    later_evidence_ids = {'w1-p1-wire-semantic-addendum'}
     for table, count in manifest['baseline_record_counts'].items():
         actual = len(list((BASE / table / '$records').glob('*.json')))
-        assert actual == count + (len(manifest['new_evidence_ids']) if table == 'evidence' else 0), table
+        expected = count + (len(manifest['new_evidence_ids']) + len(later_evidence_ids) if table == 'evidence' else 0)
+        assert actual == expected, table
+    assert all((BASE / 'evidence/$records' / (key + '.json')).is_file() for key in later_evidence_ids)
     assert manifest['baseline_record_counts']['candidates'] == 691
     assert manifest['baseline_record_counts']['assertions'] == 1177
     for path in (BASE / 'implementation/$records').glob('w1-*.json'):

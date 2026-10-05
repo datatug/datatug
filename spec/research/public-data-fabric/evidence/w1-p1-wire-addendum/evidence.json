@@ -1,0 +1,24 @@
+{
+  "kind": "w1-p1-wire-addendum-evidence",
+  "scope": "reviewed semantic-only decision packet",
+  "original_decision_sha256": "62fa8fa939835e3c745b09d6c097a86780c0187a1f6dc57bd66087275a8dbf51",
+  "execution_admitted": false,
+  "publication_admitted": false,
+  "files": {
+    "README.md": "f3dbe91f43a5e3e462f22d8a430d13440bb99659bed23f5abb6d80972ccb1ff2",
+    "semantic-addendum-decision.json": "109c6a3ac249cbf470a47cbe913bcf6e1ca90bf69e7389435d039e8de39f15bb",
+    "source/README.md": "35005b07f04746dbdd506355dd072498f50526561f9825b40db998e3786797c7",
+    "source/author-evidence.json": "f22c6790591a7e85c342a693fef1440273cc5f00db9624f48affeeaf7bbc2655",
+    "source/proposal.json": "ec5d38ccba533526659a47b23293965d47c41809a9eecf4d094ce88abe3fce6d",
+    "source/proposal.md": "6b1096ad1f9162be49cbf4f6be92275d827f65a9d272c8b25b25c72d867a5c1b",
+    "source/review-probe-results.json": "019d46c38d8d5e1c0cafabbe70bebbc2f8f7d5ec90161ac8d025940c68d7ada7",
+    "source/review-probe.py": "fec6e33c403da05706a5db1fe4b0a67d73542b5af97fe5326eba2c6d3e08e3b7",
+    "source/review-r1.json": "ce3024af1d3dae7887750fdac20411458875c50facaba0f498b4740c4d01010c",
+    "source/review-r1.md": "f7c1e2942e2ca0b5e1a40811f89a1fbff2e800c61c8897f99fcd339b2d5bb416",
+    "source/review-verification.json": "5b13bdf1d7d34a2fd9770417dc6e8e4181b344a948536c546f7110f927b938f3",
+    "source/root-acceptance-r1.json": "176e042b33ba3a09ae6342610c2ab8792c566ab8b9e0b9106be02a6258f663bc",
+    "source/test-vectors.json": "9b050fea646a79af2971eb0a181e1a13982ec233cabc166aac19bb38b6199661",
+    "verify.py": "f3c7fb712776d109fa1750eab2e60d9263ab579dc766a8555ac25efc52058a01"
+  },
+  "provenance_note": "Exact author and reviewer bytes retained locally. Historical private/tmp paths inside source documents are labels, not verifier inputs or publication addresses."
+}

@@ -1,0 +1,501 @@
+{
+  "scope": "independent exact Fraction oracle and pinned importer controls; no product acceptance",
+  "original_vectors": 25,
+  "extra_controls": 12,
+  "numeric_results": [
+    {
+      "token": "1",
+      "exact_classification": "eligible",
+      "publisher_accepts": true,
+      "publisher_error": null
+    },
+    {
+      "token": "1.0",
+      "exact_classification": "invalid-reference",
+      "publisher_accepts": false,
+      "publisher_error": "GeoNames ID must be native positive integer or null"
+    },
+    {
+      "token": "1e0",
+      "exact_classification": "invalid-reference",
+      "publisher_accepts": false,
+      "publisher_error": "GeoNames ID must be native positive integer or null"
+    },
+    {
+      "token": "1000",
+      "exact_classification": "eligible",
+      "publisher_accepts": true,
+      "publisher_error": null
+    },
+    {
+      "token": "1e3",
+      "exact_classification": "invalid-reference",
+      "publisher_accepts": false,
+      "publisher_error": "GeoNames ID must be native positive integer or null"
+    },
+    {
+      "token": "10e-1",
+      "exact_classification": "invalid-reference",
+      "publisher_accepts": false,
+      "publisher_error": "GeoNames ID must be native positive integer or null"
+    },
+    {
+      "token": "9007199254740991",
+      "exact_classification": "eligible",
+      "publisher_accepts": true,
+      "publisher_error": null
+    },
+    {
+      "token": "9007199254740992",
+      "exact_classification": "unsupported-precision",
+      "publisher_accepts": true,
+      "publisher_error": null
+    },
+    {
+      "token": "9007199254740993",
+      "exact_classification": "unsupported-precision",
+      "publisher_accepts": true,
+      "publisher_error": null
+    },
+    {
+      "token": "9.007199254740992e15",
+      "exact_classification": "unsupported-precision",
+      "publisher_accepts": false,
+      "publisher_error": "GeoNames ID must be native positive integer or null"
+    },
+    {
+      "token": "9007199254740992.0",
+      "exact_classification": "unsupported-precision",
+      "publisher_accepts": false,
+      "publisher_error": "GeoNames ID must be native positive integer or null"
+    },
+    {
+      "token": "1.5",
+      "exact_classification": "invalid-reference",
+      "publisher_accepts": false,
+      "publisher_error": "GeoNames ID must be native positive integer or null"
+    },
+    {
+      "token": "1.0000000000000001",
+      "exact_classification": "invalid-reference",
+      "publisher_accepts": false,
+      "publisher_error": "GeoNames ID must be native positive integer or null"
+    },
+    {
+      "token": "9007199254740990.5",
+      "exact_classification": "invalid-reference",
+      "publisher_accepts": false,
+      "publisher_error": "GeoNames ID must be native positive integer or null"
+    },
+    {
+      "token": "1e-400",
+      "exact_classification": "invalid-reference",
+      "publisher_accepts": false,
+      "publisher_error": "GeoNames ID must be native positive integer or null"
+    },
+    {
+      "token": "-0",
+      "exact_classification": "invalid-reference",
+      "publisher_accepts": false,
+      "publisher_error": "GeoNames ID must be native positive integer or null"
+    },
+    {
+      "token": "0",
+      "exact_classification": "invalid-reference",
+      "publisher_accepts": false,
+      "publisher_error": "GeoNames ID must be native positive integer or null"
+    },
+    {
+      "token": "-1",
+      "exact_classification": "invalid-reference",
+      "publisher_accepts": false,
+      "publisher_error": "GeoNames ID must be native positive integer or null"
+    },
+    {
+      "token": "-1.0",
+      "exact_classification": "invalid-reference",
+      "publisher_accepts": false,
+      "publisher_error": "GeoNames ID must be native positive integer or null"
+    },
+    {
+      "token": "\"1\"",
+      "exact_classification": "invalid-reference",
+      "publisher_accepts": false,
+      "publisher_error": "GeoNames ID must be native positive integer or null"
+    },
+    {
+      "token": "\"\"",
+      "exact_classification": "empty-reference",
+      "publisher_accepts": false,
+      "publisher_error": "GeoNames ID must be native positive integer or null"
+    },
+    {
+      "token": "true",
+      "exact_classification": "invalid-reference",
+      "publisher_accepts": false,
+      "publisher_error": "GeoNames ID must be native positive integer or null"
+    },
+    {
+      "token": "null",
+      "exact_classification": "null-reference",
+      "publisher_accepts": true,
+      "publisher_error": null
+    },
+    {
+      "token": "{}",
+      "exact_classification": "invalid-reference",
+      "publisher_accepts": false,
+      "publisher_error": "GeoNames ID must be native positive integer or null"
+    },
+    {
+      "token": "[]",
+      "exact_classification": "invalid-reference",
+      "publisher_accepts": false,
+      "publisher_error": "GeoNames ID must be native positive integer or null"
+    },
+    {
+      "token": "1E+000",
+      "exact_classification": "invalid-reference",
+      "publisher_accepts": false,
+      "publisher_error": "GeoNames ID must be native positive integer or null"
+    },
+    {
+      "token": "1000.000",
+      "exact_classification": "invalid-reference",
+      "publisher_accepts": false,
+      "publisher_error": "GeoNames ID must be native positive integer or null"
+    },
+    {
+      "token": "0.1e1",
+      "exact_classification": "invalid-reference",
+      "publisher_accepts": false,
+      "publisher_error": "GeoNames ID must be native positive integer or null"
+    },
+    {
+      "token": "9007199254740991.0",
+      "exact_classification": "invalid-reference",
+      "publisher_accepts": false,
+      "publisher_error": "GeoNames ID must be native positive integer or null"
+    },
+    {
+      "token": "9007199254740991.1",
+      "exact_classification": "invalid-reference",
+      "publisher_accepts": false,
+      "publisher_error": "GeoNames ID must be native positive integer or null"
+    },
+    {
+      "token": "9007199254740991.0000000000000001",
+      "exact_classification": "invalid-reference",
+      "publisher_accepts": false,
+      "publisher_error": "GeoNames ID must be native positive integer or null"
+    },
+    {
+      "token": "-9007199254740992",
+      "exact_classification": "invalid-reference",
+      "publisher_accepts": false,
+      "publisher_error": "GeoNames ID must be native positive integer or null"
+    },
+    {
+      "token": "-1e400",
+      "exact_classification": "invalid-reference",
+      "publisher_accepts": false,
+      "publisher_error": "non-finite or overflowing JSON number"
+    },
+    {
+      "token": "1e400",
+      "exact_classification": "unsupported-precision",
+      "publisher_accepts": false,
+      "publisher_error": "non-finite or overflowing JSON number"
+    },
+    {
+      "token": "0e400",
+      "exact_classification": "invalid-reference",
+      "publisher_accepts": false,
+      "publisher_error": "GeoNames ID must be native positive integer or null"
+    },
+    {
+      "token": "false",
+      "exact_classification": "invalid-reference",
+      "publisher_accepts": false,
+      "publisher_error": "GeoNames ID must be native positive integer or null"
+    },
+    {
+      "token": "[1,{\"x\":9007199254740993}]",
+      "exact_classification": "invalid-reference",
+      "publisher_accepts": false,
+      "publisher_error": "GeoNames ID must be native positive integer or null"
+    }
+  ],
+  "js_results": [
+    {
+      "token": "1",
+      "number": "1",
+      "safe": true,
+      "finite": true,
+      "negativeZero": false
+    },
+    {
+      "token": "1.0",
+      "number": "1",
+      "safe": true,
+      "finite": true,
+      "negativeZero": false
+    },
+    {
+      "token": "1e0",
+      "number": "1",
+      "safe": true,
+      "finite": true,
+      "negativeZero": false
+    },
+    {
+      "token": "1000",
+      "number": "1000",
+      "safe": true,
+      "finite": true,
+      "negativeZero": false
+    },
+    {
+      "token": "1e3",
+      "number": "1000",
+      "safe": true,
+      "finite": true,
+      "negativeZero": false
+    },
+    {
+      "token": "10e-1",
+      "number": "1",
+      "safe": true,
+      "finite": true,
+      "negativeZero": false
+    },
+    {
+      "token": "9007199254740991",
+      "number": "9007199254740991",
+      "safe": true,
+      "finite": true,
+      "negativeZero": false
+    },
+    {
+      "token": "9007199254740992",
+      "number": "9007199254740992",
+      "safe": false,
+      "finite": true,
+      "negativeZero": false
+    },
+    {
+      "token": "9007199254740993",
+      "number": "9007199254740992",
+      "safe": false,
+      "finite": true,
+      "negativeZero": false
+    },
+    {
+      "token": "9.007199254740992e15",
+      "number": "9007199254740992",
+      "safe": false,
+      "finite": true,
+      "negativeZero": false
+    },
+    {
+      "token": "9007199254740992.0",
+      "number": "9007199254740992",
+      "safe": false,
+      "finite": true,
+      "negativeZero": false
+    },
+    {
+      "token": "1.5",
+      "number": "1.5",
+      "safe": false,
+      "finite": true,
+      "negativeZero": false
+    },
+    {
+      "token": "1.0000000000000001",
+      "number": "1",
+      "safe": true,
+      "finite": true,
+      "negativeZero": false
+    },
+    {
+      "token": "9007199254740990.5",
+      "number": "9007199254740990",
+      "safe": true,
+      "finite": true,
+      "negativeZero": false
+    },
+    {
+      "token": "1e-400",
+      "number": "0",
+      "safe": true,
+      "finite": true,
+      "negativeZero": false
+    },
+    {
+      "token": "-0",
+      "number": "0",
+      "safe": true,
+      "finite": true,
+      "negativeZero": true
+    },
+    {
+      "token": "0",
+      "number": "0",
+      "safe": true,
+      "finite": true,
+      "negativeZero": false
+    },
+    {
+      "token": "-1",
+      "number": "-1",
+      "safe": true,
+      "finite": true,
+      "negativeZero": false
+    },
+    {
+      "token": "-1.0",
+      "number": "-1",
+      "safe": true,
+      "finite": true,
+      "negativeZero": false
+    },
+    {
+      "token": "\"1\"",
+      "number": "1",
+      "safe": false,
+      "finite": null,
+      "negativeZero": false
+    },
+    {
+      "token": "\"\"",
+      "number": "",
+      "safe": false,
+      "finite": null,
+      "negativeZero": false
+    },
+    {
+      "token": "true",
+      "number": "true",
+      "safe": false,
+      "finite": null,
+      "negativeZero": false
+    },
+    {
+      "token": "null",
+      "number": "null",
+      "safe": false,
+      "finite": null,
+      "negativeZero": false
+    },
+    {
+      "token": "{}",
+      "number": "[object Object]",
+      "safe": false,
+      "finite": null,
+      "negativeZero": false
+    },
+    {
+      "token": "[]",
+      "number": "",
+      "safe": false,
+      "finite": null,
+      "negativeZero": false
+    },
+    {
+      "token": "1E+000",
+      "number": "1",
+      "safe": true,
+      "finite": true,
+      "negativeZero": false
+    },
+    {
+      "token": "1000.000",
+      "number": "1000",
+      "safe": true,
+      "finite": true,
+      "negativeZero": false
+    },
+    {
+      "token": "0.1e1",
+      "number": "1",
+      "safe": true,
+      "finite": true,
+      "negativeZero": false
+    },
+    {
+      "token": "9007199254740991.0",
+      "number": "9007199254740991",
+      "safe": true,
+      "finite": true,
+      "negativeZero": false
+    },
+    {
+      "token": "9007199254740991.1",
+      "number": "9007199254740991",
+      "safe": true,
+      "finite": true,
+      "negativeZero": false
+    },
+    {
+      "token": "9007199254740991.0000000000000001",
+      "number": "9007199254740991",
+      "safe": true,
+      "finite": true,
+      "negativeZero": false
+    },
+    {
+      "token": "-9007199254740992",
+      "number": "-9007199254740992",
+      "safe": false,
+      "finite": true,
+      "negativeZero": false
+    },
+    {
+      "token": "-1e400",
+      "number": "-Infinity",
+      "safe": false,
+      "finite": false,
+      "negativeZero": false
+    },
+    {
+      "token": "1e400",
+      "number": "Infinity",
+      "safe": false,
+      "finite": false,
+      "negativeZero": false
+    },
+    {
+      "token": "0e400",
+      "number": "0",
+      "safe": true,
+      "finite": true,
+      "negativeZero": false
+    },
+    {
+      "token": "false",
+      "number": "false",
+      "safe": false,
+      "finite": null,
+      "negativeZero": false
+    },
+    {
+      "token": "[1,{\"x\":9007199254740993}]",
+      "number": "1,[object Object]",
+      "safe": false,
+      "finite": null,
+      "negativeZero": false
+    }
+  ],
+  "malformed_or_ambiguous": [
+    "01",
+    "+1",
+    "NaN",
+    "Infinity",
+    "{\"geonames_id\":1,\"geonames_id\":2}",
+    "{\"geonames_id\":1,\"geonames_\\u0069d\":2}",
+    "{\"geonames_id\":"
+  ],
+  "duplicate_escaped_name_rejected": true,
+  "script_sha256": "fec6e33c403da05706a5db1fe4b0a67d73542b5af97fe5326eba2c6d3e08e3b7"
+}

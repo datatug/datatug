@@ -1,0 +1,11 @@
+{
+  "title": "Accepted bounded P1 JSON wire semantic addendum",
+  "observed_at": "2026-10-05T15:10:23.094263+00:00",
+  "outcome": "decision",
+  "summary": "Root accepted a dedicated, independently reviewed adapter-specific P1 wire restriction and failure-scope reconciliation. Original P1/P2/P3 decision remains immutable; execution, publication, source admission and live J1-J6 remain open.",
+  "repository": "datatug/datatug",
+  "path": "spec/research/public-data-fabric/evidence/w1-p1-wire-addendum/evidence.json",
+  "reviewer": "w1_p1_wire_addendum_curator",
+  "independent": false,
+  "review_stage": "reconciliation"
+}

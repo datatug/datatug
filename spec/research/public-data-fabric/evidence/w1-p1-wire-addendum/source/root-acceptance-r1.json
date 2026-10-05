@@ -1,0 +1,26 @@
+{
+  "id": "w1-p1-wire-root-acceptance-r1",
+  "at": "2026-10-05T15:10:23.094263+00:00",
+  "decision": "accept dedicated semantic proposal and independent reviewer interpretation for canonical addendum and bounded implementation",
+  "proposal": {
+    "path": "/private/tmp/data-fabric-w1-p1-wire-semantic-clarification/proposal.md",
+    "sha256": "6b1096ad1f9162be49cbf4f6be92275d827f65a9d272c8b25b25c72d867a5c1b"
+  },
+  "review": {
+    "path": "/private/tmp/data-fabric-w1-p1-wire-independent/review-r1.md",
+    "sha256": "f7c1e2942e2ca0b5e1a40811f89a1fbff2e800c61c8897f99fcd339b2d5bb416"
+  },
+  "semantic_reconciliation_performed_by": "dedicated author and fresh independent reviewer; not root",
+  "canonical_persistence_required": true,
+  "persistence_requirement": "Preserve original decision; immutable addendum binds proposal and independent review including explicit reconciliation of architecture r2 general type-failure clause with local P1 diagnostics. Update graph/decision/saved-plan refs consistently.",
+  "execution_admitted": false,
+  "publication_admitted": false,
+  "remaining_gates": [
+    "canonical immutable decision binding",
+    "actual parser/executor/Worker/storage/grid vectors specified by reviewer",
+    "source/preparation/runtime admission",
+    "full graph closure",
+    "final integrated checks and independent review",
+    "live J1-J6"
+  ]
+}
