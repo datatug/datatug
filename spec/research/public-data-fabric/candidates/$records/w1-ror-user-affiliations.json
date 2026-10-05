@@ -1,0 +1,16 @@
+{
+  "title": "Hypothetical affiliations.Affiliation",
+  "kind": "recordset",
+  "status": "researched",
+  "evidence_ids": [
+    "w1-ror-user-reconciliation"
+  ],
+  "dataset_id": "w1-ror-user-dataset",
+  "repository": "https://github.com/datatug/datatug-apps",
+  "commit": "e7362033ec79c6663d7dbe0483b62fab01f7b9cd",
+  "identifier_representations": [
+    "affiliation_id: fixture row key; ror_id: optional string, ROR:URL proposal with explicit negative controls"
+  ],
+  "reason": "Exact source-qualified field, not every field or a universal user mapping. NULL and malformed control rows do not implement an identifier; preserve them as exceptions.",
+  "research_depth": "sampled"
+}
