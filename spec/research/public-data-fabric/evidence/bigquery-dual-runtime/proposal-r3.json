@@ -268,12 +268,12 @@
     "Exact shipped Sneat package artifact still to verify",
     "No CI/deployment conclusion",
     "No independent review of this newly authored proposal yet",
-    "Hub 691/1177 counts parent-provided, not reverified",
+    "Original 691 candidates and 1177 assertions verified byte-for-byte unchanged by the curated packet verifier",
     "No Go implementation or live jobs executed",
     "Go repository not created",
     "Go SDK release version must be pinned and compile-checked during implementation",
     "OpenVaultDB GitHub code search returned incomplete_results=true",
-    "No independent review of proposal r2 yet"
+    "Proposal r2 independently reviewed; review and mandatory amendments preserved in history/review-r1.md and integrated into r3"
   ],
   "evidence": [
     {
