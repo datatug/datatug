@@ -1,0 +1,2033 @@
+{
+  "observed_at": "2026-10-05T04:17:07.888813+00:00",
+  "scope": "W1 component progress and source-wrapper continuity only; no new semantic decision, execution admission or programme gate acceptance.",
+  "hub_base": "17263dbacabdfe95e53fc3c6980177416bdab941",
+  "programme": {
+    "passed": [
+      "phase0",
+      "phase05",
+      "phase1",
+      "phase2",
+      "phase3"
+    ],
+    "open": [
+      "phase4",
+      "phase5",
+      "phase6"
+    ],
+    "W1": "active",
+    "B1": "open",
+    "launch_ready_scenarios": 0,
+    "historical_records": "All prior candidates, assertions, decisions, questions and gates remain byte-identical; historical Not started gate prose predates this additive component evidence."
+  },
+  "reviews": {
+    "ror-source": {
+      "path": "evidence/w1-ror-source-review-r2.md",
+      "sha256": "71a8a3a23b6ef5bfe42020a097224f085a6eba56c4e15408da8fd2ca0ebc8a39",
+      "original_filename": "review-r2.md",
+      "verdict": "VERDICT: blockers=0 majors=0 minors=0 land=yes"
+    },
+    "geo-source": {
+      "path": "evidence/w1-geo-source-review-r2.md",
+      "sha256": "280d016a2a2852fa43292186a23c75560b6c8ee0bbe7ae33f0dff8b7e9aeef1f",
+      "original_filename": "review-r2.md",
+      "verdict": "VERDICT: blockers=0 majors=0 minors=0 land=yes"
+    },
+    "bridge-helper": {
+      "path": "evidence/w1-bridge-helper-review-r2.md",
+      "sha256": "6d5b7aa8f8bf29fd0cea4a80bae461fc49f1e71f8f79c8bfaadf99382e9ff94f",
+      "original_filename": "review-r2.md",
+      "verdict": "VERDICT: blockers=0 majors=0 minors=0 land=no"
+    },
+    "native-helper": {
+      "path": "evidence/w1-native-helper-review-r2.md",
+      "sha256": "4f0a43157ba94e0893ee8168bbb9f50d44ee774aa876310ca4c8c1ec88bf4659",
+      "original_filename": "review-r2.md",
+      "verdict": "VERDICT: blockers=0 majors=0 minors=0 land=yes"
+    },
+    "ror-user": {
+      "path": "evidence/w1-ror-user-review-r1.md",
+      "sha256": "3c81dc20c7b3b5ccb6399149aa0753f8ac05b0049567d8bad7ff5e69f2d8f3cc",
+      "original_filename": "review-r1.md",
+      "verdict": "VERDICT: blockers=0 majors=0 minors=0 land=yes"
+    },
+    "ror-wrapper": {
+      "path": "evidence/w1-ror-wrapper-review-r2.md",
+      "sha256": "0ad30ae759deec4c17c8343f3f87b6d507d9f3912f3fe55ff5e13e182e29544d",
+      "original_filename": "review-r2.md",
+      "verdict": "VERDICT: blockers=0 majors=0 minors=0 land=yes"
+    },
+    "geo-wrapper": {
+      "path": "evidence/w1-geo-wrapper-review-r1.md",
+      "sha256": "b3e193a660f82dc7c234ca33c621e9d450dcebd3c146a368eca0bc6de39dd0dd",
+      "original_filename": "review-r1.md",
+      "verdict": "VERDICT: blockers=0 majors=2 minors=1 land=no"
+    },
+    "snapshot-association": {
+      "path": "evidence/w1-snapshot-association-review-r1.md",
+      "sha256": "72d4a775ac2902d63a12cb8987d8c7896ed859a0144593a75967d3c26690099f",
+      "original_filename": "review-r1.md",
+      "verdict": "VERDICT: blockers=0 majors=0 minors=0 land=yes"
+    },
+    "apps": {
+      "path": "evidence/w1-apps-review-r2.md",
+      "sha256": "6be4484ac4eefcf5ba4903b4c3a2cd76a770907ff9c13a884afb7698144a2187",
+      "original_filename": "review-r2.md",
+      "verdict": "VERDICT: blockers=0 majors=0 minors=0 land=yes"
+    },
+    "geo-wrapper-r2": {
+      "path": "evidence/w1-geo-wrapper-review-r2.md",
+      "sha256": "2f652e1b380f1d946d45dc2203c02a1d11451e2873922be5ddeb4e3cf3a9c3ed",
+      "original_filename": "review-r2.md",
+      "verdict": "VERDICT: blockers=0 majors=0 minors=0 land=yes"
+    },
+    "registrations": {
+      "path": "evidence/w1-registrations-review-r1.md",
+      "sha256": "d4d26dcb6ee343568d6250c268ed8a81f182790305bcda91d79900e4fd91da2d",
+      "original_filename": "review-r1.md",
+      "verdict": "VERDICT: blockers=0 majors=0 minors=0 land=yes"
+    }
+  },
+  "publication_receipts": [
+    {
+      "original_receipt": "data-fabric-w1-ror-land.json",
+      "original_sha256": "4c78bad5d35592f9f9460617b02b3f89f7ca010d049c6bb9d785a254deca1c14",
+      "original_bytes": 4996,
+      "receipt": {
+        "verb": "pr land",
+        "outcome": "success",
+        "repository": "ingitdb/ror-ingitdb",
+        "pull_request": 1,
+        "url": "https://github.com/ingitdb/ror-ingitdb/pull/1",
+        "head_sha": "f5f6c0fbc54d792d1062dbdf1cbce1b690f0dd95",
+        "merge_sha": "bbbec903248680caea04e68f94b9a957b6efc55b",
+        "reviewed_head": "f5f6c0fbc54d792d1062dbdf1cbce1b690f0dd95",
+        "review_bound": true,
+        "branch_deleted": true,
+        "landing_on_base": true,
+        "canonical_sync": "fast_forwarded",
+        "cleaned_tasks": [
+          "fabric-w1-ror"
+        ],
+        "kept": false,
+        "source_checks": {
+          "status": "passed",
+          "head": "f5f6c0fbc54d792d1062dbdf1cbce1b690f0dd95",
+          "observed_head": "f5f6c0fbc54d792d1062dbdf1cbce1b690f0dd95",
+          "observed_target_head": "156fa46e53b04f4d0b8aa54e31cca2d86af63038",
+          "required_checks_authority": "github-branch-protection+active-branch-rules+pr-base-verified",
+          "unfenced_validation": true,
+          "reason": "GitHub's required-check policy was enumerated, every required check was present, the candidate contained the exact target, and the observed GitHub check set stayed terminal across a bounded stable reread for validation-only publication; server-side target freshness was intentionally not required because this path does not merge",
+          "checks": [
+            {
+              "name": "check-run:test",
+              "bucket": "pass",
+              "conclusion": "success",
+              "link": "https://github.com/ingitdb/ror-ingitdb/actions/runs/37252004367/job/111581386495"
+            },
+            {
+              "name": "check-run:test",
+              "bucket": "pass",
+              "conclusion": "success",
+              "link": "https://github.com/ingitdb/ror-ingitdb/actions/runs/37252007403/job/111581395461"
+            }
+          ]
+        },
+        "landing_fence": "none; landed on observed checks under --allow-unfenced",
+        "recovery": null
+      }
+    },
+    {
+      "original_receipt": "data-fabric-w1-ror-main-ci.json",
+      "original_sha256": "ed8a829102022ac38cc5a6bb39627e1758d96a0270bbcf6c3fcc1deba9e9e13a",
+      "original_bytes": 1001,
+      "receipt": {
+        "schema_version": 1,
+        "observed_at": "2026-10-05T01:43:14.661115Z",
+        "status": "passed",
+        "repository": "ingitdb/ror-ingitdb",
+        "target": "main",
+        "head": "bbbec903248680caea04e68f94b9a957b6efc55b",
+        "observed_head": "bbbec903248680caea04e68f94b9a957b6efc55b",
+        "observed_target_head": "bbbec903248680caea04e68f94b9a957b6efc55b",
+        "checks": [
+          {
+            "name": "check-run:test",
+            "bucket": "pass",
+            "conclusion": "success",
+            "link": "https://github.com/ingitdb/ror-ingitdb/actions/runs/37252466209/job/111582738702"
+          }
+        ],
+        "required_checks_authority": "github-branch-protection+active-branch-rules"
+      }
+    },
+    {
+      "original_receipt": "data-fabric-w1-geonames-land.json",
+      "original_sha256": "e8a07a6b6c2d3cdc9f989cf3efed99eb4a21256f91caeaee62423a078fe10ad3",
+      "original_bytes": 6761,
+      "receipt": {
+        "verb": "pr land",
+        "outcome": "success",
+        "repository": "ingitdb/geo-ingitdb",
+        "pull_request": 6,
+        "url": "https://github.com/ingitdb/geo-ingitdb/pull/6",
+        "head_sha": "bb603ab40fb8d1478e6ab496e84f6bf02c1e8c3c",
+        "merge_sha": "fc53a3537304dd77a4e97162608454b2da2ae241",
+        "reviewed_head": "bb603ab40fb8d1478e6ab496e84f6bf02c1e8c3c",
+        "review_bound": true,
+        "branch_deleted": true,
+        "landing_on_base": true,
+        "canonical_sync": "fast_forwarded",
+        "cleaned_tasks": [
+          "fabric-w1-geonames"
+        ],
+        "kept": false,
+        "source_checks": {
+          "status": "passed",
+          "head": "bb603ab40fb8d1478e6ab496e84f6bf02c1e8c3c",
+          "observed_head": "bb603ab40fb8d1478e6ab496e84f6bf02c1e8c3c",
+          "observed_target_head": "514b55042645c2bb63aa5a7f85c6171580f3926c",
+          "required_checks_authority": "github-branch-protection+active-branch-rules+pr-base-verified",
+          "unfenced_validation": true,
+          "reason": "GitHub's required-check policy was enumerated, every required check was present, the candidate contained the exact target, and the observed GitHub check set stayed terminal across a bounded stable reread for validation-only publication; server-side target freshness was intentionally not required because this path does not merge",
+          "checks": [
+            {
+              "name": "check-run:Validator",
+              "bucket": "pass",
+              "conclusion": "success",
+              "link": "https://github.com/ingitdb/geo-ingitdb/actions/runs/37253727157/job/111586382714"
+            },
+            {
+              "name": "check-run:ci / Build & test",
+              "bucket": "pass",
+              "conclusion": "success",
+              "link": "https://github.com/ingitdb/geo-ingitdb/actions/runs/37253727561/job/111586383889"
+            },
+            {
+              "name": "check-run:ci / Bump version",
+              "bucket": "skipping",
+              "conclusion": "skipped",
+              "link": "https://github.com/ingitdb/geo-ingitdb/actions/runs/37253727561/job/111586455938"
+            },
+            {
+              "name": "check-run:ci / Lint",
+              "bucket": "pass",
+              "conclusion": "success",
+              "link": "https://github.com/ingitdb/geo-ingitdb/actions/runs/37253727561/job/111586383945"
+            },
+            {
+              "name": "check-run:ci / Publish exact-tree validation receipt",
+              "bucket": "skipping",
+              "conclusion": "skipped",
+              "link": "https://github.com/ingitdb/geo-ingitdb/actions/runs/37253727561/job/111586456154"
+            },
+            {
+              "name": "check-run:ci / Resolve reusable pull-request validation",
+              "bucket": "skipping",
+              "conclusion": "skipped",
+              "link": "https://github.com/ingitdb/geo-ingitdb/actions/runs/37253727561/job/111586384538"
+            },
+            {
+              "name": "check-run:offline_projection",
+              "bucket": "pass",
+              "conclusion": "success",
+              "link": "https://github.com/ingitdb/geo-ingitdb/actions/runs/37253727107/job/111586382347"
+            },
+            {
+              "name": "check-run:wb-import coverage = 100%",
+              "bucket": "pass",
+              "conclusion": "success",
+              "link": "https://github.com/ingitdb/geo-ingitdb/actions/runs/37253727561/job/111586383624"
+            }
+          ]
+        },
+        "landing_fence": "none; landed on observed checks under --allow-unfenced",
+        "recovery": null
+      }
+    },
+    {
+      "original_receipt": "data-fabric-w1-geonames-main-ci.json",
+      "original_sha256": "d278a2f27f25cb3a82aabcfb0102c63d09f75e6dadde057d365e261904da56aa",
+      "original_bytes": 2960,
+      "receipt": {
+        "schema_version": 1,
+        "observed_at": "2026-10-05T02:10:09.762183Z",
+        "status": "passed",
+        "repository": "ingitdb/geo-ingitdb",
+        "target": "main",
+        "head": "fc53a3537304dd77a4e97162608454b2da2ae241",
+        "observed_head": "fc53a3537304dd77a4e97162608454b2da2ae241",
+        "observed_target_head": "fc53a3537304dd77a4e97162608454b2da2ae241",
+        "checks": [
+          {
+            "name": "check-run:Validator",
+            "bucket": "pass",
+            "conclusion": "success",
+            "link": "https://github.com/ingitdb/geo-ingitdb/actions/runs/37254211458/job/111587763218"
+          },
+          {
+            "name": "check-run:ci / Build & test",
+            "bucket": "pass",
+            "conclusion": "success",
+            "link": "https://github.com/ingitdb/geo-ingitdb/actions/runs/37254211913/job/111587765243"
+          },
+          {
+            "name": "check-run:ci / Bump version",
+            "bucket": "skipping",
+            "conclusion": "skipped",
+            "link": "https://github.com/ingitdb/geo-ingitdb/actions/runs/37254211913/job/111587847787"
+          },
+          {
+            "name": "check-run:ci / Lint",
+            "bucket": "pass",
+            "conclusion": "success",
+            "link": "https://github.com/ingitdb/geo-ingitdb/actions/runs/37254211913/job/111587765249"
+          },
+          {
+            "name": "check-run:ci / Publish exact-tree validation receipt",
+            "bucket": "skipping",
+            "conclusion": "skipped",
+            "link": "https://github.com/ingitdb/geo-ingitdb/actions/runs/37254211913/job/111587847513"
+          },
+          {
+            "name": "check-run:ci / Resolve reusable pull-request validation",
+            "bucket": "skipping",
+            "conclusion": "skipped",
+            "link": "https://github.com/ingitdb/geo-ingitdb/actions/runs/37254211913/job/111587765866"
+          },
+          {
+            "name": "check-run:offline_projection",
+            "bucket": "pass",
+            "conclusion": "success",
+            "link": "https://github.com/ingitdb/geo-ingitdb/actions/runs/37254211514/job/111587763672"
+          },
+          {
+            "name": "check-run:wb-import coverage = 100%",
+            "bucket": "pass",
+            "conclusion": "success",
+            "link": "https://github.com/ingitdb/geo-ingitdb/actions/runs/37254211913/job/111587764858"
+          }
+        ],
+        "required_checks_authority": "github-branch-protection+active-branch-rules"
+      }
+    },
+    {
+      "original_receipt": "data-fabric-w1-contract-land.json",
+      "original_sha256": "2bc65ab64ca1ad0819f129a1aadefd54b04362a5db9d24107e672e9427c06042",
+      "original_bytes": 9243,
+      "receipt": {
+        "verb": "pr land",
+        "outcome": "success",
+        "repository": "openvaultdb/ovdb",
+        "pull_request": 42,
+        "url": "https://github.com/openvaultdb/ovdb/pull/42",
+        "head_sha": "18cfe991dc4dd47fece2ec354dda95146e7d260a",
+        "merge_sha": "aec07d17be1e074210acefddb858363ce7777704",
+        "reviewed_head": "18cfe991dc4dd47fece2ec354dda95146e7d260a",
+        "review_bound": true,
+        "branch_deleted": true,
+        "landing_on_base": true,
+        "canonical_sync": "fast_forwarded",
+        "cleaned_tasks": [
+          "fabric-w1-projection-contract"
+        ],
+        "kept": false,
+        "source_checks": {
+          "status": "passed",
+          "head": "18cfe991dc4dd47fece2ec354dda95146e7d260a",
+          "observed_head": "18cfe991dc4dd47fece2ec354dda95146e7d260a",
+          "observed_target_head": "73bea463f2dfcfe610358d004707260b5ceeda31",
+          "required_checks_authority": "github-branch-protection+active-branch-rules+pr-base-verified",
+          "unfenced_validation": true,
+          "reason": "GitHub's required-check policy was enumerated, every required check was present, the candidate contained the exact target, and the observed GitHub check set stayed terminal across a bounded stable reread for validation-only publication; server-side target freshness was intentionally not required because this path does not merge",
+          "checks": [
+            {
+              "name": "check-run:Exact coverage (publisher check packages)",
+              "bucket": "pass",
+              "conclusion": "success",
+              "link": "https://github.com/openvaultdb/ovdb/actions/runs/37252803923/job/111583708174"
+            },
+            {
+              "name": "check-run:Lifecycle and paths (macos-latest)",
+              "bucket": "pass",
+              "conclusion": "success",
+              "link": "https://github.com/openvaultdb/ovdb/actions/runs/37252803923/job/111583708283"
+            },
+            {
+              "name": "check-run:Lifecycle and paths (ubuntu-latest)",
+              "bucket": "pass",
+              "conclusion": "success",
+              "link": "https://github.com/openvaultdb/ovdb/actions/runs/37252803923/job/111583708213"
+            },
+            {
+              "name": "check-run:Lifecycle and paths (windows-latest)",
+              "bucket": "pass",
+              "conclusion": "success",
+              "link": "https://github.com/openvaultdb/ovdb/actions/runs/37252803923/job/111583708268"
+            },
+            {
+              "name": "check-run:Parity goldens are current (publisher check packages)",
+              "bucket": "pass",
+              "conclusion": "success",
+              "link": "https://github.com/openvaultdb/ovdb/actions/runs/37252803923/job/111583708266"
+            },
+            {
+              "name": "check-run:Web build, test, embed and browser tests",
+              "bucket": "pass",
+              "conclusion": "success",
+              "link": "https://github.com/openvaultdb/ovdb/actions/runs/37252803923/job/111583708065"
+            },
+            {
+              "name": "check-run:go.mod is tidy",
+              "bucket": "pass",
+              "conclusion": "success",
+              "link": "https://github.com/openvaultdb/ovdb/actions/runs/37252803923/job/111583708236"
+            },
+            {
+              "name": "check-run:strongo_workflow / Build & test",
+              "bucket": "pass",
+              "conclusion": "success",
+              "link": "https://github.com/openvaultdb/ovdb/actions/runs/37252803923/job/111583708221"
+            },
+            {
+              "name": "check-run:strongo_workflow / Bump version",
+              "bucket": "skipping",
+              "conclusion": "skipped",
+              "link": "https://github.com/openvaultdb/ovdb/actions/runs/37252803923/job/111583905299"
+            },
+            {
+              "name": "check-run:strongo_workflow / Lint",
+              "bucket": "pass",
+              "conclusion": "success",
+              "link": "https://github.com/openvaultdb/ovdb/actions/runs/37252803923/job/111583708385"
+            }
+          ]
+        },
+        "landing_fence": "none; landed on observed checks under --allow-unfenced",
+        "recovery": null
+      }
+    },
+    {
+      "original_receipt": "data-fabric-w1-contract-main-ci.json",
+      "original_sha256": "a273f23bda8956dffcf2eced908367952028c63dbf58fa0625a5d09a8880e48d",
+      "original_bytes": 5955,
+      "receipt": {
+        "schema_version": 1,
+        "observed_at": "2026-10-05T02:10:10.602273Z",
+        "status": "passed",
+        "repository": "openvaultdb/ovdb",
+        "target": "main",
+        "head": "aec07d17be1e074210acefddb858363ce7777704",
+        "observed_head": "aec07d17be1e074210acefddb858363ce7777704",
+        "observed_target_head": "aec07d17be1e074210acefddb858363ce7777704",
+        "checks": [
+          {
+            "name": "check-run:Build + release (GitHub release, Homebrew cask) / Build and upload release artifacts",
+            "bucket": "pass",
+            "conclusion": "success",
+            "link": "https://github.com/openvaultdb/ovdb/actions/runs/37253328474/job/111585237918"
+          },
+          {
+            "name": "check-run:Build + release (GitHub release, Homebrew cask) / Finalize public release tag",
+            "bucket": "pass",
+            "conclusion": "success",
+            "link": "https://github.com/openvaultdb/ovdb/actions/runs/37253328474/job/111587429121"
+          },
+          {
+            "name": "check-run:Build + release (GitHub release, Homebrew cask) / Resolve release test configuration",
+            "bucket": "pass",
+            "conclusion": "success",
+            "link": "https://github.com/openvaultdb/ovdb/actions/runs/37253328474/job/111585238104"
+          },
+          {
+            "name": "check-run:Build + release (GitHub release, Homebrew cask) / Smoke test Homebrew cask install (darwin/arm64)",
+            "bucket": "pass",
+            "conclusion": "success",
+            "link": "https://github.com/openvaultdb/ovdb/actions/runs/37253328474/job/111587429123"
+          },
+          {
+            "name": "check-run:Build + release (GitHub release, Homebrew cask) / Smoke test published artifact (darwin/arm64)",
+            "bucket": "pass",
+            "conclusion": "success",
+            "link": "https://github.com/openvaultdb/ovdb/actions/runs/37253328474/job/111587429173"
+          },
+          {
+            "name": "check-run:Build + release (GitHub release, Homebrew cask) / Smoke test published artifact (linux/amd64)",
+            "bucket": "pass",
+            "conclusion": "success",
+            "link": "https://github.com/openvaultdb/ovdb/actions/runs/37253328474/job/111587429194"
+          },
+          {
+            "name": "check-run:Build + release (GitHub release, Homebrew cask) / Verify signed macOS artifact and promote draft release",
+            "bucket": "pass",
+            "conclusion": "success",
+            "link": "https://github.com/openvaultdb/ovdb/actions/runs/37253328474/job/111587367619"
+          },
+          {
+            "name": "check-run:Exact coverage (publisher check packages)",
+            "bucket": "pass",
+            "conclusion": "success",
+            "link": "https://github.com/openvaultdb/ovdb/actions/runs/37253328322/job/111585237375"
+          },
+          {
+            "name": "check-run:Lifecycle and paths (macos-latest)",
+            "bucket": "pass",
+            "conclusion": "success",
+            "link": "https://github.com/openvaultdb/ovdb/actions/runs/37253328322/job/111585237493"
+          },
+          {
+            "name": "check-run:Lifecycle and paths (ubuntu-latest)",
+            "bucket": "pass",
+            "conclusion": "success",
+            "link": "https://github.com/openvaultdb/ovdb/actions/runs/37253328322/job/111585237461"
+          },
+          {
+            "name": "check-run:Lifecycle and paths (windows-latest)",
+            "bucket": "pass",
+            "conclusion": "success",
+            "link": "https://github.com/openvaultdb/ovdb/actions/runs/37253328322/job/111585237437"
+          },
+          {
+            "name": "check-run:Parity goldens are current (publisher check packages)",
+            "bucket": "pass",
+            "conclusion": "success",
+            "link": "https://github.com/openvaultdb/ovdb/actions/runs/37253328322/job/111585237399"
+          },
+          {
+            "name": "check-run:Web build, test, embed and browser tests",
+            "bucket": "pass",
+            "conclusion": "success",
+            "link": "https://github.com/openvaultdb/ovdb/actions/runs/37253328322/job/111585237285"
+          },
+          {
+            "name": "check-run:go.mod is tidy",
+            "bucket": "pass",
+            "conclusion": "success",
+            "link": "https://github.com/openvaultdb/ovdb/actions/runs/37253328322/job/111585237353"
+          },
+          {
+            "name": "check-run:strongo_workflow / Build & test",
+            "bucket": "pass",
+            "conclusion": "success",
+            "link": "https://github.com/openvaultdb/ovdb/actions/runs/37253328322/job/111585237518"
+          },
+          {
+            "name": "check-run:strongo_workflow / Bump version",
+            "bucket": "skipping",
+            "conclusion": "skipped",
+            "link": "https://github.com/openvaultdb/ovdb/actions/runs/37253328322/job/111585459926"
+          },
+          {
+            "name": "check-run:strongo_workflow / Lint",
+            "bucket": "pass",
+            "conclusion": "success",
+            "link": "https://github.com/openvaultdb/ovdb/actions/runs/37253328322/job/111585237524"
+          }
+        ],
+        "required_checks_authority": "github-branch-protection+active-branch-rules"
+      }
+    },
+    {
+      "original_receipt": "data-fabric-w1-contract-release.json",
+      "original_sha256": "dbff1ad2a48563e1eaa0b816030a8e7678abba3f33bf0b774acaea03b7c7d92d",
+      "original_bytes": 1026,
+      "receipt": {
+        "assets": [
+          {
+            "digest": "sha256:c84ea8fc6b477b38ee00065e9e3f45d5173cf2e884062fe20c85ada162ac0b46",
+            "name": "checksums.txt",
+            "size": 486
+          },
+          {
+            "digest": "sha256:c5fc53342dcbb8c41446889c7d991e773f7771ba98fe120734dd842fa6959607",
+            "name": "ovdb_0.24.0_darwin_amd64.tar.gz",
+            "size": 16008410
+          },
+          {
+            "digest": "sha256:90d2588ba332ac1bac8677a25bb521c2cfd6aaa86d275bc56c472bebd062d0c7",
+            "name": "ovdb_0.24.0_darwin_arm64.tar.gz",
+            "size": 14684318
+          },
+          {
+            "digest": "sha256:8df74fdfd76fedcd8fe0766cf4754a11e62d18499f5f85fd9fa913973b41a775",
+            "name": "ovdb_0.24.0_linux_amd64.tar.gz",
+            "size": 15434183
+          },
+          {
+            "digest": "sha256:bfe3df84018094f9b82c46fc820708131942a2818fd59c8a9214d1d4c5c4337d",
+            "name": "ovdb_0.24.0_linux_arm64.tar.gz",
+            "size": 14112910
+          },
+          {
+            "digest": "sha256:537d4860005cc97091d677f5bacd13c11a8f11a12798b8ca3f938460a740fd81",
+            "name": "ovdb_0.24.0_windows_amd64.zip",
+            "size": 15677448
+          }
+        ],
+        "draft": false,
+        "html_url": "https://github.com/openvaultdb/ovdb/releases/tag/v0.24.0",
+        "prerelease": false,
+        "published_at": "2026-10-05T02:06:59Z",
+        "tag_name": "v0.24.0",
+        "target_commitish": "main"
+      }
+    },
+    {
+      "original_receipt": "data-fabric-w1-contract-release-ref.json",
+      "original_sha256": "51c96d3b45c48486a8bee68a9198cadfce5c67dfadf97f798df7682a702fc6d4",
+      "original_bytes": 174,
+      "receipt": {
+        "sha": "aec07d17be1e074210acefddb858363ce7777704",
+        "type": "commit",
+        "url": "https://api.github.com/repos/openvaultdb/ovdb/git/commits/aec07d17be1e074210acefddb858363ce7777704"
+      }
+    },
+    {
+      "original_receipt": "data-fabric-w1-ror-user-land.json",
+      "original_sha256": "2aabf97f4fad90482fcd076c570a9d3d2d4c009c42a77ad85a2df8ee5da3a823",
+      "original_bytes": 5542,
+      "receipt": {
+        "verb": "pr land",
+        "outcome": "success",
+        "repository": "datatug/datatug",
+        "pull_request": 91,
+        "url": "https://github.com/datatug/datatug/pull/91",
+        "head_sha": "f8093950122e000aaccffefb7c478adeaf275fbf",
+        "merge_sha": "17263dbacabdfe95e53fc3c6980177416bdab941",
+        "reviewed_head": "f8093950122e000aaccffefb7c478adeaf275fbf",
+        "review_bound": true,
+        "branch_deleted": true,
+        "landing_on_base": true,
+        "canonical_sync": "fast_forwarded",
+        "cleaned_tasks": [
+          "fabric-w1-ror-user-contract"
+        ],
+        "kept": false,
+        "source_checks": {
+          "status": "passed",
+          "head": "f8093950122e000aaccffefb7c478adeaf275fbf",
+          "observed_head": "f8093950122e000aaccffefb7c478adeaf275fbf",
+          "observed_target_head": "2694ed58c8bb82277324030cf82a596ee1695db5",
+          "required_checks_authority": "github-branch-protection+active-branch-rules+pr-base-verified",
+          "unfenced_validation": true,
+          "reason": "GitHub's required-check policy was enumerated, every required check was present, the candidate contained the exact target, and the observed GitHub check set stayed terminal across a bounded stable reread for validation-only publication; server-side target freshness was intentionally not required because this path does not merge",
+          "checks": [
+            {
+              "name": "check-run:ledger",
+              "bucket": "pass",
+              "conclusion": "success",
+              "link": "https://github.com/datatug/datatug/actions/runs/37253879652/job/111586820013"
+            }
+          ]
+        },
+        "landing_fence": "none; landed on observed checks under --allow-unfenced",
+        "recovery": null
+      }
+    },
+    {
+      "original_receipt": "data-fabric-w1-ror-user-main-ci.json",
+      "original_sha256": "33e7a201e5e2dd14ce72da872884a87986b9e5c1fa95c258dd6ebf76e760a2ba",
+      "original_bytes": 995,
+      "receipt": {
+        "schema_version": 1,
+        "observed_at": "2026-10-05T02:16:55.459743Z",
+        "status": "passed",
+        "repository": "datatug/datatug",
+        "target": "main",
+        "head": "17263dbacabdfe95e53fc3c6980177416bdab941",
+        "observed_head": "17263dbacabdfe95e53fc3c6980177416bdab941",
+        "observed_target_head": "17263dbacabdfe95e53fc3c6980177416bdab941",
+        "checks": [
+          {
+            "name": "check-run:ledger",
+            "bucket": "pass",
+            "conclusion": "success",
+            "link": "https://github.com/datatug/datatug/actions/runs/37254696737/job/111589164526"
+          }
+        ],
+        "required_checks_authority": "github-branch-protection+active-branch-rules"
+      }
+    },
+    {
+      "original_receipt": "data-fabric-w1-native-contract-land.json",
+      "original_sha256": "5c13fe6bd206917a0750a87deb95f78458da5c0a0ae0a9ed2b19b7394f201f3b",
+      "original_bytes": 10369,
+      "receipt": {
+        "verb": "pr land",
+        "outcome": "success",
+        "repository": "openvaultdb/ovdb",
+        "pull_request": 43,
+        "url": "https://github.com/openvaultdb/ovdb/pull/43",
+        "head_sha": "191cf7d36618ee529696ce758ad007f0db61309d",
+        "merge_sha": "d166a1f8a38a644de9d11f381ad406dad3f89b36",
+        "reviewed_head": "191cf7d36618ee529696ce758ad007f0db61309d",
+        "review_bound": true,
+        "branch_deleted": true,
+        "landing_on_base": true,
+        "canonical_sync": "fast_forwarded",
+        "cleaned_tasks": [
+          "fabric-w1-native-contract"
+        ],
+        "kept": false,
+        "source_checks": {
+          "status": "passed",
+          "head": "191cf7d36618ee529696ce758ad007f0db61309d",
+          "observed_head": "191cf7d36618ee529696ce758ad007f0db61309d",
+          "observed_target_head": "aec07d17be1e074210acefddb858363ce7777704",
+          "required_checks_authority": "github-branch-protection+active-branch-rules+pr-base-verified",
+          "unfenced_validation": true,
+          "reason": "GitHub's required-check policy was enumerated, every required check was present, the candidate contained the exact target, and the observed GitHub check set stayed terminal across a bounded stable reread for validation-only publication; server-side target freshness was intentionally not required because this path does not merge",
+          "checks": [
+            {
+              "name": "check-run:Exact coverage (publisher check packages)",
+              "bucket": "pass",
+              "conclusion": "success",
+              "link": "https://github.com/openvaultdb/ovdb/actions/runs/37256175837/job/111593630593"
+            },
+            {
+              "name": "check-run:Lifecycle and paths (macos-latest)",
+              "bucket": "pass",
+              "conclusion": "success",
+              "link": "https://github.com/openvaultdb/ovdb/actions/runs/37256175837/job/111593630652"
+            },
+            {
+              "name": "check-run:Lifecycle and paths (ubuntu-latest)",
+              "bucket": "pass",
+              "conclusion": "success",
+              "link": "https://github.com/openvaultdb/ovdb/actions/runs/37256175837/job/111593630664"
+            },
+            {
+              "name": "check-run:Lifecycle and paths (windows-latest)",
+              "bucket": "pass",
+              "conclusion": "success",
+              "link": "https://github.com/openvaultdb/ovdb/actions/runs/37256175837/job/111593630656"
+            },
+            {
+              "name": "check-run:Parity goldens are current (publisher check packages)",
+              "bucket": "pass",
+              "conclusion": "success",
+              "link": "https://github.com/openvaultdb/ovdb/actions/runs/37256175837/job/111593630631"
+            },
+            {
+              "name": "check-run:Web build, test, embed and browser tests",
+              "bucket": "pass",
+              "conclusion": "success",
+              "link": "https://github.com/openvaultdb/ovdb/actions/runs/37256175837/job/111593630576"
+            },
+            {
+              "name": "check-run:go.mod is tidy",
+              "bucket": "pass",
+              "conclusion": "success",
+              "link": "https://github.com/openvaultdb/ovdb/actions/runs/37256175837/job/111593630452"
+            },
+            {
+              "name": "check-run:strongo_workflow / Build & test",
+              "bucket": "pass",
+              "conclusion": "success",
+              "link": "https://github.com/openvaultdb/ovdb/actions/runs/37256175837/job/111593630649"
+            },
+            {
+              "name": "check-run:strongo_workflow / Bump version",
+              "bucket": "skipping",
+              "conclusion": "skipped",
+              "link": "https://github.com/openvaultdb/ovdb/actions/runs/37256175837/job/111593821349"
+            },
+            {
+              "name": "check-run:strongo_workflow / Lint",
+              "bucket": "pass",
+              "conclusion": "success",
+              "link": "https://github.com/openvaultdb/ovdb/actions/runs/37256175837/job/111593630743"
+            }
+          ]
+        },
+        "landing_fence": "none; landed on observed checks under --allow-unfenced",
+        "recovery": null
+      }
+    },
+    {
+      "original_receipt": "data-fabric-w1-native-contract-main-ci.json",
+      "original_sha256": "4c000aec18d46201308fd67307e474b374afd752be206293e1cc18f3068735a5",
+      "original_bytes": 5955,
+      "receipt": {
+        "schema_version": 1,
+        "observed_at": "2026-10-05T03:04:44.057091Z",
+        "status": "passed",
+        "repository": "openvaultdb/ovdb",
+        "target": "main",
+        "head": "d166a1f8a38a644de9d11f381ad406dad3f89b36",
+        "observed_head": "d166a1f8a38a644de9d11f381ad406dad3f89b36",
+        "observed_target_head": "d166a1f8a38a644de9d11f381ad406dad3f89b36",
+        "checks": [
+          {
+            "name": "check-run:Build + release (GitHub release, Homebrew cask) / Build and upload release artifacts",
+            "bucket": "pass",
+            "conclusion": "success",
+            "link": "https://github.com/openvaultdb/ovdb/actions/runs/37257091138/job/111596405655"
+          },
+          {
+            "name": "check-run:Build + release (GitHub release, Homebrew cask) / Finalize public release tag",
+            "bucket": "pass",
+            "conclusion": "success",
+            "link": "https://github.com/openvaultdb/ovdb/actions/runs/37257091138/job/111598532628"
+          },
+          {
+            "name": "check-run:Build + release (GitHub release, Homebrew cask) / Resolve release test configuration",
+            "bucket": "pass",
+            "conclusion": "success",
+            "link": "https://github.com/openvaultdb/ovdb/actions/runs/37257091138/job/111596405953"
+          },
+          {
+            "name": "check-run:Build + release (GitHub release, Homebrew cask) / Smoke test Homebrew cask install (darwin/arm64)",
+            "bucket": "pass",
+            "conclusion": "success",
+            "link": "https://github.com/openvaultdb/ovdb/actions/runs/37257091138/job/111598532703"
+          },
+          {
+            "name": "check-run:Build + release (GitHub release, Homebrew cask) / Smoke test published artifact (darwin/arm64)",
+            "bucket": "pass",
+            "conclusion": "success",
+            "link": "https://github.com/openvaultdb/ovdb/actions/runs/37257091138/job/111598532645"
+          },
+          {
+            "name": "check-run:Build + release (GitHub release, Homebrew cask) / Smoke test published artifact (linux/amd64)",
+            "bucket": "pass",
+            "conclusion": "success",
+            "link": "https://github.com/openvaultdb/ovdb/actions/runs/37257091138/job/111598532648"
+          },
+          {
+            "name": "check-run:Build + release (GitHub release, Homebrew cask) / Verify signed macOS artifact and promote draft release",
+            "bucket": "pass",
+            "conclusion": "success",
+            "link": "https://github.com/openvaultdb/ovdb/actions/runs/37257091138/job/111598466387"
+          },
+          {
+            "name": "check-run:Exact coverage (publisher check packages)",
+            "bucket": "pass",
+            "conclusion": "success",
+            "link": "https://github.com/openvaultdb/ovdb/actions/runs/37257091166/job/111596406128"
+          },
+          {
+            "name": "check-run:Lifecycle and paths (macos-latest)",
+            "bucket": "pass",
+            "conclusion": "success",
+            "link": "https://github.com/openvaultdb/ovdb/actions/runs/37257091166/job/111596405984"
+          },
+          {
+            "name": "check-run:Lifecycle and paths (ubuntu-latest)",
+            "bucket": "pass",
+            "conclusion": "success",
+            "link": "https://github.com/openvaultdb/ovdb/actions/runs/37257091166/job/111596405948"
+          },
+          {
+            "name": "check-run:Lifecycle and paths (windows-latest)",
+            "bucket": "pass",
+            "conclusion": "success",
+            "link": "https://github.com/openvaultdb/ovdb/actions/runs/37257091166/job/111596405939"
+          },
+          {
+            "name": "check-run:Parity goldens are current (publisher check packages)",
+            "bucket": "pass",
+            "conclusion": "success",
+            "link": "https://github.com/openvaultdb/ovdb/actions/runs/37257091166/job/111596405999"
+          },
+          {
+            "name": "check-run:Web build, test, embed and browser tests",
+            "bucket": "pass",
+            "conclusion": "success",
+            "link": "https://github.com/openvaultdb/ovdb/actions/runs/37257091166/job/111596406004"
+          },
+          {
+            "name": "check-run:go.mod is tidy",
+            "bucket": "pass",
+            "conclusion": "success",
+            "link": "https://github.com/openvaultdb/ovdb/actions/runs/37257091166/job/111596405879"
+          },
+          {
+            "name": "check-run:strongo_workflow / Build & test",
+            "bucket": "pass",
+            "conclusion": "success",
+            "link": "https://github.com/openvaultdb/ovdb/actions/runs/37257091166/job/111596406104"
+          },
+          {
+            "name": "check-run:strongo_workflow / Bump version",
+            "bucket": "skipping",
+            "conclusion": "skipped",
+            "link": "https://github.com/openvaultdb/ovdb/actions/runs/37257091166/job/111596626975"
+          },
+          {
+            "name": "check-run:strongo_workflow / Lint",
+            "bucket": "pass",
+            "conclusion": "success",
+            "link": "https://github.com/openvaultdb/ovdb/actions/runs/37257091166/job/111596406081"
+          }
+        ],
+        "required_checks_authority": "github-branch-protection+active-branch-rules"
+      }
+    },
+    {
+      "original_receipt": "data-fabric-w1-native-contract-release.json",
+      "original_sha256": "b1f16f9c841ce4c96b3df7f1809d279fcf089d3827e7c9aa6d0d0155ff6ca33a",
+      "original_bytes": 1026,
+      "receipt": {
+        "assets": [
+          {
+            "digest": "sha256:895ce04cba7515db0bb8fcb36ff6c9770cad901b6c2699508eeedf10c3501453",
+            "name": "checksums.txt",
+            "size": 486
+          },
+          {
+            "digest": "sha256:7060760fd0405042ddf95f81aebf6f8e177e640463690eedf087c18049f55842",
+            "name": "ovdb_0.25.0_darwin_amd64.tar.gz",
+            "size": 16008439
+          },
+          {
+            "digest": "sha256:e8775fe820118c0a21624bfc983625e0020175f08dd8976d347849d96ae5279c",
+            "name": "ovdb_0.25.0_darwin_arm64.tar.gz",
+            "size": 14684301
+          },
+          {
+            "digest": "sha256:3e2a25e7f399f30f10db1136d1c5d3316503e9e418b823aae5bbdf7c6f82bf31",
+            "name": "ovdb_0.25.0_linux_amd64.tar.gz",
+            "size": 15434141
+          },
+          {
+            "digest": "sha256:47d51a40b386198a03dd41c43b0ee5379509dd7abbd266e116e3a57927d97f59",
+            "name": "ovdb_0.25.0_linux_arm64.tar.gz",
+            "size": 14112877
+          },
+          {
+            "digest": "sha256:0b96c0a8d693711fa33017fcfb72e5643a4b993b5f66d0b6c11ba4857887d70a",
+            "name": "ovdb_0.25.0_windows_amd64.zip",
+            "size": 15677141
+          }
+        ],
+        "draft": false,
+        "html_url": "https://github.com/openvaultdb/ovdb/releases/tag/v0.25.0",
+        "prerelease": false,
+        "published_at": "2026-10-05T03:02:56Z",
+        "tag_name": "v0.25.0",
+        "target_commitish": "main"
+      }
+    },
+    {
+      "original_receipt": "data-fabric-w1-native-contract-release-ref.json",
+      "original_sha256": "e7e01b3b5ae005ebdc0aff7022d91b898cf0e52383863505c6849379a7db8f69",
+      "original_bytes": 211,
+      "receipt": {
+        "object": {
+          "sha": "d166a1f8a38a644de9d11f381ad406dad3f89b36",
+          "type": "commit",
+          "url": "https://api.github.com/repos/openvaultdb/ovdb/git/commits/d166a1f8a38a644de9d11f381ad406dad3f89b36"
+        },
+        "ref": "refs/tags/v0.25.0"
+      }
+    },
+    {
+      "original_receipt": "data-fabric-w1-ror-artifact-land.json",
+      "original_sha256": "69e45fda4febf0d47d9ee7185af39b3dd88d1257bced5227f513c74d971e59e5",
+      "original_bytes": 5046,
+      "receipt": {
+        "verb": "pr land",
+        "outcome": "success",
+        "repository": "ingitdb/ror-ingitdb",
+        "pull_request": 3,
+        "url": "https://github.com/ingitdb/ror-ingitdb/pull/3",
+        "head_sha": "ef4a0942a5516b962384a18d46344a3f2ef57959",
+        "merge_sha": "dc78c1e929f1f10018f8c39e690351059a50c71f",
+        "reviewed_head": "ef4a0942a5516b962384a18d46344a3f2ef57959",
+        "review_bound": true,
+        "branch_deleted": true,
+        "landing_on_base": true,
+        "canonical_sync": "fast_forwarded",
+        "cleaned_tasks": [
+          "fabric-w1-ror-artifacts"
+        ],
+        "kept": false,
+        "source_checks": {
+          "status": "passed",
+          "head": "ef4a0942a5516b962384a18d46344a3f2ef57959",
+          "observed_head": "ef4a0942a5516b962384a18d46344a3f2ef57959",
+          "observed_target_head": "bbbec903248680caea04e68f94b9a957b6efc55b",
+          "required_checks_authority": "github-branch-protection+active-branch-rules+pr-base-verified",
+          "unfenced_validation": true,
+          "reason": "GitHub's required-check policy was enumerated, every required check was present, the candidate contained the exact target, and the observed GitHub check set stayed terminal across a bounded stable reread for validation-only publication; server-side target freshness was intentionally not required because this path does not merge",
+          "checks": [
+            {
+              "name": "check-run:test",
+              "bucket": "pass",
+              "conclusion": "success",
+              "link": "https://github.com/ingitdb/ror-ingitdb/actions/runs/37257616835/job/111597960715"
+            },
+            {
+              "name": "check-run:test",
+              "bucket": "pass",
+              "conclusion": "success",
+              "link": "https://github.com/ingitdb/ror-ingitdb/actions/runs/37257621661/job/111597975765"
+            }
+          ]
+        },
+        "landing_fence": "none; landed on observed checks under --allow-unfenced",
+        "recovery": null
+      }
+    },
+    {
+      "original_receipt": "data-fabric-w1-ror-artifact-main-ci.json",
+      "original_sha256": "3dda78e7d0f7600355db2ba36357cd15d7b9c316e59656b5771bc44b7881ddd0",
+      "original_bytes": 1001,
+      "receipt": {
+        "schema_version": 1,
+        "observed_at": "2026-10-05T03:12:59.901227Z",
+        "status": "passed",
+        "repository": "ingitdb/ror-ingitdb",
+        "target": "main",
+        "head": "dc78c1e929f1f10018f8c39e690351059a50c71f",
+        "observed_head": "dc78c1e929f1f10018f8c39e690351059a50c71f",
+        "observed_target_head": "dc78c1e929f1f10018f8c39e690351059a50c71f",
+        "checks": [
+          {
+            "name": "check-run:test",
+            "bucket": "pass",
+            "conclusion": "success",
+            "link": "https://github.com/ingitdb/ror-ingitdb/actions/runs/37258314444/job/111599984741"
+          }
+        ],
+        "required_checks_authority": "github-branch-protection+active-branch-rules"
+      }
+    },
+    {
+      "original_receipt": "data-fabric-w1-ror-artifact-landed-tree.json",
+      "original_sha256": "7b80c76982ac29ed1a2aea4187e858a0499b760d7be0a90cfb4d6edab947a6ce",
+      "original_bytes": 1126,
+      "receipt": {
+        "scope": "Root mechanical reviewed-tree-to-landed-tree equality only; independent semantic carry-forward review remains review-r2.md and needs durable canonical evidence before attachment.",
+        "repository": "https://github.com/ingitdb/ror-ingitdb",
+        "trees": {
+          "ef4a0942a5516b962384a18d46344a3f2ef57959": "b6d8b2300b8b9a8b36735c083558c2a64472cdc3",
+          "dc78c1e929f1f10018f8c39e690351059a50c71f": "b6d8b2300b8b9a8b36735c083558c2a64472cdc3"
+        },
+        "equal": true,
+        "files": [
+          {
+            "path": "source/artifact-snapshot.json",
+            "sha256": "5520cfab8294336fbd98e8c1b4d3f732dffa88249ad58a15743f225cbaf15279",
+            "bytes": 3186
+          },
+          {
+            "path": "source/validation.json",
+            "sha256": "06aa20ec30551b5eeeca02acdec95da3ebcfdd92524e3048e9d9f6a47d00c6fe",
+            "bytes": 6693
+          },
+          {
+            "path": "model/ror.modelspec.json",
+            "sha256": "9694a0b6d7aba0bd26be22e8ee3501cf944463617839623e6b5b15d8068fd0ae",
+            "bytes": 1567
+          },
+          {
+            "path": "model/ror.meaning.yaml",
+            "sha256": "70e54d63b0d564edc73149154f84374cdff30a17b8631c56ecab06dd93d452e9",
+            "bytes": 2535
+          }
+        ]
+      }
+    },
+    {
+      "original_receipt": "data-fabric-w1-native-association-land.json",
+      "original_sha256": "052d59dced4d0eb835023d58eb3b5ab8638f4ced7f982fbf9776cf9e952bd39a",
+      "original_bytes": 8834,
+      "receipt": {
+        "verb": "pr land",
+        "outcome": "success",
+        "repository": "openvaultdb/ovdb",
+        "pull_request": 44,
+        "url": "https://github.com/openvaultdb/ovdb/pull/44",
+        "head_sha": "839566d2c9e16d1a5aba439de519298214ccf888",
+        "merge_sha": "bb535a658f06a8752688ba36cb4b76ecf0483254",
+        "reviewed_head": "839566d2c9e16d1a5aba439de519298214ccf888",
+        "review_bound": true,
+        "branch_deleted": true,
+        "landing_on_base": true,
+        "canonical_sync": "fast_forwarded",
+        "cleaned_tasks": [
+          "fabric-w1-native-association"
+        ],
+        "kept": false,
+        "source_checks": {
+          "status": "passed",
+          "head": "839566d2c9e16d1a5aba439de519298214ccf888",
+          "observed_head": "839566d2c9e16d1a5aba439de519298214ccf888",
+          "observed_target_head": "d166a1f8a38a644de9d11f381ad406dad3f89b36",
+          "required_checks_authority": "github-branch-protection+active-branch-rules+pr-base-verified",
+          "unfenced_validation": true,
+          "reason": "GitHub's required-check policy was enumerated, every required check was present, the candidate contained the exact target, and the observed GitHub check set stayed terminal across a bounded stable reread for validation-only publication; server-side target freshness was intentionally not required because this path does not merge",
+          "checks": [
+            {
+              "name": "check-run:Exact coverage (publisher check packages)",
+              "bucket": "pass",
+              "conclusion": "success",
+              "link": "https://github.com/openvaultdb/ovdb/actions/runs/37259206683/job/111602635156"
+            },
+            {
+              "name": "check-run:Lifecycle and paths (macos-latest)",
+              "bucket": "pass",
+              "conclusion": "success",
+              "link": "https://github.com/openvaultdb/ovdb/actions/runs/37259206683/job/111602635167"
+            },
+            {
+              "name": "check-run:Lifecycle and paths (ubuntu-latest)",
+              "bucket": "pass",
+              "conclusion": "success",
+              "link": "https://github.com/openvaultdb/ovdb/actions/runs/37259206683/job/111602635186"
+            },
+            {
+              "name": "check-run:Lifecycle and paths (windows-latest)",
+              "bucket": "pass",
+              "conclusion": "success",
+              "link": "https://github.com/openvaultdb/ovdb/actions/runs/37259206683/job/111602635176"
+            },
+            {
+              "name": "check-run:Parity goldens are current (publisher check packages)",
+              "bucket": "pass",
+              "conclusion": "success",
+              "link": "https://github.com/openvaultdb/ovdb/actions/runs/37259206683/job/111602635238"
+            },
+            {
+              "name": "check-run:Web build, test, embed and browser tests",
+              "bucket": "pass",
+              "conclusion": "success",
+              "link": "https://github.com/openvaultdb/ovdb/actions/runs/37259206683/job/111602635170"
+            },
+            {
+              "name": "check-run:go.mod is tidy",
+              "bucket": "pass",
+              "conclusion": "success",
+              "link": "https://github.com/openvaultdb/ovdb/actions/runs/37259206683/job/111602635066"
+            },
+            {
+              "name": "check-run:strongo_workflow / Build & test",
+              "bucket": "pass",
+              "conclusion": "success",
+              "link": "https://github.com/openvaultdb/ovdb/actions/runs/37259206683/job/111602635145"
+            },
+            {
+              "name": "check-run:strongo_workflow / Bump version",
+              "bucket": "skipping",
+              "conclusion": "skipped",
+              "link": "https://github.com/openvaultdb/ovdb/actions/runs/37259206683/job/111602839881"
+            },
+            {
+              "name": "check-run:strongo_workflow / Lint",
+              "bucket": "pass",
+              "conclusion": "success",
+              "link": "https://github.com/openvaultdb/ovdb/actions/runs/37259206683/job/111602635248"
+            }
+          ]
+        },
+        "landing_fence": "none; landed on observed checks under --allow-unfenced",
+        "recovery": null
+      }
+    },
+    {
+      "original_receipt": "data-fabric-w1-native-association-main-ci.json",
+      "original_sha256": "88744e01fdbb2be75e0ef4a03237e6bfabf8daf2fce469458e6f815de7d3088c",
+      "original_bytes": 5954,
+      "receipt": {
+        "schema_version": 1,
+        "observed_at": "2026-10-05T03:47:37.90506Z",
+        "status": "passed",
+        "repository": "openvaultdb/ovdb",
+        "target": "main",
+        "head": "bb535a658f06a8752688ba36cb4b76ecf0483254",
+        "observed_head": "bb535a658f06a8752688ba36cb4b76ecf0483254",
+        "observed_target_head": "bb535a658f06a8752688ba36cb4b76ecf0483254",
+        "checks": [
+          {
+            "name": "check-run:Build + release (GitHub release, Homebrew cask) / Build and upload release artifacts",
+            "bucket": "pass",
+            "conclusion": "success",
+            "link": "https://github.com/openvaultdb/ovdb/actions/runs/37259990827/job/111605017555"
+          },
+          {
+            "name": "check-run:Build + release (GitHub release, Homebrew cask) / Finalize public release tag",
+            "bucket": "pass",
+            "conclusion": "success",
+            "link": "https://github.com/openvaultdb/ovdb/actions/runs/37259990827/job/111607266746"
+          },
+          {
+            "name": "check-run:Build + release (GitHub release, Homebrew cask) / Resolve release test configuration",
+            "bucket": "pass",
+            "conclusion": "success",
+            "link": "https://github.com/openvaultdb/ovdb/actions/runs/37259990827/job/111605017431"
+          },
+          {
+            "name": "check-run:Build + release (GitHub release, Homebrew cask) / Smoke test Homebrew cask install (darwin/arm64)",
+            "bucket": "pass",
+            "conclusion": "success",
+            "link": "https://github.com/openvaultdb/ovdb/actions/runs/37259990827/job/111607266743"
+          },
+          {
+            "name": "check-run:Build + release (GitHub release, Homebrew cask) / Smoke test published artifact (darwin/arm64)",
+            "bucket": "pass",
+            "conclusion": "success",
+            "link": "https://github.com/openvaultdb/ovdb/actions/runs/37259990827/job/111607266670"
+          },
+          {
+            "name": "check-run:Build + release (GitHub release, Homebrew cask) / Smoke test published artifact (linux/amd64)",
+            "bucket": "pass",
+            "conclusion": "success",
+            "link": "https://github.com/openvaultdb/ovdb/actions/runs/37259990827/job/111607266709"
+          },
+          {
+            "name": "check-run:Build + release (GitHub release, Homebrew cask) / Verify signed macOS artifact and promote draft release",
+            "bucket": "pass",
+            "conclusion": "success",
+            "link": "https://github.com/openvaultdb/ovdb/actions/runs/37259990827/job/111607210860"
+          },
+          {
+            "name": "check-run:Exact coverage (publisher check packages)",
+            "bucket": "pass",
+            "conclusion": "success",
+            "link": "https://github.com/openvaultdb/ovdb/actions/runs/37259990772/job/111605017242"
+          },
+          {
+            "name": "check-run:Lifecycle and paths (macos-latest)",
+            "bucket": "pass",
+            "conclusion": "success",
+            "link": "https://github.com/openvaultdb/ovdb/actions/runs/37259990772/job/111605017295"
+          },
+          {
+            "name": "check-run:Lifecycle and paths (ubuntu-latest)",
+            "bucket": "pass",
+            "conclusion": "success",
+            "link": "https://github.com/openvaultdb/ovdb/actions/runs/37259990772/job/111605017388"
+          },
+          {
+            "name": "check-run:Lifecycle and paths (windows-latest)",
+            "bucket": "pass",
+            "conclusion": "success",
+            "link": "https://github.com/openvaultdb/ovdb/actions/runs/37259990772/job/111605017331"
+          },
+          {
+            "name": "check-run:Parity goldens are current (publisher check packages)",
+            "bucket": "pass",
+            "conclusion": "success",
+            "link": "https://github.com/openvaultdb/ovdb/actions/runs/37259990772/job/111605017255"
+          },
+          {
+            "name": "check-run:Web build, test, embed and browser tests",
+            "bucket": "pass",
+            "conclusion": "success",
+            "link": "https://github.com/openvaultdb/ovdb/actions/runs/37259990772/job/111605017107"
+          },
+          {
+            "name": "check-run:go.mod is tidy",
+            "bucket": "pass",
+            "conclusion": "success",
+            "link": "https://github.com/openvaultdb/ovdb/actions/runs/37259990772/job/111605017254"
+          },
+          {
+            "name": "check-run:strongo_workflow / Build & test",
+            "bucket": "pass",
+            "conclusion": "success",
+            "link": "https://github.com/openvaultdb/ovdb/actions/runs/37259990772/job/111605017313"
+          },
+          {
+            "name": "check-run:strongo_workflow / Bump version",
+            "bucket": "skipping",
+            "conclusion": "skipped",
+            "link": "https://github.com/openvaultdb/ovdb/actions/runs/37259990772/job/111605253979"
+          },
+          {
+            "name": "check-run:strongo_workflow / Lint",
+            "bucket": "pass",
+            "conclusion": "success",
+            "link": "https://github.com/openvaultdb/ovdb/actions/runs/37259990772/job/111605017410"
+          }
+        ],
+        "required_checks_authority": "github-branch-protection+active-branch-rules"
+      }
+    },
+    {
+      "original_receipt": "data-fabric-w1-native-association-release.json",
+      "original_sha256": "e29347ef24d20c7548821ea86a8595919b6c5e20327dcd8da7f2ca5047140f46",
+      "original_bytes": 1026,
+      "receipt": {
+        "assets": [
+          {
+            "digest": "sha256:752c7d0df72defd8f401bb208fd758dcdadfe2282116062baed80c4d66bfe78a",
+            "name": "checksums.txt",
+            "size": 486
+          },
+          {
+            "digest": "sha256:441afdcb4e2caf4ab85ac4a90736ed04df2b20d427c1d22e5a063c4d1fa94223",
+            "name": "ovdb_0.26.0_darwin_amd64.tar.gz",
+            "size": 16008455
+          },
+          {
+            "digest": "sha256:91335df85841e98413f1446c817e75d7eea02441e178c4b6c8dbba5e21fa2338",
+            "name": "ovdb_0.26.0_darwin_arm64.tar.gz",
+            "size": 14684293
+          },
+          {
+            "digest": "sha256:b44b4545891b9bc9e6b3f8294545e5bbdf2bb2d166fc63815939cae4ce7af748",
+            "name": "ovdb_0.26.0_linux_amd64.tar.gz",
+            "size": 15434147
+          },
+          {
+            "digest": "sha256:7e7bb0da0e4e4c8bde3d2ca67dd6623a4089978c6054c2ab3a365be20288bd1e",
+            "name": "ovdb_0.26.0_linux_arm64.tar.gz",
+            "size": 14112883
+          },
+          {
+            "digest": "sha256:007fb850072f9169aee229d07a8c1e97e8d118926347377f049d7132a14aada0",
+            "name": "ovdb_0.26.0_windows_amd64.zip",
+            "size": 15677131
+          }
+        ],
+        "draft": false,
+        "html_url": "https://github.com/openvaultdb/ovdb/releases/tag/v0.26.0",
+        "prerelease": false,
+        "published_at": "2026-10-05T03:46:11Z",
+        "tag_name": "v0.26.0",
+        "target_commitish": "main"
+      }
+    },
+    {
+      "original_receipt": "data-fabric-w1-native-association-release-ref.json",
+      "original_sha256": "9c9e939791d13583bdbc1cb85110fdce49ef5226231de9de38330a927c4823de",
+      "original_bytes": 211,
+      "receipt": {
+        "object": {
+          "sha": "bb535a658f06a8752688ba36cb4b76ecf0483254",
+          "type": "commit",
+          "url": "https://api.github.com/repos/openvaultdb/ovdb/git/commits/bb535a658f06a8752688ba36cb4b76ecf0483254"
+        },
+        "ref": "refs/tags/v0.26.0"
+      }
+    },
+    {
+      "original_receipt": "data-fabric-w1-geonames-artifact-land.json",
+      "original_sha256": "b8235ded78fa41a906ace25f936a59901cbf175d6524f93de3bae427ddad6d02",
+      "original_bytes": 8576,
+      "receipt": {
+        "verb": "pr land",
+        "outcome": "success",
+        "repository": "ingitdb/geo-ingitdb",
+        "pull_request": 7,
+        "url": "https://github.com/ingitdb/geo-ingitdb/pull/7",
+        "head_sha": "49d600f5bbddf31900ade5639d760c3dffea20ef",
+        "merge_sha": "6f4cf1269bc393048f6b204069135a62f0bb6c02",
+        "reviewed_head": "49d600f5bbddf31900ade5639d760c3dffea20ef",
+        "review_bound": true,
+        "branch_deleted": true,
+        "landing_on_base": true,
+        "canonical_sync": "fast_forwarded",
+        "cleaned_tasks": [
+          "fabric-w1-geonames-artifacts"
+        ],
+        "kept": false,
+        "source_checks": {
+          "status": "passed",
+          "head": "49d600f5bbddf31900ade5639d760c3dffea20ef",
+          "observed_head": "49d600f5bbddf31900ade5639d760c3dffea20ef",
+          "observed_target_head": "fc53a3537304dd77a4e97162608454b2da2ae241",
+          "required_checks_authority": "github-branch-protection+active-branch-rules+pr-base-verified",
+          "unfenced_validation": true,
+          "reason": "GitHub's required-check policy was enumerated, every required check was present, the candidate contained the exact target, and the observed GitHub check set stayed terminal across a bounded stable reread for validation-only publication; server-side target freshness was intentionally not required because this path does not merge",
+          "checks": [
+            {
+              "name": "check-run:Validator",
+              "bucket": "pass",
+              "conclusion": "success",
+              "link": "https://github.com/ingitdb/geo-ingitdb/actions/runs/37260208530/job/111605647731"
+            },
+            {
+              "name": "check-run:ci / Build & test",
+              "bucket": "pass",
+              "conclusion": "success",
+              "link": "https://github.com/ingitdb/geo-ingitdb/actions/runs/37260208959/job/111605649167"
+            },
+            {
+              "name": "check-run:ci / Bump version",
+              "bucket": "skipping",
+              "conclusion": "skipped",
+              "link": "https://github.com/ingitdb/geo-ingitdb/actions/runs/37260208959/job/111605753625"
+            },
+            {
+              "name": "check-run:ci / Lint",
+              "bucket": "pass",
+              "conclusion": "success",
+              "link": "https://github.com/ingitdb/geo-ingitdb/actions/runs/37260208959/job/111605649310"
+            },
+            {
+              "name": "check-run:ci / Publish exact-tree validation receipt",
+              "bucket": "skipping",
+              "conclusion": "skipped",
+              "link": "https://github.com/ingitdb/geo-ingitdb/actions/runs/37260208959/job/111605753588"
+            },
+            {
+              "name": "check-run:ci / Resolve reusable pull-request validation",
+              "bucket": "skipping",
+              "conclusion": "skipped",
+              "link": "https://github.com/ingitdb/geo-ingitdb/actions/runs/37260208959/job/111605649628"
+            },
+            {
+              "name": "check-run:offline_projection",
+              "bucket": "pass",
+              "conclusion": "success",
+              "link": "https://github.com/ingitdb/geo-ingitdb/actions/runs/37260208529/job/111605647701"
+            },
+            {
+              "name": "check-run:wb-import coverage = 100%",
+              "bucket": "pass",
+              "conclusion": "success",
+              "link": "https://github.com/ingitdb/geo-ingitdb/actions/runs/37260208959/job/111605648881"
+            }
+          ]
+        },
+        "landing_fence": "none; landed on observed checks under --allow-unfenced",
+        "recovery": null
+      }
+    },
+    {
+      "original_receipt": "data-fabric-w1-geonames-artifact-main-ci.json",
+      "original_sha256": "fde4caa0ce635219e78599b611673ef774d8cc57f1d03a2a058fcd1878d78720",
+      "original_bytes": 2960,
+      "receipt": {
+        "schema_version": 1,
+        "observed_at": "2026-10-05T03:56:48.000867Z",
+        "status": "passed",
+        "repository": "ingitdb/geo-ingitdb",
+        "target": "main",
+        "head": "6f4cf1269bc393048f6b204069135a62f0bb6c02",
+        "observed_head": "6f4cf1269bc393048f6b204069135a62f0bb6c02",
+        "observed_target_head": "6f4cf1269bc393048f6b204069135a62f0bb6c02",
+        "checks": [
+          {
+            "name": "check-run:Validator",
+            "bucket": "pass",
+            "conclusion": "success",
+            "link": "https://github.com/ingitdb/geo-ingitdb/actions/runs/37261086224/job/111608269868"
+          },
+          {
+            "name": "check-run:ci / Build & test",
+            "bucket": "pass",
+            "conclusion": "success",
+            "link": "https://github.com/ingitdb/geo-ingitdb/actions/runs/37261086627/job/111608271477"
+          },
+          {
+            "name": "check-run:ci / Bump version",
+            "bucket": "skipping",
+            "conclusion": "skipped",
+            "link": "https://github.com/ingitdb/geo-ingitdb/actions/runs/37261086627/job/111608346807"
+          },
+          {
+            "name": "check-run:ci / Lint",
+            "bucket": "pass",
+            "conclusion": "success",
+            "link": "https://github.com/ingitdb/geo-ingitdb/actions/runs/37261086627/job/111608271527"
+          },
+          {
+            "name": "check-run:ci / Publish exact-tree validation receipt",
+            "bucket": "skipping",
+            "conclusion": "skipped",
+            "link": "https://github.com/ingitdb/geo-ingitdb/actions/runs/37261086627/job/111608346977"
+          },
+          {
+            "name": "check-run:ci / Resolve reusable pull-request validation",
+            "bucket": "skipping",
+            "conclusion": "skipped",
+            "link": "https://github.com/ingitdb/geo-ingitdb/actions/runs/37261086627/job/111608272153"
+          },
+          {
+            "name": "check-run:offline_projection",
+            "bucket": "pass",
+            "conclusion": "success",
+            "link": "https://github.com/ingitdb/geo-ingitdb/actions/runs/37261086246/job/111608269671"
+          },
+          {
+            "name": "check-run:wb-import coverage = 100%",
+            "bucket": "pass",
+            "conclusion": "success",
+            "link": "https://github.com/ingitdb/geo-ingitdb/actions/runs/37261086627/job/111608271251"
+          }
+        ],
+        "required_checks_authority": "github-branch-protection+active-branch-rules"
+      }
+    },
+    {
+      "original_receipt": "data-fabric-w1-geonames-artifact-landed-tree.json",
+      "original_sha256": "8513d29ca091ab462e52e618adce2c4eeeb6be67faaa13d304b8a28cc79020d4",
+      "original_bytes": 1447,
+      "receipt": {
+        "scope": "Root mechanical reviewed and landed tree equality; semantic continuity requires independently reviewed durable canonical evidence before attachment.",
+        "repository": "https://github.com/ingitdb/geo-ingitdb",
+        "trees": {
+          "49d600f5bbddf31900ade5639d760c3dffea20ef": "04a1792c0251e971043c4da2d21a1c8a55be2866",
+          "6f4cf1269bc393048f6b204069135a62f0bb6c02": "04a1792c0251e971043c4da2d21a1c8a55be2866"
+        },
+        "equal": true,
+        "files": [
+          {
+            "path": "source/artifact-snapshot.json",
+            "sha256": "b4ef99365a331865dfcb94c213995fe06dc1790f8054e3e7d96385af76c9179b",
+            "bytes": 7001
+          },
+          {
+            "path": "source/generation-snapshot.json",
+            "sha256": "d564721b80809537424d17b2bf2276697593a3cb380ea020f33c070e1ff0e7ab",
+            "bytes": 7941
+          },
+          {
+            "path": "source/generation-validation.json",
+            "sha256": "031af09511205b4fbeb71dd8931d3d560ee56997dbfd7401e67b9472507fe132",
+            "bytes": 12669
+          },
+          {
+            "path": "model/geonames.modelspec.json",
+            "sha256": "609fe73e07b84db65bdb1a904b9f84dd5c43bcbbc75eeb2d75f9a69ed3e8af81",
+            "bytes": 5509
+          },
+          {
+            "path": "model/geonames.meaning.yaml",
+            "sha256": "21bb35aecf1f1214908f245cfeb2d0c5e7c6caf3915a5ffd604254642b3b4b57",
+            "bytes": 3777
+          },
+          {
+            "path": "w1/artifact-validation.json",
+            "sha256": "7a9afc6877d6999a4781820bbc435652bac37b7bc79eabc7d90682aa56da35a5",
+            "bytes": 41078
+          }
+        ]
+      }
+    },
+    {
+      "original_receipt": "data-fabric-w1-apps-land-attempt1.json",
+      "original_sha256": "924295de71f7eea02279642ecc68bdfcc992be4b55f185420e6c84604ebcdaf5",
+      "original_bytes": 12591,
+      "receipt": {
+        "verb": "pr land",
+        "outcome": "findings",
+        "repository": "datatug/datatug-apps",
+        "pull_request": 192,
+        "url": "https://github.com/datatug/datatug-apps/pull/192",
+        "head_sha": "b7b4471c068e72265edf99c5fc2e786fd82258e4",
+        "reviewed_head": "b7b4471c068e72265edf99c5fc2e786fd82258e4",
+        "review_bound": true,
+        "branch_deleted": false,
+        "landing_on_base": false,
+        "kept": false,
+        "refusal_code": "checks-failed",
+        "reason": "GitHub Actions check run \"e2e\" names suite 100919063288, which the exact-head workflow-run receipt omitted; auto-merge stays armed, so a pushed fix lands once the required checks pass",
+        "auto_merge_armed": true,
+        "source_checks": {
+          "status": "failed",
+          "head": "b7b4471c068e72265edf99c5fc2e786fd82258e4",
+          "observed_head": "b7b4471c068e72265edf99c5fc2e786fd82258e4",
+          "observed_target_head": "5520dab90e9920afbea4da6a0f71d4bbd05dedc4",
+          "required_checks_authority": "github-branch-protection+active-branch-rules+pr-base-verified",
+          "unfenced_validation": true,
+          "reason": "GitHub Actions check run \"e2e\" names suite 100919063288, which the exact-head workflow-run receipt omitted",
+          "checks": [
+            {
+              "name": "check-run:build",
+              "bucket": "pass",
+              "conclusion": "success",
+              "link": "https://github.com/datatug/datatug-apps/actions/runs/37259662171/job/111604034745"
+            },
+            {
+              "name": "check-run:e2e",
+              "bucket": "pending",
+              "link": "https://github.com/datatug/datatug-apps/actions/runs/37259662171/job/111604379372"
+            },
+            {
+              "name": "check-run:journey e2e (real datatug-cli agent)",
+              "bucket": "pass",
+              "conclusion": "success",
+              "link": "https://github.com/datatug/datatug-apps/actions/runs/37259662171/job/111604379360"
+            },
+            {
+              "name": "check-run:test",
+              "bucket": "pass",
+              "conclusion": "success",
+              "link": "https://github.com/datatug/datatug-apps/actions/runs/37259662171/job/111604034514"
+            },
+            {
+              "name": "workflow-run:241368609:pull_request",
+              "bucket": "pending",
+              "link": "https://github.com/datatug/datatug-apps/actions/runs/37259662171"
+            }
+          ]
+        },
+        "landing_fence": null,
+        "recovery": null
+      }
+    },
+    {
+      "original_receipt": "data-fabric-w1-apps-land.json",
+      "original_sha256": "b5b9578cef2979485c8406c0b50d0a3813170c5d89045b6342ab1aa8f579779c",
+      "original_bytes": 2078,
+      "receipt": {
+        "verb": "pr land",
+        "outcome": "success",
+        "repository": "datatug/datatug-apps",
+        "pull_request": 192,
+        "url": "https://github.com/datatug/datatug-apps/pull/192",
+        "head_sha": "b7b4471c068e72265edf99c5fc2e786fd82258e4",
+        "merge_sha": "e6569c5d606af0c4094b9e9d7db6ca1c5964a62b",
+        "branch_deleted": true,
+        "landing_on_base": true,
+        "canonical_sync": "fast_forwarded",
+        "cleaned_tasks": [
+          "fabric-w1-apps"
+        ],
+        "kept": false,
+        "landing_fence": null,
+        "recovery": "pull request was already merged when landing resumed"
+      }
+    },
+    {
+      "original_receipt": "data-fabric-w1-apps-landed-tree.json",
+      "original_sha256": "2021122d5644935b1b345aefb7b20aad41b78081372b16d655cbf3b6656b04ca",
+      "original_bytes": 580,
+      "receipt": {
+        "scope": "Mechanical reviewed tree equality after GitHub auto-merge and normal WB cleanup. Staged source only; no live W1 query acceptance.",
+        "repository": "https://github.com/datatug/datatug-apps",
+        "trees": {
+          "b7b4471c068e72265edf99c5fc2e786fd82258e4": "a334aa1729b034f507afd855ec6eac25d79236d1",
+          "e6569c5d606af0c4094b9e9d7db6ca1c5964a62b": "a334aa1729b034f507afd855ec6eac25d79236d1"
+        },
+        "equal": true,
+        "initial_review_bound_receipt": "/private/tmp/data-fabric-w1-apps-land-attempt1.json",
+        "cleanup_receipt": "/private/tmp/data-fabric-w1-apps-land.json"
+      }
+    },
+    {
+      "original_receipt": "data-fabric-w1-apps-main-ci.json",
+      "original_sha256": "d09097692522f386e839d042177a4addd269d9eeb92024031197875ff3cc9216",
+      "original_bytes": 2402,
+      "receipt": {
+        "schema_version": 1,
+        "observed_at": "2026-10-05T04:00:26.548384Z",
+        "status": "passed",
+        "repository": "datatug/datatug-apps",
+        "target": "main",
+        "head": "e6569c5d606af0c4094b9e9d7db6ca1c5964a62b",
+        "observed_head": "e6569c5d606af0c4094b9e9d7db6ca1c5964a62b",
+        "observed_target_head": "e6569c5d606af0c4094b9e9d7db6ca1c5964a62b",
+        "checks": [
+          {
+            "name": "check-run:build",
+            "bucket": "pass",
+            "conclusion": "success",
+            "link": "https://github.com/datatug/datatug-apps/actions/runs/37260613999/job/111606864309"
+          },
+          {
+            "name": "check-run:deploy / build \u00b7 deploy",
+            "bucket": "pass",
+            "conclusion": "success",
+            "link": "https://github.com/datatug/datatug-apps/actions/runs/37260614777/job/111606866645"
+          },
+          {
+            "name": "check-run:e2e",
+            "bucket": "pass",
+            "conclusion": "success",
+            "link": "https://github.com/datatug/datatug-apps/actions/runs/37260613999/job/111607341537"
+          },
+          {
+            "name": "check-run:journey e2e (real datatug-cli agent)",
+            "bucket": "pass",
+            "conclusion": "success",
+            "link": "https://github.com/datatug/datatug-apps/actions/runs/37260613999/job/111607341401"
+          },
+          {
+            "name": "check-run:test",
+            "bucket": "pass",
+            "conclusion": "success",
+            "link": "https://github.com/datatug/datatug-apps/actions/runs/37260613999/job/111606864148"
+          }
+        ],
+        "required_checks": [
+          {
+            "name": "build",
+            "integration_id": 15368
+          },
+          {
+            "name": "e2e",
+            "integration_id": 15368
+          },
+          {
+            "name": "journey e2e (real datatug-cli agent)",
+            "integration_id": 15368
+          },
+          {
+            "name": "test",
+            "integration_id": 15368
+          }
+        ],
+        "required_checks_authority": "github-branch-protection+active-branch-rules"
+      }
+    },
+    {
+      "original_receipt": "data-fabric-w1-apps-deployment-workflow.json",
+      "original_sha256": "8ae2f07c1c5acecdfad9aa14c9ea451cb17343de5062993306255c1457b50614",
+      "original_bytes": 352,
+      "receipt": {
+        "conclusion": "success",
+        "created_at": "2026-10-05T03:44:15Z",
+        "event": "push",
+        "head_sha": "e6569c5d606af0c4094b9e9d7db6ca1c5964a62b",
+        "html_url": "https://github.com/datatug/datatug-apps/actions/runs/37260614777",
+        "id": 37260614777,
+        "scope": "Workflow completion only; no production W1 query acceptance",
+        "status": "completed",
+        "updated_at": "2026-10-05T03:45:41Z"
+      }
+    },
+    {
+      "original_receipt": "data-fabric-w1-modelspec-registration-land.json",
+      "original_sha256": "a5f02a66a2b09ba8307a428694a112db612ed61bcb14b10bac1f3ad7509db6c8",
+      "original_bytes": 4208,
+      "receipt": {
+        "verb": "pr land",
+        "outcome": "success",
+        "repository": "modelspec-org/registry",
+        "pull_request": 16,
+        "url": "https://github.com/modelspec-org/registry/pull/16",
+        "head_sha": "603f0837c56aad96e05207a7336ad1eeb513e465",
+        "merge_sha": "34be21159e522e85b6e5c110f8bfb8baaa8035a8",
+        "reviewed_head": "603f0837c56aad96e05207a7336ad1eeb513e465",
+        "review_bound": true,
+        "branch_deleted": true,
+        "landing_on_base": true,
+        "canonical_sync": "fast_forwarded",
+        "cleaned_tasks": [
+          "data-fabric-w1-canonical-registrations"
+        ],
+        "kept": false,
+        "source_checks": {
+          "status": "passed",
+          "head": "603f0837c56aad96e05207a7336ad1eeb513e465",
+          "observed_head": "603f0837c56aad96e05207a7336ad1eeb513e465",
+          "observed_target_head": "48b30b250a61385d94d46a70968677870750ea35",
+          "required_checks_authority": "github-branch-protection+active-branch-rules+pr-base-verified",
+          "unfenced_validation": true,
+          "reason": "GitHub's required-check policy was enumerated, every required check was present, the candidate contained the exact target, and the observed GitHub check set stayed terminal across a bounded stable reread for validation-only publication; server-side target freshness was intentionally not required because this path does not merge",
+          "checks": [
+            {
+              "name": "check-run:check",
+              "bucket": "pass",
+              "conclusion": "success",
+              "link": "https://github.com/modelspec-org/registry/actions/runs/37261670562/job/111610009787"
+            }
+          ]
+        },
+        "landing_fence": "none; landed on observed checks under --allow-unfenced"
+      }
+    },
+    {
+      "original_receipt": "data-fabric-w1-modelspec-registration-main-ci.json",
+      "original_sha256": "cc589c7227747ffed43a8b19f0d800a24e6b7ddf8fffd86f2415b86f15961de8",
+      "original_bytes": 1269,
+      "receipt": {
+        "schema_version": 1,
+        "observed_at": "2026-10-05T04:16:20.220807Z",
+        "status": "passed",
+        "repository": "modelspec-org/registry",
+        "target": "main",
+        "head": "34be21159e522e85b6e5c110f8bfb8baaa8035a8",
+        "observed_head": "34be21159e522e85b6e5c110f8bfb8baaa8035a8",
+        "observed_target_head": "34be21159e522e85b6e5c110f8bfb8baaa8035a8",
+        "candidate_contains_target": true,
+        "target_contains_head": true,
+        "checks": [
+          {
+            "name": "check-run:check",
+            "bucket": "pass",
+            "conclusion": "success",
+            "link": "https://github.com/modelspec-org/registry/actions/runs/37262652715/job/111612933650",
+            "app_id": 15368,
+            "check_run_id": 111612933650
+          },
+          {
+            "name": "check-run:notify",
+            "bucket": "pass",
+            "conclusion": "success",
+            "link": "https://github.com/modelspec-org/registry/actions/runs/37262652693/job/111612933751",
+            "app_id": 15368,
+            "check_run_id": 111612933751
+          }
+        ],
+        "required_checks_authority": "github-branch-protection+active-branch-rules",
+        "stable_observations": 2,
+        "reason": "GitHub's required-check policy was enumerated (possibly empty), every required check was present, and the exact remote target's observed check set stayed terminal across a bounded stable reread"
+      }
+    },
+    {
+      "original_receipt": "data-fabric-w1-modelspec-registration-landed-tree.json",
+      "original_sha256": "5ed98da2c9c3acebe6f8dc25168f5cfc8b686045016b612e625cf22f28069a06",
+      "original_bytes": 603,
+      "receipt": {
+        "scope": "Mechanical reviewed and landed tree identity; source registration only, not user compatibility or runtime eligibility",
+        "repository": "modelspec-org/registry",
+        "reviewed_head": "603f0837c56aad96e05207a7336ad1eeb513e465",
+        "merge_sha": "34be21159e522e85b6e5c110f8bfb8baaa8035a8",
+        "trees": {
+          "603f0837c56aad96e05207a7336ad1eeb513e465": "9e91c5b8ad766658c12c512a2488ba4a80f47279",
+          "34be21159e522e85b6e5c110f8bfb8baaa8035a8": "9e91c5b8ad766658c12c512a2488ba4a80f47279"
+        },
+        "equal": true,
+        "index_sha256": "302a04f9775aec8627ddab0361030156f592abb3e446088ba43bd813aa527576"
+      }
+    },
+    {
+      "original_receipt": "data-fabric-w1-mg-registration-land.json",
+      "original_sha256": "a804c973cf548285a14793705b28fa92445d03f4139d28e49e1a80f8564744aa",
+      "original_bytes": 4536,
+      "receipt": {
+        "verb": "pr land",
+        "outcome": "success",
+        "repository": "meaninggraph/registry",
+        "pull_request": 18,
+        "url": "https://github.com/meaninggraph/registry/pull/18",
+        "head_sha": "535c98308058650840d66bb336f05ecd10ec690f",
+        "merge_sha": "3d85ae6fa06b7f38f59cfd2893e07ba801856b96",
+        "reviewed_head": "535c98308058650840d66bb336f05ecd10ec690f",
+        "review_bound": true,
+        "branch_deleted": true,
+        "landing_on_base": true,
+        "canonical_sync": "fast_forwarded",
+        "cleaned_tasks": [
+          "data-fabric-w1-canonical-registrations"
+        ],
+        "kept": false,
+        "source_checks": {
+          "status": "passed",
+          "head": "535c98308058650840d66bb336f05ecd10ec690f",
+          "observed_head": "535c98308058650840d66bb336f05ecd10ec690f",
+          "observed_target_head": "2d92bbdd45fc2552f231f8f993a5b8b8d5b7fa29",
+          "required_checks_authority": "github-branch-protection+active-branch-rules+pr-base-verified",
+          "unfenced_validation": true,
+          "reason": "GitHub's required-check policy was enumerated, every required check was present, the candidate contained the exact target, and the observed GitHub check set stayed terminal across a bounded stable reread for validation-only publication; server-side target freshness was intentionally not required because this path does not merge",
+          "checks": [
+            {
+              "name": "check-run:check",
+              "bucket": "pass",
+              "conclusion": "success",
+              "link": "https://github.com/meaninggraph/registry/actions/runs/37262128150/job/111611355895"
+            }
+          ]
+        },
+        "landing_fence": "none; landed on observed checks under --allow-unfenced"
+      }
+    },
+    {
+      "original_receipt": "data-fabric-w1-mg-registration-landed-tree.json",
+      "original_sha256": "5ad285db604ae938be1a84167e13d8ddc28c2a68f1e5a3b8838d3cdfeca70195",
+      "original_bytes": 602,
+      "receipt": {
+        "scope": "Mechanical reviewed and landed tree identity; source registration only, not user compatibility or runtime eligibility",
+        "repository": "meaninggraph/registry",
+        "reviewed_head": "535c98308058650840d66bb336f05ecd10ec690f",
+        "merge_sha": "3d85ae6fa06b7f38f59cfd2893e07ba801856b96",
+        "trees": {
+          "535c98308058650840d66bb336f05ecd10ec690f": "89a1647babd395c430a42e83d5d78cac34a6de34",
+          "3d85ae6fa06b7f38f59cfd2893e07ba801856b96": "89a1647babd395c430a42e83d5d78cac34a6de34"
+        },
+        "equal": true,
+        "index_sha256": "42931545086beb7c69d803767b8d50e524baff2ff37a2ec9eb8526eee16aa4a5"
+      }
+    }
+  ],
+  "pending_publications": {
+    "meaninggraph_main_ci": "Main3d85ae6fa06b7f38f59cfd2893e07ba801856b96 checks running; no terminal receipt parsed or success claimed."
+  },
+  "tasks": [
+    {
+      "task": 1,
+      "status": "implementing",
+      "result": "Both full source projections and immutable wrappers independently accepted and landed; exact-main CI and reviewed/landed tree equality retained.",
+      "open": [
+        "Original Geo full-capture elapsed/RSS was not instrumented. Later source rebuild and packaging observations do not repair that gap.",
+        "Cached combined generation is independently supported under corrected capture-point/sampling scope; complete acquisition+build operational and unsampled total-resource acceptance remain open."
+      ]
+    },
+    {
+      "task": 2,
+      "status": "implementing",
+      "result": "Provider-local models/bindings, staged OVDB helpers (release0.26.0) and both canonical registries are landed. ModelSpec exact-main CI passed; MeaningGraph exact-main CI pending. Continuity hub review/root landing and publication admission companions remain open.",
+      "open": [
+        "MeaningGraph exact-main CI remains pending; ModelSpec CI passed. Registry publication alone grants no runtime/user mapping admission.",
+        "Default publisher, Directory validation/index exposure and consumer adoption remain closed/pending.",
+        "Checked continuity admission must reference original decisions and exact wrapper evidence without reissuing dispositions."
+      ]
+    },
+    {
+      "task": 3,
+      "status": "blocked",
+      "result": "No W1 runtime publication/query acceptance.",
+      "open": [
+        "Source-faithful native id adapter and separate serving checksum.",
+        "Owner-authorized runtime/Directory/dalgo2sql integration, mount/release, capacity, read-only/CORS/live query proof."
+      ]
+    },
+    {
+      "task": 4,
+      "status": "implementing",
+      "result": "Apps foundation landed at e6569c5d606af0c4094b9e9d7db6ca1c5964a62b with five successful exact-main checks and successful deployment workflow; production discovery remains closed. Native/fresh saved-revalidation companion is active, unaccepted here.",
+      "open": [
+        "Schema2/native reader and exact ROR decision/continuity admission.",
+        "Canonical mutation-to-admitted-suggestion proof.",
+        "Source release/freshness/coverage/confidence/licence explanation and stale last-known-good handling."
+      ]
+    },
+    {
+      "task": 5,
+      "status": "implementing",
+      "result": "Apps bounded transport/exception/provenance fixtures independently reviewed; saved PublicDataScenario execution remains closed.",
+      "open": [
+        "Real native ID/location/orphan behavior and accepted country denominators.",
+        "Published pagination/snapshot/cancel/deadline/row/byte boundary evidence.",
+        "Real query-store preservation, fresh saved-plan revalidation and acknowledged re-execution."
+      ]
+    },
+    {
+      "task": 6,
+      "status": "blocked",
+      "result": "No independently accepted integrated J1-J6 real browser/network journey.",
+      "open": [
+        "All upstream publication/implementation/resource gates.",
+        "B1 publication obligation and phases4/5/6 remain open."
+      ]
+    }
+  ],
+  "external_ownership": {
+    "publication_owner": "Existing DemoDB owner retains cloud/Directory/dalgo2sql work.",
+    "reported_block": "Automatic approval review blocked external chat GitHub publication to dal-go/dalgo2sql and openvaultdb/directory; user authorization remains unanswered.",
+    "effect": "No transfer, messaging, competing edits or deployment authority is inferred. This evidence does not independently adjudicate that approval or close B1."
+  },
+  "preservation": {
+    "path": "evidence/w1-preservation.json",
+    "sha256": "c235c41c28fdb45e8c5c9d218fb7d47c4c079d3189a7d8944fab029aaa9c0e9f"
+  },
+  "local_validation": {
+    "ledger_mutation_checks": 24,
+    "query_index_tests": 3,
+    "native_probe_tests": 2,
+    "ingitdb": "passed all six collections; 5 implementation records",
+    "specscore": "0 violations after removal of generated untracked Python __pycache__; no tracked lint fix",
+    "whitespace": "passed",
+    "independent_hub_review": "pending"
+  },
+  "landed_component_summary": {
+    "ror_wrapper": "dc78c1e929f1f10018f8c39e690351059a50c71f",
+    "geonames_wrapper": "6f4cf1269bc393048f6b204069135a62f0bb6c02",
+    "ovdb_helper": {
+      "revision": "bb535a658f06a8752688ba36cb4b76ecf0483254",
+      "release": "v0.26.0",
+      "scope": "Structural association helper; default publisher and production admission remain closed."
+    },
+    "apps_foundation": {
+      "revision": "e6569c5d606af0c4094b9e9d7db6ca1c5964a62b",
+      "scope": "Staged preparation, exact-main checks and deployment workflow successful; no independently accepted live W1 query.",
+      "active_companion": "Separate native/fresh saved-revalidation implementation; no acceptance claimed here."
+    }
+  },
+  "resource_scope": "Independent r1 audit plus distinct r2 correction review accept cached-input combined generation only under disclosed sampled/limited RSS and disk observations. Original capture elapsed/RSS remain absent; full official operational capture/build, unsampled aggregate capacity and runtime/Directory/browser/B1 remain open. Prospective separately pinned official candidate requires controller review before bulk and independent source/resource review afterward.",
+  "runtime_directory_handoff": {
+    "path": "evidence/w1-runtime-directory-handoff.json",
+    "sha256": "416217a5cc759463949480d7f65914959a92017bfa21d9c507f2808e77d43bcf"
+  },
+  "receipt_interpretation": "Original per-check buckets/conclusions and refusal reasons are retained. The first Apps WB attempt had an incomplete exact-head workflow-run receipt while e2e was pending, not a demonstrated test failure; root recovery subsequently verified the merged head and successful main checks.",
+  "resource_evidence": [
+    {
+      "path": "evidence/w1-resource-review-r1.md",
+      "sha256": "5993ff0238599946e73b6f866ebaf2313b2a76917acaced9d3fea5dc904a9fba",
+      "original_filename": "review-r1.md"
+    },
+    {
+      "path": "evidence/w1-resource-review-r1.json",
+      "sha256": "eb8c380c469d01e6f1034ad8d8246287ba36f513625481bd9f8d1dfe58139bde",
+      "original_filename": "review-r1.json"
+    },
+    {
+      "path": "evidence/w1-resource-report-original.md",
+      "sha256": "86305a41eec6bfba4e8d06e84f9420cab6699389f65f7aff3362911b82baa8c6",
+      "original_filename": "report.md"
+    },
+    {
+      "path": "evidence/w1-resource-summary-original.json",
+      "sha256": "eb96a8cd3395bc24e2d8cc558bd2aeb3ff307139b3cd7bc472b056fab31449df",
+      "original_filename": "summary.json"
+    },
+    {
+      "path": "evidence/w1-resource-report-r2.md",
+      "sha256": "46d1ec9efc9b2b003b1d57fb4b3e9201c1ffeb26012c4ccf00f9fd2d649dc7a2",
+      "original_filename": "report-r2.md"
+    },
+    {
+      "path": "evidence/w1-resource-summary-r2.json",
+      "sha256": "356312583066e7270f23f154fa2910fd030fb0d74363dbd02b59235dc81e5098",
+      "original_filename": "summary-r2.json"
+    },
+    {
+      "path": "evidence/w1-resource-delta-review-r2.md",
+      "sha256": "723f7ed801542ad354e156f1c24f7240371a28e2dfe8183b4aa6f607c90db51d",
+      "original_filename": "w1-resource-delta-review-r2.md"
+    },
+    {
+      "path": "evidence/w1-resource-delta-review-r2.json",
+      "sha256": "2ab1188356288fd477ef55fc8838abaf715a457d009f3a18dd9837f3c8fad055",
+      "original_filename": "w1-resource-delta-review-r2.json"
+    }
+  ],
+  "canonical_registrations": {
+    "meaninggraph": {
+      "repository": "https://github.com/meaninggraph/registry",
+      "revision": "3d85ae6fa06b7f38f59cfd2893e07ba801856b96",
+      "files": [
+        {
+          "path": "index.json",
+          "sha256": "42931545086beb7c69d803767b8d50e524baff2ff37a2ec9eb8526eee16aa4a5"
+        },
+        {
+          "path": "graphs/$records/geonames.yaml",
+          "sha256": "1b1d830c119b940f95f6657c0945e2137673f8febbd4a8a3e6e2cc16316e308f"
+        },
+        {
+          "path": "graphs/$records/ror.yaml",
+          "sha256": "2c3e687fd5e3c72cda77891ecc6d73565b5cb8715e6aa278fd77e474b6919760"
+        },
+        {
+          "path": "dependencies/$records/geonames--core.yaml",
+          "sha256": "84221ace50bf5da392530856650c1499d565f30ea4c4f9c476868f4eb662388e"
+        },
+        {
+          "path": "dependencies/$records/ror--core.yaml",
+          "sha256": "ca1f72ad549bdd6804445ed433628b40f42fefdf93dfeae86a9bfe7521f42d17"
+        }
+      ],
+      "main_ci": "pending",
+      "scope": "Source registration only; no source-to-user compatibility, runtime eligibility or query acceptance."
+    },
+    "modelspec": {
+      "repository": "https://github.com/modelspec-org/registry",
+      "revision": "34be21159e522e85b6e5c110f8bfb8baaa8035a8",
+      "files": [
+        {
+          "path": "index.json",
+          "sha256": "302a04f9775aec8627ddab0361030156f592abb3e446088ba43bd813aa527576"
+        },
+        {
+          "path": "models/$records/geonames.yaml",
+          "sha256": "d1051dfc5b4fde33ec83ff8f53c1735a8ffbae1e6706e03220db81b883641f80"
+        },
+        {
+          "path": "models/$records/ror.yaml",
+          "sha256": "941dac58e337ececd25ae8e1e4ac7527cfea86588df36eba406d4202b6fe0539"
+        }
+      ],
+      "main_ci": "passed",
+      "scope": "Source registration only; no source-to-user compatibility, runtime eligibility or query acceptance."
+    }
+  }
+}

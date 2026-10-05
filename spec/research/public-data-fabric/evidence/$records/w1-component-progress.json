@@ -1,0 +1,10 @@
+{
+  "title": "W1 component publication and remaining obligations",
+  "observed_at": "2026-10-05",
+  "outcome": "partial",
+  "summary": "Source/helper publication and staged app progress remain distinct from implementation, runtime/Directory admission and real browser acceptance; B1 and phases4/5/6 stay open.",
+  "reviewer": "w1_canonical_evidence",
+  "independent": false,
+  "review_stage": "implementation",
+  "path": "spec/research/public-data-fabric/evidence/w1-component-progress.json"
+}

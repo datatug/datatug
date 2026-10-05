@@ -1,0 +1,327 @@
+{
+  "scope": "Prepared W1 implementation handoff for the existing owner-controlled runtime/Directory publication path. It is not an executed runbook, assignment to an external chat, published attachment, new semantic decision or grant of eligibility.",
+  "state": "prepared; owner admission and listed acceptance obligations remain open",
+  "journey": "Connect exact supported field, inspect canonically admitted suggestion, explicitly run bounded lookup, inspect exceptions/attribution, save and reopen exact pins, then verify no automatic refresh/query.",
+  "ownership": {
+    "landing_owner": "root for assigned W1 lanes",
+    "existing_owner": "Existing DemoDB owner retains cloud/Directory/dalgo2sql B1 work and publication candidates.",
+    "admission_prerequisite": "Root must freshly check claims after existing work lands/releases claims, or obtain directly authorized transfer before assigning a W1 runtime/Directory writer.",
+    "authorization_hold": "External dal-go/dalgo2sql and openvaultdb/directory publication is reported blocked by automatic approval review; user authorization remains unanswered. This handoff grants no messaging, competing edit, transfer or deployment authority.",
+    "homes": [
+      "openvaultdb/cloud/server/providers.json",
+      "openvaultdb/cloud/server/prepare_providers.py",
+      "openvaultdb/cloud/server/runtime_inventory.go",
+      "openvaultdb/directory/databases/$records/",
+      "openvaultdb/directory/scripts/lib/directory.mjs",
+      "openvaultdb/ovdb/internal/publisher/manifest"
+    ],
+    "dalgo2sql": "Existing owner retains any source-faithful native-ID/query support change. No competing branch or speculative implementation is prescribed."
+  },
+  "immutable_inputs": {
+    "ror": {
+      "repository": "https://github.com/ingitdb/ror-ingitdb",
+      "revision": "dc78c1e929f1f10018f8c39e690351059a50c71f",
+      "original_source_generation": {
+        "repository": "https://github.com/ingitdb/ror-ingitdb",
+        "revision": "bbbec903248680caea04e68f94b9a957b6efc55b",
+        "path": "source/validation.json",
+        "sha256": "227a3da5cdd9762dd5e8149904a5e68705216f85acbfdd0128dc29dacadf7aeb",
+        "bytes": 5627
+      },
+      "artifact_snapshot": {
+        "repository": "https://github.com/ingitdb/ror-ingitdb",
+        "revision": "dc78c1e929f1f10018f8c39e690351059a50c71f",
+        "path": "source/artifact-snapshot.json",
+        "sha256": "5520cfab8294336fbd98e8c1b4d3f732dffa88249ad58a15743f225cbaf15279",
+        "bytes": 3186
+      },
+      "dataset_and_ordered_chunks": {
+        "bytes": 37904521,
+        "chunks": [
+          {
+            "bytes": 20971520,
+            "path": "artifacts/ror-v2.13/native/ror.sqlite.gz.part-0001",
+            "sha256": "dcbe231796b5d51307adb81ad5623b509ac5f055cd7a773f1706fbe0af1aa2c0"
+          },
+          {
+            "bytes": 16933001,
+            "path": "artifacts/ror-v2.13/native/ror.sqlite.gz.part-0002",
+            "sha256": "bdc133c44b8c27552c0089495cf2d8ad9bcda0722cc2c092fb3498acf078b572"
+          }
+        ],
+        "compression": "gzip",
+        "decodedBytes": 238563328,
+        "decodedSha256": "afdf978130ee9899fedb698f0e9d18399efdea40ea92f01f26d6055ef1ed5d38",
+        "encodedPath": "ror.sqlite.gz",
+        "path": "ror.sqlite",
+        "sha256": "726f5c77eba612a718755cb0cca028d88858317ce57e663b4b248394ace3b8ea"
+      },
+      "model": {
+        "repository": "https://github.com/ingitdb/ror-ingitdb",
+        "revision": "dc78c1e929f1f10018f8c39e690351059a50c71f",
+        "path": "model/ror.modelspec.json",
+        "sha256": "9694a0b6d7aba0bd26be22e8ee3501cf944463617839623e6b5b15d8068fd0ae"
+      },
+      "binding": {
+        "repository": "https://github.com/ingitdb/ror-ingitdb",
+        "revision": "dc78c1e929f1f10018f8c39e690351059a50c71f",
+        "path": "model/ror.meaning.yaml",
+        "sha256": "70e54d63b0d564edc73149154f84374cdff30a17b8631c56ecab06dd93d452e9"
+      },
+      "meaning_core_revision": "982916d73f0a35ff2558b0062f58aa3ac4f24d97",
+      "source_semantic_authority": "evidence/w1-source-wrapper-continuity.json preserves exact original decision scope and independent review; that file grants no eligibility.",
+      "native_provenance": [
+        {
+          "repository": "https://github.com/ingitdb/ror-ingitdb",
+          "revision": "dc78c1e929f1f10018f8c39e690351059a50c71f",
+          "path": "source/validation.json",
+          "sha256": "06aa20ec30551b5eeeca02acdec95da3ebcfdd92524e3048e9d9f6a47d00c6fe",
+          "bytes": 6693
+        }
+      ]
+    },
+    "geonames": {
+      "repository": "https://github.com/ingitdb/geo-ingitdb",
+      "revision": "6f4cf1269bc393048f6b204069135a62f0bb6c02",
+      "original_source_generation": {
+        "repository": "https://github.com/ingitdb/geo-ingitdb",
+        "revision": "fc53a3537304dd77a4e97162608454b2da2ae241",
+        "path": "w1/validation.json",
+        "sha256": "031af09511205b4fbeb71dd8931d3d560ee56997dbfd7401e67b9472507fe132",
+        "bytes": 12669
+      },
+      "artifact_snapshot": {
+        "repository": "https://github.com/ingitdb/geo-ingitdb",
+        "revision": "6f4cf1269bc393048f6b204069135a62f0bb6c02",
+        "path": "source/artifact-snapshot.json",
+        "sha256": "b4ef99365a331865dfcb94c213995fe06dc1790f8054e3e7d96385af76c9179b",
+        "bytes": 7001
+      },
+      "dataset_and_ordered_chunks": {
+        "bytes": 25044936,
+        "chunks": [
+          {
+            "bytes": 6218432,
+            "path": "artifacts/geonames-w1-2026-10-05/native/geonames.sqlite.0000.gz",
+            "sha256": "151d8259488fe61f3be689deb72f00da40f2ac487bf71d6a6266c896db6d49a0"
+          },
+          {
+            "bytes": 4877469,
+            "path": "artifacts/geonames-w1-2026-10-05/native/geonames.sqlite.0001.gz",
+            "sha256": "f878093b65f05beab952f72a0d9e4980672d0e601d8d9fbb46ddad3b3b0ddcf7"
+          },
+          {
+            "bytes": 5700433,
+            "path": "artifacts/geonames-w1-2026-10-05/native/geonames.sqlite.0002.gz",
+            "sha256": "80fc93abeb14aae20e5cc17ce6823f2201a3b3e353e21bf1406fa81e09d5ed18"
+          },
+          {
+            "bytes": 5138706,
+            "path": "artifacts/geonames-w1-2026-10-05/native/geonames.sqlite.0003.gz",
+            "sha256": "c3ccd40abda8f5962c529d9d501902a24a522d958526ce413826098287dbebe4"
+          },
+          {
+            "bytes": 3109896,
+            "path": "artifacts/geonames-w1-2026-10-05/native/geonames.sqlite.0004.gz",
+            "sha256": "761f235d5742c19cc6f34e0fbb95c4158d4ebc98e298f9f1bf7ec76be83c5031"
+          }
+        ],
+        "compression": "gzip",
+        "decodedBytes": 75304960,
+        "decodedSha256": "cb53af14c67daadfc20ecbfe304d631d651022179793a77aa11413244d2f456d",
+        "encodedPath": "geonames.sqlite.gz",
+        "path": "geonames.sqlite",
+        "sha256": "44baf25803a91d3c070831a2a50de0e731bc59b024a2c143d47824dce3343c7a"
+      },
+      "model": {
+        "repository": "https://github.com/ingitdb/geo-ingitdb",
+        "revision": "6f4cf1269bc393048f6b204069135a62f0bb6c02",
+        "path": "model/geonames.modelspec.json",
+        "sha256": "609fe73e07b84db65bdb1a904b9f84dd5c43bcbbc75eeb2d75f9a69ed3e8af81"
+      },
+      "binding": {
+        "repository": "https://github.com/ingitdb/geo-ingitdb",
+        "revision": "6f4cf1269bc393048f6b204069135a62f0bb6c02",
+        "path": "model/geonames.meaning.yaml",
+        "sha256": "21bb35aecf1f1214908f245cfeb2d0c5e7c6caf3915a5ffd604254642b3b4b57"
+      },
+      "meaning_core_revision": "982916d73f0a35ff2558b0062f58aa3ac4f24d97",
+      "source_semantic_authority": "evidence/w1-source-wrapper-continuity.json preserves exact original decision scope and independent review; that file grants no eligibility.",
+      "native_provenance": [
+        {
+          "repository": "https://github.com/ingitdb/geo-ingitdb",
+          "revision": "6f4cf1269bc393048f6b204069135a62f0bb6c02",
+          "path": "source/native-key-evidence.json",
+          "sha256": "59d10462f828c32a652da074d7649ad68499845b75b03bdff93ddeb8907481f7",
+          "bytes": 5337
+        },
+        {
+          "repository": "https://github.com/ingitdb/geo-ingitdb",
+          "revision": "6f4cf1269bc393048f6b204069135a62f0bb6c02",
+          "path": "source/native/geonames_countries.json",
+          "sha256": "4f52bf1f9bbb417fc3ca1a67b0fc96e0af9d8baf271fd66cfe9eaaaa5b8e4412",
+          "bytes": 9861
+        },
+        {
+          "repository": "https://github.com/ingitdb/geo-ingitdb",
+          "revision": "6f4cf1269bc393048f6b204069135a62f0bb6c02",
+          "path": "source/native/geonames_admin1.json",
+          "sha256": "6e37456681bb8e71ed47705db3f53136d7156d3afaebb243caae16ae98b76d87",
+          "bytes": 9864
+        },
+        {
+          "repository": "https://github.com/ingitdb/geo-ingitdb",
+          "revision": "6f4cf1269bc393048f6b204069135a62f0bb6c02",
+          "path": "source/native/geonames_places.json",
+          "sha256": "e3c66269820e94229dd97ba777f10e12812f5f89c7058666d98bd3d51d1f3a56",
+          "bytes": 9860
+        },
+        {
+          "repository": "https://github.com/ingitdb/geo-ingitdb",
+          "revision": "6f4cf1269bc393048f6b204069135a62f0bb6c02",
+          "path": "source/native/geonames_alternate_names.json",
+          "sha256": "5a139309815e6c9ea54127390652f6121e4d54c1ab6ff479af5dc0bfb33296d0",
+          "bytes": 9940
+        }
+      ]
+    }
+  },
+  "representation_tooling": {
+    "helper_revision": "bb535a658f06a8752688ba36cb4b76ecf0483254",
+    "release": "OVDB v0.26.0",
+    "schemas": [
+      {
+        "repository": "https://github.com/openvaultdb/ovdb",
+        "revision": "bb535a658f06a8752688ba36cb4b76ecf0483254",
+        "path": "publisher/representation/schema.json",
+        "sha256": "c75eb5cae7201a9c10432239ece5ffd93a750f191c9b04129c89169f4449d844"
+      },
+      {
+        "repository": "https://github.com/openvaultdb/ovdb",
+        "revision": "bb535a658f06a8752688ba36cb4b76ecf0483254",
+        "path": "publisher/representation/schema2.json",
+        "sha256": "fa281400fbe063d1abbcbf5c7578dd23932dd798ee91810e0906ffa2431dc0bc"
+      }
+    ],
+    "scope": "Staged structural helper only; exact release/main CI is retained in w1-component-progress.json. Existing default publisher still rejects the attachment.",
+    "association": "Geo native proofs preserve source/generation-snapshot.json, explicit SHA256 and literal output_key sqlite. ROR keeps absent-association filename-keyed behavior. No normalized synthetic snapshot replaces either original.",
+    "checked_publication_needed": [
+      "Extend existing publisher manifest and Directory validator/index exposure under their admitted owner, with exact relative attachment path/hash and immutable outer provider commit.",
+      "Validate accepted source repository/revision/schema/entity/property/namespace, target model/binding/core, source/native/bridge/snapshot closure, allowed identity equality, cardinality, rights and metadata budget.",
+      "Reference original accepted decision documents exactly; bind separately reviewed wrapper continuity through existing canonical admission. Merely hash-reading free prose or this handoff cannot confer acceptance.",
+      "Preserve independent four country scopes; refuse wrong property/revision/namespace/hash, case/space variations, collisions and unreviewed native mappings.",
+      "Coordinate adopted helper version, Directory-generated link and app consumer. No new registry, parsed free-prose disposition engine, research-ID hardcode or generalized transform language."
+    ]
+  },
+  "runtime_obligations": {
+    "artifact_loading": "Use exact immutable source assets with redirect refusal and ordered reviewed gzip members; preserve the existing 25MiB per-file and 2GiB decoded fetch guards. Verify each encoded hash/length, aggregate and decoded size/hash. Source SQLite is unchanged.",
+    "native_identity": "ROR organizations.id is the native ROR:URL field. Faithfully preserve its name/path/value independently from generated serving data.id; no silent rename or serving-ID substitution. Any derived serving SQLite gets its own checksums and explicit source-to-serving proof.",
+    "physical_projection": "Four logical GeoNames recordsets plus one logical ROR organization recordset; bridge tables and ordered locations/relationships are auxiliary projections, not extra selected datasets. Runtime physical tables are explicit; views remain export/metadata-only unless separately supported.",
+    "query": "Exact-field equality and accepted byte-exact bridge joins through supported installed DALgo/OVDB path. Source-first keyed requests, no query-triggered corpus rebuild/download, no full static browser fallback. Explicit native keyed lookup returns enough rows to detect ambiguity (helper Limit2) while retaining raw keys/status/grain.",
+    "exceptions": "Keep Geo9 missing ROR places,234 missing admin1 references, ROR statuses and ordered location multiplicity visible. Null, empty, invalid, unmatched, ambiguous and multiplied outcomes stay distinct. No inferred affiliation truth or organization-name matching.",
+    "bounds": {
+      "input_rows": 1000,
+      "ror_ids": 50,
+      "place_ids": 100,
+      "results": 5000,
+      "response_bytes": 5242880,
+      "seconds": 10,
+      "pagination": "explicit and snapshot-consistent; validate boundaries, over-limit, cancellation/deadline and release of snapshots"
+    },
+    "capacity": "Measure complete W1 plus existing inventory, connection/cache behavior and concurrent bounded requests against deployed limits. The plan observed Cloud Run512MiB/1CPU/120seconds,min0/max2; these are baseline configuration observations, not fresh live capacity proof or authority to increase resources.",
+    "resource_gap": "Independent r1 audit plus distinct r2 correction review accept cached-input combined generation only under disclosed sampled/limited RSS and disk observations. Original capture elapsed/RSS remain absent; full official operational capture/build, unsampled aggregate capacity and runtime/Directory/browser/B1 remain open. Prospective separately pinned official candidate requires controller review before bulk and independent source/resource review afterward."
+  },
+  "acceptance_receipts_required": [
+    {
+      "journey": "J1/J2",
+      "receipt": "Owner-published canonical registry/model/binding/provider/Directory attachment with checked original decision and wrapper continuity; schema2 app consumption and exact supported field explanation. Canonical revision mutation must change suggestions after cache invalidation."
+    },
+    {
+      "journey": "J3",
+      "receipt": "Exact runtime source/binary/provider/service-origin identity; real generic mount/profile/collection/DTQL/keyed requests, bounded pagination/cancel/deadline/bytes, explicit action and no static fallback."
+    },
+    {
+      "journey": "J4",
+      "receipt": "Actual accepted country denominator59/59,91/93 with2NULL,830/830,8/8 and declared ROR fixture independently checked; native exceptions, raw-to-projected values, source statuses, orphan references and location grain. Source/release/rights/download provenance remains visible."
+    },
+    {
+      "journey": "J5",
+      "receipt": "Actual query-store save/reopen with immutable original query/results/contract/model/meaning/provider/runtime pins; fresh revalidation and visible acknowledgement before re-execution on changed or stale inputs."
+    },
+    {
+      "journey": "J6",
+      "receipt": "Independent real browser network observation proves no automatic lookup/refresh when the user takes no action; original snapshot remains intact."
+    },
+    {
+      "journey": "publication",
+      "receipt": "Directory root manifest listing and live public identity/API route, read-only negative writes, CORS, licences/download attribution and intended advertised metadata; exact-main CI/deployment/sync/cleanup from each owner."
+    },
+    {
+      "journey": "programme",
+      "receipt": "B1 owner closes remaining corpus publication through independent exact evidence; full resource and product prerequisites pass before root considers phases4/5/6. No source/registry/helper publication alone closes them."
+    }
+  ],
+  "app_foundation": {
+    "revision": "e6569c5d606af0c4094b9e9d7db6ca1c5964a62b",
+    "state": "Landed staged schema1 preparation, exact-main checks and deployment workflow successful; no W1 live query acceptance.",
+    "remaining": "Separate native/fresh saved-revalidation companion active; schema2 admission, release/freshness/coverage/confidence, mutation-to-suggestion and integrated real journey remain unaccepted."
+  },
+  "canonical_registry_state": "Both source registrations landed. ModelSpec main CI passed; MeaningGraph main CI pending. Exact pins below and receipts in w1-component-progress.json confer no runtime eligibility.",
+  "tools": {
+    "ownership_and_isolation": "WB active/list/guard/create after root admission; inspect actual runtime/host claim. This handoff dispatches nobody.",
+    "builds_and_tests": "wb run with each repository existing validator/test commands; meaningful exact-head CI follows.",
+    "publication": "wb pr create for author PRs; root wb pr land or wb worktree land for assigned W1 lanes. Existing external owner retains its own publications.",
+    "evidence": "Existing fabric.evidence/implementation and provider/registry/Directory artifact conventions; inGitDB and SpecScore validators.",
+    "browser_acceptance": "Existing DataTug browser e2e and real network journey; exact expected-versus-observed evidence for each user-visible step."
+  },
+  "canonical_registrations": {
+    "meaninggraph": {
+      "repository": "https://github.com/meaninggraph/registry",
+      "revision": "3d85ae6fa06b7f38f59cfd2893e07ba801856b96",
+      "files": [
+        {
+          "path": "index.json",
+          "sha256": "42931545086beb7c69d803767b8d50e524baff2ff37a2ec9eb8526eee16aa4a5"
+        },
+        {
+          "path": "graphs/$records/geonames.yaml",
+          "sha256": "1b1d830c119b940f95f6657c0945e2137673f8febbd4a8a3e6e2cc16316e308f"
+        },
+        {
+          "path": "graphs/$records/ror.yaml",
+          "sha256": "2c3e687fd5e3c72cda77891ecc6d73565b5cb8715e6aa278fd77e474b6919760"
+        },
+        {
+          "path": "dependencies/$records/geonames--core.yaml",
+          "sha256": "84221ace50bf5da392530856650c1499d565f30ea4c4f9c476868f4eb662388e"
+        },
+        {
+          "path": "dependencies/$records/ror--core.yaml",
+          "sha256": "ca1f72ad549bdd6804445ed433628b40f42fefdf93dfeae86a9bfe7521f42d17"
+        }
+      ],
+      "main_ci": "pending",
+      "scope": "Source registration only; no source-to-user compatibility, runtime eligibility or query acceptance."
+    },
+    "modelspec": {
+      "repository": "https://github.com/modelspec-org/registry",
+      "revision": "34be21159e522e85b6e5c110f8bfb8baaa8035a8",
+      "files": [
+        {
+          "path": "index.json",
+          "sha256": "302a04f9775aec8627ddab0361030156f592abb3e446088ba43bd813aa527576"
+        },
+        {
+          "path": "models/$records/geonames.yaml",
+          "sha256": "d1051dfc5b4fde33ec83ff8f53c1735a8ffbae1e6706e03220db81b883641f80"
+        },
+        {
+          "path": "models/$records/ror.yaml",
+          "sha256": "941dac58e337ececd25ae8e1e4ac7527cfea86588df36eba406d4202b6fe0539"
+        }
+      ],
+      "main_ci": "passed",
+      "scope": "Source registration only; no source-to-user compatibility, runtime eligibility or query acceptance."
+    }
+  }
+}

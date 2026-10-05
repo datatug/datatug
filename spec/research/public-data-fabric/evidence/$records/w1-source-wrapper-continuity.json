@@ -1,0 +1,10 @@
+{
+  "title": "W1 source-wrapper continuity evidence",
+  "observed_at": "2026-10-05",
+  "outcome": "partial",
+  "summary": "Records prior independent continuity acceptance for both landed wrappers against exact original decisions and source-generation bytes; no new semantic disposition or production eligibility.",
+  "reviewer": "w1_canonical_evidence",
+  "independent": false,
+  "review_stage": "implementation",
+  "path": "spec/research/public-data-fabric/evidence/w1-source-wrapper-continuity.json"
+}

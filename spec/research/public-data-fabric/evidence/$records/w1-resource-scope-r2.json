@@ -1,0 +1,10 @@
+{
+  "title": "Independent r2 correction review of cached W1 resource evidence",
+  "observed_at": "2026-10-05",
+  "outcome": "pass",
+  "summary": "R1-M1 capture-point wording and retained-input reproduction caveats corrected; original hashes and metric values unchanged. Cached generation scope only, no full capture/build or programme gate closure.",
+  "reviewer": "w1_canonical_evidence",
+  "independent": true,
+  "review_stage": "implementation",
+  "path": "spec/research/public-data-fabric/evidence/w1-resource-delta-review-r2.md"
+}

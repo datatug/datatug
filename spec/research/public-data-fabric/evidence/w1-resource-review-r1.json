@@ -1,0 +1,425 @@
+{
+  "accepted_scope": "Existing cached frozen inputs -> serial full ROR and Geo source generation -> hashes, chunks and SQL verification, under disclosed sampled resource observation.",
+  "blockers": 0,
+  "checks_executed": {
+    "arithmetic_payload_bound": 164986880,
+    "databases": {
+      "geo": {
+        "bytes": 75304960,
+        "counts": {
+          "geonames_admin1": 3865,
+          "geonames_alternate_names": 844831,
+          "geonames_chinook_customer_country": 24,
+          "geonames_countries": 252,
+          "geonames_northwind_customer_country": 21,
+          "geonames_northwind_order_country": 21,
+          "geonames_places": 75300,
+          "geonames_pubs_publisher_country": 3,
+          "missing_admin1_references": 234,
+          "missing_country_references": 0,
+          "missing_ror_places": 9,
+          "orphan_admin1": 0,
+          "required_ror_places": 19729
+        },
+        "independent_missing_admin1": 234,
+        "independent_missing_country": 0,
+        "independent_missing_ror": 9,
+        "integrity_check": "ok",
+        "sha256": "cb53af14c67daadfc20ecbfe304d631d651022179793a77aa11413244d2f456d"
+      },
+      "ror": {
+        "bytes": 238563328,
+        "counts": {
+          "locations": 141722,
+          "organizations": 141528,
+          "relationships": 72747
+        },
+        "integrity_check": "ok",
+        "multiple_locations": 138,
+        "sha256": "afdf978130ee9899fedb698f0e9d18399efdea40ea92f01f26d6055ef1ed5d38",
+        "statuses": {
+          "active": 138289,
+          "inactive": 1809,
+          "withdrawn": 1430
+        }
+      }
+    },
+    "decoded_chunks": {
+      "bytes": 75304960,
+      "sha256": "cb53af14c67daadfc20ecbfe304d631d651022179793a77aa11413244d2f456d"
+    },
+    "git": {
+      "geo": {
+        "exported_files": {
+          "bridges/accepted-country-bridges.json": {
+            "canonical_head_sha256": "513d5a7721afe73426df2412ea4a4e74d5914cb612ff80b9f0d7d3a0a679ce0d",
+            "source_sha256": "513d5a7721afe73426df2412ea4a4e74d5914cb612ff80b9f0d7d3a0a679ce0d",
+            "unchanged_at_current_head": true
+          },
+          "model/geonames.meaning.yaml": {
+            "canonical_head_sha256": "21bb35aecf1f1214908f245cfeb2d0c5e7c6caf3915a5ffd604254642b3b4b57",
+            "source_sha256": "21bb35aecf1f1214908f245cfeb2d0c5e7c6caf3915a5ffd604254642b3b4b57",
+            "unchanged_at_current_head": true
+          },
+          "model/geonames.modelspec.hcl": {
+            "canonical_head_sha256": "4122425f3ee8e14e965a1acef4c676592618ec95120eac830f73de1e36b816aa",
+            "source_sha256": "4122425f3ee8e14e965a1acef4c676592618ec95120eac830f73de1e36b816aa",
+            "unchanged_at_current_head": true
+          },
+          "model/geonames.modelspec.json": {
+            "canonical_head_sha256": "609fe73e07b84db65bdb1a904b9f84dd5c43bcbbc75eeb2d75f9a69ed3e8af81",
+            "source_sha256": "609fe73e07b84db65bdb1a904b9f84dd5c43bcbbc75eeb2d75f9a69ed3e8af81",
+            "unchanged_at_current_head": true
+          },
+          "scripts/geonames_w1.py": {
+            "canonical_head_sha256": "4808c935cfce0c4b61fb1ab71ebfedcd4a8a5ec279c8ab4230db89233aab0f20",
+            "source_sha256": "4808c935cfce0c4b61fb1ab71ebfedcd4a8a5ec279c8ab4230db89233aab0f20",
+            "unchanged_at_current_head": true
+          }
+        },
+        "remote_head_verified_separately_ls_remote": "6f4cf1269bc393048f6b204069135a62f0bb6c02",
+        "source_ancestor_of_head": true,
+        "source_pin": "fc53a3537304dd77a4e97162608454b2da2ae241"
+      },
+      "ror": {
+        "exported_files": {
+          "DATA-LICENSE.md": {
+            "canonical_head_sha256": "39d8853e3c9f9a7a96ea77edd1afe52ad25902f34a30855ad53c2c1aed62443b",
+            "source_sha256": "39d8853e3c9f9a7a96ea77edd1afe52ad25902f34a30855ad53c2c1aed62443b",
+            "unchanged_at_current_head": true
+          },
+          "scripts/import_ror.py": {
+            "canonical_head_sha256": "2ff1bc52de2d0fd10376a26972c45c12800bdadd2a16576d28c23a45b73aaea3",
+            "source_sha256": "2ff1bc52de2d0fd10376a26972c45c12800bdadd2a16576d28c23a45b73aaea3",
+            "unchanged_at_current_head": true
+          },
+          "source/ror-v2.13.json": {
+            "canonical_head_sha256": "492f57ee01f5410852f1118e19d94698258e7494cc72a1e6f4a30e5f9da5caea",
+            "source_sha256": "492f57ee01f5410852f1118e19d94698258e7494cc72a1e6f4a30e5f9da5caea",
+            "unchanged_at_current_head": true
+          }
+        },
+        "remote_head_verified_separately_ls_remote": "dc78c1e929f1f10018f8c39e690351059a50c71f",
+        "source_ancestor_of_head": true,
+        "source_pin": "bbbec903248680caea04e68f94b9a957b6efc55b"
+      }
+    },
+    "network_receipt": {
+      "bulk_get_bytes_reported": 0,
+      "note": "No independent historical network trace; cached executed generators use local files. HEAD headers are retained author evidence."
+    },
+    "original_geo_identical_non_snapshot_files": [
+      "ATTRIBUTION.txt",
+      "geonames.sqlite.0001.gz",
+      "geonames.sqlite.0004.gz",
+      "geonames.sqlite.0000.gz",
+      "country-keys.json",
+      "geonames.sqlite.0003.gz",
+      "geonames.sqlite.0002.gz",
+      "geonames.sqlite",
+      "bridges/geonames_chinook_customer_country.json",
+      "bridges/geonames_northwind_order_country.json",
+      "bridges/geonames_northwind_customer_country.json",
+      "bridges/geonames_pubs_publisher_country.json",
+      "bridges/accepted-inputs.json",
+      "model/geonames.modelspec.json",
+      "model/geonames.meaning.yaml",
+      "model/geonames.modelspec.hcl"
+    ],
+    "phases": {
+      "geo": {
+        "external": {
+          "argv": [
+            "/opt/homebrew/opt/python@3.14/bin/python3.14",
+            "/private/tmp/data-fabric-w1-combined-resource-validation/code/geo/scripts/geonames_w1.py",
+            "build",
+            "--inputs",
+            "/private/tmp/data-fabric-w1-combined-resource-validation/inputs-geo/inputs.json",
+            "--ror-closure",
+            "/private/tmp/data-fabric-w1-combined-resource-validation/closure/ror-closure.json",
+            "--out",
+            "/private/tmp/data-fabric-w1-combined-resource-validation/geo-output",
+            "--tool-revision",
+            "fc53a3537304dd77a4e97162608454b2da2ae241",
+            "--receipt",
+            "/private/tmp/data-fabric-w1-combined-resource-validation/geo-generation-internal.json"
+          ],
+          "elapsed_seconds": 124.16246195835993,
+          "exit_code": 0,
+          "generator_peak_rss_bytes": 129662976,
+          "generator_pid": 75546,
+          "rss_scope": "macOS wait4 rusage of directly awaited generator; generator creates no subprocesses"
+        },
+        "internal": {
+          "disk_measurement": "sampled logical files under complete input and staging roots",
+          "elapsed_seconds": 124.081086,
+          "limits": {
+            "disk_bytes": 8589934592,
+            "download_bytes": 1073741824,
+            "elapsed_seconds": 1800,
+            "metadata_bytes": 2097152,
+            "rss_bytes": 536870912,
+            "sqlite_bytes": 268435456
+          },
+          "peak_observed_disk_bytes": 1423353856,
+          "peak_rss_bytes": 128794624,
+          "platform": "macOS-26.6.2-arm64-arm-64bit-Mach-O",
+          "python": "3.14.7",
+          "rss_source": "getrusage(RUSAGE_SELF).ru_maxrss",
+          "sqlite": "3.53.4"
+        },
+        "sampled_presence_end": 129.85367454122752,
+        "sampled_presence_start": 6.090050750412047
+      },
+      "ror": {
+        "external": {
+          "argv": [
+            "/opt/homebrew/opt/python@3.14/bin/python3.14",
+            "/private/tmp/data-fabric-w1-combined-resource-validation/code/ror/scripts/import_ror.py",
+            "--archive",
+            "/private/tmp/data-fabric-w1-combined-resource-validation/inputs-ror/v2.13-2026-09-22-ror-data.zip",
+            "--pin",
+            "/private/tmp/data-fabric-w1-combined-resource-validation/code/ror/source/ror-v2.13.json",
+            "--out",
+            "/private/tmp/data-fabric-w1-combined-resource-validation/ror-output"
+          ],
+          "elapsed_seconds": 5.557266291696578,
+          "exit_code": 0,
+          "generator_peak_rss_bytes": 47120384,
+          "generator_pid": 75413,
+          "rss_scope": "macOS wait4 rusage of directly awaited generator; generator creates no subprocesses"
+        },
+        "internal": {
+          "download_bytes": 37540961,
+          "elapsed_seconds": 5.490397917106748,
+          "peak_rss_bytes": 46481408,
+          "platform": "macOS-26.6.2-arm64-arm-64bit-Mach-O",
+          "python": "3.14.7",
+          "sqlite": "3.53.4",
+          "temporary_bytes": 276264145
+        },
+        "sampled_presence_end": 5.815030541270971,
+        "sampled_presence_start": 0.5759561662562191
+      }
+    },
+    "samples": {
+      "count": 478,
+      "first_elapsed": 0.021884083282202482,
+      "gap_max": 0.319108041934669,
+      "gap_median": 0.2769442079588771,
+      "gap_min": 0.26717441715300083,
+      "last_elapsed": 132.04794666636735,
+      "outer_elapsed": 132.3086845832877,
+      "peaks": {
+        "allocated_disk_bytes": 1532022784,
+        "logical_disk_bytes": 1513037456,
+        "tree_rss_bytes": 181075968
+      }
+    },
+    "sidecars": {
+      "geo": {
+        "bytes": 42238,
+        "files": [
+          "geo-output/ATTRIBUTION.txt",
+          "geo-output/snapshot.json",
+          "geo-output/country-keys.json",
+          "geo-output/bridges/geonames_chinook_customer_country.json",
+          "geo-output/bridges/geonames_northwind_order_country.json",
+          "geo-output/bridges/geonames_northwind_customer_country.json",
+          "geo-output/bridges/geonames_pubs_publisher_country.json",
+          "geo-output/bridges/accepted-inputs.json",
+          "geo-output/model/geonames.modelspec.json",
+          "geo-output/model/geonames.meaning.yaml",
+          "geo-output/model/geonames.modelspec.hcl"
+        ]
+      },
+      "ror": {
+        "bytes": 160088,
+        "files": [
+          "ror-output/DATA-LICENSE.md",
+          "ror-output/snapshot.json",
+          "ror-output/resources.json",
+          "ror-output/ror-geonames-ids.txt"
+        ]
+      }
+    },
+    "snapshot_changes": [
+      {
+        "new": "fc53a3537304dd77a4e97162608454b2da2ae241",
+        "old": "ee9152f1d8f5aaf34960540d4328966c85fe66b2",
+        "path": "/generator/revision"
+      },
+      {
+        "new": "fc53a3537304dd77a4e97162608454b2da2ae241",
+        "old": "ee9152f1d8f5aaf34960540d4328966c85fe66b2",
+        "path": "/importer_revision"
+      }
+    ],
+    "sources": {
+      "files": {
+        "admin1CodesASCII.txt": {
+          "bytes": 151583,
+          "rows": 3865,
+          "sha256": "1da92a6323a5fec3176f3f743bf4cf4040fd56a876da55e46fbca23c863aa60a"
+        },
+        "allCountries.zip": {
+          "bytes": 422005409,
+          "rows": 13472243,
+          "sha256": "0c06603f65161d9ff072658f7c19a071d965254fd3c34190261ef02fd1bd67fc"
+        },
+        "alternateNamesV2.zip": {
+          "bytes": 204810908,
+          "rows": 19219256,
+          "sha256": "00541c69ae9e1bfef9092d8f3cdaa60f474eaec94954f72f8c02139dcf0706ef"
+        },
+        "cities5000.zip": {
+          "bytes": 5708626,
+          "rows": 69763,
+          "sha256": "4e767cb4c93e61455154044113f172d9a620722e3e41e425f8d522ab3f27878a"
+        },
+        "countryInfo.txt": {
+          "bytes": 31678,
+          "rows": 252,
+          "sha256": "93bafc525813f22e4711ff9ed6d626343094ce48c26388dc7c49189b3d7d5512"
+        },
+        "v2.13-2026-09-22-ror-data.zip": {
+          "bytes": 37540961,
+          "member_bytes": 317796669,
+          "member_sha256": "6d032ff473f771e015da0837fe28b881a8f85822ee7815effefe11dc49c4346c",
+          "sha256": "476988542f1bdd185f779386f90149371f58cb4ebdba326db3b7b428a468d4a5"
+        }
+      },
+      "unique_bytes": 670249165,
+      "unique_inodes": 6
+    }
+  },
+  "evidence_sha256": {
+    "closure/ror-closure.json": "c9c89bc179beb69efa9c29ef7ed740a67dba0d6ac9e339fb3cbf4baea01a0e81",
+    "code/geo/bridges/accepted-country-bridges.json": "513d5a7721afe73426df2412ea4a4e74d5914cb612ff80b9f0d7d3a0a679ce0d",
+    "code/geo/model/geonames.meaning.yaml": "21bb35aecf1f1214908f245cfeb2d0c5e7c6caf3915a5ffd604254642b3b4b57",
+    "code/geo/model/geonames.modelspec.hcl": "4122425f3ee8e14e965a1acef4c676592618ec95120eac830f73de1e36b816aa",
+    "code/geo/model/geonames.modelspec.json": "609fe73e07b84db65bdb1a904b9f84dd5c43bcbbc75eeb2d75f9a69ed3e8af81",
+    "code/geo/scripts/geonames_w1.py": "4808c935cfce0c4b61fb1ab71ebfedcd4a8a5ec279c8ab4230db89233aab0f20",
+    "code/ror/DATA-LICENSE.md": "39d8853e3c9f9a7a96ea77edd1afe52ad25902f34a30855ad53c2c1aed62443b",
+    "code/ror/scripts/import_ror.py": "2ff1bc52de2d0fd10376a26972c45c12800bdadd2a16576d28c23a45b73aaea3",
+    "code/ror/source/ror-v2.13.json": "492f57ee01f5410852f1118e19d94698258e7494cc72a1e6f4a30e5f9da5caea",
+    "geo-generation-external.json": "91329f3c927d4662f674665cea4916ac87272d042d97bc7fbe4cc317d3551d3f",
+    "geo-generation-internal.json": "0d787d0095f95952f7c56c761ededa83a01f9211c1ba22b6259df3c51eedf7d1",
+    "geo-generation.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "geo-generation.stdout": "2dc76fb663cd466c49c64aadd48a3c3d15d54fdbc30599791300b4544e05c96c",
+    "geo-output/ATTRIBUTION.txt": "43a7e1b53ca7fcfc45ae9fac0548544b5d4ecf1bce2b7d4c3b498ab4fb9f5cc7",
+    "geo-output/bridges/accepted-inputs.json": "513d5a7721afe73426df2412ea4a4e74d5914cb612ff80b9f0d7d3a0a679ce0d",
+    "geo-output/bridges/geonames_chinook_customer_country.json": "8ad135c902b84ddfd32ccca029a81c5c76ef84e71c3ee793d57feae2c6e92ded",
+    "geo-output/bridges/geonames_northwind_customer_country.json": "a4bed8390ab416b8f314b8cb253e9960b3db59482a91d5a6095f80fd8bcc545a",
+    "geo-output/bridges/geonames_northwind_order_country.json": "e1e6371f9504b8be7fe1b547b1d4d977976949299ef76fb5c7cede1c78c3e5b7",
+    "geo-output/bridges/geonames_pubs_publisher_country.json": "0e38ab8ca3bace7fa834f9e251ade0544407747d362ebff775c7d24e8fa9b377",
+    "geo-output/country-keys.json": "c57b21174d0f0d2badd575cf1c2605840bc862e6cebd52064ceffd9c266ee9c8",
+    "geo-output/geonames.sqlite": "cb53af14c67daadfc20ecbfe304d631d651022179793a77aa11413244d2f456d",
+    "geo-output/geonames.sqlite.0000.gz": "151d8259488fe61f3be689deb72f00da40f2ac487bf71d6a6266c896db6d49a0",
+    "geo-output/geonames.sqlite.0001.gz": "f878093b65f05beab952f72a0d9e4980672d0e601d8d9fbb46ddad3b3b0ddcf7",
+    "geo-output/geonames.sqlite.0002.gz": "80fc93abeb14aae20e5cc17ce6823f2201a3b3e353e21bf1406fa81e09d5ed18",
+    "geo-output/geonames.sqlite.0003.gz": "c3ccd40abda8f5962c529d9d501902a24a522d958526ce413826098287dbebe4",
+    "geo-output/geonames.sqlite.0004.gz": "761f235d5742c19cc6f34e0fbb95c4158d4ebc98e298f9f1bf7ec76be83c5031",
+    "geo-output/model/geonames.meaning.yaml": "21bb35aecf1f1214908f245cfeb2d0c5e7c6caf3915a5ffd604254642b3b4b57",
+    "geo-output/model/geonames.modelspec.hcl": "4122425f3ee8e14e965a1acef4c676592618ec95120eac830f73de1e36b816aa",
+    "geo-output/model/geonames.modelspec.json": "609fe73e07b84db65bdb1a904b9f84dd5c43bcbbc75eeb2d75f9a69ed3e8af81",
+    "geo-output/snapshot.json": "8b2cb98e097ef9f3135179784c27c4b9a54b43f6605020912721510911149f09",
+    "inputs-geo/admin1CodesASCII.txt": "1da92a6323a5fec3176f3f743bf4cf4040fd56a876da55e46fbca23c863aa60a",
+    "inputs-geo/allCountries.zip": "0c06603f65161d9ff072658f7c19a071d965254fd3c34190261ef02fd1bd67fc",
+    "inputs-geo/alternateNamesV2.zip": "00541c69ae9e1bfef9092d8f3cdaa60f474eaec94954f72f8c02139dcf0706ef",
+    "inputs-geo/cities5000.zip": "4e767cb4c93e61455154044113f172d9a620722e3e41e425f8d522ab3f27878a",
+    "inputs-geo/countryInfo.txt": "93bafc525813f22e4711ff9ed6d626343094ce48c26388dc7c49189b3d7d5512",
+    "inputs-geo/inputs.json": "ec3ae4ecd830648039f26532ce27956592ff2abc707ea1db1cc0ff4255580436",
+    "inputs-ror/v2.13-2026-09-22-ror-data.zip": "476988542f1bdd185f779386f90149371f58cb4ebdba326db3b7b428a468d4a5",
+    "inspection-network.json": "302e16eeeddf78eac1b2c232c979d9b05a1122223498fc834415169e92b32cc9",
+    "inspection.json": "5e3c5d664a998d80dd5c24492d063ad2e98f154b4721c4f1956c7c370d8c1355",
+    "measure.py": "d5b4703109c4b01dd66b29b21bca862718c4e14168ed968f804ab624c9e01120",
+    "observer-result.json": "ffe93673705d42fbaa4f6f3fcf65d18443849923ba45423021df2051f0fdc62d",
+    "pipeline.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "pipeline.stdout": "39e7286c90b421cd2f002c43a8e65b23ae0c835266c9d4c3b3631c69a1a55b32",
+    "report.md": "86305a41eec6bfba4e8d06e84f9420cab6699389f65f7aff3362911b82baa8c6",
+    "ror-generation-external.json": "16ee6d6207f49bbb94cb824ad2a9bae315d4bd4f678071ba7d3144be99db49fc",
+    "ror-generation.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "ror-generation.stdout": "963b8093b998715adfb922eeb07aa94c1e4808de2d73803a60a08522181fa4b4",
+    "ror-output/DATA-LICENSE.md": "39d8853e3c9f9a7a96ea77edd1afe52ad25902f34a30855ad53c2c1aed62443b",
+    "ror-output/resources.json": "505154bb96eac74cc2b7e326b057bcff3f0f86cdb9d31aba017e588707f60b1a",
+    "ror-output/ror-geonames-ids.txt": "04c27970c5e70c8d3bbd470e18d022d0477dbd63257da3e9c8427043f66081e9",
+    "ror-output/ror.sqlite": "afdf978130ee9899fedb698f0e9d18399efdea40ea92f01f26d6055ef1ed5d38",
+    "ror-output/snapshot.json": "80f845f8c652408fc7e5e61bf17f09ffe75bed5087f7b3d7657696ae972d3e96",
+    "samples.jsonl": "b102e6c788840f7b14919878665880c2e666875e39c6d97776b6c48c09dd3119",
+    "summary.json": "eb96a8cd3395bc24e2d8cc558bd2aeb3ff307139b3cd7bc472b056fab31449df",
+    "worker-result.json": "a7da360d4bfe23377414bf380569cd6f212d4c909650d4a7fab8315438ebf6d6"
+  },
+  "execution": {
+    "audit_command": "wb run -- /opt/homebrew/opt/python@3.14/bin/python3.14 /private/tmp/data-fabric-w1-resource-review/audit.py",
+    "audit_exit_code": 0,
+    "canonical_queries": [
+      "wb run -- git -C /Users/alex/projects/ingitdb/geo-ingitdb ls-remote origin refs/heads/main",
+      "wb run -- git -C /Users/alex/projects/ingitdb/ror-ingitdb ls-remote origin refs/heads/main"
+    ],
+    "remote_query_note": "Initial sandbox DNS failed; the same read-only queries succeeded with network escalation. Remote heads matched local origin/main; exact commit objects and ancestry were checked without editing repositories."
+  },
+  "findings": [
+    {
+      "correction": "Describe 35323904 B as worker peak RSS through the post-verification capture point, and 164986880 B as a conservative payload RSS bound through that point. Explicitly exclude subsequent receipt serialization, final stdout and process teardown, as well as WB/observer. Describe 26836992 B as observer peak through its receipt-assembly capture point. Retain generator wait4 lifetime maxima and sampled simultaneous tree peak unchanged. Annotate retained raw receipt field names rather than retroactively altering original evidence.",
+      "evidence": "The worker reads ru_maxrss after data verification but before constructing, serializing, writing and printing its result. The observer reads ru_maxrss while constructing its final result, also before serialization and exit. Neither value is externally reaped full-lifetime rusage.",
+      "id": "R1-M1",
+      "locations": [
+        "measure.py:126-140",
+        "measure.py:178-188",
+        "report.md:9-19",
+        "summary.json:metrics"
+      ],
+      "rerun_condition": "Only a claim covering full worker/observer lifetime requires a new externally reaped measurement. This bounded cached-generation acceptance can use a wording repair.",
+      "rerun_required": false,
+      "severity": "minor",
+      "title": "RSS capture points are narrower than whole process lifetime"
+    }
+  ],
+  "land": false,
+  "land_scope": "Evidence wording repair pending; no repository landing requested or reviewed.",
+  "majors": 0,
+  "minors": 1,
+  "open_limits": [
+    "Original official capture elapsed time and RSS remain absent and cannot be recovered by this replay.",
+    "No acquisition was included. Zero bulk GET is supported by the cached command path and retained author receipt, not independently captured historical network traffic. The six HEAD responses are retained author evidence; this review did not repeat them.",
+    "Sampled process RSS excludes observer/ps and may miss transients. The process list is an OS sample, not an atomic all-process physical-memory measurement.",
+    "Disk peaks cover paths beneath the private measurement root plus symlinked inputs, inode deduplicated. They exclude unlinked SQLite files and external prior comparison fixtures. They are sampled observations, not complete filesystem high-water or quota enforcement.",
+    "All generation code/assets match both pinned source commits and the current canonical heads, but packaging was not run in the measured operation. No CI, deployment, Directory, browser, runtime concurrency or B1 conclusion is made.",
+    "Reproduction relies on original absolute cache paths, original ROR closure and original r1-a comparison fixtures hard-coded in measure.py. A fresh directory alone is insufficient on a machine lacking those retained inputs.",
+    "Independent source review checks byte hashes, Geo row counts, SQL projection counts/statuses and missing references. It does not redo semantic reconciliation or licensing decisions."
+  ],
+  "recommendation": {
+    "decision": "Accept corrected evidence narrowly as cached combined generation. Current capture/build evidence is still OPEN; a separately pinned and reviewed new official candidate can close the prospective operational requirement without republishing existing artifacts or claiming historical proof.",
+    "not_yet_executed": "This is a proposed validation design with an unresolved immutable-transport prerequisite, not a tested runbook or an already executable acquisition command.",
+    "official_candidate_alternative": {
+      "candidate_review": "Before acquisition, explicitly authorize the new candidate and source scope. After capture, freeze exact source hashes/lengths/timestamps and independently review changed rows/counts, ROR closure, missing references, schema and projection invariants, candidate hashes and resource receipts. Never require different source bytes to reproduce the old output hashes; establish and review new candidate outputs while retaining old artifacts unchanged.",
+      "historical_limit": "Missing original capture telemetry remains an evidence limitation, not necessarily a permanent plan gate. The orchestrator may close a prospective reproducible-operation requirement with this explicitly reviewed new operation; it must not claim retrospective proof for the old exact bytes.",
+      "pre_acquisition_prerequisites": [
+        "Repair cached-evidence RSS capture-point wording and retain original raw receipts plus their hashes.",
+        "Create a distinct candidate ID/output root and manifest; lock generator code pins, official URL allowlist and the existing ROR release pin. Accepted artifact/publication pins remain unchanged.",
+        "Independently review the acquisition/measurement controller before download: redirect refusal, streaming hash/length validation, response/timeout handling, one aggregate 1 GiB transferred-payload limit and one 1800-second end-to-end deadline, fail-closed cleanup/retained diagnostics, serial generation, external process accounting, explicit disk scope and handling of open unlinked SQLite files.",
+        "Agree the prospective operational acceptance scope: what RSS/disk maxima are bounded or merely sampled, whether instrumentation is included, per-output 256 MiB SQLite and 2 MiB metadata ceilings, and 512 MiB RSS / 8 GiB disk limits. An unmeasured or sampled-only component must remain disclosed rather than silently counted as proven.",
+        "Do not pre-approve unknown new Geo hashes as accepted corpus data. Capture only to the separate candidate, freeze observed hashes, then perform independent source-delta/projection/resource review before operational acceptance; publication promotion remains a later gate."
+      ],
+      "preferred_if_plan_allows_current_official_operation": true,
+      "promotion": "Only later promotion of this candidate into the corpus requires regenerating and revalidating every source-dependent artifact, provenance/manifest hash, registry/Directory dependency and deployed journey that changes. Existing published artifacts stay on their original pins until that promotion passes.",
+      "resource_acceptance": "Resource acceptance may be limited to the reviewed same-scope candidate operation. No publication or republishing all dependent artifacts is required merely to measure that operation. A major source-size/schema/scope change must not be treated as representative without review.",
+      "scope": "Acquire current official bytes once into a distinct immutable candidate manifest, then run the same pinned serial generators within one measured envelope. This can satisfy a prospective operational capture/build budget gate without a frozen mirror. It does not demonstrate the accepted historical snapshot capture.",
+      "selected_by_orchestrator": true
+    },
+    "smallest_next_validation": [
+      "Freeze the reviewed source manifest and require a designated owner to identify an authorized immutable transport location for all six exact input objects. There is no executable network acquisition of the frozen GeoNames bytes available in the supplied evidence today; do not manufacture a mirror URL or use changed mutable bytes.",
+      "Implement and independently review a small streaming acquisition controller using that manifest. Refuse redirects, stream to fresh files while hashing, enforce an aggregate 1073741824-byte cap and one 1800-second deadline covering capture, input verification, serial ROR then Geo generation, and output verification. Capture ROR once. Require exact lengths/hashes before generation; fail closed and retain diagnostic receipts on any mismatch.",
+      "Run that controller once through WB in a fresh private directory. Record acquisition URLs/timestamps and measured network payload separately from original official provenance. Reuse the exact pinned generation commands in the existing worker receipt and require the exact native SQLite hashes, Geo decoded-chunk hash, retained SQL counts/statuses and missing-reference counts.",
+      "If strict RSS/disk ceilings are part of operational acceptance, measure the controller and all child/wrapper lifetimes externally (or use an explicit enforceable memory ceiling) and use a bounded filesystem/quota that counts open unlinked SQLite temporary allocations. External instrumentation must itself have explicit scope; a supervisor exiting after serialization cannot prove its own lifetime peak.",
+      "Label the result new immutable-mirror acquisition plus build. It cannot repair the missing historical official-capture measurement. If the requirement instead mandates official upstream capture, separately review the changed monthly candidate and its provenance/semantics before acquisition/promotion; do not silently repin this snapshot."
+    ]
+  },
+  "review_round": "r1",
+  "review_tools_sha256": {
+    "audit-results.json": "db9dbc211c0ee1efa98a7a38b1f7bda66fe61e91966e0200ec47413d6d18687a",
+    "audit.py": "0e46dfdb07037c348dc439a960fae6dbbdab526a31fdc1cc090794f899b19fb0"
+  },
+  "verdict": "conditional_accept_cached_generation_after_wording_repair"
+}
