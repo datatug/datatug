@@ -1,0 +1,13 @@
+{
+  "title": "Sakila six-label and AdventureWorks historical-code observations",
+  "observed_at": "2026-10-05T00:18:27.404591+00:00",
+  "outcome": "observation",
+  "summary": "Bounded source observations only; no semantic acceptance. Informs candidate IDs demand-sakila-country,d1-geo-countries,d1-cldr-codes,demand-adventureworks-person-countryregion,d1-cldr-codes,d1-geo-countries and assertion IDs d1-edge-sakila-country,demand-map-1114afbf7290a7c7,demand-map-5e277dc947b9093b,d1-edge-aw-countrycode,d1-edge-cldr-geonames-country,demand-map-ef65e0be516653ec,demand-map-12b2ef108e447324. Complete counts, nulls/empty values, unmatched/ambiguous rows, source revisions, rights, category paths and counterexamples are in linked JSON; final decisions belong to dedicated reconciler.",
+  "repository": "datatug/datatug",
+  "commit": "05eecd54e441d7512cd3dc57f8a888595e152984",
+  "path": "spec/research/public-data-fabric/evidence/f3-gap-probes.json",
+  "command": "python3 spec/research/public-data-fabric/f3-gap-probe.py --captures /private/tmp/fabric-f3-gap --sakila /private/tmp/fabric-phase2-native/sakila.sqlite --adventureworks /private/tmp/fabric-phase2-native/adventureworks.sqlite --output /private/tmp/fabric-f3-gap/reproduced.json",
+  "reviewer": "portfolio-gap-evidence; local Codex/macOS source researcher",
+  "independent": false,
+  "review_stage": "discovery"
+}

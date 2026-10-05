@@ -1,0 +1,13 @@
+{
+  "title": "Ember annual country/economy and region projection observations",
+  "observed_at": "2026-10-05T00:18:27.404591+00:00",
+  "outcome": "observation",
+  "summary": "Bounded source observations only; no semantic acceptance. Informs candidate IDs d2-rs-ember-year,d2-rs-ember-month,d2-meaning-country-iso3,d2-data-ember-year,d2-data-ember-month and assertion IDs d2-map-ember-code,d2-edge-invoice-electricity,d2-edge-ember-annual-monthly. Complete counts, nulls/empty values, unmatched/ambiguous rows, source revisions, rights, category paths and counterexamples are in linked JSON; final decisions belong to dedicated reconciler.",
+  "repository": "datatug/datatug",
+  "commit": "05eecd54e441d7512cd3dc57f8a888595e152984",
+  "path": "spec/research/public-data-fabric/evidence/f3-gap-probes.json",
+  "command": "python3 spec/research/public-data-fabric/f3-gap-probe.py --captures /private/tmp/fabric-f3-gap --sakila /private/tmp/fabric-phase2-native/sakila.sqlite --adventureworks /private/tmp/fabric-phase2-native/adventureworks.sqlite --output /private/tmp/fabric-f3-gap/reproduced.json",
+  "reviewer": "portfolio-gap-evidence; local Codex/macOS source researcher",
+  "independent": false,
+  "review_stage": "discovery"
+}
