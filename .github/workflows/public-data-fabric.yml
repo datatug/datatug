@@ -34,3 +34,5 @@ jobs:
         run: python3 -B spec/research/public-data-fabric/test_inspect_reconciliation.py
       - name: Check accepted follow-up decisions, source hashes and ledger preservation
         run: python3 -B spec/research/public-data-fabric/evidence/w1-followup-decisions/verify.py
+      - name: Check accepted P1 wire addendum and immutable review bindings
+        run: python3 -B spec/research/public-data-fabric/evidence/w1-p1-wire-addendum/verify.py

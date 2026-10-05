@@ -1,0 +1,43 @@
+{
+  "id": "w1-p1-json-wire-semantic-clarification-r1",
+  "status": "proposed-awaiting-independent-review-and-root-acceptance",
+  "runtime_host": "local Codex/macOS",
+  "canonical_authority": false,
+  "execution_admitted": false,
+  "publication_admitted": false,
+  "prior_decision": {
+    "repository": "/Users/alex/projects/datatug/datatug",
+    "revision": "58bd87d057864209332ba8388888f878a3b9b6bb",
+    "path": "spec/research/public-data-fabric/evidence/w1-followup-decisions/semantic-decision.json",
+    "sha256": "62fa8fa939835e3c745b09d6c097a86780c0187a1f6dc57bd66087275a8dbf51"
+  },
+  "proposal": {
+    "path": "proposal.md",
+    "sha256": "6b1096ad1f9162be49cbf4f6be92275d827f65a9d272c8b25b25c72d867a5c1b"
+  },
+  "evidence": {
+    "path": "evidence.json",
+    "sha256": "f22c6790591a7e85c342a693fef1440273cc5f00db9624f48affeeaf7bbc2655"
+  },
+  "test_vectors": {
+    "path": "test-vectors.json",
+    "sha256": "9b050fea646a79af2971eb0a181e1a13982ec233cabc166aac19bb38b6199661"
+  },
+  "decision": {
+    "eligible_wire": "canonical positive decimal integer token <= 9007199254740991, exact numeric roundtrip, plus full admitted native type/source/serving/runtime provenance",
+    "integral_decimal_exponent": "unresolved representation; nonprojectable; invalid-reference with representation-ambiguous reason",
+    "unproved_native_type": "no eligibility even for canonical decimal wire token",
+    "invalid_reference": "retain identifiable location and exact raw/wire evidence; no dependent target query",
+    "invalid_admission_or_identity": "refuse affected admission/read; retain previously established parents and visible error/incomplete evidence",
+    "new_reviewed_addendum_required": true,
+    "eligibility_expansion": false
+  },
+  "open_gates": [
+    "fresh independent review",
+    "root acceptance",
+    "canonical immutable addendum/decision binding",
+    "actual app/worker/storage tests",
+    "source/runtime/Directory admission and publication",
+    "live J1-J6"
+  ]
+}

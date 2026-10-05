@@ -1,0 +1,49 @@
+{
+  "round": "review r1 w1-p1-wire",
+  "runtime_host": "local Codex/macOS",
+  "verdict": "accept-bounded-semantic-addendum",
+  "land_scope": "semantic acceptance and canonical persistence only",
+  "execution_admitted": false,
+  "publication_admitted": false,
+  "w1_admitted": false,
+  "findings": [],
+  "counts": {
+    "blockers": 0,
+    "majors": 0,
+    "minors": 0
+  },
+  "review": {
+    "path": "/private/tmp/data-fabric-w1-p1-wire-independent/review-r1.md",
+    "sha256": "f7c1e2942e2ca0b5e1a40811f89a1fbff2e800c61c8897f99fcd339b2d5bb416"
+  },
+  "inputs": {
+    "/private/tmp/data-fabric-w1-p1-wire-semantic-clarification/proposal.md": "6b1096ad1f9162be49cbf4f6be92275d827f65a9d272c8b25b25c72d867a5c1b",
+    "/private/tmp/data-fabric-w1-p1-wire-semantic-clarification/proposal.json": "ec5d38ccba533526659a47b23293965d47c41809a9eecf4d094ce88abe3fce6d",
+    "/private/tmp/data-fabric-w1-p1-wire-semantic-clarification/test-vectors.json": "9b050fea646a79af2971eb0a181e1a13982ec233cabc166aac19bb38b6199661",
+    "/private/tmp/data-fabric-w1-p1-wire-semantic-clarification/evidence.json": "f22c6790591a7e85c342a693fef1440273cc5f00db9624f48affeeaf7bbc2655"
+  },
+  "independent_evidence": {
+    "/private/tmp/data-fabric-w1-p1-wire-independent/verification.json": "5b13bdf1d7d34a2fd9770417dc6e8e4181b344a948536c546f7110f927b938f3",
+    "/private/tmp/data-fabric-w1-p1-wire-independent/probe.py": "fec6e33c403da05706a5db1fe4b0a67d73542b5af97fe5326eba2c6d3e08e3b7",
+    "/private/tmp/data-fabric-w1-p1-wire-independent/probe-results.json": "019d46c38d8d5e1c0cafabbe70bebbc2f8f7d5ec90161ac8d025940c68d7ada7"
+  },
+  "test_command": "wb run -- python3 /private/tmp/data-fabric-w1-p1-wire-independent/probe.py",
+  "test_exit_code": 0,
+  "original_numeric_vectors_agree": 25,
+  "additional_numeric_controls": 12,
+  "malformed_ambiguous_controls": 7,
+  "required_canonical_persistence": [
+    "Immutable addendum binding prior accepted decision and this review",
+    "Explicitly scope architecture r2 generic type-contradiction clause: reference-only diagnostics preserve identifiable rows; independently established fidelity/read/identity failures refuse affected read/admission",
+    "Full source/preparation/runtime native-int proof plus canonical safe positive decimal wire token",
+    "Exact-token precedence and lossless raw retention through all product layers",
+    "Affected graph/decision pins and saved-plan revalidation updated consistently"
+  ],
+  "remaining_gates": [
+    "Actual product parser/executor/Worker/storage/grid/save/continuation tests",
+    "Source/preparation/runtime/serving admission",
+    "Canonical graph closure and authorized publication",
+    "Live J1-J6"
+  ],
+  "repository_edits": false
+}

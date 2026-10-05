@@ -9,6 +9,8 @@ The product journey is connect a supported source → inspect meanings/identifie
 
 Latest accepted follow-up decisions (2026-10-05): [bounded semantic decision, graph architecture, FX priority and app PR195 receipts](evidence/w1-followup-decisions/README.md) preserve distinct design/component acceptance. The native inventory has **16 physical tables; 11 are selected public tables, representing five logical public recordsets**. B1, canonical admission/publication, phases 4/5/6 and real J1–J6 acceptance remain pending. ECB stays conditional with its custom-terms canonical publication gate open. Earlier evidence packets retain their dated scope and counts.
 
+The [accepted P1 JSON wire addendum](evidence/w1-p1-wire-addendum/README.md) binds the unchanged P1/P2/P3 decision, dedicated proposal, independent review and root acceptance. It restricts the selected adapter to proven native positive safe integers with exact canonical decimal JSON tokens and reconciles local reference diagnostics with general read/admission failures. This semantic packet does not admit execution or publication; current consumer pins and saved-plan rules need a coherent reviewed update.
+
 ## Foundation history and accepted research gate
 
 The dated snapshots below preserve earlier pending states. The current root-accepted decision and distinct r2 foundation receipt supersede their Phase 0 hold while preserving the open publication obligation.
