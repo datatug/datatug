@@ -13,6 +13,12 @@ status: Draft
 
 Explainable public-data enrichment across MeaningGraph, ModelSpec, OpenVaultDB and DataTug, governed by evidence and phase gates.
 
+## Contents
+
+| Child | Description |
+|---|---|
+| [bigquery-dual-runtime](bigquery-dual-runtime/README.md) | Required Go and browser-direct JavaScript BigQuery access with retained source and runtime gates. |
+
 ## Problem
 
 Users connecting operational data should discover useful public joins, lookups and enrichments with an explanation of identifier and semantic compatibility. Similar column names alone are insufficient. Useful unselected or rejected research must survive later implementation waves.
@@ -85,6 +91,10 @@ Each wave MUST be independently reviewed for semantic correctness, model fidelit
 **Given** selected interconnected public data and at least two structurally different demo databases
 **When** a user follows the complete connect → explained suggestion → query → cross-demo reuse journey
 **Then** joins return correct bounded results, transformations are visible, no unresolved blocking review finding remains, and the backlog survives the recorded launch decision.
+
+## BigQuery priority extension
+
+The [Draft BigQuery dual-runtime feature](bigquery-dual-runtime/README.md) records the parallel user priority and required Go/JavaScript acceptance boundary. Its amended architecture and source/runtime prerequisites remain pending. The existing approved W1 plan and its acceptance criteria are unchanged; new implementation planning follows the same Workbench SpecScore route after A0 and fresh review.
 
 ## Open Questions
 

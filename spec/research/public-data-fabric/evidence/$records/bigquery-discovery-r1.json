@@ -1,0 +1,9 @@
+{
+  "title": "BigQuery priority discovery and unreconciled access routes",
+  "observed_at": "2026-10-05T18:30:00.412919+00:00",
+  "outcome": "observation",
+  "summary": "Curation observation of the retained 2026-10-05 source packet. Retains user priority, browser-direct and Google signup opportunity, platform caveats and seven unreconciled route candidates. No source rights or live availability/query acceptance. Discovery recommendation of Go deferral and archived-only JS home is superseded by user-required dual runtime and maintained-monorepo r3.",
+  "reviewer": "bigquery-priority-discovery",
+  "independent": false,
+  "path": "spec/research/public-data-fabric/evidence/bigquery-dual-runtime/history/discovery-r1.json"
+}

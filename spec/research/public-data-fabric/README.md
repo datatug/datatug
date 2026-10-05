@@ -11,6 +11,10 @@ Latest accepted follow-up decisions (2026-10-05): [bounded semantic decision, gr
 
 The [accepted P1 JSON wire addendum](evidence/w1-p1-wire-addendum/README.md) binds the unchanged P1/P2/P3 decision, dedicated proposal, independent review and root acceptance. It restricts the selected adapter to proven native positive safe integers with exact canonical decimal JSON tokens and reconciles local reference diagnostics with general read/admission failures. This semantic packet does not admit execution or publication; current consumer pins and saved-plan rules need a coherent reviewed update.
 
+## Parallel BigQuery priority — 2026-10-05
+
+The [canonical BigQuery packet](evidence/bigquery-dual-runtime/README.md) retains the explicit priority, browser-direct preference, Google signup opportunity and mandatory Go/JavaScript access. Eight additive `needs-review` route/opportunity candidates preserve the original691 candidates and1177 assertions byte-for-byte. The amended architecture r3 incorporates the declined r2 review's M1/M2/m1 contracts; root accepts the direction conditionally and fresh edited-proposal review remains pending. Existing W1 GeoNames/ROR, ECB FX, source permissions, semantic dispositions and phases4/5/6 remain unchanged. No source admission, licence clearance, adapter implementation, live query, CI/deployment or launch acceptance follows from this curation.
+
 ## Foundation history and accepted research gate
 
 The dated snapshots below preserve earlier pending states. The current root-accepted decision and distinct r2 foundation receipt supersede their Phase 0 hold while preserving the open publication obligation.

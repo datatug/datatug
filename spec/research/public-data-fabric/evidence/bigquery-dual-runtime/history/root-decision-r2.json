@@ -1,0 +1,39 @@
+{
+  "status": "root adopts reviewed direction with mandatory amendments; canonical edited proposal review still required",
+  "timestamp": "2026-10-05T18:09:42.653029+00:00",
+  "proposal": {
+    "path": "/private/tmp/data-fabric-bigquery-browser-architecture/proposal-r2.md",
+    "sha256": "9a073ff10388c3fb0f6a6d27c38bbfe9a79b4bf595dad61a4e5cc7e4dad18dd0"
+  },
+  "review": {
+    "path": "/private/tmp/data-fabric-bigquery-dual-runtime-review/review-r1.md",
+    "sha256": "53515ff8512d72a952f1b66aac5ed6b731b4e657f4d8d9d6aceba8b5b0898a15",
+    "verdict": "blockers=0 majors=2 minors=1 land=no for unchanged r2"
+  },
+  "required_amendments": [
+    "M1: bounded raw HTTP JSON shape/presence/type validation or lossless adapter decoder before generated Go result decoding; raw-byte parity fixtures distinguish omitted v, explicit null, JSON null, malformed cell counts/types.",
+    "M2: first slice trusted reviewed native TABLE only; dataset location and exact table identity/schema/config eligibility from datasets.get/tables.get; reject view/external/materialized/BigLake/snapshot/unknown configurations; recheck before submission and invalidate changed approval; explicitly disclose non-atomic source replacement race.",
+    "m1: GIS identity grant openid and optional email with same-access-token fixed Google UserInfo; stable sub binds execution identity; missing email allowed; missing sub/partial grants fail; never use Firebase identity as proof."
+  ],
+  "required_languages": [
+    "Go",
+    "JavaScript"
+  ],
+  "other_lanes_retained": [
+    "W1 GeoNames/ROR",
+    "ECB FX",
+    "all credible research backlog"
+  ],
+  "implementation_prerequisites": [
+    "Canonical curation incorporates exact review amendments and receives final review",
+    "Root selects actual existing Go CLI consumer after repository contract inspection",
+    "Live identity/project/query cap approvals handled only at concrete runtime gate"
+  ],
+  "not_claimed": [
+    "source semantic admission",
+    "licence clearance",
+    "live query",
+    "CI/deployment success",
+    "unchanged proposal independent acceptance"
+  ]
+}
