@@ -1,0 +1,41 @@
+{
+  "observed_at": "2026-10-05",
+  "decision_owner": "root-main-orchestrator",
+  "classification": "technical implementation authorization only; not semantic acceptance, runtime authority or programme gate closure",
+  "basis": "Root explicitly reports reading the whole independent architecture report and approves the bounded implementation boundary in the current coordination instruction. Original review remains unchanged, including two major implementation gaps and land=no for path completion.",
+  "review_refs": [
+    {
+      "path": "evidence/w1-user-source-architecture-review-r1.md",
+      "sha256": "900efac223bb3298596bb48702c49cc1e2691eda9553a135bfa439b948aa1057",
+      "original_filename": "review-r1.md"
+    },
+    {
+      "path": "evidence/w1-user-source-architecture-review-r1.json",
+      "sha256": "76553fb4e19ef7cb9c46b16b052b5f578e0f85a3e11860374d4741d0a7d0895d",
+      "original_filename": "review-r1.json"
+    }
+  ],
+  "approved_work": "Implement a typed explicit declared-user schema/data/physical mapping in the existing https-json project catalog and a generic bounded source stage in the existing federation executor. Do not force the user schema into public ModelSpec/Directory.",
+  "assigned_owner": "Existing app author in fabric-w1-native-revalidation; root sole assigned W1 landing owner",
+  "findings": [
+    {
+      "id": "M1",
+      "status": "open",
+      "assigned_to": "existing app author",
+      "work": "Validated project-catalog source declaration plus independently constructed configured source context; verify exact immutable source schema/data/configuration and physical-to-model mapping without global user-source registration."
+    },
+    {
+      "id": "M2",
+      "status": "open",
+      "assigned_to": "existing app author",
+      "work": "Generic bounded https-json source-driver stage in existing federation executor; public targets still require actual canonical OVDB route and cannot use source JSON/static fallback."
+    }
+  ],
+  "preserved_limits": [
+    "Accepted hypothetical Affiliation fixture source/schema/data/entity/property/namespace scope unchanged; no acceptance generalization.",
+    "Public target ModelSpec/MeaningGraph/Directory and checked decision/wrapper/attachment admission remain mandatory and closed until implemented/reviewed.",
+    "Explicit run only; immutable selected-source data hash, whole source array at most1000 rows, shared5MiB/10second budget, no target lookup from partially verified rows.",
+    "Private authenticated source readers and local mutable identity remain unsupported separate technical work.",
+    "Controller preparation found a cleanup major; repair/review pending. Prospective official capture/build remains OPEN; no draft controller is accepted here."
+  ]
+}

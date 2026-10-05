@@ -229,7 +229,7 @@
       "pagination": "explicit and snapshot-consistent; validate boundaries, over-limit, cancellation/deadline and release of snapshots"
     },
     "capacity": "Measure complete W1 plus existing inventory, connection/cache behavior and concurrent bounded requests against deployed limits. The plan observed Cloud Run512MiB/1CPU/120seconds,min0/max2; these are baseline configuration observations, not fresh live capacity proof or authority to increase resources.",
-    "resource_gap": "Independent r1 audit plus distinct r2 correction review accept cached-input combined generation only under disclosed sampled/limited RSS and disk observations. Original capture elapsed/RSS remain absent; full official operational capture/build, unsampled aggregate capacity and runtime/Directory/browser/B1 remain open. Prospective separately pinned official candidate requires controller review before bulk and independent source/resource review afterward."
+    "resource_gap": "Independent r1 audit plus distinct r2 correction review accept cached-input combined generation only under disclosed sampled/limited RSS and disk observations. Original capture elapsed/RSS remain absent; full official operational capture/build, unsampled aggregate capacity and runtime/Directory/browser/B1 remain open. Prospective separately pinned official candidate requires controller review before bulk and independent source/resource review afterward. Prospective controller preparation found a cleanup major; repair and fresh review remain pending."
   },
   "acceptance_receipts_required": [
     {
@@ -264,9 +264,20 @@
   "app_foundation": {
     "revision": "e6569c5d606af0c4094b9e9d7db6ca1c5964a62b",
     "state": "Landed staged schema1 preparation, exact-main checks and deployment workflow successful; no W1 live query acceptance.",
-    "remaining": "Separate native/fresh saved-revalidation companion active; schema2 admission, release/freshness/coverage/confidence, mutation-to-suggestion and integrated real journey remain unaccepted."
+    "remaining": "Separate native/fresh saved-revalidation companion active; schema2 admission, release/freshness/coverage/confidence, mutation-to-suggestion and integrated real journey remain unaccepted.",
+    "approved_remaining_user_source_path": {
+      "approval": "evidence/w1-user-source-technical-approval.json",
+      "work": "Existing https-json project catalog receives typed immutable source schema/data/configuration and explicit physical mapping; existing federation executor receives a generic bounded declared driver-source stage. User schema does not require global ModelSpec/Directory publication.",
+      "open_findings": [
+        "M1 configured declaration/context/verification",
+        "M2 independent bounded driver transport"
+      ],
+      "scope": "Only exact accepted immutable fixture scope; declarations and structural validation do not grant acceptance. Public targets still need canonical registries/Directory, actual OVDB transport, checked attachment/decision/wrapper admission and real journey acceptance.",
+      "bounds": "Whole selected source array <=1000 rows, exact mandatory data hash, shared5MiB/10second budget, explicit paging after whole-file verification; never truncate, start target reads before source verification, or treat source JSON as public-target fallback.",
+      "unsupported": "Private authenticated readers and local mutable identity remain separate unsupported work."
+    }
   },
-  "canonical_registry_state": "Both source registrations landed. ModelSpec main CI passed; MeaningGraph main CI pending. Exact pins below and receipts in w1-component-progress.json confer no runtime eligibility.",
+  "canonical_registry_state": "Both source registrations landed with exact-main CI passed, reviewed/landed tree equality and sync/cleanup receipts. Exact pins below and receipts in w1-component-progress.json confer no runtime eligibility.",
   "tools": {
     "ownership_and_isolation": "WB active/list/guard/create after root admission; inspect actual runtime/host claim. This handoff dispatches nobody.",
     "builds_and_tests": "wb run with each repository existing validator/test commands; meaningful exact-head CI follows.",
@@ -300,7 +311,7 @@
           "sha256": "ca1f72ad549bdd6804445ed433628b40f42fefdf93dfeae86a9bfe7521f42d17"
         }
       ],
-      "main_ci": "pending",
+      "main_ci": "passed",
       "scope": "Source registration only; no source-to-user compatibility, runtime eligibility or query acceptance."
     },
     "modelspec": {

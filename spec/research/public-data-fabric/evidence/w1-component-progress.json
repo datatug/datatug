@@ -1,5 +1,5 @@
 {
-  "observed_at": "2026-10-05T04:17:07.888813+00:00",
+  "observed_at": "2026-10-05T04:31:38.096772+00:00",
   "scope": "W1 component progress and source-wrapper continuity only; no new semantic decision, execution admission or programme gate acceptance.",
   "hub_base": "17263dbacabdfe95e53fc3c6980177416bdab941",
   "programme": {
@@ -1836,11 +1836,47 @@
         "equal": true,
         "index_sha256": "42931545086beb7c69d803767b8d50e524baff2ff37a2ec9eb8526eee16aa4a5"
       }
+    },
+    {
+      "original_receipt": "data-fabric-w1-mg-registration-main-ci.json",
+      "original_sha256": "47cad452e8b3669c79d964fee937c59d842339cd2288248e7663b4f047fbe9ea",
+      "original_bytes": 1266,
+      "receipt": {
+        "schema_version": 1,
+        "observed_at": "2026-10-05T04:30:08.557112Z",
+        "status": "passed",
+        "repository": "meaninggraph/registry",
+        "target": "main",
+        "head": "3d85ae6fa06b7f38f59cfd2893e07ba801856b96",
+        "observed_head": "3d85ae6fa06b7f38f59cfd2893e07ba801856b96",
+        "observed_target_head": "3d85ae6fa06b7f38f59cfd2893e07ba801856b96",
+        "candidate_contains_target": true,
+        "target_contains_head": true,
+        "checks": [
+          {
+            "name": "check-run:check",
+            "bucket": "pass",
+            "conclusion": "success",
+            "link": "https://github.com/meaninggraph/registry/actions/runs/37262880264/job/111613583416",
+            "app_id": 15368,
+            "check_run_id": 111613583416
+          },
+          {
+            "name": "check-run:notify",
+            "bucket": "pass",
+            "conclusion": "success",
+            "link": "https://github.com/meaninggraph/registry/actions/runs/37262880273/job/111613583594",
+            "app_id": 15368,
+            "check_run_id": 111613583594
+          }
+        ],
+        "required_checks_authority": "github-branch-protection+active-branch-rules",
+        "stable_observations": 2,
+        "reason": "GitHub's required-check policy was enumerated (possibly empty), every required check was present, and the exact remote target's observed check set stayed terminal across a bounded stable reread"
+      }
     }
   ],
-  "pending_publications": {
-    "meaninggraph_main_ci": "Main3d85ae6fa06b7f38f59cfd2893e07ba801856b96 checks running; no terminal receipt parsed or success claimed."
-  },
+  "pending_publications": {},
   "tasks": [
     {
       "task": 1,
@@ -1854,9 +1890,9 @@
     {
       "task": 2,
       "status": "implementing",
-      "result": "Provider-local models/bindings, staged OVDB helpers (release0.26.0) and both canonical registries are landed. ModelSpec exact-main CI passed; MeaningGraph exact-main CI pending. Continuity hub review/root landing and publication admission companions remain open.",
+      "result": "Provider-local models/bindings, staged OVDB helpers (release0.26.0) and both canonical registries are landed with exact-main CI, reviewed/landed tree identity, canonical sync and cleanup receipts. Continuity hub review/root landing and publication admission companions remain open.",
       "open": [
-        "MeaningGraph exact-main CI remains pending; ModelSpec CI passed. Registry publication alone grants no runtime/user mapping admission.",
+        "Both source registry main checks pass; checked publisher/Directory/consumer admission remains separate from registration.",
         "Default publisher, Directory validation/index exposure and consumer adoption remain closed/pending.",
         "Checked continuity admission must reference original decisions and exact wrapper evidence without reissuing dispositions."
       ]
@@ -1877,7 +1913,8 @@
       "open": [
         "Schema2/native reader and exact ROR decision/continuity admission.",
         "Canonical mutation-to-admitted-suggestion proof.",
-        "Source release/freshness/coverage/confidence/licence explanation and stale last-known-good handling."
+        "Source release/freshness/coverage/confidence/licence explanation and stale last-known-good handling.",
+        "M1 assigned open: typed declared-user source schema/data/configuration/physical mapping in existing project catalog; no fabricated public registration."
       ]
     },
     {
@@ -1887,7 +1924,8 @@
       "open": [
         "Real native ID/location/orphan behavior and accepted country denominators.",
         "Published pagination/snapshot/cancel/deadline/row/byte boundary evidence.",
-        "Real query-store preservation, fresh saved-plan revalidation and acknowledged re-execution."
+        "Real query-store preservation, fresh saved-plan revalidation and acknowledged re-execution.",
+        "M2 assigned open: generic bounded https-json user-driver stage in existing executor while public target remains real canonical OVDB and production admission stays closed."
       ]
     },
     {
@@ -1935,7 +1973,7 @@
   "resource_scope": "Independent r1 audit plus distinct r2 correction review accept cached-input combined generation only under disclosed sampled/limited RSS and disk observations. Original capture elapsed/RSS remain absent; full official operational capture/build, unsampled aggregate capacity and runtime/Directory/browser/B1 remain open. Prospective separately pinned official candidate requires controller review before bulk and independent source/resource review afterward.",
   "runtime_directory_handoff": {
     "path": "evidence/w1-runtime-directory-handoff.json",
-    "sha256": "416217a5cc759463949480d7f65914959a92017bfa21d9c507f2808e77d43bcf"
+    "sha256": "1096f48e96212a834358d61229a4f8dfdd8d3ceaf532533811b63a49b5d7e722"
   },
   "receipt_interpretation": "Original per-check buckets/conclusions and refusal reasons are retained. The first Apps WB attempt had an incomplete exact-head workflow-run receipt while e2e was pending, not a demonstrated test failure; root recovery subsequently verified the merged head and successful main checks.",
   "resource_evidence": [
@@ -2006,7 +2044,7 @@
           "sha256": "ca1f72ad549bdd6804445ed433628b40f42fefdf93dfeae86a9bfe7521f42d17"
         }
       ],
-      "main_ci": "pending",
+      "main_ci": "passed",
       "scope": "Source registration only; no source-to-user compatibility, runtime eligibility or query acceptance."
     },
     "modelspec": {
@@ -2029,5 +2067,10 @@
       "main_ci": "passed",
       "scope": "Source registration only; no source-to-user compatibility, runtime eligibility or query acceptance."
     }
+  },
+  "user_source_architecture": {
+    "path": "evidence/w1-user-source-technical-approval.json",
+    "sha256": "44f5199b81d5718885e52f911ae046e10349332d645d444ae2afb17b28ac847b",
+    "scope": "Approved implementation boundary; M1/M2 open, not a semantic or runtime disposition."
   }
 }
