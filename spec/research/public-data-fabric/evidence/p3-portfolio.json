@@ -1009,7 +1009,7 @@
         "legal_confidence": 5,
         "source_authority": 5,
         "schema_prevalence": 5,
-        "actual_demo_coverage": 1,
+        "actual_demo_coverage": 0,
         "representation_diversity": 4,
         "quality_cadence_operations": 3,
         "implementation_cost_risk": 2
@@ -1040,7 +1040,7 @@
         "F5",
         "F6"
       ],
-      "weighted_practical_score": 75.4,
+      "weighted_practical_score": 74.0,
       "recordset_count": 6,
       "score_basis": {
         "real_world_joinability": "Assesses explicitly keyed user journey and accepted/gap edges above; never current execution.",
@@ -11675,5 +11675,13 @@
       "If the global closure build misses resource/query budgets, deliver a truthful smaller country-only reference step and rerank. Do not count a one-organization plumbing proof as fullW1 or a launch-ready scenario."
     ],
     "operational_probe": "evidence/p3-w1-operational-probe.json; Colombia fixture only. 82094places,62005aliases,oneROR;475nonemptyadmin1references missing from fulladmin1. This demonstrates a real mismatch case, not national/global data-quality acceptance."
-  }
+  },
+  "review_corrections": [
+    {
+      "review": "r1",
+      "finding": "P3-R1-1",
+      "change": "Calendar accepted-demo-coverage score1→0; weighted practical score75.4→74.0. No accepted public demo calendar bridge exists. Scenario order, scope, semantics and gates unchanged.",
+      "status": "fixed; independent r2 pending"
+    }
+  ]
 }

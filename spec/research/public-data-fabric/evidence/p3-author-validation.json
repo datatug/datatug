@@ -104,5 +104,18 @@
     "No global640MB source build, production importer or browserDataTug execution.",
     "No independent adversarial verdict; root must commission review.",
     "No original assertion/status/semantic_disposition changed; only three source-rights clarifications."
-  ]
+  ],
+  "correction_validation": {
+    "observed_at": "2026-10-05T00:30:27.863319+00:00",
+    "review": "r1",
+    "finding": "P3-R1-1",
+    "calendar_actual_demo_coverage": 0,
+    "calendar_weighted_practical_score": 74.0,
+    "all_seven_weighted_score_arithmetic": "pass",
+    "three_score_representations": "pass",
+    "ingitdb": "pass",
+    "specscore": "0violations",
+    "diff_whitespace": "pass",
+    "scope": "score correction only; independent r2 pending"
+  }
 }
