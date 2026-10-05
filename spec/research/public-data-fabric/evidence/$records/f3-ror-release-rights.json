@@ -1,0 +1,11 @@
+{
+  "title": "Independent bounded ROR release and layered location licence observation",
+  "observed_at": "2026-10-05T00:19:07.766767+00:00",
+  "outcome": "observation",
+  "summary": "ROR releasev2.13 published2026-09-22 reports141528 organisations, schema2, filev2.13-2026-09-22-ror-data.zip37.5MB and publisherMD5a935217de21e7983b977f5419f1a6b20. Archive not downloaded/checksummed. Primary description explicitly separates RORmetadataCC0 from GeoNameslocationCC-BY4. Informs d1-source-ror,d1-dataset-ror,d1-ror-organisations; no semantic, portfolio, import or publication acceptance.",
+  "path": "spec/research/public-data-fabric/evidence/f3-ror-release-observation.json",
+  "url": "https://zenodo.org/records/22902037",
+  "reviewer": "portfolio-gap-evidence; source researcher independent of portfolio author",
+  "independent": true,
+  "review_stage": "discovery"
+}
