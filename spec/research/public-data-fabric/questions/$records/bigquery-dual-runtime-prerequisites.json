@@ -1,0 +1,14 @@
+{
+  "title": "BigQuery A0, access-route rights and both-runtime acceptance prerequisites",
+  "status": "open",
+  "classification": "important/non-blocking",
+  "owner": "root BigQuery implementation scoping and specialist source-access review",
+  "evidence_ids": [
+    "bigquery-dual-runtime-r3",
+    "bigquery-architecture-review-r1"
+  ],
+  "candidate_ids": [
+    "bq-opportunity-dual-runtime"
+  ],
+  "resolution": "Open prerequisite for this unselected opportunity; does not block or replace W1/ECB FX. Fresh r3 review, exact bounded existing Go consumer route, released SDK/core compatibility, source rights/metadata/access-route reconciliation, canonical profile propagation and both real runtime journeys remain required before promotion. No implementation-ready, licensed, admitted, published-source or live-query claim."
+}

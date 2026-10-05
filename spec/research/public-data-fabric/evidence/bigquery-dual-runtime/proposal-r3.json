@@ -1,0 +1,752 @@
+{
+  "format": "private-architecture-handoff/1",
+  "round": 3,
+  "status": "amended canonical proposal; fresh independent review pending",
+  "review_scope": "runtime/product architecture; no semantic equivalence decisions",
+  "prepared_date": "2026-10-05",
+  "runtime": "localCodex",
+  "host": "macOS",
+  "authorization_limits": [
+    "no repository source edits",
+    "no cloud mutations",
+    "no credential inspection",
+    "no BigQuery jobs",
+    "no billing changes",
+    "no inferred execution principal"
+  ],
+  "preserved_lanes": [
+    "W1 GeoNames/ROR app and publisher",
+    "ECB FX priority",
+    "credible research backlog"
+  ],
+  "decisions": [
+    {
+      "id": "implementation-home",
+      "decision": "JS: port existing dalgo-http-adapters/packages/bigquery. Go: propose sibling github.com/dal-go/dalgo2bigquery after current ownership/reuse preflight; keep archived JS repository untouched.",
+      "repository": "https://github.com/dal-go/dalgo-http-adapters",
+      "revision": "a3b35d251ff002e830e865c6a330ef6149ecf340",
+      "archive_reason": "unknown"
+    },
+    {
+      "id": "compatibility",
+      "decision": "Maintain app core pin; test port against exact 0.2 and 0.3 core revisions; transport/result-set entry independent of keyed core runtime where practical",
+      "app_core_pin": "1534acd4d0e4a104c58eba09fb9c25619efc8f24",
+      "current_core_main": "04a7f1293ad57a50a282ecc13314ce7b1488211e"
+    },
+    {
+      "id": "execution",
+      "decision": "Browser-direct HTTPS to fixed Google origin with user-selected execution principal and job project; source project/dataset/table/location separate First slice reviewed trusted native TABLE only; datasets.get/tables.get bind exact identity/location/schema/configuration, reject all unsupported kinds/configurations, recheck before submission; disclose non-atomic replacement race."
+    },
+    {
+      "id": "auth",
+      "decision": "Reuse explicit Sneat/Firebase DataTug sign-in/signup and user-record init; separate GIS incremental OAuth authorization; no Firebase ID token sent to BigQuery GIS bigquery.readonly plus openid and optional email; same-token trusted Google UserInfo; stable sub execution identity; missing sub/partial grant refuses, missing email allowed."
+    },
+    {
+      "id": "scope-cancel",
+      "decision": "bigquery.readonly default supports Stop waiting; optional explicit bigquery consent enables best-effort remote cancellation and final status verification; no cloud-platform convenience scope"
+    },
+    {
+      "id": "resultset",
+      "decision": "Analytical job/result-set API for tables without proven unique keys; keyed reads optional only with verified non-null unique key; no invented identity"
+    },
+    {
+      "id": "cost",
+      "decision": "Exact dry-run preview plus mandatory maximumBytesBilled; user-approved project/principal/cap; bounded results/pages/bytes and cumulative in-app reservation; no silent query replay"
+    },
+    {
+      "id": "ovdb",
+      "decision": "New narrowly versioned source-access profile in existing canonical OVDB descriptor/discovery family; schema/Directory propagation required; exact wire version determined by implementation review; no parallel registry"
+    },
+    {
+      "id": "proof",
+      "decision": "Live warehouse observation and job-result receipt separate from immutable SQLite/native format 3/4 proofs; no semantic admission implied"
+    },
+    {
+      "id": "dataset",
+      "decision": "Citi Bike stays prioritized but admission blocked on exact metadata and use-specific rights; reviewed official sample may prove transport only; preserve underlying candidate/access-route reconciliation"
+    },
+    {
+      "id": "backend",
+      "decision": "Go driver required for CLI/server consumers; JS remains browser-direct. No public shared-spend proxy required or authorized."
+    },
+    {
+      "id": "go-contract",
+      "decision": "Implement existing dal.QueryExecutor and keyless RecordsetReader directly; retain adapter-owned metadata/job controls; no DALgo core API changes; reject unsupported full queries before generic fallback",
+      "dalgo_revision": "d2ddbc9c232c355ed7f6a792a0dcbdbbbf16b6d1"
+    },
+    {
+      "id": "go-sdk",
+      "decision": "Use official generated google.golang.org/api/bigquery/v2 with explicit endpoint/method/scopes, bounded HTTP client and no ambiguous submission retries; pin compatible released version during implementation Require M1 raw HTTP shape/presence/type validation or adapter-owned lossless decoding before generated result decoding.",
+      "evidence_revision": "267f7a8c8e539f21e64b696686bb9476bf0c5ef0",
+      "reason": "High-level Go SDK v1.85.0 Query.Read may fall back to Query.Run/jobs.insert requiring broader scope"
+    },
+    {
+      "id": "go-auth",
+      "decision": "Explicit execution project plus injected trusted token source or user-opted ADC for CLI; workload identity for server; no project auto-detection or credentials in descriptors. Context cancellation distinct from explicit remote CancelJob."
+    },
+    {
+      "id": "parity-corpus",
+      "decision": "Versioned language-neutral corpus in Go adapter testdata/contract, consumed by JS at exact revision/hash. Same structured subset, exact wire values, source/execution split, cost/job/page/cancel/error behavior; both CI reports corpus hash."
+    }
+  ],
+  "journey": [
+    {
+      "id": 1,
+      "step": "Browse catalog",
+      "observable_gate": "No login/query/account creation; truthful candidate/readiness metadata"
+    },
+    {
+      "id": 2,
+      "step": "Run and DataTug signup/signin",
+      "observable_gate": "Explicit signup disclosure, successful existing user profile init, preserved draft"
+    },
+    {
+      "id": 3,
+      "step": "Connect Google execution identity",
+      "observable_gate": "Granted read-only scope and verified execution account; recovery on denied/expired grants"
+    },
+    {
+      "id": 4,
+      "step": "Select execution project",
+      "observable_gate": "Metadata/dry-run access succeeds; no-project detour retains draft"
+    },
+    {
+      "id": 5,
+      "step": "Preview and approve cap",
+      "observable_gate": "Exact plan/parameters/source/location/principal/project and cap approved; execution changed inputs invalidate preview"
+    },
+    {
+      "id": 6,
+      "step": "View and page results",
+      "observable_gate": "Exact typed values and same-job paging with visible provenance and incompleteness"
+    },
+    {
+      "id": 7,
+      "step": "Stop or cancel",
+      "observable_gate": "Local stop distinguished from consented remote cancel and terminal status"
+    },
+    {
+      "id": 8,
+      "step": "Resume",
+      "observable_gate": "Same execution identity/job where available; expiration demands explicit rerun"
+    }
+  ],
+  "implementation_stages": [
+    {
+      "id": "A0",
+      "scope": "Shared normalized contract and parity corpus",
+      "gates": [
+        "exact source/core/SDK versions",
+        "selected real Go consumer input contract",
+        "no DALgo exported-core API change",
+        "M1: bounded raw HTTP JSON shape/presence/type validation or lossless adapter decoder before generated Go result decoding; raw-byte parity fixtures distinguish omitted v, explicit null, JSON null, malformed cell counts/types.",
+        "M2: first slice trusted reviewed native TABLE only; dataset location and exact table identity/schema/config eligibility from datasets.get/tables.get; reject view/external/materialized/BigLake/snapshot/unknown configurations; recheck before submission and invalidate changed approval; explicitly disclose non-atomic source replacement race.",
+        "m1: GIS identity grant openid and optional email with same-access-token fixed Google UserInfo; stable sub binds execution identity; missing email allowed; missing sub/partial grants fail; never use Firebase identity as proof.",
+        "Fresh independent r3 curation/amendment review; actual bounded Go consumer route design before coding"
+      ]
+    },
+    {
+      "id": "A-Go",
+      "scope": "Required Go driver and CLI/server examples",
+      "gates": [
+        "guarded QueryExecutor/RecordsetReader",
+        "no paid generic fallback",
+        "exact REST encoding",
+        "partial-page-safe cursor",
+        "context/Close/CancelJob distinction",
+        "shared corpus passes"
+      ]
+    },
+    {
+      "id": "A-JS",
+      "scope": "Required monorepo JS adapter port",
+      "gates": [
+        "W1 core pin unchanged",
+        "analytical resultset",
+        "shared corpus passes",
+        "app compatibility"
+      ]
+    },
+    {
+      "id": "B-C",
+      "scope": "OVDB source-access profile, DataTug browser flow, real selected Go CLI consumer and Go server integration harness",
+      "gates": [
+        "truthful runtime capabilities",
+        "no fake mounted query endpoint",
+        "browser journey gates from r1",
+        "bounded actual Go consumer route",
+        "no shared-spend proxy"
+      ]
+    },
+    {
+      "id": "D-Go",
+      "scope": "Required human-authorized live Go journey",
+      "gates": [
+        "explicit operator principal/project/cap",
+        "metadata/dry-run/execute/two pages",
+        "sanitized job receipts",
+        "local stop and consented cancellation status"
+      ]
+    },
+    {
+      "id": "D-JS",
+      "scope": "Required human-authorized deployed browser journey",
+      "gates": [
+        "actual origin CORS/OAuth/IAM",
+        "metadata/dry-run/execute/two pages",
+        "sanitized deploy/job receipts",
+        "local stop and consented cancellation status"
+      ]
+    },
+    {
+      "id": "E",
+      "scope": "Source admission and both-runtime delivery",
+      "gates": [
+        "rights and independent reconciliation",
+        "canonical publication",
+        "both adapters and selected consumer routes verified",
+        "independent adversarial acceptance",
+        "exact remote CI/deploy/landing/cleanup receipts"
+      ]
+    }
+  ],
+  "conditional_product_questions": [
+    {
+      "question": "Must every connection support immediate remote cancellation?",
+      "default": "Read-only consent plus Stop waiting, optional broader cancellation consent",
+      "reason": "Mandatory cancellation requires broader scope and verification/consent tradeoff"
+    },
+    {
+      "question": "Must users with no Google project execute without setup?",
+      "default": "User-controlled sandbox/project setup detour",
+      "reason": "Company-funded alternative needs explicit cost ownership and a server enforcement boundary"
+    }
+  ],
+  "discovery_review_findings": [
+    {
+      "id": "B1",
+      "severity": "blocking",
+      "summary": "Current adapter lacks or does not verify required source/job split, dry run/cap and deployed OAuth/CORS/IAM/job/type gates",
+      "disposition": "Address A,C,D before live feature claim"
+    },
+    {
+      "id": "B2",
+      "severity": "blocking",
+      "summary": "Current OVDB profiles cannot truthfully model browser-owned external warehouse execution",
+      "disposition": "Address B before canonical product admission"
+    },
+    {
+      "id": "M1",
+      "severity": "major",
+      "summary": "Maintained monorepo package omitted from discovery recommendation",
+      "disposition": "Corrected to reuse packages/bigquery"
+    },
+    {
+      "id": "M2",
+      "severity": "major",
+      "summary": "Citi Bike table aliases and licence suitability unresolved",
+      "disposition": "Retain source-specific gate; do not admit"
+    },
+    {
+      "id": "M3",
+      "severity": "major",
+      "summary": "JS numeric decimal parameters, unbounded body reading and current paging contract are unsafe to reuse unchanged",
+      "disposition": "Explicit exactness, response bounds and same-job contract in A"
+    },
+    {
+      "id": "M4",
+      "severity": "major",
+      "summary": "String search absence cannot establish underlying dataset absence",
+      "disposition": "Fresh independent access-route reconciliation in existing hub; no semantic claims"
+    }
+  ],
+  "limits": [
+    "No executed tests in this architecture-only turn",
+    "No browser/OAuth/CORS/IAM proof",
+    "No source dataset admitted",
+    "No current production OAuth configuration verified",
+    "Exact shipped Sneat package artifact still to verify",
+    "No CI/deployment conclusion",
+    "No independent review of this newly authored proposal yet",
+    "Original 691 candidates and 1177 assertions verified byte-for-byte unchanged by the curated packet verifier",
+    "No Go implementation or live jobs executed",
+    "Go repository not created",
+    "Go SDK release version must be pinned and compile-checked during implementation",
+    "OpenVaultDB GitHub code search returned incomplete_results=true",
+    "Proposal r2 independently reviewed; review and mandatory amendments preserved in history/review-r1.md and integrated into r3"
+  ],
+  "evidence": [
+    {
+      "repository": "https://github.com/dal-go/dalgo-http-adapters",
+      "revision": "a3b35d251ff002e830e865c6a330ef6149ecf340",
+      "path": "packages/bigquery/package.json",
+      "sha256": "107267ce1bc22232690e034b4942c8f3c20e5f3708736598811ee2e0618f4226",
+      "local_snapshot": "/private/tmp/data-fabric-bigquery-browser-architecture/evidence/dal-go--dalgo-http-adapters/packages/bigquery/package.json",
+      "url": "https://github.com/dal-go/dalgo-http-adapters/blob/a3b35d251ff002e830e865c6a330ef6149ecf340/packages/bigquery/package.json"
+    },
+    {
+      "repository": "https://github.com/dal-go/dalgo-http-adapters",
+      "revision": "a3b35d251ff002e830e865c6a330ef6149ecf340",
+      "path": "packages/bigquery/README.md",
+      "sha256": "da7a19b9ef825093722cd3f01093d7719038ba36e6f8de4d29c05e99e3ee0c06",
+      "local_snapshot": "/private/tmp/data-fabric-bigquery-browser-architecture/evidence/dal-go--dalgo-http-adapters/packages/bigquery/README.md",
+      "url": "https://github.com/dal-go/dalgo-http-adapters/blob/a3b35d251ff002e830e865c6a330ef6149ecf340/packages/bigquery/README.md"
+    },
+    {
+      "repository": "https://github.com/dal-go/dalgo-http-adapters",
+      "revision": "a3b35d251ff002e830e865c6a330ef6149ecf340",
+      "path": "packages/bigquery/src/database.ts",
+      "sha256": "ada9e9346c9a17575a951c1204a791f31688e80942ce867176b115430ad27880",
+      "local_snapshot": "/private/tmp/data-fabric-bigquery-browser-architecture/evidence/dal-go--dalgo-http-adapters/packages/bigquery/src/database.ts",
+      "url": "https://github.com/dal-go/dalgo-http-adapters/blob/a3b35d251ff002e830e865c6a330ef6149ecf340/packages/bigquery/src/database.ts"
+    },
+    {
+      "repository": "https://github.com/dal-go/dalgo-http-adapters",
+      "revision": "a3b35d251ff002e830e865c6a330ef6149ecf340",
+      "path": "packages/bigquery/src/types.ts",
+      "sha256": "0dd8562c5a8d2cb60b0673401127cebd52d8708a20ed9cef0eae8be6c6bf937a",
+      "local_snapshot": "/private/tmp/data-fabric-bigquery-browser-architecture/evidence/dal-go--dalgo-http-adapters/packages/bigquery/src/types.ts",
+      "url": "https://github.com/dal-go/dalgo-http-adapters/blob/a3b35d251ff002e830e865c6a330ef6149ecf340/packages/bigquery/src/types.ts"
+    },
+    {
+      "repository": "https://github.com/dal-go/dalgo-http-adapters",
+      "revision": "a3b35d251ff002e830e865c6a330ef6149ecf340",
+      "path": "packages/bigquery/src/sql.ts",
+      "sha256": "5c1f7d5600ac5a0f4389138b85faab1ebb3b5fb130018626b60e267568666b04",
+      "local_snapshot": "/private/tmp/data-fabric-bigquery-browser-architecture/evidence/dal-go--dalgo-http-adapters/packages/bigquery/src/sql.ts",
+      "url": "https://github.com/dal-go/dalgo-http-adapters/blob/a3b35d251ff002e830e865c6a330ef6149ecf340/packages/bigquery/src/sql.ts"
+    },
+    {
+      "repository": "https://github.com/datatug/datatug-apps",
+      "revision": "fe89a041b99037d9d651d37aec4117da63b0d6d0",
+      "path": "package.json",
+      "sha256": "d7339a05ed04439cedf15207203259eca6632e7f36613432dff342fa44d062e8",
+      "local_snapshot": "/private/tmp/data-fabric-bigquery-browser-architecture/evidence/datatug--datatug-apps/package.json",
+      "url": "https://github.com/datatug/datatug-apps/blob/fe89a041b99037d9d651d37aec4117da63b0d6d0/package.json"
+    },
+    {
+      "repository": "https://github.com/datatug/datatug-apps",
+      "revision": "fe89a041b99037d9d651d37aec4117da63b0d6d0",
+      "path": "libs/datatug/main/src/lib/queries/public-data/canonical-metadata.ts",
+      "sha256": "0e08b03da5760055f7c76584f327d3837f0df8ca9c4cb2a0d6926efb54a2ec24",
+      "local_snapshot": "/private/tmp/data-fabric-bigquery-browser-architecture/evidence/datatug--datatug-apps/libs/datatug/main/src/lib/queries/public-data/canonical-metadata.ts",
+      "url": "https://github.com/datatug/datatug-apps/blob/fe89a041b99037d9d651d37aec4117da63b0d6d0/libs/datatug/main/src/lib/queries/public-data/canonical-metadata.ts"
+    },
+    {
+      "repository": "https://github.com/datatug/datatug-apps",
+      "revision": "fe89a041b99037d9d651d37aec4117da63b0d6d0",
+      "path": "libs/datatug/main/src/lib/queries/public-data/immutable-federation.ts",
+      "sha256": "414915f9f5c0b1e7562354047edba6b433c3fd2056631f0a57b77d5e00ce585e",
+      "local_snapshot": "/private/tmp/data-fabric-bigquery-browser-architecture/evidence/datatug--datatug-apps/libs/datatug/main/src/lib/queries/public-data/immutable-federation.ts",
+      "url": "https://github.com/datatug/datatug-apps/blob/fe89a041b99037d9d651d37aec4117da63b0d6d0/libs/datatug/main/src/lib/queries/public-data/immutable-federation.ts"
+    },
+    {
+      "repository": "https://github.com/datatug/datatug-apps",
+      "revision": "fe89a041b99037d9d651d37aec4117da63b0d6d0",
+      "path": "libs/datatug/main/src/lib/queries/public-data/representation-discovery.ts",
+      "sha256": "ced29057ae73b253fe0f2c11d20c1cef88f7ae767e975a214d2a24193980a447",
+      "local_snapshot": "/private/tmp/data-fabric-bigquery-browser-architecture/evidence/datatug--datatug-apps/libs/datatug/main/src/lib/queries/public-data/representation-discovery.ts",
+      "url": "https://github.com/datatug/datatug-apps/blob/fe89a041b99037d9d651d37aec4117da63b0d6d0/libs/datatug/main/src/lib/queries/public-data/representation-discovery.ts"
+    },
+    {
+      "repository": "https://github.com/datatug/datatug-apps",
+      "revision": "fe89a041b99037d9d651d37aec4117da63b0d6d0",
+      "path": "libs/datatug/main/src/lib/queries/public-data/bounded-federation.ts",
+      "sha256": "6f66db949fbe99759dccf8f0c6bb463c358da2b3fce95c4161834187616c3fbc",
+      "local_snapshot": "/private/tmp/data-fabric-bigquery-browser-architecture/evidence/datatug--datatug-apps/libs/datatug/main/src/lib/queries/public-data/bounded-federation.ts",
+      "url": "https://github.com/datatug/datatug-apps/blob/fe89a041b99037d9d651d37aec4117da63b0d6d0/libs/datatug/main/src/lib/queries/public-data/bounded-federation.ts"
+    },
+    {
+      "repository": "https://github.com/sneat-co/sneat-libs",
+      "revision": "e1f7fedc7603d8d71c19f3ebfb4da753e80c258b",
+      "path": "libs/auth/core/src/lib/sneat-auth-state-service.ts",
+      "sha256": "d87bcf534093bd1a589c6b774dd5dad092ff1bba59f76bad83922aa1d459d734",
+      "local_snapshot": "/private/tmp/data-fabric-bigquery-browser-architecture/evidence/sneat-co--sneat-libs/libs/auth/core/src/lib/sneat-auth-state-service.ts",
+      "url": "https://github.com/sneat-co/sneat-libs/blob/e1f7fedc7603d8d71c19f3ebfb4da753e80c258b/libs/auth/core/src/lib/sneat-auth-state-service.ts"
+    },
+    {
+      "repository": "https://github.com/sneat-co/sneat-libs",
+      "revision": "e1f7fedc7603d8d71c19f3ebfb4da753e80c258b",
+      "path": "libs/auth/core/src/lib/user/sneat-user.service.ts",
+      "sha256": "78efa7870f675a66220b8967511ffd6feec54d6d15e5e1e71e90d8a87fdb06a8",
+      "local_snapshot": "/private/tmp/data-fabric-bigquery-browser-architecture/evidence/sneat-co--sneat-libs/libs/auth/core/src/lib/user/sneat-user.service.ts",
+      "url": "https://github.com/sneat-co/sneat-libs/blob/e1f7fedc7603d8d71c19f3ebfb4da753e80c258b/libs/auth/core/src/lib/user/sneat-user.service.ts"
+    },
+    {
+      "repository": "https://github.com/sneat-co/sneat-libs",
+      "revision": "e1f7fedc7603d8d71c19f3ebfb4da753e80c258b",
+      "path": "libs/auth/core/src/lib/user/user-record.service.ts",
+      "sha256": "6a60735fda54381a337a6c500474ad7e9c2f7b34b1a249be94e2eb2492b632c9",
+      "local_snapshot": "/private/tmp/data-fabric-bigquery-browser-architecture/evidence/sneat-co--sneat-libs/libs/auth/core/src/lib/user/user-record.service.ts",
+      "url": "https://github.com/sneat-co/sneat-libs/blob/e1f7fedc7603d8d71c19f3ebfb4da753e80c258b/libs/auth/core/src/lib/user/user-record.service.ts"
+    },
+    {
+      "repository": "https://github.com/openvaultdb/openvaultdb-go",
+      "revision": "cd82e4ac64c0d3978534e80508bffe3f12cf92a7",
+      "path": "pkg/manifest/manifest.go",
+      "sha256": "03541bfea3b32086d701f96b3de2d3a4003b7e2be2419f26ae07a41b93d87582",
+      "local_snapshot": "/private/tmp/data-fabric-bigquery-browser-architecture/evidence/openvaultdb--openvaultdb-go/pkg/manifest/manifest.go",
+      "url": "https://github.com/openvaultdb/openvaultdb-go/blob/cd82e4ac64c0d3978534e80508bffe3f12cf92a7/pkg/manifest/manifest.go"
+    },
+    {
+      "repository": "https://github.com/openvaultdb/openvaultdb-go",
+      "revision": "cd82e4ac64c0d3978534e80508bffe3f12cf92a7",
+      "path": "pkg/server/server.go",
+      "sha256": "ee209a90cab99aed8d06785fc95ed7d4d7af41a82342eaff5d4493f8caea4580",
+      "local_snapshot": "/private/tmp/data-fabric-bigquery-browser-architecture/evidence/openvaultdb--openvaultdb-go/pkg/server/server.go",
+      "url": "https://github.com/openvaultdb/openvaultdb-go/blob/cd82e4ac64c0d3978534e80508bffe3f12cf92a7/pkg/server/server.go"
+    },
+    {
+      "repository": "https://github.com/openvaultdb/ovdb",
+      "revision": "0ebbfe86534e52bf166689412584b3a0b9e3764e",
+      "path": "internal/publisher/manifest/manifest.go",
+      "sha256": "50475c785eaa8347a19021e2189a596cfeec13bdcd9b7acab878b3e20f076ebb",
+      "local_snapshot": "/private/tmp/data-fabric-bigquery-browser-architecture/evidence/openvaultdb--ovdb/internal/publisher/manifest/manifest.go",
+      "url": "https://github.com/openvaultdb/ovdb/blob/0ebbfe86534e52bf166689412584b3a0b9e3764e/internal/publisher/manifest/manifest.go"
+    },
+    {
+      "repository": "https://github.com/openvaultdb/directory",
+      "revision": "087067483686865b13cb76511ff86f7364ea47ff",
+      "path": "README.md",
+      "sha256": "c5e4c9f6e157c1da99fb8346cdd2c9d5cfb0b6c25c6135489e83f0de9060c195",
+      "local_snapshot": "/private/tmp/data-fabric-bigquery-browser-architecture/evidence/openvaultdb--directory/README.md",
+      "url": "https://github.com/openvaultdb/directory/blob/087067483686865b13cb76511ff86f7364ea47ff/README.md"
+    },
+    {
+      "repository": "https://github.com/openvaultdb/directory",
+      "revision": "087067483686865b13cb76511ff86f7364ea47ff",
+      "path": "scripts/lib/directory.mjs",
+      "sha256": "8c0aed4693e6baa3ebc3b7f2e9e96ffaf2d3d786161962ab707b8e004931e329",
+      "local_snapshot": "/private/tmp/data-fabric-bigquery-browser-architecture/evidence/openvaultdb--directory/scripts/lib/directory.mjs",
+      "url": "https://github.com/openvaultdb/directory/blob/087067483686865b13cb76511ff86f7364ea47ff/scripts/lib/directory.mjs"
+    },
+    {
+      "repository": "https://github.com/demo-db/websites",
+      "revision": "b155396a22f0a67b772c065506e54ca19a26a7bb",
+      "path": "schemas/ovdb-database-draft-1.schema.json",
+      "sha256": "2424ef00acd462ab5a8abc546fe2d1fffbbb5397e312332aedc77b3e73109488",
+      "local_snapshot": "/private/tmp/data-fabric-bigquery-browser-architecture/evidence/demo-db--websites/schemas/ovdb-database-draft-1.schema.json",
+      "url": "https://github.com/demo-db/websites/blob/b155396a22f0a67b772c065506e54ca19a26a7bb/schemas/ovdb-database-draft-1.schema.json"
+    },
+    {
+      "repository": "https://github.com/dal-go/dalgo-js",
+      "revision": "1534acd4d0e4a104c58eba09fb9c25619efc8f24",
+      "path": "package.json",
+      "sha256": "4726b4b76d57d59be4973c254ce5cc335c11bd9a9a6b73aefac6a02a3e9bbc7c",
+      "local_snapshot": "/private/tmp/data-fabric-bigquery-browser-architecture/evidence/dal-go--dalgo-js/package.json",
+      "url": "https://github.com/dal-go/dalgo-js/blob/1534acd4d0e4a104c58eba09fb9c25619efc8f24/package.json"
+    },
+    {
+      "repository": "https://github.com/dal-go/dalgo-js",
+      "revision": "1534acd4d0e4a104c58eba09fb9c25619efc8f24",
+      "path": "src/database.ts",
+      "sha256": "4ddc49ce37348f6caac3bb1f9de736f36e75923eba8257f06bc40dc1b15d7f9d",
+      "local_snapshot": "/private/tmp/data-fabric-bigquery-browser-architecture/evidence/dal-go--dalgo-js/src/database.ts",
+      "url": "https://github.com/dal-go/dalgo-js/blob/1534acd4d0e4a104c58eba09fb9c25619efc8f24/src/database.ts"
+    },
+    {
+      "repository": "https://github.com/dal-go/dalgo-js",
+      "revision": "1534acd4d0e4a104c58eba09fb9c25619efc8f24",
+      "path": "src/query.ts",
+      "sha256": "560d0b94b1c9c17b2476110679bf5aabb42f83d18fdd182e64f3562612835ce7",
+      "local_snapshot": "/private/tmp/data-fabric-bigquery-browser-architecture/evidence/dal-go--dalgo-js/src/query.ts",
+      "url": "https://github.com/dal-go/dalgo-js/blob/1534acd4d0e4a104c58eba09fb9c25619efc8f24/src/query.ts"
+    },
+    {
+      "input": "/Users/alex/projects/datatug-public-data-fabric-agent-brief.md",
+      "sha256": "d3597006ed81c62514ff9bb1b45850441836247747fa93edb5ac81118a4f2535"
+    },
+    {
+      "input": "/private/tmp/data-fabric-bigquery-priority-discovery/bigquery-priority-r1.json",
+      "sha256": "77933e95f1d0781ea6efad6a6f8e761fc032c907044be4a4e65d0c8ba5d0eefb"
+    },
+    {
+      "repository": "https://github.com/dal-go/dalgo-js",
+      "revision": "04a7f1293ad57a50a282ecc13314ce7b1488211e",
+      "path": "src/database.ts",
+      "sha256": "4ddc49ce37348f6caac3bb1f9de736f36e75923eba8257f06bc40dc1b15d7f9d",
+      "local_snapshot": "/private/tmp/data-fabric-bigquery-browser-architecture/evidence/dalgo-core-0.3-database.ts",
+      "url": "https://github.com/dal-go/dalgo-js/blob/04a7f1293ad57a50a282ecc13314ce7b1488211e/src/database.ts"
+    },
+    {
+      "repository": "https://github.com/dal-go/dalgo-js",
+      "revision": "04a7f1293ad57a50a282ecc13314ce7b1488211e",
+      "path": "package.json",
+      "sha256": "cfa81fe636a3612996099b761d6b5c068cc90ff60fb0e0cb200e0d8919439cc4",
+      "local_snapshot": "/private/tmp/data-fabric-bigquery-browser-architecture/evidence/dalgo-core-0.3-package.json",
+      "url": "https://github.com/dal-go/dalgo-js/blob/04a7f1293ad57a50a282ecc13314ce7b1488211e/package.json"
+    }
+  ],
+  "proposal_path": "spec/research/public-data-fabric/evidence/bigquery-dual-runtime/proposal-r3.md",
+  "proposal_sha256": "b4bd0c025a46eb1626d902041f9cbb3685424b227f260da7f98a777149939f87",
+  "evidence_index_sha256": "cd9415ca1c08881903f2a7fde0623162e22afdc0a90eca872d4b37475887e193",
+  "memory_context": {
+    "path": "/Users/alex/.codex/memories/MEMORY.md",
+    "lines": "28-43",
+    "use": "Existing canonical source allowlists and immutable/history preservation context; current source contracts independently reverified"
+  },
+  "review_verdict": "Unchanged r2: blockers=0 majors=2 minors=1 land=no. Root adopts direction conditionally; amended r3 fresh independent review pending.",
+  "supersedes_go_deferral": true,
+  "user_clarification": "BigQuery should be accessible from both Go and JS",
+  "required_runtimes": [
+    "Go",
+    "JavaScript"
+  ],
+  "landing_owner": "root",
+  "evidence_index_r2_sha256": "481a4e4b38aa34cb9c831e80e06498c814b6e7fce0ee0fd06bab916263f99b34",
+  "go_discovery": {
+    "home_recommendation": "github.com/dal-go/dalgo2bigquery",
+    "repo_lookup": "404 at review time",
+    "scope": "Bounded local source search; GitHub code search in dal-go/datatug",
+    "dal_go_search": {
+      "total_count": 0,
+      "incomplete_results": false
+    },
+    "datatug_search": {
+      "total_count": 0,
+      "incomplete_results": false
+    },
+    "openvaultdb_search": {
+      "total_count": 0,
+      "incomplete_results": true
+    },
+    "negative_claim_limit": "Does not prove no Go implementation exists anywhere. Verify ownership and any newly surfaced private/active lane before repository creation."
+  },
+  "parity_cases": [
+    "source != execution project",
+    "keyless duplicate rows",
+    "empty schema-bearing result",
+    "int64 extremes",
+    "NUMERIC/BIGNUMERIC full precision",
+    "unsafe floating input rejection",
+    "temporal microseconds and timezone distinction",
+    "SQL NULL vs JSON null",
+    "nested unsupported type",
+    "byte/page/row bounds",
+    "omitted page schema",
+    "partial-page cursor",
+    "repeated/cross-job token",
+    "dry-run cap failure",
+    "insufficient scope",
+    "auth expiry",
+    "local timeout",
+    "cancel race",
+    "ambiguous submission without replay",
+    "raw HTTP omitted v versus explicit v:null versus JSON null; wrong cell count and type",
+    "native TABLE positive; VIEW/EXTERNAL/MATERIALIZED_VIEW/BigLake/SNAPSHOT/unknown or conflicting configuration negatives with zero query submission",
+    "source kind/configuration/schema/location change between preview and submission invalidates approval",
+    "GIS same-token UserInfo same/different account, partial grants, missing sub, missing email allowed"
+  ],
+  "additional_evidence": [
+    {
+      "repository": "https://github.com/dal-go/dalgo",
+      "revision": "d2ddbc9c232c355ed7f6a792a0dcbdbbbf16b6d1",
+      "path": "AGENTS.md",
+      "url": "https://github.com/dal-go/dalgo/blob/d2ddbc9c232c355ed7f6a792a0dcbdbbbf16b6d1/AGENTS.md",
+      "local_snapshot": "/private/tmp/data-fabric-bigquery-browser-architecture/evidence-r2/dal-go--dalgo/AGENTS.md",
+      "sha256": "4e12289c6ce0db0ff5f775288723bd583206c3be8e6f0a155f8ba655946c1ba3"
+    },
+    {
+      "repository": "https://github.com/dal-go/dalgo",
+      "revision": "d2ddbc9c232c355ed7f6a792a0dcbdbbbf16b6d1",
+      "path": "dal/query_executor.go",
+      "url": "https://github.com/dal-go/dalgo/blob/d2ddbc9c232c355ed7f6a792a0dcbdbbbf16b6d1/dal/query_executor.go",
+      "local_snapshot": "/private/tmp/data-fabric-bigquery-browser-architecture/evidence-r2/dal-go--dalgo/dal/query_executor.go",
+      "sha256": "6f733d62c2d3b2694508dfad6f7e09bc24a4b1e374c6acf639ea3c3caefa3002"
+    },
+    {
+      "repository": "https://github.com/dal-go/dalgo",
+      "revision": "d2ddbc9c232c355ed7f6a792a0dcbdbbbf16b6d1",
+      "path": "dal/reader.go",
+      "url": "https://github.com/dal-go/dalgo/blob/d2ddbc9c232c355ed7f6a792a0dcbdbbbf16b6d1/dal/reader.go",
+      "local_snapshot": "/private/tmp/data-fabric-bigquery-browser-architecture/evidence-r2/dal-go--dalgo/dal/reader.go",
+      "sha256": "c900b20a9b73f7038329d6feaa2d46c139507a91dfc568aae31a61628a53b5f0"
+    },
+    {
+      "repository": "https://github.com/dal-go/dalgo",
+      "revision": "d2ddbc9c232c355ed7f6a792a0dcbdbbbf16b6d1",
+      "path": "dal/query.go",
+      "url": "https://github.com/dal-go/dalgo/blob/d2ddbc9c232c355ed7f6a792a0dcbdbbbf16b6d1/dal/query.go",
+      "local_snapshot": "/private/tmp/data-fabric-bigquery-browser-architecture/evidence-r2/dal-go--dalgo/dal/query.go",
+      "sha256": "eb3d2043130e3d9202d59af7d87931767ba979853ed5231adf716359a6d0c5d2"
+    },
+    {
+      "repository": "https://github.com/dal-go/dalgo",
+      "revision": "d2ddbc9c232c355ed7f6a792a0dcbdbbbf16b6d1",
+      "path": "dal/aggregation_plan.go",
+      "url": "https://github.com/dal-go/dalgo/blob/d2ddbc9c232c355ed7f6a792a0dcbdbbbf16b6d1/dal/aggregation_plan.go",
+      "local_snapshot": "/private/tmp/data-fabric-bigquery-browser-architecture/evidence-r2/dal-go--dalgo/dal/aggregation_plan.go",
+      "sha256": "4bf28518fc5e6f453073053eba6de25c70da6681c8fb705316c229a26734aae1"
+    },
+    {
+      "repository": "https://github.com/dal-go/dalgo",
+      "revision": "d2ddbc9c232c355ed7f6a792a0dcbdbbbf16b6d1",
+      "path": "dal/db_new.go",
+      "url": "https://github.com/dal-go/dalgo/blob/d2ddbc9c232c355ed7f6a792a0dcbdbbbf16b6d1/dal/db_new.go",
+      "local_snapshot": "/private/tmp/data-fabric-bigquery-browser-architecture/evidence-r2/dal-go--dalgo/dal/db_new.go",
+      "sha256": "18802dcd42875fe58c1ec56fd165da4cff62d55efa4a2ec18cba0a21374a3be4"
+    },
+    {
+      "repository": "https://github.com/dal-go/dalgo",
+      "revision": "d2ddbc9c232c355ed7f6a792a0dcbdbbbf16b6d1",
+      "path": "recordset/column.go",
+      "url": "https://github.com/dal-go/dalgo/blob/d2ddbc9c232c355ed7f6a792a0dcbdbbbf16b6d1/recordset/column.go",
+      "local_snapshot": "/private/tmp/data-fabric-bigquery-browser-architecture/evidence-r2/dal-go--dalgo/recordset/column.go",
+      "sha256": "d7334fa040d1cecaa15390f6511d25f7048c643dab832a18097d6d962359720a"
+    },
+    {
+      "repository": "https://github.com/dal-go/dalgo",
+      "revision": "d2ddbc9c232c355ed7f6a792a0dcbdbbbf16b6d1",
+      "path": "recordset/column_options.go",
+      "url": "https://github.com/dal-go/dalgo/blob/d2ddbc9c232c355ed7f6a792a0dcbdbbbf16b6d1/recordset/column_options.go",
+      "local_snapshot": "/private/tmp/data-fabric-bigquery-browser-architecture/evidence-r2/dal-go--dalgo/recordset/column_options.go",
+      "sha256": "c1d5522c72a4ee6a98a08c889c8d292fc5efae6b6994f1e91591aff39e9cca2a"
+    },
+    {
+      "repository": "https://github.com/dal-go/dalgo2sql",
+      "revision": "4791d6e62bcfe5dd7f8349552328b6d9cdb3dc81",
+      "path": "database.go",
+      "url": "https://github.com/dal-go/dalgo2sql/blob/4791d6e62bcfe5dd7f8349552328b6d9cdb3dc81/database.go",
+      "local_snapshot": "/private/tmp/data-fabric-bigquery-browser-architecture/evidence-r2/dal-go--dalgo2sql/database.go",
+      "sha256": "f294012fd80533ba921a153353937f189c3af3bcf03781a0c13d07ed30c78d7c"
+    },
+    {
+      "repository": "https://github.com/dal-go/dalgo2sql",
+      "revision": "4791d6e62bcfe5dd7f8349552328b6d9cdb3dc81",
+      "path": "go.mod",
+      "url": "https://github.com/dal-go/dalgo2sql/blob/4791d6e62bcfe5dd7f8349552328b6d9cdb3dc81/go.mod",
+      "local_snapshot": "/private/tmp/data-fabric-bigquery-browser-architecture/evidence-r2/dal-go--dalgo2sql/go.mod",
+      "sha256": "71836e243c0e968ccb7a325ea0044e28a0e4574f158ac0a58baadd4104a28055"
+    },
+    {
+      "repository": "https://github.com/dal-go/dalgo2http",
+      "revision": "b385c4fdf37f9ae1e830c7b2a3c0010df4458e6f",
+      "path": "README.md",
+      "url": "https://github.com/dal-go/dalgo2http/blob/b385c4fdf37f9ae1e830c7b2a3c0010df4458e6f/README.md",
+      "local_snapshot": "/private/tmp/data-fabric-bigquery-browser-architecture/evidence-r2/dal-go--dalgo2http/README.md",
+      "sha256": "ee7888be023e6ed98688617f26b8b5088c834e9bc2fc83d49490cf25bcd6f68e"
+    },
+    {
+      "repository": "https://github.com/googleapis/google-cloud-go",
+      "revision": "8a17bee208939e0166936a59675414439c47e341",
+      "path": "bigquery/query.go",
+      "url": "https://github.com/googleapis/google-cloud-go/blob/8a17bee208939e0166936a59675414439c47e341/bigquery/query.go",
+      "local_snapshot": "/private/tmp/data-fabric-bigquery-browser-architecture/evidence-r2/google-bigquery-query.go",
+      "sha256": "d34876bc8bf9e7e5539da5d6f567d286aa0d6fc14623127440c4ecf46e81dcd2"
+    },
+    {
+      "repository": "https://github.com/googleapis/google-api-go-client",
+      "revision": "267f7a8c8e539f21e64b696686bb9476bf0c5ef0",
+      "path": "bigquery/v2/bigquery-gen.go",
+      "url": "https://github.com/googleapis/google-api-go-client/blob/267f7a8c8e539f21e64b696686bb9476bf0c5ef0/bigquery/v2/bigquery-gen.go",
+      "local_snapshot": "/private/tmp/data-fabric-bigquery-browser-architecture/evidence-r2/google-bigquery-gen.go",
+      "sha256": "740455442e555a19d3b1cf93659c929964aee00544f168072fbd89ec43eb2789"
+    },
+    {
+      "local_snapshot": "/private/tmp/data-fabric-bigquery-browser-architecture/evidence-r2/search-dal-go.json",
+      "kind": "github-code-search-snapshot",
+      "total_count": 0,
+      "incomplete_results": false,
+      "sha256": "4af480b8ee5b87b369a76c49bd22c9a783908272ebffbe97898f8ab0f0772a5f"
+    },
+    {
+      "local_snapshot": "/private/tmp/data-fabric-bigquery-browser-architecture/evidence-r2/search-datatug.json",
+      "kind": "github-code-search-snapshot",
+      "total_count": 0,
+      "incomplete_results": false,
+      "sha256": "4af480b8ee5b87b369a76c49bd22c9a783908272ebffbe97898f8ab0f0772a5f"
+    },
+    {
+      "local_snapshot": "/private/tmp/data-fabric-bigquery-browser-architecture/evidence-r2/search-openvaultdb.json",
+      "kind": "github-code-search-snapshot",
+      "total_count": 0,
+      "incomplete_results": true,
+      "sha256": "715c8ec822e91115573715cd88b7104d3f672a3dc7a97450663bfa88ef2ecc21"
+    }
+  ],
+  "mandatory_amendments": {
+    "M1": "**Minimum amendment:** require bounded raw JSON shape/presence/type validation before generated result decoding, or an adapter-owned lossless response decoder. Retain the generated client for supported request/auth operations. Include actual HTTP response fixtures for omitted `v`, explicit `v:null`, wrong cell count, wrong wire value type and valid SQL NULL/JSON null. Run those bytes through each runtime's real decoding path; do not start only from normalized objects. Invalid wire cells must fail without being exported as NULL. No DALgo core change is needed.",
+    "M2": "**Minimum amendment:** define the first slice as reviewed native BigQuery tables and reject unsupported table kinds/configurations before dry run or execution. In particular, reject VIEW, EXTERNAL and unreviewed MATERIALIZED_VIEW/BigLake/external-storage configurations rather than attempting dependency support now. Record source kind/configuration with metadata observation and invalidate approval if the observed execution-relevant metadata changes. Include a native-table positive fixture and view/external-configuration negative fixtures in both runtimes, asserting no query submission. Future dependency analysis can remain deferred. This is a transport eligibility guard, not a dataset-rights or semantic decision.",
+    "M2_exact_initial_contract": "**Exact initial contract:** `datasets.get` must establish the selected dataset location; `tables.get` must match the expected fully qualified table identity, observed schema and admitted native `TABLE` profile. Reject external-data, view, materialized-view and BigLake configurations even if another field looks acceptable; unknown types/configurations fail closed. `SNAPSHOT` and other kinds remain unsupported until explicitly added. Recheck this execution-relevant observation before submission, bind it into the approved plan, and invalidate approval on relevant changes. Test kind/configuration/schema/location changes between preview and submission. This preflight is not atomic with `jobs.query`: an upstream owner can replace a source after the check. Record that residual race truthfully and restrict the first slice to reviewed trusted publishers; do not claim an immutable source or an adversarial-source security guarantee from an etag check. A hard atomic guarantee would require a separately designed source-pinning mechanism, outside this bounded slice.",
+    "m1": "**Minimum amendment:** request the identity scopes needed by the chosen identity lookup alongside BigQuery read-only consent; use `openid` for subject identity and add `email` when an email display label is wanted, then call Google's UserInfo endpoint with the same access token. Bind the execution principal to the returned stable `sub`; email is only an optional display label, not a linkage key or a substitute for a missing subject. Keep this separate from Firebase account creation/linking. Revalidate after token/account changes and add same-account, different-account, partial-grant, missing-subject and missing-email cases (missing email must not invalidate a verified subject). Use the Google-owned identity endpoint discovered from its fixed trusted discovery document; public source metadata must not supply an identity URL. Verify the exact GIS/UserInfo flow at the deployed-browser gate. No new human product decision is needed."
+  },
+  "root_required_amendments_verbatim": [
+    "M1: bounded raw HTTP JSON shape/presence/type validation or lossless adapter decoder before generated Go result decoding; raw-byte parity fixtures distinguish omitted v, explicit null, JSON null, malformed cell counts/types.",
+    "M2: first slice trusted reviewed native TABLE only; dataset location and exact table identity/schema/config eligibility from datasets.get/tables.get; reject view/external/materialized/BigLake/snapshot/unknown configurations; recheck before submission and invalidate changed approval; explicitly disclose non-atomic source replacement race.",
+    "m1: GIS identity grant openid and optional email with same-access-token fixed Google UserInfo; stable sub binds execution identity; missing email allowed; missing sub/partial grants fail; never use Firebase identity as proof."
+  ],
+  "real_go_consumer": {
+    "repository": "https://github.com/datatug/datatug-cli",
+    "revision": "2d90666ccf1adb5a2ede4323f6f71d07dd8aa96e",
+    "observed_paths": [
+      "apps/datatugapp/commands/cmd_query.go",
+      "apps/datatugapp/commands/cmd_query_run_saved.go"
+    ],
+    "status": "Existing query/run family verified at exact source; bounded analytical route and input contract remain A0 prerequisite; no committed BigQuery API claimed.",
+    "source_files": [
+      {
+        "path": "apps/datatugapp/commands/cmd_query.go",
+        "sha256": "e9199f8afe0b337065d2636f549ce5863059e53c77d2d52e94dcf47d7f3b0102",
+        "url": "https://github.com/datatug/datatug-cli/blob/2d90666ccf1adb5a2ede4323f6f71d07dd8aa96e/apps/datatugapp/commands/cmd_query.go"
+      },
+      {
+        "path": "apps/datatugapp/commands/cmd_query_run_saved.go",
+        "sha256": "6cba85daff3cd51bf07b8b9176ff1ae260f542c9e738bc322ce7221ee90d4ee3",
+        "url": "https://github.com/datatug/datatug-cli/blob/2d90666ccf1adb5a2ede4323f6f71d07dd8aa96e/apps/datatugapp/commands/cmd_query_run_saved.go"
+      }
+    ]
+  },
+  "preserved_original_index": {
+    "candidates": {
+      "count": 691,
+      "sorted_path_sha256_index_sha256": "52957ae50439c7178ed95f9c64035e9c585d1317c26a75535134f0a38648c091"
+    },
+    "assertions": {
+      "count": 1177,
+      "sorted_path_sha256_index_sha256": "4671365581d56c0c001371908d28276d33a728bd9c558f12550823f637d441cb"
+    }
+  },
+  "history": [
+    {
+      "path": "history/discovery-r1.json",
+      "sha256": "77933e95f1d0781ea6efad6a6f8e761fc032c907044be4a4e65d0c8ba5d0eefb"
+    },
+    {
+      "path": "history/evidence-index-r2.json",
+      "sha256": "481a4e4b38aa34cb9c831e80e06498c814b6e7fce0ee0fd06bab916263f99b34"
+    },
+    {
+      "path": "history/evidence-index.json",
+      "sha256": "cd9415ca1c08881903f2a7fde0623162e22afdc0a90eca872d4b37475887e193"
+    },
+    {
+      "path": "history/proposal-r1.json",
+      "sha256": "fb7664ddd5d4e03b3f2c06c0203b76a8ec6560ec011fb87775c35f73b15c9033"
+    },
+    {
+      "path": "history/proposal-r1.md",
+      "sha256": "2a831399e8cef97c934231bd818f0a8dd1028e0e86a325f4b4a9d8a30c5b7745"
+    },
+    {
+      "path": "history/proposal-r2.json",
+      "sha256": "51988bf40cc2c2fbaf7ad2045be22fa0c2e0d756fddcc28be0ccbe5fbafef63e"
+    },
+    {
+      "path": "history/proposal-r2.md",
+      "sha256": "9a073ff10388c3fb0f6a6d27c38bbfe9a79b4bf595dad61a4e5cc7e4dad18dd0"
+    },
+    {
+      "path": "history/review-r1.json",
+      "sha256": "7e2b4067a769e054cfdb1d896ed9cf898482fa07a9edfa89eb554b04233cf99c"
+    },
+    {
+      "path": "history/review-r1.md",
+      "sha256": "53515ff8512d72a952f1b66aac5ed6b731b4e657f4d8d9d6aceba8b5b0898a15"
+    },
+    {
+      "path": "history/root-decision-r2.json",
+      "sha256": "7dc259dbc41fb8399d8e455e5dfe8c8f6a09ec1e922cc02b46c6ff73b145ed36"
+    }
+  ],
+  "spec_feature": "spec/features/public-data-fabric/bigquery-dual-runtime/README.md"
+}

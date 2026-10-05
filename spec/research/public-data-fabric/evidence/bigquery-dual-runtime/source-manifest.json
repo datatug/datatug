@@ -1,0 +1,140 @@
+{
+  "format": "data-fabric-bigquery-curation/1",
+  "baseline": "cb0f05954b52f373a2a7a41800689e7fdf8c06b5",
+  "original_counts": {
+    "candidates": 691,
+    "assertions": 1177
+  },
+  "added_candidate_count": 8,
+  "assertions_changed": false,
+  "files": [
+    {
+      "path": "candidates/$records/bq-data-citibike.json",
+      "sha256": "546a55ff6901796d89a67aa6d06af2fa065c6d033342cd8169c62f210aacc560"
+    },
+    {
+      "path": "candidates/$records/bq-data-noaa-gsod.json",
+      "sha256": "b155e04992758b7dc9e5b74b6f57f1b8b4b3ccf72e17f207f4f42988f7a9aad3"
+    },
+    {
+      "path": "candidates/$records/bq-data-noaa-icoads.json",
+      "sha256": "dfcb26f1d8b0321dde69d0f4e82ebb1c4534e1bf6accb888371c671e0e16c1ed"
+    },
+    {
+      "path": "candidates/$records/bq-data-nyc-tlc.json",
+      "sha256": "d7ceeae15bc050f1a617d8e0a01877c0fb81ade44118cebf201fe8e05e150c8a"
+    },
+    {
+      "path": "candidates/$records/bq-data-storm-events.json",
+      "sha256": "01e2703dff207628862c20110c5da94937443bdd4117ca1a96c4c1014496ab4c"
+    },
+    {
+      "path": "candidates/$records/bq-opportunity-dual-runtime.json",
+      "sha256": "8a7087cda417f495eb1ba9d6cad3a4d0cc944a8cf2b687f430ddbce794d84e12"
+    },
+    {
+      "path": "candidates/$records/bq-smoke-sample-shakespeare.json",
+      "sha256": "e4190bf2f51e35265ca6e5e073481dba107ff160a347319123879bf741507bb2"
+    },
+    {
+      "path": "candidates/$records/bq-source-public-data.json",
+      "sha256": "3b61ac29125bf3fe62d8f84aab0649be48aa9e11486d5ecd6a5c071ae27ebfc2"
+    },
+    {
+      "path": "evidence/$records/bigquery-architecture-review-r1.json",
+      "sha256": "43ea27bb161d1fdf82460bb53c5fd4622a231df26e6332c880c108578a2da4f5"
+    },
+    {
+      "path": "evidence/$records/bigquery-discovery-r1.json",
+      "sha256": "c7cc71cbd430e5661f39c9a1e1467c63e2525877f3ee0d509aea52adfa1e9787"
+    },
+    {
+      "path": "evidence/$records/bigquery-dual-runtime-r3.json",
+      "sha256": "0e2a2d630edce1ca693aa21232a89e1df15245fcdfae9c9835f2cd9ca36bf532"
+    },
+    {
+      "path": "evidence/bigquery-dual-runtime/README.md",
+      "sha256": "57e8b4a3d4482aa97daefc91893fd1e9923bf961e9f22c8fa314e079e9fec316"
+    },
+    {
+      "path": "evidence/bigquery-dual-runtime/history/README.md",
+      "sha256": "04ff1d55558134aa0a3fb25750359943a90dd0278fc67b834f9c212b006a15e6"
+    },
+    {
+      "path": "evidence/bigquery-dual-runtime/history/discovery-r1.json",
+      "sha256": "77933e95f1d0781ea6efad6a6f8e761fc032c907044be4a4e65d0c8ba5d0eefb"
+    },
+    {
+      "path": "evidence/bigquery-dual-runtime/history/evidence-index-r2.json",
+      "sha256": "481a4e4b38aa34cb9c831e80e06498c814b6e7fce0ee0fd06bab916263f99b34"
+    },
+    {
+      "path": "evidence/bigquery-dual-runtime/history/evidence-index.json",
+      "sha256": "cd9415ca1c08881903f2a7fde0623162e22afdc0a90eca872d4b37475887e193"
+    },
+    {
+      "path": "evidence/bigquery-dual-runtime/history/proposal-r1.json",
+      "sha256": "fb7664ddd5d4e03b3f2c06c0203b76a8ec6560ec011fb87775c35f73b15c9033"
+    },
+    {
+      "path": "evidence/bigquery-dual-runtime/history/proposal-r1.md",
+      "sha256": "2a831399e8cef97c934231bd818f0a8dd1028e0e86a325f4b4a9d8a30c5b7745"
+    },
+    {
+      "path": "evidence/bigquery-dual-runtime/history/proposal-r2.json",
+      "sha256": "51988bf40cc2c2fbaf7ad2045be22fa0c2e0d756fddcc28be0ccbe5fbafef63e"
+    },
+    {
+      "path": "evidence/bigquery-dual-runtime/history/proposal-r2.md",
+      "sha256": "9a073ff10388c3fb0f6a6d27c38bbfe9a79b4bf595dad61a4e5cc7e4dad18dd0"
+    },
+    {
+      "path": "evidence/bigquery-dual-runtime/history/review-r1.json",
+      "sha256": "7e2b4067a769e054cfdb1d896ed9cf898482fa07a9edfa89eb554b04233cf99c"
+    },
+    {
+      "path": "evidence/bigquery-dual-runtime/history/review-r1.md",
+      "sha256": "53515ff8512d72a952f1b66aac5ed6b731b4e657f4d8d9d6aceba8b5b0898a15"
+    },
+    {
+      "path": "evidence/bigquery-dual-runtime/history/root-decision-r2.json",
+      "sha256": "7dc259dbc41fb8399d8e455e5dfe8c8f6a09ec1e922cc02b46c6ff73b145ed36"
+    },
+    {
+      "path": "evidence/bigquery-dual-runtime/proposal-r3.json",
+      "sha256": "a4e64dd8572caabe6e1e08ff598b5e55ac9c71e6e0684e3d8ec3e5f36fbea5e0"
+    },
+    {
+      "path": "evidence/bigquery-dual-runtime/proposal-r3.md",
+      "sha256": "b4bd0c025a46eb1626d902041f9cbb3685424b227f260da7f98a777149939f87"
+    },
+    {
+      "path": "evidence/bigquery-dual-runtime/verify.py",
+      "sha256": "4cf457912eed8de24488ae8af9df98df622e318669365d5cae5a9844d575f4e6"
+    },
+    {
+      "path": "questions/$records/bigquery-dual-runtime-prerequisites.json",
+      "sha256": "6e60d8dc5e80cfeee004a6cf12b3bb74fbc393eca1529339cfea25ca499d2683"
+    }
+  ],
+  "preserved_baseline": {
+    "candidates": {
+      "count": 691,
+      "sorted_path_sha256_index_sha256": "52957ae50439c7178ed95f9c64035e9c585d1317c26a75535134f0a38648c091"
+    },
+    "assertions": {
+      "count": 1177,
+      "sorted_path_sha256_index_sha256": "4671365581d56c0c001371908d28276d33a728bd9c558f12550823f637d441cb"
+    }
+  },
+  "added_candidate_ids": [
+    "bq-source-public-data",
+    "bq-data-citibike",
+    "bq-data-noaa-gsod",
+    "bq-data-nyc-tlc",
+    "bq-data-noaa-icoads",
+    "bq-data-storm-events",
+    "bq-smoke-sample-shakespeare",
+    "bq-opportunity-dual-runtime"
+  ]
+}

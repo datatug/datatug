@@ -1,0 +1,14 @@
+{
+  "title": "Severe Storm Event Details \u2014 BigQuery access-route candidate",
+  "kind": "dataset",
+  "status": "needs-review",
+  "evidence_ids": [
+    "bigquery-discovery-r1",
+    "bigquery-dual-runtime-r3"
+  ],
+  "research_depth": "shallow",
+  "source_url": "https://cloud.google.com/datasets",
+  "freshness": "needs-review",
+  "reason": "Unreconciled access-route discovery only; no equivalence with existing NOAA/Citi Bike research, source admission, licence clearance, current table guarantee or query-success claim. {\"value\": \"US severe storm location, impact and time; exact BigQuery table ID not yet verified\", \"admission_gate\": \"Confirm native table ID, upstream NOAA rights/freshness, schema and region\"}",
+  "source_id": "bq-source-public-data"
+}

@@ -1,0 +1,14 @@
+{
+  "title": "NYC TLC Trips \u2014 BigQuery access-route candidate",
+  "kind": "dataset",
+  "status": "needs-review",
+  "evidence_ids": [
+    "bigquery-discovery-r1",
+    "bigquery-dual-runtime-r3"
+  ],
+  "research_depth": "shallow",
+  "source_url": "https://docs.cloud.google.com/knowledge-catalog/docs/track-lineage-quickstart",
+  "freshness": "needs-review",
+  "reason": "Unreconciled access-route discovery only; no equivalence with existing NOAA/Citi Bike research, source admission, licence clearance, current table guarantee or query-success claim. {\"observed_table_refs\": [\"bigquery-public-data.new_york_taxi_trips.tlc_green_trips_2021\", \"bigquery-public-data.new_york_taxi_trips.tlc_green_trips_2022\"], \"admission_gate\": \"Check rights, current dataset/table metadata, exact grain, location, query cost and joinability\"}",
+  "source_id": "bq-source-public-data"
+}

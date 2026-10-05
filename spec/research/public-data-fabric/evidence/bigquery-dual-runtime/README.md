@@ -1,0 +1,15 @@
+# BigQuery priority and dual-runtime architecture
+
+[Amended proposal r3](proposal-r3.md) and its [machine-readable contract](proposal-r3.json) preserve the user-prioritized BigQuery opportunity. Browser-direct JavaScript is preferred; **both Go and JavaScript are mandatory**. Reuse the maintained `dal-go/dalgo-http-adapters/packages/bigquery` package. A sibling Go driver remains proposed after fresh ownership/reuse admission; the existing DataTug CLI query/run family is a candidate consumer whose bounded analytical route is still A0. No repository, credentials, cloud job, billing or adapter was created.
+
+The original [r2 review](history/review-r1.md) declined unchanged r2 with two majors and one minor. The [root decision](history/root-decision-r2.json) adopts the direction conditionally. R3 integrates all three verbatim mandatory contracts: bounded raw HTTP cell presence/type validation before generated Go decoding; reviewed native TABLE kind/configuration/location/schema with pre-submit recheck and truthful residual race; GIS openid plus optional email, same-token trusted UserInfo and stable sub. **Fresh independent review of curated r3 is pending.**
+
+The seven route discoveries and one priority bundle stay `needs-review` in `fabric.candidates`. They do not establish equivalence with existing NOAA/Citi Bike records. Source metadata, rights, freshness and access-route specialist review remain required; no source/semantic admission, licence clearance or successful query is claimed. The technical Shakespeare candidate is only a proposed connectivity fixture. Original691 candidates and1177 assertions are retained byte-for-byte; W1 GeoNames/ROR and ECB FX priorities remain intact.
+
+The [Draft BigQuery child feature](../../../../features/public-data-fabric/bigquery-dual-runtime/README.md), scaffolded through SpecScore under the existing Public Data Fabric feature, records the requirement and acceptance boundary. The existing approved W1 plan and AC coverage stay unchanged. Approved implementation planning stays on the existing Workbench SpecScore route. This packet is canonical research/architecture evidence, not another plan or registry. [Open prerequisite](../../questions/$records/bigquery-dual-runtime-prerequisites.json) records the remaining A0 and source/runtime gates without displacing the selected lanes.
+
+[History](history/) retains exact small original discovery/proposal/review/decision/index bytes. Those index paths describe the prior execution environment; their immutable repository revisions, object paths, hashes and primary-source URLs remain provenance, not current-head claims. [Manifest](source-manifest.json) binds this curated packet and original baseline records; no large source/cache snapshot is copied.
+
+## Open Questions
+
+Fresh edited-proposal review, exact A0 consumer/SDK contract, source-specific metadata/rights/access-route review, canonical profile, adapters and both live runtime acceptance remain open.

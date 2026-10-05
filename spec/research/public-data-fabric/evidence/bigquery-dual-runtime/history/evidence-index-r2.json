@@ -1,0 +1,131 @@
+{
+  "r1_index": "/private/tmp/data-fabric-bigquery-browser-architecture/evidence-index.json",
+  "r1_index_sha256": "cd9415ca1c08881903f2a7fde0623162e22afdc0a90eca872d4b37475887e193",
+  "additional_evidence": [
+    {
+      "repository": "https://github.com/dal-go/dalgo",
+      "revision": "d2ddbc9c232c355ed7f6a792a0dcbdbbbf16b6d1",
+      "path": "AGENTS.md",
+      "url": "https://github.com/dal-go/dalgo/blob/d2ddbc9c232c355ed7f6a792a0dcbdbbbf16b6d1/AGENTS.md",
+      "local_snapshot": "/private/tmp/data-fabric-bigquery-browser-architecture/evidence-r2/dal-go--dalgo/AGENTS.md",
+      "sha256": "4e12289c6ce0db0ff5f775288723bd583206c3be8e6f0a155f8ba655946c1ba3"
+    },
+    {
+      "repository": "https://github.com/dal-go/dalgo",
+      "revision": "d2ddbc9c232c355ed7f6a792a0dcbdbbbf16b6d1",
+      "path": "dal/query_executor.go",
+      "url": "https://github.com/dal-go/dalgo/blob/d2ddbc9c232c355ed7f6a792a0dcbdbbbf16b6d1/dal/query_executor.go",
+      "local_snapshot": "/private/tmp/data-fabric-bigquery-browser-architecture/evidence-r2/dal-go--dalgo/dal/query_executor.go",
+      "sha256": "6f733d62c2d3b2694508dfad6f7e09bc24a4b1e374c6acf639ea3c3caefa3002"
+    },
+    {
+      "repository": "https://github.com/dal-go/dalgo",
+      "revision": "d2ddbc9c232c355ed7f6a792a0dcbdbbbf16b6d1",
+      "path": "dal/reader.go",
+      "url": "https://github.com/dal-go/dalgo/blob/d2ddbc9c232c355ed7f6a792a0dcbdbbbf16b6d1/dal/reader.go",
+      "local_snapshot": "/private/tmp/data-fabric-bigquery-browser-architecture/evidence-r2/dal-go--dalgo/dal/reader.go",
+      "sha256": "c900b20a9b73f7038329d6feaa2d46c139507a91dfc568aae31a61628a53b5f0"
+    },
+    {
+      "repository": "https://github.com/dal-go/dalgo",
+      "revision": "d2ddbc9c232c355ed7f6a792a0dcbdbbbf16b6d1",
+      "path": "dal/query.go",
+      "url": "https://github.com/dal-go/dalgo/blob/d2ddbc9c232c355ed7f6a792a0dcbdbbbf16b6d1/dal/query.go",
+      "local_snapshot": "/private/tmp/data-fabric-bigquery-browser-architecture/evidence-r2/dal-go--dalgo/dal/query.go",
+      "sha256": "eb3d2043130e3d9202d59af7d87931767ba979853ed5231adf716359a6d0c5d2"
+    },
+    {
+      "repository": "https://github.com/dal-go/dalgo",
+      "revision": "d2ddbc9c232c355ed7f6a792a0dcbdbbbf16b6d1",
+      "path": "dal/aggregation_plan.go",
+      "url": "https://github.com/dal-go/dalgo/blob/d2ddbc9c232c355ed7f6a792a0dcbdbbbf16b6d1/dal/aggregation_plan.go",
+      "local_snapshot": "/private/tmp/data-fabric-bigquery-browser-architecture/evidence-r2/dal-go--dalgo/dal/aggregation_plan.go",
+      "sha256": "4bf28518fc5e6f453073053eba6de25c70da6681c8fb705316c229a26734aae1"
+    },
+    {
+      "repository": "https://github.com/dal-go/dalgo",
+      "revision": "d2ddbc9c232c355ed7f6a792a0dcbdbbbf16b6d1",
+      "path": "dal/db_new.go",
+      "url": "https://github.com/dal-go/dalgo/blob/d2ddbc9c232c355ed7f6a792a0dcbdbbbf16b6d1/dal/db_new.go",
+      "local_snapshot": "/private/tmp/data-fabric-bigquery-browser-architecture/evidence-r2/dal-go--dalgo/dal/db_new.go",
+      "sha256": "18802dcd42875fe58c1ec56fd165da4cff62d55efa4a2ec18cba0a21374a3be4"
+    },
+    {
+      "repository": "https://github.com/dal-go/dalgo",
+      "revision": "d2ddbc9c232c355ed7f6a792a0dcbdbbbf16b6d1",
+      "path": "recordset/column.go",
+      "url": "https://github.com/dal-go/dalgo/blob/d2ddbc9c232c355ed7f6a792a0dcbdbbbf16b6d1/recordset/column.go",
+      "local_snapshot": "/private/tmp/data-fabric-bigquery-browser-architecture/evidence-r2/dal-go--dalgo/recordset/column.go",
+      "sha256": "d7334fa040d1cecaa15390f6511d25f7048c643dab832a18097d6d962359720a"
+    },
+    {
+      "repository": "https://github.com/dal-go/dalgo",
+      "revision": "d2ddbc9c232c355ed7f6a792a0dcbdbbbf16b6d1",
+      "path": "recordset/column_options.go",
+      "url": "https://github.com/dal-go/dalgo/blob/d2ddbc9c232c355ed7f6a792a0dcbdbbbf16b6d1/recordset/column_options.go",
+      "local_snapshot": "/private/tmp/data-fabric-bigquery-browser-architecture/evidence-r2/dal-go--dalgo/recordset/column_options.go",
+      "sha256": "c1d5522c72a4ee6a98a08c889c8d292fc5efae6b6994f1e91591aff39e9cca2a"
+    },
+    {
+      "repository": "https://github.com/dal-go/dalgo2sql",
+      "revision": "4791d6e62bcfe5dd7f8349552328b6d9cdb3dc81",
+      "path": "database.go",
+      "url": "https://github.com/dal-go/dalgo2sql/blob/4791d6e62bcfe5dd7f8349552328b6d9cdb3dc81/database.go",
+      "local_snapshot": "/private/tmp/data-fabric-bigquery-browser-architecture/evidence-r2/dal-go--dalgo2sql/database.go",
+      "sha256": "f294012fd80533ba921a153353937f189c3af3bcf03781a0c13d07ed30c78d7c"
+    },
+    {
+      "repository": "https://github.com/dal-go/dalgo2sql",
+      "revision": "4791d6e62bcfe5dd7f8349552328b6d9cdb3dc81",
+      "path": "go.mod",
+      "url": "https://github.com/dal-go/dalgo2sql/blob/4791d6e62bcfe5dd7f8349552328b6d9cdb3dc81/go.mod",
+      "local_snapshot": "/private/tmp/data-fabric-bigquery-browser-architecture/evidence-r2/dal-go--dalgo2sql/go.mod",
+      "sha256": "71836e243c0e968ccb7a325ea0044e28a0e4574f158ac0a58baadd4104a28055"
+    },
+    {
+      "repository": "https://github.com/dal-go/dalgo2http",
+      "revision": "b385c4fdf37f9ae1e830c7b2a3c0010df4458e6f",
+      "path": "README.md",
+      "url": "https://github.com/dal-go/dalgo2http/blob/b385c4fdf37f9ae1e830c7b2a3c0010df4458e6f/README.md",
+      "local_snapshot": "/private/tmp/data-fabric-bigquery-browser-architecture/evidence-r2/dal-go--dalgo2http/README.md",
+      "sha256": "ee7888be023e6ed98688617f26b8b5088c834e9bc2fc83d49490cf25bcd6f68e"
+    },
+    {
+      "repository": "https://github.com/googleapis/google-cloud-go",
+      "revision": "8a17bee208939e0166936a59675414439c47e341",
+      "path": "bigquery/query.go",
+      "url": "https://github.com/googleapis/google-cloud-go/blob/8a17bee208939e0166936a59675414439c47e341/bigquery/query.go",
+      "local_snapshot": "/private/tmp/data-fabric-bigquery-browser-architecture/evidence-r2/google-bigquery-query.go",
+      "sha256": "d34876bc8bf9e7e5539da5d6f567d286aa0d6fc14623127440c4ecf46e81dcd2"
+    },
+    {
+      "repository": "https://github.com/googleapis/google-api-go-client",
+      "revision": "267f7a8c8e539f21e64b696686bb9476bf0c5ef0",
+      "path": "bigquery/v2/bigquery-gen.go",
+      "url": "https://github.com/googleapis/google-api-go-client/blob/267f7a8c8e539f21e64b696686bb9476bf0c5ef0/bigquery/v2/bigquery-gen.go",
+      "local_snapshot": "/private/tmp/data-fabric-bigquery-browser-architecture/evidence-r2/google-bigquery-gen.go",
+      "sha256": "740455442e555a19d3b1cf93659c929964aee00544f168072fbd89ec43eb2789"
+    },
+    {
+      "local_snapshot": "/private/tmp/data-fabric-bigquery-browser-architecture/evidence-r2/search-dal-go.json",
+      "kind": "github-code-search-snapshot",
+      "total_count": 0,
+      "incomplete_results": false,
+      "sha256": "4af480b8ee5b87b369a76c49bd22c9a783908272ebffbe97898f8ab0f0772a5f"
+    },
+    {
+      "local_snapshot": "/private/tmp/data-fabric-bigquery-browser-architecture/evidence-r2/search-datatug.json",
+      "kind": "github-code-search-snapshot",
+      "total_count": 0,
+      "incomplete_results": false,
+      "sha256": "4af480b8ee5b87b369a76c49bd22c9a783908272ebffbe97898f8ab0f0772a5f"
+    },
+    {
+      "local_snapshot": "/private/tmp/data-fabric-bigquery-browser-architecture/evidence-r2/search-openvaultdb.json",
+      "kind": "github-code-search-snapshot",
+      "total_count": 0,
+      "incomplete_results": true,
+      "sha256": "715c8ec822e91115573715cd88b7104d3f672a3dc7a97450663bfa88ef2ecc21"
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "title": "BigQuery Shakespeare sample table \u2014 BigQuery access-route candidate",
+  "kind": "dataset",
+  "status": "needs-review",
+  "evidence_ids": [
+    "bigquery-discovery-r1",
+    "bigquery-dual-runtime-r3"
+  ],
+  "research_depth": "shallow",
+  "source_url": "https://docs.cloud.google.com/bigquery/docs/introduction-sql",
+  "freshness": "needs-review",
+  "reason": "Unreconciled access-route discovery only; no equivalence with existing NOAA/Citi Bike research, source admission, licence clearance, current table guarantee or query-success claim. {\"observed_table_refs\": [\"bigquery-public-data.samples.shakespeare\"], \"use\": \"Tiny official sample for REST/auth/row-paging proof only, not product source admission\"} Technical transport fixture only, not product source admission; sample terms and exact metadata still require review.",
+  "source_id": "bq-source-public-data"
+}

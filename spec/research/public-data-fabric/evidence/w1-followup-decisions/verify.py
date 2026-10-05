@@ -119,14 +119,28 @@ def main():
         assert current['evidence_ids'] == original['evidence_ids'] + ['w1-fx-priority-readiness'], key
         for field in set(original) - set(manifest['allowed_candidate_changes']):
             assert current[field] == original[field], (key, field)
-    # A later accepted P1 wire addendum appends one evidence row without
-    # altering this packet's original five rows or any preserved ledger record.
-    later_evidence_ids = {'w1-p1-wire-semantic-addendum'}
+    # Explicit later additions do not alter this packet's original records.
+    # Original bytes remain checked above; the BigQuery packet separately
+    # verifies its additions and the complete original candidate/assertion set.
+    later_records = {
+        'candidates': {
+            'bq-source-public-data', 'bq-data-citibike', 'bq-data-noaa-gsod',
+            'bq-data-nyc-tlc', 'bq-data-noaa-icoads', 'bq-data-storm-events',
+            'bq-smoke-sample-shakespeare', 'bq-opportunity-dual-runtime',
+        },
+        'evidence': {
+            'w1-p1-wire-semantic-addendum', 'bigquery-architecture-review-r1',
+            'bigquery-discovery-r1', 'bigquery-dual-runtime-r3',
+        },
+        'questions': {'bigquery-dual-runtime-prerequisites'},
+    }
     for table, count in manifest['baseline_record_counts'].items():
-        actual = len(list((BASE / table / '$records').glob('*.json')))
-        expected = count + (len(manifest['new_evidence_ids']) + len(later_evidence_ids) if table == 'evidence' else 0)
+        records = BASE / table / '$records'
+        additions = later_records.get(table, set())
+        assert all((records / (key + '.json')).is_file() for key in additions), table
+        actual = len(list(records.glob('*.json')))
+        expected = count + len(additions) + (len(manifest['new_evidence_ids']) if table == 'evidence' else 0)
         assert actual == expected, table
-    assert all((BASE / 'evidence/$records' / (key + '.json')).is_file() for key in later_evidence_ids)
     assert manifest['baseline_record_counts']['candidates'] == 691
     assert manifest['baseline_record_counts']['assertions'] == 1177
     for path in (BASE / 'implementation/$records').glob('w1-*.json'):
