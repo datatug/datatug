@@ -1,0 +1,16 @@
+{
+  "title": "W1 component progress: d1-ror-organisations",
+  "candidate_id": "d1-ror-organisations",
+  "status": "implementing",
+  "owner": "root-assigned W1 owners; root sole landing owner",
+  "repository": "https://github.com/ingitdb/ror-ingitdb",
+  "commit": "dc78c1e929f1f10018f8c39e690351059a50c71f",
+  "canonical_address": "https://github.com/ingitdb/ror-ingitdb/tree/dc78c1e929f1f10018f8c39e690351059a50c71f",
+  "evidence_ids": [
+    "w1-component-progress",
+    "w1-source-wrapper-continuity"
+  ],
+  "publication_evidence_ids": [],
+  "query_evidence_ids": [],
+  "reason": "Source component is published at the recorded pin; canonical admission/runtime/Directory/product/query and combined resource acceptance remain open. This is not an implemented or validated integration."
+}

@@ -1,0 +1,548 @@
+{
+  "observed_at": "2026-10-05T04:17:07.888813+00:00",
+  "scope": "Evidence of unchanged packaging under already accepted decisions. This document records prior independent continuity findings and exact bytes; it is not a new disposition registry or a representation attachment.",
+  "no_semantic_widening": true,
+  "authority_limit": "Evidence only; grants no eligibility. Production authority remains the existing canonical publication workflow.",
+  "ror": {
+    "status": "independently accepted landed wrapper continuity; hub evidence review pending",
+    "canonical_decision": {
+      "repository": "https://github.com/datatug/datatug",
+      "revision": "17263dbacabdfe95e53fc3c6980177416bdab941",
+      "path": "spec/research/public-data-fabric/evidence/w1-ror-user-decision.json",
+      "sha256": "a4caa4b6461230a3fa2ae8548121344cb286cfb98a9e19761a207c9f74479595",
+      "bytes": 8728
+    },
+    "decision_review": {
+      "path": "evidence/w1-ror-user-review-r1.md",
+      "sha256": "3c81dc20c7b3b5ccb6399149aa0753f8ac05b0049567d8bad7ff5e69f2d8f3cc",
+      "original_filename": "review-r1.md",
+      "verdict": "VERDICT: blockers=0 majors=0 minors=0 land=yes"
+    },
+    "original_source_generation": {
+      "repository": "https://github.com/ingitdb/ror-ingitdb",
+      "revision": "bbbec903248680caea04e68f94b9a957b6efc55b",
+      "path": "source/validation.json",
+      "sha256": "227a3da5cdd9762dd5e8149904a5e68705216f85acbfdd0128dc29dacadf7aeb",
+      "bytes": 5627
+    },
+    "original_snapshot_sha256": "80f845f8c652408fc7e5e61bf17f09ffe75bed5087f7b3d7657696ae972d3e96",
+    "landed_wrapper": "dc78c1e929f1f10018f8c39e690351059a50c71f",
+    "reviewed_tree_equality": {
+      "ef4a0942a5516b962384a18d46344a3f2ef57959": "b6d8b2300b8b9a8b36735c083558c2a64472cdc3",
+      "dc78c1e929f1f10018f8c39e690351059a50c71f": "b6d8b2300b8b9a8b36735c083558c2a64472cdc3"
+    },
+    "artifact_snapshot": {
+      "repository": "https://github.com/ingitdb/ror-ingitdb",
+      "revision": "dc78c1e929f1f10018f8c39e690351059a50c71f",
+      "path": "source/artifact-snapshot.json",
+      "sha256": "5520cfab8294336fbd98e8c1b4d3f732dffa88249ad58a15743f225cbaf15279",
+      "bytes": 3186
+    },
+    "extended_provenance": {
+      "repository": "https://github.com/ingitdb/ror-ingitdb",
+      "revision": "dc78c1e929f1f10018f8c39e690351059a50c71f",
+      "path": "source/validation.json",
+      "sha256": "06aa20ec30551b5eeeca02acdec95da3ebcfdd92524e3048e9d9f6a47d00c6fe",
+      "bytes": 6693
+    },
+    "original_receipt_payload_preserved": true,
+    "unchanged_source_files": [
+      {
+        "repository": "https://github.com/ingitdb/ror-ingitdb",
+        "revision": "dc78c1e929f1f10018f8c39e690351059a50c71f",
+        "path": "model/ror.modelspec.json",
+        "sha256": "9694a0b6d7aba0bd26be22e8ee3501cf944463617839623e6b5b15d8068fd0ae",
+        "bytes": 1567
+      },
+      {
+        "repository": "https://github.com/ingitdb/ror-ingitdb",
+        "revision": "dc78c1e929f1f10018f8c39e690351059a50c71f",
+        "path": "model/ror.modelspec.hcl",
+        "sha256": "e0bac3b33bbc710adade33732224169643a5ba3a37d5110a8f6140a3bcccbbda",
+        "bytes": 1412
+      },
+      {
+        "repository": "https://github.com/ingitdb/ror-ingitdb",
+        "revision": "dc78c1e929f1f10018f8c39e690351059a50c71f",
+        "path": "model/ror.meaning.yaml",
+        "sha256": "70e54d63b0d564edc73149154f84374cdff30a17b8631c56ecab06dd93d452e9",
+        "bytes": 2535
+      },
+      {
+        "repository": "https://github.com/ingitdb/ror-ingitdb",
+        "revision": "dc78c1e929f1f10018f8c39e690351059a50c71f",
+        "path": "source/ror-v2.13.json",
+        "sha256": "492f57ee01f5410852f1118e19d94698258e7494cc72a1e6f4a30e5f9da5caea",
+        "bytes": 764
+      },
+      {
+        "repository": "https://github.com/ingitdb/ror-ingitdb",
+        "revision": "dc78c1e929f1f10018f8c39e690351059a50c71f",
+        "path": "DATA-LICENSE.md",
+        "sha256": "39d8853e3c9f9a7a96ea77edd1afe52ad25902f34a30855ad53c2c1aed62443b",
+        "bytes": 1116
+      },
+      {
+        "repository": "https://github.com/ingitdb/ror-ingitdb",
+        "revision": "dc78c1e929f1f10018f8c39e690351059a50c71f",
+        "path": "LICENSE",
+        "sha256": "da757a09230b191d809a27e0944033de8b0cd63099f3bf03ce7cda06abc59262",
+        "bytes": 296
+      },
+      {
+        "repository": "https://github.com/ingitdb/ror-ingitdb",
+        "revision": "dc78c1e929f1f10018f8c39e690351059a50c71f",
+        "path": "scripts/import_ror.py",
+        "sha256": "2ff1bc52de2d0fd10376a26972c45c12800bdadd2a16576d28c23a45b73aaea3",
+        "bytes": 13507
+      },
+      {
+        "repository": "https://github.com/ingitdb/ror-ingitdb",
+        "revision": "dc78c1e929f1f10018f8c39e690351059a50c71f",
+        "path": "scripts/verify_source.py",
+        "sha256": "fecf9ff4dcecd182615942704ecb751a41d6c8849133349495405d287b722628",
+        "bytes": 3497
+      }
+    ],
+    "native_dataset": {
+      "bytes": 37904521,
+      "chunks": [
+        {
+          "bytes": 20971520,
+          "path": "artifacts/ror-v2.13/native/ror.sqlite.gz.part-0001",
+          "sha256": "dcbe231796b5d51307adb81ad5623b509ac5f055cd7a773f1706fbe0af1aa2c0"
+        },
+        {
+          "bytes": 16933001,
+          "path": "artifacts/ror-v2.13/native/ror.sqlite.gz.part-0002",
+          "sha256": "bdc133c44b8c27552c0089495cf2d8ad9bcda0722cc2c092fb3498acf078b572"
+        }
+      ],
+      "compression": "gzip",
+      "decodedBytes": 238563328,
+      "decodedSha256": "afdf978130ee9899fedb698f0e9d18399efdea40ea92f01f26d6055ef1ed5d38",
+      "encodedPath": "ror.sqlite.gz",
+      "path": "ror.sqlite",
+      "sha256": "726f5c77eba612a718755cb0cca028d88858317ce57e663b4b248394ace3b8ea"
+    },
+    "packaging_generator": {
+      "repository": "https://github.com/ingitdb/ror-ingitdb",
+      "revision": "76e423f6b83d6cb8a11aed4fd982aed26be3f4ec",
+      "script": "scripts/package_artifacts.py",
+      "sha256": "001c65e7a69c5d413eab579d08fc2feccc23042404b1a04610d305a0f695b8ea"
+    },
+    "independent_review": {
+      "path": "evidence/w1-ror-wrapper-review-r2.md",
+      "sha256": "0ad30ae759deec4c17c8343f3f87b6d507d9f3912f3fe55ff5e13e182e29544d",
+      "original_filename": "review-r2.md",
+      "verdict": "VERDICT: blockers=0 majors=0 minors=0 land=yes"
+    },
+    "preserved_scope": "Only apps e7362033ec79c6663d7dbe0483b62fab01f7b9cd affiliations.Affiliation.ror_id -> original ROR source organizations.id; ROR:URL, byte-exact identity, release2.13 snapshot reference. Retain status warnings, distinct exceptions and affiliation input grain independent of repeated IDs/ordered locations.",
+    "not_accepted": [
+      "new user fields or revisions",
+      "affiliation truth or temporal validity",
+      "LEI/legal-entity equivalence",
+      "normalization, name matching or successor substitution",
+      "serving identity as native ROR key",
+      "runtime success or eligibility"
+    ]
+  },
+  "geonames": {
+    "status": "independently accepted landed wrapper continuity; hub evidence review pending",
+    "original_source_generation": {
+      "repository": "https://github.com/ingitdb/geo-ingitdb",
+      "revision": "fc53a3537304dd77a4e97162608454b2da2ae241",
+      "path": "w1/validation.json",
+      "sha256": "031af09511205b4fbeb71dd8931d3d560ee56997dbfd7401e67b9472507fe132",
+      "bytes": 12669
+    },
+    "original_snapshot_sha256": "d564721b80809537424d17b2bf2276697593a3cb380ea020f33c070e1ff0e7ab",
+    "original_bridge_source": {
+      "repository": "https://github.com/ingitdb/geo-ingitdb",
+      "revision": "fc53a3537304dd77a4e97162608454b2da2ae241",
+      "path": "bridges/accepted-country-bridges.json",
+      "sha256": "513d5a7721afe73426df2412ea4a4e74d5914cb612ff80b9f0d7d3a0a679ce0d",
+      "bytes": 12447
+    },
+    "accepted_country_scopes": [
+      {
+        "accepted_values": {
+          "document": {
+            "path": "spec/research/public-data-fabric/evidence/p2-bridge-probes.json",
+            "repository": "https://github.com/datatug/datatug",
+            "revision": "2694ed58c8bb82277324030cf82a596ee1695db5",
+            "sha256": "392a7d310113223db974f004e7791e0cab71fb8601d805691b1978d800708e5f"
+          },
+          "empty_string_rows": 0,
+          "matched_rows": 59,
+          "null_source_rows": 0,
+          "source_fixture_sha256": "7651ba378ac2fcd0dfc3c66fb101f7a7eed3ba39a612ec642b96e20702061f15",
+          "source_rows": 59
+        },
+        "decision": {
+          "document": {
+            "path": "spec/research/public-data-fabric/assertions/$records/d1-edge-chinook-country.json",
+            "repository": "https://github.com/datatug/datatug",
+            "revision": "2694ed58c8bb82277324030cf82a596ee1695db5",
+            "sha256": "f995ad2febb3545611c18a26bd12ee6ca7c1aa8e22d677364729de62a3e39bfe"
+          },
+          "scope": "chinook/Customer.Country@26e852cca00101f53a84ef8ee1f1ae389067f5cf"
+        },
+        "source": {
+          "datatype": "string",
+          "entity": "Customer",
+          "module": "chinook",
+          "namespace": "demo:demand-chinook-customer:label",
+          "property": "Country",
+          "schema": {
+            "path": "model/chinook.modelspec.json",
+            "repository": "https://github.com/demo-db/chinook",
+            "revision": "26e852cca00101f53a84ef8ee1f1ae389067f5cf",
+            "sha256": "5e81f79ae02760bbdc372985022ab94209b97aaa76bf456fb59e040a99476870"
+          }
+        },
+        "table": "geonames_chinook_customer_country",
+        "bridge_rows": 24
+      },
+      {
+        "accepted_values": {
+          "document": {
+            "path": "spec/research/public-data-fabric/evidence/p2-bridge-probes.json",
+            "repository": "https://github.com/datatug/datatug",
+            "revision": "2694ed58c8bb82277324030cf82a596ee1695db5",
+            "sha256": "392a7d310113223db974f004e7791e0cab71fb8601d805691b1978d800708e5f"
+          },
+          "empty_string_rows": 0,
+          "matched_rows": 91,
+          "null_source_rows": 2,
+          "source_fixture_sha256": "279b34136771aee75d802094b3329515a2b01da65d2a20a4a9e3b58c29b4fd20",
+          "source_rows": 93
+        },
+        "decision": {
+          "document": {
+            "path": "spec/research/public-data-fabric/assertions/$records/d1-edge-northwind-country.json",
+            "repository": "https://github.com/datatug/datatug",
+            "revision": "2694ed58c8bb82277324030cf82a596ee1695db5",
+            "sha256": "fca0dec5ed2478b40c1ee6146b712d4527617b94f1bb1b9ad57ffbbc22852d21"
+          },
+          "scope": "northwind/Customers.Country@e74726515c3833620b54b7a50d1d273276dd23c1"
+        },
+        "source": {
+          "datatype": "string",
+          "entity": "Customers",
+          "module": "northwind",
+          "namespace": "demo:demand-northwind-customers:label",
+          "property": "Country",
+          "schema": {
+            "path": "model/northwind.modelspec.json",
+            "repository": "https://github.com/demo-db/northwind",
+            "revision": "e74726515c3833620b54b7a50d1d273276dd23c1",
+            "sha256": "a6d1c33ad1b52a2486bc5f8cdd9ba5216d9e6d59404c4b8f32799fcec9e1151f"
+          }
+        },
+        "table": "geonames_northwind_customer_country",
+        "bridge_rows": 21
+      },
+      {
+        "accepted_values": {
+          "document": {
+            "path": "spec/research/public-data-fabric/evidence/p2-bridge-probes.json",
+            "repository": "https://github.com/datatug/datatug",
+            "revision": "2694ed58c8bb82277324030cf82a596ee1695db5",
+            "sha256": "392a7d310113223db974f004e7791e0cab71fb8601d805691b1978d800708e5f"
+          },
+          "empty_string_rows": 0,
+          "matched_rows": 830,
+          "null_source_rows": 0,
+          "source_fixture_sha256": "279b34136771aee75d802094b3329515a2b01da65d2a20a4a9e3b58c29b4fd20",
+          "source_rows": 830
+        },
+        "decision": {
+          "document": {
+            "path": "spec/research/public-data-fabric/assertions/$records/d1-edge-northwind-shipping-country.json",
+            "repository": "https://github.com/datatug/datatug",
+            "revision": "2694ed58c8bb82277324030cf82a596ee1695db5",
+            "sha256": "8f7cf5e218e8c36c1932839323801a49133529327dbfac0405abf7fb7a5731eb"
+          },
+          "scope": "northwind/Orders.ShipCountry@e74726515c3833620b54b7a50d1d273276dd23c1"
+        },
+        "source": {
+          "datatype": "string",
+          "entity": "Orders",
+          "module": "northwind",
+          "namespace": "demo:demand-northwind-orders:label",
+          "property": "ShipCountry",
+          "schema": {
+            "path": "model/northwind.modelspec.json",
+            "repository": "https://github.com/demo-db/northwind",
+            "revision": "e74726515c3833620b54b7a50d1d273276dd23c1",
+            "sha256": "a6d1c33ad1b52a2486bc5f8cdd9ba5216d9e6d59404c4b8f32799fcec9e1151f"
+          }
+        },
+        "table": "geonames_northwind_order_country",
+        "bridge_rows": 21
+      },
+      {
+        "accepted_values": {
+          "document": {
+            "path": "spec/research/public-data-fabric/evidence/p2-bridge-probes.json",
+            "repository": "https://github.com/datatug/datatug",
+            "revision": "2694ed58c8bb82277324030cf82a596ee1695db5",
+            "sha256": "392a7d310113223db974f004e7791e0cab71fb8601d805691b1978d800708e5f"
+          },
+          "empty_string_rows": 0,
+          "matched_rows": 8,
+          "null_source_rows": 0,
+          "source_fixture_sha256": "b45b08b7c06441cc0b138b031ea5bd32bd5866aebf874c89d2ebf7fc6abb3691",
+          "source_rows": 8
+        },
+        "decision": {
+          "document": {
+            "path": "spec/research/public-data-fabric/assertions/$records/d1-edge-pubs-publisher-country.json",
+            "repository": "https://github.com/datatug/datatug",
+            "revision": "2694ed58c8bb82277324030cf82a596ee1695db5",
+            "sha256": "06c96f83dd6cb07173759874904c5281a00e75655efe8256062f823b4b1ead9d"
+          },
+          "scope": "pubs/publishers.country@6c06c5c7395b03ff1a02c2b1a21485add3e1b65b"
+        },
+        "source": {
+          "datatype": "string",
+          "entity": "publishers",
+          "module": "pubs",
+          "namespace": "demo:demand-pubs-publishers:label",
+          "property": "country",
+          "schema": {
+            "path": "model/pubs.modelspec.json",
+            "repository": "https://github.com/demo-db/pubs",
+            "revision": "6c06c5c7395b03ff1a02c2b1a21485add3e1b65b",
+            "sha256": "6f7ca172d746866f2cf3ee84be0fb1ae9bd6c90f6144a0e35f24eec7af11f3ea"
+          }
+        },
+        "table": "geonames_pubs_publisher_country",
+        "bridge_rows": 3
+      }
+    ],
+    "landed_wrapper": "6f4cf1269bc393048f6b204069135a62f0bb6c02",
+    "unchanged_model": {
+      "repository": "https://github.com/ingitdb/geo-ingitdb",
+      "revision": "fc53a3537304dd77a4e97162608454b2da2ae241",
+      "path": "model/geonames.modelspec.json",
+      "sha256": "609fe73e07b84db65bdb1a904b9f84dd5c43bcbbc75eeb2d75f9a69ed3e8af81",
+      "bytes": 5509
+    },
+    "unchanged_binding": {
+      "repository": "https://github.com/ingitdb/geo-ingitdb",
+      "revision": "fc53a3537304dd77a4e97162608454b2da2ae241",
+      "path": "model/geonames.meaning.yaml",
+      "sha256": "21bb35aecf1f1214908f245cfeb2d0c5e7c6caf3915a5ffd604254642b3b4b57",
+      "bytes": 3777
+    },
+    "native_dataset": {
+      "bytes": 25044936,
+      "chunks": [
+        {
+          "bytes": 6218432,
+          "path": "artifacts/geonames-w1-2026-10-05/native/geonames.sqlite.0000.gz",
+          "sha256": "151d8259488fe61f3be689deb72f00da40f2ac487bf71d6a6266c896db6d49a0"
+        },
+        {
+          "bytes": 4877469,
+          "path": "artifacts/geonames-w1-2026-10-05/native/geonames.sqlite.0001.gz",
+          "sha256": "f878093b65f05beab952f72a0d9e4980672d0e601d8d9fbb46ddad3b3b0ddcf7"
+        },
+        {
+          "bytes": 5700433,
+          "path": "artifacts/geonames-w1-2026-10-05/native/geonames.sqlite.0002.gz",
+          "sha256": "80fc93abeb14aae20e5cc17ce6823f2201a3b3e353e21bf1406fa81e09d5ed18"
+        },
+        {
+          "bytes": 5138706,
+          "path": "artifacts/geonames-w1-2026-10-05/native/geonames.sqlite.0003.gz",
+          "sha256": "c3ccd40abda8f5962c529d9d501902a24a522d958526ce413826098287dbebe4"
+        },
+        {
+          "bytes": 3109896,
+          "path": "artifacts/geonames-w1-2026-10-05/native/geonames.sqlite.0004.gz",
+          "sha256": "761f235d5742c19cc6f34e0fbb95c4158d4ebc98e298f9f1bf7ec76be83c5031"
+        }
+      ],
+      "compression": "gzip",
+      "decodedBytes": 75304960,
+      "decodedSha256": "cb53af14c67daadfc20ecbfe304d631d651022179793a77aa11413244d2f456d",
+      "encodedPath": "geonames.sqlite.gz",
+      "path": "geonames.sqlite",
+      "sha256": "44baf25803a91d3c070831a2a50de0e731bc59b024a2c143d47824dce3343c7a"
+    },
+    "independent_review": {
+      "path": "evidence/w1-geo-wrapper-review-r2.md",
+      "sha256": "2f652e1b380f1d946d45dc2203c02a1d11451e2873922be5ddeb4e3cf3a9c3ed",
+      "original_filename": "review-r2.md",
+      "verdict": "VERDICT: blockers=0 majors=0 minors=0 land=yes"
+    },
+    "scope_limits": [
+      "Four enumerated raw-label dictionaries remain independent byte-exact equality joins; decision raw-label enumeration is retained, not a general case-fold runtime permission.",
+      "No Chinook Invoice inheritance, native Geo user acceptance or all-place-to-City equivalence.",
+      "GeoNames:alternateNameId is only a source-local generation annotation, not canonical/user interoperability acceptance.",
+      "Original descriptor snapshot remains unchanged with chunks array; explicit source hash and output_key sqlite association is packaging structure only."
+    ],
+    "review_history": [
+      {
+        "path": "evidence/w1-geo-wrapper-review-r1.md",
+        "sha256": "b3e193a660f82dc7c234ca33c621e9d450dcebd3c146a368eca0bc6de39dd0dd",
+        "original_filename": "review-r1.md",
+        "verdict": "VERDICT: blockers=0 majors=2 minors=1 land=no"
+      },
+      {
+        "path": "evidence/w1-geo-wrapper-review-r2.md",
+        "sha256": "2f652e1b380f1d946d45dc2203c02a1d11451e2873922be5ddeb4e3cf3a9c3ed",
+        "original_filename": "review-r2.md",
+        "verdict": "VERDICT: blockers=0 majors=0 minors=0 land=yes"
+      }
+    ],
+    "artifact_snapshot": {
+      "repository": "https://github.com/ingitdb/geo-ingitdb",
+      "revision": "6f4cf1269bc393048f6b204069135a62f0bb6c02",
+      "path": "source/artifact-snapshot.json",
+      "sha256": "b4ef99365a331865dfcb94c213995fe06dc1790f8054e3e7d96385af76c9179b",
+      "bytes": 7001
+    },
+    "preserved_original_snapshot": {
+      "repository": "https://github.com/ingitdb/geo-ingitdb",
+      "revision": "6f4cf1269bc393048f6b204069135a62f0bb6c02",
+      "path": "source/generation-snapshot.json",
+      "sha256": "d564721b80809537424d17b2bf2276697593a3cb380ea020f33c070e1ff0e7ab",
+      "bytes": 7941
+    },
+    "preserved_original_receipt": {
+      "repository": "https://github.com/ingitdb/geo-ingitdb",
+      "revision": "6f4cf1269bc393048f6b204069135a62f0bb6c02",
+      "path": "source/generation-validation.json",
+      "sha256": "031af09511205b4fbeb71dd8931d3d560ee56997dbfd7401e67b9472507fe132",
+      "bytes": 12669
+    },
+    "native_provenance": [
+      {
+        "repository": "https://github.com/ingitdb/geo-ingitdb",
+        "revision": "6f4cf1269bc393048f6b204069135a62f0bb6c02",
+        "path": "source/native-key-evidence.json",
+        "sha256": "59d10462f828c32a652da074d7649ad68499845b75b03bdff93ddeb8907481f7",
+        "bytes": 5337
+      },
+      {
+        "repository": "https://github.com/ingitdb/geo-ingitdb",
+        "revision": "6f4cf1269bc393048f6b204069135a62f0bb6c02",
+        "path": "source/native/geonames_countries.json",
+        "sha256": "4f52bf1f9bbb417fc3ca1a67b0fc96e0af9d8baf271fd66cfe9eaaaa5b8e4412",
+        "bytes": 9861
+      },
+      {
+        "repository": "https://github.com/ingitdb/geo-ingitdb",
+        "revision": "6f4cf1269bc393048f6b204069135a62f0bb6c02",
+        "path": "source/native/geonames_admin1.json",
+        "sha256": "6e37456681bb8e71ed47705db3f53136d7156d3afaebb243caae16ae98b76d87",
+        "bytes": 9864
+      },
+      {
+        "repository": "https://github.com/ingitdb/geo-ingitdb",
+        "revision": "6f4cf1269bc393048f6b204069135a62f0bb6c02",
+        "path": "source/native/geonames_places.json",
+        "sha256": "e3c66269820e94229dd97ba777f10e12812f5f89c7058666d98bd3d51d1f3a56",
+        "bytes": 9860
+      },
+      {
+        "repository": "https://github.com/ingitdb/geo-ingitdb",
+        "revision": "6f4cf1269bc393048f6b204069135a62f0bb6c02",
+        "path": "source/native/geonames_alternate_names.json",
+        "sha256": "5a139309815e6c9ea54127390652f6121e4d54c1ab6ff479af5dc0bfb33296d0",
+        "bytes": 9940
+      }
+    ],
+    "unchanged_source_files": [
+      {
+        "repository": "https://github.com/ingitdb/geo-ingitdb",
+        "revision": "6f4cf1269bc393048f6b204069135a62f0bb6c02",
+        "path": "model/geonames.modelspec.json",
+        "sha256": "609fe73e07b84db65bdb1a904b9f84dd5c43bcbbc75eeb2d75f9a69ed3e8af81",
+        "bytes": 5509
+      },
+      {
+        "repository": "https://github.com/ingitdb/geo-ingitdb",
+        "revision": "6f4cf1269bc393048f6b204069135a62f0bb6c02",
+        "path": "model/geonames.modelspec.hcl",
+        "sha256": "4122425f3ee8e14e965a1acef4c676592618ec95120eac830f73de1e36b816aa",
+        "bytes": 4393
+      },
+      {
+        "repository": "https://github.com/ingitdb/geo-ingitdb",
+        "revision": "6f4cf1269bc393048f6b204069135a62f0bb6c02",
+        "path": "model/geonames.meaning.yaml",
+        "sha256": "21bb35aecf1f1214908f245cfeb2d0c5e7c6caf3915a5ffd604254642b3b4b57",
+        "bytes": 3777
+      },
+      {
+        "repository": "https://github.com/ingitdb/geo-ingitdb",
+        "revision": "6f4cf1269bc393048f6b204069135a62f0bb6c02",
+        "path": "bridges/accepted-country-bridges.json",
+        "sha256": "513d5a7721afe73426df2412ea4a4e74d5914cb612ff80b9f0d7d3a0a679ce0d",
+        "bytes": 12447
+      },
+      {
+        "repository": "https://github.com/ingitdb/geo-ingitdb",
+        "revision": "6f4cf1269bc393048f6b204069135a62f0bb6c02",
+        "path": "scripts/geonames_w1.py",
+        "sha256": "4808c935cfce0c4b61fb1ab71ebfedcd4a8a5ec279c8ab4230db89233aab0f20",
+        "bytes": 31629
+      },
+      {
+        "repository": "https://github.com/ingitdb/geo-ingitdb",
+        "revision": "6f4cf1269bc393048f6b204069135a62f0bb6c02",
+        "path": "scripts/test_geonames_w1.py",
+        "sha256": "573038aaf653a0698315c2b1c42f3f501a2329ab297a18d217513db0b0faa77f",
+        "bytes": 18798
+      },
+      {
+        "repository": "https://github.com/ingitdb/geo-ingitdb",
+        "revision": "6f4cf1269bc393048f6b204069135a62f0bb6c02",
+        "path": "w1/validation.json",
+        "sha256": "031af09511205b4fbeb71dd8931d3d560ee56997dbfd7401e67b9472507fe132",
+        "bytes": 12669
+      }
+    ],
+    "packaging_generator": {
+      "repository": "https://github.com/ingitdb/geo-ingitdb",
+      "revision": "247f2efaca32c9400bd8303c5db1f49f90a053a1",
+      "script": "scripts/package_geonames_w1.py",
+      "sha256": "0753b95dd2c5d2943a60eefdffc700e9f39fbd788a626691a46c67b11891be7b"
+    },
+    "counts": {
+      "geonames_admin1": 3865,
+      "geonames_alternate_names": 844831,
+      "geonames_chinook_customer_country": 24,
+      "geonames_countries": 252,
+      "geonames_northwind_customer_country": 21,
+      "geonames_northwind_order_country": 21,
+      "geonames_places": 75300,
+      "geonames_pubs_publisher_country": 3,
+      "missing_admin1_references": 234,
+      "missing_country_references": 0,
+      "missing_ror_places": 9,
+      "orphan_admin1": 0,
+      "required_ror_places": 19729
+    },
+    "reviewed_tree_equality": {
+      "49d600f5bbddf31900ade5639d760c3dffea20ef": "04a1792c0251e971043c4da2d21a1c8a55be2866",
+      "6f4cf1269bc393048f6b204069135a62f0bb6c02": "04a1792c0251e971043c4da2d21a1c8a55be2866"
+    }
+  },
+  "admission_boundary": {
+    "inspected_helper_revision": "bb535a658f06a8752688ba36cb4b76ecf0483254",
+    "decision_shape": "publisher/representation.Decision contains only externally pinned document and scope. Check verifies document bytes/hash, not semantic disposition or continuity.",
+    "existing_workflow": "fabric.evidence links this evidence and retained independent reviews. Future canonical admission must consume original decision by immutable reference and verify separately reviewed wrapper continuity; this file cannot replace the original decision document.",
+    "support_still_needed": [
+      "Reviewed publisher manifest/Directory attachment validation and generated-index exposure, with helper adoption.",
+      "Explicit checked admission of original decision plus landed-wrapper continuity at immutable pins; current helper has no continuity evidence field or automatic acceptance inheritance.",
+      "Apps schema2/native reader, exact accepted source tuple and fresh saved-plan admission.",
+      "Runtime/deployment and independent real query/browser evidence."
+    ]
+  }
+}

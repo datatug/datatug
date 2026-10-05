@@ -1,0 +1,242 @@
+{
+  "additional_capture_test": "For a new measured acquisition of the reviewed bytes, a designated owner must first supply authorized immutable, hash-addressed URLs for the five frozen GeoNames files and shared ROR archive. An independently reviewed transport wrapper can stream exactly those expected hashes once, refuse redirects/mismatches, enforce aggregate1GiB/1800s bounds, and run the pinned generators serially. Keep original source provenance and new mirror transport/fetch receipts separate; require identical native hashes/counts. This establishes a new mirror-acquisition operational receipt, never the missing historical official capture. If official mutable sources must be used, a separately reviewed new monthly source candidate is required. Do not reinterpret changed hashes as the old snapshot. Add all-process lifetime RSS bounds and quota or open-file disk measurement if strict unsampled peaks are required.",
+  "all_original_inputs_verified_before_use": true,
+  "artifact_state": {
+    "geo_packaging": "candidate49d600f5 not exercised",
+    "geo_source": "Root-supplied canonical source pin fc53a353; no live landing/CI claim from this measurement",
+    "ror_packaging": "not exercised",
+    "ror_source": "Root-supplied original generator bbbec903 and canonical artifact pin dc78c1e9; no live landing/CI claim from this measurement"
+  },
+  "commands": {
+    "outer": [
+      "python3",
+      "/private/tmp/data-fabric-w1-combined-resource-validation/measure.py",
+      "observe"
+    ],
+    "phases": [
+      [
+        "/opt/homebrew/opt/python@3.14/bin/python3.14",
+        "/private/tmp/data-fabric-w1-combined-resource-validation/code/ror/scripts/import_ror.py",
+        "--archive",
+        "/private/tmp/data-fabric-w1-combined-resource-validation/inputs-ror/v2.13-2026-09-22-ror-data.zip",
+        "--pin",
+        "/private/tmp/data-fabric-w1-combined-resource-validation/code/ror/source/ror-v2.13.json",
+        "--out",
+        "/private/tmp/data-fabric-w1-combined-resource-validation/ror-output"
+      ],
+      [
+        "/opt/homebrew/opt/python@3.14/bin/python3.14",
+        "/private/tmp/data-fabric-w1-combined-resource-validation/code/geo/scripts/geonames_w1.py",
+        "build",
+        "--inputs",
+        "/private/tmp/data-fabric-w1-combined-resource-validation/inputs-geo/inputs.json",
+        "--ror-closure",
+        "/private/tmp/data-fabric-w1-combined-resource-validation/closure/ror-closure.json",
+        "--out",
+        "/private/tmp/data-fabric-w1-combined-resource-validation/geo-output",
+        "--tool-revision",
+        "fc53a3537304dd77a4e97162608454b2da2ae241",
+        "--receipt",
+        "/private/tmp/data-fabric-w1-combined-resource-validation/geo-generation-internal.json"
+      ]
+    ],
+    "worker": [
+      "wb",
+      "run",
+      "--",
+      "/opt/homebrew/opt/python@3.14/bin/python3.14",
+      "/private/tmp/data-fabric-w1-combined-resource-validation/measure.py",
+      "worker"
+    ]
+  },
+  "decision": "cached-input combined source generation PASS; full frozen official capture+build acceptance remains OPEN",
+  "decoded_geo": {
+    "bytes": 75304960,
+    "sha256": "cb53af14c67daadfc20ecbfe304d631d651022179793a77aa11413244d2f456d"
+  },
+  "environment": {
+    "os": "macOS-26.6.2-arm64-arm-64bit-Mach-O",
+    "python": "3.14.7 (main, Aug  5 2026, 10:29:49) [Clang 21.0.0 (clang-2100.1.1.101)]",
+    "python_executable": "/opt/homebrew/opt/python@3.14/bin/python3.14",
+    "sqlite": "3.53.4",
+    "wb": "0.182.0"
+  },
+  "geo_counts": {
+    "geonames_admin1": 3865,
+    "geonames_alternate_names": 844831,
+    "geonames_chinook_customer_country": 24,
+    "geonames_countries": 252,
+    "geonames_northwind_customer_country": 21,
+    "geonames_northwind_order_country": 21,
+    "geonames_places": 75300,
+    "geonames_pubs_publisher_country": 3,
+    "missing_admin1_references": 234,
+    "missing_country_references": 0,
+    "missing_ror_places": 9,
+    "orphan_admin1": 0,
+    "required_ror_places": 19729
+  },
+  "geo_new_snapshot_sha256": "8b2cb98e097ef9f3135179784c27c4b9a54b43f6605020912721510911149f09",
+  "geo_original_snapshot_sha256": "d564721b80809537424d17b2bf2276697593a3cb380ea020f33c070e1ff0e7ab",
+  "geo_snapshot_changes": [
+    {
+      "new": "fc53a3537304dd77a4e97162608454b2da2ae241",
+      "old": "ee9152f1d8f5aaf34960540d4328966c85fe66b2",
+      "path": "/generator/revision"
+    },
+    {
+      "new": "fc53a3537304dd77a4e97162608454b2da2ae241",
+      "old": "ee9152f1d8f5aaf34960540d4328966c85fe66b2",
+      "path": "/importer_revision"
+    }
+  ],
+  "measurement_id": "data-fabric-w1-combined-resource-validation",
+  "measurement_limits": [
+    "Process-tree peak is sampled WB+worker+generators, excludes external observer/ps.",
+    "Proven payload RSS bound uses exact lifetime maxima: worker plus max(serial generators); excludes WB wrapper and observer.",
+    "Disk is sampled paths/inodes, not quota; immediately unlinked SQLite temporary files may be absent from path scan.",
+    "No download occurred; unique frozen-source bytes are measured file sizes, not new network transfer.",
+    "Sidecar metadata byte count is offline source-generation evidence, not a browser journey."
+  ],
+  "metrics": {
+    "geo_elapsed_seconds": 124.16246195835993,
+    "geo_generator_lifetime_peak_rss_bytes": 129662976,
+    "metadata_sidecar_bytes": {
+      "geo": 42238,
+      "ror": 160088
+    },
+    "observed_process_tree_peak_rss_bytes": 181075968,
+    "observer_elapsed_seconds": 132.3086845832877,
+    "observer_peak_rss_bytes": 26836992,
+    "peak_sampled_allocated_disk_bytes": 1532022784,
+    "peak_sampled_logical_disk_bytes": 1513037456,
+    "ror_elapsed_seconds": 5.557266291696578,
+    "ror_generator_lifetime_peak_rss_bytes": 47120384,
+    "samples": 478,
+    "worker_elapsed_seconds": 132.08322333311662,
+    "workload_parent_peak_rss_bytes": 35323904,
+    "workload_parent_plus_max_serial_generator_upper_bound_bytes": 164986880
+  },
+  "native_data": {
+    "geo": {
+      "bytes": 75304960,
+      "counts": {
+        "geonames_admin1": 3865,
+        "geonames_alternate_names": 844831,
+        "geonames_chinook_customer_country": 24,
+        "geonames_countries": 252,
+        "geonames_northwind_customer_country": 21,
+        "geonames_northwind_order_country": 21,
+        "geonames_places": 75300,
+        "geonames_pubs_publisher_country": 3,
+        "missing_admin1_references": 234,
+        "missing_country_references": 0,
+        "missing_ror_places": 9,
+        "orphan_admin1": 0,
+        "required_ror_places": 19729
+      },
+      "sha256": "cb53af14c67daadfc20ecbfe304d631d651022179793a77aa11413244d2f456d"
+    },
+    "ror": {
+      "bytes": 238563328,
+      "counts": {
+        "locations": 141722,
+        "organizations": 141528,
+        "relationships": 72747
+      },
+      "sha256": "afdf978130ee9899fedb698f0e9d18399efdea40ea92f01f26d6055ef1ed5d38"
+    }
+  },
+  "network": {
+    "bulk_get_payload_bytes": 0,
+    "frozen_unique_source_bytes": 670249165,
+    "head_count": 6,
+    "mismatches": [
+      {
+        "byte_length_match": false,
+        "expected_bytes": 422005409,
+        "expected_sha256": "0c06603f65161d9ff072658f7c19a071d965254fd3c34190261ef02fd1bd67fc",
+        "frozen_last_modified": "Sun, 04 Oct 2026 03:33:31 GMT",
+        "headers": {
+          "Content-Length": "422005927",
+          "Content-Type": "application/zip",
+          "Date": "Mon, 05 Oct 2026 03:47:13 GMT",
+          "ETag": "\"19274ca7-65d0f3ae68fd1\"",
+          "Last-Modified": "Mon, 05 Oct 2026 03:10:54 GMT"
+        },
+        "last_modified_match": false,
+        "status": 200,
+        "url": "https://download.geonames.org/export/dump/allCountries.zip"
+      },
+      {
+        "byte_length_match": false,
+        "expected_bytes": 204810908,
+        "expected_sha256": "00541c69ae9e1bfef9092d8f3cdaa60f474eaec94954f72f8c02139dcf0706ef",
+        "frozen_last_modified": "Sun, 04 Oct 2026 03:40:10 GMT",
+        "headers": {
+          "Content-Length": "204812561",
+          "Content-Type": "application/zip",
+          "Date": "Mon, 05 Oct 2026 03:47:13 GMT",
+          "ETag": "\"c353111-65d0f50766d81\"",
+          "Last-Modified": "Mon, 05 Oct 2026 03:16:56 GMT"
+        },
+        "last_modified_match": false,
+        "status": 200,
+        "url": "https://download.geonames.org/export/dump/alternateNamesV2.zip"
+      },
+      {
+        "byte_length_match": false,
+        "expected_bytes": 5708626,
+        "expected_sha256": "4e767cb4c93e61455154044113f172d9a620722e3e41e425f8d522ab3f27878a",
+        "frozen_last_modified": "Sun, 04 Oct 2026 03:33:31 GMT",
+        "headers": {
+          "Content-Length": "5709192",
+          "Content-Type": "application/zip",
+          "Date": "Mon, 05 Oct 2026 03:47:13 GMT",
+          "ETag": "\"571d88-65d0f3ae693b9\"",
+          "Last-Modified": "Mon, 05 Oct 2026 03:10:54 GMT"
+        },
+        "last_modified_match": false,
+        "status": 200,
+        "url": "https://download.geonames.org/export/dump/cities5000.zip"
+      }
+    ],
+    "original_capture_elapsed_rss": "not measured; no retrofitted claim",
+    "shared_ror_archive_count": 1
+  },
+  "open_gates": [
+    "Original capture elapsed/RSS remains unknowable from these receipts.",
+    "A complete captured+serial built W1 operation at frozen inputs was not replayed because current official GeoNames bytes changed.",
+    "Sampling does not prove an unsampled aggregate wrapper/instrumentation RSS maximum or every transient disk allocation.",
+    "B1, runtime memory/CPU/concurrency, cloud hosting, Directory, canonical browser metadata and whole-journey acceptance remain OPEN."
+  ],
+  "original_geo_non_snapshot_files_byte_identical": true,
+  "pins": {
+    "geo": "fc53a3537304dd77a4e97162608454b2da2ae241",
+    "ror": "bbbec903248680caea04e68f94b9a957b6efc55b"
+  },
+  "read_only_repositories": true,
+  "reproduction": "Create a fresh private directory, export the exact two generator commits plus assets with git archive, copy measure.py there, and run python3 <fresh>/measure.py observe. The observer ROOT resolves from its own path. Never rerun in this directory: worker refuses existing output paths. The six HEAD results have already stopped official bulk acquisition. Inspect wait4 receipts, process-tree samples, checksums, input provenance and snapshot-only revision delta independently.",
+  "ror_counts": {
+    "locations": 141722,
+    "null_location_ids": 0,
+    "organizations": 141528,
+    "organizations_with_multiple_locations": 138,
+    "organizations_without_locations": 0,
+    "relationship_targets_absent": 0,
+    "relationships": 72747,
+    "unique_geonames_ids": 19729
+  },
+  "ror_statuses": {
+    "active": 138289,
+    "inactive": 1809,
+    "withdrawn": 1430
+  },
+  "source_scan_counts": {
+    "admin1CodesASCII.txt": 3865,
+    "allCountries.zip": 13472243,
+    "alternateNamesV2.zip": 19219256,
+    "cities5000.zip": 69763,
+    "countryInfo.txt": 252
+  }
+}
