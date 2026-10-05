@@ -1,0 +1,184 @@
+[
+  {
+    "repository": "datatug/datatug-cli",
+    "revision": "a3c68f168dc9d7c1baddbce1e7c7fed775b76eb0",
+    "path": "apps/datatugapp/commands/cmd_query.go",
+    "snapshot": "/private/tmp/data-fabric-bigquery-a0-contract/evidence/datatug--datatug-cli/apps/datatugapp/commands/cmd_query.go",
+    "sha256": "e9199f8afe0b337065d2636f549ce5863059e53c77d2d52e94dcf47d7f3b0102"
+  },
+  {
+    "repository": "datatug/datatug-cli",
+    "revision": "a3c68f168dc9d7c1baddbce1e7c7fed775b76eb0",
+    "path": "apps/datatugapp/commands/cmd_query_run_saved.go",
+    "snapshot": "/private/tmp/data-fabric-bigquery-a0-contract/evidence/datatug--datatug-cli/apps/datatugapp/commands/cmd_query_run_saved.go",
+    "sha256": "6cba85daff3cd51bf07b8b9176ff1ae260f542c9e738bc322ce7221ee90d4ee3"
+  },
+  {
+    "repository": "datatug/datatug-cli",
+    "revision": "a3c68f168dc9d7c1baddbce1e7c7fed775b76eb0",
+    "path": "pkg/accesspolicies/run.go",
+    "snapshot": "/private/tmp/data-fabric-bigquery-a0-contract/evidence/datatug--datatug-cli/pkg/accesspolicies/run.go",
+    "sha256": "d7eab12127eafb4ddb548798d72eaadc247b95222e4022fcd4113f955cb8c18a"
+  },
+  {
+    "repository": "datatug/datatug-cli",
+    "revision": "a3c68f168dc9d7c1baddbce1e7c7fed775b76eb0",
+    "path": "pkg/server/endpoints/exec_run_query.go",
+    "snapshot": "/private/tmp/data-fabric-bigquery-a0-contract/evidence/datatug--datatug-cli/pkg/server/endpoints/exec_run_query.go",
+    "sha256": "f950423bdf4d4bd686fb1db48294592423a813cbb56931cc1318f3c72b77f302"
+  },
+  {
+    "repository": "datatug/datatug-cli",
+    "revision": "a3c68f168dc9d7c1baddbce1e7c7fed775b76eb0",
+    "path": "go.mod",
+    "snapshot": "/private/tmp/data-fabric-bigquery-a0-contract/evidence/datatug--datatug-cli/go.mod",
+    "sha256": "4dbd36454cd78b1c3b2eb4c7382d42a71f1ee9604f92a6fb2c604a7f1aadc294"
+  },
+  {
+    "repository": "dal-go/dalgo",
+    "revision": "396d03a5c8d504f502d1f283ee80d18ca0346085",
+    "path": "AGENTS.md",
+    "snapshot": "/private/tmp/data-fabric-bigquery-a0-contract/evidence/dal-go--dalgo/AGENTS.md",
+    "sha256": "4e12289c6ce0db0ff5f775288723bd583206c3be8e6f0a155f8ba655946c1ba3"
+  },
+  {
+    "repository": "dal-go/dalgo",
+    "revision": "396d03a5c8d504f502d1f283ee80d18ca0346085",
+    "path": "dal/query.go",
+    "snapshot": "/private/tmp/data-fabric-bigquery-a0-contract/evidence/dal-go--dalgo/dal/query.go",
+    "sha256": "eb3d2043130e3d9202d59af7d87931767ba979853ed5231adf716359a6d0c5d2"
+  },
+  {
+    "repository": "dal-go/dalgo",
+    "revision": "396d03a5c8d504f502d1f283ee80d18ca0346085",
+    "path": "dal/reader.go",
+    "snapshot": "/private/tmp/data-fabric-bigquery-a0-contract/evidence/dal-go--dalgo/dal/reader.go",
+    "sha256": "c900b20a9b73f7038329d6feaa2d46c139507a91dfc568aae31a61628a53b5f0"
+  },
+  {
+    "repository": "dal-go/dalgo",
+    "revision": "396d03a5c8d504f502d1f283ee80d18ca0346085",
+    "path": "go.mod",
+    "snapshot": "/private/tmp/data-fabric-bigquery-a0-contract/evidence/dal-go--dalgo/go.mod",
+    "sha256": "7df436b864b4341a6d4f2a618726c7207e40b6478602b7e44c0defe327a17e2c"
+  },
+  {
+    "repository": "dal-go/dalgo-http-adapters",
+    "revision": "a3b35d251ff002e830e865c6a330ef6149ecf340",
+    "path": "package.json",
+    "snapshot": "/private/tmp/data-fabric-bigquery-a0-contract/evidence/dal-go--dalgo-http-adapters/package.json",
+    "sha256": "864ba5d269653c46842a7afea766f137203a5327fba5ccac3451c0e7c66120aa"
+  },
+  {
+    "repository": "dal-go/dalgo-http-adapters",
+    "revision": "a3b35d251ff002e830e865c6a330ef6149ecf340",
+    "path": "packages/bigquery/package.json",
+    "snapshot": "/private/tmp/data-fabric-bigquery-a0-contract/evidence/dal-go--dalgo-http-adapters/packages/bigquery/package.json",
+    "sha256": "107267ce1bc22232690e034b4942c8f3c20e5f3708736598811ee2e0618f4226"
+  },
+  {
+    "repository": "dal-go/dalgo-js",
+    "revision": "04a7f1293ad57a50a282ecc13314ce7b1488211e",
+    "path": "package.json",
+    "snapshot": "/private/tmp/data-fabric-bigquery-a0-contract/evidence/dal-go--dalgo-js/package.json",
+    "sha256": "cfa81fe636a3612996099b761d6b5c068cc90ff60fb0e0cb200e0d8919439cc4"
+  },
+  {
+    "repository": "datatug/datatug-apps",
+    "revision": "fe89a041b99037d9d651d37aec4117da63b0d6d0",
+    "path": "package.json",
+    "snapshot": "/private/tmp/data-fabric-bigquery-a0-contract/evidence/datatug--datatug-apps/package.json",
+    "sha256": "d7339a05ed04439cedf15207203259eca6632e7f36613432dff342fa44d062e8"
+  },
+  {
+    "repository": "datatug/datatug-cli",
+    "revision": "a3c68f168dc9d7c1baddbce1e7c7fed775b76eb0",
+    "path": "pkg/secureread/executor.go",
+    "snapshot": "/private/tmp/data-fabric-bigquery-a0-contract/evidence/datatug--datatug-cli/pkg/secureread/executor.go",
+    "sha256": "6e729e25e9cdab7b664997e51d8bb7a78fe97f9fa4836918ed393f00f258bc4a"
+  },
+  {
+    "repository": "datatug/datatug-cli",
+    "revision": "a3c68f168dc9d7c1baddbce1e7c7fed775b76eb0",
+    "path": "pkg/secureread/session.go",
+    "snapshot": "/private/tmp/data-fabric-bigquery-a0-contract/evidence/datatug--datatug-cli/pkg/secureread/session.go",
+    "sha256": "7efc95b91566875a7f044f4f9330c68e4e3367e40a8fee79d07be67d63794862"
+  },
+  {
+    "repository": "datatug/datatug-cli",
+    "revision": "a3c68f168dc9d7c1baddbce1e7c7fed775b76eb0",
+    "path": "pkg/accesspolicies/fields.go",
+    "snapshot": "/private/tmp/data-fabric-bigquery-a0-contract/evidence/datatug--datatug-cli/pkg/accesspolicies/fields.go",
+    "sha256": "af334a599b622094e58ffc49badd7a2b7cad92f6f78933c201c6d4f16046320d"
+  },
+  {
+    "repository": "datatug/datatug-cli",
+    "revision": "a3c68f168dc9d7c1baddbce1e7c7fed775b76eb0",
+    "path": "pkg/accesspolicies/params.go",
+    "snapshot": "/private/tmp/data-fabric-bigquery-a0-contract/evidence/datatug--datatug-cli/pkg/accesspolicies/params.go",
+    "sha256": "e7fd8daf814febb1de7c6d3300ac71b7957c32d59e2f9a4e3348f640a84feda4"
+  },
+  {
+    "repository": "dal-go/dalgo",
+    "revision": "396d03a5c8d504f502d1f283ee80d18ca0346085",
+    "path": "access/session.go",
+    "snapshot": "/private/tmp/data-fabric-bigquery-a0-contract/evidence/dal-go--dalgo/access/session.go",
+    "sha256": "1c5ec5fc19782de26ba7961e4fa2f20355af0e29762e51934c55d3846346ea06"
+  },
+  {
+    "repository": "dal-go/dalgo",
+    "revision": "396d03a5c8d504f502d1f283ee80d18ca0346085",
+    "path": "dal/query_executor.go",
+    "snapshot": "/private/tmp/data-fabric-bigquery-a0-contract/evidence/dal-go--dalgo/dal/query_executor.go",
+    "sha256": "6f733d62c2d3b2694508dfad6f7e09bc24a4b1e374c6acf639ea3c3caefa3002"
+  },
+  {
+    "repository": "dal-go/dalgo",
+    "revision": "396d03a5c8d504f502d1f283ee80d18ca0346085",
+    "path": "dal/session.go",
+    "snapshot": "/private/tmp/data-fabric-bigquery-a0-contract/evidence/dal-go--dalgo/dal/session.go",
+    "sha256": "cde5e1b90524b8a871fd298256e0e4dd4d080225032a86120506dba139c38312"
+  },
+  {
+    "repository": "dal-go/dalgo-http-adapters",
+    "revision": "a3b35d251ff002e830e865c6a330ef6149ecf340",
+    "path": ".github/workflows/release.yml",
+    "snapshot": "/private/tmp/data-fabric-bigquery-a0-contract/evidence/dal-go--dalgo-http-adapters/.github/workflows/release.yml",
+    "sha256": "e35186675ded4abf1a9a20e7a7aa1d9d90c1ba042381da4458ca97dfa413daf1"
+  },
+  {
+    "repository": "dal-go/dalgo-http-adapters",
+    "revision": "a3b35d251ff002e830e865c6a330ef6149ecf340",
+    "path": ".changeset/config.json",
+    "snapshot": "/private/tmp/data-fabric-bigquery-a0-contract/evidence/dal-go--dalgo-http-adapters/.changeset/config.json",
+    "sha256": "a9e1d3a099efedc8a7689ec9e741cd1a31de17f223772de7476c1f7a373a7904"
+  },
+  {
+    "repository": "dal-go/dalgo-http-adapters",
+    "revision": "a3b35d251ff002e830e865c6a330ef6149ecf340",
+    "path": "packages/indexeddb/package.json",
+    "snapshot": "/private/tmp/data-fabric-bigquery-a0-contract/evidence/dal-go--dalgo-http-adapters/packages/indexeddb/package.json",
+    "sha256": "b74641e28624cb6d67a97097f4918496a70c6b3f61842e3bfb72dad910aef5f5"
+  },
+  {
+    "repository": "dal-go/dalgo-http-adapters",
+    "revision": "a3b35d251ff002e830e865c6a330ef6149ecf340",
+    "path": "packages/bigquery/src/types.ts",
+    "snapshot": "/private/tmp/data-fabric-bigquery-a0-contract/evidence/dal-go--dalgo-http-adapters/packages/bigquery/src/types.ts",
+    "sha256": "0dd8562c5a8d2cb60b0673401127cebd52d8708a20ed9cef0eae8be6c6bf937a"
+  },
+  {
+    "repository": "dal-go/dalgo-http-adapters",
+    "revision": "a3b35d251ff002e830e865c6a330ef6149ecf340",
+    "path": "packages/bigquery/src/database.ts",
+    "snapshot": "/private/tmp/data-fabric-bigquery-a0-contract/evidence/dal-go--dalgo-http-adapters/packages/bigquery/src/database.ts",
+    "sha256": "ada9e9346c9a17575a951c1204a791f31688e80942ce867176b115430ad27880"
+  },
+  {
+    "repository": "dal-go/dalgo-http-adapters",
+    "revision": "a3b35d251ff002e830e865c6a330ef6149ecf340",
+    "path": "packages/bigquery/src/sql.ts",
+    "snapshot": "/private/tmp/data-fabric-bigquery-a0-contract/evidence/dal-go--dalgo-http-adapters/packages/bigquery/src/sql.ts",
+    "sha256": "5c1f7d5600ac5a0f4389138b85faab1ebb3b5fb130018626b60e267568666b04"
+  }
+]
