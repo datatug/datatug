@@ -1,0 +1,159 @@
+{
+  "kind": "w1-reviewed-followup-evidence",
+  "hub_base": "e3a516339bd9fa4209144ef5d804142f8f12e197",
+  "observed_date": "2026-10-05",
+  "ror_input_scope": {
+    "original_decision_revision": "17263dbacabdfe95e53fc3c6980177416bdab941",
+    "original_decision_sha256": "a4caa4b6461230a3fa2ae8548121344cb286cfb98a9e19761a207c9f74479595",
+    "review_verdict": "accepted clarification, zero review defects",
+    "accepted_fixture": "exact eight-row upstream data/schema/declaration/property/target tuple",
+    "changed_data_accepted": false,
+    "wider_admission_blocker": "W1-ROR-INPUT-1",
+    "bounded_selection_from_verified_original_allowed": true,
+    "new_semantic_acceptance": false
+  },
+  "publication_interfaces": {
+    "preparation_review": "accepted inventory only",
+    "architecture_r1_findings": "M1, M2, m1",
+    "architecture_r2_review": "zero findings",
+    "root_technical_approval": "staged implementation under existing ownership only",
+    "default_activation": "pending landed canonical companions and parity",
+    "native_format3_foundation": "active separate lane; no default-path completion"
+  },
+  "native_apps": {
+    "reviewed_head": "aeaee43556089828a103643c4d07e7bbc5e15fa3",
+    "independent_r2_review": "zero findings for repair delta",
+    "pr": "https://github.com/datatug/datatug-apps/pull/193",
+    "landing_receipt_at_packet_freeze": {
+      "merge_sha": "213fc355ec91af42ba7a01a7ca1d0f24a9442cf3",
+      "reviewed_head": "aeaee43556089828a103643c4d07e7bbc5e15fa3",
+      "landed_tree_sha256": "ae48fc1d9895826126b600e8af2534edd0941eaa",
+      "branch_and_worktree_cleaned": true,
+      "canonical_sync": "clean",
+      "main_ci": "pending root final receipt",
+      "deployment": {
+        "workflow": "Deploy (Cloudflare)",
+        "run_url": "https://github.com/datatug/datatug-apps/actions/runs/37269238085",
+        "conclusion": "success",
+        "head": "213fc355ec91af42ba7a01a7ca1d0f24a9442cf3",
+        "scope": "workflow only; no live W1 query acceptance"
+      }
+    },
+    "production_admission": false,
+    "root_local_receipt_hashes": {
+      "initial_pending": {
+        "name": "data-fabric-w1-native-apps-land-attempt1.json",
+        "bytes": 14447,
+        "sha256": "eca1dd88b6ebd434c99746e7b176297bdff2e793b01edba818b2e8706105b69e"
+      },
+      "successful_recovery": {
+        "name": "data-fabric-w1-native-apps-land-attempt2.json",
+        "bytes": 2112,
+        "sha256": "2b9593b580cd3e6c9f23fac8858e0b0a766d3554f063b6827bddb421cfe35261"
+      },
+      "landed_tree": {
+        "name": "data-fabric-w1-native-apps-landed-tree.json",
+        "bytes": 430,
+        "sha256": "7e64921f33aec7d8d6cad928f62bacb33a4aa98809fd18355fb6a49b922acf16"
+      },
+      "deployment_workflow": {
+        "name": "data-fabric-w1-native-apps-workflow-observation.json",
+        "bytes": 448,
+        "sha256": "b3954cbb192f4e0ca87897a4bf767a5d83489a0e1e46da553df37b7a3f44eccb"
+      }
+    }
+  },
+  "declared_catalog": {
+    "state": "prepared, not published",
+    "blocker": "released CLI with core v0.42.3 and exact hero CI archive digest"
+  },
+  "official_resource": {
+    "r2": {
+      "cap_passed": false,
+      "stopped_at": "ROR GET header comparison after five Geo bodies",
+      "ror_body_transferred": false,
+      "generators_run": false,
+      "specific_header_mismatch": "unknown"
+    },
+    "r3": {
+      "cap_passed": true,
+      "review_verdict": "accepted prospective operational budget only",
+      "root_decision": "accepted prospective six-source capture and serial generation/verification budget",
+      "candidate_promoted": false,
+      "new_geo_semantic_delta_review_required": true,
+      "historical_capture_elapsed_rss_known": false,
+      "metrics": {
+        "all_ceilings_passed": true,
+        "combined_offline_metadata_bytes": 202326,
+        "download_body_bytes": 670251902,
+        "elapsed_seconds": 137.26348837511614,
+        "full_lifetime_payload_rss_bound_bytes": 388857856,
+        "geo_sqlite_bytes": 75300864,
+        "ror_sqlite_bytes": 238563328,
+        "rss_bound_terms_bytes": [
+          129089536,
+          129089536,
+          129089536,
+          1589248
+        ],
+        "sampled_concurrent_rss_bytes": 208830464,
+        "sampled_open_unlinked_bytes": 68055040,
+        "sampled_temp_disk_bytes": 1630146560
+      },
+      "source_bodies": [
+        {
+          "source": "https://download.geonames.org/export/dump/countryInfo.txt",
+          "bytes": 31678,
+          "sha256": "93bafc525813f22e4711ff9ed6d626343094ce48c26388dc7c49189b3d7d5512",
+          "last_modified": "Mon, 05 Oct 2026 03:17:45 GMT"
+        },
+        {
+          "source": "https://download.geonames.org/export/dump/admin1CodesASCII.txt",
+          "bytes": 151583,
+          "sha256": "1da92a6323a5fec3176f3f743bf4cf4040fd56a876da55e46fbca23c863aa60a",
+          "last_modified": "Mon, 05 Oct 2026 03:10:54 GMT"
+        },
+        {
+          "source": "https://download.geonames.org/export/dump/cities5000.zip",
+          "bytes": 5709192,
+          "sha256": "60826f5624d03e73ff6c324423c901284b6531116ebec1f569e1d211b53cbc96",
+          "last_modified": "Mon, 05 Oct 2026 03:10:54 GMT"
+        },
+        {
+          "source": "https://download.geonames.org/export/dump/allCountries.zip",
+          "bytes": 422005927,
+          "sha256": "2ff428281f51ba8e716395921e7aed517b409186c96fd807620f0d5ad6cae1ea",
+          "last_modified": "Mon, 05 Oct 2026 03:10:54 GMT"
+        },
+        {
+          "source": "https://download.geonames.org/export/dump/alternateNamesV2.zip",
+          "bytes": 204812561,
+          "sha256": "9e3a39c5ba3c87e27ef857e554a205d1c78f74090e3d6643d4ca50211e298440",
+          "last_modified": "Mon, 05 Oct 2026 03:16:56 GMT"
+        },
+        {
+          "source": "https://zenodo.org/records/22902037/files/v2.13-2026-09-22-ror-data.zip",
+          "bytes": 37540961,
+          "sha256": "476988542f1bdd185f779386f90149371f58cb4ebdba326db3b7b428a468d4a5",
+          "last_modified": null
+        }
+      ],
+      "geo_sqlite_sha256": "442239e32e9dfc93c32fbad721ce94cbf0b25e32d90dc4c8dfec6fe157667f1d",
+      "ror_sqlite_sha256": "afdf978130ee9899fedb698f0e9d18399efdea40ea92f01f26d6055ef1ed5d38",
+      "source_deltas_file": "resource-source-deltas-r3.json",
+      "source_deltas_sha256": "0aff6fdc33aa75195bbfe66b48e9ff69ca0a4b3a4740d41af61f04c3deb92bd0"
+    },
+    "accepted_geo_pin": "6f4cf1269bc393048f6b204069135a62f0bb6c02",
+    "accepted_ror_pin": "dc78c1e929f1f10018f8c39e690351059a50c71f",
+    "accepted_pins_changed": false
+  },
+  "programme": {
+    "w1_complete": false,
+    "b1_open": true,
+    "phase4_to_6_open": true,
+    "five_implementation_records": "implementing; publication/query evidence arrays empty",
+    "real_j1_to_j6_acceptance": false,
+    "root_publication_receipts_before_pr193": 38,
+    "root_publication_receipt_index_sha256": "1f755fb3dab4eb4334df2323d4a13977655475ec572dba065278d220ae128545"
+  }
+}

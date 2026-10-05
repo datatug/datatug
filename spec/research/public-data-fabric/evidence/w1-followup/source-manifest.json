@@ -1,0 +1,255 @@
+{
+  "kind": "w1-followup-reviewed-input-hashes",
+  "original_reviewed_documents": {
+    "ror-scope-r1.md": {
+      "bytes": 14357,
+      "sha256": "95b3a4a6d4b0d0cba0fc370d48d916356c52c9b989ebc7719d31ff021c544459"
+    },
+    "ror-scope-r1.json": {
+      "bytes": 14551,
+      "sha256": "c25950fcd6532ff473d27b0a71b2b715edb1b91e1e1e4655e5af35e358eadf23"
+    },
+    "ror-scope-review-r1.md": {
+      "bytes": 11467,
+      "sha256": "ce70dc7fa55cf1f831b57f331183631c3d6feb2164674d7b0e6405528301c271"
+    },
+    "ror-scope-review-r1.json": {
+      "bytes": 11795,
+      "sha256": "2c9b94053492056b0af18eeea85fbd4bff270758eaa544b2f5aadc4ef9e8f8b2"
+    },
+    "ror-source-manifest.json": {
+      "bytes": 7988,
+      "sha256": "21689bd5a4f95d836d881f1c14f2fbe4ac8359095676daa848e32f19401778ea"
+    },
+    "publication-packet.md": {
+      "bytes": 31130,
+      "sha256": "3886f98a343288357220ecad5399939a89f958dd0cd00af41c46f1c72dc53beb"
+    },
+    "publication-packet.json": {
+      "bytes": 72024,
+      "sha256": "1b667485f95aa3d78a8c18084c70e6326f36afdeafa8f7d4e2d4b69899668eb4"
+    },
+    "publication-packet-review-r1.md": {
+      "bytes": 7739,
+      "sha256": "89dbc7dae48a3573de5dff10a9cc465a28ffcb70a90269c35c34320f2ff53a21"
+    },
+    "publication-packet-review-r1.json": {
+      "bytes": 2061,
+      "sha256": "72f8a547b37367f673dbc512d54e7e51ea72abb299121886accf9e871b96fb33"
+    },
+    "architecture-proposal-r1.md": {
+      "bytes": 16549,
+      "sha256": "3f36243079718bc8f85d7c31b6366a57535f60f75feb6c48335abcab28a6fb36"
+    },
+    "architecture-proposal-r2.md": {
+      "bytes": 30634,
+      "sha256": "b7c644d83a0dc260957d8117029473e04badc061d4995caa9ac196beaf1571ca"
+    },
+    "architecture-proposal-r2.json": {
+      "bytes": 3433,
+      "sha256": "9e096b171b500e1db527d0c18658220ce62fdf6766b72185dfa769745cc19d9a"
+    },
+    "architecture-proposal-r2-change-map.md": {
+      "bytes": 4262,
+      "sha256": "aa4db23c79dc40ecb40871c4f7025d7bdc02b69fe84d54c0d5ed20a72e80ebe4"
+    },
+    "architecture-review-r1.md": {
+      "bytes": 13810,
+      "sha256": "236c50f7d3dd75e66a99fd4f692c1de2f6ac33156fc40dff393f90d7f4db5fdc"
+    },
+    "architecture-review-r1.json": {
+      "bytes": 2357,
+      "sha256": "eb1f507927e5f4ed085f2d765ae713f2014761076e94bc277d75d9069c388513"
+    },
+    "architecture-review-r2.md": {
+      "bytes": 7430,
+      "sha256": "153f0eb7781635cc5e56b54f0e30ae50990d4b87185cd10bdc3b79fe67f865c9"
+    },
+    "architecture-review-r2.json": {
+      "bytes": 2144,
+      "sha256": "3ce74f02acb294acfc1be1cdb03d53d6382fe8e41680ac300580e98d4c8a0039"
+    },
+    "architecture-root-approval-r2.json": {
+      "bytes": 856,
+      "sha256": "9b688439e3c36b1f9445cb2bbad54d81c190255a50e2d064f2be103e373dcabc"
+    },
+    "resource-controller-review-r2.md": {
+      "bytes": 6136,
+      "sha256": "0cf40871dcf6b06943aa4112d1ec90facf65b0c57f0a1ef4c1abb224ea56d7e5"
+    },
+    "resource-controller-review-r3.md": {
+      "bytes": 5480,
+      "sha256": "25a2f9d901adb0ba16a72faf929d0bf6d1e10a1195ea063cb91d34559f9f2821"
+    },
+    "resource-failed-r2-report.md": {
+      "bytes": 4504,
+      "sha256": "128b87446f9737f01eaadd11cde1e3b33b04c8ae114b33d217dda2a100351f95"
+    },
+    "resource-failed-r2-result.json": {
+      "bytes": 1127,
+      "sha256": "4c3f80fd6b517c7a966f019e198a56310df6c1fc46dfd49889ca436d34fe3d9f"
+    },
+    "resource-failed-r2-head-diagnostic.md": {
+      "bytes": 2104,
+      "sha256": "1d6c7108a307000dbb619244f50bafe9b5a9504c13e567772e9c4ec7a5f2c816"
+    },
+    "resource-success-r3-report.md": {
+      "bytes": 5927,
+      "sha256": "05063c10111bef475442a2e5bb20f8f066dba717bcc49e47a5be349f10431b20"
+    },
+    "resource-success-r3-result.json": {
+      "bytes": 1199,
+      "sha256": "240be0aaedfe0dee818a73b0c2503ae1aabe485b7a317bf6cacfc1c6ed9dc6a0"
+    },
+    "resource-success-r3-acquisition.json": {
+      "bytes": 4046,
+      "sha256": "58ff0859a74cf8a1553fae4785a802fedcd843d12e27ff3ee7e58066959dfae1"
+    },
+    "resource-success-r3-candidate.json": {
+      "bytes": 10723,
+      "sha256": "388fac9b9c6d0d68c17ce1877ab8067e76edf0a34adebb50132db254ed2d3ce0"
+    },
+    "resource-success-r3-cleanup.json": {
+      "bytes": 446,
+      "sha256": "91b3e2999727a3f75901935df44cc50b1086c4c795e262628562bffe5265b2e0"
+    },
+    "resource-operation-review-r3.md": {
+      "bytes": 9045,
+      "sha256": "f398dfee2fa7bccff7bc40adf5c814b6cdaba9fb6e9d418688694f7d4eef043a"
+    },
+    "resource-operation-review-r3.json": {
+      "bytes": 54823,
+      "sha256": "924494a34539f826ea0105a83c00f47ad3d96aef19dc20a648c6492eefbf3574"
+    },
+    "resource-operation-audit-r3.json": {
+      "bytes": 48301,
+      "sha256": "a418c87064049ba78df015a2e630927d2ec0b6624c0f5249df295f0d87248c54"
+    },
+    "resource-operation-source-deltas-r3.json": {
+      "bytes": 26563,
+      "sha256": "0aff6fdc33aa75195bbfe66b48e9ff69ca0a4b3a4740d41af61f04c3deb92bd0"
+    },
+    "resource-root-acceptance-r3.json": {
+      "bytes": 690,
+      "sha256": "6580cd6c12625ec27fd375a348483a5b43d1ffbb93dec71784b44b0d57907d57"
+    },
+    "root-publication-receipt-index.json": {
+      "bytes": 11577,
+      "sha256": "3eac5ddaadca5df8d5b6c5b1aa5024cd87bf9bbb1e18b7420a292a847718b354"
+    },
+    "native-app-review-r1.md": {
+      "bytes": 9017,
+      "sha256": "86dbafe6c046cfed4c335c38a4ad020b8ec9220ae6cc0c732697d2ef7207ec1c"
+    },
+    "native-app-review-r2.md": {
+      "bytes": 6674,
+      "sha256": "2870ea714ddb78faafe6991b9209863655ce20055ed8acbae2c25f9b2b81abef"
+    },
+    "native-app-repair-handoff.md": {
+      "bytes": 4814,
+      "sha256": "45d5e2d6955e218fc2b52b0f31dc5eda6013b1dc83addcb7793646d4f1ab4083"
+    },
+    "declared-catalog-status.md": {
+      "bytes": 4021,
+      "sha256": "59f84a822f17e0214bcb29a9f4975c90063a2e294ee9500cf8556c768f6aacb2"
+    }
+  },
+  "immutable_git_objects": [
+    {
+      "repository": "https://github.com/datatug/datatug",
+      "revision": "e3a516339bd9fa4209144ef5d804142f8f12e197",
+      "path": "spec/research/public-data-fabric/evidence/w1-ror-user-decision.json",
+      "sha256": "a4caa4b6461230a3fa2ae8548121344cb286cfb98a9e19761a207c9f74479595"
+    },
+    {
+      "repository": "https://github.com/datatug/datatug",
+      "revision": "e3a516339bd9fa4209144ef5d804142f8f12e197",
+      "path": "spec/research/public-data-fabric/w1-ror-user-reconciliation.md",
+      "sha256": "b61bbac4f59fdfc924b4c525218af87cb92ed013e2313a70578e86076d59ed6c"
+    },
+    {
+      "repository": "https://github.com/datatug/datatug",
+      "revision": "e3a516339bd9fa4209144ef5d804142f8f12e197",
+      "path": "spec/research/public-data-fabric/evidence/w1-ror-user-review-r1.md",
+      "sha256": "3c81dc20c7b3b5ccb6399149aa0753f8ac05b0049567d8bad7ff5e69f2d8f3cc"
+    },
+    {
+      "repository": "https://github.com/datatug/datatug",
+      "revision": "e3a516339bd9fa4209144ef5d804142f8f12e197",
+      "path": "spec/research/public-data-fabric/w1-ror-user-reconcile.py",
+      "sha256": "fe6475935864350ee3f27c983b6c3466e0597363523c6c038857249923902ce6"
+    },
+    {
+      "repository": "https://github.com/datatug/datatug",
+      "revision": "e3a516339bd9fa4209144ef5d804142f8f12e197",
+      "path": "spec/research/public-data-fabric/assertions/$records/w1-ror-user-native-url.json",
+      "sha256": "c3e6a4f0bcd3d7d259da234af088c6301cb90bdc6391644fb12b731a3b6b9b34"
+    },
+    {
+      "repository": "https://github.com/datatug/datatug",
+      "revision": "e3a516339bd9fa4209144ef5d804142f8f12e197",
+      "path": "spec/research/public-data-fabric/candidates/$records/w1-ror-user-dataset.json",
+      "sha256": "be076436086a90fbbaca5e6be634248eba9f4f7cb68cea620ef8ceecded2fccf"
+    },
+    {
+      "repository": "https://github.com/datatug/datatug",
+      "revision": "e3a516339bd9fa4209144ef5d804142f8f12e197",
+      "path": "spec/research/public-data-fabric/candidates/$records/w1-ror-user-affiliations.json",
+      "sha256": "314654bb3729644dbf95aacb1c8f82924033aa48656a6732879ad7e3a5f444e8"
+    },
+    {
+      "repository": "https://github.com/datatug/datatug",
+      "revision": "e3a516339bd9fa4209144ef5d804142f8f12e197",
+      "path": "spec/research/public-data-fabric/evidence/$records/w1-ror-user-reconciliation.json",
+      "sha256": "89d3529ff7a2a6133da9cf4e5fb1767f15e567e7f607d21d506511ac80a37db1"
+    },
+    {
+      "repository": "https://github.com/datatug/datatug",
+      "revision": "e3a516339bd9fa4209144ef5d804142f8f12e197",
+      "path": "spec/research/public-data-fabric/evidence/w1-user-source-architecture-review-r1.md",
+      "sha256": "900efac223bb3298596bb48702c49cc1e2691eda9553a135bfa439b948aa1057"
+    },
+    {
+      "repository": "https://github.com/datatug/datatug",
+      "revision": "e3a516339bd9fa4209144ef5d804142f8f12e197",
+      "path": "spec/research/public-data-fabric/evidence/w1-user-source-technical-approval.json",
+      "sha256": "44f5199b81d5718885e52f911ae046e10349332d645d444ae2afb17b28ac847b"
+    },
+    {
+      "repository": "https://github.com/datatug/datatug",
+      "revision": "e3a516339bd9fa4209144ef5d804142f8f12e197",
+      "path": "spec/research/public-data-fabric/evidence/w1-ror-user-author-validation.json",
+      "sha256": "68b8ab3f659ef0a2edcdd977393f5ef0190dd7697d67feb8b072f8f9a64fa6ae"
+    },
+    {
+      "repository": "https://github.com/datatug/datatug",
+      "revision": "17263dbacabdfe95e53fc3c6980177416bdab941",
+      "path": "spec/research/public-data-fabric/evidence/w1-ror-user-decision.json",
+      "sha256": "a4caa4b6461230a3fa2ae8548121344cb286cfb98a9e19761a207c9f74479595"
+    },
+    {
+      "repository": "https://github.com/datatug/datatug-apps",
+      "revision": "e7362033ec79c6663d7dbe0483b62fab01f7b9cd",
+      "path": "libs/datatug/main/src/lib/queries/fixtures/public-data-fabric/affiliations.modelspec.json",
+      "sha256": "cfe958f12d9a70bb7533499b76bf01c9447f81f0862852e460b095bb75e1b9cf"
+    },
+    {
+      "repository": "https://github.com/datatug/datatug-apps",
+      "revision": "e7362033ec79c6663d7dbe0483b62fab01f7b9cd",
+      "path": "libs/datatug/main/src/lib/queries/fixtures/public-data-fabric/affiliations.json",
+      "sha256": "44a30dd260c74f43b2138934cca0bccd493c7b804e124c5ecbded3c41226e543"
+    },
+    {
+      "repository": "https://github.com/datatug/datatug-apps",
+      "revision": "e7362033ec79c6663d7dbe0483b62fab01f7b9cd",
+      "path": "libs/datatug/main/src/lib/queries/fixtures/public-data-fabric/README.md",
+      "sha256": "ee5dd5d06a9e6db3848e3fc3db71afe2567f6e3e56b7bf8f9477eda5bca54575"
+    },
+    {
+      "repository": "https://github.com/sneat-co/workbench",
+      "revision": "af4c5ce5760d7c278e3f4ede81b105abbeb3d10b",
+      "path": "spec/plans/github.com/datatug/datatug/public-data-fabric-w1/README.md",
+      "sha256": "78101f6d7ba77e33ef625c763a63949284b68b800457e4cf11703621c40b17e4"
+    }
+  ]
+}

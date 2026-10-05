@@ -1,0 +1,265 @@
+{
+  "kind": "w1-root-publication-receipt-index-snapshot",
+  "scope": "Root-verified landed W1 components, including native helper release; programme and production gates remain open.",
+  "receipts": [
+    {
+      "name": "data-fabric-w1-ror-land.json",
+      "bytes": 4996,
+      "sha256": "4c78bad5d35592f9f9460617b02b3f89f7ca010d049c6bb9d785a254deca1c14",
+      "outcome": "success",
+      "head": "f5f6c0fbc54d792d1062dbdf1cbce1b690f0dd95",
+      "merge_sha": "bbbec903248680caea04e68f94b9a957b6efc55b"
+    },
+    {
+      "name": "data-fabric-w1-ror-main-ci.json",
+      "bytes": 1001,
+      "sha256": "ed8a829102022ac38cc5a6bb39627e1758d96a0270bbcf6c3fcc1deba9e9e13a",
+      "outcome": "passed",
+      "head": "bbbec903248680caea04e68f94b9a957b6efc55b"
+    },
+    {
+      "name": "data-fabric-w1-geonames-land.json",
+      "bytes": 6761,
+      "sha256": "e8a07a6b6c2d3cdc9f989cf3efed99eb4a21256f91caeaee62423a078fe10ad3",
+      "outcome": "success",
+      "head": "bb603ab40fb8d1478e6ab496e84f6bf02c1e8c3c",
+      "merge_sha": "fc53a3537304dd77a4e97162608454b2da2ae241"
+    },
+    {
+      "name": "data-fabric-w1-geonames-main-ci.json",
+      "bytes": 2960,
+      "sha256": "d278a2f27f25cb3a82aabcfb0102c63d09f75e6dadde057d365e261904da56aa",
+      "outcome": "passed",
+      "head": "fc53a3537304dd77a4e97162608454b2da2ae241"
+    },
+    {
+      "name": "data-fabric-w1-contract-land.json",
+      "bytes": 9243,
+      "sha256": "2bc65ab64ca1ad0819f129a1aadefd54b04362a5db9d24107e672e9427c06042",
+      "outcome": "success",
+      "head": "18cfe991dc4dd47fece2ec354dda95146e7d260a",
+      "merge_sha": "aec07d17be1e074210acefddb858363ce7777704"
+    },
+    {
+      "name": "data-fabric-w1-contract-main-ci.json",
+      "bytes": 5955,
+      "sha256": "a273f23bda8956dffcf2eced908367952028c63dbf58fa0625a5d09a8880e48d",
+      "outcome": "passed",
+      "head": "aec07d17be1e074210acefddb858363ce7777704"
+    },
+    {
+      "name": "data-fabric-w1-contract-release.json",
+      "bytes": 1026,
+      "sha256": "dbff1ad2a48563e1eaa0b816030a8e7678abba3f33bf0b774acaea03b7c7d92d"
+    },
+    {
+      "name": "data-fabric-w1-contract-release-ref.json",
+      "bytes": 174,
+      "sha256": "51c96d3b45c48486a8bee68a9198cadfce5c67dfadf97f798df7682a702fc6d4"
+    },
+    {
+      "name": "data-fabric-w1-ror-user-land.json",
+      "bytes": 5542,
+      "sha256": "2aabf97f4fad90482fcd076c570a9d3d2d4c009c42a77ad85a2df8ee5da3a823",
+      "outcome": "success",
+      "head": "f8093950122e000aaccffefb7c478adeaf275fbf",
+      "merge_sha": "17263dbacabdfe95e53fc3c6980177416bdab941"
+    },
+    {
+      "name": "data-fabric-w1-ror-user-main-ci.json",
+      "bytes": 995,
+      "sha256": "33e7a201e5e2dd14ce72da872884a87986b9e5c1fa95c258dd6ebf76e760a2ba",
+      "outcome": "passed",
+      "head": "17263dbacabdfe95e53fc3c6980177416bdab941"
+    },
+    {
+      "name": "data-fabric-w1-native-contract-land.json",
+      "bytes": 10369,
+      "sha256": "5c13fe6bd206917a0750a87deb95f78458da5c0a0ae0a9ed2b19b7394f201f3b",
+      "outcome": "success",
+      "head": "191cf7d36618ee529696ce758ad007f0db61309d",
+      "merge_sha": "d166a1f8a38a644de9d11f381ad406dad3f89b36"
+    },
+    {
+      "name": "data-fabric-w1-native-contract-main-ci.json",
+      "bytes": 5955,
+      "sha256": "4c000aec18d46201308fd67307e474b374afd752be206293e1cc18f3068735a5",
+      "outcome": "passed",
+      "head": "d166a1f8a38a644de9d11f381ad406dad3f89b36"
+    },
+    {
+      "name": "data-fabric-w1-native-contract-release.json",
+      "bytes": 1026,
+      "sha256": "b1f16f9c841ce4c96b3df7f1809d279fcf089d3827e7c9aa6d0d0155ff6ca33a",
+      "release": "v0.25.0"
+    },
+    {
+      "name": "data-fabric-w1-native-contract-release-ref.json",
+      "bytes": 211,
+      "sha256": "e7e01b3b5ae005ebdc0aff7022d91b898cf0e52383863505c6849379a7db8f69"
+    },
+    {
+      "name": "data-fabric-w1-ror-artifact-land.json",
+      "bytes": 5046,
+      "sha256": "69e45fda4febf0d47d9ee7185af39b3dd88d1257bced5227f513c74d971e59e5",
+      "outcome": "success",
+      "head": "ef4a0942a5516b962384a18d46344a3f2ef57959",
+      "merge_sha": "dc78c1e929f1f10018f8c39e690351059a50c71f"
+    },
+    {
+      "name": "data-fabric-w1-ror-artifact-main-ci.json",
+      "bytes": 1001,
+      "sha256": "3dda78e7d0f7600355db2ba36357cd15d7b9c316e59656b5771bc44b7881ddd0",
+      "outcome": "passed",
+      "head": "dc78c1e929f1f10018f8c39e690351059a50c71f"
+    },
+    {
+      "name": "data-fabric-w1-ror-artifact-landed-tree.json",
+      "bytes": 1126,
+      "sha256": "7b80c76982ac29ed1a2aea4187e858a0499b760d7be0a90cfb4d6edab947a6ce"
+    },
+    {
+      "name": "data-fabric-w1-native-association-land.json",
+      "bytes": 8834,
+      "sha256": "052d59dced4d0eb835023d58eb3b5ab8638f4ced7f982fbf9776cf9e952bd39a",
+      "outcome": "success",
+      "head": "839566d2c9e16d1a5aba439de519298214ccf888",
+      "merge_sha": "bb535a658f06a8752688ba36cb4b76ecf0483254"
+    },
+    {
+      "name": "data-fabric-w1-native-association-main-ci.json",
+      "bytes": 5954,
+      "sha256": "88744e01fdbb2be75e0ef4a03237e6bfabf8daf2fce469458e6f815de7d3088c",
+      "outcome": "passed",
+      "head": "bb535a658f06a8752688ba36cb4b76ecf0483254"
+    },
+    {
+      "name": "data-fabric-w1-native-association-release.json",
+      "bytes": 1026,
+      "sha256": "e29347ef24d20c7548821ea86a8595919b6c5e20327dcd8da7f2ca5047140f46",
+      "release": "v0.26.0"
+    },
+    {
+      "name": "data-fabric-w1-native-association-release-ref.json",
+      "bytes": 211,
+      "sha256": "9c9e939791d13583bdbc1cb85110fdce49ef5226231de9de38330a927c4823de"
+    },
+    {
+      "name": "data-fabric-w1-geonames-artifact-land.json",
+      "bytes": 8576,
+      "sha256": "b8235ded78fa41a906ace25f936a59901cbf175d6524f93de3bae427ddad6d02",
+      "outcome": "success",
+      "merge_sha": "6f4cf1269bc393048f6b204069135a62f0bb6c02"
+    },
+    {
+      "name": "data-fabric-w1-geonames-artifact-main-ci.json",
+      "bytes": 2960,
+      "sha256": "fde4caa0ce635219e78599b611673ef774d8cc57f1d03a2a058fcd1878d78720",
+      "outcome": "passed",
+      "head": "6f4cf1269bc393048f6b204069135a62f0bb6c02"
+    },
+    {
+      "name": "data-fabric-w1-geonames-artifact-landed-tree.json",
+      "bytes": 1447,
+      "sha256": "8513d29ca091ab462e52e618adce2c4eeeb6be67faaa13d304b8a28cc79020d4"
+    },
+    {
+      "name": "data-fabric-w1-apps-land-attempt1.json",
+      "bytes": 12591,
+      "sha256": "924295de71f7eea02279642ecc68bdfcc992be4b55f185420e6c84604ebcdaf5",
+      "outcome": "findings"
+    },
+    {
+      "name": "data-fabric-w1-apps-land.json",
+      "bytes": 2078,
+      "sha256": "b5b9578cef2979485c8406c0b50d0a3813170c5d89045b6342ab1aa8f579779c",
+      "outcome": "success",
+      "merge_sha": "e6569c5d606af0c4094b9e9d7db6ca1c5964a62b"
+    },
+    {
+      "name": "data-fabric-w1-apps-landed-tree.json",
+      "bytes": 580,
+      "sha256": "2021122d5644935b1b345aefb7b20aad41b78081372b16d655cbf3b6656b04ca"
+    },
+    {
+      "name": "data-fabric-w1-apps-main-ci.json",
+      "bytes": 2402,
+      "sha256": "d09097692522f386e839d042177a4addd269d9eeb92024031197875ff3cc9216",
+      "outcome": "passed",
+      "head": "e6569c5d606af0c4094b9e9d7db6ca1c5964a62b"
+    },
+    {
+      "name": "data-fabric-w1-apps-deployment-workflow.json",
+      "bytes": 352,
+      "sha256": "8ae2f07c1c5acecdfad9aa14c9ea451cb17343de5062993306255c1457b50614",
+      "outcome": "completed",
+      "head": "e6569c5d606af0c4094b9e9d7db6ca1c5964a62b"
+    },
+    {
+      "name": "data-fabric-w1-modelspec-registration-land.json",
+      "bytes": 4208,
+      "sha256": "a5f02a66a2b09ba8307a428694a112db612ed61bcb14b10bac1f3ad7509db6c8",
+      "outcome": "success",
+      "head": "603f0837c56aad96e05207a7336ad1eeb513e465",
+      "merge_sha": "34be21159e522e85b6e5c110f8bfb8baaa8035a8"
+    },
+    {
+      "name": "data-fabric-w1-modelspec-registration-main-ci.json",
+      "bytes": 1269,
+      "sha256": "cc589c7227747ffed43a8b19f0d800a24e6b7ddf8fffd86f2415b86f15961de8",
+      "outcome": "passed",
+      "head": "34be21159e522e85b6e5c110f8bfb8baaa8035a8"
+    },
+    {
+      "name": "data-fabric-w1-modelspec-registration-landed-tree.json",
+      "bytes": 603,
+      "sha256": "5ed98da2c9c3acebe6f8dc25168f5cfc8b686045016b612e625cf22f28069a06",
+      "head": "603f0837c56aad96e05207a7336ad1eeb513e465",
+      "merge_sha": "34be21159e522e85b6e5c110f8bfb8baaa8035a8"
+    },
+    {
+      "name": "data-fabric-w1-mg-registration-land.json",
+      "bytes": 4536,
+      "sha256": "a804c973cf548285a14793705b28fa92445d03f4139d28e49e1a80f8564744aa",
+      "outcome": "success",
+      "head": "535c98308058650840d66bb336f05ecd10ec690f",
+      "merge_sha": "3d85ae6fa06b7f38f59cfd2893e07ba801856b96"
+    },
+    {
+      "name": "data-fabric-w1-mg-registration-landed-tree.json",
+      "bytes": 602,
+      "sha256": "5ad285db604ae938be1a84167e13d8ddc28c2a68f1e5a3b8838d3cdfeca70195",
+      "head": "535c98308058650840d66bb336f05ecd10ec690f",
+      "merge_sha": "3d85ae6fa06b7f38f59cfd2893e07ba801856b96"
+    },
+    {
+      "name": "data-fabric-w1-mg-registration-main-ci.json",
+      "bytes": 1266,
+      "sha256": "47cad452e8b3669c79d964fee937c59d842339cd2288248e7663b4f047fbe9ea",
+      "outcome": "passed",
+      "head": "3d85ae6fa06b7f38f59cfd2893e07ba801856b96"
+    },
+    {
+      "name": "data-fabric-w1-evidence-land.json",
+      "bytes": 10253,
+      "sha256": "a52a27e3e3f2117ba562e9a2921049cbb28fb31f60a29208c3ce0b4ee38cf142",
+      "outcome": "success",
+      "head": "735f98898e5c60148d7308b78f91159a4d300b44",
+      "merge_sha": "e3a516339bd9fa4209144ef5d804142f8f12e197"
+    },
+    {
+      "name": "data-fabric-w1-evidence-main-ci.json",
+      "bytes": 994,
+      "sha256": "44468af90f315e5627fbb4ae11757adbfe8a9570ee3010f85a7ee4592fa36713",
+      "outcome": "passed",
+      "head": "e3a516339bd9fa4209144ef5d804142f8f12e197"
+    },
+    {
+      "name": "data-fabric-w1-evidence-landed-tree.json",
+      "bytes": 490,
+      "sha256": "f2f69aaf2d7e4d5b40d938f5c1dc44cc53e39550f2f930ff5b4087f06ee820eb",
+      "head": "735f98898e5c60148d7308b78f91159a4d300b44",
+      "merge_sha": "e3a516339bd9fa4209144ef5d804142f8f12e197"
+    }
+  ]
+}
