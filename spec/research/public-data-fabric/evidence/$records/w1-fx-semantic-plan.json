@@ -1,0 +1,11 @@
+{
+  "title": "Accepted bounded ECB semantic plan with publication blockers",
+  "observed_at": "2026-10-06T06:20:47.945475+00:00",
+  "outcome": "decision",
+  "summary": "Independent exact packet review r1 accepted bounded native/directed-pair/day-context plan; root authorizes incorporation only. Candidate retained, assertions unchanged, custom terms/refresh/decimal/canonical/browser gates remain open.",
+  "repository": "datatug/datatug",
+  "path": "spec/research/public-data-fabric/evidence/w1-transport-app-fx/evidence.json",
+  "reviewer": "w1_evidence_fx_persistence_sol",
+  "independent": false,
+  "review_stage": "reconciliation"
+}

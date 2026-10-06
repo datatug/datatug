@@ -1,0 +1,95 @@
+{
+  "kind": "reviewed-w1-transport-app-and-bounded-fx-semantic-plan",
+  "observed_at": "2026-10-06T06:20:47.945475+00:00",
+  "hub_base": "bc46cc4c848df4b219d113535ebd6698892f95f2",
+  "inventory": {
+    "candidates": 699,
+    "assertions": 1177,
+    "all_prior_records_unchanged": true,
+    "prior_research_file_exception": "evidence/w1-followup-decisions/verify.py: exactly two named evidence additions admitted; strict counts and existing hash checks retained"
+  },
+  "transport": {
+    "pr": "https://github.com/openvaultdb/cloud/pull/24",
+    "head": "7f53bfd3605e406d88b239f73ece410e0d97c7bc",
+    "merge": "d49c794c9edd1ee7f5159a471cf4fb5638b1cb3d",
+    "delivered_transport_only": true,
+    "live_options_providers": 6,
+    "live_metadata_get_providers": 6,
+    "metadata_pin_values_present": 0,
+    "lookalike_origin_acao": null,
+    "immutable_runtime_accepted": false,
+    "cloud_run_test": "deferred; not executed"
+  },
+  "app": {
+    "pr": "https://github.com/datatug/datatug-apps/pull/197",
+    "head": "4aec74b70ff0435daee0fa10a96405aa89d0de66",
+    "merge": "c67b872c2872c2ddc514cb8bbd4a8d81517082b5",
+    "state": "MERGED",
+    "exact_main_ci": "passed",
+    "ci_basis": "app/main-ci-r1.json exact WB receipt; remote/app-main-checks-r1.json independently queried exact commit checks",
+    "local_independent_unit_tests": 179,
+    "local_independent_browser_tests": 7,
+    "browser_scope": "real app/reader with synthetic project metadata and pinned canonical bytes; missing mappings and saved pending execution refuse; no admitted source query",
+    "github_write_success": false,
+    "public_sources_admitted": false,
+    "prior_main_ci_observation": {
+      "status": "pending",
+      "pending_check": "e2e-demo-handoff",
+      "basis": "root observation; terminal exact-main receipt not yet supplied"
+    },
+    "ci_observed_at": "2026-10-06T06:22:29.453482Z",
+    "stable_observations": 2,
+    "success_checks": 5
+  },
+  "fx": {
+    "candidate_id": "d1-ecb-fx",
+    "bounded_semantic_plan": "accepted as candidate research direction after independent review r1",
+    "acceptance_authority": "fx/root-acceptance-r1.json; distinct from specialist pending-status historical document",
+    "review_blockers": 0,
+    "review_majors": 0,
+    "review_minors": 0,
+    "canonical_assertion_edits": false,
+    "new_core_concept_approved": false,
+    "implementation_policy_approved": false,
+    "selected": false,
+    "implemented": false,
+    "published": false,
+    "candidate_retained": true,
+    "contracts": [
+      "Native quote is positive exact decimal quote-currency units per EUR on reference calendar date, distinct from setting/publication instant and AW average/final rate",
+      "Directed pair contextual derivation QperEUR/BperEUR uses identical date/snapshot and positive legs; preserve raw lexical strings and provenance; no missing-day fill or obsolete-successor substitution",
+      "CLDR48 exact-code tender-true inclusive day context has regional multiplicity; not country identity or global validity"
+    ],
+    "remaining_gates": [
+      "faithful canonical custom source-data terms; no invented SPDX/LicenseRef or model/data rights conflation",
+      "product-specific paid access notice decision",
+      "identity/time/precision/rounding policy",
+      "refresh/corrections/last-good freshness/cadence/owner/resource implementation",
+      "exact-decimal storage/wire behavior",
+      "reviewed canonical concept/model/bindings and publisher validation",
+      "registry/Directory acceptance retaining source terms",
+      "actual DataTug discovery/query positive and negative browser journey"
+    ],
+    "limits": [
+      "full frozen ECB history through 2026-10-02; fresh daily through 2026-10-05",
+      "no fresh full history refetch or SDMX parity",
+      "no updater/runtime serving/publication acceptance"
+    ]
+  },
+  "programme": {
+    "w1_complete": false,
+    "b1_open": true,
+    "phases4_5_6_open": true,
+    "w2_w7_retained": true,
+    "f1_f6_retained": true,
+    "geo_ror_admission": false,
+    "availability_changed": false,
+    "paid_query": false,
+    "cloud_run_test": false
+  },
+  "verification_repairs": {
+    "review": "Independent PR103 r1: B1 old count invariant; M1 missing packet CI step",
+    "B1": "two exact IDs explicitly allowed; historical source records unchanged",
+    "M1": "packet verifier runs in ledger CI"
+  }
+}

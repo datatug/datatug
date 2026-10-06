@@ -38,3 +38,5 @@ jobs:
         run: python3 -B spec/research/public-data-fabric/evidence/w1-p1-wire-addendum/verify.py
       - name: Check BigQuery research packet and original ledger preservation
         run: python3 -B spec/research/public-data-fabric/evidence/bigquery-dual-runtime/verify.py
+      - name: Check W1 transport, bounded app and FX research evidence
+        run: python3 -B spec/research/public-data-fabric/evidence/w1-transport-app-fx/verify.py
