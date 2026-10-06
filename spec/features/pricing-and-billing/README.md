@@ -11,11 +11,11 @@ status: Draft
 
 ## Summary
 
-DataTug has four advertised plans: Free, Pro, Business and Enterprise. Business has a fixed base including seven billable monthly active users (MAU), €20 for each additional MAU, and optional €192-per-unit annual prepaid additional capacity. The plan shape comes from the founder's 2026-10-06 strategy, copied verbatim in the private DataTug backstage pricing documents. His later explicit choice is EUR-only for now, with the same numeric prices; the attachment's dollar signs and an earlier three-currency discussion do not authorize a USD display, estimate or selector. This Draft distinguishes decided amounts from proposed activity/lifecycle semantics and open implementation proof. The shared money/capacity mechanics must be configurable for other Sneat products; DataTug alone defines which DataTug operations qualify as activity.
+DataTug has four advertised plans: Free, Pro, Business and Enterprise. Business has a fixed base including seven billable monthly active users (MAU), €20 for each additional MAU, and optional €192-per-unit prepaid additional capacity in independently paid twelve-month lots. The plan shape comes from the founder's 2026-10-06 strategy, copied verbatim in the private DataTug backstage pricing documents. His later explicit choice is EUR-only for now, with the same numeric prices; the attachment's dollar signs and an earlier three-currency discussion do not authorize a USD display, estimate or selector. This Draft distinguishes decided amounts from proposed activity/lifecycle semantics and open implementation proof. The shared money/capacity mechanics must be configurable for other Sneat products; DataTug alone defines which DataTug operations qualify as activity.
 
 This supersedes the Team/Business/Company tier ladder, including the old Business $199/20-contributor/6,000-AI-question meaning. The founder authorized implementation of sufficiently specified Business pieces; this artifact does not itself prove or arm **live** Business checkout or usage billing. Existing EUR Pro subscribers, price identities, entitlements and invoices remain valid until a separately reviewed migration; equal numeric EUR display does not itself authorize changing their provider prices or terms.
 
-The dated [engineering notes](engineering-notes.md) record provider and source boundaries, the proposed product-neutral component model, and the gates that remain before a charge can be armed.
+The dated [engineering notes](engineering-notes.md) record provider and source boundaries. Their common-anniversary/next-boundary prepaid suggestion is superseded by the founder decisions below. The [Business implementation plan](https://github.com/sneat-co/workbench/blob/main/spec/plans/github.com/datatug/datatug/business-usage-pricing/README.md) records the current contracts, recommendations and activation gates.
 
 ## Problem
 
@@ -29,9 +29,9 @@ At website base `6d96742`, `apps/io/src/data/pricing.mjs` still lists `team`, `b
 
 1. A visitor sees Free €0, Pro €19/month, Business from €99/month and Enterprise by contact. Desktop compares Free/Pro/Business in one row with a full-width Enterprise card underneath; mobile stacks them in that order. The page distinguishes working features from coming ones and does not offer Business purchase before billing is ready. No USD estimate or currency selector is part of this decision.
 2. A Pro buyer retains the account-bound Pro purchase and entitlement journey. The public €19 Pro buy action is enabled only when a verified EUR quote/catalogue matches the displayed period, amount and offer terms; otherwise purchase stays unavailable. A mismatch refuses before provider session creation. Existing EUR subscribers continue under their recorded price identities until an explicit migration.
-3. A future Business buyer sees €99 monthly base including seven billable MAU, unlimited invitations, and €20 for each uncovered MAU in the monthly period. Annual base follows the two-months-free direction (€990 from current stated numbers); separately, €192 prepaid additional capacity covers one extra MAU in each of twelve monthly windows. Only Pro/Business **base subscriptions** receive the 30% launch discount. Usage at €20 and prepaid capacity at €192 are never launch-discounted.
+3. A future Business buyer sees €99 monthly base including seven billable MAU, unlimited invitations, and €20 for each uncovered MAU in the monthly period. Annual base follows the two-months-free direction (€990 from current stated numbers); separately, €192 prepaid additional capacity buys one extra monthly covered MAU for its own twelve-month term. Customers may purchase additional lots at any time and combine overlapping lots; each paid lot preserves its own start/end unless the customer explicitly accepts an extension quote. Only Pro/Business **base subscriptions** receive the 30% launch discount. Usage at €20 and prepaid capacity at €192 are never launch-discounted.
 4. A successful, authenticated, user-initiated hosted DataTug operation is attributed to one verified payer and period. The first qualifying operation for a user/payer/period counts once. Passive or failed events count zero. The monthly statement identifies the evidence, included seven, applicable committed units, uncovered units and charge.
-5. The bill can be replayed and corrected without duplicate charges. Provider invoice finalization, late-event correction and mixed-interval renewal are separately proved before Business purchase opens.
+5. The bill can be replayed and corrected without duplicate charges. Provider invoice finalization, late-event correction, monthly/annual base renewal and independently paid capacity purchases are separately proved before Business purchase opens. Mixed-interval subscriptions remain an optional composition, not a prerequisite.
 6. A Business Space can turn on SSO during signup or later in Space settings. If SSO is already active for that Space through another Sneat product, the DataTug purchase uses that entitlement without a second €99 charge. Ending DataTug Business must not cancel Space SSO while another product still uses it. A paid activation, not a mere identity-provider sign-in, governs the SSO charge.
 
 #### REQ:four-plan-offer
@@ -48,7 +48,7 @@ When a plan ends, the affected cloud projects MUST become read-only and unable t
 
 #### REQ:business-components
 
-Business MUST calculate uncovered monthly units as max(0, counted MAU minus seven included minus prepaid capacity applicable to that window), at the configured €20 unit price. Annual prepaid capacity MUST cover the configured number in each of twelve monthly windows without banking.
+Business MUST calculate uncovered monthly units as max(0, counted MAU minus seven included minus prepaid capacity applicable to that window), at the configured €20 unit price. Each confirmed prepaid purchase MUST preserve its independently paid twelve-month term, add to overlapping active paid lots, and reset unused monthly capacity without banking. A later purchase MUST NOT reset or shorten an earlier paid term. An optional accepted alignment extension MUST preserve the earlier paid term and charge only its added duration. Exact mid-window coverage and partial-month extension pricing remain the plan's labeled recommendations until approved.
 
 #### REQ:discount-components
 
@@ -74,7 +74,7 @@ Sneat Space SSO MUST use existing Sneat OIDC/SAML rails as the starting capabili
 | Pro base | €19/month; €190/year | Individual professional use; preserve compatible checkout and owner-scoped included AI. |
 | Business base | €99/month; €990/year | Includes seven billable MAU; no conventional seat purchase. |
 | Business overage | €20/additional MAU/month | No initial volume tiers. |
-| Business prepaid additional capacity | €192/unit/year | One extra covered unit in each of twelve windows; no banking. |
+| Business prepaid additional capacity | €192/unit/twelve-month term | Independently paid additive lots; no banking. Optional explicitly quoted expiry alignment preserves existing paid time. |
 | Separate Sneat Space SSO service | €99/month per Space | One independently paid service across Sneat products; no DataTug launch discount. |
 | Enterprise | Custom/contact | No speculative self-service price or entitlements. |
 
@@ -94,7 +94,11 @@ DataTug's adapter emits stable idempotent operation identity and non-sensitive e
 
 ### Proposed prepaid lifecycle and provider boundary
 
-N prepaid additional units supply N covered units in each of twelve monthly windows; unused units expire at each boundary. One possible increase policy is next-monthly-boundary effectiveness with remaining-term charge to a common annual anniversary, avoiding partial-month discount arbitrage. This timing is **proposed, not approved**. Purchase timing, proration, increase/decrease, renewal, failed payment, cancellation and refund terms remain open. The founder's question about annual capacity has not yet been answered.
+The founder confirmed that a customer can buy extra capacity at any time and combine purchases. Each purchase has its own twelve-month term after confirmed payment: ten extra units followed four months later by five extra units gives fifteen extra units for eight months, then five extra units for four months. The seven base-included MAU remain separate. These are capacity rights that refresh monthly, not money credits consumed once.
+
+The founder also proposed an optional extension to align an existing lot to a new lot's expiry. Offer this as a separate explicit quote, retaining purchase lineage: in the example, the existing ten units retain their eight already-paid months; adding four months at the stated €16 monthly equivalent costs €640, and the new five-unit year costs €960, for €1,600 due. The customer can instead keep independent expiry dates. Alignment MUST NOT silently reprice, reset or discard paid time. This optional design direction is recorded for review; no provider flow or exact partial-month policy is thereby proved.
+
+Payment verification establishes the purchase start, without imposing a next-month activation delay. A twelve-month lot bought mid-window can intersect thirteen subscription windows. The plan explicitly recommends a treatment for those partial windows and exact extension-date arithmetic, separately from the decided independent-lot purchase rule. Renewal, decrease, base cancellation and component refunds also have concrete labeled recommendations in that plan.
 
 Current Stripe mixed-interval subscriptions can be an engineering option for annual base/prepay plus monthly usage, but Checkout Sessions cannot create that mixed subscription directly. This is not a working Business checkout. A reviewed Paymentus create/reconcile path, authoritative activity ledger, invoice/correction fixtures and founder-run provider tests gate activation. Preserve Pro's single-item Checkout. Enterprise examples are possibilities, not shipped features.
 
@@ -164,7 +168,7 @@ SSO-only payment is not a DataTug base subscription: it cannot claim or retain a
 
 ## Open Questions
 
-- **OQ: annual-commitment-lifecycle.** When can capacity be purchased? Does a midterm buy align to the base anniversary or start a term? Which boundary begins capacity, how are increases prorated, when do decreases take effect, and what happens on renewal, cancellation, failed payment and refunds? The common-anniversary suggestion is not approved.
+- **OQ: prepaid-edge-and-service-lifecycle.** Independently additive twelve-month lots bought at any time are decided; optional explicit alignment is proposed by the founder. Review the plan's partial-window coverage, exact alignment-pricing, renewal/decrease, failed-payment, cancellation and component-refund recommendations before arming charges; common-anniversary or next-month activation is not the default.
 - **OQ: activity-trigger-proof.** Which hosted endpoints emit complete server-side qualifying-operation receipts, including cached AI and committed mutations? The proposed semantic set needs implementation/contract review.
 - **OQ: invoice-close-and-corrections.** Prove event cutoff, meter timing, duplicate/late correction and credit-note flow against test-mode provider evidence before Business billing opens.
 - **OQ: Business entitlements.** The former $199 Business contributor cap, 6,000-AI allowance and protected-project assumptions are obsolete. Define the €99 plan's included AI, protected access and real hosted sharing availability before paid checkout.
