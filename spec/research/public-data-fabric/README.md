@@ -1,5 +1,7 @@
 # Public Data Fabric programme
 
+Latest dated delivery observation (2026-10-06): [W1/BigQuery component receipts and generator correction](evidence/w1-delivery-catchup/README.md) preserve original failures/pending states, exact public landings/releases and all existing research. Phase 4 remains active; programme B1, phases 5/6, public Geo/ROR admission and live product acceptance remain open.
+
 Snapshot: 2026-10-04. Owner: main orchestrator. [Owning Feature](../../features/public-data-fabric/README.md).
 
 **Phases 0, 0.5, 1 and 2 passed and landed. Root now accepts bounded Phase 3 architecture at independently reviewed source `caa9e75d9b24c8ddd95266bc46d97670d492849f`.** [The acceptance receipt](evidence/p3-phase-acceptance.json) preserves distinct architect, reconciler and adversarial reviewer identities, r1/r2 history, exact source/base/CI and immutable hashes. This gate/receipt delta still requires final independent review, exact-head CI and root WB landing. Seven scenario targets and 37 unique public recordsets remain conditional; no implementation or launch acceptance is claimed. Existing 263 accepted / 19 rejected / 888 unresolved assertions are unchanged. B1 and selected integration conditions remain OPEN/BLOCKING at phases 4/5/6. Six demo fixtures and TPC-H exclusion remain retained; earlier dated pending/failure snapshots below are historical evidence.
