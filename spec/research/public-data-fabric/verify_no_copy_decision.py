@@ -12,10 +12,33 @@ ROOT = BASE.parents[2]
 PORTFOLIO = 'spec/research/public-data-fabric/evidence/p3-portfolio.json'
 RECEIPT = BASE / 'evidence/no-copy-access-decision.json'
 SUPERSEDED_FILES = frozenset(['spec/research/public-data-fabric/p3-portfolio.md', 'spec/research/public-data-fabric/evidence/p3-portfolio.json', 'spec/research/public-data-fabric/evidence/w1-followup-decisions/verify.py', 'spec/research/public-data-fabric/evidence/w1-transport-app-fx/verify.py', '.github/workflows/public-data-fabric.yml', 'spec/research/public-data-fabric/README.md', 'spec/features/public-data-fabric/README.md'])
+APPROVED_EVIDENCE_ADDITIONS = {
+    'bigquery-catalogue-corrections-20261006': '4d7da4bf0c36c71ee2caba31d7876fe833407920af55cfda88bd3df4571d7ca3',
+    'bigquery-catalogue-discovery-20261006': '767265e46e8c234afaa9048460ceb81246787177651fdea104bcb224c98cd512',
+    'bigquery-catalogue-independent-r1-20261006': '142799a479783bbd6d5767edaa0ece8077d9f7ec61b95e51666006a04bd0021c',
+}
 
 
 def digest(raw):
     return hashlib.sha256(raw).hexdigest()
+
+
+def check_evidence_additions(records, original_keys, approved):
+    current_keys = {p.stem for p in records.glob('*.json') if p.name != 'README.json'}
+    assert not set(approved) & original_keys, 'addition overlaps original evidence'
+    assert current_keys == original_keys | set(approved), 'missing or unknown evidence record'
+    for key, expected in approved.items():
+        assert digest((records / (key + '.json')).read_bytes()) == expected, ('added evidence tampered', key)
+    return set(approved)
+
+
+def approved_evidence_additions(root):
+    receipt = json.loads((root / RECEIPT.relative_to(ROOT)).read_text())
+    directory = 'spec/research/public-data-fabric/evidence/$records'
+    names = subprocess.check_output(['git', '-C', str(root), 'ls-tree', '-r', '--name-only', receipt['base_commit'], '--', directory], text=True).splitlines()
+    original_keys = {Path(name).stem for name in names if name.endswith('.json') and Path(name).name != 'README.json'}
+    assert len(original_keys) == 183, 'original evidence count'
+    return check_evidence_additions(root / directory, original_keys, APPROVED_EVIDENCE_ADDITIONS)
 
 
 def preserved_bytes(root, name, expected):
@@ -64,12 +87,16 @@ def main():
         for collection in ['candidates', 'assertions', 'implementation', 'gates', 'questions', 'evidence']:
             if name.startswith('spec/research/public-data-fabric/' + collection + '/$records/') and name.endswith('.json') and Path(name).name != 'README.json':
                 counts[collection] = counts.get(collection, 0) + 1
-    # New records are not permitted by this programme correction.
+    # Only the three separately authorized, hash-bound catalogue evidence records
+    # extend the unchanged original ledger. No other addition is permitted.
+    additions = approved_evidence_additions(ROOT)
     for collection, count in counts.items():
         current_count = sum(p.name != 'README.json' for p in (BASE / collection / '$records').glob('*.json'))
-        assert current_count == count, (collection, current_count, count)
+        expected_count = count + (len(additions) if collection == 'evidence' else 0)
+        assert current_count == expected_count, (collection, current_count, expected_count)
     assert counts['candidates'] == 699 and counts['assertions'] == 1177
-    print(json.dumps({'unchanged_original_records': counts, 'original_portfolio_fields_unchanged': True, 'scenarios': 7, 'unique_recordsets': 37, 'original_dispositions': 57, 'no_activation_or_copy_authorization': True}))
+    assert counts['evidence'] == 183 and counts['evidence'] + len(additions) == 186
+    print(json.dumps({'unchanged_original_records': counts, 'hash_bound_evidence_additions': sorted(additions), 'total_evidence': 186, 'original_portfolio_fields_unchanged': True, 'scenarios': 7, 'unique_recordsets': 37, 'original_dispositions': 57, 'no_activation_or_copy_authorization': True}))
 
 
 def self_test():
@@ -106,6 +133,38 @@ def self_test():
             checks += 1
         else:
             raise AssertionError('superseding decision tampering accepted')
+        records = root / 'synthetic-evidence'
+        records.mkdir()
+        (records / 'original.json').write_bytes(b'{"historical":"synthetic"}\n')
+        approved = {'addition-' + str(i): digest(b'{"synthetic":"documentation"}\n') for i in range(3)}
+        for key in approved:
+            (records / (key + '.json')).write_bytes(b'{"synthetic":"documentation"}\n')
+        assert check_evidence_additions(records, {'original'}, approved) == set(approved)
+        for key in approved:
+            path = records / (key + '.json')
+            path.write_bytes(b'{"synthetic":"changed"}\n')
+            try:
+                check_evidence_additions(records, {'original'}, approved)
+            except AssertionError:
+                checks += 1
+            else:
+                raise AssertionError(('added evidence tampering accepted', key))
+            path.write_bytes(b'{"synthetic":"documentation"}\n')
+        (records / 'unknown-extra.json').write_bytes(b'{}\n')
+        try:
+            check_evidence_additions(records, {'original'}, approved)
+        except AssertionError:
+            checks += 1
+        else:
+            raise AssertionError('unknown extra evidence accepted')
+        (records / 'unknown-extra.json').unlink()
+        (records / 'original.json').unlink()
+        try:
+            check_evidence_additions(records, {'original'}, approved)
+        except AssertionError:
+            checks += 1
+        else:
+            raise AssertionError('original evidence removal accepted')
         print(str(checks) + ' synthetic preservation/tamper refusals passed')
 
 

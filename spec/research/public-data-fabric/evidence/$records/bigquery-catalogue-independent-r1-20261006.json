@@ -1,0 +1,12 @@
+{
+  "commit": "14735c60589ab22361dc0d54ad7491ba7ae96a04",
+  "independent": true,
+  "observed_at": "2026-10-06T11:44:00Z",
+  "outcome": "partial",
+  "path": "spec/research/public-data-fabric/evidence/bigquery-catalogue-2026-10-06.md",
+  "repository": "https://github.com/GoogleCloudPlatform/public-datasets-pipelines",
+  "review_stage": "discovery",
+  "reviewer": "bigquery-catalog-independent-sol",
+  "summary": "Candidate IDs: bq-source-public-data, bq-opportunity-dual-runtime, bq-data-noaa-gsod, bq-data-citibike. Original independent research review r1: blockers=0 majors=1 minors=1 land=no. BQ-R1-1 major: disclose NOAA non-US distribution/commercial-service re-export restriction. BQ-R1-2 minor: preserve both full station locators bigquery-public-data.noaa_gsod.stations and bigquery-public-data.noaa.gsod_stations. Existing ECB-only source contract cannot encode native BigQuery metadata, access or provider-retention facts. Publication and all execution gates remain open. Independent input report SHA256 08c0fee8173feaf923e8e6ee05ef5773249f4034ce9466abab797c3485f0b321; independent review SHA256 68dc01031392e57ca99c3a059ea67bc1cb4da76073bcb3b8554dab4b9df7b9cb. Historical review is not a passing programme gate.",
+  "title": "BigQuery catalogue independent research review r1 — corrections required"
+}
