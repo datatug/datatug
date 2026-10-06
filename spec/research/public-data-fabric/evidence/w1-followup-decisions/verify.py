@@ -12,7 +12,7 @@ HERE = Path(__file__).resolve().parent
 BASE = HERE.parents[1]
 ROOT = HERE.parents[4]
 sys.path.insert(0, str(BASE))
-from verify_no_copy_decision import preserved_bytes
+from verify_no_copy_decision import approved_evidence_additions, preserved_bytes
 
 
 def digest(raw):
@@ -138,6 +138,7 @@ def main():
         },
         'questions': {'bigquery-dual-runtime-prerequisites'},
     }
+    later_records['evidence'].update(approved_evidence_additions(ROOT))
     for table, count in manifest['baseline_record_counts'].items():
         records = BASE / table / '$records'
         additions = later_records.get(table, set())
