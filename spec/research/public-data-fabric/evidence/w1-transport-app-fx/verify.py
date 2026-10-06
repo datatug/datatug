@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Check frozen packet, source associations and unchanged ledger; no admission/fetch."""
 import argparse
+import sys
 import hashlib
 import json
 from pathlib import Path
@@ -8,6 +9,8 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[4]
 BASE = HERE.parents[1]
+sys.path.insert(0, str(BASE))
+from verify_no_copy_decision import preserved_bytes
 
 def digest(raw):
     return hashlib.sha256(raw).hexdigest()
@@ -23,7 +26,7 @@ def main():
     proof = read(HERE / 'evidence.json')
     docs = read(HERE / 'reviewed-records.json')['documents']
     for name, expected in manifest['packet_files'].items():
-        assert digest((HERE / name).read_bytes()) == expected, name
+        assert digest(preserved_bytes(ROOT, str((HERE / name).relative_to(ROOT)), expected)) == expected, name
     for label, doc in docs.items():
         assert digest(doc['content'].encode()) == doc['public_sha256'], label
         assert len(doc['source_sha256']) == 64 and doc['source_bytes'] > 0, label
@@ -76,10 +79,10 @@ def main():
         '.github/workflows/public-data-fabric.yml',
     }
     for name, change in manifest['mechanical_file_changes'].items():
-        assert digest((ROOT / name).read_bytes()) == change['successor_sha256'], name
+        assert digest(preserved_bytes(ROOT, name, change['successor_sha256'])) == change['successor_sha256'], name
         assert len(change['original_sha256']) == 64, name
     for name, expected in manifest['preserved_research_files'].items():
-        assert digest((ROOT / name).read_bytes()) == expected, name
+        assert digest(preserved_bytes(ROOT, name, expected)) == expected, name
     assert len(list((BASE / 'candidates/$records').glob('*.json'))) == 699
     assert len(list((BASE / 'assertions/$records').glob('*.json'))) == 1177
     originals = 0

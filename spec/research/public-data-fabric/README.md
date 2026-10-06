@@ -1,5 +1,7 @@
 # Public Data Fabric programme
 
+Current access decision (2026-10-06): [original-resource access and specific copy authorization](p3-portfolio.md#superseding-access-decision--6-october-2026) supersedes earlier snapshot/refresh plans. Direct DALgo JS where verified capability permits, OVDB Go proxy otherwise. Geo/ROR copied-provider activation is frozen with authorization/alternative pending; existing data and ECB bootstrap remain inactive and preserved until working alternatives and authorized disposition. BigQuery A0 stays a priority parallel lane. Earlier dated observations below remain evidence, not current copy or activation authority.
+
 Latest reviewed follow-up (2026-10-06): [transport-only CORS delivery, merged bounded app slice and accepted ECB semantic plan](evidence/w1-transport-app-fx/README.md). App exact-main CI passed at the recorded merge; immutable serving, public admission, ECB canonical custom terms/refresh/serving and real browser acceptance remain open. Availability and all prior inventory/records are preserved.
 
 Latest dated delivery observation (2026-10-06): [W1/BigQuery component receipts and generator correction](evidence/w1-delivery-catchup/README.md) preserve original failures/pending states, exact public landings/releases and all existing research. Phase 4 remains active; programme B1, phases 5/6, public Geo/ROR admission and live product acceptance remain open.

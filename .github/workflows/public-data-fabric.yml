@@ -12,6 +12,7 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
+          fetch-depth: 0
       # The hub permits GitHub-owned actions and selected third-party actions;
       # inGitDB's action is outside that policy. Use the same checksum-verified
       # release already pinned by ModelSpec registry's validation workflow.
@@ -26,6 +27,8 @@ jobs:
           echo "${LEDGER_INGITDB_SHA256}  ${RUNNER_TEMP}/${archive}" | sha256sum --check --strict
           tar --extract --gzip --file "${RUNNER_TEMP}/${archive}" --directory "${RUNNER_TEMP}" ingitdb
           "${RUNNER_TEMP}/ingitdb" validate --path .
+      - name: Check no-copy access decision and historical evidence conservation
+        run: python3 -B spec/research/public-data-fabric/verify_no_copy_decision.py --self-test
       - name: Check relationships, evidence, gates and invalid-state mutations
         run: python3 spec/research/public-data-fabric/check.py --self-test
       - name: Check deterministic research queries against counterexample fixtures

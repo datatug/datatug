@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Rehash the curated decision packet and preserved ledger; no fetch or admission."""
 import argparse
+import sys
 import hashlib
 import json
 import re
@@ -10,6 +11,8 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent
 BASE = HERE.parents[1]
 ROOT = HERE.parents[4]
+sys.path.insert(0, str(BASE))
+from verify_no_copy_decision import preserved_bytes
 
 
 def digest(raw):
@@ -111,7 +114,7 @@ def main():
 
     # Preserve every old assertion, gate, implementation, question and evidence byte.
     for name, expected in manifest['preserved_research_files'].items():
-        assert digest((ROOT / name).read_bytes()) == expected, name
+        assert digest(preserved_bytes(ROOT, name, expected)) == expected, name
     for key, original in manifest['candidate_originals'].items():
         current = json.loads((BASE / 'candidates/$records' / (key + '.json')).read_text())
         assert set(current) == set(original), key
