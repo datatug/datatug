@@ -11695,5 +11695,146 @@
     "canonical-semantic-ingestion",
     "p3-selected-scenario-readiness",
     "corpus-publication"
-  ]
+  ],
+  "superseding_access_decision": {
+    "id": "public-data-original-provider-no-copy-20261006",
+    "decision_date": "2026-10-06",
+    "authority": "Specific user correction: any copy/snapshot needs authorization; original-provider direct browser access when feasible, OVDB proxy otherwise; alternative works before bootstrap deletion.",
+    "scope": "Programme access-mode correction only; preserves original research, semantic dispositions and dated evidence; no copy, deletion, paid execution, deployment or activation.",
+    "supersedes_fields": [
+      "recordset_integration_modes.allowed_mode",
+      "first_wave_operational_scope"
+    ],
+    "historical_fields_preserved": [
+      "recordset_integration_modes",
+      "first_wave_operational_scope"
+    ],
+    "recordset_ids": [
+      "d1-cldr-codes",
+      "d1-cldr-currencies",
+      "d1-cldr-money-digits",
+      "d1-cldr-names",
+      "d1-cldr-units",
+      "d1-cldr-week",
+      "d1-cldr-windows-zones",
+      "d1-ecb-fx",
+      "d1-geo-admin1",
+      "d1-geo-alternates",
+      "d1-geo-countries",
+      "d1-geo-places",
+      "d1-govuk-holidays",
+      "d1-lei-entities",
+      "d1-lei-exceptions",
+      "d1-lei-relationships",
+      "d1-ror-organisations",
+      "d1-tz-rules",
+      "d1-tz-zones",
+      "d1-wb-economies",
+      "d1-wb-indicators",
+      "d1-wb-observations",
+      "d2-rs-cisa",
+      "d2-rs-ea-measures",
+      "d2-rs-ea-readings",
+      "d2-rs-ea-stations",
+      "d2-rs-ember-year",
+      "d2-rs-fsa",
+      "d2-rs-iana-http",
+      "d2-rs-iana-ip",
+      "d2-rs-iana-media",
+      "d2-rs-iana-ports",
+      "d2-rs-naptan",
+      "d2-rs-nptg",
+      "d2-rs-nvd",
+      "d2-rs-orr",
+      "d2-rs-power"
+    ],
+    "default_mode": "Original provider resource described by Git-owned OVDB definition; DALgo JS direct after CORS/auth/security/capability/cost verification, OVDB Go proxy/native adapter otherwise.",
+    "retention": "none unless specifically user-authorized; bounded transient current-response processing/display only",
+    "authorization_required_for": [
+      "source or result snapshot/copy",
+      "real-data fixture",
+      "retained cache/replay",
+      "paging spool",
+      "browser input/output/history/recovery",
+      "export/download/save",
+      "source-bearing logs/telemetry",
+      "provider-side retained results where applicable"
+    ],
+    "authorization_record_requires": [
+      "source/data",
+      "source and result stores",
+      "location",
+      "scope/use",
+      "retention duration",
+      "owner",
+      "revocation behavior"
+    ],
+    "authorization_not_inferred_from": [
+      "source licence",
+      "query click",
+      "root review",
+      "operator/client settings",
+      "prior unrelated history decision",
+      "existing accidental copies"
+    ],
+    "required_proofs": [
+      "retained paging refusal before upstream reads/slot reservation/spooling across all snapshot entrypoints and mixed-source queries",
+      "complete owned storage/cache/export/log sink inventory",
+      "synthetic success/empty/error/cancel/navigation/query-change sink and teardown tests",
+      "owned adapter/server/edge/browser/service-worker no-store enforcement",
+      "original-provider and execution-authority identities bound to terms/usage/live-read evidence",
+      "actual local/public bounded live journeys without retained source/result bytes",
+      "exact semantic/rights/canonical definition/model/decoder/profile admission before activation",
+      "paid applicability/notices or enforced free-only boundary before affected paid execution"
+    ],
+    "w1": {
+      "candidate_ids": [
+        "d1-geo-countries",
+        "d1-geo-places",
+        "d1-geo-admin1",
+        "d1-geo-alternates",
+        "d1-ror-organisations"
+      ],
+      "value": "Country lookup and exact ROR-place-country paths; intended global coverage/native keys/statuses/missing-reference behavior preserved.",
+      "copied_provider_activation": "frozen; authorization or working original-resource alternative pending",
+      "next_gate": "Prove bounded authoritative-resource access and closure without retention, or obtain specific user authorization; no refresh/import/global snapshot freeze."
+    },
+    "ecb": {
+      "resource_scope": "daily XML only; historical candidate research unchanged",
+      "public_activation": "NO-GO pending exact final semantic/rights/read/no-retention and actual journey gates",
+      "bootstrap": "inactive; preserve until alternative works and owner-authorized disposition"
+    },
+    "bigquery": {
+      "priority": "parallel A0 lane preserved",
+      "gates": "required Go and JavaScript, identity/project/location/schema, dry-run/cost approval, same-job receipts, source rights and scoped provider/consumer retention authorization remain independent",
+      "snapshot_api_note": "receipt-only Snapshot API is not itself a retained row store"
+    },
+    "existing_artifact_disposition": "Preserve data and ownership; no deletion or refresh; source-specific working alternative and explicit authorized disposition required.",
+    "review_inputs": [
+      {
+        "name": "report-r2.md",
+        "lane": "data-fabric-ecb-http-ovdb-architecture-sol",
+        "sha256": "1536fc471f13819a0d61ca9bac54f2512d587ab8f4f6fb5d9faf96d183cca7b5",
+        "scope": "Accepted design/conditional proposal; not final implementation or activation receipt"
+      },
+      {
+        "name": "independent-r2.md",
+        "lane": "data-fabric-ecb-http-ovdb-architecture-sol",
+        "sha256": "b9e34f98005b36b039ab5253bce5603e63c67f3c88f022858629743a9c39d266",
+        "scope": "Accepted design/conditional proposal; not final implementation or activation receipt"
+      },
+      {
+        "name": "report-r2.md",
+        "lane": "data-fabric-ecb-live-semantic-gate-sol-20261006",
+        "sha256": "31926358c60137fcdb526e0897f43e16e976e2c95da96596040d118aa7144098",
+        "scope": "Accepted design/conditional proposal; not final implementation or activation receipt"
+      },
+      {
+        "name": "report-r2.md",
+        "lane": "data-fabric-ecb-live-semantic-independent-sol-20261006",
+        "sha256": "814b88794437dd1d7a8a562f996573ea3bd451fc5159a8e5c909dc061f259d2d",
+        "scope": "Accepted design/conditional proposal; not final implementation or activation receipt"
+      }
+    ]
+  }
 }

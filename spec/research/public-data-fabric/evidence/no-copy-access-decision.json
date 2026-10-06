@@ -1,0 +1,42 @@
+{
+  "id": "public-data-original-provider-no-copy-20261006",
+  "base_commit": "3fbd2e93d67904339f232815294422395f40608e",
+  "scope": "Superseding authored programme metadata and preservation checks only. Original receipts/hashes remain unchanged. No real source bytes, admission, deletion or copy authorization.",
+  "superseded_files": {
+    "spec/research/public-data-fabric/p3-portfolio.md": {
+      "original_sha256": "65c5ee4eab8d76c9acc1104821a89b244682ba99c6769b7f92cca7bc2f7470a4",
+      "successor_sha256": "ffe97bcb6d319ea4820679a02e66b02f3e169f6e1c95154e63687613aa296b9e",
+      "reason": "Superseding access decision and exact historical-evidence compatibility"
+    },
+    "spec/research/public-data-fabric/evidence/p3-portfolio.json": {
+      "original_sha256": "74dbc3605ca4ffba9ec44304f727537b39378cf2015756b88c606df9a4e0bbd6",
+      "successor_sha256": "03bcc2a1f2bec0fafe0f9791b171dc000d1ffa67fc28db36b19a1d155972e0fa",
+      "reason": "Superseding access decision and exact historical-evidence compatibility"
+    },
+    "spec/research/public-data-fabric/evidence/w1-followup-decisions/verify.py": {
+      "original_sha256": "7246504b0494626c13dfa623deba84fcf0718449b2ee3220094557e88d3e5a16",
+      "successor_sha256": "797ba73fb89ce0c068471d3fd45716e023c93a219d58002a5f13b028aa607a9a",
+      "reason": "Verify original historical hashes and reviewed successor metadata; full history available in CI"
+    },
+    "spec/research/public-data-fabric/evidence/w1-transport-app-fx/verify.py": {
+      "original_sha256": "75b75274130549696a7997f3d43946ae8433a580d1ad71b1fe39f22cdb8b78b1",
+      "successor_sha256": "73f85926bb1c8e3b195a561eb05e9b8832ddecf00e3efb75e4706435a7f20a25",
+      "reason": "Verify original historical hashes and reviewed successor metadata; full history available in CI"
+    },
+    ".github/workflows/public-data-fabric.yml": {
+      "original_sha256": "bcb22f49bad767df3f1acb0a7d5b422c765410e9d69844f7db18bf5040d560af",
+      "successor_sha256": "410ed0d0e10fbe0039559f4e4d5d88a210ab31bc694c5ec226243604ab8bd73e",
+      "reason": "Verify original historical hashes and reviewed successor metadata; full history available in CI"
+    },
+    "spec/research/public-data-fabric/README.md": {
+      "original_sha256": "3bda551da1816951cb6a4e11b15955c58f1b5e61400685f5231fbf7404b35029",
+      "successor_sha256": "217f126dae81d689648505512131bd5dd5a0dce9fcd51aa94ed69d262987171c",
+      "reason": "Surface superseding decision without rewriting historical receipts or status"
+    },
+    "spec/features/public-data-fabric/README.md": {
+      "original_sha256": "9df5920af0f0eecc19a50934966fee3abda7d60a264ffea1c73fe3e539144c16",
+      "successor_sha256": "97a52133fa7ba560ed7e61f6daef3889f8a7d115d35ee87428814bcf00546bc4",
+      "reason": "Surface superseding decision without rewriting historical receipts or status"
+    }
+  }
+}
