@@ -5,13 +5,8 @@
   "superseded_files": {
     "spec/research/public-data-fabric/p2-reconciliation.md": {
       "original_sha256": "39e41fce55263a9d9b6568db09f32c584f4278f4830850d8513ef9d274779b60",
-      "successor_sha256": "d88dca873c313cc294a32e6731ab061bb074527699f7d1a03d7b5f6ca582daf9",
+      "successor_sha256": "92192f6803694487d2522680f3982dc5d3cc13f18666172bea736cb3c2fbba71",
       "reason": "Additive editorial clarification of ECB source reference date; original Phase 2 prose remains pinned"
-    },
-    "spec/research/public-data-fabric/assertions/$records/d1-mapping-ecb-rate.json": {
-      "original_sha256": "8ba8e36945ad2e4a8374222c8026f895ed5756d349811e0c06f5450e867b9575",
-      "successor_sha256": "7e6ff985854cdee8498326918af567d8f2fa86a4a5655ae48ef0aff61adfa83e",
-      "reason": "Reviewed ECB reference-date correction; prior status, endpoints and original evidence IDs preserved"
     },
     "spec/research/public-data-fabric/p3-portfolio.md": {
       "original_sha256": "65c5ee4eab8d76c9acc1104821a89b244682ba99c6769b7f92cca7bc2f7470a4",

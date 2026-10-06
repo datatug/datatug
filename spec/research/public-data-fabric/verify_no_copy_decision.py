@@ -11,7 +11,7 @@ BASE = Path(__file__).resolve().parent
 ROOT = BASE.parents[2]
 PORTFOLIO = 'spec/research/public-data-fabric/evidence/p3-portfolio.json'
 RECEIPT = BASE / 'evidence/no-copy-access-decision.json'
-SUPERSEDED_FILES = frozenset(['spec/research/public-data-fabric/p3-portfolio.md', 'spec/research/public-data-fabric/evidence/p3-portfolio.json', 'spec/research/public-data-fabric/evidence/w1-followup-decisions/verify.py', 'spec/research/public-data-fabric/evidence/w1-transport-app-fx/verify.py', '.github/workflows/public-data-fabric.yml', 'spec/research/public-data-fabric/README.md', 'spec/features/public-data-fabric/README.md', 'spec/research/public-data-fabric/p2-reconciliation.md', 'spec/research/public-data-fabric/assertions/$records/d1-mapping-ecb-rate.json'])
+SUPERSEDED_FILES = frozenset(['spec/research/public-data-fabric/p3-portfolio.md', 'spec/research/public-data-fabric/evidence/p3-portfolio.json', 'spec/research/public-data-fabric/evidence/w1-followup-decisions/verify.py', 'spec/research/public-data-fabric/evidence/w1-transport-app-fx/verify.py', '.github/workflows/public-data-fabric.yml', 'spec/research/public-data-fabric/README.md', 'spec/features/public-data-fabric/README.md', 'spec/research/public-data-fabric/p2-reconciliation.md'])
 APPROVED_EVIDENCE_ADDITIONS = {
     'bigquery-catalogue-corrections-20261006': '4d7da4bf0c36c71ee2caba31d7876fe833407920af55cfda88bd3df4571d7ca3',
     'bigquery-catalogue-discovery-20261006': '767265e46e8c234afaa9048460ceb81246787177651fdea104bcb224c98cd512',
@@ -81,12 +81,12 @@ def main():
     assert len(hashes) == len(rows)
     for row, actual in zip(rows, hashes):
         meta, name = row.split('\t', 1)
-        for collection in ['candidates', 'assertions', 'implementation', 'gates', 'questions', 'evidence']:
-            if name.startswith('spec/research/public-data-fabric/' + collection + '/$records/') and name.endswith('.json') and Path(name).name != 'README.json':
-                counts[collection] = counts.get(collection, 0) + 1
         if name in receipt['superseded_files']:
             continue
         assert actual == meta.split()[2], ('research bytes changed', name)
+        for collection in ['candidates', 'assertions', 'implementation', 'gates', 'questions', 'evidence']:
+            if name.startswith('spec/research/public-data-fabric/' + collection + '/$records/') and name.endswith('.json') and Path(name).name != 'README.json':
+                counts[collection] = counts.get(collection, 0) + 1
     # Only the three separately authorized, hash-bound catalogue evidence records
     # extend the unchanged original ledger. No other addition is permitted.
     additions = approved_evidence_additions(ROOT)
