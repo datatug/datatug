@@ -1,0 +1,103 @@
+{
+  "component_progress": {
+    "capacity": "PR22 merged at 775c40c237b8196971b70264c5b491dfaa96845b; hosted Linux actual full8 candidate pass accepted, not cold Cloud proof",
+    "cors": "PR23 merged at c10e6587b8519be6b1736bbda27bab09f6116ff7; 36 bounded gateway checks across six existing providers; not full DataTug browser journey"
+  },
+  "frozen_date": "2026-10-06",
+  "history": {
+    "generator_claim": "historical generator failure and wrong later-git-diff inference retained in w1-delivery-catchup; only its explicitly successful successor source checks supersede failure",
+    "no_semantic_reconciliation": true,
+    "no_status_rewrite": true,
+    "prior_packets": "all byte-identical; earlier pending component obligations remain dated snapshots"
+  },
+  "hub_base": "eb88c8ccc94c9e617355ceb98b76f74a880d3691",
+  "kind": "w1-additive-component-observations",
+  "meaninggraph_correction": {
+    "finding": "P2-1",
+    "loader": "https://meaninggraph.io/registry.js",
+    "not_established": "exact current live site build identity or full registry checksum/commit consumption; build-info404/guessed-repository404 do not prove unsupported consumer provenance",
+    "observed": "six graph pages HTTP200 with immutable provider pins and ModelSpec links; supported index carries corresponding Directory/model routes",
+    "route_limit": "Directory routes observed in supported index, not asserted as static links in every graph page",
+    "site_head": "40e182729c2f818f20803f7d24dc94e484b0da6d",
+    "site_repository": "sneat-co/meaninggraph",
+    "successful_deploy_run": 37347595129,
+    "supported_index": "https://meaninggraph.io/graphs/search-index.json"
+  },
+  "ownership": {
+    "cross_machine_inventory": "unavailable; no exclusive ownership inference",
+    "host": "AlexMac",
+    "model": "gpt-6.1-sol",
+    "reasoning": "Medium",
+    "root_sole_lander": true,
+    "runtime": "local Codex",
+    "writer": "w1-evidence-addendum-sol"
+  },
+  "packet_review": "pending separate adversarial review of exact committed packet; root sole publication and landing owner",
+  "programme": {
+    "B1": "open",
+    "both_go_and_js_required": true,
+    "cold_cloud_capacity_accepted": false,
+    "cold_cloud_test": "deferred by user",
+    "memory_limit_bytes": 536870912,
+    "phase4": "active",
+    "phase5": "open",
+    "phase6": "open",
+    "public_geo_ror_admission": false,
+    "transport_accepted": false,
+    "w1_complete": false
+  },
+  "retained_obligations": [
+    "B1 cold production platform/capacity acceptance and exact deployed immutable mount/admission/transport acceptance",
+    "final Geo/ROR wrapper and Directory/App public admission",
+    "independent real J1-J6 product journeys",
+    "BigQuery Go and JavaScript obligations remain as previously recorded; no paid query"
+  ],
+  "reviews": [
+    {
+      "base": "383125f6e4f31d07822ed7e4a7cb12aae7fb50ee",
+      "head": "87453befe2d57dd31251f45f7e002b1102bae375",
+      "id": "cors-independent-review-r1",
+      "reviewer": "local Codex Sol 6.1 High on AlexMac, separate controller implementer; not CORS author",
+      "scope": "Exact four-path CORS component executable/source review; hosted contents and deployment excluded",
+      "tree": "322f466ea9126d977131b679f9094039a5230275",
+      "verdict": {
+        "blockers": 0,
+        "land": true,
+        "majors": 0,
+        "minors": 0
+      }
+    },
+    {
+      "base": "c10e6587b8519be6b1736bbda27bab09f6116ff7",
+      "head": "889d722791e36c08226069002b2429883c0c3b4a",
+      "id": "capacity-artifact-review-r3",
+      "reviewer": "local Codex Sol 6.1 High on AlexMac",
+      "scope": "Hosted Linux candidate artifact and exact four-file harness component only; earlier helper authorship disclosed; cold Cloud user-deferred",
+      "tree": "a2e1ea3bff8d1480d983bf7766d2146600d0bc5e",
+      "verdict": {
+        "blockers": 0,
+        "land": true,
+        "majors": 0,
+        "minors": 0
+      }
+    },
+    {
+      "id": "b1-independent-review-r1",
+      "reviewer": "local Codex Sol6.1 High on AlexMac",
+      "scope": "Verdict concerns B1 closure; corrected bounded publication-progress refresh accepted; two known acceptance obligations retained open",
+      "verdict": {
+        "blockers": 2,
+        "land": false,
+        "majors": 0,
+        "minors": 1
+      }
+    },
+    {
+      "author": "local Codex Sol6.1 Medium on AlexMac",
+      "id": "b1-refresh-r1",
+      "scope": "Original bounded refresh preserved; MG gap corrected only by independent successor evidence"
+    }
+  ],
+  "schema_version": 1,
+  "scope": "Dated component and corrected publication-progress evidence only; no new semantic, source, platform, product or programme acceptance"
+}
