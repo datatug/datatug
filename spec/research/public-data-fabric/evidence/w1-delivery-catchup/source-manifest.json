@@ -2552,7 +2552,7 @@
   "packet_files": {
     "evidence.json": "14b0d12a60c5d89e9fb6f85ebf1f51c00302ed88f0cd6809a5f952ad7cc439b8",
     "publication-receipts.json": "c70e3ba81853ab00653b21874a3e5b5e64650e6ad038fd173d8a919009a33c49",
-    "README.md": "d0fc5d565cd096664aee55362dfe4378eaf089c6759e76c020b80d900b545099",
+    "README.md": "34338ad47eca98c3c82180a015031240ee5c81ec0cf55fb3c5e2638157507d3e",
     "verify.py": "2607ad69e4ba4ce5a9c1dc6b078b87890fee23b9c433e494fd3011ea5dddbecf"
   }
 }

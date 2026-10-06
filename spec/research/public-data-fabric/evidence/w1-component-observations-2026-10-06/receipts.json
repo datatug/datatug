@@ -1,0 +1,2218 @@
+{
+  "capacity_preparation_projection": {
+    "inventory": {
+      "databases": [
+        {
+          "blobSmokeFields": {
+            "Production.ProductPhoto": [
+              "ThumbNailPhoto",
+              "LargePhoto"
+            ]
+          },
+          "corsOrigins": [
+            "https://adventureworks.demodb.dev",
+            "https://demodb.dev",
+            "https://www.demodb.dev",
+            "https://datatug.app"
+          ],
+          "emptyRecordsets": [
+            "dbo.DatabaseLog",
+            "dbo.ErrorLog"
+          ],
+          "files": {
+            "artifact": {
+              "bytes": 35367459,
+              "chunks": [
+                {
+                  "bytes": 26214400,
+                  "path": "artifacts/adventureworks.sqlite.gz.part-0001",
+                  "sha256": "60e1d23ec00f1938e39262cd2e30a85a29aada525def56a65960312e1a9c5ac6"
+                },
+                {
+                  "bytes": 9153059,
+                  "path": "artifacts/adventureworks.sqlite.gz.part-0002",
+                  "sha256": "899a20c972a8f6fdd25b1544a29804c4872b877061dbaa1d6a85478445071e10"
+                }
+              ],
+              "compression": "gzip",
+              "decodedBytes": 126820352,
+              "decodedSha256": "6a105e1982becfe003fc7a307d7cad9d738390cedd79d166c2167fd817168109",
+              "encodedPath": "artifacts/adventureworks.sqlite.gz",
+              "path": "artifacts/adventureworks.sqlite",
+              "sha256": "5516328f621cbbe21083a20f325bc1a6f841e6f709bb6d8bebfebbf48b81d203"
+            },
+            "checksums": {
+              "path": "metadata/checksums.json",
+              "sha256": "7a79f331492ce2a17c07c4810738abbe6e888a2024b4f7a028d61302052f5c7f"
+            },
+            "contract": {
+              "path": "metadata/contract.json",
+              "sha256": "5b2cb733342ac9e848f2674090e0e534082d48111056ff4e6a3b6d4ef4f693e0"
+            },
+            "databaseManifest": {
+              "path": "ovdb-database.json",
+              "sha256": "7885259b70241a932a6200b680ed667c97acfb35bf8d30f5395fe9a9ce22ccd6"
+            },
+            "license": {
+              "path": "data-source/microsoft-sql-server-samples/LICENSE.txt",
+              "sha256": "201f3705979e932c92cd3c6ddbddf4dc3c71dcc5a82089a1e4018227cfe1cf09"
+            },
+            "manifest": {
+              "path": "manifest.json",
+              "sha256": "e5304e30db963e53fef0ba7cac939928622cefb7064aedaccd5ba313cf62440c"
+            }
+          },
+          "foreignKeySmoke": [
+            {
+              "sourceField": "BusinessEntityID",
+              "sourceRecordset": "HumanResources.EmployeeDepartmentHistory",
+              "targetField": "BusinessEntityID",
+              "targetRecordset": "HumanResources.Employee"
+            }
+          ],
+          "id": "adventureworks",
+          "recordKeyFormat": "natural",
+          "repository": "demo-db/adventureworks",
+          "requirePublishedQuery": true,
+          "revision": "5028a27189b487d6fd8025fafc1307aada707fd2",
+          "smokeRecordsets": [
+            "HumanResources.EmployeeDepartmentHistory",
+            "HumanResources.Employee",
+            "Production.Product",
+            "Production.ProductProductPhoto",
+            "Production.ProductPhoto",
+            "Production.TransactionHistory"
+          ]
+        },
+        {
+          "corsOrigins": [
+            "https://employees.demodb.dev",
+            "https://demodb.dev",
+            "https://www.demodb.dev",
+            "https://datatug.app"
+          ],
+          "files": {
+            "artifact": {
+              "bytes": 876544,
+              "path": "artifacts/employees.sqlite",
+              "sha256": "46b49dd0e141cd8db66d57680a10febfccc15e6f54dc7b8f3c2316b55e11c5f0"
+            },
+            "checksums": {
+              "path": "metadata/checksums.json",
+              "sha256": "28275342099e169f40215dcfa951386e23fcb4a86dc9cf7fb49ec5b377252352"
+            },
+            "contract": {
+              "path": "metadata/contract.json",
+              "sha256": "83bc1f52480c1917451e726261fda83e4bdd5ea44ef81b90462f33a8a6234443"
+            },
+            "databaseManifest": {
+              "path": "ovdb-database.json",
+              "sha256": "0de59594be9eca57ad91918125f29240bec6fafa956b279214efa1a9df495d7c"
+            },
+            "license": {
+              "path": "LICENSE",
+              "sha256": "38371a2d0b398de3d7113d1ae138acc9c476345e0207bb9548f6f5dbf12f748b"
+            },
+            "manifest": {
+              "path": "manifest.json",
+              "sha256": "010d461cd1f88dbec5eee7c447d874550c9ae6f1934cd3baf8e2999100c93700"
+            }
+          },
+          "foreignKeySmoke": [
+            {
+              "sourceField": "emp_no",
+              "sourceRecordset": "dept_emp",
+              "targetField": "emp_no",
+              "targetRecordset": "employees"
+            }
+          ],
+          "id": "employees",
+          "recordKeyFormat": "natural",
+          "repository": "demo-db/employees",
+          "requirePublishedQuery": true,
+          "revision": "2069e26e8fdb60bdb16507f75569a579cf3da7cf",
+          "smokeRecordsets": [
+            "employees",
+            "dept_emp",
+            "salaries",
+            "dept_manager"
+          ]
+        },
+        {
+          "corsOrigins": [
+            "https://chinook.demodb.dev",
+            "https://demodb.dev",
+            "https://www.demodb.dev",
+            "https://chinookdb.com",
+            "https://www.chinookdb.com",
+            "https://datatug.app"
+          ],
+          "files": {
+            "artifact": {
+              "bytes": 1007616,
+              "path": "artifacts/data/chinook.sqlite",
+              "sha256": "7651ba378ac2fcd0dfc3c66fb101f7a7eed3ba39a612ec642b96e20702061f15"
+            },
+            "checksums": {
+              "path": "metadata/checksums.json",
+              "sha256": "bfc531be4ee1ccaeef7de11d60b174ea134189fbde83e1474150b4f7b7b314a6"
+            },
+            "contract": {
+              "path": "metadata/contract.json",
+              "sha256": "576b4ecb21bd3b263b7a3523b6a3c952c8388298eb0fa56a7950b42f63958272"
+            },
+            "databaseManifest": {
+              "path": "ovdb-database.json",
+              "sha256": "e851d1709633a43958fbabe9eb1710ea895838d8a2fb6c225adc21b085dbf26b"
+            },
+            "license": {
+              "path": "data-source/LICENSE.md",
+              "sha256": "5064d720db431474b0a0b0cef9d2b5e362b6c6f80602b35c6443b07cbc979f77"
+            },
+            "manifest": {
+              "path": "manifest.json",
+              "sha256": "4e168c0091053817d71fbda43e3b23d711a6318d941ea9a2f34efab78baf00c6"
+            }
+          },
+          "foreignKeySmoke": [
+            {
+              "sourceField": "CustomerId",
+              "sourceRecordset": "Invoice",
+              "targetField": "CustomerId",
+              "targetRecordset": "Customer"
+            }
+          ],
+          "id": "chinook",
+          "recordKeyFormat": "legacy",
+          "repository": "demo-db/chinook",
+          "revision": "26e852cca00101f53a84ef8ee1f1ae389067f5cf",
+          "smokeRecordsets": [
+            "Invoice",
+            "Customer"
+          ]
+        },
+        {
+          "blobSmokeFields": {
+            "Employees": [
+              "Photo"
+            ]
+          },
+          "corsOrigins": [
+            "https://northwind.demodb.dev",
+            "https://demodb.dev",
+            "https://www.demodb.dev",
+            "https://datatug.app"
+          ],
+          "files": {
+            "artifact": {
+              "bytes": 602112,
+              "path": "artifacts/northwind.sqlite",
+              "sha256": "279b34136771aee75d802094b3329515a2b01da65d2a20a4a9e3b58c29b4fd20"
+            },
+            "checksums": {
+              "path": "metadata/checksums.json",
+              "sha256": "c89b2cfee811e384c9ed961dfbdf4f4ea35b65cbb38e2582f3c6c6ea768edf9f"
+            },
+            "contract": {
+              "path": "metadata/contract.json",
+              "sha256": "88a7e21b1ed16b27c3195c8ee10dc60ebef60fba6c70df6f9325d8e4adaaea22"
+            },
+            "databaseManifest": {
+              "path": "ovdb-database.json",
+              "sha256": "a5f7ec858ecc1f98f9c03b66ad5a618ece1a2998c9e1853aeabb320e949d8756"
+            },
+            "license": {
+              "path": "data-source/LICENSE.md",
+              "sha256": "c28e204be6418b87ae1c83127096aad9c9e1a218c365f8f4d630e84d8ba96c47"
+            },
+            "manifest": {
+              "path": "manifest.json",
+              "sha256": "91e1fab00b76461241282ac4f1f51b963b237e5c842d7d118ec6c2b39a27e300"
+            }
+          },
+          "foreignKeySmoke": [
+            {
+              "sourceField": "OrderID",
+              "sourceRecordset": "Order Details",
+              "targetField": "OrderID",
+              "targetRecordset": "Orders"
+            }
+          ],
+          "id": "northwind",
+          "recordKeyFormat": "natural",
+          "repository": "demo-db/northwind",
+          "revision": "e74726515c3833620b54b7a50d1d273276dd23c1",
+          "smokeRecordsets": [
+            "Order Details",
+            "Orders",
+            "Employees"
+          ]
+        },
+        {
+          "corsOrigins": [
+            "https://pubs.demodb.dev",
+            "https://demodb.dev",
+            "https://www.demodb.dev",
+            "https://datatug.app"
+          ],
+          "files": {
+            "artifact": {
+              "bytes": 212992,
+              "path": "artifacts/pubs.sqlite",
+              "sha256": "b45b08b7c06441cc0b138b031ea5bd32bd5866aebf874c89d2ebf7fc6abb3691"
+            },
+            "checksums": {
+              "path": "metadata/checksums.json",
+              "sha256": "64dc3bd74f5ad7dff22b7ca53446985421d1c06f2b7fa548eae965005b24d886"
+            },
+            "contract": {
+              "path": "metadata/contract.json",
+              "sha256": "32224efdbecd57962f32a0aad81653bbf5085788df69185be30b2c7c0910d659"
+            },
+            "databaseManifest": {
+              "path": "ovdb-database.json",
+              "sha256": "42a9ec5d9179b64a3d848fc661a8a1b230d691643ecf71ca42fc2fa1830533c1"
+            },
+            "license": {
+              "path": "data-source/LICENSE.txt",
+              "sha256": "201f3705979e932c92cd3c6ddbddf4dc3c71dcc5a82089a1e4018227cfe1cf09"
+            },
+            "manifest": {
+              "path": "manifest.json",
+              "sha256": "00b830249f64ae7c6a669b4bf14e70e09068041482d771959012db868dcfdb16"
+            }
+          },
+          "foreignKeySmoke": [
+            {
+              "sourceField": "title_id",
+              "sourceRecordset": "roysched",
+              "targetField": "title_id",
+              "targetRecordset": "titles"
+            }
+          ],
+          "id": "pubs",
+          "recordKeyFormat": "natural",
+          "repository": "demo-db/pubs",
+          "revision": "6c06c5c7395b03ff1a02c2b1a21485add3e1b65b",
+          "smokeRecordsets": [
+            "discounts",
+            "roysched",
+            "titles"
+          ]
+        },
+        {
+          "blobSmokeFields": {
+            "address": [
+              "location"
+            ]
+          },
+          "corsOrigins": [
+            "https://sakila.demodb.dev",
+            "https://demodb.dev",
+            "https://www.demodb.dev",
+            "https://datatug.app"
+          ],
+          "files": {
+            "artifact": {
+              "bytes": 4915200,
+              "path": "artifacts/sakila.sqlite",
+              "sha256": "9bebeee50fecb1fee115c206a4f380f2f6d1f009e7796b18b8a8cfba7c810454"
+            },
+            "checksums": {
+              "path": "metadata/checksums.json",
+              "sha256": "bf8deefbea0a99f98446c81d6dc9c6d843b01c7ead6071f6c17e8c8e2a3ac46b"
+            },
+            "contract": {
+              "path": "metadata/contract.json",
+              "sha256": "54b74e47ad29e4c1d68866e89add885ee833728f04c4d68c46c2486346882655"
+            },
+            "databaseManifest": {
+              "path": "ovdb-database.json",
+              "sha256": "a156ef4c3acf85a7cab92ba4ea1dbf38021da7aa481e5b892e29f4f573d5a411"
+            },
+            "license": {
+              "path": "data-source/sakila-schema.sql",
+              "sha256": "b32170e1e2ad5828749b61a5ec896155bcd143104b076e5ee8a3a3b013f44915"
+            },
+            "manifest": {
+              "path": "manifest.json",
+              "sha256": "bc40a385f81f7db203a23e2befdd08a1b1899c0e2f45a034fe3a6cf0eb6a3356"
+            }
+          },
+          "foreignKeySmoke": [
+            {
+              "sourceField": "actor_id",
+              "sourceRecordset": "film_actor",
+              "targetField": "actor_id",
+              "targetRecordset": "actor"
+            }
+          ],
+          "id": "sakila",
+          "recordKeyFormat": "natural",
+          "repository": "demo-db/sakila",
+          "requirePublishedQuery": true,
+          "revision": "cb9a81a8cbedcd8831737f281f888d5d584fae85",
+          "smokeRecordsets": [
+            "film",
+            "film_actor",
+            "actor",
+            "rental",
+            "payment",
+            "address"
+          ]
+        },
+        {
+          "corsOrigins": [
+            "https://demodb.dev"
+          ],
+          "files": {
+            "artifact": {
+              "bytes": 25044936,
+              "chunks": [
+                {
+                  "bytes": 6218432,
+                  "path": "artifacts/geonames-w1-2026-10-05/native/geonames.sqlite.0000.gz",
+                  "sha256": "151d8259488fe61f3be689deb72f00da40f2ac487bf71d6a6266c896db6d49a0"
+                },
+                {
+                  "bytes": 4877469,
+                  "path": "artifacts/geonames-w1-2026-10-05/native/geonames.sqlite.0001.gz",
+                  "sha256": "f878093b65f05beab952f72a0d9e4980672d0e601d8d9fbb46ddad3b3b0ddcf7"
+                },
+                {
+                  "bytes": 5700433,
+                  "path": "artifacts/geonames-w1-2026-10-05/native/geonames.sqlite.0002.gz",
+                  "sha256": "80fc93abeb14aae20e5cc17ce6823f2201a3b3e353e21bf1406fa81e09d5ed18"
+                },
+                {
+                  "bytes": 5138706,
+                  "path": "artifacts/geonames-w1-2026-10-05/native/geonames.sqlite.0003.gz",
+                  "sha256": "c3ccd40abda8f5962c529d9d501902a24a522d958526ce413826098287dbebe4"
+                },
+                {
+                  "bytes": 3109896,
+                  "path": "artifacts/geonames-w1-2026-10-05/native/geonames.sqlite.0004.gz",
+                  "sha256": "761f235d5742c19cc6f34e0fbb95c4158d4ebc98e298f9f1bf7ec76be83c5031"
+                }
+              ],
+              "compression": "gzip",
+              "decodedBytes": 75304960,
+              "decodedSha256": "cb53af14c67daadfc20ecbfe304d631d651022179793a77aa11413244d2f456d",
+              "encodedPath": "geonames.sqlite.gz",
+              "path": "geonames.sqlite",
+              "sha256": "44baf25803a91d3c070831a2a50de0e731bc59b024a2c143d47824dce3343c7a"
+            },
+            "checksums": {
+              "bytes": 5465,
+              "path": "metadata/checksums.json",
+              "sha256": "716b3a5de6e5c30465558b0afafea1e93966f9a55df6b031423e82841c306deb"
+            },
+            "contract": {
+              "bytes": 23851,
+              "path": "metadata/contract.json",
+              "sha256": "7bae68764cb79c03c8173f592cf4b38985c7a0d0df4ff5260f0d753505a94958"
+            },
+            "databaseManifest": {
+              "bytes": 17856,
+              "path": "ovdb-database.json",
+              "sha256": "8553fcddb3f0838f10c39d029327d6a8a4a33cea04447c285105a5329793716e"
+            },
+            "license": {
+              "bytes": 4628,
+              "path": "DATA-LICENSE.md",
+              "sha256": "d5442960d5fc58661b5a45d965f65d5e681317ae6572b9c45d0e4225bd99538c"
+            },
+            "manifest": {
+              "bytes": 1452,
+              "path": "manifest.json",
+              "sha256": "01377411c535e39b2240ae5ec1299ec7477744e7dfc0271417f44d277ad632b1"
+            }
+          },
+          "id": "geonames",
+          "publisherManifest": {
+            "bytes": 1507,
+            "path": "ovdb.yaml",
+            "sha256": "6625b8b6235703158116f456dec5a43596c5c26dad4b6d916abc7614f162639c"
+          },
+          "readProfile": "bounded-immutable/1",
+          "recordKeyFormat": "natural",
+          "repository": "ingitdb/geo-ingitdb",
+          "requirePublishedQuery": false,
+          "revision": "d53aa273448e99e792899340eb4c162e67834b69",
+          "servingAdapter": "separate-id/1"
+        },
+        {
+          "corsOrigins": [
+            "https://demodb.dev"
+          ],
+          "files": {
+            "artifact": {
+              "bytes": 37904521,
+              "chunks": [
+                {
+                  "bytes": 20971520,
+                  "path": "artifacts/ror-v2.13/native/ror.sqlite.gz.part-0001",
+                  "sha256": "dcbe231796b5d51307adb81ad5623b509ac5f055cd7a773f1706fbe0af1aa2c0"
+                },
+                {
+                  "bytes": 16933001,
+                  "path": "artifacts/ror-v2.13/native/ror.sqlite.gz.part-0002",
+                  "sha256": "bdc133c44b8c27552c0089495cf2d8ad9bcda0722cc2c092fb3498acf078b572"
+                }
+              ],
+              "compression": "gzip",
+              "decodedBytes": 238563328,
+              "decodedSha256": "afdf978130ee9899fedb698f0e9d18399efdea40ea92f01f26d6055ef1ed5d38",
+              "encodedPath": "ror.sqlite.gz",
+              "path": "ror.sqlite",
+              "sha256": "726f5c77eba612a718755cb0cca028d88858317ce57e663b4b248394ace3b8ea"
+            },
+            "checksums": {
+              "bytes": 2967,
+              "path": "metadata/checksums.json",
+              "sha256": "3dd4c086cb9aaa878a8b080f4e2aefcbef54a638871ec279d44232f2a90fe380"
+            },
+            "contract": {
+              "bytes": 7379,
+              "path": "metadata/contract.json",
+              "sha256": "8715e2cbe324f14a5ff892ef9ba76d146c611a59e3583c53155c73f050df3381"
+            },
+            "databaseManifest": {
+              "bytes": 6159,
+              "path": "ovdb-database.json",
+              "sha256": "43594aa97e8069a4a13b153c3fc54464018c6901144c205eb31167822b1293af"
+            },
+            "license": {
+              "bytes": 1116,
+              "path": "DATA-LICENSE.md",
+              "sha256": "39d8853e3c9f9a7a96ea77edd1afe52ad25902f34a30855ad53c2c1aed62443b"
+            },
+            "manifest": {
+              "bytes": 1453,
+              "path": "manifest.json",
+              "sha256": "9fc35b5f44229fd2f098e3c590401bda9480cb4a8b3a2d1d3c480b14c71f40b9"
+            }
+          },
+          "id": "ror",
+          "publisherManifest": {
+            "bytes": 1300,
+            "path": "ovdb.yaml",
+            "sha256": "6e2be313adbca0517032696c4423a169961812bea4a55744d040caeb34eae8da"
+          },
+          "readProfile": "bounded-immutable/1",
+          "recordKeyFormat": "natural",
+          "repository": "ingitdb/ror-ingitdb",
+          "requirePublishedQuery": false,
+          "revision": "49bc19225c1f2c4e96fbf414bf2359b4550e1f17",
+          "servingAdapter": "separate-id/1"
+        }
+      ],
+      "version": 2
+    },
+    "keys_scanned": 1280314,
+    "native_tables": 16,
+    "outcome": "passed",
+    "selected_tables": 11
+  },
+  "capacity_workload_projection": {
+    "capacity_envelope": {
+      "actual_natural_spool_bytes": 124787866,
+      "allocated_ballast_block_bytes": 9433088,
+      "ballast_is_snapshot_data": false,
+      "memory": {
+        "cpu.max": "100000 100000",
+        "go_heap_alloc": 3245880,
+        "go_sys": 110328104,
+        "memory.current": 225832960,
+        "memory.events": {
+          "high": 0,
+          "low": 0,
+          "max": 0,
+          "oom": 0,
+          "oom_group_kill": 0,
+          "oom_kill": 0
+        },
+        "memory.max": 536870912,
+        "memory.peak": 286109696,
+        "memory.stat": {
+          "active_anon": 223526912,
+          "active_file": 4096,
+          "anon": 39849984,
+          "anon_thp": 4194304,
+          "file": 134221824,
+          "file_dirty": 0,
+          "file_mapped": 0,
+          "file_thp": 0,
+          "file_writeback": 0,
+          "inactive_anon": 0,
+          "inactive_file": 0,
+          "kernel": 1261568,
+          "kernel_stack": 81920,
+          "numa_hint_faults": 0,
+          "numa_pages_migrated": 0,
+          "numa_pte_updates": 0,
+          "pagetables": 401408,
+          "percpu": 2136,
+          "pgactivate": 0,
+          "pgdeactivate": 0,
+          "pgdemote_direct": 0,
+          "pgdemote_khugepaged": 0,
+          "pgdemote_kswapd": 0,
+          "pgdemote_proactive": 0,
+          "pgfault": 386401,
+          "pglazyfree": 0,
+          "pglazyfreed": 0,
+          "pgmajfault": 0,
+          "pgpromote_success": 0,
+          "pgrefill": 0,
+          "pgscan": 0,
+          "pgscan_direct": 0,
+          "pgscan_khugepaged": 0,
+          "pgscan_kswapd": 0,
+          "pgscan_proactive": 0,
+          "pgsteal": 0,
+          "pgsteal_direct": 0,
+          "pgsteal_khugepaged": 0,
+          "pgsteal_kswapd": 0,
+          "pgsteal_proactive": 0,
+          "pswpin": 0,
+          "pswpout": 0,
+          "sec_pagetables": 0,
+          "shmem": 134221824,
+          "shmem_thp": 0,
+          "slab": 736976,
+          "slab_reclaimable": 442040,
+          "slab_unreclaimable": 294936,
+          "sock": 0,
+          "swapcached": 0,
+          "swpin_zero": 0,
+          "swpout_zero": 0,
+          "thp_collapse_alloc": 0,
+          "thp_fault_alloc": 235,
+          "thp_swpout": 0,
+          "thp_swpout_fallback": 0,
+          "unevictable": 0,
+          "vmalloc": 12288,
+          "workingset_activate_anon": 0,
+          "workingset_activate_file": 0,
+          "workingset_nodereclaim": 0,
+          "workingset_refault_anon": 0,
+          "workingset_refault_file": 0,
+          "workingset_restore_anon": 0,
+          "workingset_restore_file": 0,
+          "zswap": 0,
+          "zswapped": 0,
+          "zswpin": 0,
+          "zswpout": 0,
+          "zswpwb": 0
+        },
+        "open_fds": 21,
+        "process_cgroup_identity": "0::/",
+        "process_namespace_pid": 1,
+        "process_rss": "67816 kB"
+      },
+      "realized_ballast_bytes": 9429862,
+      "requested_ballast_bytes": 9429862,
+      "separately_labelled_ballast_bytes": 9429862,
+      "total_tmpfs_bytes": 134217728
+    },
+    "fd_limit_note": "allows up to32 persistent connections across full eight-provider exercised pools; no private pool counter API",
+    "final": {
+      "cpu.max": "100000 100000",
+      "go_heap_alloc": 2270304,
+      "go_sys": 131823912,
+      "memory.current": 100036608,
+      "memory.events": {
+        "high": 0,
+        "low": 0,
+        "max": 0,
+        "oom": 0,
+        "oom_group_kill": 0,
+        "oom_kill": 0
+      },
+      "memory.max": 536870912,
+      "memory.peak": 316518400,
+      "memory.stat": {
+        "active_anon": 98226176,
+        "active_file": 4096,
+        "anon": 26492928,
+        "anon_thp": 4194304,
+        "file": 0,
+        "file_dirty": 0,
+        "file_mapped": 0,
+        "file_thp": 0,
+        "file_writeback": 0,
+        "inactive_anon": 0,
+        "inactive_file": 0,
+        "kernel": 974848,
+        "kernel_stack": 81920,
+        "numa_hint_faults": 0,
+        "numa_pages_migrated": 0,
+        "numa_pte_updates": 0,
+        "pagetables": 442368,
+        "percpu": 2136,
+        "pgactivate": 0,
+        "pgdeactivate": 0,
+        "pgdemote_direct": 0,
+        "pgdemote_khugepaged": 0,
+        "pgdemote_kswapd": 0,
+        "pgdemote_proactive": 0,
+        "pgfault": 792894,
+        "pglazyfree": 0,
+        "pglazyfreed": 0,
+        "pgmajfault": 0,
+        "pgpromote_success": 0,
+        "pgrefill": 0,
+        "pgscan": 0,
+        "pgscan_direct": 0,
+        "pgscan_khugepaged": 0,
+        "pgscan_kswapd": 0,
+        "pgscan_proactive": 0,
+        "pgsteal": 0,
+        "pgsteal_direct": 0,
+        "pgsteal_khugepaged": 0,
+        "pgsteal_kswapd": 0,
+        "pgsteal_proactive": 0,
+        "pswpin": 0,
+        "pswpout": 0,
+        "sec_pagetables": 0,
+        "shmem": 0,
+        "shmem_thp": 0,
+        "slab": 412584,
+        "slab_reclaimable": 136168,
+        "slab_unreclaimable": 276416,
+        "sock": 0,
+        "swapcached": 0,
+        "swpin_zero": 0,
+        "swpout_zero": 0,
+        "thp_collapse_alloc": 38,
+        "thp_fault_alloc": 396,
+        "thp_swpout": 0,
+        "thp_swpout_fallback": 0,
+        "unevictable": 0,
+        "vmalloc": 12288,
+        "workingset_activate_anon": 0,
+        "workingset_activate_file": 0,
+        "workingset_nodereclaim": 0,
+        "workingset_refault_anon": 0,
+        "workingset_refault_file": 0,
+        "workingset_restore_anon": 0,
+        "workingset_restore_file": 0,
+        "zswap": 0,
+        "zswapped": 0,
+        "zswpin": 0,
+        "zswpout": 0,
+        "zswpwb": 0
+      },
+      "open_fds": 7,
+      "process_cgroup_identity": "0::/",
+      "process_namespace_pid": 1,
+      "process_rss": "54900 kB"
+    },
+    "idle_expiry": {
+      "configured_lifetime_seconds": 300,
+      "expired_status": 410,
+      "remaining_spools": 0,
+      "wait_seconds": 273.143919854
+    },
+    "initial": {
+      "cpu.max": "100000 100000",
+      "go_heap_alloc": 2787312,
+      "go_sys": 13064456,
+      "memory.current": 8269824,
+      "memory.events": {
+        "high": 0,
+        "low": 0,
+        "max": 0,
+        "oom": 0,
+        "oom_group_kill": 0,
+        "oom_kill": 0
+      },
+      "memory.max": 536870912,
+      "memory.peak": 8269824,
+      "memory.stat": {
+        "active_anon": 7208960,
+        "active_file": 0,
+        "anon": 7319552,
+        "anon_thp": 6291456,
+        "file": 0,
+        "file_dirty": 0,
+        "file_mapped": 0,
+        "file_thp": 0,
+        "file_writeback": 0,
+        "inactive_anon": 0,
+        "inactive_file": 0,
+        "kernel": 585728,
+        "kernel_stack": 65536,
+        "numa_hint_faults": 0,
+        "numa_pages_migrated": 0,
+        "numa_pte_updates": 0,
+        "pagetables": 176128,
+        "percpu": 2136,
+        "pgactivate": 0,
+        "pgdeactivate": 0,
+        "pgdemote_direct": 0,
+        "pgdemote_khugepaged": 0,
+        "pgdemote_kswapd": 0,
+        "pgdemote_proactive": 0,
+        "pgfault": 1433,
+        "pglazyfree": 0,
+        "pglazyfreed": 0,
+        "pgmajfault": 0,
+        "pgpromote_success": 0,
+        "pgrefill": 0,
+        "pgscan": 0,
+        "pgscan_direct": 0,
+        "pgscan_khugepaged": 0,
+        "pgscan_kswapd": 0,
+        "pgscan_proactive": 0,
+        "pgsteal": 0,
+        "pgsteal_direct": 0,
+        "pgsteal_khugepaged": 0,
+        "pgsteal_kswapd": 0,
+        "pgsteal_proactive": 0,
+        "pswpin": 0,
+        "pswpout": 0,
+        "sec_pagetables": 0,
+        "shmem": 0,
+        "shmem_thp": 0,
+        "slab": 316536,
+        "slab_reclaimable": 71600,
+        "slab_unreclaimable": 244936,
+        "sock": 0,
+        "swapcached": 0,
+        "swpin_zero": 0,
+        "swpout_zero": 0,
+        "thp_collapse_alloc": 0,
+        "thp_fault_alloc": 5,
+        "thp_swpout": 0,
+        "thp_swpout_fallback": 0,
+        "unevictable": 0,
+        "vmalloc": 12288,
+        "workingset_activate_anon": 0,
+        "workingset_activate_file": 0,
+        "workingset_nodereclaim": 0,
+        "workingset_refault_anon": 0,
+        "workingset_refault_file": 0,
+        "workingset_restore_anon": 0,
+        "workingset_restore_file": 0,
+        "zswap": 0,
+        "zswapped": 0,
+        "zswpin": 0,
+        "zswpout": 0,
+        "zswpwb": 0
+      },
+      "open_fds": 7,
+      "process_cgroup_identity": "0::/",
+      "process_namespace_pid": 1,
+      "process_rss": "31164 kB"
+    },
+    "natural_spools": {
+      "bytes": 124787866,
+      "files": 2,
+      "slot_close_reuse": true,
+      "snapshots": [
+        {
+          "nextPageToken": "Bv0Pfoc8IEXACiGOtSGtO4oIM-c32jLglHz5zw-z4KI.1016.BlVGEWzIbN844dHykFkh6A",
+          "snapshotExpiresAt": "2026-10-06T01:15:33Z",
+          "snapshotToken": "Bv0Pfoc8IEXACiGOtSGtO4oIM-c32jLglHz5zw-z4KI.0.VbSQYO-cpNs224S1I_VZSA"
+        },
+        {
+          "nextPageToken": "x0MmeLnZxnJn-vgY22P5bORE-SADt2j-73zDQzaVNEA.1016.ogEibs5gB_kNvl-JXSO6Eg",
+          "snapshotExpiresAt": "2026-10-06T01:15:35Z",
+          "snapshotToken": "x0MmeLnZxnJn-vgY22P5bORE-SADt2j-73zDQzaVNEA.0.7Id5JhRlQ-ARX_DSmBqvnA"
+        }
+      ],
+      "stable_page_retry": true
+    },
+    "pool_metrics": "library exposes no pool counters; actual FD counts, cancellation and slot reuse recorded"
+  },
+  "meaninggraph_deploy_projection": {
+    "conclusion": "success",
+    "created_at": "2026-10-05T17:19:44Z",
+    "head_sha": "40e182729c2f818f20803f7d24dc94e484b0da6d",
+    "html_url": "https://github.com/sneat-co/meaninggraph/actions/runs/37347595129",
+    "id": 37347595129,
+    "name": "Deploy",
+    "status": "completed",
+    "updated_at": "2026-10-05T17:22:14Z"
+  },
+  "receipts": [
+    {
+      "fields": [
+        "observed_at",
+        "repository",
+        "pr",
+        "head",
+        "merge_sha",
+        "wb_pr_land_outcome",
+        "candidate_checks",
+        "canonical_sync",
+        "remote_branch_deleted",
+        "cleaned_task",
+        "postmain_ci",
+        "cloud_run_test",
+        "public_provider_admission"
+      ],
+      "id": "capacity-land-summary-r1",
+      "observation": {
+        "candidate_checks": "8/8 terminal; five success and three intentional skip; stable reread2/2; allow-unfenced explicit",
+        "canonical_sync": "fast_forwarded",
+        "cleaned_task": "w1-cloud-actual-capacity",
+        "cloud_run_test": "deferred by user",
+        "head": "889d722791e36c08226069002b2429883c0c3b4a",
+        "merge_sha": "775c40c237b8196971b70264c5b491dfaa96845b",
+        "observed_at": "2026-10-06T01:40:36.357908+00:00",
+        "postmain_ci": {
+          "checks": {
+            "pass": 6,
+            "skipping": 3
+          },
+          "deploy_jobs_success": [
+            37400353288,
+            37400505952
+          ],
+          "head": "775c40c237b8196971b70264c5b491dfaa96845b",
+          "observed_at": "2026-10-06T01:43:27.601914Z",
+          "stable_observations": 2,
+          "status": "passed"
+        },
+        "pr": 22,
+        "public_provider_admission": false,
+        "remote_branch_deleted": true,
+        "repository": "openvaultdb/cloud",
+        "wb_pr_land_outcome": "success"
+      },
+      "source_bytes": 1000,
+      "source_sha256": "166502531923a9e254d42a334121114b166ed394c00675184362eb2c167da7b1"
+    },
+    {
+      "fields": [
+        "at",
+        "status",
+        "pr",
+        "reviewed_head",
+        "merge",
+        "post_main",
+        "cloud_run_revision",
+        "image_digest",
+        "cloud_deploy_run",
+        "worker_deploy_run",
+        "worker_version",
+        "live",
+        "canonical_sync",
+        "owned_branch_worktree",
+        "evidence_sha256",
+        "remaining"
+      ],
+      "id": "cors-root-completion-r1",
+      "observation": {
+        "at": "2026-10-06T01:05:29.149197+00:00",
+        "canonical_sync": "fast_forwarded",
+        "cloud_deploy_run": 37396929872,
+        "cloud_run_revision": "chinook-ovdb-00016-n4d",
+        "evidence_sha256": {
+          "cloud-deploy-r1.log": "a7e08ddf3d5b0b688ae2a4fd51e833675dc590953fce897ac7b8a2311b8e10ea",
+          "land-r1.json": "e676d390c46a63a3a5915a3804643207043fd361566913011202a0dac53674df",
+          "live-smoke-r1.json": "eeb4c6d821ca92d76baf45c1428b1509af1e53b5562408be827cd99639e8bd14",
+          "main-ci-r1.json": "dadabfd970afd964d37b23b0a36fd9415f283f24e69dbfa47b40e030c012d1a5",
+          "worker-deploy-r1.log": "58b430080f84a6cb0e78919c90a30a35199b99e4814ce960979c45d0472c98cb"
+        },
+        "image_digest": "sha256:02cae3cd1cc22203d3b47160ff2a41b986736750f0af85f9f01a52b25f976937",
+        "live": "36 bounded checks across6providers: DataTug-origin profile/collection/one-rowPOST/preflight plus denied-originGET/OPTIONS allpassed; not fullDataTug browserjourney",
+        "merge": "c10e6587b8519be6b1736bbda27bab09f6116ff7",
+        "owned_branch_worktree": "removed byWB",
+        "post_main": "9 observed terminal:6success,3skipped; stable exacthead policy receipt",
+        "pr": "https://github.com/openvaultdb/cloud/pull/23",
+        "remaining": "capacityPR22,privateCloudproof,publicW1admission,Directory/App/fulljourneys; optionalRetryAfterexposure separatefollowup",
+        "reviewed_head": "87453befe2d57dd31251f45f7e002b1102bae375",
+        "status": "component_merged_deployed_live_verified_owned_cleanup_complete",
+        "worker_deploy_run": 37397058033,
+        "worker_version": "f805f033-255b-424a-b9a4-377713cd38fa"
+      },
+      "source_bytes": 1550,
+      "source_sha256": "b0a4ab94bc9f6d5b794ef7017949621e177cf9069b6c42c3334259f7bdcbf320"
+    },
+    {
+      "fields": [
+        "conclusion",
+        "status",
+        "headSha",
+        "event",
+        "databaseId",
+        "url",
+        "createdAt",
+        "updatedAt",
+        "jobs"
+      ],
+      "id": "capacity-run",
+      "observation": {
+        "conclusion": "success",
+        "createdAt": "2026-10-06T01:08:25Z",
+        "databaseId": 37397632919,
+        "event": "pull_request",
+        "headSha": "889d722791e36c08226069002b2429883c0c3b4a",
+        "jobs": [
+          {
+            "completedAt": "2026-10-06T01:15:55Z",
+            "conclusion": "success",
+            "databaseId": 112057283023,
+            "name": "actual-linux-candidate",
+            "startedAt": "2026-10-06T01:08:29Z",
+            "status": "completed",
+            "steps": [],
+            "url": "https://github.com/openvaultdb/cloud/actions/runs/37397632919/job/112057283023"
+          }
+        ],
+        "status": "completed",
+        "updatedAt": "2026-10-06T01:15:59Z",
+        "url": "https://github.com/openvaultdb/cloud/actions/runs/37397632919"
+      },
+      "source_bytes": 611,
+      "source_sha256": "ea20025f50fa924541fa2abc171f11456547f3813f4a78712bff4dbf30431165"
+    },
+    {
+      "fields": [
+        "total_count",
+        "artifacts"
+      ],
+      "id": "capacity-artifact-metadata",
+      "observation": {
+        "artifacts": [
+          {
+            "archive_download_url": "https://api.github.com/repos/openvaultdb/cloud/actions/artifacts/11383528006/zip",
+            "created_at": "2026-10-06T01:15:52Z",
+            "digest": "sha256:1fdb372096eba5a6dd19574a89376a68dc35300980cf3e1b7de01a6d23ca86e4",
+            "expired": false,
+            "expires_at": "2027-01-04T01:08:26Z",
+            "id": 11383528006,
+            "name": "actual-runtime-candidate",
+            "node_id": "MDg6QXJ0aWZhY3QxMTM4MzUyODAwNg==",
+            "size_in_bytes": 37256,
+            "updated_at": "2026-10-06T01:15:52Z",
+            "url": "https://api.github.com/repos/openvaultdb/cloud/actions/artifacts/11383528006",
+            "workflow_run": {
+              "head_branch": "w1-cloud-actual-capacity",
+              "head_repository_id": 1352539834,
+              "head_sha": "889d722791e36c08226069002b2429883c0c3b4a",
+              "id": 37397632919,
+              "repository_id": 1352539834
+            }
+          }
+        ],
+        "total_count": 1
+      },
+      "source_bytes": 737,
+      "source_sha256": "3d08b0794336281645c33f88bdf64b0911702a504451f69e11a24aeef3eff4dd"
+    },
+    {
+      "fields": [
+        "outcome",
+        "actual_corpus",
+        "source_head",
+        "expected_source_head",
+        "workflow_event",
+        "cold_cloud_capacity_accepted",
+        "public_provider_admission",
+        "transport_accepted",
+        "capacity_peak_limit_bytes",
+        "retained_envelope_bytes",
+        "caveat",
+        "production_startup_seconds",
+        "startup_probe_ceiling_seconds",
+        "startup_margin_seconds",
+        "cleanup_complete",
+        "cleanup_errors",
+        "remaining_containers"
+      ],
+      "id": "capacity-report",
+      "observation": {
+        "actual_corpus": true,
+        "capacity_peak_limit_bytes": 456130560,
+        "caveat": "Shared warmed image pages can be charged outside Docker cgroup; cold Cloud proof remains mandatory.",
+        "cleanup_complete": true,
+        "cleanup_errors": [],
+        "cold_cloud_capacity_accepted": false,
+        "expected_source_head": "889d722791e36c08226069002b2429883c0c3b4a",
+        "outcome": "hosted_linux_candidate_pass",
+        "production_startup_seconds": 2.0662096129999554,
+        "public_provider_admission": false,
+        "remaining_containers": [],
+        "retained_envelope_bytes": 134217728,
+        "source_head": "889d722791e36c08226069002b2429883c0c3b4a",
+        "startup_margin_seconds": 237.93379038700004,
+        "startup_probe_ceiling_seconds": 240,
+        "transport_accepted": false,
+        "workflow_event": "pull_request"
+      },
+      "source_bytes": 282627,
+      "source_sha256": "135048a2318ef29bdfd184621071afc8d7966c76f9c75970397c99846ba1ce68"
+    },
+    {
+      "fields": [
+        "v",
+        "verb",
+        "outcome",
+        "repository",
+        "pull_request",
+        "url",
+        "head_sha",
+        "base_ref",
+        "merge_sha",
+        "reviewed_head",
+        "review_bound",
+        "remote_branch_deleted",
+        "canonical_sync"
+      ],
+      "id": "cors-land-r1",
+      "observation": {
+        "base_ref": "main",
+        "canonical_sync": "fast_forwarded",
+        "head_sha": "87453befe2d57dd31251f45f7e002b1102bae375",
+        "merge_sha": "c10e6587b8519be6b1736bbda27bab09f6116ff7",
+        "outcome": "success",
+        "pull_request": 23,
+        "repository": "openvaultdb/cloud",
+        "review_bound": true,
+        "reviewed_head": "87453befe2d57dd31251f45f7e002b1102bae375",
+        "url": "https://github.com/openvaultdb/cloud/pull/23",
+        "v": 1,
+        "verb": "pr land"
+      },
+      "source_bytes": 6075,
+      "source_sha256": "e676d390c46a63a3a5915a3804643207043fd361566913011202a0dac53674df"
+    },
+    {
+      "fields": [
+        "schema_version",
+        "observed_at",
+        "status",
+        "repository",
+        "target",
+        "head",
+        "observed_head",
+        "observed_target_head",
+        "checks",
+        "stable_observations",
+        "reason"
+      ],
+      "id": "cors-main-ci-r1",
+      "observation": {
+        "checks": [
+          {
+            "app_id": 15368,
+            "bucket": "pass",
+            "check_run_id": 112055001459,
+            "conclusion": "success",
+            "link": "https://github.com/openvaultdb/cloud/actions/runs/37396929872/job/112055001459",
+            "name": "check-run:deploy"
+          },
+          {
+            "app_id": 15368,
+            "bucket": "pass",
+            "check_run_id": 112055412422,
+            "conclusion": "success",
+            "link": "https://github.com/openvaultdb/cloud/actions/runs/37397058033/job/112055412422",
+            "name": "check-run:deploy"
+          },
+          {
+            "app_id": 15368,
+            "bucket": "pass",
+            "check_run_id": 112054290069,
+            "conclusion": "success",
+            "link": "https://github.com/openvaultdb/cloud/actions/runs/37396701494/job/112054290069",
+            "name": "check-run:synthetic-linux-image"
+          },
+          {
+            "app_id": 15368,
+            "bucket": "pass",
+            "check_run_id": 112054292077,
+            "conclusion": "success",
+            "link": "https://github.com/openvaultdb/cloud/actions/runs/37396701967/job/112054292077",
+            "name": "check-run:verify"
+          },
+          {
+            "app_id": 15368,
+            "bucket": "pass",
+            "check_run_id": 112054292558,
+            "conclusion": "success",
+            "link": "https://github.com/openvaultdb/cloud/actions/runs/37396701967/job/112054292558",
+            "name": "check-run:verify_sample_database_service / Build & test"
+          },
+          {
+            "app_id": 15368,
+            "bucket": "skipping",
+            "check_run_id": 112054984656,
+            "conclusion": "skipped",
+            "link": "https://github.com/openvaultdb/cloud/actions/runs/37396701967/job/112054984656",
+            "name": "check-run:verify_sample_database_service / Bump version"
+          },
+          {
+            "app_id": 15368,
+            "bucket": "pass",
+            "check_run_id": 112054292448,
+            "conclusion": "success",
+            "link": "https://github.com/openvaultdb/cloud/actions/runs/37396701967/job/112054292448",
+            "name": "check-run:verify_sample_database_service / Lint"
+          },
+          {
+            "app_id": 15368,
+            "bucket": "skipping",
+            "check_run_id": 112054984831,
+            "conclusion": "skipped",
+            "link": "https://github.com/openvaultdb/cloud/actions/runs/37396701967/job/112054984831",
+            "name": "check-run:verify_sample_database_service / Publish exact-tree validation receipt"
+          },
+          {
+            "app_id": 15368,
+            "bucket": "skipping",
+            "check_run_id": 112054293536,
+            "conclusion": "skipped",
+            "link": "https://github.com/openvaultdb/cloud/actions/runs/37396701967/job/112054293536",
+            "name": "check-run:verify_sample_database_service / Resolve reusable pull-request validation"
+          }
+        ],
+        "head": "c10e6587b8519be6b1736bbda27bab09f6116ff7",
+        "observed_at": "2026-10-06T01:02:39.112759Z",
+        "observed_head": "c10e6587b8519be6b1736bbda27bab09f6116ff7",
+        "observed_target_head": "c10e6587b8519be6b1736bbda27bab09f6116ff7",
+        "reason": "GitHub's required-check policy was enumerated (possibly empty), every required check was present, and the exact remote target's observed check set stayed terminal across a bounded stable reread",
+        "repository": "openvaultdb/cloud",
+        "schema_version": 1,
+        "stable_observations": 2,
+        "status": "passed",
+        "target": "main"
+      },
+      "source_bytes": 3319,
+      "source_sha256": "dadabfd970afd964d37b23b0a36fd9415f283f24e69dbfa47b40e030c012d1a5"
+    },
+    {
+      "fields": [
+        "observed_at",
+        "source_head",
+        "origin",
+        "consumer_origin",
+        "results",
+        "outcome"
+      ],
+      "id": "cors-live-smoke-r1",
+      "observation": {
+        "consumer_origin": "https://datatug.app",
+        "observed_at": "2026-10-06T01:04:39.642048+00:00",
+        "origin": "https://cloud.openvaultdb.com",
+        "outcome": "passed",
+        "results": [
+          {
+            "checks": [
+              {
+                "acao": "https://datatug.app",
+                "case": "profile",
+                "status": 200,
+                "vary": "Origin"
+              },
+              {
+                "acao": "https://datatug.app",
+                "case": "collection",
+                "status": 200,
+                "vary": "Origin"
+              },
+              {
+                "acao": "https://datatug.app",
+                "case": "query",
+                "rows": 1,
+                "status": 200,
+                "vary": "Origin"
+              },
+              {
+                "acao": "https://datatug.app",
+                "case": "preflight",
+                "status": 204,
+                "vary": "Origin"
+              },
+              {
+                "acao": null,
+                "case": "denied-profile",
+                "status": 200,
+                "vary": "Origin"
+              },
+              {
+                "acao": null,
+                "case": "denied-preflight",
+                "status": 204,
+                "vary": "Origin"
+              }
+            ],
+            "id": "adventureworks",
+            "outcome": "passed"
+          },
+          {
+            "checks": [
+              {
+                "acao": "https://datatug.app",
+                "case": "profile",
+                "status": 200,
+                "vary": "Origin"
+              },
+              {
+                "acao": "https://datatug.app",
+                "case": "collection",
+                "status": 200,
+                "vary": "Origin"
+              },
+              {
+                "acao": "https://datatug.app",
+                "case": "query",
+                "rows": 1,
+                "status": 200,
+                "vary": "Origin"
+              },
+              {
+                "acao": "https://datatug.app",
+                "case": "preflight",
+                "status": 204,
+                "vary": "Origin"
+              },
+              {
+                "acao": null,
+                "case": "denied-profile",
+                "status": 200,
+                "vary": "Origin"
+              },
+              {
+                "acao": null,
+                "case": "denied-preflight",
+                "status": 204,
+                "vary": "Origin"
+              }
+            ],
+            "id": "employees",
+            "outcome": "passed"
+          },
+          {
+            "checks": [
+              {
+                "acao": "https://datatug.app",
+                "case": "profile",
+                "status": 200,
+                "vary": "Origin"
+              },
+              {
+                "acao": "https://datatug.app",
+                "case": "collection",
+                "status": 200,
+                "vary": "Origin"
+              },
+              {
+                "acao": "https://datatug.app",
+                "case": "query",
+                "rows": 1,
+                "status": 200,
+                "vary": "Origin"
+              },
+              {
+                "acao": "https://datatug.app",
+                "case": "preflight",
+                "status": 204,
+                "vary": "Origin"
+              },
+              {
+                "acao": null,
+                "case": "denied-profile",
+                "status": 200,
+                "vary": "Origin"
+              },
+              {
+                "acao": null,
+                "case": "denied-preflight",
+                "status": 204,
+                "vary": "Origin"
+              }
+            ],
+            "id": "chinook",
+            "outcome": "passed"
+          },
+          {
+            "checks": [
+              {
+                "acao": "https://datatug.app",
+                "case": "profile",
+                "status": 200,
+                "vary": "Origin"
+              },
+              {
+                "acao": "https://datatug.app",
+                "case": "collection",
+                "status": 200,
+                "vary": "Origin"
+              },
+              {
+                "acao": "https://datatug.app",
+                "case": "query",
+                "rows": 1,
+                "status": 200,
+                "vary": "Origin"
+              },
+              {
+                "acao": "https://datatug.app",
+                "case": "preflight",
+                "status": 204,
+                "vary": "Origin"
+              },
+              {
+                "acao": null,
+                "case": "denied-profile",
+                "status": 200,
+                "vary": "Origin"
+              },
+              {
+                "acao": null,
+                "case": "denied-preflight",
+                "status": 204,
+                "vary": "Origin"
+              }
+            ],
+            "id": "northwind",
+            "outcome": "passed"
+          },
+          {
+            "checks": [
+              {
+                "acao": "https://datatug.app",
+                "case": "profile",
+                "status": 200,
+                "vary": "Origin"
+              },
+              {
+                "acao": "https://datatug.app",
+                "case": "collection",
+                "status": 200,
+                "vary": "Origin"
+              },
+              {
+                "acao": "https://datatug.app",
+                "case": "query",
+                "rows": 1,
+                "status": 200,
+                "vary": "Origin"
+              },
+              {
+                "acao": "https://datatug.app",
+                "case": "preflight",
+                "status": 204,
+                "vary": "Origin"
+              },
+              {
+                "acao": null,
+                "case": "denied-profile",
+                "status": 200,
+                "vary": "Origin"
+              },
+              {
+                "acao": null,
+                "case": "denied-preflight",
+                "status": 204,
+                "vary": "Origin"
+              }
+            ],
+            "id": "pubs",
+            "outcome": "passed"
+          },
+          {
+            "checks": [
+              {
+                "acao": "https://datatug.app",
+                "case": "profile",
+                "status": 200,
+                "vary": "Origin"
+              },
+              {
+                "acao": "https://datatug.app",
+                "case": "collection",
+                "status": 200,
+                "vary": "Origin"
+              },
+              {
+                "acao": "https://datatug.app",
+                "case": "query",
+                "rows": 1,
+                "status": 200,
+                "vary": "Origin"
+              },
+              {
+                "acao": "https://datatug.app",
+                "case": "preflight",
+                "status": 204,
+                "vary": "Origin"
+              },
+              {
+                "acao": null,
+                "case": "denied-profile",
+                "status": 200,
+                "vary": "Origin"
+              },
+              {
+                "acao": null,
+                "case": "denied-preflight",
+                "status": 204,
+                "vary": "Origin"
+              }
+            ],
+            "id": "sakila",
+            "outcome": "passed"
+          }
+        ],
+        "source_head": "c10e6587b8519be6b1736bbda27bab09f6116ff7"
+      },
+      "source_bytes": 5967,
+      "source_sha256": "eeb4c6d821ca92d76baf45c1428b1509af1e53b5562408be827cd99639e8bd14"
+    },
+    {
+      "fields": null,
+      "id": "b1-provider-matrix.json",
+      "observation": [
+        {
+          "canonical_equals_refresh_server_bytes": true,
+          "canonical_http_status": "200",
+          "directory_contains_pin": true,
+          "directory_http_status": "200",
+          "files": [
+            {
+              "live_equals_pinned": true,
+              "path": "model/chinook.modelspec.json",
+              "sha256": "5e81f79ae02760bbdc372985022ab94209b97aaa76bf456fb59e040a99476870",
+              "url": "https://chinook.demodb.dev/model/chinook.modelspec.json"
+            },
+            {
+              "live_equals_pinned": true,
+              "path": "model/chinook.modelspec.hcl",
+              "sha256": "f6ad6d7a43fb111ab38bb36352fc71d680c7325759ab8af92876d87c62f9cf55",
+              "url": "https://chinook.demodb.dev/model/chinook.modelspec.hcl"
+            },
+            {
+              "live_equals_pinned": true,
+              "path": "model/chinook.meaning.yaml",
+              "sha256": "06dccf350525baa18ddfb6a86af11dc726ed33469c8a3a5ba65e16d24a88bd7c",
+              "url": "https://chinook.demodb.dev/model/chinook.meaning.yaml"
+            }
+          ],
+          "head": "8b904298d0c3bba20c12dfbc29bb75bf5c37f683",
+          "licences": {
+            "data": "MIT",
+            "meaning": "CC0-1.0",
+            "model": "MIT"
+          },
+          "meaninggraph_graph_contains_provider_pin": true,
+          "meaninggraph_graph_http_status": "200",
+          "meaninggraph_model_link_observed": true,
+          "provider": "chinook",
+          "registry_pin": "26e852cca00101f53a84ef8ee1f1ae389067f5cf",
+          "registry_pins": {
+            "directory": "26e852cca00101f53a84ef8ee1f1ae389067f5cf",
+            "meaninggraph": "26e852cca00101f53a84ef8ee1f1ae389067f5cf",
+            "modelspec": "26e852cca00101f53a84ef8ee1f1ae389067f5cf"
+          },
+          "registry_pins_agree": true,
+          "runtime_capabilities": {
+            "aggregation": true,
+            "dtql": true,
+            "joins": true,
+            "query": true,
+            "read": true,
+            "write": false
+          },
+          "runtime_http_status": "200"
+        },
+        {
+          "canonical_equals_refresh_server_bytes": true,
+          "canonical_http_status": "200",
+          "directory_contains_pin": true,
+          "directory_http_status": "200",
+          "files": [
+            {
+              "live_equals_pinned": true,
+              "path": "model/northwind.modelspec.json",
+              "sha256": "a6d1c33ad1b52a2486bc5f8cdd9ba5216d9e6d59404c4b8f32799fcec9e1151f",
+              "url": "https://northwind.demodb.dev/model/northwind.modelspec.json"
+            },
+            {
+              "live_equals_pinned": true,
+              "path": "model/northwind.modelspec.hcl",
+              "sha256": "729838187142c71c3f5ccfb37f50641df2c9af4d9940b403794eebc8fd8df6b0",
+              "url": "https://northwind.demodb.dev/model/northwind.modelspec.hcl"
+            },
+            {
+              "live_equals_pinned": true,
+              "path": "model/northwind.meaning.yaml",
+              "sha256": "520ae0a77d23698d0ae20aa46f6f41f903e542eef49125c00f2a6efd7c109f7e",
+              "url": "https://northwind.demodb.dev/model/northwind.meaning.yaml"
+            }
+          ],
+          "head": "64961074fc09801cf489ba0d3632d14c463950e3",
+          "licences": {
+            "data": "MIT",
+            "meaning": "CC0-1.0",
+            "model": "MIT"
+          },
+          "meaninggraph_graph_contains_provider_pin": true,
+          "meaninggraph_graph_http_status": "200",
+          "meaninggraph_model_link_observed": true,
+          "provider": "northwind",
+          "registry_pin": "e74726515c3833620b54b7a50d1d273276dd23c1",
+          "registry_pins": {
+            "directory": "e74726515c3833620b54b7a50d1d273276dd23c1",
+            "meaninggraph": "e74726515c3833620b54b7a50d1d273276dd23c1",
+            "modelspec": "e74726515c3833620b54b7a50d1d273276dd23c1"
+          },
+          "registry_pins_agree": true,
+          "runtime_capabilities": {
+            "aggregation": true,
+            "dtql": true,
+            "joins": true,
+            "query": true,
+            "read": true,
+            "write": false
+          },
+          "runtime_http_status": "200"
+        },
+        {
+          "canonical_equals_refresh_server_bytes": true,
+          "canonical_http_status": "200",
+          "directory_contains_pin": true,
+          "directory_http_status": "200",
+          "files": [
+            {
+              "live_equals_pinned": true,
+              "path": "model/sakila.modelspec.json",
+              "sha256": "e60c2b1f4cfd490ce97939b1703b741d48758472170f3b54aedf6d7f4865b336",
+              "url": "https://sakila.demodb.dev/model/sakila.modelspec.json"
+            },
+            {
+              "live_equals_pinned": true,
+              "path": "model/sakila.modelspec.hcl",
+              "sha256": "d57906e385f79d52ca4cc0ee370267bb6ef5cb5f78244503718171bc398313e4",
+              "url": "https://sakila.demodb.dev/model/sakila.modelspec.hcl"
+            },
+            {
+              "live_equals_pinned": true,
+              "path": "model/sakila.meaning.yaml",
+              "sha256": "8d005600fef94f41ea007fb58cf259e3f30060b4cc88b4df614dc74a3e896499",
+              "url": "https://sakila.demodb.dev/model/sakila.meaning.yaml"
+            }
+          ],
+          "head": "cb9a81a8cbedcd8831737f281f888d5d584fae85",
+          "licences": {
+            "data": "BSD-3-Clause",
+            "meaning": "CC0-1.0",
+            "model": "BSD-3-Clause"
+          },
+          "meaninggraph_graph_contains_provider_pin": true,
+          "meaninggraph_graph_http_status": "200",
+          "meaninggraph_model_link_observed": true,
+          "provider": "sakila",
+          "registry_pin": "cb9a81a8cbedcd8831737f281f888d5d584fae85",
+          "registry_pins": {
+            "directory": "cb9a81a8cbedcd8831737f281f888d5d584fae85",
+            "meaninggraph": "cb9a81a8cbedcd8831737f281f888d5d584fae85",
+            "modelspec": "cb9a81a8cbedcd8831737f281f888d5d584fae85"
+          },
+          "registry_pins_agree": true,
+          "runtime_capabilities": {
+            "aggregation": true,
+            "dtql": true,
+            "joins": true,
+            "query": true,
+            "read": true,
+            "write": false
+          },
+          "runtime_http_status": "200"
+        },
+        {
+          "canonical_equals_refresh_server_bytes": true,
+          "canonical_http_status": "200",
+          "directory_contains_pin": true,
+          "directory_http_status": "200",
+          "files": [
+            {
+              "live_equals_pinned": true,
+              "path": "model/adventureworks.modelspec.json",
+              "sha256": "0ee66302e280572c5b1fe8598e2063755a5563504befe35b0d6ebfa34da25ca8",
+              "url": "https://adventureworks.demodb.dev/model/adventureworks.modelspec.json"
+            },
+            {
+              "live_equals_pinned": true,
+              "path": "model/adventureworks.modelspec.hcl",
+              "sha256": "f5492447a3749572d4c877a2b2afd8aa9b80cfdf2d0e3c53e4e5c7635abd47ee",
+              "url": "https://adventureworks.demodb.dev/model/adventureworks.modelspec.hcl"
+            },
+            {
+              "live_equals_pinned": true,
+              "path": "model/adventureworks.meaning.yaml",
+              "sha256": "2a251546e4d525d2c53bd5fe9b54988dcfe002c0def61b6891517e1f931ce45f",
+              "url": "https://adventureworks.demodb.dev/model/adventureworks.meaning.yaml"
+            }
+          ],
+          "head": "d6537a740c18c8f14aaa58266a2d2506222c43e1",
+          "licences": {
+            "data": "MIT",
+            "meaning": "CC0-1.0",
+            "model": "MIT"
+          },
+          "meaninggraph_graph_contains_provider_pin": true,
+          "meaninggraph_graph_http_status": "200",
+          "meaninggraph_model_link_observed": true,
+          "provider": "adventureworks",
+          "registry_pin": "5028a27189b487d6fd8025fafc1307aada707fd2",
+          "registry_pins": {
+            "directory": "5028a27189b487d6fd8025fafc1307aada707fd2",
+            "meaninggraph": "5028a27189b487d6fd8025fafc1307aada707fd2",
+            "modelspec": "5028a27189b487d6fd8025fafc1307aada707fd2"
+          },
+          "registry_pins_agree": true,
+          "runtime_capabilities": {
+            "aggregation": true,
+            "dtql": true,
+            "joins": true,
+            "query": true,
+            "read": true,
+            "write": false
+          },
+          "runtime_http_status": "200"
+        },
+        {
+          "canonical_equals_refresh_server_bytes": true,
+          "canonical_http_status": "200",
+          "directory_contains_pin": true,
+          "directory_http_status": "200",
+          "files": [
+            {
+              "live_equals_pinned": true,
+              "path": "model/pubs.modelspec.json",
+              "sha256": "6f7ca172d746866f2cf3ee84be0fb1ae9bd6c90f6144a0e35f24eec7af11f3ea",
+              "url": "https://pubs.demodb.dev/model/pubs.modelspec.json"
+            },
+            {
+              "live_equals_pinned": true,
+              "path": "model/pubs.modelspec.hcl",
+              "sha256": "b5eec88b774d36189fa4e806bd8b81f5a6162193a2cfac104b4b139215e155fa",
+              "url": "https://pubs.demodb.dev/model/pubs.modelspec.hcl"
+            },
+            {
+              "live_equals_pinned": true,
+              "path": "model/pubs.meaning.yaml",
+              "sha256": "c2c1ba018c7381a274403c5fc3dd0f2fa7aaac3a7dbbd31eacb82950e64c7e83",
+              "url": "https://pubs.demodb.dev/model/pubs.meaning.yaml"
+            }
+          ],
+          "head": "6c06c5c7395b03ff1a02c2b1a21485add3e1b65b",
+          "licences": {
+            "data": "MIT",
+            "meaning": "CC0-1.0",
+            "model": "MIT"
+          },
+          "meaninggraph_graph_contains_provider_pin": true,
+          "meaninggraph_graph_http_status": "200",
+          "meaninggraph_model_link_observed": true,
+          "provider": "pubs",
+          "registry_pin": "6c06c5c7395b03ff1a02c2b1a21485add3e1b65b",
+          "registry_pins": {
+            "directory": "6c06c5c7395b03ff1a02c2b1a21485add3e1b65b",
+            "meaninggraph": "6c06c5c7395b03ff1a02c2b1a21485add3e1b65b",
+            "modelspec": "6c06c5c7395b03ff1a02c2b1a21485add3e1b65b"
+          },
+          "registry_pins_agree": true,
+          "runtime_capabilities": {
+            "aggregation": true,
+            "dtql": true,
+            "joins": true,
+            "query": true,
+            "read": true,
+            "write": false
+          },
+          "runtime_http_status": "200"
+        },
+        {
+          "canonical_equals_refresh_server_bytes": true,
+          "canonical_http_status": "200",
+          "directory_contains_pin": true,
+          "directory_http_status": "200",
+          "files": [
+            {
+              "live_equals_pinned": true,
+              "path": "model/employees.modelspec.json",
+              "sha256": "5ccf485602215108bac6a3d1bf87f3240faf177c44e19292279af397c13791bd",
+              "url": "https://employees.demodb.dev/model/employees.modelspec.json"
+            },
+            {
+              "live_equals_pinned": true,
+              "path": "model/employees.modelspec.hcl",
+              "sha256": "5a84638165cdcbdfa64973eafde03acc20e99423c01689cbbf7647309eb91918",
+              "url": "https://employees.demodb.dev/model/employees.modelspec.hcl"
+            },
+            {
+              "live_equals_pinned": true,
+              "path": "model/employees.meaning.yaml",
+              "sha256": "497d684839961eeea852454a31098f782efc8c9efdc794479c7edc8caefc1fd3",
+              "url": "https://employees.demodb.dev/model/employees.meaning.yaml"
+            }
+          ],
+          "head": "2069e26e8fdb60bdb16507f75569a579cf3da7cf",
+          "licences": {
+            "data": "CC-BY-SA-3.0",
+            "meaning": "CC-BY-SA-3.0",
+            "model": "CC-BY-SA-3.0"
+          },
+          "meaninggraph_graph_contains_provider_pin": true,
+          "meaninggraph_graph_http_status": "200",
+          "meaninggraph_model_link_observed": true,
+          "provider": "employees",
+          "registry_pin": "2069e26e8fdb60bdb16507f75569a579cf3da7cf",
+          "registry_pins": {
+            "directory": "2069e26e8fdb60bdb16507f75569a579cf3da7cf",
+            "meaninggraph": "2069e26e8fdb60bdb16507f75569a579cf3da7cf",
+            "modelspec": "2069e26e8fdb60bdb16507f75569a579cf3da7cf"
+          },
+          "registry_pins_agree": true,
+          "runtime_capabilities": {
+            "aggregation": true,
+            "dtql": true,
+            "joins": true,
+            "query": true,
+            "read": true,
+            "write": false
+          },
+          "runtime_http_status": "200"
+        }
+      ],
+      "source_bytes": 10938,
+      "source_sha256": "c8faa9acc78f4b660d34fa0ec0f11105f925b5efcf15508e655caa8f3162e715"
+    },
+    {
+      "fields": [
+        "merged",
+        "merged_at",
+        "head",
+        "base",
+        "merge_commit_sha",
+        "state",
+        "html_url"
+      ],
+      "id": "b1-cloud-pr22.json",
+      "observation": {
+        "base": {
+          "label": "openvaultdb:main",
+          "ref": "main",
+          "repo": {
+            "allow_forking": true,
+            "archive_url": "https://api.github.com/repos/openvaultdb/cloud/{archive_format}{/ref}",
+            "archived": false,
+            "assignees_url": "https://api.github.com/repos/openvaultdb/cloud/assignees{/user}",
+            "blobs_url": "https://api.github.com/repos/openvaultdb/cloud/git/blobs{/sha}",
+            "branches_url": "https://api.github.com/repos/openvaultdb/cloud/branches{/branch}",
+            "clone_url": "https://github.com/openvaultdb/cloud.git",
+            "collaborators_url": "https://api.github.com/repos/openvaultdb/cloud/collaborators{/collaborator}",
+            "comments_url": "https://api.github.com/repos/openvaultdb/cloud/comments{/number}",
+            "commits_url": "https://api.github.com/repos/openvaultdb/cloud/commits{/sha}",
+            "compare_url": "https://api.github.com/repos/openvaultdb/cloud/compare/{base}...{head}",
+            "contents_url": "https://api.github.com/repos/openvaultdb/cloud/contents/{+path}",
+            "contributors_url": "https://api.github.com/repos/openvaultdb/cloud/contributors",
+            "created_at": "2026-08-31T14:58:27Z",
+            "default_branch": "main",
+            "deployments_url": "https://api.github.com/repos/openvaultdb/cloud/deployments",
+            "description": "OpenVaultDB Cloud control plane and browser authorization service",
+            "disabled": false,
+            "downloads_url": "https://api.github.com/repos/openvaultdb/cloud/downloads",
+            "events_url": "https://api.github.com/repos/openvaultdb/cloud/events",
+            "fork": false,
+            "forks": 0,
+            "forks_count": 0,
+            "forks_url": "https://api.github.com/repos/openvaultdb/cloud/forks",
+            "full_name": "openvaultdb/cloud",
+            "git_commits_url": "https://api.github.com/repos/openvaultdb/cloud/git/commits{/sha}",
+            "git_refs_url": "https://api.github.com/repos/openvaultdb/cloud/git/refs{/sha}",
+            "git_tags_url": "https://api.github.com/repos/openvaultdb/cloud/git/tags{/sha}",
+            "git_url": "git://github.com/openvaultdb/cloud.git",
+            "has_discussions": false,
+            "has_downloads": false,
+            "has_issues": true,
+            "has_pages": false,
+            "has_projects": true,
+            "has_pull_requests": true,
+            "has_wiki": true,
+            "homepage": null,
+            "hooks_url": "https://api.github.com/repos/openvaultdb/cloud/hooks",
+            "html_url": "https://github.com/openvaultdb/cloud",
+            "id": 1352539834,
+            "is_template": false,
+            "issue_comment_url": "https://api.github.com/repos/openvaultdb/cloud/issues/comments{/number}",
+            "issue_events_url": "https://api.github.com/repos/openvaultdb/cloud/issues/events{/number}",
+            "issues_url": "https://api.github.com/repos/openvaultdb/cloud/issues{/number}",
+            "keys_url": "https://api.github.com/repos/openvaultdb/cloud/keys{/key_id}",
+            "labels_url": "https://api.github.com/repos/openvaultdb/cloud/labels{/name}",
+            "language": "Go",
+            "languages_url": "https://api.github.com/repos/openvaultdb/cloud/languages",
+            "license": {
+              "key": "mit",
+              "name": "MIT License",
+              "node_id": "MDc6TGljZW5zZTEz",
+              "spdx_id": "MIT",
+              "url": "https://api.github.com/licenses/mit"
+            },
+            "merges_url": "https://api.github.com/repos/openvaultdb/cloud/merges",
+            "milestones_url": "https://api.github.com/repos/openvaultdb/cloud/milestones{/number}",
+            "mirror_url": null,
+            "name": "cloud",
+            "node_id": "R_kgDOUJ4eug",
+            "notifications_url": "https://api.github.com/repos/openvaultdb/cloud/notifications{?since,all,participating}",
+            "open_issues": 1,
+            "open_issues_count": 1,
+            "owner": {
+              "avatar_url": "https://avatars.githubusercontent.com/u/292039795?v=4",
+              "events_url": "https://api.github.com/users/openvaultdb/events{/privacy}",
+              "followers_url": "https://api.github.com/users/openvaultdb/followers",
+              "following_url": "https://api.github.com/users/openvaultdb/following{/other_user}",
+              "gists_url": "https://api.github.com/users/openvaultdb/gists{/gist_id}",
+              "gravatar_id": "",
+              "html_url": "https://github.com/openvaultdb",
+              "id": 292039795,
+              "login": "openvaultdb",
+              "node_id": "O_kgDOEWgscw",
+              "organizations_url": "https://api.github.com/users/openvaultdb/orgs",
+              "received_events_url": "https://api.github.com/users/openvaultdb/received_events",
+              "repos_url": "https://api.github.com/users/openvaultdb/repos",
+              "site_admin": false,
+              "starred_url": "https://api.github.com/users/openvaultdb/starred{/owner}{/repo}",
+              "subscriptions_url": "https://api.github.com/users/openvaultdb/subscriptions",
+              "type": "Organization",
+              "url": "https://api.github.com/users/openvaultdb",
+              "user_view_type": "public"
+            },
+            "private": false,
+            "pull_request_creation_policy": "all",
+            "pulls_url": "https://api.github.com/repos/openvaultdb/cloud/pulls{/number}",
+            "pushed_at": "2026-10-06T01:37:59Z",
+            "releases_url": "https://api.github.com/repos/openvaultdb/cloud/releases{/id}",
+            "size": 818,
+            "ssh_url": "git@github.com:openvaultdb/cloud.git",
+            "stargazers_count": 0,
+            "stargazers_url": "https://api.github.com/repos/openvaultdb/cloud/stargazers",
+            "statuses_url": "https://api.github.com/repos/openvaultdb/cloud/statuses/{sha}",
+            "subscribers_url": "https://api.github.com/repos/openvaultdb/cloud/subscribers",
+            "subscription_url": "https://api.github.com/repos/openvaultdb/cloud/subscription",
+            "svn_url": "https://github.com/openvaultdb/cloud",
+            "tags_url": "https://api.github.com/repos/openvaultdb/cloud/tags",
+            "teams_url": "https://api.github.com/repos/openvaultdb/cloud/teams",
+            "topics": [],
+            "trees_url": "https://api.github.com/repos/openvaultdb/cloud/git/trees{/sha}",
+            "updated_at": "2026-10-06T01:38:00Z",
+            "url": "https://api.github.com/repos/openvaultdb/cloud",
+            "visibility": "public",
+            "watchers": 0,
+            "watchers_count": 0,
+            "web_commit_signoff_required": false
+          },
+          "sha": "c10e6587b8519be6b1736bbda27bab09f6116ff7",
+          "user": {
+            "avatar_url": "https://avatars.githubusercontent.com/u/292039795?v=4",
+            "events_url": "https://api.github.com/users/openvaultdb/events{/privacy}",
+            "followers_url": "https://api.github.com/users/openvaultdb/followers",
+            "following_url": "https://api.github.com/users/openvaultdb/following{/other_user}",
+            "gists_url": "https://api.github.com/users/openvaultdb/gists{/gist_id}",
+            "gravatar_id": "",
+            "html_url": "https://github.com/openvaultdb",
+            "id": 292039795,
+            "login": "openvaultdb",
+            "node_id": "O_kgDOEWgscw",
+            "organizations_url": "https://api.github.com/users/openvaultdb/orgs",
+            "received_events_url": "https://api.github.com/users/openvaultdb/received_events",
+            "repos_url": "https://api.github.com/users/openvaultdb/repos",
+            "site_admin": false,
+            "starred_url": "https://api.github.com/users/openvaultdb/starred{/owner}{/repo}",
+            "subscriptions_url": "https://api.github.com/users/openvaultdb/subscriptions",
+            "type": "Organization",
+            "url": "https://api.github.com/users/openvaultdb",
+            "user_view_type": "public"
+          }
+        },
+        "head": {
+          "label": "openvaultdb:w1-cloud-actual-capacity",
+          "ref": "w1-cloud-actual-capacity",
+          "repo": {
+            "allow_forking": true,
+            "archive_url": "https://api.github.com/repos/openvaultdb/cloud/{archive_format}{/ref}",
+            "archived": false,
+            "assignees_url": "https://api.github.com/repos/openvaultdb/cloud/assignees{/user}",
+            "blobs_url": "https://api.github.com/repos/openvaultdb/cloud/git/blobs{/sha}",
+            "branches_url": "https://api.github.com/repos/openvaultdb/cloud/branches{/branch}",
+            "clone_url": "https://github.com/openvaultdb/cloud.git",
+            "collaborators_url": "https://api.github.com/repos/openvaultdb/cloud/collaborators{/collaborator}",
+            "comments_url": "https://api.github.com/repos/openvaultdb/cloud/comments{/number}",
+            "commits_url": "https://api.github.com/repos/openvaultdb/cloud/commits{/sha}",
+            "compare_url": "https://api.github.com/repos/openvaultdb/cloud/compare/{base}...{head}",
+            "contents_url": "https://api.github.com/repos/openvaultdb/cloud/contents/{+path}",
+            "contributors_url": "https://api.github.com/repos/openvaultdb/cloud/contributors",
+            "created_at": "2026-08-31T14:58:27Z",
+            "default_branch": "main",
+            "deployments_url": "https://api.github.com/repos/openvaultdb/cloud/deployments",
+            "description": "OpenVaultDB Cloud control plane and browser authorization service",
+            "disabled": false,
+            "downloads_url": "https://api.github.com/repos/openvaultdb/cloud/downloads",
+            "events_url": "https://api.github.com/repos/openvaultdb/cloud/events",
+            "fork": false,
+            "forks": 0,
+            "forks_count": 0,
+            "forks_url": "https://api.github.com/repos/openvaultdb/cloud/forks",
+            "full_name": "openvaultdb/cloud",
+            "git_commits_url": "https://api.github.com/repos/openvaultdb/cloud/git/commits{/sha}",
+            "git_refs_url": "https://api.github.com/repos/openvaultdb/cloud/git/refs{/sha}",
+            "git_tags_url": "https://api.github.com/repos/openvaultdb/cloud/git/tags{/sha}",
+            "git_url": "git://github.com/openvaultdb/cloud.git",
+            "has_discussions": false,
+            "has_downloads": false,
+            "has_issues": true,
+            "has_pages": false,
+            "has_projects": true,
+            "has_pull_requests": true,
+            "has_wiki": true,
+            "homepage": null,
+            "hooks_url": "https://api.github.com/repos/openvaultdb/cloud/hooks",
+            "html_url": "https://github.com/openvaultdb/cloud",
+            "id": 1352539834,
+            "is_template": false,
+            "issue_comment_url": "https://api.github.com/repos/openvaultdb/cloud/issues/comments{/number}",
+            "issue_events_url": "https://api.github.com/repos/openvaultdb/cloud/issues/events{/number}",
+            "issues_url": "https://api.github.com/repos/openvaultdb/cloud/issues{/number}",
+            "keys_url": "https://api.github.com/repos/openvaultdb/cloud/keys{/key_id}",
+            "labels_url": "https://api.github.com/repos/openvaultdb/cloud/labels{/name}",
+            "language": "Go",
+            "languages_url": "https://api.github.com/repos/openvaultdb/cloud/languages",
+            "license": {
+              "key": "mit",
+              "name": "MIT License",
+              "node_id": "MDc6TGljZW5zZTEz",
+              "spdx_id": "MIT",
+              "url": "https://api.github.com/licenses/mit"
+            },
+            "merges_url": "https://api.github.com/repos/openvaultdb/cloud/merges",
+            "milestones_url": "https://api.github.com/repos/openvaultdb/cloud/milestones{/number}",
+            "mirror_url": null,
+            "name": "cloud",
+            "node_id": "R_kgDOUJ4eug",
+            "notifications_url": "https://api.github.com/repos/openvaultdb/cloud/notifications{?since,all,participating}",
+            "open_issues": 1,
+            "open_issues_count": 1,
+            "owner": {
+              "avatar_url": "https://avatars.githubusercontent.com/u/292039795?v=4",
+              "events_url": "https://api.github.com/users/openvaultdb/events{/privacy}",
+              "followers_url": "https://api.github.com/users/openvaultdb/followers",
+              "following_url": "https://api.github.com/users/openvaultdb/following{/other_user}",
+              "gists_url": "https://api.github.com/users/openvaultdb/gists{/gist_id}",
+              "gravatar_id": "",
+              "html_url": "https://github.com/openvaultdb",
+              "id": 292039795,
+              "login": "openvaultdb",
+              "node_id": "O_kgDOEWgscw",
+              "organizations_url": "https://api.github.com/users/openvaultdb/orgs",
+              "received_events_url": "https://api.github.com/users/openvaultdb/received_events",
+              "repos_url": "https://api.github.com/users/openvaultdb/repos",
+              "site_admin": false,
+              "starred_url": "https://api.github.com/users/openvaultdb/starred{/owner}{/repo}",
+              "subscriptions_url": "https://api.github.com/users/openvaultdb/subscriptions",
+              "type": "Organization",
+              "url": "https://api.github.com/users/openvaultdb",
+              "user_view_type": "public"
+            },
+            "private": false,
+            "pull_request_creation_policy": "all",
+            "pulls_url": "https://api.github.com/repos/openvaultdb/cloud/pulls{/number}",
+            "pushed_at": "2026-10-06T01:37:59Z",
+            "releases_url": "https://api.github.com/repos/openvaultdb/cloud/releases{/id}",
+            "size": 818,
+            "ssh_url": "git@github.com:openvaultdb/cloud.git",
+            "stargazers_count": 0,
+            "stargazers_url": "https://api.github.com/repos/openvaultdb/cloud/stargazers",
+            "statuses_url": "https://api.github.com/repos/openvaultdb/cloud/statuses/{sha}",
+            "subscribers_url": "https://api.github.com/repos/openvaultdb/cloud/subscribers",
+            "subscription_url": "https://api.github.com/repos/openvaultdb/cloud/subscription",
+            "svn_url": "https://github.com/openvaultdb/cloud",
+            "tags_url": "https://api.github.com/repos/openvaultdb/cloud/tags",
+            "teams_url": "https://api.github.com/repos/openvaultdb/cloud/teams",
+            "topics": [],
+            "trees_url": "https://api.github.com/repos/openvaultdb/cloud/git/trees{/sha}",
+            "updated_at": "2026-10-06T01:38:00Z",
+            "url": "https://api.github.com/repos/openvaultdb/cloud",
+            "visibility": "public",
+            "watchers": 0,
+            "watchers_count": 0,
+            "web_commit_signoff_required": false
+          },
+          "sha": "889d722791e36c08226069002b2429883c0c3b4a",
+          "user": {
+            "avatar_url": "https://avatars.githubusercontent.com/u/292039795?v=4",
+            "events_url": "https://api.github.com/users/openvaultdb/events{/privacy}",
+            "followers_url": "https://api.github.com/users/openvaultdb/followers",
+            "following_url": "https://api.github.com/users/openvaultdb/following{/other_user}",
+            "gists_url": "https://api.github.com/users/openvaultdb/gists{/gist_id}",
+            "gravatar_id": "",
+            "html_url": "https://github.com/openvaultdb",
+            "id": 292039795,
+            "login": "openvaultdb",
+            "node_id": "O_kgDOEWgscw",
+            "organizations_url": "https://api.github.com/users/openvaultdb/orgs",
+            "received_events_url": "https://api.github.com/users/openvaultdb/received_events",
+            "repos_url": "https://api.github.com/users/openvaultdb/repos",
+            "site_admin": false,
+            "starred_url": "https://api.github.com/users/openvaultdb/starred{/owner}{/repo}",
+            "subscriptions_url": "https://api.github.com/users/openvaultdb/subscriptions",
+            "type": "Organization",
+            "url": "https://api.github.com/users/openvaultdb",
+            "user_view_type": "public"
+          }
+        },
+        "html_url": "https://github.com/openvaultdb/cloud/pull/22",
+        "merge_commit_sha": "775c40c237b8196971b70264c5b491dfaa96845b",
+        "merged": true,
+        "merged_at": "2026-10-06T01:37:55Z",
+        "state": "closed"
+      },
+      "source_bytes": 18333,
+      "source_sha256": "2f8105ad625e358ed293e7702c5a6d19346fa94eb87db20aaf408ac77932b303"
+    },
+    {
+      "fields": [
+        "status",
+        "ahead_by",
+        "behind_by",
+        "files"
+      ],
+      "id": "b1-cloud-compare.json",
+      "observation": {
+        "ahead_by": 1,
+        "behind_by": 0,
+        "files": [],
+        "status": "ahead"
+      },
+      "source_bytes": 15191,
+      "source_sha256": "3f99d792bad0522627b41857bfb965724a8a4667c7d6dae4d8ddbc7160dd65a6"
+    },
+    {
+      "fields": [
+        "sha",
+        "html_url"
+      ],
+      "id": "b1-mg-site-head.json",
+      "observation": {
+        "html_url": "https://github.com/sneat-co/meaninggraph/commit/40e182729c2f818f20803f7d24dc94e484b0da6d",
+        "sha": "40e182729c2f818f20803f7d24dc94e484b0da6d"
+      },
+      "source_bytes": 10720,
+      "source_sha256": "2666be5e1ff3819b3054c6479455e0f77d3044c391a033b8b0fbb9343af5d878"
+    },
+    {
+      "fields": [
+        "total_count"
+      ],
+      "id": "b1-mg-site-runs.json",
+      "observation": {
+        "total_count": 31
+      },
+      "source_bytes": 102017,
+      "source_sha256": "3f5f3ed7ae0a64bf0ebe491591e5a5c45d182529ac220bb51ec56ff203dfbe54"
+    },
+    {
+      "fields": null,
+      "id": "b1-directory-build.json",
+      "observation": {
+        "commit": "1a106eb4729d1da7a12ad6edf54e7695de9b5fa9",
+        "format": "ovdb-directory-build/1",
+        "indexChecksums": {
+          "directory": "sha256:092035ad05ed4e278c458783817af3dafbfec28bd8ca398018b3a4a1a58c2fd8",
+          "modelspecRegistry": "sha256:3125e3d95850e4c3f5197e4c516e793b85637bea6261d8a0cdcc39c4a1e99ee9"
+        },
+        "indexCommits": {
+          "directory": "087067483686865b13cb76511ff86f7364ea47ff",
+          "modelspecRegistry": "309882f4f077379ed56e2c64f6002cbd7f9b5558"
+        },
+        "source": "url"
+      },
+      "source_bytes": 488,
+      "source_sha256": "112ed9d8372b7b7bf2c45903e4c3215a9e655821c1fa00c1660bb443b5730feb"
+    },
+    {
+      "fields": null,
+      "id": "b1-modelspec-build.json",
+      "observation": {
+        "checksums": {
+          "meaninggraph": "sha256:9a3f50b6b52aac47a5c3507f9cfa119f540b2a1cc0809b60d828540836573023",
+          "modelspec": "sha256:3125e3d95850e4c3f5197e4c516e793b85637bea6261d8a0cdcc39c4a1e99ee9",
+          "ovdbDirectory": "sha256:092035ad05ed4e278c458783817af3dafbfec28bd8ca398018b3a4a1a58c2fd8"
+        },
+        "commit": "ff2393a99e0bd093272c1765a57eefdea01c0a90",
+        "fixture": false,
+        "fixtureSet": null,
+        "format": "modelspec-build/1",
+        "indexCommits": {
+          "meaninggraph": "b35f25c93be5d09fce7bc385e77cb58b700d925e",
+          "modelspec": "309882f4f077379ed56e2c64f6002cbd7f9b5558",
+          "ovdbDirectory": "087067483686865b13cb76511ff86f7364ea47ff"
+        },
+        "meaningGraphBaseUrl": "https://meaninggraph.io",
+        "mode": "production",
+        "models": [
+          {
+            "commit": "5028a27189b487d6fd8025fafc1307aada707fd2",
+            "id": "adventureworks"
+          },
+          {
+            "commit": "26e852cca00101f53a84ef8ee1f1ae389067f5cf",
+            "id": "chinook"
+          },
+          {
+            "commit": "2069e26e8fdb60bdb16507f75569a579cf3da7cf",
+            "id": "employees"
+          },
+          {
+            "commit": "6f4cf1269bc393048f6b204069135a62f0bb6c02",
+            "id": "geonames"
+          },
+          {
+            "commit": "e74726515c3833620b54b7a50d1d273276dd23c1",
+            "id": "northwind"
+          },
+          {
+            "commit": "6c06c5c7395b03ff1a02c2b1a21485add3e1b65b",
+            "id": "pubs"
+          },
+          {
+            "commit": "dc78c1e929f1f10018f8c39e690351059a50c71f",
+            "id": "ror"
+          },
+          {
+            "commit": "cb9a81a8cbedcd8831737f281f888d5d584fae85",
+            "id": "sakila"
+          }
+        ],
+        "outDir": "dist",
+        "ovdbDirectoryBaseUrl": "https://directory.openvaultdb.com",
+        "pages": 10,
+        "production": true,
+        "sources": {
+          "meaninggraph": {
+            "kind": "url",
+            "location": "https://raw.githubusercontent.com/meaninggraph/registry/b35f25c93be5d09fce7bc385e77cb58b700d925e/index.json"
+          },
+          "modelspec": {
+            "kind": "url",
+            "location": "https://raw.githubusercontent.com/modelspec-org/registry/309882f4f077379ed56e2c64f6002cbd7f9b5558/index.json"
+          },
+          "ovdbDirectory": {
+            "kind": "url",
+            "location": "https://raw.githubusercontent.com/openvaultdb/directory/087067483686865b13cb76511ff86f7364ea47ff/index.json"
+          }
+        }
+      },
+      "source_bytes": 2182,
+      "source_sha256": "f60fb16c45177d040dd1c3b9837d2e31f6f2071c073d89fcfe53648c8b4b8c43"
+    }
+  ],
+  "schema_version": 1
+}

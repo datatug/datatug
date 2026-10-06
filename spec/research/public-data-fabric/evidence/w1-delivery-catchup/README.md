@@ -33,3 +33,7 @@ Go and JavaScript BigQuery delivery are both mandatory. JavaScript foundation pu
 ## Verification
 
 Run `python3 spec/research/public-data-fabric/evidence/w1-delivery-catchup/verify.py` from the hub root. It checks packet hashes, original field associations, exact-main head/check coherence, release-to-tag/module bindings, history/correction boundaries and every preserved research file. It makes no network request. Optional `--original-map` accepts a private label-to-file map to rehash original receipts and compare normalized fields directly; the private map is never committed. Default verification validates the frozen public packet, not the private originals or current remote state. Receipts are dated observations; this packet is not a new semantic or phase acceptance decision.
+
+## Open Questions
+
+The remaining gates listed above remain open; existing programme questions and gates are authoritative. This section adds the required document structure without changing any recorded observation or status.
