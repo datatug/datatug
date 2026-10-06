@@ -15,7 +15,7 @@
     },
     "spec/research/public-data-fabric/evidence/w1-followup-decisions/verify.py": {
       "original_sha256": "7246504b0494626c13dfa623deba84fcf0718449b2ee3220094557e88d3e5a16",
-      "successor_sha256": "797ba73fb89ce0c068471d3fd45716e023c93a219d58002a5f13b028aa607a9a",
+      "successor_sha256": "72fc3586dae757037d34af5502504b20ab465bb1d4442e682676986b56f183e1",
       "reason": "Verify original historical hashes and reviewed successor metadata; full history available in CI"
     },
     "spec/research/public-data-fabric/evidence/w1-transport-app-fx/verify.py": {
@@ -38,5 +38,16 @@
       "successor_sha256": "97a52133fa7ba560ed7e61f6daef3889f8a7d115d35ee87428814bcf00546bc4",
       "reason": "Surface superseding decision without rewriting historical receipts or status"
     }
+  },
+  "catalogue_evidence_addendum": {
+    "id": "bigquery-catalogue-research-20261006",
+    "base_commit": "00ae8f9dd781a30bc2fcf321c96ddc5c09ece024",
+    "original_evidence_records": 183,
+    "added_evidence_records": 3,
+    "total_evidence_records": 186,
+    "predecessor_successor_sha256": {
+      "spec/research/public-data-fabric/evidence/w1-followup-decisions/verify.py": "797ba73fb89ce0c068471d3fd45716e023c93a219d58002a5f13b028aa607a9a"
+    },
+    "scope": "Exact three evidence IDs/hashes checked by verify_no_copy_decision.py; all original records and programme gates preserved."
   }
 }

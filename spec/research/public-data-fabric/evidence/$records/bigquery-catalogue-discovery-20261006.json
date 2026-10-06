@@ -1,0 +1,12 @@
+{
+  "commit": "14735c60589ab22361dc0d54ad7491ba7ae96a04",
+  "independent": false,
+  "observed_at": "2026-10-06T11:44:00Z",
+  "outcome": "observation",
+  "path": "spec/research/public-data-fabric/evidence/bigquery-catalogue-2026-10-06.md",
+  "repository": "https://github.com/GoogleCloudPlatform/public-datasets-pipelines",
+  "review_stage": "discovery",
+  "reviewer": "ovdb-js-provider-reads-adapter-sol",
+  "summary": "Candidate IDs: bq-source-public-data, bq-opportunity-dual-runtime, bq-data-noaa-gsod, bq-data-citibike. Local Codex Sol Mac read official documentation and pinned authored schema definitions only. WDI recommended first inactive discovery resource; no new candidate or equivalence with original World Bank API research. All live BigQuery resource/schema/location/freshness and permissions unobserved; no authenticated metadata reads, queries, previews, rows or activation. Original report SHA256 08c0fee8173feaf923e8e6ee05ef5773249f4034ce9466abab797c3485f0b321. Research correctness observations do not supply publication or execution admission.",
+  "title": "BigQuery catalogue metadata-only discovery checkpoint"
+}
