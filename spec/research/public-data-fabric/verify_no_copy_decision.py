@@ -11,7 +11,7 @@ BASE = Path(__file__).resolve().parent
 ROOT = BASE.parents[2]
 PORTFOLIO = 'spec/research/public-data-fabric/evidence/p3-portfolio.json'
 RECEIPT = BASE / 'evidence/no-copy-access-decision.json'
-SUPERSEDED_FILES = frozenset(['spec/research/public-data-fabric/p3-portfolio.md', 'spec/research/public-data-fabric/evidence/p3-portfolio.json', 'spec/research/public-data-fabric/evidence/w1-followup-decisions/verify.py', 'spec/research/public-data-fabric/evidence/w1-transport-app-fx/verify.py', '.github/workflows/public-data-fabric.yml', 'spec/research/public-data-fabric/README.md', 'spec/features/public-data-fabric/README.md'])
+SUPERSEDED_FILES = frozenset(['spec/research/public-data-fabric/p3-portfolio.md', 'spec/research/public-data-fabric/evidence/p3-portfolio.json', 'spec/research/public-data-fabric/evidence/w1-followup-decisions/verify.py', 'spec/research/public-data-fabric/evidence/w1-transport-app-fx/verify.py', '.github/workflows/public-data-fabric.yml', 'spec/research/public-data-fabric/README.md', 'spec/features/public-data-fabric/README.md', 'spec/research/public-data-fabric/p2-reconciliation.md'])
 APPROVED_EVIDENCE_ADDITIONS = {
     'bigquery-catalogue-corrections-20261006': '4d7da4bf0c36c71ee2caba31d7876fe833407920af55cfda88bd3df4571d7ca3',
     'bigquery-catalogue-discovery-20261006': '767265e46e8c234afaa9048460ceb81246787177651fdea104bcb224c98cd512',

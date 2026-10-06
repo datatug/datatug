@@ -3,6 +3,11 @@
   "base_commit": "3fbd2e93d67904339f232815294422395f40608e",
   "scope": "Superseding authored programme metadata and preservation checks only. Original receipts/hashes remain unchanged. No real source bytes, admission, deletion or copy authorization.",
   "superseded_files": {
+    "spec/research/public-data-fabric/p2-reconciliation.md": {
+      "original_sha256": "39e41fce55263a9d9b6568db09f32c584f4278f4830850d8513ef9d274779b60",
+      "successor_sha256": "92192f6803694487d2522680f3982dc5d3cc13f18666172bea736cb3c2fbba71",
+      "reason": "Additive editorial clarification of ECB source reference date; original Phase 2 prose remains pinned"
+    },
     "spec/research/public-data-fabric/p3-portfolio.md": {
       "original_sha256": "65c5ee4eab8d76c9acc1104821a89b244682ba99c6769b7f92cca7bc2f7470a4",
       "successor_sha256": "ffe97bcb6d319ea4820679a02e66b02f3e169f6e1c95154e63687613aa296b9e",
