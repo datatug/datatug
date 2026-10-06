@@ -151,10 +151,10 @@
     }
   },
   "packet_files": {
-    "README.md": "b36e2f838b08791621cef5889e16a9b678c18ea5ac8ac9ae7b5ddf08aa18c974",
-    "evidence.json": "dc0613573aa6e61a0c510f8f8cc88138908877409d0974950edd26631cd5ee28",
+    "README.md": "3dba55edbeeb76d047ff3ea2e642b343fde92ffb5902e6932ffc87db1395e30a",
+    "evidence.json": "492fba993692526f8ee3447f0d87fd4316eaaacaa044c8e0afcc7e5582f4b882",
     "receipts.json": "be1256349a6ef9fdc739ad50feec2e66cd40d46063c4f9fd51bb8dd53966db06",
-    "verify.py": "4cfd7c3e246a5bac6acf55e335e46ab93fca98bb2f08c2ad35d3b5d56dbf322c"
+    "verify.py": "40edfd83bb6952295bd6f6b7821427ab0bc69c3000b7cb9911a0a06209a07f9d"
   },
   "preserved_files": {
     "spec/research/public-data-fabric/README.md": "311561517ac7c581de14af900801c73f5b9f73f39efd822abf42160ddf54a33d",
@@ -2488,5 +2488,18 @@
     "implementation": 5,
     "questions": 46
   },
-  "schema_version": 1
+  "schema_version": 1,
+  "structural_corrections": {
+    "spec/research/public-data-fabric/evidence/w1-delivery-catchup/README.md": {
+      "appended_text": "\n## Open Questions\n\nThe remaining gates listed above remain open; existing programme questions and gates are authoritative. This section adds the required document structure without changing any recorded observation or status.\n",
+      "current_sha256": "34338ad47eca98c3c82180a015031240ee5c81ec0cf55fb3c5e2638157507d3e",
+      "scope": "Root-authorized separate lint correction; append required Open Questions only"
+    },
+    "spec/research/public-data-fabric/evidence/w1-delivery-catchup/source-manifest.json": {
+      "current_sha256": "465e842dda6a48756e016b4cdb507605a7f8ce9fa2cb3efa4bdff1256284431d",
+      "new_bytes": "\"README.md\": \"34338ad47eca98c3c82180a015031240ee5c81ec0cf55fb3c5e2638157507d3e\"",
+      "old_bytes": "\"README.md\": \"d0fc5d565cd096664aee55362dfe4378eaf089c6759e76c020b80d900b545099\"",
+      "scope": "Exact single README packet hash replacement required by appendix; all other metadata unchanged"
+    }
+  }
 }

@@ -8,7 +8,7 @@
     "generator_claim": "historical generator failure and wrong later-git-diff inference retained in w1-delivery-catchup; only its explicitly successful successor source checks supersede failure",
     "no_semantic_reconciliation": true,
     "no_status_rewrite": true,
-    "prior_packets": "all byte-identical; earlier pending component obligations remain dated snapshots"
+    "prior_packets": "all original README content retained; exact structural appendix plus one historical packet_files.README.md hash correction pinned in manifest; all other historical bytes preserved"
   },
   "hub_base": "eb88c8ccc94c9e617355ceb98b76f74a880d3691",
   "kind": "w1-additive-component-observations",

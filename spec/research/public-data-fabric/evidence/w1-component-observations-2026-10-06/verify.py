@@ -23,6 +23,23 @@ def load(path):
     return json.loads(path.read_text())
 
 
+def validate_original_map(value, expected):
+    require(isinstance(value, dict), 'Original map must be a JSON object')
+    require(set(value) == set(expected), 'Original map labels')
+    require(all(isinstance(path, str) and path for path in value.values()), 'Original map paths')
+
+
+def original_map_controls():
+    expected = {'one': {}}
+    for bad in [None, [], {}, {'wrong': 'path'}, {'one': None}, {'one': ''}]:
+        try:
+            validate_original_map(bad, expected)
+        except ValueError:
+            continue
+        raise ValueError('Invalid original map accepted by negative control')
+    validate_original_map({'one': 'path'}, expected)
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--original-map', type=Path)
@@ -33,6 +50,7 @@ def main():
     for name, expected in manifest['packet_files'].items():
         require(digest(HERE / name) == expected, f'Packet changed: {name}')
     require(set(manifest['packet_files']) == {'README.md', 'evidence.json', 'receipts.json', 'verify.py'}, 'Packet file set')
+    original_map_controls()
     base = manifest['hub_base']
     require(base == evidence['hub_base'], 'Base mismatch')
     require(re.fullmatch('[0-9a-f]{40}', base), 'Base identity')
@@ -40,6 +58,9 @@ def main():
     require(set(baseline) == set(manifest['preserved_files']), 'Prior research inventory mismatch')
     objects = subprocess.check_output(['git', '-C', str(ROOT), 'cat-file', '--batch'], input=''.join(f'{base}:{name}\n' for name in baseline).encode())
     cursor = 0
+    corrections = manifest.get('structural_corrections', {})
+    correction_prefix = 'spec/research/public-data-fabric/evidence/w1-delivery-catchup/'
+    require(set(corrections) == {correction_prefix + 'README.md', correction_prefix + 'source-manifest.json'}, 'Only two exact lint corrections permitted')
     for name in baseline:
         end = objects.index(b'\n', cursor)
         header = objects[cursor:end].split()
@@ -48,19 +69,37 @@ def main():
         original = objects[end + 1:end + 1 + size]
         cursor = end + 2 + size
         expected = manifest['preserved_files'][name]
-        require(digest(ROOT / name) == expected, f'Prior research changed: {name}')
+        correction = manifest.get('structural_corrections', {}).get(name)
+        if correction:
+            if name.endswith('/README.md'):
+                approved_appendix = '\n## Open Questions\n\nThe remaining gates listed above remain open; existing programme questions and gates are authoritative. This section adds the required document structure without changing any recorded observation or status.\n'
+                require(correction['appended_text'] == approved_appendix, 'Exact approved README appendix')
+                corrected = original + approved_appendix.encode()
+            else:
+                old_hash = 'd0fc5d565cd096664aee55362dfe4378eaf089c6759e76c020b80d900b545099'
+                new_hash = '34338ad47eca98c3c82180a015031240ee5c81ec0cf55fb3c5e2638157507d3e'
+                old_bytes = ('"README.md": "' + old_hash + '"').encode()
+                new_bytes = ('"README.md": "' + new_hash + '"').encode()
+                require(correction['old_bytes'].encode() == old_bytes and correction['new_bytes'].encode() == new_bytes, 'Exact historical manifest correction')
+                require(original.count(old_bytes) == 1, 'Single historical hash occurrence')
+                corrected = original.replace(old_bytes, new_bytes)
+            require((ROOT / name).read_bytes() == corrected, f'Structural correction changed content: {name}')
+            require(digest(ROOT / name) == correction['current_sha256'], f'Structural correction hash: {name}')
+        else:
+            require(digest(ROOT / name) == expected, f'Prior research changed: {name}')
         require(hashlib.sha256(original).hexdigest() == expected, f'Baseline hash mismatch: {name}')
     counts = {g: sum(f'/{g}/$records/' in n and n.endswith('.json') for n in baseline)
               for g in ['candidates', 'assertions', 'questions', 'implementation', 'gates']}
     require(counts == manifest['preserved_records'] == {'candidates': 699, 'assertions': 1177, 'questions': 46, 'implementation': 5, 'gates': 8}, 'Preserved counts')
     require(evidence['programme'] == {'B1': 'open', 'phase4': 'active', 'phase5': 'open', 'phase6': 'open', 'w1_complete': False, 'cold_cloud_test': 'deferred by user', 'cold_cloud_capacity_accepted': False, 'public_geo_ror_admission': False, 'transport_accepted': False, 'memory_limit_bytes': 536870912, 'both_go_and_js_required': True}, 'Acceptance boundary drift')
     require(load(ROOT / 'spec/research/public-data-fabric/questions/$records/corpus-publication.json')['status'] == 'open', 'B1 source status')
-    originals = load(args.original_map) if args.original_map else None
-    if originals:
-        require(set(originals) == set(manifest['original_documents']), 'Original map labels')
+    originals = load(args.original_map) if args.original_map is not None else None
+    require(len(manifest['original_documents']) == 37, 'Expected 37 original labels')
+    if args.original_map is not None:
+        validate_original_map(originals, manifest['original_documents'])
     for label, declared in manifest['original_documents'].items():
         require(re.fullmatch('[0-9a-f]{64}', declared['sha256']) and declared['bytes'] > 0, f'Invalid original declaration: {label}')
-        if originals:
+        if args.original_map is not None:
             path = Path(originals[label])
             require(digest(path) == declared['sha256'] and path.stat().st_size == declared['bytes'], f'Original mismatch: {label}')
     observations = {}
@@ -70,7 +109,7 @@ def main():
         observations[label] = receipt['observation']
         d = manifest['original_documents'][label]
         require(receipt['source_sha256'] == d['sha256'] and receipt['source_bytes'] == d['bytes'], f'Receipt hash association: {label}')
-        if originals:
+        if args.original_map is not None:
             raw = load(Path(originals[label]))
             fields = receipt['fields']
             selected = raw if fields is None else {k: raw[k] for k in fields if k in raw}
@@ -88,7 +127,7 @@ def main():
     workload = receipts['capacity_workload_projection']
     require(workload['final']['memory.max'] == 536870912 and workload['final']['memory.peak'] == 316518400, 'Retained memory observations')
     require(all(workload['final']['memory.events'][k] == 0 for k in ['max', 'oom', 'oom_kill']), 'Memory event observations')
-    if originals:
+    if args.original_map is not None:
         raw = load(Path(originals['capacity-report']))
         for field, section in [('capacity_workload_projection', 'workload'), ('capacity_preparation_projection', 'preparation')]:
             require(receipts[field] == {k: raw[section][k] for k in receipts[field]}, f'Capacity projection association: {field}')
@@ -108,7 +147,7 @@ def main():
         require(manifest['original_documents'][labels[name]]['sha256'] == declared, f'CORS root chain: {name}')
     mg_run = receipts['meaninggraph_deploy_projection']
     require(mg_run['id'] == evidence['meaninggraph_correction']['successful_deploy_run'] and mg_run['head_sha'] == evidence['meaninggraph_correction']['site_head'] and mg_run['conclusion'] == 'success', 'MG deploy observation')
-    if originals:
+    if args.original_map is not None:
         source_runs = load(Path(originals['b1-mg-site-runs.json']))['workflow_runs']
         original_run = next(r for r in source_runs if r['id'] == mg_run['id'])
         require(mg_run == {k: original_run[k] for k in mg_run}, 'MG run source association')
@@ -119,7 +158,7 @@ def main():
     for path in HERE.iterdir():
         if path.is_file():
             require(not re.search(r'/(?:Users|private/tmp|home)/', path.read_text()), f'Private path published: {path.name}')
-    print(json.dumps({'outcome': 'passed', 'preserved_files': len(baseline), 'preserved_records': counts, 'original_declarations': len(manifest['original_documents']), 'originals_rehashed': len(originals) if originals else 0, 'scope': 'offline packet integrity and additive preservation only'}, sort_keys=True))
+    print(json.dumps({'outcome': 'passed', 'preserved_files': len(baseline), 'preserved_records': counts, 'original_declarations': len(manifest['original_documents']), 'originals_rehashed': len(originals) if args.original_map is not None else 0, 'structural_corrections': len(manifest.get('structural_corrections', {})), 'scope': 'offline packet integrity and additive preservation only'}, sort_keys=True))
 
 
 if __name__ == '__main__':
