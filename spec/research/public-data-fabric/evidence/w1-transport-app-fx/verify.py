@@ -71,6 +71,13 @@ def main():
     assert not any(proof['fx'][k] for k in ['selected', 'implemented', 'published', 'canonical_assertion_edits', 'new_core_concept_approved', 'implementation_policy_approved'])
     assert proof['programme']['b1_open'] and proof['programme']['phases4_5_6_open']
     assert not any(proof['programme'][k] for k in ['w1_complete', 'geo_ror_admission', 'availability_changed', 'paid_query', 'cloud_run_test'])
+    assert set(manifest['mechanical_file_changes']) == {
+        'spec/research/public-data-fabric/evidence/w1-followup-decisions/verify.py',
+        '.github/workflows/public-data-fabric.yml',
+    }
+    for name, change in manifest['mechanical_file_changes'].items():
+        assert digest((ROOT / name).read_bytes()) == change['successor_sha256'], name
+        assert len(change['original_sha256']) == 64, name
     for name, expected in manifest['preserved_research_files'].items():
         assert digest((ROOT / name).read_bytes()) == expected, name
     assert len(list((BASE / 'candidates/$records').glob('*.json'))) == 699

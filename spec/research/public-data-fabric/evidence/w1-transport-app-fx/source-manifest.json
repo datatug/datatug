@@ -1556,7 +1556,6 @@
     "spec/research/public-data-fabric/evidence/w1-followup-decisions/source-manifest.json": "00149d38c45cfa381aeafbed7998c9ffda857aa59f81a9e29079545e651d26be",
     "spec/research/public-data-fabric/evidence/w1-followup-decisions/semantic-proposal.md": "c51268a6ba2aebe13a125c1161bfe3280b6c2b8ba7dd9b8332c7fb7c64c3a51b",
     "spec/research/public-data-fabric/evidence/w1-followup-decisions/README.md": "b9269a8a53fb8b605bb2be7b16f0d8a1fbcb805d0ca6d20c54799a01d8fef0fe",
-    "spec/research/public-data-fabric/evidence/w1-followup-decisions/verify.py": "20f3078590a9e2af3ea3ce7fdced871ae7311db8972b57938c6ff18e557bab28",
     "spec/research/public-data-fabric/evidence/w1-followup-decisions/semantic-decision.json": "62fa8fa939835e3c745b09d6c097a86780c0187a1f6dc57bd66087275a8dbf51",
     "spec/research/public-data-fabric/evidence/.collection/definition.yaml": "bbe3a98da798683baaab820a94418a2ae0e7810666490a06346b1e416dabfab0",
     "spec/research/public-data-fabric/evidence/bigquery-dual-runtime/source-manifest.json": "796786135ae76f330976cd1ad9d09de27420a51526f0e5a882b6a93f1b3366cd",
@@ -2331,8 +2330,20 @@
   },
   "packet_files": {
     "reviewed-records.json": "3bce58d858752075d1ac47e970e2f1156cfeaed243f35d6b9e77ac16bdba9bfa",
-    "evidence.json": "bf1f1ff44487001507c704e717b9e56c7ff41dcd7eb2a5093ee19fe126dd564b",
-    "README.md": "0bcbc2e2afa3dc35cf3599e9cc908a4a93e1c4d9d81ced755619cceb54e10b10",
-    "verify.py": "72fda695a0ade00d8095c1f3c4f871cc6598f608814e66ea0789379b7d506276"
+    "evidence.json": "a274599099979538a8e5943c60548965c395c17530d70963ac805d7f478e0e26",
+    "README.md": "f8dc21c1256bcf3505c90ac6d9ae68807496bee9abbd7e6e7536988c58d1584c",
+    "verify.py": "75b75274130549696a7997f3d43946ae8433a580d1ad71b1fe39f22cdb8b78b1"
+  },
+  "mechanical_file_changes": {
+    "spec/research/public-data-fabric/evidence/w1-followup-decisions/verify.py": {
+      "original_sha256": "20f3078590a9e2af3ea3ce7fdced871ae7311db8972b57938c6ff18e557bab28",
+      "successor_sha256": "7246504b0494626c13dfa623deba84fcf0718449b2ee3220094557e88d3e5a16",
+      "reason": "Strict later-record invariant explicitly admits exactly two new evidence IDs"
+    },
+    ".github/workflows/public-data-fabric.yml": {
+      "original_sha256": "0f38f71e4c65839c7fc0746f99e918c065cf8f571481edfd0dd0f26062249566",
+      "successor_sha256": "bcb22f49bad767df3f1acb0a7d5b422c765410e9d69844f7db18bf5040d560af",
+      "reason": "Execute new packet verifier in existing ledger CI"
+    }
   }
 }

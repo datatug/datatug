@@ -5,7 +5,8 @@
   "inventory": {
     "candidates": 699,
     "assertions": 1177,
-    "all_prior_records_unchanged": true
+    "all_prior_records_unchanged": true,
+    "prior_research_file_exception": "evidence/w1-followup-decisions/verify.py: exactly two named evidence additions admitted; strict counts and existing hash checks retained"
   },
   "transport": {
     "pr": "https://github.com/openvaultdb/cloud/pull/24",
@@ -85,5 +86,10 @@
     "availability_changed": false,
     "paid_query": false,
     "cloud_run_test": false
+  },
+  "verification_repairs": {
+    "review": "Independent PR103 r1: B1 old count invariant; M1 missing packet CI step",
+    "B1": "two exact IDs explicitly allowed; historical source records unchanged",
+    "M1": "packet verifier runs in ledger CI"
   }
 }

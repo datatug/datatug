@@ -131,6 +131,7 @@ def main():
         'evidence': {
             'w1-p1-wire-semantic-addendum', 'bigquery-architecture-review-r1',
             'bigquery-discovery-r1', 'bigquery-dual-runtime-r3',
+            'w1-fx-semantic-plan', 'w1-transport-app-observation',
         },
         'questions': {'bigquery-dual-runtime-prerequisites'},
     }
