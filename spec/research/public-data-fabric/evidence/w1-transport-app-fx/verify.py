@@ -57,7 +57,16 @@ def main():
         assert not row['missing_exposed_pins'] and not row['present_pin_values']
     assert document('transport/negative-r1.json')['acao'] is None
     assert not proof['transport']['immutable_runtime_accepted']
-    assert proof['app']['exact_main_ci'] == 'pending'
+    assert proof['app']['exact_main_ci'] == 'passed'
+    ci = document('app/main-ci-r1.json')
+    assert ci['status'] == 'passed' and ci['head'] == ci['observed_head'] == ci['observed_target_head'] == proof['app']['merge']
+    assert ci['stable_observations'] == 2 and len(ci['checks']) == 5
+    assert all(c['conclusion'] == 'success' for c in ci['checks'])
+    queried = document('remote/app-main-checks-r1.json')
+    assert queried['head'] == ci['head'] and len(queried['checks']) == 5
+    assert {c['id'] for c in queried['checks']} == {c['check_run_id'] for c in ci['checks']}
+    assert all(c['head_sha'] == ci['head'] and c['status'] == 'completed' and c['conclusion'] == 'success' for c in queried['checks'])
+    assert proof['app']['prior_main_ci_observation']['status'] == 'pending'
     assert not proof['app']['public_sources_admitted']
     assert not any(proof['fx'][k] for k in ['selected', 'implemented', 'published', 'canonical_assertion_edits', 'new_core_concept_approved', 'implementation_policy_approved'])
     assert proof['programme']['b1_open'] and proof['programme']['phases4_5_6_open']

@@ -24,14 +24,21 @@
     "head": "4aec74b70ff0435daee0fa10a96405aa89d0de66",
     "merge": "c67b872c2872c2ddc514cb8bbd4a8d81517082b5",
     "state": "MERGED",
-    "exact_main_ci": "pending",
-    "pending_check": "e2e-demo-handoff",
-    "ci_basis": "root observation; terminal exact-main receipt not yet supplied",
+    "exact_main_ci": "passed",
+    "ci_basis": "app/main-ci-r1.json exact WB receipt; remote/app-main-checks-r1.json independently queried exact commit checks",
     "local_independent_unit_tests": 179,
     "local_independent_browser_tests": 7,
     "browser_scope": "real app/reader with synthetic project metadata and pinned canonical bytes; missing mappings and saved pending execution refuse; no admitted source query",
     "github_write_success": false,
-    "public_sources_admitted": false
+    "public_sources_admitted": false,
+    "prior_main_ci_observation": {
+      "status": "pending",
+      "pending_check": "e2e-demo-handoff",
+      "basis": "root observation; terminal exact-main receipt not yet supplied"
+    },
+    "ci_observed_at": "2026-10-06T06:22:29.453482Z",
+    "stable_observations": 2,
+    "success_checks": 5
   },
   "fx": {
     "candidate_id": "d1-ecb-fx",
