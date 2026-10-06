@@ -1,0 +1,11 @@
+{
+  "title": "Delivered transport and merged bounded app evidence",
+  "observed_at": "2026-10-06T06:20:47.945475+00:00",
+  "outcome": "partial",
+  "summary": "PR24 transport-only CORS receipt; metadata has zero immutable pin values. PR197 merged; exact-main CI pending. Independent local fail-closed browser evidence does not establish public source admission.",
+  "repository": "datatug/datatug",
+  "path": "spec/research/public-data-fabric/evidence/w1-transport-app-fx/evidence.json",
+  "reviewer": "w1_evidence_fx_persistence_sol",
+  "independent": false,
+  "review_stage": "implementation"
+}
