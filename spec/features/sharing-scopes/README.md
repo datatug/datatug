@@ -11,7 +11,7 @@ status: Draft
 
 ## Summary
 
-P8 is sharing scopes: personal → team → project → organization scopes for knowledge assets, reusing Sneat's existing space membership and role model rather than inventing a parallel one.
+P8 is sharing scopes: personal → team → project → organization scopes for knowledge assets, reusing Sneat's existing linkage system to assign Space contacts to standalone projects with project roles. For shared/protected nonpublic projects, Space membership does not automatically confer access or supply a project role; current platform guards still apply. Public-project and owner-only private access retain their existing policies.
 
 **Evidence boundary:** initial-audit observations below are historical. Current integration
 status is summarized in the [hierarchy](../../product/hierarchy.md) and the
@@ -61,16 +61,32 @@ gate on what a principal can actually read or run.
 #### REQ: project-membership-through-sneat-spaces
 
 Founder words: "DataTug project is standalone entity that can be shared (granted)
-between multiple spaces (teams)". Project identity MUST remain standalone and grants
-MUST compose with existing space membership/roles and server policies; no duplicate
-project per space or competing membership system. Exact persisted grant fields,
-role-composition precedence and any mapping of legacy ICreateProjectData.spaceID to
-an initial grant are design questions below, not founder-selected schemas.
+between multiple spaces (teams)". Project identity MUST remain standalone; sharing
+with another Space MUST NOT duplicate the project.
+
+The later founder clarification supersedes automatic Space-role inheritance:
+"5 contacts linked to project with some role ... viewer or contributor ... Up to 5
+can be linked ... not about space members ... users who were assigned to project
+as space contact with one of few predefined roles"; "We have linkage system".
+Shared/protected nonpublic project assignments MUST reuse existing Sneat contact-to-project linkage carrying
+predefined project roles, not a new `userIDs[]` or parallel membership list. A
+Space member without an assigned project role MUST NOT gain shared/protected
+nonpublic project access from membership alone. Public-project access and
+owner-only private policy MUST remain unchanged; the Pro contact cap MUST NOT
+limit public projects or add contact assignment to their access requirements. Project roles MUST matter to authorization while current
+contact status, authenticated-user binding and platform guards are rechecked.
+The [pricing feature](../pricing-and-billing/README.md) governs Pro's five distinct
+linked-contact cap across roles, owner included, including unregistered contacts;
+this is not a five-member Space limit or a Business MAU count. Exact persisted
+linkage adaptation, role permissions and legacy spaceID migration remain design
+questions; examples of viewer/contributor do not define their permissions.
 
 #### REQ: hosted-team-workspace
 
-A hosted team workspace on `datatug.app` MUST let a Sneat space's members open, browse and run
-queries against shared DataTug projects using their existing Sneat identity — the nearest
+For shared/protected nonpublic projects, a hosted team workspace on `datatug.app`
+MUST let users whose current contact binding and
+assigned project role authorize the operation open, browse and run shared DataTug queries
+using their existing Sneat identity — the nearest
 monetizable wedge per the backstage B2B strategy (2026-07-01). It builds on
 REQ:project-membership-through-sneat-spaces; it MUST NOT ship a separate, parallel authentication
 or membership system.
@@ -91,21 +107,27 @@ or membership system.
 
 ### AC: project-membership-follows-space-role (verifies REQ:project-membership-through-sneat-spaces)
 
-**Given** a Sneat space with an admin and a viewer role
-**When** each opens the same DataTug project under that space
-**Then** their DataTug project permissions match their Sneat space role through the project's grant to that space, with no separate `userIDs[]` entry required.
+**Given** a shared/protected nonpublic project, Space contacts assigned different predefined project roles through existing linkage, and a Space administrator without a project assignment
+**When** their authenticated users open the same standalone DataTug project
+**Then** the assigned project roles participate in the operation's authorization alongside current contact/user binding and platform guards; a Space role alone neither supplies a project role nor grants access. No separate `userIDs[]` membership list is introduced. This criterion supersedes the earlier Space-role inheritance wording; its retained identifier is historical.
 
 ### AC: spaceid-field-actually-used (verifies REQ:project-membership-through-sneat-spaces)
 
-**Given** a new project created with `ICreateProjectData.spaceID` set
+**Given** a shared/protected nonpublic project created with `ICreateProjectData.spaceID` set
 **When** the project record is written
-**Then** the project is stored as a standalone entity whose grants include that space, readable by that space's members, and a second space granted later reads the same project without a copy.
+**Then** the project remains a standalone entity with explicit sharing/linkage to that Space; only contacts whose assigned project role and current binding authorize reading may read it. Contacts linked through a second Space access the same project identity without a copy; a spaceID field or Space membership alone is not a project assignment.
 
 ### AC: hosted-workspace-uses-sneat-identity (verifies REQ:hosted-team-workspace)
 
 **Given** a user already signed in to a Sneat space on `datatug.app`
-**When** they open a shared project in the hosted team workspace
-**Then** no separate DataTug-specific sign-in is required, and their access matches their space role.
+**When** they open a shared/protected nonpublic project in the hosted team workspace
+**Then** no separate DataTug-specific sign-in is required, and access requires their current contact-to-user binding and assigned project role with platform guards; signing in or being a Space member alone does not grant project access. An unregistered contact can count as an assignment without thereby gaining authenticated access. Public projects retain their existing access policy and unlimited-user edit policy; owner-only private projects retain owner-only access.
+
+### AC: reciprocal-linkage-enforces-project-policy (verifies REQ:project-membership-through-sneat-spaces)
+
+**Given** a protected project and both project-side and contact-side role-link mutation paths, including generic linkage endpoints
+**When** an assignment exceeds its plan cap, changes a role without authority or bypasses a paid-end guard
+**Then** the same policy refuses on either side without a partial reciprocal update. Count each distinct assigned contact once across roles and registration status; still-linked inactive or missing contacts do not silently release capacity. The existing generic endpoint's availability does not prove these product guards are implemented.
 
 ## Not Doing / Out of Scope
 
@@ -115,20 +137,25 @@ or membership system.
   server-enforced access control.
 - A data catalog's governance/approval workflow: promotion changes discoverability, not a
   certification status.
-- Inventing a DataTug-specific membership or role system in parallel with Sneat's space model.
+- Inventing a parallel membership list or linkage engine instead of reusing Sneat's contact/project role links; no automatic project assignment or Space membership creation is implied by a link.
 
 ## Open Questions
 
 - Confirm the personal/team/project/organization promotion ladder and its relationship
   to project grants before implementing promotion; current founder words establish
   standalone multi-space project sharing, not this complete visibility model.
-- Define persisted grant shape, role composition and legacy spaceID migration against
-  existing platform contracts; no inferred first-grant schema is normative yet.
+- Define the predefined project-role catalogue and permission matrix, assignment-manager
+  authority, owner-contact binding within the cap, cross-Space contact identity mapping,
+  persisted linkage adaptation and legacy spaceID migration against existing contracts.
+  Viewer/contributor examples do not settle permissions or grant a cap exemption.
 
 - Select the authenticated hosting/deployment profile before the collaboration slice;
-  keep DataTug projects standalone and derive access from explicit grants to spaces.
-- Define grant conflict/revocation behavior in the collaboration plan using the
-  existing platform membership and policy model, not a per-user ownership substitute.
+  keep DataTug projects standalone and compose explicit contact/project role links
+  with current platform guards.
+- Define conflict/revocation and contact archive/delete/unlink cleanup with the existing
+  linkage system. Missing or inactive contacts that remain assigned still count; access
+  must reread current contact status and authenticated-user binding. Prove product guards
+  for generic mutations from both sides before any protected-sharing activation.
 
 ---
 *This document follows the https://specscore.md/feature-specification*
