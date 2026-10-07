@@ -1,12 +1,12 @@
 ---
 format: https://specscore.md/feature-specification
-status: Draft
+status: Implementing
 ---
 
 # Feature: Git-native projects
 
 > [SpecScore.**Studio**](https://specscore.studio): | [Explore](https://specscore.studio/app/github.com/datatug/datatug/spec/features/git-native-projects?op=explore) | [Edit](https://specscore.studio/app/github.com/datatug/datatug/spec/features/git-native-projects?op=edit) | [Ask question](https://specscore.studio/app/github.com/datatug/datatug/spec/features/git-native-projects?op=ask) | [Request change](https://specscore.studio/app/github.com/datatug/datatug/spec/features/git-native-projects?op=request-change) |
-**Status:** Draft
+**Status:** Implementing
 **Source Ideas:** —
 
 ## Summary
