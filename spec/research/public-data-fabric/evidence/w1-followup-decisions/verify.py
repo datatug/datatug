@@ -13,6 +13,7 @@ BASE = HERE.parents[1]
 ROOT = HERE.parents[4]
 sys.path.insert(0, str(BASE))
 from verify_no_copy_decision import approved_evidence_additions, approved_record_additions, preserved_bytes
+from verify_s2_scope_decision import predecessor_bytes as s2_predecessor
 
 
 def digest(raw):
@@ -116,7 +117,8 @@ def main():
     for name, expected in manifest['preserved_research_files'].items():
         assert digest(preserved_bytes(ROOT, name, expected)) == expected, name
     for key, original in manifest['candidate_originals'].items():
-        current = json.loads((BASE / 'candidates/$records' / (key + '.json')).read_text())
+        path = BASE / 'candidates/$records' / (key + '.json')
+        current = json.loads(s2_predecessor(ROOT, str(path.relative_to(ROOT)), path.read_bytes()))
         assert set(current) == set(original), key
         assert current['reason'].startswith(original['reason']), key
         assert current['evidence_ids'] == original['evidence_ids'] + ['w1-fx-priority-readiness'], key
