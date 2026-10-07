@@ -75,11 +75,19 @@ nonpublic project access from membership alone. Public-project access and
 owner-only private policy MUST remain unchanged; the Pro contact cap MUST NOT
 limit public projects or add contact assignment to their access requirements. Project roles MUST matter to authorization while current
 contact status, authenticated-user binding and platform guards are rechecked.
+The confirmed role permissions are: Viewer may browse, run queries and edit
+locally, but MUST NOT save shared changes; Contributor may do all Viewer
+actions and save shared changes; Owner may do all Contributor actions and
+manage project assignments. These permissions remain subject to current
+contact-to-authenticated-user binding, platform guards and applicable plan
+entitlements. An Owner role MUST NOT bypass a platform or paid-plan guard; when
+a plan ends, shared writes and hosted AI remain denied while local query
+execution remains possible.
 The [pricing feature](../pricing-and-billing/README.md) governs Pro's five distinct
 linked-contact cap across roles, owner included, including unregistered contacts;
 this is not a five-member Space limit or a Business MAU count. Exact persisted
-linkage adaptation, role permissions and legacy spaceID migration remain design
-questions; examples of viewer/contributor do not define their permissions.
+linkage adaptation, owner-contact binding, cross-Space contact identity mapping
+and legacy spaceID migration remain design questions.
 
 #### REQ: hosted-team-workspace
 
@@ -107,9 +115,9 @@ or membership system.
 
 ### AC: project-membership-follows-space-role (verifies REQ:project-membership-through-sneat-spaces)
 
-**Given** a shared/protected nonpublic project, Space contacts assigned different predefined project roles through existing linkage, and a Space administrator without a project assignment
-**When** their authenticated users open the same standalone DataTug project
-**Then** the assigned project roles participate in the operation's authorization alongside current contact/user binding and platform guards; a Space role alone neither supplies a project role nor grants access. No separate `userIDs[]` membership list is introduced. This criterion supersedes the earlier Space-role inheritance wording; its retained identifier is historical.
+**Given** a shared/protected nonpublic project with contacts assigned Viewer, Contributor and Owner through existing linkage, plus a Space administrator without a project assignment
+**When** their authenticated users browse project data, run a query, edit it locally, save a shared change or manage assignments
+**Then** Viewer can browse, run and edit locally but cannot save shared changes; Contributor can also save shared changes; Owner can also manage assignments. These actions require the current contact-to-authenticated-user binding and all applicable platform and plan guards; an ended plan denies shared writes and hosted AI while allowing local query execution, including for Owner. A Space role alone neither supplies a project role nor grants project access, and no separate `userIDs[]` membership list is introduced. Viewing metadata remains non-billable under the pricing feature's activity rule. This criterion supersedes the earlier Space-role inheritance wording; its retained identifier is historical.
 
 ### AC: spaceid-field-actually-used (verifies REQ:project-membership-through-sneat-spaces)
 
@@ -144,10 +152,9 @@ or membership system.
 - Confirm the personal/team/project/organization promotion ladder and its relationship
   to project grants before implementing promotion; current founder words establish
   standalone multi-space project sharing, not this complete visibility model.
-- Define the predefined project-role catalogue and permission matrix, assignment-manager
-  authority, owner-contact binding within the cap, cross-Space contact identity mapping,
+- Define owner-contact binding within the cap, cross-Space contact identity mapping,
   persisted linkage adaptation and legacy spaceID migration against existing contracts.
-  Viewer/contributor examples do not settle permissions or grant a cap exemption.
+  The confirmed role permissions do not grant a cap exemption.
 
 - Select the authenticated hosting/deployment profile before the collaboration slice;
   keep DataTug projects standalone and compose explicit contact/project role links
