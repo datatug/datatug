@@ -1,0 +1,8 @@
+{
+  "format": "data-fabric-delivery-summary-successor/1",
+  "base_commit": "2a83a6b5a3789bbf21032e33ac5eabe180d0cedd",
+  "path": "spec/research/public-data-fabric/README.md",
+  "original_sha256": "217f126dae81d689648505512131bd5dd5a0dce9fcd51aa94ed69d262987171c",
+  "successor_sha256": "3bf15fbd6a3eb244ee64e930daf0c425b29ef58e5398d5ac1aead82c7075c7e7",
+  "scope": "Additive component delivery observation only; all records, gate decisions and historical packets unchanged."
+}
