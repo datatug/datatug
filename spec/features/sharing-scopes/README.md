@@ -78,7 +78,8 @@ contact status, authenticated-user binding and platform guards are rechecked.
 The confirmed role permissions are: Viewer may browse, run queries and edit
 locally, but MUST NOT save shared changes; Contributor may do all Viewer
 actions and save shared changes; Owner may do all Contributor actions and
-manage project assignments. These permissions remain subject to current
+manage project assignments. Viewer and Contributor MUST NOT manage project
+assignments. These permissions remain subject to current
 contact-to-authenticated-user binding, platform guards and applicable plan
 entitlements. An Owner role MUST NOT bypass a platform or paid-plan guard; when
 a plan ends, shared writes and hosted AI remain denied while local query
@@ -117,7 +118,7 @@ or membership system.
 
 **Given** a shared/protected nonpublic project with contacts assigned Viewer, Contributor and Owner through existing linkage, plus a Space administrator without a project assignment
 **When** their authenticated users browse project data, run a query, edit it locally, save a shared change or manage assignments
-**Then** Viewer can browse, run and edit locally but cannot save shared changes; Contributor can also save shared changes; Owner can also manage assignments. These actions require the current contact-to-authenticated-user binding and all applicable platform and plan guards; an ended plan denies shared writes and hosted AI while allowing local query execution, including for Owner. A Space role alone neither supplies a project role nor grants project access, and no separate `userIDs[]` membership list is introduced. Viewing metadata remains non-billable under the pricing feature's activity rule. This criterion supersedes the earlier Space-role inheritance wording; its retained identifier is historical.
+**Then** Viewer can browse, run and edit locally but cannot save shared changes or manage assignments; Contributor can also save shared changes but cannot manage assignments; Owner can also manage assignments. These actions require the current contact-to-authenticated-user binding and all applicable platform and plan guards; an ended plan denies shared writes and hosted AI while allowing local query execution, including for Owner. A Space role alone neither supplies a project role nor grants project access, and no separate `userIDs[]` membership list is introduced. Viewing metadata remains non-billable under the pricing feature's activity rule. This criterion supersedes the earlier Space-role inheritance wording; its retained identifier is historical.
 
 ### AC: spaceid-field-actually-used (verifies REQ:project-membership-through-sneat-spaces)
 
