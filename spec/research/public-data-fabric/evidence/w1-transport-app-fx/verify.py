@@ -10,7 +10,7 @@ HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[4]
 BASE = HERE.parents[1]
 sys.path.insert(0, str(BASE))
-from verify_no_copy_decision import preserved_bytes
+from verify_no_copy_decision import approved_record_additions, preserved_bytes
 
 def digest(raw):
     return hashlib.sha256(raw).hexdigest()
@@ -83,8 +83,9 @@ def main():
         assert len(change['original_sha256']) == 64, name
     for name, expected in manifest['preserved_research_files'].items():
         assert digest(preserved_bytes(ROOT, name, expected)) == expected, name
-    assert len(list((BASE / 'candidates/$records').glob('*.json'))) == 699
-    assert len(list((BASE / 'assertions/$records').glob('*.json'))) == 1177
+    additions = approved_record_additions(ROOT)
+    assert len(list((BASE / 'candidates/$records').glob('*.json'))) == 699 + len(additions['candidates'])
+    assert len(list((BASE / 'assertions/$records').glob('*.json'))) == 1177 + len(additions['assertions'])
     originals = 0
     if args.original_map:
         paths = read(args.original_map)

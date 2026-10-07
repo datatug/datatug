@@ -1,0 +1,10 @@
+{
+  "title": "Provider result materialization is a separate gate",
+  "observed_at": "2026-10-07T09:57:52Z",
+  "outcome": "observation",
+  "summary": "BigQuery materializes query results to destination or temporary tables. Disabling cache retrieval does not avoid result storage; approximate cache duration is not a guaranteed deletion SLA. No jobs/dry runs/row reads occurred.",
+  "url": "https://docs.cloud.google.com/bigquery/docs/cached-results",
+  "reviewer": "dedicated-semantic-reconciliation-local-sol",
+  "independent": true,
+  "review_stage": "reconciliation"
+}

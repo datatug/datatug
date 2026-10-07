@@ -1,0 +1,19 @@
+{
+  "title": "Resolve exact WDI scope, observations and indicator rights",
+  "status": "open",
+  "classification": "important/non-blocking",
+  "owner": "root BigQuery source/semantic admission owner",
+  "candidate_ids": [
+    "bq-data-world-bank-wdi"
+  ],
+  "evidence_ids": [
+    "bq-sem-wdi-definition-20261007",
+    "bq-sem-wdi-rights-20261007"
+  ],
+  "gate_ids": [
+    "phase4",
+    "phase5",
+    "phase6"
+  ],
+  "resolution": "Open prerequisite, not a decision: Which exact metadata/observation tables, source edition, indicators and original-provider rights apply? Preserve the API lane. No indicators_data table or commercial blanket licence is accepted. Blocking for these candidates before activation; does not reclose passed programme gates."
+}

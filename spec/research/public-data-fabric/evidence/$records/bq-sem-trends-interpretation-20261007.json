@@ -1,0 +1,10 @@
+{
+  "title": "Search-interest interpretation safeguards",
+  "observed_at": "2026-10-07T09:57:52Z",
+  "outcome": "observation",
+  "summary": "Google describes sampled, normalized relative search interest; equal indices across places do not establish equal search counts. Low/absent terms and selected top sets are not exhaustive population measurements. Provider metric definition must be checked for each exact BigQuery field; Explore UI rules do not establish BigQuery time zones or schema.",
+  "url": "https://support.google.com/trends/answer/4365533?hl=en",
+  "reviewer": "dedicated-semantic-reconciliation-local-sol",
+  "independent": true,
+  "review_stage": "reconciliation"
+}

@@ -1,0 +1,10 @@
+{
+  "title": "World Bank source and indicator terms remain scoped",
+  "observed_at": "2026-10-07T09:57:52Z",
+  "outcome": "observation",
+  "summary": "Default CC BY 4.0 has mandatory additions, attribution and dataset/indicator/provider exceptions. BigQuery hosting and code licensing grant no table-wide intended-use clearance; existing API research clears neither a new distribution nor every indicator.",
+  "url": "https://data.worldbank.org/summary-terms-of-use",
+  "reviewer": "dedicated-semantic-reconciliation-local-sol",
+  "independent": true,
+  "review_stage": "reconciliation"
+}

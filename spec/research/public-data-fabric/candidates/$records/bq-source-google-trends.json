@@ -1,0 +1,16 @@
+{
+  "title": "Google Trends publisher/source research",
+  "kind": "source",
+  "status": "needs-review",
+  "evidence_ids": [
+    "bq-sem-trends-help-20261007",
+    "bq-sem-trends-rights-20261007"
+  ],
+  "research_depth": "documented",
+  "freshness": "unknown",
+  "source_url": "https://support.google.com/trends/answer/12764470?hl=en",
+  "dependency_ids": [
+    "bq-source-public-data"
+  ],
+  "reason": "Google publisher context for a distinct Trends distribution, separated from Google BigQuery hosting/access route. Documentation-only candidate. No current provider metadata, field binding, source admission, rights clearance or execution acceptance. Source project candidate bigquery-public-data; execution project unconfigured and distinct. Location unverified."
+}
