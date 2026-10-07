@@ -42,6 +42,10 @@ The public page MUST present exactly Free, Pro, Business and Enterprise as the c
 
 EUR-only display and catalogue changes MUST preserve existing Pro price identity, invoicing and entitlements. A Pro buy action MUST remain disabled until its verified EUR quote matches the displayed period, amount and offer terms; any mismatch MUST refuse before a new payable session. No USD estimate, FX conversion or currency selector is required by this decision.
 
+#### REQ:pro-project-contact-limit
+
+Pro protected projects MUST use the existing Sneat linkage system for Space-contact assignments carrying predefined project roles, with at most five distinct linked contacts across those roles, owner included. Multiple roles MUST NOT count a contact twice; registration or authentication status MUST NOT remove a linked contact from the cap. A still-assigned missing or inactive contact MUST NOT silently free a slot; the final role unlink removes that assignment. Space membership MUST NOT automatically grant shared/protected nonpublic project access. Public-project access/editing and owner-only private policies MUST remain unchanged; public projects MUST NOT acquire this contact cap or assignment requirement. Both project-side and contact-side linkage changes, including generic linkage routes, MUST enforce the same cap, authorized role-change and paid-end checks without a parallel `userIDs[]` membership list. Access MUST recheck the current contact status and authenticated-user binding, assigned project role and applicable platform guards. Exact role permissions, assignment-manager authority and owner-contact binding remain implementation design questions.
+
 #### REQ:plan-end-access
 
 When a plan ends, the affected cloud projects MUST become read-only and unable to use hosted AI while local query execution remains possible; data and nonpublic visibility MUST remain intact. The exact affected-project cohort on fallback to Free is unresolved and MUST be proved before enforcement.
@@ -86,7 +90,7 @@ Business with 7, 8 and 10 MAU and no prepay costs €99, €119 and €159 respe
 
 Without prepaid capacity, the same arithmetic gives 20 MAU = €359, 50 MAU = €959 and 100 MAU = €1,959. These are arithmetic examples, not claims of a live metered invoice.
 
-Every plan retains unlimited owner-only private projects and unlimited public projects. Pro adds five protected projects with at most five authenticated users each, owner included. Sneat Space permissions govern cloud edits and GitHub permissions govern GitHub-hosted edits; a plan limit grants no access. A full refund immediately ends the affected Pro entitlement and paid claim, without ending another qualifying subscription or proving provider renewal cancellation. These rules are not replaced by Business pricing.
+Every plan retains unlimited owner-only private projects and unlimited public projects. Pro adds five protected projects with at most five linked Space contacts per project across all assigned project roles, owner included. A contact counts once even with multiple roles or without a registered user. This limits project assignments, not the number of Space members. Existing Sneat linkage carries contact-to-project roles; Space membership alone does not grant shared/protected nonpublic project access or determine a project role. Public-project access/editing and owner-only private policies remain unchanged. Project roles and current platform guards govern cloud access; GitHub permissions govern GitHub-hosted edits. A plan limit grants no access. A full refund immediately ends the affected Pro entitlement and paid claim, without ending another qualifying subscription or proving provider renewal cancellation. These rules are not replaced by Business pricing.
 
 When any plan ends for any reason, affected projects become read-only and cannot use hosted AI; the user may still run queries locally. Retain projects and data; never automatically make a private or protected project public. The precise affected-project cohort during a paid-to-Free fallback still needs an authoritative ownership mapping before enforcement.
 
@@ -126,9 +130,13 @@ SSO-only payment is not a DataTug base subscription: it cannot claim or retain a
 
 **Given** the public pricing page **When** a visitor opens desktop and mobile views **Then** only Free, Pro, Business and Enterprise appear in the specified layout, with Business base/included/overage/prepaid amounts distinct, no Team/Company card and no claim that Business checkout works today.
 
-### AC: pro-compatibility-and-currency (verifies REQ:pro-compatibility)
+### AC: pro-compatibility-and-currency (verifies REQ:pro-compatibility, REQ:pro-project-contact-limit)
 
 **Given** an existing EUR Pro quote/subscription **When** the revised EUR-only page appears **Then** the prior provider price identity, invoice and entitlement remain unchanged, and the €19 buy action is unavailable until its verified EUR quote matches the displayed period, amount and offer terms. A mismatch is refused before provider session creation; no USD estimate or selector appears.
+
+**Given** a Pro protected project with five distinct role-linked contacts, including its owner and an unregistered contact, and one contact holding multiple roles **When** a sixth contact is assigned or another role is added to an existing contact **Then** the sixth assignment refuses atomically and the additional role does not consume another slot. An inactive or missing contact that remains linked still consumes its slot; removing its last project role frees that assignment. This cap does not limit Space membership or define Business MAU.
+
+**Given** project-side and reciprocal contact-side linkage mutation paths, including generic linkage endpoints **When** a caller attempts an over-cap assignment, an unauthorized project-role change or a change that bypasses the ended-plan guard **Then** every path refuses without a partial reciprocal update. A stale contact-to-user binding or inactive contact cannot grant authenticated access, and Space membership alone grants no project role for shared/protected nonpublic access. Public projects retain their existing access and unlimited-user editing policy, and owner-only private projects retain owner-only access. Required permission and lifecycle proofs gate activation; the existing generic linkage endpoint alone is not evidence that these guards exist.
 
 ### AC: ended-plan-access (verifies REQ:plan-end-access)
 
@@ -184,6 +192,7 @@ SSO-only payment is not a DataTug base subscription: it cannot claim or retain a
 
 ## Open Questions
 
+- **OQ: project-contact-role-contract.** Define the predefined project-role catalogue and permissions, who may assign/change roles, owner-contact binding within the five-contact cap, cross-Space contact identity mapping, and archive/delete/unlink cleanup using existing linkage contracts. Viewer and contributor are founder examples, not an approved permission matrix. Prove cap, role, current-contact/user-binding and paid-end guards on both linkage directions before activation; no new parallel membership schema is authorized.
 - **OQ: prepaid-edge-and-service-lifecycle.** Independently additive twelve-month lots bought at any time are decided; optional explicit alignment is proposed by the founder. Review the plan's partial-window coverage, exact alignment-pricing, renewal/decrease, failed-payment, cancellation and component-refund recommendations before arming charges; common-anniversary or next-month activation is not the default.
 - **OQ: activity-trigger-proof.** Which actual-query-edit and hosted/local/data-loading execution paths emit reviewed authenticated receipts? Prove metadata/focus zero versus real query edits before execution and query execution (including table/dashboard data loads), local shared-cloud-project execution, failed/partial/canceled/cached execution, bot/disconnect handling and anti-forgery/replay semantics before billing. Separately decide whether other project mutations and hosted AI also qualify.
 - **OQ: invoice-close-and-corrections.** Prove event cutoff, meter timing, duplicate/late correction and credit-note flow against test-mode provider evidence before Business billing opens.
