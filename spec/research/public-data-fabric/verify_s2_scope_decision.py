@@ -35,8 +35,33 @@ def digest(raw):
     return hashlib.sha256(raw).hexdigest()
 
 
+DELIVERY_RECEIPT = 'spec/research/public-data-fabric/evidence/delivery-summary-successor-20261007.json'
+DELIVERY_RECEIPT_SHA256 = 'ba5f843919b40f67a37ca47e964523beb77345a736cf489ede35c283067525b9'
+DELIVERY_BASE = '2a83a6b5a3789bbf21032e33ac5eabe180d0cedd'
+DELIVERY_README = 'spec/research/public-data-fabric/README.md'
+DELIVERY_ORIGINAL_SHA256 = '217f126dae81d689648505512131bd5dd5a0dce9fcd51aa94ed69d262987171c'
+DELIVERY_SUCCESSOR_SHA256 = '3bf15fbd6a3eb244ee64e930daf0c425b29ef58e5398d5ac1aead82c7075c7e7'
+
+
+def delivery_predecessor(root, name, current):
+    """Unwrap only the independently pinned additive delivery summary."""
+    if name != DELIVERY_README or digest(current) == DELIVERY_ORIGINAL_SHA256:
+        return current
+    raw = (root / DELIVERY_RECEIPT).read_bytes()
+    assert digest(raw) == DELIVERY_RECEIPT_SHA256, 'delivery receipt changed'
+    receipt = json.loads(raw)
+    assert receipt['base_commit'] == DELIVERY_BASE and receipt['path'] == DELIVERY_README
+    assert receipt['original_sha256'] == DELIVERY_ORIGINAL_SHA256
+    assert receipt['successor_sha256'] == DELIVERY_SUCCESSOR_SHA256
+    assert digest(current) == DELIVERY_SUCCESSOR_SHA256, 'unreviewed delivery summary'
+    previous = subprocess.check_output(['git', '-C', str(root), 'show', DELIVERY_BASE + ':' + name])
+    assert digest(previous) == DELIVERY_ORIGINAL_SHA256, 'delivery predecessor changed'
+    return previous
+
+
 def predecessor_bytes(root, name, current):
     """Unwrap only the seven reviewed metadata successors; all other bytes pass through."""
+    current = delivery_predecessor(root, name, current)
     receipt_path = root / RECEIPT
     if name not in SUCCESSORS or not receipt_path.is_file():
         return current
@@ -110,6 +135,33 @@ def self_test():
             target = root / name; target.parent.mkdir(parents=True, exist_ok=True)
             shutil.copyfile(ROOT / name, target)
         check(root)
+        # The delivery observation cannot launder README mutations or its own receipt.
+        for name in [DELIVERY_README, DELIVERY_RECEIPT]:
+            target = root / name; target.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copyfile(ROOT / name, target)
+        path = root / DELIVERY_README
+        original_summary = path.read_bytes()
+        expected_summary = subprocess.check_output(['git', '-C', str(ROOT), 'show', DELIVERY_BASE + ':' + DELIVERY_README])
+        assert delivery_predecessor(root, DELIVERY_README, original_summary) == expected_summary
+        path.write_bytes(original_summary + b'\nUnauthorized gate closure\n')
+        try:
+            delivery_predecessor(root, DELIVERY_README, path.read_bytes())
+        except AssertionError:
+            pass
+        else:
+            raise AssertionError('delivery summary mutation accepted')
+        receipt_path = root / DELIVERY_RECEIPT
+        original_receipt = receipt_path.read_bytes()
+        value = json.loads(original_receipt)
+        value['successor_sha256'] = digest(path.read_bytes())
+        receipt_path.write_text(json.dumps(value))
+        try:
+            delivery_predecessor(root, DELIVERY_README, path.read_bytes())
+        except AssertionError:
+            pass
+        else:
+            raise AssertionError('edited delivery receipt laundered summary mutation')
+        path.write_bytes(original_summary); receipt_path.write_bytes(original_receipt)
         cases = [(PREFIX + 'questions/$records/p3-followup-2.json', lambda d: d.update(status='resolved')),
                  (PREFIX + 'candidates/$records/p3-scenario-catalogue.json', lambda d: d.update(status='validated')),
                  (DECISION, lambda d: d.update(retention_authorized=True)),
@@ -137,7 +189,7 @@ def self_test():
             pass
         else:
             raise AssertionError('S2 matching receipt laundered question closure')
-    print('S2 scope: five negative authored-metadata mutations refused')
+    print('S2 scope: five negative authored-metadata mutations and two delivery-summary mutations refused')
 
 
 if __name__ == '__main__':
