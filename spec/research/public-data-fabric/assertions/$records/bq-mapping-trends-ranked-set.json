@@ -1,0 +1,25 @@
+{
+  "title": "Trends rank/refresh/observation context",
+  "kind": "mapping",
+  "status": "needs-review",
+  "from_id": "bq-trends-top-terms",
+  "to_id": "bq-meaning-trends-ranked-set",
+  "from_fields": [
+    "term",
+    "rank",
+    "refresh_date",
+    "week"
+  ],
+  "to_fields": [
+    "proposed-role"
+  ],
+  "compatibility": "unresolved",
+  "assumptions": "Documented historical roles only; preserve refresh/selection date separately from observation week, distribution variant and DMA. Require current grain and uniqueness; a term is not an entity ID and not all terms enter a selected set.",
+  "confidence": "low",
+  "evidence_ids": [
+    "bq-sem-trends-schema-history-20261007"
+  ],
+  "physical_role": "proposed source-qualified contextual lookup; not executed",
+  "expected_cardinality": "Unmeasured; no uniqueness or multiplicity acceptance",
+  "meaning_id": "bq-meaning-trends-ranked-set"
+}

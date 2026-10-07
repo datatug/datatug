@@ -1,0 +1,11 @@
+{
+  "title": "Source-scoped relative search-interest index",
+  "kind": "meaning",
+  "status": "needs-review",
+  "evidence_ids": [
+    "bq-sem-trends-interpretation-20261007"
+  ],
+  "research_depth": "documented",
+  "freshness": "unknown",
+  "reason": "Proposed bounded meaning for a provider-normalized interest measure whose topic/term, geography, normalization population, observation period and methodology are retained. No raw count, sales-demand or causal equivalence. Canonical meaning reuse/missing-concept decision pending; no registered meaning claimed."
+}

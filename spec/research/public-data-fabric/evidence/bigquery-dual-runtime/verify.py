@@ -2,6 +2,7 @@
 """Verify curated small evidence bytes and preservation of original research."""
 import hashlib
 import json
+import sys
 from pathlib import Path
 
 def digest(path):
@@ -10,12 +11,17 @@ def digest(path):
 def main():
     packet = Path(__file__).resolve().parent
     hub = packet.parent.parent
+    sys.path.insert(0, str(hub))
+    from verify_no_copy_decision import approved_record_additions, preserved_bytes
+    additions = approved_record_additions(hub.parents[2])
     manifest = json.loads((packet / "source-manifest.json").read_text())
     for item in manifest["files"]:
         path = hub / item["path"]
-        assert digest(path) == item["sha256"], item["path"]
+        retained = preserved_bytes(hub.parents[2], str(path.relative_to(hub.parents[2])), item["sha256"])
+        assert hashlib.sha256(retained).hexdigest() == item["sha256"], item["path"]
     for table, expected in manifest["preserved_baseline"].items():
         excluded = set(manifest["added_candidate_ids"]) if table == "candidates" else set()
+        excluded.update(additions[table])
         entries = [{"path": str(p.relative_to(hub)), "sha256": digest(p)}
                    for p in sorted((hub / table / "$records").glob("*.json"))
                    if p.stem not in excluded]
@@ -66,7 +72,8 @@ def main():
             assert digest(path) == item["sha256"], item["path"]
     for table, expected in curated["preserved_record_indexes"].items():
         entries = [{"path": str(p.relative_to(hub)), "sha256": digest(p)}
-                   for p in sorted((hub / table / "$records").glob("*.json"))]
+                   for p in sorted((hub / table / "$records").glob("*.json"))
+                   if p.stem not in additions[table]]
         assert len(entries) == expected["count"], table
         actual = hashlib.sha256(json.dumps(entries, separators=(",", ":"), sort_keys=True).encode()).hexdigest()
         assert actual == expected["sha256"], table + " full A0 baseline"

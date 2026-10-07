@@ -1,0 +1,10 @@
+{
+  "title": "Historical Google Trends SQL field examples",
+  "observed_at": "2026-10-07T09:57:52Z",
+  "outcome": "observation",
+  "summary": "Historical authored examples name term, score, rank, dma_name, dma_id, week and refresh_date in US top_terms. These establish documented field candidates only; no current schema/type/constraint or worldwide grain is accepted. Ranking-set time and observation time remain separate roles.",
+  "url": "https://cloud.google.com/blog/products/data-analytics/top-25-google-search-terms-now-in-bigquery",
+  "reviewer": "dedicated-semantic-reconciliation-local-sol",
+  "independent": true,
+  "review_stage": "reconciliation"
+}

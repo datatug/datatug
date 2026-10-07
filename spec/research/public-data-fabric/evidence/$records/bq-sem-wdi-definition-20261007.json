@@ -1,0 +1,12 @@
+{
+  "title": "Pinned WDI BigQuery authored definitions",
+  "observed_at": "2026-10-07T09:57:52Z",
+  "outcome": "observation",
+  "summary": "Documentation-only: five metadata table schemas, all nullable; country_summary has country_code, two_alpha_code and wb_2_code; series_summary carries unit_of_measure, periodicity, source and license_type; series_time.year INTEGER versus footnotes.year STRING. Dataset Terraform uses var.project_id and specifies no location. Current existence, data, constraints, edition, freshness, source-project ownership and observations remain unverified.",
+  "url": "https://github.com/GoogleCloudPlatform/public-datasets-pipelines/blob/14735c60589ab22361dc0d54ad7491ba7ae96a04/datasets/world_bank_wdi/pipelines/_images/run_csv_transform_kub/schema.json",
+  "reviewer": "dedicated-semantic-reconciliation-local-sol",
+  "independent": true,
+  "review_stage": "reconciliation",
+  "repository": "https://github.com/GoogleCloudPlatform/public-datasets-pipelines",
+  "commit": "14735c60589ab22361dc0d54ad7491ba7ae96a04"
+}

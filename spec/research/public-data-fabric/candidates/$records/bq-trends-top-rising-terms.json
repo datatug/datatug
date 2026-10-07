@@ -1,0 +1,16 @@
+{
+  "title": "Documented Trends top_rising_terms",
+  "kind": "recordset",
+  "status": "needs-review",
+  "evidence_ids": [
+    "bq-sem-trends-definition-20261007",
+    "bq-sem-trends-schema-history-20261007",
+    "bq-sem-trends-international-history-20261007"
+  ],
+  "research_depth": "documented",
+  "freshness": "unknown",
+  "source_id": "bq-source-google-trends",
+  "dataset_id": "bq-data-google-trends",
+  "source_url": "https://github.com/GoogleCloudPlatform/public-datasets-pipelines/blob/14735c60589ab22361dc0d54ad7491ba7ae96a04/datasets/google_trends/pipelines/copy_trends_data/pipeline.yaml",
+  "reason": "Documentation-only candidate. No current provider metadata, field binding, source admission, rights clearance or execution acceptance. Source project candidate bigquery-public-data; execution project unconfigured and distinct. Location unverified. Expected locator bigquery-public-data.google_trends.top_rising_terms. Variant-qualified selection/grain; current native fields and normalization domain unverified. Missing selected terms are not zero interest."
+}

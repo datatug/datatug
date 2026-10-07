@@ -1,0 +1,14 @@
+{
+  "title": "Google Trends hourly opportunity: exact locator unresolved",
+  "kind": "recordset",
+  "status": "needs-review",
+  "evidence_ids": [
+    "bq-sem-trends-help-20261007"
+  ],
+  "research_depth": "documented",
+  "freshness": "unknown",
+  "source_id": "bq-source-google-trends",
+  "dataset_id": "bq-data-google-trends",
+  "source_url": "https://support.google.com/trends/answer/12764470?hl=en",
+  "reason": "Preserve documented hourly opportunity without inventing a project/dataset/table suffix. Exact locator, cadence interpretation, geographic scope, native schema and rights remain unresolved."
+}

@@ -1,0 +1,10 @@
+{
+  "title": "Current Google Trends dataset documentation",
+  "observed_at": "2026-10-07T09:57:52Z",
+  "outcome": "observation",
+  "summary": "Google documents normalized aggregated US DMA and international country/sub-region distributions, daily and separate hourly opportunities, and a top_terms example at bigquery-public-data.google_trends. Advertised rolling windows/cadence are not measured freshness; exact hourly locator and native fields/types/modes remain unresolved.",
+  "url": "https://support.google.com/trends/answer/12764470?hl=en",
+  "reviewer": "dedicated-semantic-reconciliation-local-sol",
+  "independent": true,
+  "review_stage": "reconciliation"
+}

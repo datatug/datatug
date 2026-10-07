@@ -1,0 +1,37 @@
+{
+  "title": "Documented WDI series_summary",
+  "kind": "recordset",
+  "status": "needs-review",
+  "evidence_ids": [
+    "bq-sem-wdi-definition-20261007",
+    "bq-sem-wdi-rights-20261007"
+  ],
+  "research_depth": "documented",
+  "freshness": "unknown",
+  "source_id": "bq-source-public-data",
+  "dataset_id": "bq-data-world-bank-wdi",
+  "source_url": "https://github.com/GoogleCloudPlatform/public-datasets-pipelines/blob/14735c60589ab22361dc0d54ad7491ba7ae96a04/datasets/world_bank_wdi/pipelines/_images/run_csv_transform_kub/schema.json",
+  "identifier_representations": [
+    "series_code: string/nullable (authored)",
+    "topic: string/nullable (authored)",
+    "indicator_name: string/nullable (authored)",
+    "short_definition: string/nullable (authored)",
+    "long_definition: string/nullable (authored)",
+    "unit_of_measure: string/nullable (authored)",
+    "periodicity: string/nullable (authored)",
+    "base_period: string/nullable (authored)",
+    "other_notes: string/nullable (authored)",
+    "aggregation_method: string/nullable (authored)",
+    "limitations_and_exceptions: string/nullable (authored)",
+    "notes_from_original_source: string/nullable (authored)",
+    "general_comments: string/nullable (authored)",
+    "source: string/nullable (authored)",
+    "statistical_concept_and_methodology: string/nullable (authored)",
+    "development_relevance: string/nullable (authored)",
+    "related_source_links: string/nullable (authored)",
+    "other_web_links: string/nullable (authored)",
+    "related_indicators: string/nullable (authored)",
+    "license_type: string/nullable (authored)"
+  ],
+  "reason": "Documentation-only candidate. No current provider metadata, field binding, source admission, rights clearance or execution acceptance. Source project candidate bigquery-public-data; execution project unconfigured and distinct. Location unverified. Expected locator bigquery-public-data.world_bank_wdi.series_summary. Metadata recordset, not observation values; no unique key or foreign key is established."
+}
