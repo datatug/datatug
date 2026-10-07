@@ -21,6 +21,18 @@ owns phase sequencing; capability tables below retain original audit grouping.
 
 It is the pillar that makes P7's compounding library real rather than aspirational: a captured query is worthless as an accumulating asset if it cannot be reviewed, diffed and moved between local, hosted and Git-backed stores. Initial audit snapshot (before later 9 September landings): the local filestore is the only fully working `Store` backend; `--git=stage` only covers `entity add`; secrets can still land in committed query files because `Project.Validate()` never validates `Queries` at all; GitHub- hosted projects can write but not reliably read back (`GhStorage.FileExists`/`OpenFile` panic). Two founder additions from 2026-09-09 extend this pillar: a remote OpenVaultDB project store, and making the project store itself explorable as a source inside DataTug. Phase 0–1 add the secrets guard; Phase 2–3 build the pluggable store backends and self-exploration; Phase 4 adds diff/review affordances. This is a Capability; per-repo Implementations (`datatug-core`, `datatug-cli`) link to it.
 
+The immediate browser journey is a signed-in user choosing a GitHub repository
+they own, creating or selecting a working branch, saving several project queries
+through DataTug Cloud, reviewing the diff, and merging to a chosen target. They
+can reload and run a saved query against a hosted DemoDB source in the browser
+without installing the CLI. [Public Data Fabric](../public-data-fabric/README.md)
+owns browser OVDB federation and row execution; this Feature owns where the
+query definition is read and written.
+DataTug Cloud's Firestore project store accepts the same project mutation
+contract but has no Git branch capability. The CLI-served API accepts that
+contract for a local clone, with local pull/push operations on its current
+branch. These are requirements, not a claim that all paths work today.
+
 ## Problem
 
 The following initial-audit diagnosis explains why this capability was proposed.
@@ -112,6 +124,118 @@ diff/review affordance in DataTug itself, riding on Git rather than reimplementi
 This is later-phase UI work; the underlying guarantee (every change is a Git diff) already holds
 once REQ:git-stage-mutations covers every mutating command.
 
+#### REQ: one-project-mutation-contract
+
+Creating a project and saving a query MUST use a storage-neutral, versioned
+DataTug API contract. Hosted and GitHub stores use the DataTug Cloud API;
+local clones use the DataTug CLI-served API. The client selects the API endpoint
+and project store reference, not a provider-specific mutation shape. Existing
+`create_query` and `update_query` callers remain compatible while an additive
+conditional `save_query` operation accepts the existing query definition,
+including federation metadata and its body, and returns an opaque query revision.
+The same project reference, actor authorization, validation, concurrency,
+operation receipt and store-adapter pipeline MUST also govern existing editable
+project assets (project metadata, query folders, boards and entities as their
+operations are migrated). The first delivery slice covers project creation
+and saved queries; it MUST NOT be described as complete asset parity.
+Exactly one create-only or update-if-revision-matches condition is required.
+The pair of query metadata and type-derived body sidecar MUST be one logical
+write; API readers and crash recovery cannot expose a mixed pair after an
+interrupted write. This does not require two physical filesystem renames to be
+atomic together. Both APIs apply the same
+Core query validation and secret screen before the write. A client-supplied
+operation ID makes a retry after a committed write or index failure recover
+the original result and repair the index, without a duplicate commit. The
+receipt binds the verified actor, store, project/repository, branch,
+operation kind and canonical request-payload digest. Reusing an operation ID
+with different scope or payload returns a typed conflict without a write;
+even a matching replay rechecks current actor and provider authorization.
+This rule applies to project create, asset save, branch, explicit commit and
+sync mutations, not only query saves.
+
+#### REQ: provider-capabilities-and-branch-workflow
+
+Every project API MUST report its supported capabilities. Git stores expose
+list, select, create, diff and merge branches; selection is client state and
+every mutation names an explicit selected branch and its observed head. A
+branch list/create request before project creation may address a prospective
+project reference with repository and folder, but still checks actor and
+repository authority; no manifest or index is required to select a branch.
+The project manifest is then created on that selected branch and observed
+head, including when the default branch is protected. A
+GitHub save atomically commits its pair on that branch, then conditionally
+advances the branch only when both query revision and branch head still match.
+It never force-updates a ref. Create checks its source head; merge checks both
+reviewed source and target heads and current actor permission. Conflicts return
+a typed conflict without modifying either branch. Branch protection can result
+in a review proposal or pending checks; the response MUST distinguish that from a
+completed merge and include the review URL when one exists. A compare URL is
+only an invitation to open a PR, not a claim that the API created one; an
+API-created PR requires a separately granted Pull requests permission. The Firestore
+project store reports branching unsupported and rejects branch fields rather
+than pretending a Firestore revision is a Git branch.
+
+#### REQ: local-current-branch-synchronization
+
+The CLI-served API MUST support pull and push on the local clone's current
+branch using its configured upstream. Pull defaults to fast-forward only and
+must refuse divergence, a stale observed head, or a dirty worktree that would
+be overwritten. Push is a normal non-force push, checking observed local and
+remote heads; remote rejection is explicit. Git commands receive validated
+branch/remote arguments directly, without shell interpretation, and execute
+under the same repository lock as local branch and query mutations. Local
+branch switching or merge MUST preserve uncommitted changes: use isolated
+branch worktrees or fail cleanly on dirty/current-branch mismatch, never stash,
+reset or silently commit. `--git=stage` retains its existing behavior. An
+explicit reviewed `commit` API operation is available for the user to commit
+only selected changed project files on the current branch, with expected head
+and file revisions; it MUST never stage or commit unrelated checkout changes.
+The user invokes that operation before merging or pushing local changes.
+
+#### REQ: github-actor-authority-and-private-reads
+
+GitHub project writes MUST pass through DataTug Cloud and a dedicated DataTug
+GitHub App grant for the selected repository. A Firebase identity and App
+installation alone do not grant repository write access. Each operation MUST
+use an actor-bound GitHub App user access token, whose access is restricted by
+both that user's current GitHub permissions and the App's selected-repository
+Contents permission; loss of access must deny the next operation. Tokens and
+rotating refresh credentials stay in server-side encrypted storage with
+serialized refresh, never in project files, URLs, logs or the browser's durable
+storage. The OAuth callback's unavoidable short-lived authorization code and
+one-time state are removed from browser history/analytics-sensitive surfaces
+before the app continues, never logged or persisted, and bound to the verified
+actor (with PKCE where supported). A reused code or cross-actor state is
+refused. If a single-use refresh rotates at GitHub but the replacement cannot
+be persisted before a crash, the connection fails closed and asks the user to
+reconnect; it never reuses an invalid token or guesses a successor. A private
+project read uses the authenticated API and the same
+repository-scoped authorization; it never falls back to a public mirror or
+reuses a private browser cache entry without current actor authorization.
+Private cache entries are actor-scoped and cleared on account changes or
+revocation. Public
+read may retain the existing anonymous path. GitHub repository collaborators
+are not inferred to be Sneat contacts or Space members. The first release
+selects an existing repository; a user may create one on GitHub and return to
+select it. The repository must have an initialized default branch: an empty
+repository with no HEAD is shown an explicit initialize-on-GitHub action and
+cannot be saved until its branch exists. This avoids claiming a create-ref
+compare-and-swap that GitHub does not offer for a branchless repository.
+Creating a new GitHub repository through the DataTug API is a
+separate capability requiring a separately reviewed repository-creation grant,
+not implicit in Contents permission.
+
+#### REQ: project-index-reconciliation
+
+The selected project store is the source of truth for project files. DataTug's
+user index records discoverability after the store write; an index failure
+leaves a recoverable operation receipt and a retry repairs the index without
+rewriting the Git commit. An external GitHub change is visible after read
+refresh, and an old head or query revision is rejected for writes. Shared
+project entitlements and contact assignments are checked separately by their
+own Pro policy; a public project or owner-only private project remains
+available on Free, and DemoDB query execution is not paywalled here.
+
 ## Acceptance Criteria
 
 ### AC: every-asset-is-a-file (verifies REQ:readable-file-layout)
@@ -156,10 +280,67 @@ once REQ:git-stage-mutations covers every mutating command.
 **When** a reviewer opens the diff affordance
 **Then** they see the exact file-level Git diff the change would produce, before approving it.
 
+### AC: one-query-save-contract-round-trips (verifies REQ:one-project-mutation-contract)
+
+**Given** a query using `federation.ovdbBaseUrl` and `federation.tables` with a DTQL body
+**When** it is created and updated through the same `save_query` DTO against a local clone, GitHub project, or Firestore project
+**Then** the metadata and `.query.dtql` body round-trip without field loss, each response returns an opaque revision, stale updates return a typed conflict without a torn pair, legacy routes retain their responses, and a repeated operation ID returns the original result without a second Git commit.
+
+### AC: project-create-uses-trusted-api (verifies REQ:one-project-mutation-contract)
+
+**Given** a signed-in user choosing a Firestore project, an authorized GitHub repository with an initialized selected branch, or a local clone
+**When** they create a project through the selected DataTug API endpoint
+**Then** the store contains a valid project manifest, the appropriate project index resolves it after retryable reconciliation, GitHub creation uses the user's selected repository and branch with current user permission, and the DataTug client sends every project mutation through the selected DataTug API without a direct protected-store write path. A GitHub user may still edit their own repository through other tools. Later editable asset mutations use the same authorization and revision pipeline as their adapters migrate; first-slice acceptance claims only project creation and saved queries.
+
+### AC: branchless-repository-needs-initialization (verifies REQ:github-actor-authority-and-private-reads)
+
+**Given** an authorized GitHub repository with no branch or HEAD
+**When** the user tries to create a DataTug project in it
+**Then** the API refuses without writing a manifest or index and the browser offers an explicit GitHub initialization path; after the default branch exists, creation uses its observed head and returns a typed conflict if that head races forward, without overwriting the other change.
+
+### AC: remaining-editable-assets-use-common-pipeline (verifies REQ:one-project-mutation-contract)
+
+**Given** project metadata, query folders, boards and entities that the client can edit in a supported store
+**When** each asset is changed through its DataTug API operation
+**Then** the same project reference, actor authorization, validation, revision conflict and operation replay rules apply, the selected Git branch is pinned for Git-backed stores, and no DataTug browser-direct protected-store mutation path remains. This is a phased parity criterion, separate from the first project-create and saved-query delivery slice.
+
+### AC: working-branch-changes-merge-or-propose (verifies REQ:provider-capabilities-and-branch-workflow)
+
+**Given** a Git project with source and target heads observed by the user
+**When** the user creates/selects a branch, makes two saved-query changes, reviews the diff, and requests merge to the chosen target
+**Then** each save changes only the selected branch, the reviewed heads are checked again, a successful merge advances the target without force, a protected target returns an explicit proposal or pending state and URL, and a stale head leaves both branches unchanged. The Firestore project advertises and enforces no branch capability.
+
+### AC: local-current-branch-pull-push-is-safe (verifies REQ:local-current-branch-synchronization)
+
+**Given** a local clone served by the CLI API with a configured upstream
+**When** the user pulls or pushes the current branch with expected heads
+**Then** fast-forward pull and normal push succeed when the heads match; dirty-overwrite, divergence, stale-head and remote-rejection cases return explicit errors without stash, reset, force or loss of local changes.
+
+### AC: local-reviewed-commit-scopes-files (verifies REQ:local-current-branch-synchronization)
+
+**Given** two edited project query pairs and an unrelated modified file in a local clone
+**When** the user reviews the project diff and explicitly commits the two selected pairs through the CLI-served API with the observed head and file revisions
+**Then** the commit contains exactly those four query files, the unrelated file remains untouched, and a stale head or changed selected file prevents the commit without loss of edits.
+
+### AC: github-revocation-and-private-read (verifies REQ:github-actor-authority-and-private-reads)
+
+**Given** a selected private repository with a DataTug GitHub App installation and two signed-in users, one with GitHub write access and one read-only
+**When** each reads and tries to save, and the writer's GitHub access is then revoked
+**Then** the read-only user can read only while authorized and cannot save, the former writer's next operation is denied, an unrelated installation or repository is rejected, and no private bytes are served from a public mirror or an earlier actor's browser cache after account switch or revocation.
+
+### AC: committed-retry-repairs-index (verifies REQ:project-index-reconciliation)
+
+**Given** a valid GitHub project mutation whose commit succeeds but its index update or HTTP response fails
+**When** the same operation ID is retried
+**Then** the API rechecks the current actor's authority, discovers the committed result, repairs the index, returns its original revision and branch head, and creates no second commit. The same operation ID with a changed payload, branch, project, store, operation kind or actor returns a typed conflict without a write. An out-of-band branch edit then appears on refresh and makes an old-head save conflict.
+
 ## Not Doing / Out of Scope
 
-- `--git=commit` from DataTug itself: DataTug stages changes; committing remains a deliberate,
-  separate human or CI action.
+- Automatic `--git=commit` for local CLI changes: saving locally stages
+  changes and leaves them uncommitted. A separate explicit, reviewed,
+  file-scoped API commit is in scope for the user's branch workflow. Saving to
+  a remote GitHub branch via the Cloud API necessarily makes an atomic Git
+  commit and is also in scope.
 - A hosted database as the canonical project store; every backend (local, GitHub, OpenVaultDB,
   DataTug Cloud) exposes the same file-shaped project, never a proprietary schema.
 - Client-direct writes to a protected project store; writes to a hosted or remote store still go
