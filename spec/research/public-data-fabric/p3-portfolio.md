@@ -1,5 +1,15 @@
 # Phase 3 scenario and dataset portfolio architecture
 
+## Current initial S2 scope — root decision 7 October 2026
+
+The [authored scope decision](evidence/s2-initial-scope-decision.json), also embedded as `superseding_s2_scope_decision` in the [portfolio JSON](evidence/p3-portfolio.json), supersedes the initial S2 selection only. Initial S2 is the already accepted non-FX unit/language and local product-key subset, with explicit Chinook catalogue-price context. It does not deliver complete comparable international prices or quantity/FX conversion. The historical seven-scenario portfolio, scores, recordsets and waves below remain research history; this decision does not rescore or renumber them.
+
+Historical AdventureWorks→ECB comparison remains deferred research, preserving all 14 targets, supported-pair/day evidence, missing-date requirements and literal DEM/FRF/VEB negatives without successor substitution. Daily ECB remains separate conditional discovery/preparation and admits no historical lookup or cross-rate. `p3-followup-2` remains open/blocking: CLDR display/alt policy, regional currency intervals/multiplicity, digits/precision and missing eligible-business-day evidence remain open. The captured Saturday gap does not satisfy that last requirement. Acquired timestamps do not establish valuation-day or transaction-time equivalence.
+
+The unchanged assertions remain authoritative: this scope decision accepts no new semantic mapping, implementation, source rights, retained copy, provider query, activation or phase-gate closure.
+
+## Historical portfolio proposal
+
 Author proposal, 5 October 2026. Fresh separate specialist `fresh-phase3-portfolio-architect`, local Codex on macOS. Read the complete mission and full persistent inventory at hub `05eecd54e441d7512cd3dc57f8a888595e152984`; semantic decisions are those of the separate Phase 2 source `c26c3ee5d8e5e0edce629b66fd15d6d3cf323192`. The architecture source made no new semantic decisions, canonical artifacts or deployments. Root now accepts bounded Phase 3 architecture at `caa9e75d9b24c8ddd95266bc46d97670d492849f` after independent r2 zero-findings review; this separate acceptance delta still requires final independent review, exact-head CI and root landing.
 
 ## Superseding access decision — 6 October 2026

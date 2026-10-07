@@ -6,7 +6,10 @@ import sys
 from pathlib import Path
 
 def digest(path):
-    return hashlib.sha256(path.read_bytes()).hexdigest()
+    from verify_s2_scope_decision import predecessor_bytes as s2_predecessor
+    root = Path(__file__).resolve().parents[5]
+    raw = s2_predecessor(root, str(path.relative_to(root)), path.read_bytes())
+    return hashlib.sha256(raw).hexdigest()
 
 def main():
     packet = Path(__file__).resolve().parent

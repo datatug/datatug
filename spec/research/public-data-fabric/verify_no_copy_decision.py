@@ -8,6 +8,8 @@ import subprocess
 import tempfile
 from pathlib import Path
 
+from verify_s2_scope_decision import SUCCESSORS as S2_SUCCESSORS, predecessor_bytes as s2_predecessor, check as check_s2_scope, self_test as s2_self_test
+
 BASE = Path(__file__).resolve().parent
 ROOT = BASE.parents[2]
 PORTFOLIO = 'spec/research/public-data-fabric/evidence/p3-portfolio.json'
@@ -61,7 +63,7 @@ def candidate_receipt(root):
     for name, change in receipt['verifier_successors'].items():
         original = subprocess.check_output(['git', '-C', str(root), 'show', CANDIDATE_BASE + ':' + name])
         assert digest(original) == change['original_sha256'], ('verifier original changed', name)
-        current = (root / name).read_bytes()
+        current = s2_predecessor(root, name, (root / name).read_bytes())
         check_verifier_successor(name, current)
         assert digest(current) == change['successor_sha256'], ('verifier successor changed', name)
     return receipt
@@ -81,6 +83,10 @@ def approved_record_additions(root):
     assert len(baseline) == 2121, 'candidate original inventory changed'
     names = sorted(baseline)
     actual = subprocess.check_output(['git', '-C', str(root), 'hash-object', '--stdin-paths'], input='\n'.join(names) + '\n', text=True, stderr=subprocess.PIPE).splitlines()
+    for i, name in enumerate(names):
+        if name in S2_SUCCESSORS:
+            previous = s2_predecessor(root, name, (root / name).read_bytes())
+            actual[i] = subprocess.check_output(['git', '-C', str(root), 'hash-object', '--stdin'], input=previous).decode().strip()
     assert actual == [baseline[name] for name in names], 'original ledger record changed'
     result = {}
     for table in COLLECTIONS:
@@ -124,7 +130,7 @@ def approved_evidence_additions(root):
 
 def preserved_bytes(root, name, expected):
     """Keep old receipt hashes exact; only reviewed, named successor files differ."""
-    current = (root / name).read_bytes()
+    current = s2_predecessor(root, name, (root / name).read_bytes())
     if digest(current) == expected:
         return current
     current = verifier_predecessor(root, name, current)
@@ -142,11 +148,12 @@ def preserved_bytes(root, name, expected):
 
 
 def main():
+    check_s2_scope(ROOT)
     candidate_additions = approved_record_additions(ROOT)
     receipt = json.loads(RECEIPT.read_text())
     assert set(receipt['superseded_files']) == SUPERSEDED_FILES
     original = json.loads(subprocess.check_output(['git', '-C', str(ROOT), 'show', receipt['base_commit'] + ':' + PORTFOLIO]))
-    current = json.loads((ROOT / PORTFOLIO).read_text())
+    current = json.loads(s2_predecessor(ROOT, PORTFOLIO, (ROOT / PORTFOLIO).read_bytes()))
     decision = current['superseding_access_decision']
     assert {k: v for k, v in current.items() if k != 'superseding_access_decision'} == original
     assert decision['id'] == 'public-data-original-provider-no-copy-20261006'
@@ -172,6 +179,9 @@ def main():
             historical = subprocess.check_output(['git', '-C', str(ROOT), 'show', receipt['base_commit'] + ':' + name])
             assert preserved_bytes(ROOT, name, digest(historical)) == historical
             continue
+        if name in S2_SUCCESSORS:
+            previous = s2_predecessor(ROOT, name, (ROOT / name).read_bytes())
+            actual = subprocess.check_output(['git', '-C', str(ROOT), 'hash-object', '--stdin'], input=previous).decode().strip()
         assert actual == meta.split()[2], ('research bytes changed', name)
         for collection in ['candidates', 'assertions', 'implementation', 'gates', 'questions', 'evidence']:
             if name.startswith('spec/research/public-data-fabric/' + collection + '/$records/') and name.endswith('.json') and Path(name).name != 'README.json':
@@ -265,7 +275,10 @@ def candidate_additions_self_test():
         for table in COLLECTIONS:
             relative = BASE.relative_to(ROOT) / table / '$records'
             shutil.copytree(ROOT / relative, root / relative)
-        for name in CANDIDATE_VERIFIERS | {str(CANDIDATE_RECEIPT.relative_to(ROOT)), str(RECEIPT.relative_to(ROOT))}:
+        for name in CANDIDATE_VERIFIERS | set(S2_SUCCESSORS) | {
+                'spec/research/public-data-fabric/evidence/s2-initial-scope-decision.json',
+                'spec/research/public-data-fabric/evidence/s2-scope-successors.json',
+                str(CANDIDATE_RECEIPT.relative_to(ROOT)), str(RECEIPT.relative_to(ROOT))}:
             path = root / name
             path.parent.mkdir(parents=True, exist_ok=True)
             shutil.copyfile(ROOT / name, path)
@@ -350,3 +363,4 @@ if __name__ == '__main__':
     if args.self_test:
         self_test()
         candidate_additions_self_test()
+        s2_self_test()
