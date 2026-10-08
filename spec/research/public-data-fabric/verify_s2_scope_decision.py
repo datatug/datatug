@@ -55,6 +55,34 @@ CAMPAIGN_BASE = '3973ae1a5bcd1c2959fef3bea7f8aafa54a156e5'
 CAMPAIGN_README_SHA256 = '5f874f468bf64a482f6f6caeb8213311c9c57294bae9d2bf1be64ce4e449857e'
 
 
+GLEIF_PACKET = 'spec/research/public-data-fabric/evidence/gleif-qualification-20261008/index-successor.json'
+GLEIF_PACKET_SHA256 = 'be68d0ae38a2acf77820fe0787994963c8f23ad373753a2f11c9d87b1a8b9c00'
+GLEIF_BASE = '20b695bc78084b0cfd9b63535a7412b57117d2d3'
+GLEIF_README_SHA256 = '8188a2b0e7bb31f4b302f97bd39db20d500c89bcae0244908bd9a2e86254c123'
+
+
+def gleif_predecessor(root, name, current):
+    """Unwrap the exact reviewed GLEIF append; preserve documentary memo bytes."""
+    if name != DELIVERY_README or digest(current) != GLEIF_README_SHA256:
+        return current
+    raw = (root / GLEIF_PACKET).read_bytes()
+    assert digest(raw) == GLEIF_PACKET_SHA256, 'GLEIF receipt changed'
+    packet = json.loads(raw)
+    assert packet['format'] == 'data-fabric-gleif-index-successor/1'
+    assert packet['base_commit'] == GLEIF_BASE and packet['index_path'] == DELIVERY_README
+    for flag in ['source_activation', 'lifecycle_changes', 'provider_calls']:
+        assert packet[flag] is False, flag
+    assert packet['index_original_sha256'] == CAMPAIGN_README_SHA256
+    assert packet['index_successor_sha256'] == GLEIF_README_SHA256
+    for filename, expected in packet['files'].items():
+        assert digest((root / GLEIF_PACKET).with_name(filename).read_bytes()) == expected, filename
+    previous = subprocess.check_output(['git', '-C', str(root), 'show', GLEIF_BASE + ':' + name])
+    assert digest(previous) == CAMPAIGN_README_SHA256, 'GLEIF predecessor changed'
+    assert current.startswith(previous), 'GLEIF index lost historical bytes'
+    assert digest(current[len(previous):]) == packet['index_append_sha256'], 'GLEIF append changed'
+    return previous
+
+
 def campaign_predecessor(root, name, current):
     """Unwrap only the hash-bound additive campaign index; admit no lifecycle change."""
     if name != DELIVERY_README or digest(current) != CAMPAIGN_README_SHA256:
@@ -97,6 +125,7 @@ def catchup_predecessor(root, name, current):
 
 def delivery_predecessor(root, name, current):
     """Unwrap only the independently pinned additive delivery summaries."""
+    current = gleif_predecessor(root, name, current)
     current = campaign_predecessor(root, name, current)
     current = catchup_predecessor(root, name, current)
     if name != DELIVERY_README or digest(current) == DELIVERY_ORIGINAL_SHA256:
@@ -190,9 +219,11 @@ def self_test():
             shutil.copyfile(ROOT / name, target)
         check(root)
         # The delivery observation cannot launder README mutations or its own receipt.
-        for name in [DELIVERY_README, DELIVERY_RECEIPT, CATCHUP_PACKET, CAMPAIGN_PACKET]:
+        for name in [DELIVERY_README, DELIVERY_RECEIPT, CATCHUP_PACKET, CAMPAIGN_PACKET, GLEIF_PACKET]:
             target = root / name; target.parent.mkdir(parents=True, exist_ok=True)
             shutil.copyfile(ROOT / name, target)
+        for filename in json.loads((ROOT / GLEIF_PACKET).read_text())['files']:
+            shutil.copyfile((ROOT / GLEIF_PACKET).with_name(filename), (root / GLEIF_PACKET).with_name(filename))
         path = root / DELIVERY_README
         original_summary = path.read_bytes()
         expected_summary = subprocess.check_output(['git', '-C', str(ROOT), 'show', DELIVERY_BASE + ':' + DELIVERY_README])
@@ -232,6 +263,35 @@ def self_test():
             else:
                 raise AssertionError('dated catchup mutation accepted: ' + label)
             catchup_path.write_bytes(original_catchup)
+        gleif_path = root / GLEIF_PACKET
+        original_gleif = gleif_path.read_bytes()
+        for label, mutate in [
+                ('format', lambda p: p.update(format='data-fabric-gleif-index-successor/99')),
+                ('activation', lambda p: p.update(source_activation=True)),
+                ('lifecycle', lambda p: p.update(lifecycle_changes=True)),
+                ('provider calls', lambda p: p.update(provider_calls=True)),
+                ('forged append pin', lambda p: p.update(index_append_sha256='0' * 64)),
+                ('forged matching summary pin', lambda p: p.update(index_successor_sha256=digest(original_summary + b'\nforged\n')))]:
+            value = json.loads(original_gleif); mutate(value)
+            gleif_path.write_text(json.dumps(value))
+            try:
+                delivery_predecessor(root, DELIVERY_README, original_summary)
+            except AssertionError:
+                pass
+            else:
+                raise AssertionError('GLEIF mutation accepted: ' + label)
+            gleif_path.write_bytes(original_gleif)
+        for filename in json.loads(original_gleif)['files']:
+            memo = gleif_path.with_name(filename); original_memo = memo.read_bytes()
+            memo.write_bytes(original_memo + b'\nforged activation\n')
+            try:
+                delivery_predecessor(root, DELIVERY_README, original_summary)
+            except AssertionError:
+                pass
+            else:
+                raise AssertionError('GLEIF memo tampering accepted: ' + filename)
+            memo.write_bytes(original_memo)
+        print('GLEIF index: six receipt and two memo mutations refused')
         campaign_path = root / CAMPAIGN_PACKET
         original_campaign = campaign_path.read_bytes()
         for label, mutate in [
