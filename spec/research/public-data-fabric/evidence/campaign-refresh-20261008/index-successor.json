@@ -1,0 +1,10 @@
+{
+  "format": "data-fabric-campaign-index-successor/1",
+  "base_commit": "3973ae1a5bcd1c2959fef3bea7f8aafa54a156e5",
+  "index_path": "spec/research/public-data-fabric/README.md",
+  "index_original_sha256": "9905bb026d9e88ebc80579a8968f912f37d53e0565475ffe47adf6a315f4d465",
+  "index_successor_sha256": "7453c2104abe9b6c8411078d512a4791477818a63f37b028730c814cee1965fe",
+  "index_append_sha256": "a909c7fd244492604bff64579825e5e1b371725405cefade29623a7da6fad91e",
+  "source_activation": false,
+  "lifecycle_changes": false
+}

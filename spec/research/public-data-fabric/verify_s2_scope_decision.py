@@ -49,6 +49,31 @@ CATCHUP_BASE = 'cfd9b7a867ac00e1c354da9796114671d1215c95'
 CATCHUP_README_SHA256 = '9905bb026d9e88ebc80579a8968f912f37d53e0565475ffe47adf6a315f4d465'
 
 
+CAMPAIGN_PACKET = 'spec/research/public-data-fabric/evidence/campaign-refresh-20261008/index-successor.json'
+CAMPAIGN_PACKET_SHA256 = '18e9f2a859c8c6f49bfd5cc67c755fc20163695a9af8840d8ce70aa7a3e64382'
+CAMPAIGN_BASE = '3973ae1a5bcd1c2959fef3bea7f8aafa54a156e5'
+CAMPAIGN_README_SHA256 = '7453c2104abe9b6c8411078d512a4791477818a63f37b028730c814cee1965fe'
+
+
+def campaign_predecessor(root, name, current):
+    """Unwrap only the hash-bound additive campaign index; admit no lifecycle change."""
+    if name != DELIVERY_README or digest(current) != CAMPAIGN_README_SHA256:
+        return current
+    raw = (root / CAMPAIGN_PACKET).read_bytes()
+    assert digest(raw) == CAMPAIGN_PACKET_SHA256, 'campaign index receipt changed'
+    packet = json.loads(raw)
+    assert packet['format'] == 'data-fabric-campaign-index-successor/1'
+    assert packet['base_commit'] == CAMPAIGN_BASE and packet['index_path'] == DELIVERY_README
+    assert packet['source_activation'] is False and packet['lifecycle_changes'] is False
+    assert packet['index_original_sha256'] == CATCHUP_README_SHA256
+    assert packet['index_successor_sha256'] == CAMPAIGN_README_SHA256
+    previous = subprocess.check_output(['git', '-C', str(root), 'show', CAMPAIGN_BASE + ':' + name])
+    assert digest(previous) == CATCHUP_README_SHA256, 'campaign predecessor changed'
+    assert current.startswith(previous), 'campaign index lost historical bytes'
+    assert digest(current[len(previous):]) == packet['index_append_sha256'], 'campaign append changed'
+    return previous
+
+
 def catchup_predecessor(root, name, current):
     """Unwrap only the independently pinned 2026-10-08 append; preserve all old bytes."""
     if name != DELIVERY_README or digest(current) in (DELIVERY_ORIGINAL_SHA256, DELIVERY_SUCCESSOR_SHA256):
@@ -72,6 +97,7 @@ def catchup_predecessor(root, name, current):
 
 def delivery_predecessor(root, name, current):
     """Unwrap only the independently pinned additive delivery summaries."""
+    current = campaign_predecessor(root, name, current)
     current = catchup_predecessor(root, name, current)
     if name != DELIVERY_README or digest(current) == DELIVERY_ORIGINAL_SHA256:
         return current
@@ -164,7 +190,7 @@ def self_test():
             shutil.copyfile(ROOT / name, target)
         check(root)
         # The delivery observation cannot launder README mutations or its own receipt.
-        for name in [DELIVERY_README, DELIVERY_RECEIPT, CATCHUP_PACKET]:
+        for name in [DELIVERY_README, DELIVERY_RECEIPT, CATCHUP_PACKET, CAMPAIGN_PACKET]:
             target = root / name; target.parent.mkdir(parents=True, exist_ok=True)
             shutil.copyfile(ROOT / name, target)
         path = root / DELIVERY_README
@@ -206,6 +232,22 @@ def self_test():
             else:
                 raise AssertionError('dated catchup mutation accepted: ' + label)
             catchup_path.write_bytes(original_catchup)
+        campaign_path = root / CAMPAIGN_PACKET
+        original_campaign = campaign_path.read_bytes()
+        for label, mutate in [
+                ('format', lambda p: p.update(format='data-fabric-campaign-index-successor/99')),
+                ('activation', lambda p: p.update(source_activation=True)),
+                ('lifecycle', lambda p: p.update(lifecycle_changes=True)),
+                ('forged append pin', lambda p: p.update(index_append_sha256='0' * 64))]:
+            value = json.loads(original_campaign); mutate(value)
+            campaign_path.write_text(json.dumps(value))
+            try:
+                delivery_predecessor(root, DELIVERY_README, original_summary)
+            except AssertionError:
+                pass
+            else:
+                raise AssertionError('campaign mutation accepted: ' + label)
+            campaign_path.write_bytes(original_campaign)
         # Removing historical index prose must fail even with a valid receipt.
         try:
             delivery_predecessor(root, DELIVERY_README, original_summary[1:])
@@ -240,6 +282,7 @@ def self_test():
             pass
         else:
             raise AssertionError('S2 matching receipt laundered question closure')
+    print('Campaign index: four receipt mutations and append/history mutations refused')
     print('S2 scope: five negative authored-metadata mutations, two delivery-summary mutations and four dated catchup format/pin/history mutations refused')
 
 

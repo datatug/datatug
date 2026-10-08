@@ -1,0 +1,88 @@
+{
+  "observed_at": "2026-10-08T22:14:01.077658+00:00",
+  "author": "public_data_ledger_refresh_sol",
+  "runtime": "Codex Sol",
+  "host": "local macOS",
+  "datatug_base": "3973ae1a5bcd1c2959fef3bea7f8aafa54a156e5",
+  "method": "Independent GitHub commit-to-PR and exact-SHA workflow queries; npm view exact version gitHead/dist metadata; git ls-remote annotated tags. No provider calls.",
+  "packages": [
+    {
+      "name": "@dalgo/http",
+      "version": "0.1.1",
+      "gitHead": "0ff1ba2b28f2449047502e28a93fa54f6f538740",
+      "merged_pr": 26,
+      "tag": "http@v0.1.1",
+      "annotated_tag_object": "4978009c6b0f51d0806be777190c1fb62c252281",
+      "peeled_tag_commit": "0ff1ba2b28f2449047502e28a93fa54f6f538740",
+      "integrity": "sha512-08m5aFSD9DvkXgp7v5GW3dWbw/YVmk666JXjDmU3ZYjjHcuvfA+3awpfuYm9CekmLjTcldyRPC92KnVNh/2kJQ==",
+      "tarball": "https://registry.npmjs.org/@dalgo/http/-/http-0.1.1.tgz",
+      "ci": {
+        "run": 37752952198,
+        "head_sha": "0ff1ba2b28f2449047502e28a93fa54f6f538740",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      "release": {
+        "run": 37752952383,
+        "head_sha": "0ff1ba2b28f2449047502e28a93fa54f6f538740",
+        "status": "completed",
+        "conclusion": "success"
+      }
+    },
+    {
+      "name": "@dalgo/ovdb",
+      "version": "0.2.0",
+      "gitHead": "f8be623889805e7b4974c424a3a0718384e4f0d1",
+      "merged_pr": 30,
+      "tag": "ovdb@v0.2.0",
+      "annotated_tag_object": "39bddfde2a5d65d0a4de19eb5ef6ca08d022c9dd",
+      "peeled_tag_commit": "f8be623889805e7b4974c424a3a0718384e4f0d1",
+      "integrity": "sha512-4MF0dYRO1noNtTft4MkRTEpPUQnP1QkNhXsFlH8pIDYk5xVT+DpWfIWslz7GlkO7cxRE9r1FR//pMKvWuuIqNQ==",
+      "tarball": "https://registry.npmjs.org/@dalgo/ovdb/-/ovdb-0.2.0.tgz",
+      "ci": {
+        "run": 37847520290,
+        "head_sha": "f8be623889805e7b4974c424a3a0718384e4f0d1",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      "release": {
+        "run": 37847520375,
+        "head_sha": "f8be623889805e7b4974c424a3a0718384e4f0d1",
+        "status": "completed",
+        "conclusion": "success"
+      }
+    },
+    {
+      "name": "@dalgo/bigquery",
+      "version": "0.3.2",
+      "gitHead": "ecf16ff0ce172c1697f50caf916367e10f068114",
+      "merged_pr": 33,
+      "tag": "bigquery@v0.3.2",
+      "annotated_tag_object": "111cde9788c1c4747be7ddd3d48ca7b38f211f35",
+      "peeled_tag_commit": "ecf16ff0ce172c1697f50caf916367e10f068114",
+      "integrity": "sha512-DjH63XB2AR1Om1AisxVOigMOvquZ5uMZ4vK97U8Ox8wP99efMQwOw1oLKys7snQf3wDapBSH8kfLdRgyzwtESA==",
+      "tarball": "https://registry.npmjs.org/@dalgo/bigquery/-/bigquery-0.3.2.tgz",
+      "ci": {
+        "run": 37849646748,
+        "head_sha": "ecf16ff0ce172c1697f50caf916367e10f068114",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      "release": {
+        "run": 37849646615,
+        "head_sha": "ecf16ff0ce172c1697f50caf916367e10f068114",
+        "status": "completed",
+        "conclusion": "success"
+      }
+    }
+  ],
+  "directory_site": {
+    "pull_request": 35,
+    "merge_commit": "c37ac63806cda9021c56daa86255dce1a4b18b9a",
+    "merged_at": "2026-10-08T22:10:19Z",
+    "deployment_run": 37851758615,
+    "deployment_status_at_observation": "in_progress",
+    "deployment_conclusion_at_observation": null,
+    "acceptance": "Merged dormant direct-mode source component only; no live publication or provider admission receipt."
+  }
+}
