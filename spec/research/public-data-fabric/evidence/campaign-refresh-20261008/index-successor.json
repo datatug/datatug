@@ -3,8 +3,8 @@
   "base_commit": "3973ae1a5bcd1c2959fef3bea7f8aafa54a156e5",
   "index_path": "spec/research/public-data-fabric/README.md",
   "index_original_sha256": "9905bb026d9e88ebc80579a8968f912f37d53e0565475ffe47adf6a315f4d465",
-  "index_successor_sha256": "7453c2104abe9b6c8411078d512a4791477818a63f37b028730c814cee1965fe",
-  "index_append_sha256": "a909c7fd244492604bff64579825e5e1b371725405cefade29623a7da6fad91e",
+  "index_successor_sha256": "5f874f468bf64a482f6f6caeb8213311c9c57294bae9d2bf1be64ce4e449857e",
+  "index_append_sha256": "e32f59f66cb0cdd82e9ff422abbe194945be62d0f178f37c8c305072cb70bc9a",
   "source_activation": false,
   "lifecycle_changes": false
 }

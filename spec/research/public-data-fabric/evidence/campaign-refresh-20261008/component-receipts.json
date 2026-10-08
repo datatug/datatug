@@ -83,6 +83,18 @@
     "deployment_run": 37851758615,
     "deployment_status_at_observation": "in_progress",
     "deployment_conclusion_at_observation": null,
-    "acceptance": "Merged dormant direct-mode source component only; no live publication or provider admission receipt."
+    "acceptance": "Merged dormant direct-mode source component only; no live publication or provider admission receipt.",
+    "superseding_deployment_receipt": {
+      "observed_at": "2026-10-08T22:16:47.523264+00:00",
+      "run": 37851758615,
+      "head_sha": "c37ac63806cda9021c56daa86255dce1a4b18b9a",
+      "status": "completed",
+      "conclusion": "success",
+      "method": "Independent GitHub workflow API read by ledger author; public build marker/browser proof attributed to retained separate postmerge proof.",
+      "reported_worker_version": "e960ca6e-dbec-4928-90df-aee26548bd19",
+      "attributed_public_build_commit": "c37ac63806cda9021c56daa86255dce1a4b18b9a",
+      "attributed_public_ecb_state": "Inactive, activation blocked, Execute disabled and reader unconfigured",
+      "proof_path": "ecb-directory-postmerge-proof.md"
+    }
   }
 }
