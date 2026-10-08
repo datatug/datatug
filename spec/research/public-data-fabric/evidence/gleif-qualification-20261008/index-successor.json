@@ -1,0 +1,15 @@
+{
+  "format": "data-fabric-gleif-index-successor/1",
+  "base_commit": "20b695bc78084b0cfd9b63535a7412b57117d2d3",
+  "index_path": "spec/research/public-data-fabric/README.md",
+  "index_original_sha256": "5f874f468bf64a482f6f6caeb8213311c9c57294bae9d2bf1be64ce4e449857e",
+  "index_successor_sha256": "8188a2b0e7bb31f4b302f97bd39db20d500c89bcae0244908bd9a2e86254c123",
+  "index_append_sha256": "27408c7297ce15206fca0b02b3978b5d430599a09a36d65cc355e89bb968f744",
+  "source_activation": false,
+  "lifecycle_changes": false,
+  "provider_calls": false,
+  "files": {
+    "gleif-lei-admission-sol.md": "e0516be5d008ce870f990516d41c0eece2bfda65f21664509131775a28ae1c16",
+    "gleif-lei-admission-review-sol.md": "f5bab1f0675bc13e4c5031e8e311cd9d38096ddcb4249237ffe6d60dfe04edd5"
+  }
+}
