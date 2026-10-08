@@ -1,0 +1,317 @@
+{
+  "format": "data-fabric-component-catchup/1",
+  "observed_at": "2026-10-08T07:55:46Z",
+  "scope": "Additive dated component observations only; no semantic reconciliation, rights clearance, source admission, provider execution or phase closure.",
+  "hub_base_commit": "cfd9b7a867ac00e1c354da9796114671d1215c95",
+  "preservation": {
+    "prior_research_tree": "0d861376cec354bd9d0a5eff72b75ef2f03acf4b",
+    "prior_research_file_count": 2387,
+    "prior_record_counts": {
+      "candidates": 714,
+      "assertions": 1187,
+      "evidence": 196,
+      "questions": 51,
+      "implementation": 5,
+      "gates": 8
+    },
+    "rule": "Every prior research record/history file remains byte-identical. The index README retains its complete prior byte prefix and only appends this dated section. The existing predecessor verifier adds this narrowly hash-pinned successor and tamper checks. No existing candidate, assertion, evidence record, question, implementation record, gate, backlog or historical failure is changed.",
+    "index_path": "spec/research/public-data-fabric/README.md",
+    "index_original_sha256": "3bf15fbd6a3eb244ee64e930daf0c425b29ef58e5398d5ac1aead82c7075c7e7",
+    "index_successor_sha256": "9905bb026d9e88ebc80579a8968f912f37d53e0565475ffe47adf6a315f4d465",
+    "index_append_sha256": "ef994c2136ae7e1779750845f2537f495e65a867c2b5fede44ea075481e5b05f",
+    "verifier_path": "spec/research/public-data-fabric/verify_s2_scope_decision.py",
+    "verifier_original_sha256": "e4ff93af3a1a4f8ffa4b8c25c91a99028df47f0e636886050d9b7bded33eb782"
+  },
+  "components": [
+    {
+      "id": "directory",
+      "repository": "openvaultdb/directory",
+      "observed_main_sha": "480f369bedf4c3c8c6d1d67c32a083c6c820de54",
+      "pr": {
+        "number": 42,
+        "url": "https://github.com/openvaultdb/directory/pull/42",
+        "head_sha": "c73692e9a46dcd8dc723b435e259ef55531b0329",
+        "state": "MERGED",
+        "merge_sha": "480f369bedf4c3c8c6d1d67c32a083c6c820de54"
+      },
+      "checks": [
+        {
+          "run_id": 37740884944,
+          "url": "https://github.com/openvaultdb/directory/actions/runs/37740884944",
+          "head_sha": "c73692e9a46dcd8dc723b435e259ef55531b0329",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "run_id": 37741519504,
+          "url": "https://github.com/openvaultdb/directory/actions/runs/37741519504",
+          "head_sha": "480f369bedf4c3c8c6d1d67c32a083c6c820de54",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ],
+      "delivered_scope": "IANA native lexical transport evidence is recorded in source discovery metadata. This is not identity reconciliation or query activation."
+    },
+    {
+      "id": "directory-site",
+      "repository": "openvaultdb/ovdb-directory",
+      "observed_main_sha": "f8554871dbfe68a7d4ed9386fc3b173eff92ae31",
+      "pr": {
+        "number": 33,
+        "url": "https://github.com/openvaultdb/ovdb-directory/pull/33",
+        "head_sha": "2822d487f728538ad6724f82d8182004780931cb",
+        "state": "MERGED",
+        "merge_sha": "f8554871dbfe68a7d4ed9386fc3b173eff92ae31"
+      },
+      "checks": [
+        {
+          "run_id": 37743981990,
+          "url": "https://github.com/openvaultdb/ovdb-directory/actions/runs/37743981990",
+          "head_sha": "2822d487f728538ad6724f82d8182004780931cb",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ],
+      "deployment": {
+        "run_id": 37744760548,
+        "url": "https://github.com/openvaultdb/ovdb-directory/actions/runs/37744760548",
+        "head_sha": "f8554871dbfe68a7d4ed9386fc3b173eff92ae31",
+        "status": "completed",
+        "conclusion": "success",
+        "event": "push"
+      },
+      "delivered_scope": "Separate WDI operator sign-in from metadata enablement. Deployment success is independently observed; this catchup does not establish a working live sign-in or provider session."
+    },
+    {
+      "id": "javascript-core",
+      "repository": "dal-go/dalgo-js",
+      "observed_main_sha": "28eadbe56a365f459763a69b4ccf4d1a66af6b6d",
+      "checks": [
+        {
+          "run_id": 37734894631,
+          "url": "https://github.com/dal-go/dalgo-js/actions/runs/37734894631",
+          "head_sha": "28eadbe56a365f459763a69b4ccf4d1a66af6b6d",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "run_id": 37734894588,
+          "url": "https://github.com/dal-go/dalgo-js/actions/runs/37734894588",
+          "head_sha": "28eadbe56a365f459763a69b4ccf4d1a66af6b6d",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ],
+      "publication": {
+        "kind": "public-npm-metadata",
+        "name": "@dalgo/core",
+        "version": "0.6.0",
+        "git_head": "28eadbe56a365f459763a69b4ccf4d1a66af6b6d",
+        "integrity": "sha512-C/hoawh4YU5Htm9PnrQi7Z9gP9rsy2PZ3Aj9RU3sV+76mEPHQ2rKWGkBjaxSoHB4PZn4DLpAzqQ+OoMKfzZ8BQ==",
+        "shasum": "21a626eb127573cb9f50166dc170b446ae5d8270",
+        "url": "https://www.npmjs.com/package/@dalgo/core/v/0.6.0",
+        "tag": "core@v0.6.0",
+        "tag_commit": "28eadbe56a365f459763a69b4ccf4d1a66af6b6d"
+      },
+      "delivered_scope": "The 0.6.0 library is public. Historical core publication holds remain dated evidence, not the present library availability state. Registry metadata/tag binding was read; tarball signatures were not reverified in this catchup."
+    },
+    {
+      "id": "http-identity",
+      "repository": "dal-go/dalgo-http-adapters",
+      "observed_main_sha": "d4817068fb0b452dd09346ebdbf5a9da89a0c5ef",
+      "pr": {
+        "number": 28,
+        "url": "https://github.com/dal-go/dalgo-http-adapters/pull/28",
+        "head_sha": "1963c59c85574625958a1938f840dd73ace31d2b",
+        "state": "MERGED",
+        "merge_sha": "d4817068fb0b452dd09346ebdbf5a9da89a0c5ef"
+      },
+      "checks": [
+        {
+          "run_id": 37743143508,
+          "url": "https://github.com/dal-go/dalgo-http-adapters/actions/runs/37743143508",
+          "head_sha": "1963c59c85574625958a1938f840dd73ace31d2b",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "run_id": 37743137644,
+          "url": "https://github.com/dal-go/dalgo-http-adapters/actions/runs/37743137644",
+          "head_sha": "1963c59c85574625958a1938f840dd73ace31d2b",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "run_id": 37743810005,
+          "url": "https://github.com/dal-go/dalgo-http-adapters/actions/runs/37743810005",
+          "head_sha": "1963c59c85574625958a1938f840dd73ace31d2b",
+          "status": "completed",
+          "conclusion": "skipped"
+        }
+      ],
+      "delivered_scope": "HTTP npm identity is now @dalgo/http, public publishConfig, with @dalgo/core >=0.6.0 <0.7.0. The main manifest remains 0.1.0; identity readiness is not first-publication evidence."
+    },
+    {
+      "id": "http-version-pr",
+      "repository": "dal-go/dalgo-http-adapters",
+      "pr": {
+        "number": 26,
+        "url": "https://github.com/dal-go/dalgo-http-adapters/pull/26",
+        "head_sha": "3d2b6b3dd03d02710a1545bf6208ae097b1bafb7",
+        "state": "OPEN"
+      },
+      "is_draft": false,
+      "mergeable": "MERGEABLE",
+      "merge_state": "UNSTABLE",
+      "checks": [
+        {
+          "run_id": 37743872988,
+          "url": "https://github.com/dal-go/dalgo-http-adapters/actions/runs/37743872988",
+          "head_sha": "3d2b6b3dd03d02710a1545bf6208ae097b1bafb7",
+          "status": "completed",
+          "conclusion": "success",
+          "event": "workflow_dispatch"
+        },
+        {
+          "run_id": 37743871788,
+          "url": "https://github.com/dal-go/dalgo-http-adapters/actions/runs/37743871788",
+          "head_sha": "3d2b6b3dd03d02710a1545bf6208ae097b1bafb7",
+          "status": "completed",
+          "conclusion": "success",
+          "event": "dynamic"
+        },
+        {
+          "run_id": 37743876401,
+          "url": "https://github.com/dal-go/dalgo-http-adapters/actions/runs/37743876401",
+          "head_sha": "3d2b6b3dd03d02710a1545bf6208ae097b1bafb7",
+          "status": "completed",
+          "conclusion": "action_required",
+          "event": "pull_request"
+        }
+      ],
+      "registry_observation": {
+        "name": "@dalgo/http",
+        "public_lookup": "E404",
+        "meaning": "No public installability established; this is not proof that no private package or owner exists."
+      },
+      "delivered_scope": "Proposed first public version 0.1.1 is still an open version PR. Dispatched exact-head CI and CodeQL succeeded. PR-event CI completed action_required with zero jobs; that distinct event still requires maintainer approval."
+    },
+    {
+      "id": "ovdb-query-pr",
+      "repository": "dal-go/dalgo-http-adapters",
+      "pr": {
+        "number": 29,
+        "url": "https://github.com/dal-go/dalgo-http-adapters/pull/29",
+        "head_sha": "62205ce999661901e70aee170fb80555a4d0539a",
+        "state": "OPEN"
+      },
+      "is_draft": false,
+      "mergeable": "MERGEABLE",
+      "merge_state": "CLEAN",
+      "checks": [
+        {
+          "run_id": 37744288560,
+          "url": "https://github.com/dal-go/dalgo-http-adapters/actions/runs/37744288560",
+          "head_sha": "62205ce999661901e70aee170fb80555a4d0539a",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "run_id": 37744284995,
+          "url": "https://github.com/dal-go/dalgo-http-adapters/actions/runs/37744284995",
+          "head_sha": "62205ce999661901e70aee170fb80555a4d0539a",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ],
+      "registry_observation": {
+        "name": "@dalgo/ovdb",
+        "public_lookup": "E404",
+        "meaning": "No public installability established; this is not proof that no private package or owner exists."
+      },
+      "delivered_scope": "Public query-only DTQL executor and isolated artifact are proposed in an open PR. Its check/ovdb-artifact jobs and CodeQL succeeded at this exact head; none of these checks prove landing, npm publication, whole Browser-to-Worker-to-Go acceptance or public-free admission."
+    },
+    {
+      "id": "go-bigquery",
+      "repository": "dal-go/dalgo2bigquery",
+      "observed_main_sha": "b33473ecd1753f55341423ad50433931ed35bb7d",
+      "checks": [
+        {
+          "run_id": 37658095091,
+          "url": "https://github.com/dal-go/dalgo2bigquery/actions/runs/37658095091",
+          "head_sha": "b33473ecd1753f55341423ad50433931ed35bb7d",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ],
+      "publication": {
+        "kind": "public-github-release",
+        "tag": "v0.3.1",
+        "tag_commit": "b33473ecd1753f55341423ad50433931ed35bb7d",
+        "published_at": "2026-10-07T17:58:30Z",
+        "url": "https://github.com/dal-go/dalgo2bigquery/releases/tag/v0.3.1"
+      },
+      "delivered_scope": "Go adapter release and exact-main CI observed. No new module/binary execution acceptance or live WDI query is established here."
+    },
+    {
+      "id": "javascript-bigquery",
+      "repository": "dal-go/dalgo-http-adapters",
+      "observed_main_sha": "d4817068fb0b452dd09346ebdbf5a9da89a0c5ef",
+      "checks": [
+        {
+          "run_id": 37685824051,
+          "url": "https://github.com/dal-go/dalgo-http-adapters/actions/runs/37685824051",
+          "head_sha": "27aa1d2010b2efff50f1ae7f7151bdbdf76b5bf1",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "run_id": 37685824180,
+          "url": "https://github.com/dal-go/dalgo-http-adapters/actions/runs/37685824180",
+          "head_sha": "27aa1d2010b2efff50f1ae7f7151bdbdf76b5bf1",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ],
+      "publication": {
+        "kind": "public-npm-metadata",
+        "name": "@dalgo/bigquery",
+        "version": "0.3.1",
+        "git_head": "27aa1d2010b2efff50f1ae7f7151bdbdf76b5bf1",
+        "integrity": "sha512-7+N4ayUpjnpKp6KgESrdAYkHpGNXZDQMDkcBpqI/8UD7QVn+1BSd4ZXWVIpKENP+afZFgTiWgOQeNn0BC4z83w==",
+        "url": "https://www.npmjs.com/package/@dalgo/bigquery/v/0.3.1"
+      },
+      "core_peer": "^0.1.0",
+      "delivered_scope": "Public JS adapter 0.3.1 remains the existing release at 27aa1d..., distinct from current adapters main d481706.... Its peer remains core ^0.1.0, not the new HTTP/OVDB core 0.6 contract. Both Go and JavaScript live acceptance remain required."
+    }
+  ],
+  "owner_observation": {
+    "observed_on": "2026-10-08",
+    "authority": "Root operator report; protected settings and private execution state were not independently inspected by this catchup.",
+    "summary": "No newer private Go WDI execution acceptance. Production sign-in remains default-off/live config absent; Firebase domain/public variables not set. Native GIS/BigQuery/provider-query and live sign-in acceptance remain pending."
+  },
+  "open_gates": [
+    "Root release-owner review/landing of HTTP version PR26 and OVDB executor PR29; PR26 maintainer approval-required event remains distinct from passing dispatched CI.",
+    "First public HTTP/OVDB bootstrap, package-specific npm owner/trusted-publisher approval/readback and successful release/provenance receipts. Core or BigQuery publication grants no HTTP/OVDB permission.",
+    "Selected public-free/rights/source-plan admission and immutable provider bindings, reviewed consumer wiring, whole adapter-generated-body Browser-to-Worker-to-Go acceptance and real browser/source-access receipt.",
+    "WDI live operator sign-in configuration/authorization and native GIS handoff; metadata enablement stays separate from sign-in and provider execution.",
+    "Explicit operator identity, project, billing-account acknowledgement and positive spending cap; Go CLI/local-server and JS browser live BigQuery acceptance, canonical access profile and source-specific rights/admission.",
+    "Programme phase4 remains active/unpassed; B1, phases5/6, Geo/ROR public admission and real DataTug J1-J6 product journeys stay open. Existing candidates, research including FX, backlog and earlier failures remain retained."
+  ],
+  "verification_scope": "Public GitHub API/gh run conclusions and npm registry metadata plus freshly fetched adapter manifests only. All checks below are offline ledger/format conservation; no provider data is fetched.",
+  "actions_performed": {
+    "provider_calls": 0,
+    "data_copies": 0,
+    "live_sign_in_authorizations": 0,
+    "release_mutations": 0,
+    "config_mutations": 0
+  },
+  "acceptance_claims": {
+    "new_private_wdi_acceptance": false,
+    "live_sign_in_acceptance": false,
+    "http_or_ovdb_publication": false,
+    "semantic_reconciliation": false,
+    "source_activation": false,
+    "phase_or_programme_completion": false
+  }
+}

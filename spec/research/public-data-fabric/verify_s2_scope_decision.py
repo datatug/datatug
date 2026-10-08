@@ -43,8 +43,36 @@ DELIVERY_ORIGINAL_SHA256 = '217f126dae81d689648505512131bd5dd5a0dce9fcd51aa94ed6
 DELIVERY_SUCCESSOR_SHA256 = '3bf15fbd6a3eb244ee64e930daf0c425b29ef58e5398d5ac1aead82c7075c7e7'
 
 
+CATCHUP_PACKET = 'spec/research/public-data-fabric/evidence/component-catchup-2026-10-08.json'
+CATCHUP_PACKET_SHA256 = 'bf01f2bd9bd0777dd4d0eb8908230b53b68db5cebd00f1abda38dc4d22fe73fa'
+CATCHUP_BASE = 'cfd9b7a867ac00e1c354da9796114671d1215c95'
+CATCHUP_README_SHA256 = '9905bb026d9e88ebc80579a8968f912f37d53e0565475ffe47adf6a315f4d465'
+
+
+def catchup_predecessor(root, name, current):
+    """Unwrap only the independently pinned 2026-10-08 append; preserve all old bytes."""
+    if name != DELIVERY_README or digest(current) in (DELIVERY_ORIGINAL_SHA256, DELIVERY_SUCCESSOR_SHA256):
+        return current
+    assert digest(current) == CATCHUP_README_SHA256, 'unreviewed dated catchup summary'
+    raw = (root / CATCHUP_PACKET).read_bytes()
+    assert digest(raw) == CATCHUP_PACKET_SHA256, 'dated catchup packet changed'
+    packet = json.loads(raw)
+    assert packet['format'] == 'data-fabric-component-catchup/1'
+    assert packet['hub_base_commit'] == CATCHUP_BASE
+    pin = packet['preservation']
+    assert pin['index_path'] == DELIVERY_README
+    assert pin['index_original_sha256'] == DELIVERY_SUCCESSOR_SHA256
+    assert pin['index_successor_sha256'] == CATCHUP_README_SHA256
+    previous = subprocess.check_output(['git', '-C', str(root), 'show', CATCHUP_BASE + ':' + name])
+    assert digest(previous) == DELIVERY_SUCCESSOR_SHA256, 'dated catchup predecessor changed'
+    assert current.startswith(previous), 'dated catchup lost prior index bytes'
+    assert digest(current[len(previous):]) == pin['index_append_sha256'], 'dated append changed'
+    return previous
+
+
 def delivery_predecessor(root, name, current):
-    """Unwrap only the independently pinned additive delivery summary."""
+    """Unwrap only the independently pinned additive delivery summaries."""
+    current = catchup_predecessor(root, name, current)
     if name != DELIVERY_README or digest(current) == DELIVERY_ORIGINAL_SHA256:
         return current
     raw = (root / DELIVERY_RECEIPT).read_bytes()
@@ -136,7 +164,7 @@ def self_test():
             shutil.copyfile(ROOT / name, target)
         check(root)
         # The delivery observation cannot launder README mutations or its own receipt.
-        for name in [DELIVERY_README, DELIVERY_RECEIPT]:
+        for name in [DELIVERY_README, DELIVERY_RECEIPT, CATCHUP_PACKET]:
             target = root / name; target.parent.mkdir(parents=True, exist_ok=True)
             shutil.copyfile(ROOT / name, target)
         path = root / DELIVERY_README
@@ -162,6 +190,29 @@ def self_test():
         else:
             raise AssertionError('edited delivery receipt laundered summary mutation')
         path.write_bytes(original_summary); receipt_path.write_bytes(original_receipt)
+        # An editable receipt cannot authorize another append or any format change.
+        catchup_path = root / CATCHUP_PACKET
+        original_catchup = catchup_path.read_bytes()
+        for label, mutate in [
+                ('format', lambda p: p.update(format='data-fabric-component-catchup/99')),
+                ('forged matching summary pin', lambda p: p['preservation'].update(index_successor_sha256=digest(original_summary + b'\nforged\n'))),
+                ('activation claim', lambda p: p['acceptance_claims'].update(source_activation=True))]:
+            value = json.loads(original_catchup); mutate(value)
+            catchup_path.write_text(json.dumps(value))
+            try:
+                delivery_predecessor(root, DELIVERY_README, original_summary)
+            except AssertionError:
+                pass
+            else:
+                raise AssertionError('dated catchup mutation accepted: ' + label)
+            catchup_path.write_bytes(original_catchup)
+        # Removing historical index prose must fail even with a valid receipt.
+        try:
+            delivery_predecessor(root, DELIVERY_README, original_summary[1:])
+        except AssertionError:
+            pass
+        else:
+            raise AssertionError('dated catchup historical prefix mutation accepted')
         cases = [(PREFIX + 'questions/$records/p3-followup-2.json', lambda d: d.update(status='resolved')),
                  (PREFIX + 'candidates/$records/p3-scenario-catalogue.json', lambda d: d.update(status='validated')),
                  (DECISION, lambda d: d.update(retention_authorized=True)),
@@ -189,7 +240,7 @@ def self_test():
             pass
         else:
             raise AssertionError('S2 matching receipt laundered question closure')
-    print('S2 scope: five negative authored-metadata mutations and two delivery-summary mutations refused')
+    print('S2 scope: five negative authored-metadata mutations, two delivery-summary mutations and four dated catchup format/pin/history mutations refused')
 
 
 if __name__ == '__main__':
