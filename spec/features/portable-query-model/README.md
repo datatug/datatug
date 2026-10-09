@@ -11,7 +11,7 @@ status: Draft
 
 ## Summary
 
-P1 is the portable query model: one logical query AST (DALgo `StructuredQuery`), serialized losslessly as DTQL YAML, rendered to each backend's native query language, with native text kept as an explicit escape hatch.
+P1 is the portable query model: one logical query AST (DALgo `StructuredQuery`), serialized losslessly as DTQL YAML, rendered to each backend's native query language, with native text kept as an explicit escape hatch. The user-approved 2026-10-09 [Query Workspace](../query-workspace/README.md) adds TugQL, a readable FROM-first authoring syntax with optional SELECT last, and TugQTree, the structured YAML form of the same model. This makes the parser implementation mandatory in Go and TypeScript; the pending spike chooses bounded grammar and parser architecture, not whether the text form exists. TugQTree/YAML compatibility remains, with no file migration. New Query Workspace specs/UI use TugQL/TugQTree, while DTQL remains the existing library and website name; this Feature does not authorize an umbrella rename, retirement, redirect, or migration.
 
 **Evidence boundary:** initial-audit observations below are historical. Current integration
 status is summarized in the [hierarchy](../../product/hierarchy.md) and the
@@ -61,8 +61,11 @@ hierarchy and revised Phase 1 plan for current integration work.
 DataTug MUST treat `dal-go/dalgo`'s `StructuredQuery` AST and its DTQL YAML serialization as the
 single source of truth for a portable query; DataTug repos MUST NOT fork or reimplement the
 parser, serializer or the DALgo `access` policy evaluator. Any DataTug-side query representation
-(saved query, related-record lookup, applicable-query resolution) SHOULD be expressible as this AST
-so the server can apply row/column policy uniformly (see `server-enforced-access`).
+(saved query, related-record lookup, applicable-query resolution, or an adopted alternate authoring
+frontend) SHOULD be expressible as this AST so the server can apply row/column policy uniformly
+(see `server-enforced-access`). An alternate frontend MUST map into the same AST and retain DTQL
+YAML compatibility for saved-query forms that use it; considering a grammar does not change existing
+YAML documents or claim new parsing support.
 
 #### REQ: dtql-saved-query-type
 
@@ -91,15 +94,19 @@ the remaining SQL/document adapters MUST either render correctly or fail loudly,
 The standalone `dtql`, `dtql-go`, `dtql-backstage` repositories and the `dtql.org` site MUST NOT be
 presented as the canonical DTQL implementation while they contain no working code. They MUST either
 be retired, redirected to `dal-go/dalgo/dtql`, or brought current before any public claim repeats
-their URLs.
+their URLs. This is a separate historical public-claims hygiene concern; the approved Query Workspace
+does not activate retirement or redirect work. DTQL remains the current DALgo library and website
+name, and no umbrella rename, site retirement, redirect, or migration is authorized here.
 
 ## Acceptance Criteria
 
 ### AC: dtql-is-source-of-truth (verifies REQ:dtql-ast-consumption)
 
-**Given** a DataTug repository adds new query behaviour
+**Given** a DataTug repository adds new query behaviour, including an adopted text-authoring frontend
 **When** the change touches query parsing, serialization or policy evaluation
-**Then** it imports `dal-go/dalgo/dtql` and `dal-go/dalgo/access` rather than adding parallel logic, verified by code review against this REQ.
+**Then** it maps structured authoring to DALgo's `StructuredQuery` and reuses `dal-go/dalgo/dtql` and
+`dal-go/dalgo/access` rather than adding a parallel AST, serializer or policy evaluator; code review
+verifies the boundary. Existing YAML DTQL serialization remains its own compatibility contract.
 
 ### AC: dtql-query-type-saves (verifies REQ:dtql-saved-query-type)
 
@@ -138,7 +145,8 @@ their URLs.
 
 ## Open Questions
 
-None at this time.
+1. Which bounded FROM-first grammar details and parser architecture should implement the required TugQL form while preserving DALgo's canonical model and TugQTree/YAML compatibility?
+2. The older public-claims hygiene question about the standalone `dtql*` sites/repos remains separate future work; Query Workspace does not activate the prior optional retire/redirect clause, and the DTQL library and website names remain unchanged.
 
 ---
 *This document follows the https://specscore.md/feature-specification*
