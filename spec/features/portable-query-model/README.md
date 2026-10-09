@@ -67,6 +67,8 @@ frontend) SHOULD be expressible as this AST so the server can apply row/column p
 YAML compatibility for saved-query forms that use it; considering a grammar does not change existing
 YAML documents or claim new parsing support.
 
+For the required TugQL frontend, the [Query Workspace named-parameter contract](../query-workspace/README.md#req-named-parameter-block) makes human readability and Git-friendly, line-local edits primary. The optional `PARAMETERS (` header is on one line before `FROM`, followed by typed `@Name` declarations, one per logical line with newline separators and no commas, with `(` on that header line and `)` on its own aligned line; `WITH <Name> AS (` and `USING (` block headers follow the same opening/closing placement. Each query clause also starts on its own line. Structural indent is one tab or two spaces per level, consistent per query: header/closing parenthesis/top-level clauses have zero indent, declarations and expression continuations use one indent level, and ON is indented one level under JOIN. Each CTE query body adds one level beneath its WITH declaration, and its closing parenthesis returns to the declaration level. Mixed tabs/spaces and missing required indentation are diagnosed; the formatter can repair indentation with project/team, user, preserve-existing, then application-default precedence. Indent preferences are tab, two spaces, or preserve existing; default is two spaces and the current workspace user preference is two spaces. A table or selected-field alias may be omitted, but when provided it requires same-line `AS`. Executable queries use reserved words consistently all lowercase or all uppercase; mixed case is diagnosed but remains editable and can be repaired by formatting. The formatter's style precedence is project/team preference, user preference, first wholly cased reserved word in source order, then application default. Preferences are lowercase, uppercase, or preserve existing; preserve existing uses the first valid reserved word and falls back to the application default. The current Query Workspace user preference is lowercase. Formatting and autoformat-on-save normalize reserved-word casing and structural indentation only; merely reading/parsing a consistent query does not reformat it. Formatting, autocomplete and inferred syntax honor the resolved style, while identifiers, parameters, functions, strings, comments, quoted identifiers and user-defined type names retain authored spelling (including `FROM "Order"`), and formatting never runs a query. Raw parse/save without formatting preserves the source; formatting is stable and idempotent and preserves all non-keyword source identity. Day-one nonrecursive WITH CTEs and multiple named CTEs map to the same canonical query model, share the preceding PARAMETERS bindings, and resolve outputs with source lineage; exact multiple-CTE syntax and recursive support remain open. Parameter declarations and defaults map to that same model, with runtime values carried separately from source text. They MUST NOT create a second AST or break existing DTQL YAML. Saved-query imports use `with <Name> from "<project-relative-path>"` plus an optional `using (` block with the opening parenthesis on the header line and closing parenthesis on its own aligned line; they resolve to the same canonical query model at the importing project revision, with normalized paths/revisions recorded as dependencies. They validate imported REQUIRED/default declarations and never implicitly capture caller parameters. The complete type catalog, assignment rules and required-NULL behavior remain open for the implementation spike; imported native SQL continues to follow its source dialect.
+
 #### REQ: dtql-saved-query-type
 
 A project MUST be able to store a query as a `<id>.query.dtql` sidecar with `QueryDef.Type = DTQL`,
@@ -106,7 +108,9 @@ name, and no umbrella rename, site retirement, redirect, or migration is authori
 **When** the change touches query parsing, serialization or policy evaluation
 **Then** it maps structured authoring to DALgo's `StructuredQuery` and reuses `dal-go/dalgo/dtql` and
 `dal-go/dalgo/access` rather than adding a parallel AST, serializer or policy evaluator; code review
-verifies the boundary. Existing YAML DTQL serialization remains its own compatibility contract.
+verifies the boundary. A TugQL parameter block and its typed declarations map to that same model,
+while runtime values remain separate from source text. Existing YAML DTQL serialization remains its
+own compatibility contract, and imported native SQL remains source-dialect text.
 
 ### AC: dtql-query-type-saves (verifies REQ:dtql-saved-query-type)
 
@@ -146,7 +150,8 @@ verifies the boundary. Existing YAML DTQL serialization remains its own compatib
 ## Open Questions
 
 1. Which bounded FROM-first grammar details and parser architecture should implement the required TugQL form while preserving DALgo's canonical model and TugQTree/YAML compatibility?
-2. The older public-claims hygiene question about the standalone `dtql*` sites/repos remains separate future work; Query Workspace does not activate the prior optional retire/redirect clause, and the DTQL library and website names remain unchanged.
+2. Which initial parameter types and assignment rules can DALgo's canonical model represent, and should a narrowly scoped additive contract be proposed before the TugQL adapter is implemented? Keep required-NULL behavior distinct from a missing binding until explicitly decided.
+3. The older public-claims hygiene question about the standalone `dtql*` sites/repos remains separate future work; Query Workspace does not activate the prior optional retire/redirect clause, and the DTQL library and website names remain unchanged.
 
 ---
 *This document follows the https://specscore.md/feature-specification*
