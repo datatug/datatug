@@ -79,6 +79,21 @@ The original 2026-06-05 MVP recommendation was a timeboxed spike in dalgo coveri
 
 TugQL supports composing a saved query as a relation with `with <Name> from "<project-relative-path>"`, followed when needed by an indented `using (` block whose opening parenthesis stays on that header line and whose closing parenthesis is on its own aligned line, containing explicit parameter mappings such as `@MinTotal = @MinimumSpend`. Resolve paths from the importing query directory, normalize them, and reject paths outside the project root. Resolve imports at the same project revision and record normalized paths and revisions in dependency receipts. Validate imported REQUIRED/default declarations, output columns and cycles; do not capture same-named caller parameters implicitly. An imported query is a composable relation, not a cached result, and grants no remote import support or new cross-source permission. The UI can show its definition, dependency graph and expanded preview as suggestions.
 
+### Named scalar subqueries in SELECT
+
+The selected form requires a `<Name> as (` header with the opening parenthesis on the same line, followed by a nested FROM-first query body and a closing `)` on its own aligned line; a newline before `(` is invalid. `WITH` and `SCALAR` are not introducer keywords for the selected item; its nested body follows the ordinary supported query grammar, and no alias follows the closing parenthesis. A selected subquery resolves to exactly one output column. Qualified references to outer aliases are legal and resolve lexically; inner aliases do not escape the subquery. At execution, zero rows yield NULL, one row yields its value, and multiple rows are a cardinality error; do not take the first row or claim a static guarantee for dynamic cardinality. The nested body may omit SELECT only when the existing optional-SELECT rule resolves its authorized projection to one column; an outer query containing the item has SELECT. Ordinary `expression as Alias` remains valid, WITH CTEs retain mandatory `as`, and saved-query imports retain `with <Name> from "<relative-path>"`.
+
+```text
+from Invoice as i
+select
+  i.InvoiceId as ID,
+  CustomerName as (
+    from Customer as c
+    where c.CustomerId = i.CustomerId
+    select c.Name
+  )
+```
+
 ## Open Questions
 
 - Is this Idea artifact correctly homed in `datatug` (next to the seed and consuming Features), or should it be relocated to `dal-go/dalgo` (confirmed SpecScore-managed) where serialization implementation would live?
