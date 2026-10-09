@@ -1,0 +1,247 @@
+---
+format: https://specscore.md/feature-specification
+status: Approved
+---
+
+# Feature: DataTug Query Workspace
+
+> [SpecScore.**Studio**](https://specscore.studio): | [Explore](https://specscore.studio/app/github.com/datatug/datatug/spec/features/query-workspace?op=explore) | [Edit](https://specscore.studio/app/github.com/datatug/datatug/spec/features/query-workspace?op=edit) | [Ask question](https://specscore.studio/app/github.com/datatug/datatug/spec/features/query-workspace?op=ask) | [Request change](https://specscore.studio/app/github.com/datatug/datatug/spec/features/query-workspace?op=request-change) |
+
+**Status:** Approved
+**Source Ideas:** —
+**Date:** 2026-10-09
+**Owner:** DataTug
+**Supersedes:** —
+
+## Summary
+
+One browser workspace lets analysts and developers author a saved query, preview its execution, run it on authorized sources, investigate related data, compare results, and place a governed reference on a dashboard. Its shared shell has Author, Compare, and Explore layouts; Author has Compose and Code views. The user approved this Feature and its implementation plan on 2026-10-09, including the join-authoring and projection rules below. The accompanying prototype establishes the interaction direction. Current demo/browser receipts and prerequisites are reconciled during planning; screenshots or this specification alone do not prove the end-to-end runtime journey.
+
+## Problem
+
+The observed query page makes a long text editor and stacked setup cards dominate the first viewport. Target, bindings, Run, and results can be out of view. Analysts need a legible source-to-result path; developers need code, emitted requests, and precise execution evidence. A unified workspace must serve both without losing state, silently running work, implying unsupported dialects, or hiding policy limits.
+
+## Behavior
+
+This Feature is the browser integration seam for the owning DataTug [Compare](https://github.com/datatug/datatug/blob/main/spec/features/compare/README.md), [core investigation loop](https://github.com/datatug/datatug/blob/main/spec/features/core-investigation-loop/README.md), Investigation Context, query storage, dashboards, and served query-builder contracts. Those artifacts retain authority for execution, comparison, policy, and storage. Reconcile their contracts before implementation; this approved design does not create a second comparer or ACL engine.
+
+### REQ: shared-workspace-state
+
+Author, Compare, and Explore MUST preserve one query draft, authorized target, bindings with origins, result references, provenance, selection, and unsaved state. Compose and Code are views of that draft. Switching views, targets, or layouts MUST NOT execute, discard edits, or relabel old results. The first viewport shows query intent/code, target, binding summary, Run, and results. Advanced controls expand on request. At 1280 px an AI/context drawer overlays rather than permanently narrowing the workspace.
+
+### REQ: authoring-language-boundary
+
+Existing YAML DTQL and supported native SQL remain distinct editable representations with original text preserved. Compose edits only a semantic subset it can round-trip; unsupported syntax remains in Code with an explanation. An SQL or GraphQL import MUST preserve the original text as a draft. A parser MUST accept only complete constructs in its supported profile; for an accepted parse it MUST diagnose every clause, argument, directive, or semantic loss that is not represented. An unsupported or unparsed statement MUST be rejected as a whole with the source preserved; partial conversion MUST NOT produce an executable query or grant native execution. Failed conversion MUST NOT bypass policy. GraphQL is an optional native, schema-backed mode only after resolver, field, authorization, and execution capabilities are established. Adoption of a FROM-first grammar remains spike-gated; illustrative syntax is not executable DTQL. Any adopted FROM-first grammar MUST permit omitting SELECT and MUST place optional SELECT last, as approved for this authoring experience. The spike MUST establish that behavior or record an infeasibility for an explicit product decision before adoption; it cannot silently move SELECT into another position.
+
+The user-approved forms for new specs and UI are TugQL (pronounced “tug cue ell”), a readable FROM-first query syntax with optional SELECT last, and TugQTree (pronounced “tug cue tree”), structured YAML for the same query model. The UI labels are `TugQL · Query` and `TugQTree · YAML`. Existing YAML remains compatible; this decision requires no file migration and does not change delivered DTQL behavior. DTQL remains the existing library and website name. No umbrella rename, retirement, or migration is authorized; consider that only in a separate brainstorming session. If implemented, Go and TypeScript MUST implement the same versioned TugQL grammar and semantic contract. Both implementations MUST run the same checked-in golden fixture corpus: source text, expected canonical TugQTree YAML where serialization applies, structured diagnostic fixtures, and optional schema snapshots for relationship resolution. Both CI lanes MUST execute the identical corpus, extending DALgo's existing byte-identical Go/TypeScript fixture convention rather than creating a new engine or fixture convention. Syntax parsing MUST be separate from schema-dependent resolution: omitted ON or relationship shorthand may resolve to an executable explicit predicate only with an authorized declared schema; the parser MUST NOT guess relationships. The TypeScript implementation MUST use DALgo-JS's existing structured-query model and DTQL YAML parsing/serialization contracts; Go MUST lower to DALgo's existing structured query model. These are two authoring/parser adapters over one query model, not separate execution or policy engines. Diagnostic spans use 1-based line and column positions, with columns measured in Unicode scalar values, and an exclusive end position; Go and TypeScript MUST emit the same spans. Distinct representation identifiers and version policy for TugQL and TugQTree remain an implementation task; this Feature does not claim those types or version contracts already exist.
+
+### REQ: named-parameter-block
+
+TugQL MUST keep the query readable and its Git diffs local: adding, removing, or reordering a parameter or clause changes only the corresponding lines, without alignment padding that causes unrelated lines to move. Formatting MUST be stable and idempotent. The optional `PARAMETERS (` block MUST come first and precede any `WITH` block; `WITH` definitions precede the main query, whose `FROM` begins its body, and optional `SELECT` remains last. Without `WITH`, `PARAMETERS` precedes `FROM` directly. `PARAMETERS (` MUST appear on one line with the opening parenthesis on that header line and the closing `)` on its own line aligned with `PARAMETERS`. Each `WITH <Name> AS (` CTE header and each `USING (` mapping header likewise MUST keep the opening parenthesis on the header line, with a closing `)` on its own line aligned with that header. Each declaration, parameter mapping, and query clause MUST start on its own line. One typed parameter declaration is allowed per logical line; declarations are separated by newlines, with no commas. Blank lines are allowed. Structural indentation MUST use either one tab or two spaces per level, consistently within each query; the selected style MUST NOT mix tabs and spaces. Top-level clauses, `WITH` declarations, and the parameter header and closing parenthesis have no indentation; each CTE query body adds one structural level and its closing parenthesis returns to the declaration level. Parameter declarations, `ON` beneath its `JOIN`, and expression continuations use one structural level within their current query body. Missing or inconsistent required indentation MUST be diagnosed. Structural indentation MUST NOT align tokens or values according to identifier or expression width, avoiding cascading Git diffs. Each `FROM`, `JOIN`, `ON`, `WHERE`, `GROUP BY`, `HAVING`, `ORDER BY`, `LIMIT`, and `SELECT` clause MUST start on its own line. Multiple clauses or semicolon-separated statements on one line MUST be rejected as TugQL with a diagnostic at the later construct. Expression continuations may wrap across lines. Parentheses inside expressions and function calls may remain inline; the block-header rule applies to PARAMETERS, WITH CTE and USING blocks. A table or selected-field alias MAY be omitted; when present, it MUST use `AS` on the same clause line. Executable TugQL MUST use reserved words consistently all lowercase or all uppercase. Mixed, title, or arbitrary mixed-case reserved words are diagnosed and leave the source recoverably editable until formatting and validation repair them. This includes clause keywords, parameter modifiers, and built-in type names. User-defined type identifiers, other identifiers, function names, strings, and comments retain their authored case. For an explicitly formatted query or configured autoformat-on-save, resolve reserved-word style by project/team preference, user preference, first wholly lowercase or wholly uppercase reserved word in source order, then application default. Preference values are lowercase, uppercase, or preserve existing; preserve existing uses that first valid reserved word, then application default. Ignore mixed-case words, quoted strings, and comments when finding the first valid word. Normalize every reserved word, including mixed-case ones, to the selected style. Resolve indentation in parallel by project/team preference, user preference, consistent existing structural indentation when preserve-existing is selected, then application default. Indentation preference values are tab, two spaces, or preserve existing; preserve existing uses the consistent existing style, otherwise application default. The application default is two spaces and the current Query Workspace user preference is two spaces. A project/team or user preference may therefore override the style of a consistently cased query when formatting is explicitly applied; merely reading or parsing an existing query MUST NOT reformat it. New Query Workspace queries SHOULD use the current workspace user's lowercase reserved-word and two-space indentation preferences. Formatting, autocomplete, and inferred `ON` clauses MUST respect the effective reserved-word and indentation styles and MUST NOT cause unrelated case changes. Formatting MUST NOT execute a query; Run is enabled only after formatting and validation leave a consistently cased valid query. Raw parse/save without formatting MUST preserve original source text; explicit Format and configured autoformat-on-save may normalize reserved-word casing and structural indentation by these rules while preserving comments, identifiers, parameter names, user-defined type names, function names, strings, quoted identifiers, and their source identities. A `--` comment may appear on a standalone line or at the end of a clause line. Comment markers and clause-like words inside quoted strings do not start comments or clauses. Comments outside quoted text MUST NOT be mistaken for declarations or clause boundaries. Preserve original source independently from the normalized AST and canonical TugQTree YAML.
+
+The initial block supports declarations of the form `@Name <type> REQUIRED` or `@Name <type> DEFAULT <literal>`. A missing `REQUIRED` binding MUST produce a diagnostic and block Run. Parameter values are runtime bindings kept separate from the query text; they MUST NOT be interpolated into source text. An explicit NULL binding MUST remain distinct from a missing binding. Duplicate names or conflicting declarations MUST be diagnosed before execution. A context or inference panel MAY propose declarations as a reviewable draft edit, but it MUST NOT silently add a runtime value or execute. The initial default form is a typed literal; multiline default expressions are outside this grammar version. The complete type catalog, type-assignment rules, parameter-name comparison rules, and whether `REQUIRED` accepts explicit NULL remain open for the spike. This syntax contract applies to TugQL only: native SQL remains source-dialect text, and existing DTQL/TugQTree YAML remains compatible.
+
+Example:
+
+```text
+PARAMETERS (
+  @CustomerId INTEGER REQUIRED
+  @MinTotal DECIMAL DEFAULT 0
+)
+FROM Invoice AS i
+WHERE i.CustomerId = @CustomerId
+  AND i.Total >= @MinTotal
+SELECT i.InvoiceId, i.Total
+```
+
+### REQ: named-common-table-expressions
+
+TugQL MUST support nonrecursive WITH clauses and named common-table expressions from day one; this is required scope, not an optional spike outcome. The optional PARAMETERS block precedes WITH and its typed bindings are shared by every CTE body and the main query. WITH definitions precede the main FROM-first query body. Each CTE body is itself FROM-first, uses the same supported TugQL grammar and optional final SELECT, and nests with the mandatory structural indentation. A query MUST support multiple named CTEs, references from a later CTE to earlier CTEs, and joining a CTE as a source. CTE outputs MUST resolve to validated output columns with names, types and source lineage before execution. Duplicate CTE names, unresolved references, forward references and dependency cycles MUST produce diagnostics; the initial dependency scope is earlier CTEs only. CTE use follows the same authorized execution and source-policy path as ordinary query sources and MUST NOT imply cross-source permission, materialization, or caching. Recursive CTE capability remains an open decision; its status is not a permanent exclusion. The exact syntax for declaring multiple CTEs remains open; repeated WITH is a proposal only, not an approved syntax decision.
+
+Canonical parameterized CTE example:
+
+```text
+parameters (
+  @MinTotal decimal required
+)
+with CustomerTotals as (
+  from Invoice as i
+  join Customer as c
+    on c.Id = i.CustomerId
+  where i.Total >= @MinTotal
+  group by i.CustomerId
+  select i.CustomerId, SUM(i.Total) as Total
+)
+from CustomerTotals as totals
+select totals.CustomerId, totals.Total
+```
+
+The example is illustrative TugQL syntax, not evidence that the prototype or parser implements CTEs.
+
+### REQ: saved-query-imports
+
+TugQL MUST support a saved query as a composable relation using the project-local form `with <Name> from "<relative-path>"`. Resolve the path relative to the importing query's directory, normalize it, and require the result to remain beneath the project root; an escaping path is invalid. Imported queries MUST resolve at the same project revision as the importing query, and the normalized path and revision MUST appear in a dependency receipt. This requirement makes no claim of remote import support. An import MUST NOT imply cached or materialized results, implicit cross-source permission, or implicit capture of same-named caller parameters. When an imported query declares parameters, an optional indented `using (` block MUST explicitly map imported names to parameters available in the importing query, one mapping per logical line, with the closing parenthesis aligned with `using (`. For example:
+
+```text
+with CustomerTotals from "./queries/customer-totals"
+  using (
+    @MinTotal = @MinimumSpend
+  )
+```
+
+The `with <Name> from "<relative-path>"` import declaration MUST keep its opening syntax on one line; a `using (` header keeps its opening parenthesis on that line and closes on its own aligned line. Imports MUST validate explicit mappings against imported REQUIRED/default declarations before Run. An unmapped REQUIRED parameter blocks Run; imported defaults remain available. Missing paths, invalid mappings, unresolved columns and direct or indirect import cycles MUST produce source-positioned diagnostics. Imported queries follow the ordinary authorization and source-policy path. The imported definition is a query relation, not a cached result.
+
+### REQ: optional-select-projection
+
+If an adopted authoring language permits omitted SELECT, a single-source ungrouped query resolves only authorized source fields and displays that projection before Run. A grouped query defaults to its grouping keys only and never invents aggregates. A joined query without SELECT resolves an authorized projection across its sources while retaining qualified field identity; it does not require an explicit SELECT solely because a join exists. The projection's column set and order MUST be fixed before Run and MUST NOT vary with returned row values. Before execution, the authoring resolver MUST lower an omitted-SELECT join to an explicit ordered projection of qualified fields with unique output aliases; it MUST NOT pass an empty Columns list to an existing join executor. Source-field identity and lineage MUST remain separate from output aliases. Joined key fields MAY form one output column, attributed to both source fields, only when declared join comparison semantics guarantee lossless exact typed-value equality (including type and representation); its representative is the first present source value in authored join order. If collation, coercion, or unknown comparison semantics can match different representations, both qualified fields MUST remain separate output columns for the whole result, even when some rows happen to be byte-equal. A lossy merged value is forbidden, and qualified selection of either source field remains available. Outer-join absence remains distinct from a present null value and is preserved per source. In an adopted FROM-first grammar, SELECT is optional and, when present, MUST appear last. Alias binding and execution order MUST be specified; ambiguity is an error and textual order MUST NOT change grouping, sorting, or LIMIT semantics.
+
+### REQ: source-and-join-discovery
+
+The context rail searches authorized tables/views and saved queries. Join suggestions show key columns, direction, cardinality or unknown, provenance (foreign key, declared semantic mapping, inferred), and available cross-source cost/limit. Name similarity alone grants no authority. A declared foreign key is eligible for automatic ON completion only when its complete mapping and target key are uniquely resolved across all authorized source aliases already present in the query. Applying a suggestion edits the draft but does not run. Every field selected or referenced in a join, filter, group, order, or expression MUST be authorized and visible before it enters the draft or preview, and authorization MUST be revalidated at Run. Unauthorized metadata is not revealed.
+
+### REQ: relationship-backed-join-authoring
+
+When the author writes a `FROM` clause for Invoice followed by a `JOIN` clause for Customer without `ON`, or writes `JOIN Customer` followed by an `ON` clause on its own line, Compose MAY autocomplete a predicate only when the authorized schema declares exactly one complete foreign-key relationship between the new target and all eligible source aliases already present in the query, to the referenced primary or unique key. An unqualified `current source` means this full set of prior source aliases, not only the most recently joined table; if more than one relationship qualifies, the shorthand is ambiguous. A qualified alias narrows resolution only when one complete relationship remains. This does not require source and target columns to share a name; for example, `Invoice.CustomerId -> Customer.Id` resolves to `Invoice.CustomerId = Customer.Id`. On Run, the editor MUST first insert and display the fully qualified, fully mapped predicate in the draft, then execute only if that exact relationship remains unambiguous and authorized. If zero or multiple relationships qualify, Run MUST stop with candidates or a diagnostic and MUST NOT guess. Candidate ordering and generated predicates MUST be deterministic. An `ON` clause containing only `CustomerId` is shorthand only when that name resolves to one declared relationship from the current source to a target primary or unique key; a qualified field or explicit complete predicate is required when it is ambiguous. A composite foreign key is one relationship and MUST expand to every ordered field pair; a partial component MUST NOT be treated as the whole relationship. The draft and saved query retain the relationship identity, ordered field pairs, source-field references, and schema version so edits, reopen, receipts, and provenance remain attributable. Before execution, the saved binding MUST be revalidated against the authorized current schema. If the relationship is absent, changed, or ambiguous, Run MUST stop and request review; it MUST NOT silently substitute another relationship.
+
+### REQ: preview-and-execution-receipt
+
+A provisional compiler/adapter preview is distinct from an immutable executed-request receipt. Preview binds draft revision, principal/policy context, target mapping, dialect, schema version, and parameter types/placeholders; any change marks it stale. Run revalidates/recompiles on the same execution path. A receipt shows actual emitted SQL or native source requests, local federation stages, target, binding metadata, and execution identity without credentials. A preview is never labelled actual SQL. A native non-SQL path shows why SQL is unavailable. Database EXPLAIN and EXPLAIN ANALYZE are separate capability-gated actions whose possible execution effects are disclosed.
+
+### REQ: explicit-run-and-results
+
+Run is explicit and names target, revision, and bindings. Missing, ambiguous, or conflicting required bindings block it near the field. Running, cancellation, error, empty, partial, and successful states are distinct. Editing or switching target retains the last committed result as Previous run with its original provenance. Late responses cannot attach to a newer draft or target; one target's failure cannot erase another's success. Headers show query revision, target, time, completeness, limitations, live/recorded status, applied nonsecret binding values and origins, row count when known, and timings. Secret bindings show only type and set/unset state; their values never enter URLs, telemetry, persisted drafts, result receipts, dashboard cards, or browser result cache. Nonsecret ad hoc values remain session scoped unless the user explicitly saves a query default through an authorized path.
+
+### REQ: related-query-exploration
+
+Selecting a cell can offer authorized related tables, records, and applicable saved queries through the existing semantic mappings and Investigation Context. Look up this value previews the saved query, typed binding and origin, target, and live/snapshot choice before execution; selection alone never runs. Use as data is a separate composition operation subject to output schema, access, boundedness, and cycle checks. The governed read path remains authoritative; name matches alone are not relationships.
+
+### REQ: multi-target-results
+
+The user can explicitly run one frozen query revision and visible binding set on several authorized compatible environments. Each target has independent progress, budget, cancellation, error, receipt, and result status. Results are retained independently. The UI discloses unavailable/setup-required targets and makes no atomic cross-database snapshot or identical-observation-time claim.
+
+### REQ: honest-comparison
+
+Compare consumes authorized result references and extends the existing typed recordset comparer where necessary. Current Core Options do not provide numeric tolerance or meaning/unit compatibility, and current side receipts do not carry completeness/expiry metadata; these are explicit contract extensions before the UI may offer those guarantees. Default comparison uses exact equality for types the current comparer supports. A missing/expired/unauthorized side, null or non-unique selected key, unsupported comparator, or incompatible schema or declared units blocks a keyed diff. Unknown meaning/units MAY permit a raw typed-value diff only when labelled as such, without a semantic-equivalence claim. Under the current Compare contract, partial/truncated results fail closed and cannot produce a CompareResult. Query Workspace MUST preserve that behavior until the owning Compare Feature/API contract is explicitly amended and that amendment is implemented. Only after that gate may an explicitly requested partial sample diff be offered. For such an authorized partial sample **or unequal policy visibility**, one-sided keys are labelled visible only in baseline/candidate, never Added or Removed; definitive removal/completeness totals are suppressed. Unequal policy visibility is prominently labelled and cannot support a causal or deletion assertion. The UI reports per-side target, timestamp, policy and completeness limits, row counts when known, and only differences justified by those limits. Reading persisted results rechecks access. A difference is not a causal conclusion.
+
+### REQ: ai-action-proposal
+
+AI uses the same typed authorized command handlers as manual controls and shows operation scope. An edit request produces a reversible diff and never runs by itself. An explicit request to run may execute after showing revision, target, bindings, and effect, without an extra approval tap solely because it came through AI. Opening the drawer alone sends no result cells to an external model. Applied edits mark the draft unsaved.
+
+### REQ: dashboard-reference
+
+Add to dashboard previews board/card destination and stores a reference to a saved query with revision, parameter, target/environment, visualization, and refresh policies. Public demo browsing and drafting MAY work without sign-in; committing a saved query or shared dashboard card requires a real signed-in principal with project write permission. At that submit point, the UI preserves the nonsecret draft across sign-in and resumes the intended save without silently publishing or using anonymous authentication. Each viewer's query/data access is rechecked; saving a card copies no credentials and grants no access. The card shows freshness and snapshot source.
+
+### REQ: demo-and-accessibility
+
+The maintained datatug-demo-project provides a prerequisite-labelled browser-runnable first example and a path through filter, preview, Run, invoice lookup, Compare, and dashboard card. Deterministic synthetic same-schema comparison fixtures include typed added/changed rows plus duplicate-key, partial, missing-field, and permission-limited cases. Public canonical DemoDB data is not altered to manufacture a difference. Controls have labels, visible focus, keyboard operation, non-color-only differences, and usable layouts at 1280/1440 px and 200% zoom.
+
+## Acceptance Criteria
+
+### AC: state-survives-layouts (verifies REQ:shared-workspace-state)
+
+**Given** an unsaved customer query, a selected target, a CustomerId binding from a selected cell, and a previous result
+**When** the user moves Author → Compare → Explore and Compose → Code, then changes target without running
+**Then** draft, binding value and origin, result reference, and selection remain intact; the old result keeps its original target and Previous run label; no execution occurs; Run and results remain discoverable at 1280 px.
+
+### AC: safe-authoring-round-trip (verifies REQ:authoring-language-boundary)
+
+**Given** supported YAML DTQL, native SQL with an unsupported vendor function, and GraphQL with unmapped arguments
+**When** each is opened or imported through Compose and Code
+**Then** supported semantics round-trip; every original source remains a draft even when Run is denied; diagnostics identify loss; Compose refuses destructive conversion; GraphQL execution appears only for an authorized native source.
+
+### AC: authoring-parity-fixtures (verifies REQ:authoring-language-boundary, REQ:named-parameter-block)
+
+**Given** the versioned TugQL profile, its matching TugQTree serialization contract, and one checked-in corpus containing valid syntax, malformed syntax, unsupported constructs, diagnostic spans, quoted identifiers, aliases with required `AS` and omitted aliases, all-lowercase and all-uppercase reserved words, mixed-case reserved words, omitted SELECT, final SELECT, typed parameter blocks, composite and ambiguous relationships, and optional schema snapshots
+**When** both Go and TypeScript implementations parse and resolve every corpus case in their respective CI lanes
+**Then** both produce the same accepted/rejected outcome, canonical structured diagnostics and Unicode source coordinates, resolved semantic model, and expected canonical TugQTree YAML where specified. Parameter and block fixtures require `PARAMETERS (`, `WITH <Name> AS (`, and `USING (` openings on their header lines and each matching `)` on its own line aligned with that header; reject a newline before an opening parenthesis and an inline block-closing parenthesis while allowing inline expression/function parentheses such as `SUM(i.Total)`. Parameter fixtures cover newline-separated declarations without commas, typed defaults, missing REQUIRED bindings, explicit NULL versus missing, duplicate/conflicting declarations, and diagnostics for comma-separated declarations, multiple declarations on one line, clauses on one line, and semicolon-separated statements. Indentation fixtures accept consistently nested two-space and tab styles, reject mixed tabs/spaces and zero-indented parameter declarations, ON clauses and expression continuations with source-positioned diagnostics, and verify that formatting repairs both styles idempotently using the configured indentation preference. Their source spans identify the later invalid construct. The corpus also proves stable idempotent formatting; separate values from source text; verbatim preservation of whitespace, standalone comments and end-of-line comments across raw parse/save; and that quoted strings or comments do not create false declarations or clause boundaries. Alias cases accept omitted aliases and same-line `AS` aliases, and reject an alias without `AS`. Reserved-word cases accept consistently lowercase and uppercase queries and diagnose mixed/title casing while leaving the source editable. Formatting cases verify reserved-word preference precedence (project/team, user, preserve-existing first valid word, application default), first-word-over-majority behavior in both directions, `PARAMETERS` as the first style word, and that words in comments/strings are ignored. Indentation cases verify parallel project/team/user/preserve-existing preference precedence and the two-space application default; CTE body clauses nest one level, with the closing parenthesis aligned to its WITH declaration. All-mixed reserved words fall back to the application default. Formatting and configured autoformat-on-save normalize every reserved word and structural indent, are idempotent, preserve identifier/parameter/user-type/function/string/comment/quoted-identifier spelling and source identity, and require validation before Run; no formatting action runs the query. Include `FROM "Order"` cases proving the reserved `FROM` token may change case while quoted identifier `"Order"` does not. Test that an invalidly indented or mixed-case source remains editable for formatter repair, and that reading/parsing alone does not reformat a consistent query. Existing consistently cased queries are unchanged by read/parse alone. Commas within SELECT lists or expressions retain their own grammar. Syntax-only cases do not infer schema relationships; schema-dependent omitted-ON, composite-key and ambiguous-relationship fixtures resolve or reject only from the supplied declared schema and emit the full explicit predicate when resolution succeeds. Changing an input, expected YAML, diagnostic, or schema fixture requires the same corpus to fail in both lanes until both implementations agree. Existing YAML remains compatible without migration, and the UI labels are exactly `TugQL · Query` and `TugQTree · YAML`.
+
+### AC: cte-fixtures (verifies REQ:named-common-table-expressions)
+
+**Given** one full query with a shared PARAMETERS block, a CTE body and main query, a chained multiple-CTE case, an earlier-CTE reference, a join to a CTE, typed output metadata and source lineage, plus duplicate, unresolved, forward-reference, cycle and recursive cases
+**When** the Go and TypeScript adapters parse, resolve, format and validate the shared corpus
+**Then** both implement nonrecursive WITH and multiple-CTE support in the day-one grammar, share declared parameter bindings across all CTEs and the main query, validate CTE output names/types/lineage before Run, and agree on diagnostics for invalid dependencies. The corpus proves that PARAMETERS, every WITH body, and the main query share one reserved-word case and indentation style; it rejects a newline between a block header and opening parenthesis and rejects closing a block inline; `with` with a nested uppercase `FROM` is rejected, and a nested `ON` is indented one level beneath its nested `JOIN`. The CTE bodies and main query follow the same FROM-first/optional-final-SELECT grammar and required indentation; CTE bodies nest one indent level and their closing parenthesis aligns with the WITH declaration. Formatting is idempotent and preserves identifiers, function names and exact quoted-identifier spelling such as "Order". A formatter-repaired draft cannot run until validation succeeds. Recursive support remains an open decision rather than an asserted exclusion. The corpus documents whichever multiple-CTE declaration syntax the spike selects; it does not treat repeated WITH as approved in advance. No fixture asserts materialization, caching, or implicit cross-source authorization.
+
+### AC: saved-query-import-fixtures (verifies REQ:saved-query-imports)
+
+**Given** project-local saved-query imports with declared REQUIRED and DEFAULT parameters, an explicit mapping, omitted and invalid mappings, a missing path, an unresolved output column, an import cycle, a path escaping the project root, and two project revisions
+**When** the Go and TypeScript adapters parse, resolve, validate and format the shared corpus
+**Then** both resolve only the importing project's pinned revision and emit matching normalized-path dependency receipts and reject root-escaping paths; require explicit parameter mappings rather than same-name capture; preserve imported defaults; block Run for unmapped REQUIRED parameters; and agree on diagnostics for missing paths, invalid mappings, unresolved columns and cycles. The fixtures MUST NOT assert remote import support, caching, materialization or new cross-source permission.
+
+### AC: projection-is-explicit (verifies REQ:optional-select-projection)
+
+**Given** authorized Invoice fields, one restricted field, a grouped query, and `Invoice.CustomerId -> Customer.Id` where case-insensitive collation or coercion may join distinct string representations
+**When** the query omits SELECT in an adopted authoring language that supports omission, with `LEFT JOIN` and `WHERE i.CustomerId IS NULL` also available as an explicit query
+**Then** single-source output lists only authorized fields, grouped output lists grouping keys without invented aggregates, and each joined projection's output columns and order are fixed before Run. The FK columns appear once, attributed to both sources and represented by the first present source in authored join order, only when declared comparison semantics guarantee exact typed equality; when collation or coercion can match different representations, both qualified columns stay in the schema for every row. A manual qualified projection such as SELECT i.CustomerId, c.Id remains available and emits both fields separately. After a left join, `i.CustomerId IS NULL` still addresses the left source field, and the result preserves right-side absence separately from a present null. The adapter receives explicit ordered projections with unique output aliases, never an empty joined Columns list; lineage remains attached to the two source fields. No output identity overwrites another. An ambiguous last-SELECT alias is diagnosed before Run, and SELECT omission/last position is honored by the adopted grammar.
+
+### AC: joins-are-explained (verifies REQ:source-and-join-discovery)
+
+**Given** a declared Customer–Invoice foreign key, an inferred name match, a cross-source relationship, and an unauthorized table
+**When** the user searches joins and selects a suggestion
+**Then** authorized candidates show complete key mappings, provenance, cardinality or unknown, and available cost/limit; applying one changes only the draft and retains the relationship binding; unauthorized metadata and execution remain unavailable. Name similarity alone cannot produce a runnable predicate.
+
+### AC: relationship-join-authors-safely (verifies REQ:relationship-backed-join-authoring)
+
+**Given** one unique declared FK `Invoice.CustomerId -> Customer.Id`, two possible Customer FKs, a composite FK, a name-only match, an unauthorized target, and a saved FK binding whose schema mapping later changes
+**When** the author writes a `FROM` clause for Invoice and a subsequent `JOIN Customer` clause without `ON`, writes a `JOIN Customer` clause followed by an `ON` clause containing only `CustomerId`, selects a suggestion, or runs the saved query after schema change
+**Then** the unique relationship inserts the fully qualified predicate `Invoice.CustomerId = Customer.Id` before execution, regardless of differing field names, and its relationship identity, ordered pairs, source references, and schema version remain in the saved draft. The shorthand resolves only when unique. Composite completion includes every declared field pair. Ambiguity, partial composite mapping, name-only inference, denied access, or a changed/removed saved relationship blocks execution with a diagnostic and never silently binds a replacement. Suggestions and generated predicates have deterministic ordering, and choosing a suggestion alone never runs.
+
+### AC: preview-matches-execution-path (verifies REQ:preview-and-execution-receipt)
+
+**Given** DTQL with a typed CustomerId binding and two environment mappings
+**When** the user previews one target, changes target, and runs
+**Then** the old preview becomes stale, the new preview comes from the executing adapter/planner, and the immutable receipt identifies actual requests/local stages, target, placeholders, redacted binding metadata, and execution without credentials or secret values. A non-SQL target never displays fabricated actual SQL.
+
+### AC: run-states-are-truthful (verifies REQ:explicit-run-and-results)
+
+**Given** a prior success followed by an edit with a missing required binding
+**When** the user attempts Run, resolves the binding, then runs, cancels or receives a partial/error response, and changes target while a late response is in flight
+**Then** Run blocks until resolution; previous results retain their original attribution; terminal states show reason/completeness; cancellation/failure preserves committed output; the late response cannot attach to the new target. Secret binding values appear only as set/unset and are absent from URLs, telemetry, persisted drafts, receipts, cards, and result caches.
+
+### AC: lookup-is-reviewable (verifies REQ:related-query-exploration)
+
+**Given** an authorized selected CustomerId cell and a saved Customer invoices query with a typed parameter
+**When** the user chooses Look up this value
+**Then** a preview names query, target, bound value and origin before explicit execution, and only that customer's authorized invoices return. Use as data is separately named and rejects cycles, incompatible outputs, and unauthorized inputs.
+
+### AC: target-runs-are-independent (verifies REQ:multi-target-results)
+
+**Given** two authorized same-schema targets and one frozen revision and binding set
+**When** the user explicitly runs both and the candidate target fails
+**Then** baseline receipt and result remain accessible, candidate shows its own error/retry, and neither side claims an atomic shared snapshot or invented observation time.
+
+### AC: comparison-explains-limits (verifies REQ:honest-comparison)
+
+**Given** synthetic baseline/candidate results with one added keyed row and one changed decimal value, plus a partial/truncated candidate
+**When** the user compares them with a unique typed key
+**Then** an exact supported comparison reports precise values and each side's receipt, time, policy, and completeness; null/duplicate keys, incompatible schema or declared units, unsupported comparer, and missing/expired/unauthorized sides block keyed diff. Unknown units permit only a labelled raw typed-value comparison. Under the current Compare contract the partial/truncated candidate fails closed with no CompareResult. Only after a reviewed Compare Feature/API amendment is implemented may the user explicitly request a partial sample; then one-sided keys are labelled visible only in baseline/candidate and Added/Removed and completeness totals are suppressed. Unequal policy visibility has the same visible-only rule. A warning rejects causal/deletion assertions; numeric tolerance is unavailable until its Core contract extension passes.
+
+### AC: ai-actions-are-scoped (verifies REQ:ai-action-proposal)
+
+**Given** an authorized draft, a request to change its filter, and a separate explicit request to run on a named target
+**When** the composer handles both requests
+**Then** the edit is a reversible diff and does not execute; the run action shows revision, target, and bindings before the same governed execution as manual Run; opening the drawer alone sends no result cells to a model.
+
+### AC: dashboard-card-keeps-authority (verifies REQ:dashboard-reference)
+
+**Given** a successful public demo result, a guest's draft edit, and a second principal
+**When** the guest chooses Add to dashboard, signs in at Save submit, and the second principal later opens the card
+**Then** the nonsecret draft survives sign-in; only an authorized project writer can commit a saved query/card; the UI requires saving or choosing the prior revision and previews destination and policies; it persists a query reference without credentials or copied rows and reauthorizes the second principal before display or refresh. Anonymous sign-in is not used.
+
+### AC: browser-demo-journey (verifies REQ:demo-and-accessibility)
+
+**Given** a fresh browser session and the maintained demo project
+**When** an analyst opens the curated Chinook example, changes a filter, previews and runs, selects a customer for invoice lookup, compares deterministic demo targets, signs in at dashboard Save if needed, and reopens the card without hidden setup
+**Then** every stage has a visible good result with source/target/parameter evidence; sign-in retains the nonsecret draft and a project write check governs commit; restricted or setup-required examples name their prerequisite. The journey is keyboard operable at 1280/1440 px and 200% zoom with labeled controls and non-color-only diff cues.
+
+## Open Questions
+
+1. Which parser implementation and remaining FROM-first syntax details best fit the approved TugQL semantics and parity constraints in the timeboxed spike? In a separate branding brainstorm, should the alternative pair DTQL/DTQT be considered? This Feature makes no umbrella rename or retirement decision: DTQL remains the library and website name.
+2. Which initial parameter types and type-assignment rules are supported, how are names compared, and does `REQUIRED` permit explicit NULL? The missing-binding versus explicit-NULL representation must remain distinct regardless of the eventual policy.
+3. What application default should be used only when no project/team or user preference exists and the query has no wholly lowercase or uppercase reserved word from which to infer a style? The current Query Workspace user preference is lowercase.
+4. Which compiler/adapter surfaces can provide both preview and executed receipt for browser SQLite, local-agent SQL, and federation without a second SQL approximation?
+5. Which supported browser connection provides the curated Customer-invoices execution, and which current browser receipts prove its stages? Hosted BigQuery is not assumed browser-executable.
+6. Which dashboard revision/refresh policies should default for a first card while preserving viewer authorization?
+7. Which exact declaration syntax should represent multiple CTEs (including whether to repeat WITH), and what later version, if any, should support recursive CTEs?
+
+---
+*This document follows the https://specscore.md/feature-specification*
