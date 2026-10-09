@@ -231,7 +231,8 @@ today, but so that it never becomes the thing somebody later tries to gate a fea
 (with `/en/*` and `/ru/*`) serves DataTug's
 **When** an authenticated user opens each application's start address (`datatug.app/home`,
 and the root of `app.incidentius.com`), or navigates to `/` inside the running application
-**Then** `datatug.app` lands on the project/investigation workspace at `/home` and
+**Then** `datatug.app` lands on the project/investigation workspace at `/home` (and `/home`
+opened under another profile ends on that profile's own home) and
 `app.incidentius.com` lands on the incidents list with the "Houston, we've got a problem"
 entry point, each with its own brand name and navigation order; `incidentius.com` and the
 root of `datatug.app` remain public landing surfaces, and an unrecognised hostname lands on
@@ -239,7 +240,10 @@ the DataTug home rather than failing to boot.
 
 *Amended 2026-10-09: the DataTug profile's home route moved from `/` to `/home`
 (`datatug/datatug-apps` pull request 231) so that the root of `datatug.app` can serve the
-product's landing page (`datatug/websites`, `spec/ideas/datatug-domain-roles.md`).*
+product's landing page (`datatug/websites`, `spec/ideas/datatug-domain-roles.md`). The landing
+takes the root, `/en/*` and `/ru/*` in later steps of that work's plan
+(`spec/plans/datatug-app-landing` there); until then those addresses reach the application,
+which sends the root to `/home`.*
 
 ### AC: incidents-always-in-datatug-menu (verifies REQ:profile-table)
 
