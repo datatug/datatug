@@ -1,4 +1,4 @@
-# Open-layer reading: file and wire formats
+# Open-Layer Reading: file and wire formats
 
 This is the formats appendix of the [owning Feature](README.md). It is not a separate
 feature. It holds the exact shapes that the requirements there point at: two project
@@ -54,9 +54,9 @@ The file for Chinook, cut to one table and two of its nine columns:
 | Key | Value | Rule |
 |---|---|---|
 | `format` | `datatug-shape/draft-1` | Any other value: the file is not read, and the model line says so. |
-| `id` | the database's id in this environment, `<db>` | Must equal the folder name. |
+| `id` | the catalog's id, `<db>` | Must equal the folder name. |
 | `scan.driver` | `sqlite3`, `postgres` or `sqlserver` | The driver the scan used. |
-| `scan.foreignKeys` | `read` or `not-read` | `not-read` means the scanner of this engine does not read foreign keys. An empty `foreignKeys` list then says nothing about the database. |
+| `scan.foreignKeys` | `read`, `partly-read` or `not-read` | `partly-read`: the scanner read foreign keys and left at least one out. `not-read`: the scanner of this engine does not read foreign keys. In both cases a foreign key that is not in the list is unknown, and an empty `foreignKeys` list says nothing about the database. |
 | `recordsets[]` | one item per table and per view | Sorted by `name`, comparing bytes. |
 
 One item of `recordsets` has exactly the seven required keys of a recordset in OpenVaultDB's
@@ -70,9 +70,9 @@ meaning and the same key names inside `columns`, `primaryKey` and `foreignKeys`:
 | `kind` | `table` or `view`. |
 | `description` | Always `""`. A scan has no description to give. |
 | `rowCount` | Always `null`. A scan counts no rows. |
-| `columns[]` | `name`; `type`, the engine's own type text; `nullable`; `primaryKey`; `primaryKeyPosition`, 1 or more, or `null`; `defaultValue`, the engine's text or `null`. In the engine's column order. |
+| `columns[]` | `name`; `type`, the type text the scan holds: the engine's own for `sqlite3` and `sqlserver`, and DALgo's type name for `postgres` (`int`, `string`, `bool`, `float`, `decimal`, `time`, `bytes`, `null`, `unknown`), which is all that scan has today; `nullable`; `primaryKey`; `primaryKeyPosition`, 1 or more, or `null`; `defaultValue`, the engine's text or `null`. In the engine's column order. |
 | `primaryKey[]` | `column`, `position`. Empty when the table has no primary key. |
-| `foreignKeys[]` | `column`, `table`, `referencedColumn`, `constraint`, `position`. A foreign key of several columns is several items with one `constraint` number, in `position` order. Constraints are numbered from 0 in the order the engine reports them. |
+| `foreignKeys[]` | `column`, `table`, `referencedColumn`, `constraint`, `position`. A foreign key of several columns is several items with one `constraint` number, in `position` order. Constraints are numbered from 0 in the order the engine reports them. When the engine names no target column, `referencedColumn` is the target's primary key column at the same position. |
 
 The descriptor's optional key `modelEntity` is never written: the mapping lives in the
 source file. No other key is written. In particular the file holds no time, no host, no
@@ -88,12 +88,13 @@ same bytes.
 | Read by | the importer and the drift report |
 | One per | database: the id that the four `semantic/*` and `queries/applicable` routes call `source` |
 
-`<id>` is the database's project id. In today's files it is the `dbModel` that each
-environment's `<db>.db.json` names, for example `chinook` for the catalogs `chinook-local`
-and `chinook-prod` (datatug-demo-project@deeee32
-`demo-project-1/environments/local/catalogs/chinook-local/chinook-local.db.json`). One
-source file therefore serves every environment of the database. Each environment has its
-own shape file.
+`<id>` is the database's id. In today's files it is the `dbModel` that an environment's
+`<db>.db.json` names, for example `chinook` for the catalogs `chinook-local` and
+`chinook-prod` (datatug-demo-project@deeee32
+`demo-project-1/environments/local/catalogs/chinook-local/chinook-local.db.json`), or the
+catalog's own id when its file names none. One source file therefore serves every
+environment of the database. Each catalog has its own shape file. Which two files a
+request reads is REQ:files-of-a-request of the Feature.
 
 ### Example A: a database that follows a registered model
 
@@ -145,7 +146,7 @@ recordsets:
 | Key | Required | Value | Rule |
 |---|---|---|---|
 | `format` | yes | `datatug-source/draft-1` | Any other value is refused. |
-| `id` | yes | the database's project id | Must equal the folder name `<id>`. |
+| `id` | yes | the database's id | Must equal the folder name `<id>`. |
 | `model` | yes | a map in one of two forms | See "How the model and the meaning file are named". |
 | `meaning` | no | a map in the form that goes with `model` | Left out: references and keys come from the model, and no column gets a meaning. |
 | `recordsets` | yes | a list | Each item is a table's name, or a map. See "The mapping lines". |
@@ -168,7 +169,7 @@ Rules for both forms:
 - An address with no `?ref=`, or a `?ref=` that is not 40 hex characters, is refused.
 - A path is relative to the project folder, uses `/`, and may not leave the folder.
 - With both `hcl:` and `modelspec:` given, the JSON file is read. The HCL file is the
-  source a person edits.
+  one a person edits.
 - The module that the model names must be a key of the meaning file's `models` map. If it
   is not, no meaning is imported and the problem is reported.
 
@@ -188,7 +189,7 @@ there). Only the differences are DataTug's.
 | two columns of one table with one `field` | Refused. | Yes. |
 | an item's key other than `name`, `record_type`, `columns`; a column's key other than `field` | Refused. | Yes. |
 | names | Matched exactly, with their case. No folding. | Yes. |
-| `field: Contact.Email`, a path into a component | Accepted by the grammar. The column gets no meaning in this feature and is reported as not imported. | Yes: the manifest's readers do not resolve such a path either. |
+| `field: Contact.Email`, a path into a component | Accepted by the grammar. The column gets no meaning in this feature and is reported as not imported (reason `component-path`). | Yes: the manifest's readers do not resolve such a path either. |
 
 ## 3. From links to DataTug's runtime index
 
@@ -197,7 +198,7 @@ loads the four inputs.
 
 | Input | Comes from |
 |---|---|
-| the shape | the shape file of the request's environment |
+| the shape | the shape file of the request's catalog |
 | the mapping | the source file's `recordsets` |
 | the model | the file that the source file's `model` names |
 | the links | the meaning files that the source file's `meaning` names, checked, then put through MeaningGraph's rule for derived links (meaninggraph/core@65510ae `FORMAT.md:307-366`) |
@@ -219,17 +220,19 @@ it only says which record type holds a concept's rows.
 | `identifier` | entity | the concept's id | `id` | yes |
 | `reference` | entity | the concept's id | `id` | yes |
 | `display-name` | entity | the concept's id | `name` | no |
-| `value` | property or dimension, with `of:` naming an entity of the same graph | the id of that entity | the concept's id | no |
-| `reference` | property or dimension, with `of:` naming an entity of the same graph | the id of that entity | the concept's id | no |
-| `value` | measure | not imported | | |
+| `value` | property or dimension, with `of:` naming an entity concept of the same graph | the id of that entity concept | the concept's id | no |
+| `reference` | property or dimension, with `of:` naming an entity concept of the same graph | the id of that entity concept | the concept's id | no |
+| `value` | measure | not imported (reason `measure`) | | |
 
 Rules:
 
 1. **From field to column.** The link's record type and field are turned into a table and
-   a column by the mapping. A field with no column in this database gives nothing.
+   a column by the mapping. A field with no column in this database is reported as not
+   imported (reason `no-column`).
 2. **One meaning for one column.** When several links reach one column, one is taken, in
-   this order: `identifier`; `reference` of an entity; `display-name`; `value`;
-   `reference` of a property. Within one rank the lowest concept id wins, comparing bytes.
+   this order: `identifier`; `reference` where the concept's kind is entity;
+   `display-name`; `value`; `reference` where the concept's kind is property or
+   dimension. Within one rank the lowest concept id wins, comparing bytes.
    The others are reported as not imported, with the reason `second-meaning`.
 3. **One column of a table for one entity field.** DataTug allows an entity field one
    mapping in a table (`pkg/datatug/entities.go:165-178`). Columns that hold an
@@ -244,13 +247,20 @@ Rules:
    `uuid` → `UUID`, `date` → `date`, `time` → `time`, `datetime` → `datetime`,
    `document`, `json` and `any` → `JSON`. A reference field has the type of its target's
    key field. The field `id` has the type of the `identifier` column.
-6. **Titles.** An entity's title is the concept's English label when it has one.
+6. **Titles.** An entity's title is the concept's English name (`labels.en`) when it has
+   one.
 7. **No name patterns.** An imported entity field has no `NamePatterns`. The importer
    states; it does not guess.
 8. **Entity files win.** A column that an entity file maps with a declared mapping gets no
    imported mapping (reason `entity-file-maps-column`). An imported entity whose id equals
    the id of an entity file's entity, comparing bytes, is left out whole (reason
    `entity-file-has-id`).
+
+Reasons not named above: `measure`; `no-owning-entity`, for a property or dimension whose
+`of:` is absent or names no entity concept in the same graph; `component-path`, for a
+field written as a path into a component; `no-column`, for a field that has no column in
+this database, because no line maps its record type to a table or because the table has
+no such column.
 
 ### Table schemas
 
@@ -274,7 +284,7 @@ meaninggraph/core@65510ae. It is a calculation, not an implementation.
 - 48 links: 36 written, 12 derived.
 - 10 imported entities, 25 entity fields, 35 of 64 columns with a meaning.
 - 10 links have the role `instances`. 35 give a column its meaning. 3 are reported as not
-  imported: `music-sales` on `Invoice.Total` (a measure); `support-rep` on
+  imported: `music-sales` on `Invoice.Total` (`measure`); `support-rep` on
   `Customer.SupportRepId` (`second-meaning`); `employee` on `Employee.ReportsTo`
   (`entity-field-taken`).
 
@@ -289,7 +299,8 @@ meaninggraph/core@65510ae. It is a calculation, not an implementation.
 | `track` | `id` | `Track.TrackId`, `InvoiceLine.TrackId`, `PlaylistTrack.TrackId` |
 
 Two columns show the rules at work. `Customer.SupportRepId` has two links, `employee` (a
-derived reference) and `support-rep` (a written reference of a property): rule 2 takes
+derived reference) and `support-rep` (a written link with the role `reference`, of a
+property concept): rule 2 takes
 `employee.id`. `Employee.ReportsTo` has `employee` and `manager`: `employee.id` is already
 held in that table by `EmployeeId`, so rule 3 gives it `employee.manager`.
 
@@ -329,21 +340,20 @@ Which fact carries which label:
 | A key or a reference | the model only: the database declares none | the model's label, `published` or `declared` |
 | A key or a reference | both the shape file and the model | `observed`, and the model's label is listed beside it: `from the database · also published @ 3e7bb31` |
 
-`observed` is never the label of a meaning: a database does not say what a column means.
-
 ## 5. Routes
 
-All three are `GET`, relative to `/datatug`, take `Scope + SourceRef` as
+All three are `GET`, relative to `/datatug`, take `Scope` and `source` as
 [`core-investigation-loop/api-contract.md`](../core-investigation-loop/api-contract.md)
-defines them, read project metadata only, and never write. Each goes through the server's
-access policy: a table the principal may not see is absent from every list and every count.
+defines them, read project metadata only, and never write. Each applies the serving
+session's access policy: a table is in a list and in a count only when the principal may
+read it whole (REQ:read-only-routes of the Feature).
 
 ```ts
 type Known = 'observed' | 'published' | 'declared';
 
 // GET openlayers/database
 type DatabaseDescription = {
-  shape: null | { foreignKeys: 'read' | 'not-read' };       // null: never scanned
+  shape: null | { foreignKeys: 'read' | 'partly-read' | 'not-read' };  // null: never scanned
   model:
     | { state: 'none' }                                      // no source file
     | { state: 'named'; known: 'published' | 'declared';
@@ -380,9 +390,11 @@ type DriftReport = {
 };
 ```
 
-The four existing routes change in one place only: the values of `provenance` in the
-response of `GET semantic/columns` and of `mapping` in a `Fact` gain `published`
-(Question 3 of the Feature).
+The shapes of the four existing routes change in one place only: the values of
+`provenance` in the response of `GET semantic/columns` and of `mapping` in a `Fact` gain
+`published` (Question 3 of the Feature). Their behaviour changes in two more places, both
+in `POST semantic/related`: one lookup is listed once, and for a project that has a shape
+file the keys and foreign keys come from that file (REQ:routes-unchanged of the Feature).
 
 ## 6. Commands
 
@@ -394,7 +406,9 @@ datatug db drift  --project <id> | --directory <path>  --env <env> --db <db>  [-
 ```
 
 `--format json` prints the body of the route of the same name. None of the three opens the
-database: each reads project files, and `match` reads the registry's index.
+database: each reads project files, and `match` reads the registries' indexes. `--db` is
+the catalog's id, as in `datatug scan`. The three apply no access policy: they read the
+project folder as the person who runs them.
 
 | Command | Text output on Chinook | Exit code |
 |---|---|---|
@@ -403,6 +417,7 @@ database: each reads project files, and `match` reads the registry's index.
 | `db match` | `Registered model chinook matches this database: 11 of 11 tables, 64 of 64 columns.`<br>`  modelspec://github.com/demo-db/chinook/chinook @ 3e7bb316d8a438eb7e5930067997a4e4543a275c` | 0, whether or not a model matches |
 | `db match --source-file modelspec://github.com/demo-db/chinook/chinook` | exactly the text of Example A, and nothing else | 0; 1 when that model does not match |
 | `db drift`, with Example A | `Model and database agree: 11 tables, 64 columns, 11 keys, 11 references.` | 0 with no finding of severity `error`; 1 otherwise |
+| `db drift`, after `Invoice.Total` was dropped and the database scanned again | `Model and database differ in 1 place.`<br>`error  field-without-column  Invoice.Total  The model's field Total has no column in the table Invoice.`<br>One line per finding: severity, kind, where, message. Errors first, then warnings, then notes. | 1 |
 | any, with a bad flag or an unreadable project | the usage or the error | 2 |
 
 ## 7. Drift findings
@@ -410,7 +425,7 @@ database: each reads project files, and `match` reads the registry's index.
 | Kind | Severity | Says |
 |---|---|---|
 | `source-file-invalid` | error | The source file breaks a rule of section 2. One finding per broken rule. |
-| `recordset-not-in-database` | error | The source file names a table that the shape does not have. |
+| `table-not-in-database` | error | The source file names a table that the shape does not have. |
 | `record-type-not-in-model` | error | The source file names a record type that the model does not have. |
 | `column-not-in-database` | error | The source file names a column that the table does not have. |
 | `field-not-in-model` | error | The source file names a field that the record type does not have. |
@@ -420,10 +435,12 @@ database: each reads project files, and `match` reads the registry's index.
 | `type-differs` | warning | The column's type family is not one the field's type accepts (table below). |
 | `required-but-nullable` | warning | The field is `required` and the column allows null. |
 | `foreign-key-not-in-model` | warning | The database declares a foreign key on a mapped column, and the field is not a reference. |
-| `reference-not-declared` | note | The model states a reference, and the database declares no foreign key for it. Not reported when `scan.foreignKeys` is `not-read`. |
+| `reference-not-declared` | note | The model states a reference, and the database declares no foreign key for it. Not reported when `scan.foreignKeys` is `not-read` or `partly-read`. |
 | `column-without-field` | note | A column of a mapped table is not a field of its record type: it is outside the model. |
 | `table-outside-model` | note | A table that no item of `recordsets` names. |
 | `type-not-compared` | note | The column's type text is not in the table below. One finding per distinct type text. |
+
+A test compares a finding's `kind` and names, not its `message`.
 
 Type families. The family of a column is found from its type text, without what follows
 the first `(`, ignoring case:
@@ -442,6 +459,14 @@ the first `(`, ignoring case:
 | json | `JSON`, `JSONB` |
 | binary | `BLOB`, `BYTEA`, `BINARY`, `VARBINARY` |
 
+A shape file whose `scan.driver` is `postgres` is read by this list instead: `int` is
+integer; `string` is text; `bool` is boolean; `float` is float; `decimal` is decimal;
+`bytes` is binary; `time` is the family temporal, which the field types `date`, `time` and
+`datetime` all accept, because DALgo does not tell the three apart; `null` and `unknown`
+are not compared (`type-not-compared`). PostgreSQL's `uuid` and `json` columns arrive as
+`string` (dalgo2postgres v0.9.1 `type_mapping.go:62-65`), which the field types `uuid`,
+`document` and `json` accept as text.
+
 | The field's type | Families it accepts |
 |---|---|
 | `string` | text |
@@ -450,14 +475,14 @@ the first `(`, ignoring case:
 | `decimal` | decimal |
 | `bool` | boolean, integer |
 | `uuid` | uuid, text |
-| `date` | date, text |
-| `time` | time, text |
-| `datetime` | datetime, text |
+| `date` | date, temporal, text |
+| `time` | time, temporal, text |
+| `datetime` | datetime, temporal, text |
 | `document`, `json` | json, text |
 | `any` | every family |
 | a reference | the families that the type of the target's key field accepts |
 
-On Chinook every one of the 64 columns passes: the pairs are `int` with `INTEGER` (13
+On Chinook as a SQLite scan reads it, every one of the 64 columns passes: the pairs are `int` with `INTEGER` (13
 columns, and 11 more through a reference), `string` with `NVARCHAR(n)` (34), `datetime`
 with `DATETIME` (3) and `decimal` with `NUMERIC(10,2)` (3). Each of the 30 required fields
 has a column that refuses null. Computed by the author from Chinook's model and descriptor
