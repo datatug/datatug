@@ -257,7 +257,8 @@ Rules:
 For each table of the shape, `semantic.TableSchema` is filled from the shape file:
 `PrimaryKey` from `primaryKey`; `ForeignKeys` from `foreignKeys`, one per `constraint`,
 with `Columns`, `RefTable` and `RefColumns` in `position` order; `ReferencedBy` from the
-foreign keys of the other tables that name this one.
+foreign keys of every table that name this one, the table itself included
+(`Employee.ReportsTo` points at `Employee`).
 
 A reference that the model states and the database does not declare is added to the same
 two lists, under the name `model:<RecordType>.<Field>`, pointing at the target's key

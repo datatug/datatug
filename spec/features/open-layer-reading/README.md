@@ -404,7 +404,7 @@ A column whose meaning is `published` MUST show the header marker with the icon 
 
 #### REQ: model-line
 
-The database page MUST show one line that says which model the database follows, in one of the six forms of AC:model-line-states, and beside it whether the model and the database agree.
+The database page MUST show one line that says which model the database follows, in one of the six forms of AC:model-line-states, and beside it whether the model and the database agree. When they differ, the line says in how many places, counting findings of severity `error` and `warning`, and opening it lists every finding's message on the same page.
 
 #### REQ: related-rows-once
 
@@ -681,11 +681,11 @@ Unless a criterion says otherwise, "the Chinook project" is a folder made by `da
 **When** `datatug db drift` runs
 **Then** it prints `Model and database agree: 11 tables, 64 columns, 11 keys, 11 references.`, lists no finding and exits 0.
 
-### AC: drift-finds-differences (verifies REQ:drift-compares, REQ:drift-findings, REQ:drift-reports-only)
+### AC: drift-finds-differences (verifies REQ:drift-compares, REQ:drift-findings, REQ:drift-reports-only, REQ:model-line)
 
 **Given** the Chinook project with Example A, after the database lost the column `Invoice.Total` and the primary key of `Genre`, and was scanned again
 **When** `datatug db drift --format json` runs
-**Then** it lists `field-without-column` for `Invoice.Total` and `key-differs` for `Genre`, both of severity `error`, exits 1, and `git status` shows no change other than the scan's.
+**Then** it lists `field-without-column` for `Invoice.Total` and `key-differs` for `Genre`, both of severity `error`, exits 1, and `git status` shows no change other than the scan's; and the database page's model line says that the model and the database differ, and opening it lists both messages.
 
 ### AC: routes-are-read-only (verifies REQ:read-only-routes, REQ:cli-verbs)
 
