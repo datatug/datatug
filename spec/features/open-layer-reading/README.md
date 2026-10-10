@@ -477,7 +477,7 @@ The test MUST run against a `datatug-cli` release that contains this feature. Mo
 
 ## Existing features
 
-"Depends on" means this specification relies on the feature as it is. "Extends" means it adds to what the feature covers; the feature's own page is not edited here and is listed for a later amendment by its owner. "Leaves" means no change either way.
+Line numbers of this repository's own pages, here and above, are as at datatug/datatug@33dd78c. "Depends on" means this specification relies on the feature as it is. "Extends" means it adds to what the feature covers; the feature's own page is not edited here and is listed for a later amendment by its owner. "Leaves" means no change either way.
 
 | Feature | Status | Relation | What follows |
 |---|---|---|---|
