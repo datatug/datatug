@@ -380,7 +380,7 @@ A scan MUST open the database read-only and create nothing in it. The importer, 
 
 #### REQ: source-file-place
 
-A database's source file is `dbmodels/<id>/<id>.source.yaml`, where `<id>` is the database's project id. There is at most one per database, and it serves every environment. In this feature DataTug MUST NOT create, change, move or delete it; a scan MUST leave it byte for byte as it was, also when it removes a dropped table's folder beside it.
+A database's source file is `dbmodels/<id>/<id>.source.yaml`, where `<id>` is the database's id. There is at most one per database, and it serves every environment. In this feature DataTug MUST NOT create, change, move or delete it; a scan MUST leave it byte for byte as it was, also when it removes a dropped table's folder beside it.
 
 #### REQ: source-file-grammar
 
