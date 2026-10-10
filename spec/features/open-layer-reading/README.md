@@ -1,0 +1,737 @@
+---
+format: https://specscore.md/feature-specification
+status: Draft
+---
+
+# Feature: Open-Layer Reading
+
+> [SpecScore.**Studio**](https://specscore.studio): | [Explore](https://specscore.studio/app/github.com/datatug/datatug/spec/features/open-layer-reading?op=explore) | [Edit](https://specscore.studio/app/github.com/datatug/datatug/spec/features/open-layer-reading?op=edit) | [Ask question](https://specscore.studio/app/github.com/datatug/datatug/spec/features/open-layer-reading?op=ask) | [Request change](https://specscore.studio/app/github.com/datatug/datatug/spec/features/open-layer-reading?op=request-change) |
+**Status:** Draft
+**Date:** 2026-10-10
+**Owner:** alex
+**Source Ideas:** —
+**Supersedes:** —
+**Kind:** Capability (implementations in `datatug-core`, `datatug-cli` and `datatug-apps`)
+**Pillars:** P3 semantic layer · P5 related-data navigation · P12 provenance · P13 infrastructure inventory
+
+## Summary
+
+Specifies, and does not yet build, how DataTug will show what a database's columns mean and which rows are related from three open descriptions: a ModelSpec model, its MeaningGraph meaning file and the database's own description. Nobody writes an entity file by hand for it, and every fact says how it is known.
+
+This is the specification of the phase that the ModelSpec design proposal calls "Phase 4, DataTug reads" (`/Users/alex/projects/modelspec-conceptual-design-proposal.html`, section 14; a local file in no repository, md5 `fb7f6813691fcba8984760c51b3b725c`, cited below as "the proposal" with its HTML line as `L…`). It is not Phase 4 of this repository's `ROADMAP.md` ("project grants and distribution", `ROADMAP.md:137`), not the Public Data Fabric programme's Phase 4, and not pillar P4. Where this page says "proposal D5", "proposal D7" or "proposal D8" it means the proposal's decision cards, not the decisions D5, D7 and D8 of `spec/product/product-family.md`.
+
+Nothing in this specification is built, and none of it is part of the launch planned for 2026-10-25. The status is Draft. Only the owner approves it. Until he does, nothing here may be built.
+
+The exact file and wire shapes are in the appendix, [formats.md](formats.md).
+
+## What a person sees
+
+Three moments, all on Chinook: a music shop's database with 11 tables, 64 columns, 59 customers and 412 invoices. They are steps 1, 2 and 9 of the journey in the proposal's section 14 (L2749, L2750, L2757).
+
+**Step 1. "I point DataTug at my database."** Maria has a SQLite copy of Chinook. She runs one command:
+
+```
+datatug scan --directory ./shop --driver sqlite3 --path chinook.sqlite --db chinook --env local
+```
+
+She opens the project. The database page lists her 11 tables. Each has a mark that says how many of its columns DataTug can say something about:
+
+```
+Invoice      2 of 9
+Customer     2 of 13
+```
+
+The database file is byte for byte what it was. DataTug opened it read-only.
+
+**Step 2. "I do nothing."** She opens the table `Invoice` and its Keys tab. Without any action of hers it reads:
+
+```
+Primary key    InvoiceId                from the database
+Foreign key    CustomerId ⇒ Customer    from the database
+```
+
+The database page has one more line:
+
+```
+Registered model chinook matches this database: 11 of 11 tables, 64 of 64 columns.
+```
+
+DataTug says so and does nothing more. No file was written. No column has a meaning yet. To use the model, Maria saves the 19-line source file that `datatug db match` prints. She commits the project.
+
+**Step 9. "My colleague opens the same database and does nothing."** Tom clones the project and opens `Invoice`. He scans nothing and types nothing.
+
+- The header of the column `CustomerId` has a marker. Its tooltip reads `customer.id · published`.
+- The Keys tab still says `CustomerId ⇒ Customer`, from the database, and now adds that the model says so too: `also published @ 3e7bb31`.
+- He clicks the cell `CustomerId = 5`. The panel offers `Customer` (1 row). In the table `Customer` he clicks `CustomerId = 5`, and the panel offers `Invoice` (7 rows), once.
+- The marks have filled: `Invoice 5 of 9`, `Customer 3 of 13`.
+- The database page says where it all comes from: `Model: modelspec://github.com/demo-db/chinook/chinook @ 3e7bb31 · published`.
+- The project has no `entities` folder. Nobody wrote an entity file.
+
+### One fact, followed: an invoice belongs to a customer
+
+| Where the fact is | Who wrote it | The real lines | How DataTug labels it |
+|---|---|---|---|
+| The database | Chinook's authors | `FOREIGN KEY ([CustomerId]) REFERENCES [Customer] ([CustomerId])` (demo-db/chinook@c7535f4 `data-source/sql/Chinook_Sqlite.sql:144`) | |
+| The shape file, `environments/local/catalogs/chinook/chinook.shape.json` | `datatug scan` | `{ "column": "CustomerId", "table": "Customer", "referencedColumn": "CustomerId", "constraint": 0, "position": 0 }` | `observed` |
+| The source file, `dbmodels/chinook/chinook.source.yaml` | Maria | `- Invoice`: the table `Invoice` holds Invoice rows, and each column is the field of the same name | |
+| The model, read at commit `3e7bb31` | Chinook's publisher | `field "CustomerId" { record = "Customer" required = true }` (demo-db/chinook@c7535f4 `model/chinook.modelspec.hcl:332-343`) | `published` |
+| The meaning file, read at the same commit | Chinook's publisher | `- model: modelspec:///chinook.Customer` / `role: entity`, and `- model: modelspec:///chinook.Invoice` / `property: CustomerId` / `role: foreign-key` / `note: The customer who made a purchase.` (`model/chinook.meaning.yaml:201-206`) | `published` |
+| DataTug's runtime index, in memory | the importer | the entity field `customer.id` is mapped to `Customer.CustomerId` and to `Invoice.CustomerId` | |
+| The screen | | marker `customer.id · published`; Keys tab `CustomerId ⇒ Customer`, from the database; related rows `Invoice` (7) | |
+
+Chinook's meaning file is still written in `meaning/draft-1`, with `property:` and `role: foreign-key` (`model/chinook.meaning.yaml:1`). The importer reads that and the current spelling alike.
+
+## Words used here
+
+One name for one thing. The right-hand column says what today's code and features call it.
+
+| Word here | Means | Elsewhere |
+|---|---|---|
+| database | One database a project is connected to, under one project id. | DataTug's wire key `source`; today's files call the id `dbModel`. |
+| table, column | What the database's engine holds. A view counts as a table unless a line says otherwise. | OpenVaultDB: recordset, column. DataTug's wire: `collection`, `column`. |
+| model | A ModelSpec model: one module of record types. Never an AI model, and never DataTug's `dbmodels/` folder. | |
+| record type, field, reference | ModelSpec's words. A reference is a field that holds the key of another record type's rows. | |
+| meaning file, concept, binding | MeaningGraph's words. A binding is a line that says a field holds a concept. | |
+| link | One fact "this record type, or this field, holds this concept in this role". Written when a binding line says it, derived when MeaningGraph's rule computes it from the model. | meaninggraph/core@65510ae `FORMAT.md:307-366` |
+| entity, entity field | DataTug's existing runtime types, `datatug.Entity` and `EntityField`, as in `Customer.ID`. Always two words for the second: "field" alone is ModelSpec's. | datatug-core@eb3075e `pkg/datatug/entities.go:41-47`, `:107-117` |
+| entity file | A hand-written `entities/<id>/<id>.entity.json`. | |
+| shape file | What a scan found, written into the project in the shape of OpenVaultDB's descriptor. | The proposal: "the scan's output". "Descriptor" is avoided: in `datatug-cli` it names a connection file. |
+| source file | The hand-kept project file that names a database's model and holds its mapping. | The proposal and proposal D5 question 3: "source file". |
+| mapping | The lines that say which table holds which record type and which column is which field. | |
+| runtime index | The two in-memory inputs of the resolver: the entities, and each table's keys and foreign keys. It is not a file. | The proposal: "runtime index". |
+| resolver | The three pure functions of `datatug-core` `pkg/semantic`: `Resolve`, `RelatedLookups`, `Applicable`. | The proposal uses "resolver" for a second thing in its Phase 7; not here. |
+| importer | The function that builds the runtime index from the shape, the mapping, the model and the links. | |
+| label | The word that says how a fact is known: `observed`, `published`, `declared` or `inferred`. | Today's wire key `provenance`. |
+| registered model | A model listed in the index of `modelspec-org/registry` at a commit. | |
+| match | A registered model is fully present in a database under the same names. | Not the feature `compare`. |
+| drift report | The list of differences between a model and a database as last scanned. | The proposal: "a check of a model against the database". Not a `Check` of the feature `checks`. |
+
+## Problem
+
+A person who connects a database to DataTug today gets its meanings only by writing entity files by hand, even when a model and a meaning file for that database are already published.
+
+- **Meanings come from hand-written files only.** The agent builds the resolver's entities from `entities/**/*.entity.json` and nothing else (datatug-cli@3a1c276 `pkg/server/endpoints/semantic_project.go:27-47`). The demo project carries eight such files (datatug-demo-project@deeee32 `demo-project-1/entities/`). No Go code in `datatug-core` or `datatug-cli` reads a ModelSpec model or a meaning file.
+- **A scan and the meanings are not connected.** A scan stores no foreign keys (datatug-cli@3a1c276 `pkg/api/scan_layout.go:23-27`: "Foreign keys are not stored."). The meanings routes ask the live database instead, and leave a SQL table's own foreign keys empty (`pkg/server/endpoints/semantic_schema.go:177-184`).
+- **A database that is not public has nowhere to say which model it follows.** The publisher manifest needs a public address. Proposal D5 question 3 gives such a database a source file in the DataTug project; no specification for it exists.
+- **Two labels cannot say what the owner approved five for.** The wire carries `declared` and `inferred` only (datatug-core@eb3075e `pkg/apicontract/responses.go:8-11`, `:33`). A fact that a publisher registered would have to be shown as `declared`, as if someone in the project had said it.
+- **Nothing compares a model with a database a person has connected.** The three format checkers read files at a commit (the proposal, L1586). Chinook's own CI compares its model's keys with its fixture file (demo-db/chinook@c7535f4 `scripts/test-data.mjs:104-122`). That is one publisher's test of its own database, not something a person can run on theirs.
+
+## Decided by the owner, and where
+
+The owner's words are in quotation marks. Everything else in this section is a record's text about them.
+
+| Decision | What was put to him | His words | Where it is recorded |
+|---|---|---|---|
+| Proposal D5, question 3 | "Question 3. A database with no public address cannot have a publisher's manifest. It carries the same lines in a source file inside the DataTug project." with the six-line example below (proposal L2935-L2941) | "Q3 - approved" (2026-10-08, 21:34 UTC) | openvaultdb/openvaultdb@37d2389 `spec/decisions/0012-publisher-manifest-maps-record-types-and-fields-in-the-list-of-recordsets.md:423`; the proposal's card, L2944 |
+| Proposal D7 | "Knowledge that is not yet certain stays out of the published formats. DataTug keeps signals and candidates on the user's machine and answers in the project. Five states carry the labels `observed`, `inferred`, `suggested`, `declared` and `published`. Whether a candidate is offered is decided by checks that can rule it out and pointers that name a target, not by a score." (proposal L2961) | "Approve." (2026-10-08) | the proposal's card, L2964 |
+| Proposal D8 | "DataTug's own entity files are replaced by the three open layers, in stages: first an importer that feeds the existing runtime, then DataTug writes the open formats directly. Retiring the entity files and types is a separate decision later." (proposal L2969) | "Approve." (2026-10-08) | the proposal's card, L2972 |
+| Proposal D6, part a | "The link from a property to a concept is derived from the model's reference or key, by one rule written into MeaningGraph's format. A binding line that only restates the model becomes optional." | "D6a: Approve" | meaninggraph/core@65510ae `spec/decisions/0001-derived-links-and-two-role-names.md:47`, `:70` |
+| This specification | A list of what was left after Phase 3, among it "Phases 4 to 8 … Each needs a specification you approve first." | "Do cleanup, specify phase 4 and if make sense others" (2026-10-10) | the session record of that day; it is in no repository |
+
+The example he approved for question 3:
+
+```yaml
+id: payments
+model: { hcl: model/payments.modelspec.hcl }
+recordsets:
+  - name: payments
+    record_type: Payment
+    columns: { order_ref: OrderId }
+```
+
+What each allows, in the proposal's words, which are its author's and not the owner's:
+
+- Proposal D5 question 3: "a specification for the project's source file; building it is Phase 4." (L2943)
+- Proposal D7: "a feature specification for the ledger and the Advisor. Building them is Phase 5." (L2963). The proposal's table of phases adds that Phase 4 "Needs D5 question 3, D7 for the labels, D8. All approved." (L2836)
+- Proposal D8: "specifications for the importer (Phase 4) and for writing the open formats (Phase 5). It does not authorise removing anything." (L2971)
+- The table of phases, for Phase 4: it allows "Writing the specification for the importer and the project's source file" and does not allow "Building them before that specification is approved". (L2836)
+
+What he did not decide, so that nobody reads it into the rows above:
+
+- The list of phases, what Phase 4 holds and its "Done when" line are the proposal author's plan (proposal section 14). The owner approved cards, not that section.
+- What each label means, the words on screen, the rules of the mapping beyond the key `field`, the mark, the match and the drift report are the proposal author's text (its sections 7, 8 and 9). This specification takes some of it and changes some of it. Each such point is in the next section as the author's choice.
+- The exact wording of MeaningGraph's rule for derived links is not his either (meaninggraph/core@65510ae `spec/decisions/0001-…:143-145`, point N33).
+- His instruction of 2026-10-10 allows writing this specification. It approves nothing in it.
+
+## The author's choices
+
+Each is the choice of this specification's author. None is the owner's ruling. Each can be changed by one word from him.
+
+| # | The choice | Why | The alternative |
+|---|---|---|---|
+| 1 | One feature with an appendix, not a parent with sub-features. | The seven parts share one journey and one end-to-end gate, as `core-investigation-loop` does with its `api-contract.md`. | A parent and three sub-features: the two files; the importer and labels; match and drift. |
+| 2 | The names "open-layer reading", "match" and "drift report". | "Phase 4", "check" and "compare" each already mean something else in this repository. | Keep the proposal's words and qualify them every time. |
+| 3 | The shape file holds the descriptor's list of recordsets and nothing else of the descriptor, under its own format name. | The descriptor's top level requires a public address, a publisher and licences (demo-db/chinook@c7535f4 `schemas/ovdb-database-draft-1.schema.json`). A private database has none. | Ask OpenVaultDB for a private variant of the descriptor first. |
+| 4 | One shape file per environment's copy of the database; one source file per database. | What an engine reports can differ between `local` and `prod`. What the tables mean does not. | One shape file per database, replaced by whichever environment was scanned last. |
+| 5 | The two files sit in folders a scan already makes: `environments/<env>/catalogs/<db>/` and `dbmodels/<id>/`. | No new folder; they travel with the files they describe. | Two new collections, `dbshapes/` and `dbsources/`. |
+| 6 | `rowCount` is `null` and `description` is `""` in the shape file. | A scan runs no count query and has no description. Counting rows is a data query. | Count rows in the scan. |
+| 7 | The source file is YAML, with a `format` line and a `meaning` key that the approved example does not have. | "The same lines" as a manifest are YAML. Without `meaning` no meaning can be found. Without `format` a later change cannot be told from a mistake. | No `format` line, as in the approved example; JSON, as `dalgo-project-store` asks of project items. |
+| 8 | A registered model is named by address and commit and read from its repository at that commit, into a cache outside the project. It is not copied into the project. | The proposal says DataTug reads "each by address at a commit". A copy could be edited and still be called published. | A command that copies the model and meaning file into the project. |
+| 9 | The importer is Go and runs in the agent, on the reference Go libraries where they can read the format. | The resolver it feeds is Go and runs there. The web app's reader of these formats serves another feature and another lane. | Reuse the TypeScript reader of the web app's public-data route. |
+| 10 | An imported entity takes the concept's id; its entity fields are `id`, `name`, or a property's id. So `customer.id`, not `Customer.ID`. | A concept's id is its public, stable name. Two record types may hold one concept. | The model's names, as in `Customer.CustomerId`. |
+| 11 | One meaning for one column, by a fixed order (appendix, section 3). | The header marker shows one. `Customer.SupportRepId` has two links, and `employee.id` is the one a person can follow. | Show every link of a column. |
+| 12 | An entity file's declared mapping wins over an imported one. Imported entities are not listed by `datatug entity list`. | "Declared mappings are authoritative" is a Stable requirement. An imported entity is not a file. | Imported meanings win; or list both. |
+| 13 | `observed` is a label of keys and references only, never of a meaning. A reference that both the database and the model state shows `observed`, with the model named beside it. | A database does not say what a column means. About itself, the database is the first witness. | One label by "who said it last"; or the model's label first. |
+| 14 | A related row carries no label. A reference's label is shown where the reference is listed, on the Keys tab. | It leaves two of the four existing responses untouched. | A new key on every related item. |
+| 15 | A column counts as described when it has a meaning, or is part of a key, or is a reference. | It is what the proposal's mock-up shows under "What is known". | Count meanings only. |
+| 16 | A registered model matches when all of it is present in the database under the same names. Extra tables and columns in the database do not prevent a match. Partial matches are not reported. | A full match is the one case where a source file of bare names is enough. A guess at a partial match is a suggestion, and suggestions are a later phase. | Report every model above a share of matching names. |
+| 17 | The drift report compares the model with the shape file, not with the live database. It reports no value counts. | It needs no connection and no query, and a colleague gets the same answer. Value counts are the next phase's. | Open the database for every report. |
+| 18 | Three new read-only routes and three commands under `datatug db`. | `datatug db` exists (`copy`, `export`). `datatug check` and `datatug compare` are taken. | New top-level commands. |
+| 19 | The importer shows no link of a meaning file that fails MeaningGraph's check. | The format says the result is "not defined" for such a graph (meaninggraph/core@65510ae `FORMAT.md:330-331`). | Show written links and hold back derived ones. |
+| 20 | Foreign keys live in the shape file. The Draft file `<model>.refs.json` of `datatug-core` is neither written nor read. | One place for one fact. Nothing writes that file today. | Write foreign keys to `refs.json` and the rest elsewhere. |
+| 21 | SQL databases only: `sqlite3`, `postgres`, `sqlserver`. | They are what `datatug scan` reads. The descriptor's shape is tables and columns. | Include inGitDB collections and HTTP sources. |
+
+## Questions for the owner
+
+Six questions. Each changes what is built. The requirements below are written for the recommended answer, and each one that would change names its question.
+
+### Question 1. May a column in the source file be written as a bare string?
+
+Your approved example writes it bare:
+
+```yaml
+columns: { order_ref: OrderId }
+```
+
+A publisher manifest must write it as a map, and its reader refuses the bare form with `column "order_ref" must be a map with field:`:
+
+```yaml
+columns:
+  order_ref:
+    field: OrderId
+```
+
+That was the coordinating session's decision of 9 October, not yours. Its record says the bare form "falls due again when the file of question 3 is specified" (openvaultdb/openvaultdb@37d2389, decision 0012, point N5, `:482-492`). It is due now.
+
+- **A. Map only (recommended).** One grammar and one reader for both files. Your example is then written `order_ref: { field: OrderId }`. The bare form can be added later without breaking any file.
+- B. Both forms in the source file, map only in a manifest. Then the two files are not "the same lines".
+- C. Both forms in both files. This reopens the manifest's rule.
+
+### Question 2. When a registered model matches, does DataTug offer to adopt it in this phase?
+
+After a scan of Chinook, DataTug says:
+
+```
+Registered model chinook matches this database: 11 of 11 tables, 64 of 64 columns.
+```
+
+- **A. It says so, and prints the source file (recommended).** `datatug db match --source-file modelspec://github.com/demo-db/chinook/chinook` prints the 19 lines; a person saves them as `dbmodels/chinook/chinook.source.yaml`. DataTug writes nothing. The proposal's own order is "readers before writers" (L2745), and it places "DataTug writing the model, the meaning file and the source file" in Phase 5 (L2807).
+- B. It also offers one confirmation, a button and a command, that writes exactly that file. The proposal's walk-through has this (L1569: "It offers to adopt it. With that one confirmation the model, its references and its published meanings are in place"). It adds a write route to the agent while another lane is building the project write contract.
+
+With A, the end-to-end walk has one step done by hand: saving the printed file. With B it is one click.
+
+### Question 3. May the label of a Stable contract gain the value `published`?
+
+Today the agent answers, for the demo project:
+
+```json
+{ "column": "CustomerId", "entity": "Customer", "field": "ID", "provenance": "declared" }
+```
+
+With this feature it would answer, for a database that follows the registered model:
+
+```json
+{ "column": "CustomerId", "entity": "customer", "field": "id", "provenance": "published" }
+```
+
+`provenance` is a closed list of two values in `core-investigation-loop`, which is Stable (`api-contract.md:72`, `:175`), checked on the server and in the web app. The proposal asks for the new labels and for unchanged screens in one breath (L2800, L2802). Both cannot hold to the letter.
+
+- **A. Yes (recommended).** `provenance` and a fact's `mapping` gain `published`. `core-investigation-loop` is amended when this is built: Stable, Amending, Stable. Nothing else in the four routes changes.
+- B. No. Imported meanings are sent as `declared`, and only the database page says they are published. A registered fact then reads as if someone in the project had declared it.
+
+### Question 4. Must the PostgreSQL scan read foreign keys in this phase?
+
+Today it reads none (datatug-cli@3a1c276 `apps/datatugapp/commands/cmd_scan_db.go:322`: "The scan does not save foreign keys or indexes."). On a PostgreSQL copy of Chinook, step 2 would then show:
+
+```
+Primary key    InvoiceId    from the database
+```
+
+and no foreign key. The shape file would say `"foreignKeys": "not-read"`.
+
+- **A. Yes (recommended).** Step 2 of the journey is not true on PostgreSQL without it. The author expects most real projects to be on PostgreSQL; that is an expectation, not a measurement. It needs foreign keys with their target columns from DALgo's schema reader, which by the CLI's own comment does not give them (`pkg/server/endpoints/semantic_schema.go:177-184`).
+- B. No. SQLite only. PostgreSQL shows keys from the database and references from a model, when one is named. Foreign keys follow later.
+
+The phase's "Done when" is Chinook on SQLite either way.
+
+### Question 5. Does the scan write the shape file beside today's files, or in place of them?
+
+Today a scan of Chinook writes eleven files like `dbmodels/chinook/main/tables/Invoice/main.Invoice.columns.json`: columns and primary keys, no foreign keys. The proposal says the scan's output "uses OVDB's descriptor shape" (L1567).
+
+- **A. Beside (recommended).** The scan writes both from one result, so they cannot disagree. Every reader of today's files keeps working untouched: the CLI's catalogue readers, chat, saved queries and the web app's GitHub reader. Retiring the columns files is a later change with its own decision.
+- B. In place. The columns files go, and every one of those readers moves to the shape file in this phase. It is one shape for one fact at once, and it reaches into code the launch lane is working in.
+
+### Question 6. Is "Chinook with no hand-written entity file" a second project, or the demo project changed?
+
+The demo project shows `Customer.ID · declared` from `entities/Customer/Customer.entity.json`. Its saved queries bind on that id (`"meta": {"entity": "Customer", "field": "ID"}`), a Stable requirement asks for those files (`core-investigation-loop` REQ:demo-knowledge-project), and the required journey tests look for the text `Customer.ID = ` followed by the customer's id (datatug-apps@098db23 `apps/datatug-app/e2e/journey/journey.spec.ts:430`). An imported meaning reads `customer.id · published`.
+
+- **A. A second project (recommended).** The end-to-end test makes its own project by scanning Chinook into an empty folder. `demo-project-1`, its eight entity files, its queries and journeys J1 to J4 are not touched. Chinook's model could not replace all of them anyway: `Country` and `Person` are not in it, nor is the mapping of `Customer.ID` to the `support-notes` collection.
+- B. The demo project changed. Its Chinook entity files are removed in this phase. That amends three clauses of a Stable feature, re-tags the saved queries and rewrites the J1 to J4 assertions.
+
+Retiring entity files in general is not asked here. Proposal D8 keeps that for a later decision.
+
+## Behavior
+
+Requirements use MUST, MUST NOT, SHOULD and MAY as fixed terms. "Appendix" means [formats.md](formats.md).
+
+### The interface that stays fixed
+
+#### REQ: resolver-unchanged
+
+The exported functions `Resolve`, `RelatedLookups` and `Applicable` of `datatug-core` `pkg/semantic`, and the types they take and return, MUST keep their signatures and their behaviour (datatug-core@eb3075e `pkg/semantic/resolve.go:62`, `related.go:99`, `applicable.go:50`). The importer MUST feed them through their existing inputs only: a list of `*datatug.Entity`, and a map from `semantic.SchemaKey` to `semantic.TableSchema`. The change that builds this feature MUST NOT alter a non-test file of `pkg/semantic`.
+
+#### REQ: routes-unchanged
+
+The four routes `GET semantic/columns`, `POST semantic/related`, `POST semantic/related/rows` and `POST queries/applicable` MUST keep their paths, their request shapes and the keys of their responses. One thing changes (Question 3): the value `published` is allowed in `provenance` and in a fact's `mapping`. For a project that has no shape file and no source file, each of the four MUST answer byte for byte as it does today.
+
+#### REQ: no-new-screen
+
+The web app MUST gain no page and no address. It gains exactly what the group "What the screens show" lists, each on a page that exists today. A project with no shape file and no source file MUST look as it does today.
+
+### Scan and the shape file
+
+#### REQ: scan-writes-shape-file
+
+Every `datatug scan` of a SQL database (`sqlite3`, `postgres`, `sqlserver`) MUST write the shape file `environments/<env>/catalogs/<db>/<db>.shape.json`, whole, in the form of the appendix, section 1. It MUST be built from the same in-memory result as the other files of that scan.
+
+#### REQ: shape-is-descriptor-recordsets
+
+Each item of the shape file's `recordsets` MUST carry exactly the seven required keys of a recordset in `ovdb-database/draft-1`, with the values the appendix gives: `name`, `kind`, `description` (`""`), `rowCount` (`null`), `columns`, `primaryKey`, `foreignKeys`. The file MUST NOT carry the descriptor's other keys, a time, a host, a path, a user name or a password.
+
+#### REQ: shape-rescan-rules
+
+A second scan of an unchanged database MUST write the same bytes. A scan MUST replace the shape file of the environment it scans and MUST NOT touch the shape file of another environment. The file is never edited by hand: DataTug MUST NOT offer to edit it, and a scan overwrites whatever is there.
+
+#### REQ: scan-keeps-existing-files
+
+A scan MUST keep writing every file that `datatug-cli`'s scan specification lists under "Project layout written by a scan", with the same bytes as today (Question 5).
+
+#### REQ: scan-reads-foreign-keys
+
+A `sqlite3` scan MUST write the foreign keys it already reads. A `postgres` scan MUST read foreign keys with their target tables and columns (Question 4). A scan whose engine's scanner reads no foreign keys MUST write `"foreignKeys": "not-read"` in `scan`, and DataTug MUST then treat that database's foreign keys as unknown, never as absent.
+
+#### REQ: database-never-written
+
+A scan MUST open the database read-only and create nothing in it. The importer, the marks, the match and the drift report MUST NOT open the database at all: they read project files.
+
+### The source file
+
+#### REQ: source-file-place
+
+A database's source file is `dbmodels/<id>/<id>.source.yaml`, where `<id>` is the database's project id. There is at most one per database, and it serves every environment. In this feature DataTug MUST NOT create, change, move or delete it; a scan MUST leave it byte for byte as it was, also when it removes a dropped table's folder beside it.
+
+#### REQ: source-file-grammar
+
+The source file MUST be read by the rules of the appendix, section 2: the five top-level keys and no other; the mapping lines of a publisher manifest, with the four listed differences; names matched exactly, with their case. A column is written as a map with the one key `field` (Question 1).
+
+#### REQ: source-file-names-model
+
+The source file MUST name its model in one of two forms, and its meaning file in the form that goes with it: a registered model by `modelspec://` address with a commit of 40 hex characters, or a model that is a file of the project by path. The two forms MUST NOT be mixed. Facts from the first form carry the label `published`; facts from the second carry `declared`.
+
+#### REQ: source-file-absent
+
+A database with no source file MUST work: its tables, keys and foreign keys are shown from the shape file as `observed`; its entity files, if any, work as today; no meaning comes from a model; and the model line says whether a registered model matches.
+
+#### REQ: source-file-invalid
+
+A source file that breaks a rule MUST be refused whole. DataTug MUST then show no meaning and no reference from a model for that database, MUST list each broken rule in words that name the key or the line, and MUST keep everything else working as with no source file. It MUST NOT use the part of the file that it could read.
+
+### The importer
+
+#### REQ: importer-inputs
+
+The importer MUST be a pure function of four inputs: the shape, the mapping, the model and the links. It runs in the agent, in the process that calls the resolver. A change to any of the four MUST be visible on the next request, with no restart of the agent.
+
+#### REQ: importer-reads-both-spellings
+
+The importer MUST read a model in ModelSpec JSON `1.0-draft-2` and in HCL with `record` and `field`, and, for a model read at a commit, the earlier spelling as well (specscore/modelspec@3c149d2 `spec/core-model.md:353-355`). It MUST read a meaning file in `meaning/draft-1` and in `meaning/draft-2`, treating each earlier word as the one that replaced it (meaninggraph/core@65510ae `FORMAT.md:368-379`).
+
+#### REQ: importer-derives-links
+
+The importer MUST apply MeaningGraph's rule for derived links itself, exactly as `FORMAT.md` section "Derived links" states it, and MUST NOT take derived links from another tool's index. It MUST first run MeaningGraph's check on the graph. For a graph that fails the check it MUST show no link at all, written or derived, and MUST report the failure.
+
+#### REQ: importer-builds-entities
+
+From the links and the mapping the importer MUST build entities and entity fields by the table and the eight rules of the appendix, section 3: the entity field each role gives; one meaning for one column, in the stated order; one column of a table for one entity field; no import for a key of several fields; the type table; no name patterns.
+
+#### REQ: importer-builds-table-schemas
+
+For each table the importer MUST fill the resolver's `TableSchema` from the shape file: the primary key, each foreign key with the columns it points at, and the foreign keys of other tables that point here. A reference that the model states and the database does not declare MUST be added to the same lists in memory, so that the resolver offers its related rows, and MUST NOT be written to any file.
+
+#### REQ: entity-files-win
+
+When a project has both entity files and a source file, both feed the runtime index. A column that an entity file maps with a declared mapping MUST keep that mapping and its label `declared`. An imported mapping wins over an entity file's name pattern. An imported entity whose id equals an entity file's entity id MUST be left out whole.
+
+#### REQ: imported-entities-are-not-entity-files
+
+The importer MUST write no entity file and no other project file. Imported entities MUST NOT appear in `datatug entity list`, in `GET entities/all_entities`, or on the web app's entities pages, which list entity files as today.
+
+#### REQ: not-imported-is-reported
+
+Every link and every reference of the model that the rules leave out MUST be listed with its reason, in `GET openlayers/database` and in `datatug db status --format json`. Nothing is dropped silently.
+
+#### REQ: fetched-files-are-pinned-and-rebuildable
+
+A model or meaning file named by address MUST be read from its repository at the commit the source file names, at a path found in the registry's index. The same holds for a graph that the meaning file pins and that the check needs. Files read this way are kept in a cache outside the project. Deleting the cache MUST lose nothing. When a file cannot be read and is not cached, DataTug MUST say so on the model line and show no fact from it. DataTug MUST NOT read such a file at a branch head.
+
+### Labels
+
+#### REQ: label-definitions
+
+DataTug MUST use four labels with the meanings of the appendix, section 4: `observed`, `published`, `declared`, `inferred`. It MUST NOT use the proposal's fifth label, `suggested`, in this feature.
+
+#### REQ: label-per-fact
+
+Each fact MUST carry the label the appendix's second table of section 4 gives it. `observed` MUST NOT be the label of a meaning. A fact from a registered model MUST NOT be shown as `declared`. A key or reference that both the shape file and the model state MUST show `observed` and name the model's label beside it, as in `from the database · also published @ 3e7bb31`.
+
+#### REQ: label-on-the-wire
+
+`GET semantic/columns` MUST answer `published` for an imported mapping whose model was named by address, and `declared` for one whose model is a project file. The resolver does not know the difference: the route's handler sets the label from the importer's origins. A fact built from a column with an imported meaning MUST carry that column's label in `mapping`, and the explanation of an applicable query MUST name it, as in `CustomerId → customer.id (published) → parameter CustomerId`. A fact built from a column that an entity file maps is sent as it is today.
+
+### What the screens show
+
+#### REQ: table-list-mark
+
+The database page's list of tables MUST show, for each table, a mark "n of m": m is the number of its columns in the shape file; n is the number of those that are described. A column is described when it has a meaning under any label, or is part of a key, or is a reference.
+
+#### REQ: keys-tab-labels
+
+On the table page's Keys tab, the primary key and each reference MUST show how it is known, in the words of the appendix, section 4: "from the database", "published @ " and the first seven characters of the commit, or "in the model". A reference that only the model states is listed with the foreign keys.
+
+#### REQ: header-marker-published
+
+A column whose meaning is `published` MUST show the header marker with the icon of a declared mapping and the tooltip `<entity>.<entity field> · published`. It MUST NOT show the style of an inferred mapping.
+
+#### REQ: model-line
+
+The database page MUST show one line that says which model the database follows, in one of the six forms of AC:model-line-states, and beside it whether the model and the database agree.
+
+#### REQ: related-rows-once
+
+The response of `POST semantic/related` MUST NOT list one lookup twice. Where a foreign key and a shared entity field lead to the same database, table and column, one item is returned: the foreign key's. The removal is done by the route's handler, after the resolver.
+
+### Match with registered models
+
+#### REQ: match-definition
+
+A registered model matches a database when, for every record type of the model, the shape file has a table of exactly that name, and that table has a column of exactly the name of each of the record type's fields. Views are not counted. A model with no record type never matches. The comparison reads the shape file and the index of `modelspec-org/registry` and nothing else.
+
+#### REQ: match-is-local-and-read-only
+
+The comparison MUST run on the person's machine. DataTug MUST send no name of a table, a column or a database to any network address: it downloads the registry's index and compares locally. A match MUST NOT create or change any file, and MUST NOT make any statement of the matching model appear on a screen (Question 2).
+
+#### REQ: match-shown
+
+For a database with no source file, the model line MUST name every registered model that matches, sorted by address, with the counts "t of T tables, c of C columns": the model's record types and fields against all tables and columns of the database. `datatug db match --source-file <address>` MUST print a complete source file that names that model. When the index cannot be read, DataTug MUST say that, and everything else MUST work.
+
+### Drift report
+
+#### REQ: drift-compares
+
+The drift report MUST compare the model, through the mapping, with the shape file of one environment: names, keys, references, types and whether a required field allows null. It MUST also report every broken rule of the source file. It reads no row and counts no value.
+
+#### REQ: drift-findings
+
+Each difference MUST be one finding of a kind and a severity from the appendix, section 7, with the table, column, record type and field it concerns. Types are compared by the appendix's two tables. When the shape file says foreign keys were not read, no finding may say that a foreign key is missing.
+
+#### REQ: drift-reports-only
+
+The drift report MUST change nothing: no project file, no model, no database. It says what differs; a person decides which side to change.
+
+### Commands and routes
+
+#### REQ: cli-verbs
+
+`datatug db status`, `datatug db match` and `datatug db drift` MUST exist with the flags, output and exit codes of the appendix, section 6. Each MUST work with the database unreachable.
+
+#### REQ: read-only-routes
+
+The agent MUST serve `GET openlayers/database`, `GET openlayers/match` and `GET openlayers/drift` with the bodies of the appendix, section 5. Each MUST go through the server's access policy, so that a table a principal may not see is in no list and no count, and each MUST refuse every method but GET. `--format json` of the command of the same name MUST print the same body.
+
+### End-to-end gate
+
+#### REQ: journey-test
+
+One automated test MUST walk steps 1, 2 and 9 of the journey on Chinook, against a real agent and with no intercepted request, in four stages: (1) scan a SQLite Chinook into an empty folder and see the 11 tables with their marks; (2) with no action, see keys and foreign keys as known from the database, and the line that the registered model matches; (3) save the file that `datatug db match --source-file` prints, and commit; (4) as a second person, on a fresh clone with a second agent, open the same database and see the meanings, the references and how each is known. No stage may need a restart of the agent, a second scan, or a file edited by hand other than the one of stage 3 (Question 2).
+
+#### REQ: journey-project-has-no-entity-file
+
+The project of that test MUST have no `entities` folder at any stage. The test MUST NOT change `datatug/datatug-demo-project`, and journeys J1 to J4 of `core-investigation-loop` MUST pass unmodified beside it (Question 6).
+
+#### REQ: journey-cli-pin
+
+The test MUST run against a `datatug-cli` release that contains this feature. Moving the pin of the web app's `journey` job to such a release is part of the work.
+
+## What must not change
+
+| What | How to test that it did not |
+|---|---|
+| The resolver | The existing tests of `datatug-core` `pkg/semantic` pass unmodified, and the implementing change touches no non-test file there (AC:fixed-interface). |
+| The four routes | The existing contract tests of `datatug-cli` `pkg/server/endpoints` pass unmodified on their fixture, which has entity files and no source file (AC:fixed-interface). |
+| The screens of a project that has neither new file | Journeys J1 to J4 pass unmodified on `demo-project-1` (AC:fixed-interface). |
+| The launch lane's work | No file of `datatug/datatug-demo-project` changes; no file of the web app's `public-data` route changes; the agent gains no write route (AC:journey-walk, AC:fixed-interface, AC:routes-are-read-only). |
+| The database | The SQLite file has the same SHA-256 before and after the whole walk, and the three commands answer with the file moved away (AC:database-untouched). |
+| The registries | DataTug sends GET requests only, for an index or for a file at a commit; it opens no pull request and writes to no registry (AC:match-sends-nothing). |
+| Entity files | `datatug entity list` prints the same before and after on `demo-project-1`, and nothing under `entities/` is created, changed or removed (AC:imported-entities-not-listed). |
+| The source file | A scan leaves its bytes as they were (AC:scan-leaves-source-file). |
+
+## Existing features
+
+"Depends on" means this specification relies on the feature as it is. "Extends" means it adds to what the feature covers; the feature's own page is not edited here and is listed for a later amendment by its owner. "Leaves" means no change either way.
+
+| Feature | Status | Relation | What follows |
+|---|---|---|---|
+| `core-investigation-loop` | Stable | Depends on; extends | It owns the resolver, the four routes and the marker. When this is built it needs an amendment of `README.md:118-123` and `api-contract.md:72`, `:175`: `published` beside `declared` and `inferred` (Question 3). Its REQ:demo-knowledge-project and J1 to J4 stand (Question 6). Read in code and not run: a grid selection is sent with no `mapping` today (datatug-apps@098db23 `libs/datatug/semantic/src/contract/adapt.ts:90-108`), so its explanation would say "(inferred)" for a declared column. That gap is this feature's to avoid for imported columns (REQ:label-on-the-wire) and `core-investigation-loop`'s to close for the rest. |
+| `semantic-layer` | Draft | Depends on | Entities and entity fields stay as defined. Its AC:employee-entity-gap-recorded stays true because imported entities are not listed (REQ:imported-entities-are-not-entity-files). |
+| `related-data-navigation` | Draft | Depends on; extends | Both directions of a foreign key now come from the shape file. It names relationship labels of its own, `declared`, `fk`, `semantic`, `discovered` (`:130-134`); `fk` and this page's `observed` are the same fact. Listed for its owner to settle on one word. |
+| `meaning-inference` | Draft | Leaves | It owns `inferred` and suggestions. This feature infers nothing and suggests nothing. |
+| `provenance` | Draft | Depends on; extends | Its REQ:mapping-provenance names "declared, inferred, corrected". For a `published` mapping, "who or what produced it" is the model's address and commit. Listed for a later amendment. |
+| `heterogeneous-sources` | Draft | Depends on | It owns scanning. No connection secret enters either new file. |
+| `infrastructure-inventory` | Draft | Depends on | `datatug scan` stays the source of truth for what an environment holds. |
+| `git-native-projects` | Implementing | Depends on | Both new files are readable project files with no secret. This feature adds no write through its mutation contract. |
+| `dalgo-project-store` | Approved | Depends on; extends | Two new file kinds, suffixes `shape` and `source`, beside existing records. Whether a second file may sit in a record's folder is its own Open Question 3 (`:1067-1068`). The source file is YAML and is not written by DataTug in this feature. |
+| `public-data-fabric` | Draft | Leaves | Another lane. Its ledger calls canonical ingestion a later prerequisite. This feature does not claim to complete it, and edits nothing under it. Its TypeScript reader in the web app is not used and not changed. |
+| `query-workspace` | Approved | Leaves | It lists "foreign key, declared semantic mapping, inferred" for join suggestions (`:122-124`). A fourth word there is its owner's to add. |
+| `checks`, `compare` | Approved | Leaves | The drift report is not a `Check`, and the match is not a Compare. Neither namespace is used. |
+| `agent-context` | Draft | Leaves | Agents get imported meanings through the same resolver and routes. |
+| `pricing-and-billing` | Draft | Leaves | The three routes and commands read metadata and run no data query. |
+| `datatug-cli` `spec/features/cli/scan` | Implementing | Extends | One more file per scan; for PostgreSQL, foreign keys (Questions 4 and 5). To be amended there when built. |
+| `datatug-core` `spec/features/model-foreign-keys-file` | Draft | Overlaps | Not used (choice 20). Its owner should mark it superseded if this is approved. |
+
+ModelSpec's earlier words: no feature, product page or roadmap page of this repository uses "entity" or "property" in ModelSpec's earlier sense. The dated research records under `spec/research/public-data-fabric/` do (`p2-reconciliation.md:27`, `:29`, and files under `evidence/`). They are evidence of their day and are kept as they are.
+
+## Dependencies
+
+- core-investigation-loop
+- semantic-layer
+- related-data-navigation
+- provenance
+- heterogeneous-sources
+- git-native-projects
+- dalgo-project-store
+
+## Blocked Clauses
+
+- **REQ:importer-reads-both-spellings and REQ:importer-derives-links** need a Go reader of `meaning/draft-2` and of derived links. The released library `github.com/meaninggraph/cli/pkg/meaning` v0.3.0 reads `meaning/draft-1` only and derives nothing (meaninggraph/cli@e5d4d8f; its one mention of `draft-2` is a test that expects it refused, `pkg/meaning/schema_test.go:62`). Either that library gains both first, or the importer carries its own reader and passes the conformance cases of `meaninggraph/core`. Chinook's files are `meaning/draft-1`, so AC:chinook-links can be met with either.
+- **REQ:scan-reads-foreign-keys for PostgreSQL** needs foreign keys with their target columns from DALgo's schema reader (Question 4).
+
+## Acceptance Criteria
+
+Unless a criterion says otherwise, "the Chinook project" is a folder made by `datatug scan --directory ./shop --driver sqlite3 --path chinook.sqlite --db chinook --env local`, and "Example A" is the source file of that name in the appendix, saved as `dbmodels/chinook/chinook.source.yaml`.
+
+### AC: fixed-interface (verifies REQ:resolver-unchanged, REQ:routes-unchanged, REQ:no-new-screen)
+
+**Given** `demo-project-1` as it is at datatug-demo-project@deeee32, with eight entity files, no shape file and no source file, and an agent and web app built with this feature
+**When** the existing tests of `pkg/semantic`, the existing contract tests of the four routes and the journey tests J1 to J4 run unmodified
+**Then** all pass; the implementing change alters no non-test file of `pkg/semantic` and no file under the web app's `libs/datatug/main/src/lib/queries/public-data/`; the web app's router has no new address; and the agent's routes have grown by exactly three, all GET.
+
+### AC: scan-writes-shape (verifies REQ:scan-writes-shape-file, REQ:shape-is-descriptor-recordsets)
+
+**Given** a SQLite Chinook file and an empty folder `./shop`
+**When** `datatug scan --directory ./shop --driver sqlite3 --path chinook.sqlite --db chinook --env local` runs
+**Then** `./shop/environments/local/catalogs/chinook/chinook.shape.json` exists with `"format": "datatug-shape/draft-1"`, 11 recordsets, 64 columns and 11 foreign keys in all; its `Invoice` has `"rowCount": null`, `"primaryKey": [{"column": "InvoiceId", "position": 1}]` and one foreign key `{"column": "CustomerId", "table": "Customer", "referencedColumn": "CustomerId", "constraint": 0, "position": 0}`; and the file contains no path, host or time.
+
+### AC: shape-rescan (verifies REQ:shape-rescan-rules, REQ:scan-keeps-existing-files)
+
+**Given** the Chinook project
+**When** the same scan runs again, and then a scan with `--env prod` of the same file
+**Then** `environments/local/catalogs/chinook/chinook.shape.json` has the same bytes after each, `dbmodels/chinook/main/tables/Invoice/main.Invoice.columns.json` exists with the bytes today's scan writes, and a second shape file exists under `environments/prod/`.
+
+### AC: foreign-keys-read-or-not (verifies REQ:scan-reads-foreign-keys)
+
+**Given** a PostgreSQL database loaded with Chinook, and a second database whose engine's scanner reads no foreign keys
+**When** each is scanned
+**Then** the first shape file says `"foreignKeys": "read"` and its `Invoice` has the foreign key `CustomerId` to `Customer`; the second says `"foreignKeys": "not-read"`, its Keys tab shows no reference as "from the database", and its drift report has no finding `reference-not-declared`.
+
+### AC: database-untouched (verifies REQ:database-never-written)
+
+**Given** the SHA-256 of `chinook.sqlite` taken before the scan
+**When** the scan, `datatug db status`, `datatug db match`, `datatug db drift` and the four routes have all been used, and then the SQLite file is moved away and the three `db` commands run again
+**Then** the file's SHA-256 is unchanged, and the three commands answer as before.
+
+### AC: scan-leaves-source-file (verifies REQ:source-file-place)
+
+**Given** the Chinook project with Example A
+**When** the database loses its table `Playlist` and is scanned again
+**Then** the folder of `Playlist` under `dbmodels/chinook/` is gone as today, and `dbmodels/chinook/chinook.source.yaml` has the same bytes.
+
+### AC: source-file-refusals (verifies REQ:source-file-grammar, REQ:source-file-invalid)
+
+**Given** the Chinook project with Example A changed in one of three ways: the line `modules: {}` added; `?ref=3e7bb316…` removed from the address; or an item `- name: Invoice` with `columns: { Total: Amount }`
+**When** `GET openlayers/database` and `GET semantic/columns` for `Invoice` are called, and `datatug db drift` runs
+**Then** `model.state` is `unreadable` with one problem that names the key (`modules`), the address, or `column "Total" must be a map with field:`; `semantic/columns` returns no column; the Keys tab still shows `CustomerId ⇒ Customer`, from the database; and `datatug db drift` exits 1.
+
+### AC: source-file-absent (verifies REQ:source-file-absent)
+
+**Given** the Chinook project with no source file
+**When** `GET openlayers/database` and `GET semantic/columns` for `Invoice` are called
+**Then** `model.state` is `none`; `Invoice` has `key` `["InvoiceId"]` and one reference to `Customer`, both `known: "observed"`; and `semantic/columns` returns no column.
+
+### AC: project-model-is-declared (verifies REQ:source-file-names-model, REQ:label-per-fact)
+
+**Given** a project with a scanned table `payments` that has a column `order_ref`, the files `model/payments.modelspec.hcl` (a record type `Payment` with a string field `OrderId`) and `model/payments.meaning.yaml` (an entity `payment` bound to `Payment`, and a property `order-reference` of it bound to `Payment.OrderId` with role `value`), and the source file of Example B
+**When** `GET semantic/columns` for `payments` and `GET openlayers/database` are called
+**Then** the first returns `{"column": "order_ref", "entity": "payment", "field": "order-reference", "provenance": "declared"}`, and the second has `model.known` `"declared"` and `model.files` naming the two paths.
+
+### AC: chinook-links (verifies REQ:importer-derives-links, REQ:importer-reads-both-spellings)
+
+**Given** Chinook's model and meaning file at commit `3e7bb316d8a438eb7e5930067997a4e4543a275c`, and a copy of that meaning file rewritten in `meaning/draft-2` with `kind: property`, `field:`, `role: instances` and `role: reference`
+**When** the importer computes the links of each
+**Then** each gives the same 48 links, 36 written and 12 derived, equal to what the reference `deriveLinks` of meaninggraph/core@65510ae gives; among them `customer` on `Invoice.CustomerId` with role `reference`, written, with its note, and `customer` on `Customer.CustomerId` with role `identifier`, derived.
+
+### AC: failing-graph-shows-nothing (verifies REQ:importer-derives-links)
+
+**Given** a project whose meaning file binds a concept to a field that its model does not have
+**When** `GET semantic/columns` is called for any table of that database
+**Then** it returns no column from that meaning file, and `GET openlayers/database` reports the check's finding under `model.problems` with `model.state` `unreadable`.
+
+### AC: chinook-index (verifies REQ:importer-builds-entities, REQ:not-imported-is-reported, REQ:importer-inputs)
+
+**Given** the Chinook project with a running agent and no source file
+**When** Example A is saved while the agent runs, and `GET semantic/columns` is called for `Customer` and for `Employee`, and `GET openlayers/database`
+**Then**, with no restart, `Customer` returns exactly `CustomerId` as `customer.id`, `Country` as `customer.customer-country` and `SupportRepId` as `employee.id`; `Employee` returns exactly `EmployeeId` as `employee.id` and `ReportsTo` as `employee.manager`; and `notImported` has exactly three entries: `music-sales` on `Invoice.Total` (a measure), `support-rep` on `Customer.SupportRepId` (`second-meaning`) and `employee` on `Employee.ReportsTo` (`entity-field-taken`).
+
+### AC: related-rows-from-shape (verifies REQ:importer-builds-table-schemas, REQ:related-rows-once)
+
+**Given** the Chinook project with Example A
+**When** `POST semantic/related` is called for `customer.id = 5` selected on `Customer.CustomerId`, and again selected on `Invoice.CustomerId`
+**Then** the first returns exactly one item, collection `Invoice`, count 7; the second returns exactly one item, collection `Customer`, count 1.
+
+### AC: model-reference-without-foreign-key (verifies REQ:importer-builds-table-schemas, REQ:label-per-fact, REQ:keys-tab-labels)
+
+**Given** a SQLite copy of Chinook made with no foreign key constraints, scanned, with Example A
+**When** the Keys tab of `Invoice` is opened, `POST semantic/related` is called for `customer.id = 5` on `Customer.CustomerId`, and `datatug db drift` runs
+**Then** the tab lists `CustomerId ⇒ Customer` with "published @ 3e7bb31"; the related response has one item, `Invoice`, count 7; the drift report has 11 findings `reference-not-declared` of severity `note` and exits 0; and no project file has changed.
+
+### AC: entity-file-wins (verifies REQ:entity-files-win)
+
+**Given** a copy of `demo-project-1` with a shape file for its Chinook database and Example A added
+**When** `GET semantic/columns` is called for `Customer`
+**Then** `CustomerId` is `{"entity": "Customer", "field": "ID", "provenance": "declared"}` as today, `SupportRepId` is `{"entity": "employee", "field": "id", "provenance": "published"}`, and `notImported` lists `customer` on `Customer.CustomerId` with the reason `entity-file-maps-column`.
+
+### AC: imported-entities-not-listed (verifies REQ:imported-entities-are-not-entity-files)
+
+**Given** the Chinook project with Example A, committed, and `demo-project-1`
+**When** the four routes and the three new routes have been called on the first, and `datatug entity list` runs on each
+**Then** it prints no entity for the first and the same eight as today for the second; the first project has no `entities` folder; and `git status` reports no change in either.
+
+### AC: fetched-files (verifies REQ:fetched-files-are-pinned-and-rebuildable)
+
+**Given** the Chinook project with Example A and an empty cache
+**When** `GET semantic/columns` for `Invoice` is called online, again after the cache is deleted, again offline with the cache warm, and again offline with the cache deleted
+**Then** the first three return the same five columns, and the agent's log shows `model/chinook.modelspec.json` and `model/chinook.meaning.yaml` read from `github.com/demo-db/chinook` at `3e7bb316d8a438eb7e5930067997a4e4543a275c`; the fourth returns no column and the model line says the model's files could not be read; and the project folder holds no new file after any of them.
+
+### AC: labels-on-columns (verifies REQ:label-definitions, REQ:label-on-the-wire, REQ:header-marker-published)
+
+**Given** the Chinook project with Example A
+**When** `GET semantic/columns` is called for `Invoice` and the table page is opened
+**Then** the response has exactly five items, `InvoiceId` as `invoice.id`, `CustomerId` as `customer.id`, `InvoiceDate` as `invoice.invoice-date`, `BillingCountry` as `invoice.billing-country` and `Total` as `invoice.invoice-total`, each with `"provenance": "published"`; no response of any route contains `observed` as a `provenance` or the word `suggested`; and the header of `CustomerId` shows the declared icon, without the inferred style, with the tooltip `customer.id · published`.
+
+### AC: explanation-names-the-label (verifies REQ:label-on-the-wire)
+
+**Given** the Chinook project with Example A and a saved query whose required parameter `CustomerId` is tagged `{"entity": "customer", "field": "id"}`
+**When** the cell `CustomerId = 5` of `Invoice` is selected
+**Then** the panel lists that query as applicable with the explanation `CustomerId → customer.id (published) → parameter CustomerId`.
+
+### AC: marks (verifies REQ:table-list-mark)
+
+**Given** the Chinook project, first with no source file and then with Example A
+**When** the database page is opened each time
+**Then** the marks read `Invoice 2 of 9` and `Customer 2 of 13` the first time, 21 of 64 over all tables, and `Invoice 5 of 9` and `Customer 3 of 13` the second time, 35 of 64 over all, as the appendix's table gives for each of the 11 tables.
+
+### AC: keys-tab (verifies REQ:keys-tab-labels)
+
+**Given** the Chinook project with Example A
+**When** the Keys tab of `Invoice` is opened
+**Then** it shows the primary key `InvoiceId` and the foreign key `CustomerId ⇒ Customer`, each with `from the database · also published @ 3e7bb31`.
+
+### AC: model-line-states (verifies REQ:model-line, REQ:match-shown)
+
+**Given** six projects: Chinook with no source file; a database no registered model matches; Chinook with the registry unreachable; Chinook with Example A; the payments project of AC:project-model-is-declared; Chinook with a source file that has the key `modules`
+**When** the database page of each is opened
+**Then** the line reads, in that order: `Registered model chinook matches this database: 11 of 11 tables, 64 of 64 columns.`; `No model. No registered model matches this database.`; `No model. The registry of models could not be read.`; `Model: modelspec://github.com/demo-db/chinook/chinook @ 3e7bb31 · published` followed by `Model and database agree.`; `Model: model/payments.modelspec.hcl · declared`; `Model: the source file cannot be used (1 problem).`
+
+### AC: match-chinook (verifies REQ:match-definition, REQ:match-shown)
+
+**Given** the Chinook project with no source file, and the registry's index as at modelspec-org/registry@a7325ea, which lists nine models
+**When** `datatug db match` runs, and then `datatug db match --source-file modelspec://github.com/demo-db/chinook/chinook`
+**Then** the first prints one match, `chinook`, "11 of 11 tables, 64 of 64 columns", and none of the other eight; the second prints exactly the text of Example A; both exit 0.
+
+### AC: match-with-extra-and-missing (verifies REQ:match-definition)
+
+**Given** two copies of Chinook, scanned: one with an added table `audit_log` of three columns, one with the column `Invoice.Total` dropped
+**When** `datatug db match` runs on each
+**Then** the first prints `chinook`, "11 of 12 tables, 64 of 67 columns"; the second prints that no registered model matches.
+
+### AC: match-sends-nothing (verifies REQ:match-is-local-and-read-only)
+
+**Given** the Chinook project with no source file, with every outgoing request of the agent recorded
+**When** the database page is opened and `datatug db match` runs
+**Then** every recorded request is a GET of a registry's `index.json` or of a file at a commit; no URL, header or body contains `Invoice`, `CustomerId` or `chinook.sqlite`; no project file was created or changed; and `GET semantic/columns` for `Invoice` still returns no column.
+
+### AC: match-offline (verifies REQ:match-shown)
+
+**Given** the Chinook project with no source file and no network
+**When** the database page is opened and `datatug db match` runs
+**Then** the model line reads `No model. The registry of models could not be read.`, the marks and the Keys tab are as in AC:marks and AC:source-file-absent, and the command says the same and exits 0.
+
+### AC: drift-chinook-agrees (verifies REQ:drift-compares, REQ:drift-findings)
+
+**Given** the Chinook project with Example A
+**When** `datatug db drift` runs
+**Then** it prints `Model and database agree: 11 tables, 64 columns, 11 keys, 11 references.`, lists no finding and exits 0.
+
+### AC: drift-finds-differences (verifies REQ:drift-compares, REQ:drift-findings, REQ:drift-reports-only)
+
+**Given** the Chinook project with Example A, after the database lost the column `Invoice.Total` and the primary key of `Genre`, and was scanned again
+**When** `datatug db drift --format json` runs
+**Then** it lists `field-without-column` for `Invoice.Total` and `key-differs` for `Genre`, both of severity `error`, exits 1, and `git status` shows no change other than the scan's.
+
+### AC: routes-are-read-only (verifies REQ:read-only-routes, REQ:cli-verbs)
+
+**Given** the Chinook project with Example A, served under a policy that hides the table `Employee` from the principal `viewer`
+**When** the three `openlayers` routes are called with GET as `viewer`, with POST as `admin`, and the three commands run with `--format json` as `admin`
+**Then** no response to `viewer` names `Employee` or counts it; each POST is refused; and each command prints the body its route returns to `admin`.
+
+### AC: journey-walk (verifies REQ:journey-test, REQ:journey-project-has-no-entity-file, REQ:journey-cli-pin)
+
+**Given** an empty folder, a SQLite Chinook file, and a `datatug-cli` release that contains this feature
+**When** the test runs its four stages in order with no agent restart and no second scan: scan and open the database page; open the Keys tab of `Invoice`; save the output of `datatug db match --source-file modelspec://github.com/demo-db/chinook/chinook` as the source file and commit; clone the project, start a second agent on the clone and open `Invoice` and `Customer` in a fresh browser
+**Then** stage 1 shows 11 tables with `Invoice 2 of 9`; stage 2 shows `CustomerId ⇒ Customer`, from the database, and the line that the registered model `chinook` matches; stage 4 shows the tooltip `customer.id · published`, `Invoice 5 of 9`, the related rows `Invoice` (7) for `CustomerId = 5` of `Customer`, and the model line with `3e7bb31`; the project has no `entities` folder at any stage; the second agent's log shows no scan; the SQLite file's SHA-256 is unchanged; `datatug/datatug-demo-project` has no change; and J1 to J4 pass beside it.
+
+## Rehearse Integration
+
+Every criterion has a surface that a test can observe: a file's bytes, a route's body, a command's output and exit code, a line on a page. This Feature spans three repositories, and each criterion is exercised against a real implementation: the importer and the type tables in `datatug-core`, the scan, the routes and the commands in `datatug-cli`, the pages and the end-to-end walk in `datatug-apps`. Stub scaffolding is therefore deferred to those implementations, as `openvaultdb-project-store` and `ai-query-builder` do. AC:fixed-interface and AC:journey-walk run existing suites unmodified and need no stub of their own.
+
+## Not Doing / Out of Scope
+
+- Anything of the proposal's Phases 5 to 8: suggestions, the label `suggested`, accept and reject, a ledger or an answers file, value counts, inference, DataTug writing a model or a meaning file, publishing, pull requests to a registry.
+- Retiring entity files or DataTug's entity types. Proposal D8 keeps that for a later, separate decision. No entity file is removed, and the `datatug entity` commands and the entities pages stay as they are.
+- Any change to `demo-project-1`.
+- A registry, an index or a service of DataTug's own. DataTug reads the three public registries' files and keeps a cache that can be deleted.
+- Meanings in the hosted web app for a project opened from GitHub. Such a page has no agent today (datatug-apps@098db23 `apps/datatug-app/src/app/agent-base-url.ts:13-19`), and this feature does not give it one.
+- inGitDB collections and HTTP sources. They get no shape file here.
+- Reading the database for the drift report: rows, value counts, "every reference's values are present in its target".
+
+## Open Questions
+
+The questions that change what is built are in [Questions for the owner](#questions-for-the-owner). The points below are not due until a later phase. They are listed so that nobody assumes an answer.
+
+For later phases:
+
+1. Adopting a matching model with one confirmation, if Question 2 is answered A. The proposal's Phase 5 writes the source file.
+2. What an unadopted matching model's statements look like before a person keeps them. The proposal answers with `suggested`, which is its Phase 5.
+3. A second meaning on one column. `Customer.SupportRepId` is both "an employee" and "the support rep of a customer"; this feature shows the first and reports the second.
+4. Measures. `music-sales` on `Invoice.Total` is not imported.
+5. A reference to a record type whose key has several fields, and an entity field for such a key. AdventureWorks has two such references.
+6. A path into a component, such as `field: Amount.Minor`. The grammar accepts it; nothing resolves it yet.
+7. References between two models, the pairing of two databases and the source file's `modules` line. The proposal's Phase 7.
+8. A database listed in the OpenVaultDB Directory and opened by its public address. Its mapping is in its publisher's manifest, and the proposal says a project cannot override it. This feature reads the source file only.
+9. Engines that fold the case of names. Matching is exact here; a folded name needs a `columns` line each, or a later rule.
+10. Retiring the columns files of a scan, if Question 5 is answered A, and the Draft `refs.json`.
+11. How DataTug itself writes the source file through the project store, which fixes JSON for project items.
+12. Searching MeaningGraph for a name when no model matches (proposal L1569), and value sets.
+13. A shape for a private database inside OpenVaultDB's own descriptor format, and one shared generator for it.
+
+---
+*This document follows the https://specscore.md/feature-specification*
