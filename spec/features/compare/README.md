@@ -79,7 +79,8 @@ contract and does not narrow or satisfy its existing requirements.
 | Ordered-stream keyed diff backed by DALgo `recordops` | planned | MVP (B1) | strategic |
 | Optional evictable local comparison-row cache for paged UI | planned | MVP (B1), Task 15 | surface |
 | Compare UI: one "Compare affected vs control" action on the incident page, rendering `CompareResult` as plain tables (summary; changed/added/removed rows; per-side limitations; distribution) | planned | MVP (B1) | surface |
-| Compare UI: side-by-side grids, diff highlighting | planned | NEXT | surface |
+| Durable incident/server Compare UI: side-by-side grids, diff highlighting | planned | NEXT | surface |
+| Public-fixture session Compare: labelled responsive side panels and per-side run states | planned | Task 17 | surface |
 | Comparison boards in Dashboardius | planned | NEXT | surface |
 | Comparing configuration, deployments and infrastructure (vision §13) | planned | FUTURE | strategic |
 
@@ -185,6 +186,14 @@ results. They are not claims of database-row deletion or cause. Core's `Diff.tru
 a cap on displayed differences after both complete inputs; it is a distinct limitation and never
 makes a partial side eligible. The display remains session-only even if both underlying worker
 receipts are visible.
+
+The UI MUST present this bounded session result in two side-by-side panels labelled `Baseline` and
+`Candidate` on desktop, and as vertically stacked cards with those same labels on narrow screens.
+It MUST use readable content padding and matching content/sidebar header backgrounds. All actions
+MUST be keyboard operable with visible focus. Each side's asynchronous state, including progress,
+completion, error and cancellation, MUST be announced accessibly; color alone MUST NOT distinguish
+the sides or their states. This is the Task 17 session subtype's bounded presentation exception,
+not a change to durable incident/server Compare rendering scope.
 
 #### REQ: keyed-recordset-diff
 
@@ -481,6 +490,10 @@ unsupported type, incompatible type/conflicting known units, or unequal policy v
 Compare. An output-difference cap is shown separately after complete inputs. Refresh/close clears
 the session observations. Existing agent/server Compare behavior and its durable evidence ACs
 remain unchanged.
+Desktop rendering is side-by-side `Baseline` and `Candidate` panels; narrow screens stack cards
+with the same labels. The layout has readable content padding and matching content/sidebar header
+backgrounds. Keyboard users can operate every action with visible focus, and assistive technology
+announces each side's progress, completion, error and cancellation state.
 
 ### AC: compare-sides-are-execution-records (verifies REQ:compare-produces-evidence)
 
@@ -549,8 +562,10 @@ authorization rather than trusting the cache identity or its earlier policy revi
   quietly relax.
 - Comparing more than two sides. "Compare something that works with something that does not" is
   binary; N-way comparison is not specified and not implied by the request shape.
-- Rich diff *rendering* — side-by-side grids and highlighting are NEXT for the web UI; the MVP
-  incident-page action renders `CompareResult` as plain tables only. Comparison boards belong to
+- Rich diff *rendering* for durable incident/server Compare — side-by-side grids and highlighting
+  remain NEXT for the web UI; the MVP incident-page action renders `CompareResult` as plain tables
+  only. The bounded public-fixture session subtype has the separate two-panel/card presentation
+  required above, without expanding durable rendering or comparison boards, which belong to
   Dashboardius.
 - Causal inference, significance testing or anomaly scoring on a distribution. Counts,
   percentages and a ratio; the human and the diagnostics do the rest.

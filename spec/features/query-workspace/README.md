@@ -228,6 +228,12 @@ local correlation only. The UI MUST say `Session comparison · expires when this
 refreshes`, show each target/hash/time/row count/receipt/limitation, and describe changed raw values
 and baseline-only/candidate-only keys as bounded query-result differences, never inferred database
 deletions or causes.
+Desktop output MUST use side-by-side panels labelled `Baseline` and `Candidate`; narrow screens
+MUST stack labelled cards. Provide readable content padding and matching content/sidebar header
+backgrounds. All controls MUST support keyboard operation with visible focus, and assistive
+technology MUST receive announcements for each side's progress, completion, error and cancellation
+state. This presentation is the bounded session subtype's exception; the durable incident/server
+surface retains its existing rendering scope.
 
 ### REQ: ai-action-proposal
 
@@ -396,6 +402,10 @@ duplicate keys, unsupported/incompatible types, conflicting known units, and une
 visibility are tested and fail closed; diff-output truncation is reported separately. The result
 is not a durable CompareResult, incident citation, or claim of row deletion or cause, and all
 existing agent/server `REQ:honest-comparison` guarantees remain in force.
+Desktop output is side-by-side labelled `Baseline` and `Candidate` panels; narrow screens use
+stacked labelled cards, readable content padding and matching content/sidebar header backgrounds.
+Keyboard operation with visible focus and announcements for each side's progress, completion,
+error and cancellation are verified with the focused acceptance tests.
 
 ### AC: ai-actions-are-scoped (verifies REQ:ai-action-proposal)
 
