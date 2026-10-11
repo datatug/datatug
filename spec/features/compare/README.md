@@ -73,14 +73,14 @@ contract and does not narrow or satisfy its existing requirements.
 | Keyed recordset diff with per-column differences | planned | MVP (B1) | strategic |
 | Cohort distribution comparison for a categorical column | planned | MVP (B1) | strategic |
 | Per-side limitations; policy-limited diffs labelled | planned | MVP (B1) | strategic |
-| Explicit, ephemeral comparison of two admitted public browser fixtures | planned | bounded browser session | surface |
+| Explicit, ephemeral comparison of two admitted public browser fixtures | usable | bounded browser session | surface |
 | `POST /datatug/compare` and `datatug compare` | planned | MVP (B1) | surface |
 | Compare result referenced as incident evidence | planned | MVP (B1) | strategic |
 | Ordered-stream keyed diff backed by DALgo `recordops` | planned | MVP (B1) | strategic |
 | Optional evictable local comparison-row cache for paged UI | planned | MVP (B1), Task 15 | surface |
 | Compare UI: one "Compare affected vs control" action on the incident page, rendering `CompareResult` as plain tables (summary; changed/added/removed rows; per-side limitations; distribution) | planned | MVP (B1) | surface |
 | Durable incident/server Compare UI: side-by-side grids, diff highlighting | planned | NEXT | surface |
-| Public-fixture session Compare: labelled responsive side panels and per-side run states | planned | Task 17 | surface |
+| Public-fixture session Compare: labelled responsive side panels and per-side run states | usable | Task 17 | surface |
 | Comparison boards in Dashboardius | planned | NEXT | surface |
 | Comparing configuration, deployments and infrastructure (vision §13) | planned | FUTURE | strategic |
 
@@ -494,6 +494,8 @@ Desktop rendering is side-by-side `Baseline` and `Candidate` panels; narrow scre
 with the same labels. The layout has readable content padding and matching content/sidebar header
 backgrounds. Keyboard users can operate every action with visible focus, and assistive technology
 announces each side's progress, completion, error and cancellation state.
+
+The bounded public-fixture session is deployed at [datatug.app](https://datatug.app). Its fixture and runtime chain is recorded in [Chinook provider PR #17](https://github.com/demo-db/chinook/pull/17), [fixture host PR #32](https://github.com/demo-db/websites/pull/32), [Demo Project PR #34](https://github.com/datatug/datatug-demo-project/pull/34), and the verified [Core v0.47.3 release](https://github.com/datatug/datatug-core/releases/tag/v0.47.3); the Apps artifact and browser integration are in [PR #257](https://github.com/datatug/datatug-apps/pull/257), [PR #259](https://github.com/datatug/datatug-apps/pull/259), [PR #261](https://github.com/datatug/datatug-apps/pull/261), and [PR #262](https://github.com/datatug/datatug-apps/pull/262). Exact-main [Apps CI run 38162450369](https://github.com/datatug/datatug-apps/actions/runs/38162450369) and [deployment run 38162450606](https://github.com/datatug/datatug-apps/actions/runs/38162450606) passed for merge `00c4466e60fea96c4837aea32e4e4ec583b8928e`; the deployed build's eleven Core files matched their verified pins. Production Chromium observed seven complete rows per side and the bounded result: InvoiceId 98 changed raw InvoiceDate from `2022-03-11 00:00:00` to `2022-03-12 00:00:00`, InvoiceId 121 baseline-only, InvoiceId 97 candidate-only, and five unchanged. The comparison result disappeared from the entire rendered DOM after Queries catalog → DemoDB → Chinook Invoice Comparison navigation, while CustomerId 1 remained bound. Earlier production QA on the same layout/status implementation verified 1280 px side-by-side panels, 390/320 px stacked panels, keyboard focus, per-side announcements, and return to the retained Author draft. This is a usable page-memory capability; Workbench Task 17 remains `planning` until its explicit canonical-main synchronization gate is complete.
 
 ### AC: compare-sides-are-execution-records (verifies REQ:compare-produces-evidence)
 
