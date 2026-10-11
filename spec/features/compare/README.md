@@ -60,6 +60,9 @@ provenance and no policy — which is exactly where a production data leak comes
 
 ## Behavior
 
+The public-fixture browser session subtype below is separate from this durable, citable Compare
+contract and does not narrow or satisfy its existing requirements.
+
 ### Capabilities and phases
 
 | Capability | State | Tier | Kind |
@@ -70,12 +73,14 @@ provenance and no policy — which is exactly where a production data leak comes
 | Keyed recordset diff with per-column differences | planned | MVP (B1) | strategic |
 | Cohort distribution comparison for a categorical column | planned | MVP (B1) | strategic |
 | Per-side limitations; policy-limited diffs labelled | planned | MVP (B1) | strategic |
+| Explicit, ephemeral comparison of two admitted public browser fixtures | planned | bounded browser session | surface |
 | `POST /datatug/compare` and `datatug compare` | planned | MVP (B1) | surface |
 | Compare result referenced as incident evidence | planned | MVP (B1) | strategic |
 | Ordered-stream keyed diff backed by DALgo `recordops` | planned | MVP (B1) | strategic |
 | Optional evictable local comparison-row cache for paged UI | planned | MVP (B1), Task 15 | surface |
 | Compare UI: one "Compare affected vs control" action on the incident page, rendering `CompareResult` as plain tables (summary; changed/added/removed rows; per-side limitations; distribution) | planned | MVP (B1) | surface |
-| Compare UI: side-by-side grids, diff highlighting | planned | NEXT | surface |
+| Durable incident/server Compare UI: side-by-side grids, diff highlighting | planned | NEXT | surface |
+| Public-fixture session Compare: labelled responsive side panels and per-side run states | planned | Task 17 | surface |
 | Comparison boards in Dashboardius | planned | NEXT | surface |
 | Comparing configuration, deployments and infrastructure (vision §13) | planned | FUTURE | strategic |
 
@@ -132,6 +137,63 @@ must declare set support and the source must execute one native set/array/`IN` b
 other cohort shape is `INVALID_REQUEST`; a source without safe set binding is
 `SOURCE_UNAVAILABLE`. Compare never loops one execution per fact or silently truncates a
 cohort.
+
+#### REQ: public-fixture-browser-session
+
+The browser MAY expose a separate, explicitly selected comparison subtype for exactly two
+currently admitted public SQLite fixture targets: a pinned baseline and a separately published
+synthetic candidate. This subtype compares one shared browser query draft; it does not extend the
+server `SideSpec` union, `CompareRequest`, or `CompareResult`, and it MUST NOT be represented as
+durable, independently citable, replayable, incident-linked, or shareable evidence. Agent-backed
+Compare continues to use the three `SideSpec` kinds above and all existing persistence, policy,
+receipt, and incident requirements in this Feature.
+
+Each explicit side Run freezes the same authored source/revision, relationship binding, typed
+CustomerId binding and project/access context. It starts an independent worker with its own
+generation, abort/cancel state, result, timestamp, target/schema/fixture pin, row count,
+limitations and actual worker receipt. A side observation is eligible only after the worker has
+exhausted its entire bounded SQL statement successfully within row and byte budgets; only then
+may it set `resultComplete:true`. `LIMIT 1–100` means complete for that query result, never the
+whole database. A failed, cancelled, capped, partial, expired, denied, missing, changed or stale
+side is ineligible. One side's failure MUST preserve the other side's last committed result.
+Retries use the frozen pair; a new generation requires both sides to run again. Old results may
+remain visible as Previous run, but a source, binding, target, project/principal context or
+metadata change immediately invalidates comparison eligibility. Late responses cannot commit
+into a newer generation.
+
+Side observations and the comparison result exist only in page memory and expire on refresh or
+close. Correlation IDs are local bookkeeping, not authorization. Neither object contains an
+`ExecutionRef`, incident identity, durable `ComparisonRef`, or shareable evidence URL. The UI
+MUST label the result `Session comparison · expires when this page closes or refreshes`, show both
+actual targets, fixture pins, times, row counts, receipts and limitations, and state that this
+result does not satisfy `REQ:compare-produces-evidence` or the citable/replayable ACs.
+
+Immediately before Compare, the application re-reads both currently authorized public catalog,
+schema and relationship entries and verifies both fixture bytes/pins, the frozen draft and
+bindings, current project/access context, and two live eligible generations. It then explicitly
+compares by unique non-null `InvoiceId` through the shared Go Core typed diff kernel in a published,
+verified WASM adapter. The browser does not implement a JavaScript diff. Any missing/expired/
+changed/denied side, null or duplicate key, unsupported cell or comparator, incompatible shared
+type, conflicting known unit, or unequal policy visibility blocks comparison. The first browser
+transport admits safe integer keys and raw text only; it makes no unsafe-int64 or exact-DECIMAL
+claim. `InvoiceDate` stays raw stored SQLite text under the versioned joined representation rule;
+there is no temporal normalization. Unknown units permit only an explicitly labelled raw typed
+comparison, with no semantic-equivalence or tolerance claim. The public fixture profile has no
+row filtering or hidden columns; any policy-limited target requires a separate reviewed contract.
+
+Show changed raw before/after values and baseline-only/candidate-only keys in these bounded query
+results. They are not claims of database-row deletion or cause. Core's `Diff.truncated` may report
+a cap on displayed differences after both complete inputs; it is a distinct limitation and never
+makes a partial side eligible. The display remains session-only even if both underlying worker
+receipts are visible.
+
+The UI MUST present this bounded session result in two side-by-side panels labelled `Baseline` and
+`Candidate` on desktop, and as vertically stacked cards with those same labels on narrow screens.
+It MUST use readable content padding and matching content/sidebar header backgrounds. All actions
+MUST be keyboard operable with visible focus. Each side's asynchronous state, including progress,
+completion, error and cancellation, MUST be announced accessibly; color alone MUST NOT distinguish
+the sides or their states. This is the Task 17 session subtype's bounded presentation exception,
+not a change to durable incident/server Compare rendering scope.
 
 #### REQ: keyed-recordset-diff
 
@@ -411,6 +473,28 @@ sides MUST NOT be required to share an environment.
 **When** the two environments are compared
 **Then** `email` appears nowhere in the diff or distribution, each side's `limitations` are reported separately with `email` named on the `prod` side, `policyLimited` is true because rows were filtered, and the diff is labelled so filtered rows are not presented as data differences.
 
+### AC: public-fixture-session-compare-is-ephemeral (verifies REQ:public-fixture-browser-session)
+
+**Given** the shared Invoice–Customer draft, a pinned public baseline fixture, a separately
+published synthetic candidate fixture, and an integer CustomerId binding
+**When** the analyst explicitly runs both sides and then chooses Compare by `InvoiceId`
+**Then** each independent worker must exhaust its bounded statement and retain its own actual
+receipt, target/hash, generation, time and complete result; the Core-backed diff shows only the
+bounded query's changed raw-text value and baseline-only/candidate-only keys. The result is
+labelled `Session comparison · expires when this page closes or refreshes`, stays in page memory,
+and is not a server `CompareResult`, `ExecutionRef`, incident event, durable/replayable citation,
+or deletion/cause claim. Parameter-free Preview, target selection and view switching start no
+worker. A failed/cancelled side preserves the successful side; retry uses the frozen pair; any
+changed pin/context/generation, incomplete or capped side, denied/missing side, null/duplicate key,
+unsupported type, incompatible type/conflicting known units, or unequal policy visibility blocks
+Compare. An output-difference cap is shown separately after complete inputs. Refresh/close clears
+the session observations. Existing agent/server Compare behavior and its durable evidence ACs
+remain unchanged.
+Desktop rendering is side-by-side `Baseline` and `Candidate` panels; narrow screens stack cards
+with the same labels. The layout has readable content padding and matching content/sidebar header
+backgrounds. Keyboard users can operate every action with visible focus, and assistive technology
+announces each side's progress, completion, error and cancellation state.
+
 ### AC: compare-sides-are-execution-records (verifies REQ:compare-produces-evidence)
 
 **Given** a compare run under incident `INC-2841`
@@ -478,8 +562,10 @@ authorization rather than trusting the cache identity or its earlier policy revi
   quietly relax.
 - Comparing more than two sides. "Compare something that works with something that does not" is
   binary; N-way comparison is not specified and not implied by the request shape.
-- Rich diff *rendering* — side-by-side grids and highlighting are NEXT for the web UI; the MVP
-  incident-page action renders `CompareResult` as plain tables only. Comparison boards belong to
+- Rich diff *rendering* for durable incident/server Compare — side-by-side grids and highlighting
+  remain NEXT for the web UI; the MVP incident-page action renders `CompareResult` as plain tables
+  only. The bounded public-fixture session subtype has the separate two-panel/card presentation
+  required above, without expanding durable rendering or comparison boards, which belong to
   Dashboardius.
 - Causal inference, significance testing or anomaly scoring on a distribution. Counts,
   percentages and a ratio; the human and the diagnostics do the rest.

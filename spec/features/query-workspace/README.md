@@ -189,6 +189,52 @@ The user can explicitly run one frozen query revision and visible binding set on
 
 Compare consumes authorized result references and extends the existing typed recordset comparer where necessary. Current Core Options do not provide numeric tolerance or meaning/unit compatibility, and current side receipts do not carry completeness/expiry metadata; these are explicit contract extensions before the UI may offer those guarantees. Default comparison uses exact equality for types the current comparer supports. A missing/expired/unauthorized side, null or non-unique selected key, unsupported comparator, or incompatible schema or declared units blocks a keyed diff. Unknown meaning/units MAY permit a raw typed-value diff only when labelled as such, without a semantic-equivalence claim. Under the current Compare contract, partial/truncated results fail closed and cannot produce a CompareResult. Query Workspace MUST preserve that behavior until the owning Compare Feature/API contract is explicitly amended and that amendment is implemented. Only after that gate may an explicitly requested partial sample diff be offered. For such an authorized partial sample **or unequal policy visibility**, one-sided keys are labelled visible only in baseline/candidate, never Added or Removed; definitive removal/completeness totals are suppressed. Unequal policy visibility is prominently labelled and cannot support a causal or deletion assertion. The UI reports per-side target, timestamp, policy and completeness limits, row counts when known, and only differences justified by those limits. Reading persisted results rechecks access. A difference is not a causal conclusion.
 
+### REQ: public-fixture-session-comparison
+
+The Author/Compare views MAY offer the bounded browser-session subtype owned by the
+[Compare Feature](../compare/README.md) for exactly the separately admitted public baseline and
+synthetic candidate fixtures. It uses the one shared Author draft; Compose and Code remain within
+Author, and switching views, selecting targets, or viewing parameter-free SQL Preview never runs
+a worker. This subtype has its own page-memory observations/result, not persisted authorized
+result references. It MUST retain all existing `REQ:honest-comparison` behavior for agent/server
+results and MUST NOT satisfy or replace that Feature's durable citable/replayable evidence,
+incident, broader policy, or private-source requirements.
+
+An explicit Run both freezes the same authored source and revision, relationship binding, typed
+CustomerId value and current project/access context, then starts independent baseline and
+candidate workers. Each side owns its generation, progress, cancel/error/retry state, committed
+result, actual worker receipt, target/fixture/schema pin, time, completeness and limitations.
+One side's failure/cancellation preserves the other side's result. Retry stays on the frozen pair;
+a new pair runs both sides. Source, binding, target, context, schema or fixture changes immediately
+make prior side results ineligible for Compare while they may remain labelled Previous run.
+Cancel and late responses cannot commit into a newer generation.
+
+The worker must exhaust its complete bounded SQL statement successfully within row and byte
+budgets. `LIMIT 1–100` proves completeness only for that query, not the underlying database. Any
+partial, capped, failed, cancelled, expired, denied, missing, changed or stale side blocks Compare.
+Before comparing, re-read both current public admissions/schema/relationship entries and recheck
+all frozen pins and live generations. Compare explicitly by unique non-null `InvoiceId` through
+the verified Core WASM adapter. First browser transport allows safe integer keys and raw text only;
+InvoiceDate remains raw stored SQLite text under the versioned joined representation rule. No
+temporal normalization, unsafe-int64 or exact-DECIMAL claim is permitted. Null/duplicate keys,
+unsupported cells/comparators, incompatible shared types or conflicting known units, and unequal
+policy visibility fail closed. Unknown units permit a visibly raw typed-value comparison only,
+with no semantic-equivalence or tolerance claim. Core diff-output truncation after complete inputs
+is labelled separately from side completeness.
+
+Observations and results exist only in page memory, expire on refresh/close, and carry no
+`ExecutionRef`, incident identity, shareable URL, or authorization capability. Session IDs are
+local correlation only. The UI MUST say `Session comparison · expires when this page closes or
+refreshes`, show each target/hash/time/row count/receipt/limitation, and describe changed raw values
+and baseline-only/candidate-only keys as bounded query-result differences, never inferred database
+deletions or causes.
+Desktop output MUST use side-by-side panels labelled `Baseline` and `Candidate`; narrow screens
+MUST stack labelled cards. Provide readable content padding and matching content/sidebar header
+backgrounds. All controls MUST support keyboard operation with visible focus, and assistive
+technology MUST receive announcements for each side's progress, completion, error and cancellation
+state. This presentation is the bounded session subtype's exception; the durable incident/server
+surface retains its existing rendering scope.
+
 ### REQ: ai-action-proposal
 
 AI uses the same typed authorized command handlers as manual controls and shows operation scope. An edit request produces a reversible diff and never runs by itself. An explicit request to run may execute after showing revision, target, bindings, and effect, without an extra approval tap solely because it came through AI. Opening the drawer alone sends no result cells to an external model. Applied edits mark the draft unsaved.
@@ -340,6 +386,26 @@ With CustomerId unset, explicit Preview emits the parameterized request with pla
 **Given** synthetic baseline/candidate results with one added keyed row and one changed decimal value, plus a partial/truncated candidate
 **When** the user compares them with a unique typed key
 **Then** an exact supported comparison reports precise values and each side's receipt, time, policy, and completeness; null/duplicate keys, incompatible schema or declared units, unsupported comparer, and missing/expired/unauthorized sides block keyed diff. Unknown units permit only a labelled raw typed-value comparison. Under the current Compare contract the partial/truncated candidate fails closed with no CompareResult. Only after a reviewed Compare Feature/API amendment is implemented may the user explicitly request a partial sample; then one-sided keys are labelled visible only in baseline/candidate and Added/Removed and completeness totals are suppressed. Unequal policy visibility has the same visible-only rule. A warning rejects causal/deletion assertions; numeric tolerance is unavailable until its Core contract extension passes.
+
+### AC: browser-session-compares-two-public-fixtures (verifies REQ:public-fixture-session-comparison)
+
+**Given** the shared Invoice–Customer draft and two separately admitted public SQLite fixtures,
+baseline and synthetic candidate
+**When** the visitor previews without execution, explicitly runs both targets with the frozen
+CustomerId binding, and explicitly compares by unique `InvoiceId`
+**Then** each worker receipt and complete bounded result belongs to its own frozen target and
+generation; Core shows the real bounded query's raw-text change and baseline-only/candidate-only
+keys. The session-only label, target hashes, times, row counts, receipts and limits are visible;
+refresh/close clears observations. Target/view selection and preview create no worker. Failure,
+cancel, retry, late responses, changed pins/context, incomplete/capped or denied sides, null or
+duplicate keys, unsupported/incompatible types, conflicting known units, and unequal policy
+visibility are tested and fail closed; diff-output truncation is reported separately. The result
+is not a durable CompareResult, incident citation, or claim of row deletion or cause, and all
+existing agent/server `REQ:honest-comparison` guarantees remain in force.
+Desktop output is side-by-side labelled `Baseline` and `Candidate` panels; narrow screens use
+stacked labelled cards, readable content padding and matching content/sidebar header backgrounds.
+Keyboard operation with visible focus and announcements for each side's progress, completion,
+error and cancellation are verified with the focused acceptance tests.
 
 ### AC: ai-actions-are-scoped (verifies REQ:ai-action-proposal)
 
