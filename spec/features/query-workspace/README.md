@@ -41,6 +41,10 @@ Quoted string literals and quoted identifiers MUST occupy one physical line. An 
 
 The TugQL Code editor MUST visually distinguish keywords, `@parameters`, strings, numbers, and `--` comments, and the generated SQL preview MUST use syntax highlighting as well. Highlighting is a presentation layer: it MUST NOT rewrite, normalize, parse into a different query, change grammar or semantics, or execute a query. Typing, paste, native undo/redo, selection, and caret movement MUST retain the exact authored text and line endings, including when the source is invalid or has diagnostics. Token styling MUST remain legible in light and dark themes and Windows forced-colors mode; meaning MUST NOT depend on color alone, and the editor MUST remain keyboard accessible.
 
+### REQ: native-sql-highlighting-preserves-source
+
+The existing native SQL source editor MUST provide grammar-based syntax highlighting in the shared SQL editor and environment database-table SQL editor, and on the saved `QueryType.SQL` text page. Highlight SQL keywords, identifiers, quoted identifiers, string and numeric literals, operators, punctuation, and comments with readable distinctions. This is a presentation layer only: it MUST preserve the exact original source, including mixed line endings, Unicode, invalid or incomplete SQL, while typing, pasting, selecting, and using native undo/redo. It MUST use the existing editor input path and preserve existing read-only/disabled behavior. Non-SQL textareas MUST remain textareas and MUST NOT receive SQL highlighting. The grammar parser MAY tokenize source for styling, but highlighting MUST NOT format, normalize, emit validation diagnostics, infer target dialect or metadata, offer completion, save, preview, run, or otherwise change authorization or execution semantics. Colors and other token styling MUST remain legible in light/dark themes and forced-colors mode with at least 4.5:1 text contrast; token meaning MUST NOT depend on color alone, and keyboard editing MUST remain accessible.
+
 ### REQ: explicit-tugql-code-completion
 
 The editable TugQL Code editor MUST offer explicit keyword and declared-parameter completion through one completion source in its existing editor setup. Completion MUST be requested explicitly (Ctrl-Space on keyboard, or an editor-local Suggestions control for touch); typing alone MUST NOT open a popup, and Enter without an open completion list MUST retain normal newline behavior. Offer only a small catalog from the supported TugQL grammar, not the syntax-highlighting token vocabulary or schema/object names. Keyword labels follow the current effective formatter case rule; declared `@ParameterName` suggestions preserve exact declaration spelling.
@@ -308,6 +312,14 @@ The maintained datatug-demo-project provides a prerequisite-labelled browser-run
 **Given** valid and invalid TugQL containing keywords, `@parameters`, strings, numbers, and `--` comments, plus generated SQL
 **When** the user types, pastes, selects, undoes/redoes, changes light/dark/forced-colors presentation, and requests a parameter-free Preview
 **Then** the five TugQL token classes and generated SQL are highlighted legibly without changing any source byte or line ending; invalid text and diagnostics remain intact; native editor history and keyboard editing continue to work; and Preview stays labelled not executed with zero worker starts. Highlighting changes no query grammar, interpretation, SQL, binding, authorization, or execution behavior.
+
+### AC: native-sql-highlighting-preserves-source (verifies REQ:native-sql-highlighting-preserves-source)
+
+**Given** valid, invalid, and incomplete native SQL with comments, literals, quoted identifiers, Unicode, and mixed line endings in the shared SQL editor, environment database-table SQL editor, and maintained saved `QueryType.SQL` Chinook Playlist query, plus an unrelated non-SQL textarea
+**When** the SQL editor surfaces mount and the user types, pastes, selects, undoes/redoes, and views the source in light, dark, and forced-colors modes
+**Then** SQL syntax is highlighted with at least 4.5:1 text contrast while every source value and line ending remains exact, including invalid/incomplete drafts; native editing history and read-only/disabled behavior remain intact; the unrelated control remains an ordinary textarea; and highlighting itself starts no completion, diagnostics, formatting, metadata request, Save, Preview, Run, or worker activity. Existing query loading and user-edit activity/persistence notifications continue unchanged; highlighting adds no requests or side effects.
+
+**And** a mounted desktop Chromium journey and the required six-case mobile WebKit profile cover the saved SQL query without mocks. The user explicitly chooses Run, and the existing pinned SQLite path returns the ten expected Playlist aggregate rows with its real execution receipt; highlighting or editing does not alter that query's existing save or run behavior.
 
 ### AC: tugql-completion-is-explicit-and-source-safe (verifies REQ:explicit-tugql-code-completion)
 
