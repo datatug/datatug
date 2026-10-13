@@ -1,12 +1,12 @@
 ---
 format: https://specscore.md/feature-specification
-status: Approved
+status: Implementing
 ---
 
 # Feature: Detective and reusable Checks across web and terminal
 
 > [SpecScore.**Studio**](https://specscore.studio): | [Explore](https://specscore.studio/app/github.com/datatug/datatug/spec/features/detective-checks?op=explore) | [Edit](https://specscore.studio/app/github.com/datatug/datatug/spec/features/detective-checks?op=edit) | [Ask question](https://specscore.studio/app/github.com/datatug/datatug/spec/features/detective-checks?op=ask) | [Request change](https://specscore.studio/app/github.com/datatug/datatug/spec/features/detective-checks?op=request-change) |
-**Status:** Approved
+**Status:** Implementing
 **Source Ideas:** —
 
 ## Summary
