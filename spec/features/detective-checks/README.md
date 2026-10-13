@@ -307,8 +307,10 @@ context extraction, discovery, query/Check/Validator drafts, Case edits, manual 
 failure explanation. Draft persistence/execution requires review when appropriate;
 the AI uses the same deterministic authorization/action routes and MUST NOT bypass
 permissions. Do not invent a parallel AI framework or label heuristic parsing as AI.
-Extend the existing harness's typed action registry and dispatcher where DataTug actions
-are absent, through the owning AI extension contracts and host wiring. A real provider
+Extend DataTug's existing `strongo/aichat` harness with shared provider-neutral typed
+Detective action schemas and validation in Core, adapted to its tools and handlers.
+Reviewed proposals commit through the same deterministic local/backend actions; the
+host binds the existing metered AI gateway through its owning contract. A real provider
 must support the hosted demo; a local browser-only interpreter is not cloud parity.
 Treat pasted/source/model text as untrusted proposal content, with visible extraction
 provenance and confirmation before deterministic mutations or manual execution.
