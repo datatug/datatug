@@ -65,6 +65,10 @@ above the editor. Opening a deep link also opens/focuses its session tab after a
 ## Session lifecycle: activity is separate from conclusion
 
 Recommended states are `running`, `stopped`, `archived`, plus a deletion tombstone.
+The user-facing Running state is serialized as `active` in the first-phase shared
+API. Stopped, Archived and the deletion tombstone serialize as `stopped`,
+`archived` and `deleted`. Both web and CLI use this same wire contract; labels do
+not introduce a separate lifecycle.
 Running means available for user work; it does not create background AI activity.
 Multiple sessions can be running. `focusedSessionId` is a device UI preference.
 
