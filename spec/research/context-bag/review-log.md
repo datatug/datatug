@@ -1,7 +1,8 @@
 # Design review and validation record
 
-2026-10-13. Readiness here means ready for owner review, not implementation approval,
-release, deployment or completed browser testing.
+2026-10-13. The owner approved the design and first-phase implementation in the
+conversation. The design reviews below do not establish release, deployment or
+completed production browser testing.
 
 ## Independent review rounds
 
@@ -52,7 +53,14 @@ launch per the owner; the painted concept sheet is only a reference.
 
 ## Publication status
 
-Artifacts are local Drafts in the isolated `context-bag-design` WB worktree. They have
-not been represented as merged/approved implementation. Multi-bag/environment semantics
-were explicitly approved in conversation; the integrated proposal awaits owner review.
-No application or website production files were edited.
+The approved design was preserved in the `context-bag-phase-one` WB task and
+published for review in [DataTug PR #163](https://github.com/datatug/datatug/pull/163).
+The Feature is Implementing; its routed first-phase Plan is published in
+[Workbench PR #69](https://github.com/sneat-co/workbench/pull/69).
+The owner approved Ionic session tabs and the hybrid bag layout. First-phase
+implementation includes web and CLI paths with local and hosted storage.
+
+Implementation and its separate code review are in progress. The original
+prototype evidence above remains prototype evidence. It does not establish
+application execution, hosted durability or delivery. Landing-page promotion and
+painted marine illustrations remain deferred near launch as requested.
