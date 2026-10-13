@@ -49,6 +49,28 @@ scaffold, component, focused test or pending branch is not delivery evidence.
    history and Check run references are present after refresh/restart without another
    action. Local-only stores disclose their machine/reachability limits.
 
+### Interaction design
+
+The Case is an evidence timeline with an always-reachable context editor, rather than
+an empty dashboard. Its header answers: what question is being investigated, which
+logical environment is selected, what is known, and what remains uncertain. A finding
+may be a hypothesis even when a Check passed; closing a Case records a human decision
+and never implies that linked incidents resolved. Use restrained chart/navigation
+accents and plain labels such as “Evidence”, “Needs input” and “Unknown”.
+
+The web layout offers a Case list, timeline/results area and context/evidence inspector.
+The terminal adapts those into keyboard-driven list/detail/inspector views with clear
+focus and back navigation. Both expose next actions adjacent to the evidence that
+motivates them, retain unsaved drafts across inspection, and announce busy/errors.
+Small displays must retain a usable editor and a path to every result, not clip forms.
+
+The Checks detail page shows inputs, dependencies/used-by, Validators and history.
+Before Run, show selected environment, confirmed bindings, affected sources and work
+limits. Results show a summary plus separate row and set sections. Users can filter
+failed/unknown rows and open a nested path while retaining the query execution identity.
+A result badge must never depend on color alone. JSON may be an advanced editor but
+must not be the sole way to author typed inputs, Validators or ordinary Case context.
+
 ## Problem
 
 Existing investigation-context and dataset-value validation pieces do not provide
@@ -57,6 +79,16 @@ Check catalog. The existing Checks specification describes an earlier single-que
 form with diagnostic and CI behavior. This feature adds composite positive-expectation
 manual Checks and distinct Case workflows; it preserves legacy dataset checks and
 does not turn earlier roadmap descriptions into shipped capabilities.
+
+For this delivery, this Feature supersedes conflicting planned requirements in
+[Executable checks](../checks/README.md): a Check may compose multiple saved queries
+and global Check references; diagnostic/negative expectations and CI triggering are
+future; outcomes use the three independent dimensions below; AI drafting is MVP;
+and the shared Detective transport is the initial adapter. The old single-query
+`CheckSpec` and proposed fourth dataset-check kind are not a second mandatory engine.
+Existing shipped dataset validation and its CI runner retain their behavior. Earlier
+safety requirements still apply, especially query-policy limitations, reviewable
+assets, human review, execution evidence and denied-resource non-disclosure.
 
 Cases and Incidentius incidents solve different problems. A Case may have no incident,
 one incident may have several independent Cases, and a Case may link several incidents.
@@ -94,6 +126,13 @@ evidence/run references, incident links and ordered activity. Close requires a r
 reopening is a transition/event, preserving previous closure reasons. Meaningful
 context, lifecycle, query, Check, finding, link and reviewed AI actions MUST be recorded.
 Updates MUST survive process restart and concurrent access without losing history.
+Transitions are active → closed (reason required), closed → active (reopened), and
+closed → archived. Archived Cases remain readable; editing/execution is disabled.
+A second closure requires a new confirmation/reason, even if an earlier reason is
+retained in history. Do not represent lifecycle events as client-asserted history.
+Client notes have an explicit note kind; only the server emits execution, lifecycle
+and confirmation receipts. Evidence references must resolve within authorized scope;
+adding an existing run is an explicit link event, not a fabricated execution event.
 
 Findings MUST distinguish hypothesis from confirmed observation. Proposals to
 MeaningGraph/ModelSpec MUST retain provenance and human review; uncertain findings
@@ -119,7 +158,18 @@ Validators are local to a query definition by default. They MUST support field/r
 whole-set, metadata and reusable Check-reference assertions. A user MAY explicitly
 promote a Validator into a global reusable catalog; references and used-by relations
 MUST survive edits. Historical runs MUST retain the evaluated graph/definition versions
-and sufficient snapshots to interpret outcomes after catalog changes.
+and sufficient snapshots to interpret outcomes after catalog changes. This includes
+transitive Check dependencies, promoted Validator versions and query-local Validators
+for every entry path, including a run started from an ordinary query result. A nested
+Check evaluates the same assertions regardless of its launch surface. A saved query's
+canonical ID, immutable revision/fingerprint and execution receipt identify the query;
+an editable query ID alone is insufficient historical provenance.
+
+Validate the entire resolved graph before dispatch. Missing Check/Validator/query
+references and invalid bindings are definition errors, not unavailable remote systems.
+Cycles introduced by editing a promoted or query-local Validator are rejected too.
+Draft authoring can expose unresolved references, but cannot save them as runnable.
+Deletion/rename must refuse dangling references; title edits preserve resource IDs.
 
 ### REQ: bounded-authorized-execution
 
@@ -133,7 +183,16 @@ endpoint cannot have side effects.
 Nested/per-row work MUST have cycle/depth/fanout/result/time bounds, cancellation,
 bounded concurrency and reuse of repeated compatible reads. The UI MUST disclose
 estimated fanout or an execution limit rather than silently launch unbounded N+1 work.
-The MVP performs manual execution only, with history and drilldown.
+The MVP performs manual execution only, with history and drilldown. Apply a whole-run
+deadline and cancellation checks between nodes, not only per-query timeouts. Reuse keys
+include logical environment, effective authorized execution profile, query revision and
+typed bindings. No cache or in-flight result may cross a principal/project boundary.
+
+A row result is tied to its original execution receipt and row ordinal, with a safe
+identity reference where available. Sorting/filtering cannot move badges to other rows.
+Re-running a saved query creates a new result set and must not annotate an older grid
+as though it had been validated. Run records retain no full rows by default; row-level
+drilldown uses evidence references and policy-safe explanations.
 
 ### REQ: status-outcome-severity
 
@@ -142,6 +201,27 @@ Execution status is `pending|running|completed|error|skipped`; validation outcom
 policy is `block|fail|warn|skip`. Preserve the underlying execution error in all cases.
 Required incomplete evidence MUST prevent a parent `pass`; warning/skipping MUST
 remain visible. Zero assertions or omitted children MUST NOT manufacture healthy data.
+
+Policy changes the handling decision, never the observed execution fact. Preserve the
+underlying safe error code and unknown evidence separately from the policy's effective
+outcome. Omitted policy means `block`. Block stops dependent/later work and explicitly
+marks unattempted nodes skipped/unknown; fail contributes failure; warn contributes
+unknown with warning severity; skip contributes unknown with a visible policy decision.
+None can transform a failed attempted query into an assertion that it never executed.
+The same semantics apply to nested Check steps and per-row Check Validators.
+
+Parent outcome is fail if any effective child fails, otherwise unknown if any required
+child is incomplete/unknown, otherwise pass only when at least one assertion ran.
+Execution status reflects actual execution errors independently of validation failure.
+Severity is the highest severity across all non-passing children, independent of child
+order. Thus an error-severity failure followed by a critical unknown remains critical.
+
+Query restrictions and truncation are part of the evidence contract. Preserve result
+limitations in the run tree; row-count, uniqueness and aggregate assertions over a
+policy-filtered or truncated set are unknown. Observed row failures may remain failures,
+but absence of visible failures cannot establish a whole-population pass. Hidden/missing
+columns are unavailable evidence. Reject invalid kind/scope combinations and malformed
+recordsets before evaluation; never panic or treat a missing assertion as passing.
 
 ### REQ: explicit-environment
 
@@ -168,7 +248,10 @@ of external systems.
 ### REQ: scenarios-ai-and-integrations
 
 Reusable Scenarios MUST declare compatible context/inputs and manual query/Check steps,
-allow selection after a Case begins, and retain their applied version/progress. Cases
+allow selection after a Case begins, and retain their applied version/progress. Store
+a separate application identity, Scenario revision/snapshot and ordered step receipts
+on the Case; a bare Scenario ID cannot establish what guidance was followed. Applying
+a Scenario offers its first manual action and never starts all queries automatically. Cases
 MUST support linking/creating Incidentius incidents and starting independent Cases from
 an incident with reviewed safe context. Avoid one-to-one ownership or lifecycle coupling.
 
@@ -216,6 +299,42 @@ validated and scoped to the served project/principal. Actor and timestamps are
 server-issued. The shared wire model lives with the agent implementation; browser
 and terminal clients MUST exercise the same serialized contract in integration tests.
 Resource capability errors MUST be rendered distinctly from an empty catalog.
+A query-specific grant does not grant access to private Case context or the complete
+catalog. Protected deployment requires project-resource read/write/run authorization
+before loading or returning these records; unrestricted local-owner proof is not proof
+of that boundary. Both clients use the same capabilities and fail-closed behavior.
+
+State pages, catalogs and history need bounded reads and stable pagination or direct
+resource lookup. Reaching a documented capacity must reject a new item before mutation,
+not save an item that makes the next read of the entire project fail. A long-lived Case
+must remain readable/closable as its activity grows. Audit failure returns an identifiable
+uncertain outcome plus a reconciliation path; blind retries must not duplicate runs or
+lose their Case links. Local durability includes restart and failure-injection tests.
+
+Representative definition and context (query IDs resolve in the project library):
+
+```json
+{
+  "id": "validate-invoice", "title": "Validate invoice", "version": 0,
+  "inputs": [{"name": "invoice_id", "type": "integer", "cardinality": "scalar", "required": true}],
+  "steps": [
+    {"id": "invoice", "kind": "query", "queryId": "invoice-detail",
+     "bindings": [{"input": "invoice_id", "fromInput": "invoice_id"}],
+     "validators": [{"id": "customer-present", "scope": "row", "kind": "non-null", "field": "CustomerId", "severity": "error"}]},
+    {"id": "lines", "kind": "check", "checkId": "validate-invoice-lines",
+     "bindings": [{"input": "invoice_id", "fromInput": "invoice_id"}], "onUnavailable": "block"}
+  ]
+}
+```
+
+`validate-invoice-lines` and `validate-crm-customer` are separately saved catalog assets.
+The complete fixture adds the CRM step and an invoice-total/line-sum assertion. Five
+orders and seven invoices use two named typed sets; a date range retains explicit start
+and end values, with query bindings selecting each boundary. Extraction evidence and
+confidence belong to the proposal, not to the confirmed scalar value representation.
+Reviewable JSON assets retain stable IDs on title changes; new draft writes use version
+0 and edits echo the last server version. A conflict reloads the latest resource and
+preserves the user's draft for reconciliation.
 
 ## Acceptance Criteria
 
@@ -254,7 +373,10 @@ resolved and every child receives the chosen environment.
 
 **Given** an unavailable CRM dependency, **When** each unavailable policy is exercised,
 **Then** both UIs retain the execution error, unknown evidence and policy effect,
-and the parent cannot claim that every required assertion passed.
+and the parent cannot claim that every required assertion passed. Test explicit and
+omitted policy, nested and per-row invocations, unattempted-node records, and permutations
+of a failure plus a higher-severity unknown. Policy-filtered/truncated row-count and
+aggregate results must remain unknown even when the visible subset meets the expectation.
 
 ### AC: metadata-and-access (verifies REQ:bounded-authorized-execution)
 
@@ -272,7 +394,9 @@ and reopen history, evidence/run references and independent lifecycle are intact
 
 **Given** reused nested Checks and a promoted Validator, **When** definitions change,
 **Then** used-by links remain correct, cycles/stale edits/collisions are rejected,
-and old runs retain every evaluated dependency version/snapshot.
+and old runs retain every evaluated dependency version/snapshot. Repeat with a
+query-local Validator invoking a Check whose own query-local Validator fails, plus a
+grandchild and promoted Validator; entry paths must agree before and after edits.
 
 ### AC: reviewed-ai-and-knowledge (verifies REQ:scenarios-ai-and-integrations)
 
