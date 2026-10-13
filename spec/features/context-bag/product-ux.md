@@ -365,9 +365,10 @@ Clearing is enabled for running sessions; stopped users Resume first. Button con
 itself does not authorize fresh unconstrained queries; affected views show Context cleared
 and an explicit View all route, while historical runs remain pinned and labeled.
 
-Early feature set: New bag, Rename, Duplicate snapshot, switch/edit, Apply, Clear and
-Compare. Cross-session reusable bag library, shared linked bags and live updates remain
-later capabilities. Duplicate/copy creates a new entry identity with origin references;
+First-phase feature set: New bag, Rename, switch/edit, Apply, Clear and environment
+comparison. Duplicate snapshot and snapshot branching belong to M4. Cross-session
+reusable bag library, shared linked bags and live updates remain later capabilities.
+Duplicate/copy creates a new entry identity with origin references;
 changing environment cannot simply reparent entries and reinterpret keys.
 
 ## Integration with refreshed Query Author
