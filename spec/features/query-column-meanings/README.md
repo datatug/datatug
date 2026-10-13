@@ -33,7 +33,7 @@ This is the manual query-result authoring slice. The separate draft Semantic Adv
 3. I save. The query and all its semantic metadata are persisted together; success closes the editor and the same grid displays a visible meaning badge without another click or rerun.
 4. I click the badge to inspect or change the meaning. A failed save leaves my edits in place, with a useful error and a retry action.
 5. I reopen the saved query and run it. Its mapped columns carry the same badges. If the query or returned shape changed, the previous meaning is visibly marked for review rather than silently confirmed.
-6. I reuse a previously defined property for another compatible column or query. I can export the standard MeaningGraph and ModelSpec documents for use outside DataTug.
+6. I select a previously defined property from another personal query saved on this device without exporting a file first. Its source query is visible, and editing the copied definition leaves the source unchanged. I can also import or export standard MeaningGraph and ModelSpec documents for use outside DataTug.
 
 ### REQ: column-entry-and-feedback
 
@@ -53,7 +53,7 @@ Cloud, GitHub and local-agent saves MUST use the existing authenticated/capabili
 
 ### REQ: reuse-and-review
 
-Confirmed mappings MUST be restored after rerun, route reopen and full browser reload. A SHA-256 fingerprint of query type, exact text, connection id and federation configuration plus result index and ordered declared column names/types scopes each mapping. Any changed or unavailable basis MUST mark affected mappings Needs review and exclude them from confirmed labels until the user explicitly remaps or reconfirms against a newly executed result. The pilot MAY conservatively invalidate all mappings after any query text edit, including aliases. A column index or alias alone MUST NOT establish identity. Previous definitions and proposed mappings MUST remain available during review. Existing query-owned meanings MUST be reusable; cross-query reuse MUST use explicit import of the supported exported document or an equivalent picker over saved device queries, retaining definitions without mutating the source query.
+Confirmed mappings MUST be restored after rerun, route reopen and full browser reload. A SHA-256 fingerprint of query type, exact text, connection id and federation configuration plus result index and ordered declared column names/types scopes each mapping. Any changed or unavailable basis MUST mark affected mappings Needs review and exclude them from confirmed labels until the user explicitly remaps or reconfirms against a newly executed result. The pilot MAY conservatively invalidate all mappings after any query text edit, including aliases. A column index or alias alone MUST NOT establish identity. Previous definitions and proposed mappings MUST remain available during review. Existing query-owned meanings MUST be reusable. The property picker MUST offer meanings from other device-personal queries in the same project and identify their source query. Selecting one MUST copy its required definitions without its old field bindings or any mutation of the source query; conflicting ids MUST remain distinct. Loading saved choices MUST NOT block inline creation. Explicit import of supported exported documents MUST also remain available.
 
 ### REQ: validation-and-export
 
@@ -91,7 +91,7 @@ Both client and server MUST validate bounded bundle shape and references: unique
 
 ### AC: save-failure-keeps-work (verifies REQ:atomic-save-and-compatibility)
 
-**Given** an open mapping editor with unsaved definitions, **When** persistence fails or conflicts, **Then** the editor stays open with its values, an actionable error appears, no confirmed badge or success notice appears, and retry cannot create duplicate saved copies or orphan definitions.
+**Given** an open mapping editor with unsaved definitions, **When** persistence fails or conflicts, **Then** the editor stays open with its values, an actionable error appears, no confirmed badge or success notice appears, and retry cannot create duplicate saved copies or orphan definitions. If the user leaves the query while a lookup or save is pending, its late response MUST NOT overwrite the destination query or navigate the user back.
 
 ### AC: rerun-and-change (verifies REQ:reuse-and-review)
 
@@ -99,7 +99,7 @@ Both client and server MUST validate bounded bundle shape and references: unique
 
 ### AC: reuse-existing-meaning (verifies REQ:reuse-and-review)
 
-**Given** a property created in a prior mapping, **When** the user maps another compatible column and explicitly reuses the meaning in a separate query through import or the saved-meaning picker, **Then** the existing definition is selectable without retyping, its entity is visible, and changing the new query does not alter the source query.
+**Given** a property created in a prior mapping, **When** the user maps another compatible column and selects that meaning directly in a separate query, **Then** the existing definition and its source query are selectable without retyping or exporting a file, its entity is visible, and changing the new query does not alter the source query. Importing an exported meaning remains an additional supported path.
 
 ### AC: interoperable-exports (verifies REQ:validation-and-export)
 
@@ -112,6 +112,18 @@ Both client and server MUST validate bounded bundle shape and references: unique
 ### AC: pilot-journey (verifies REQ:column-entry-and-feedback, REQ:inline-authoring, REQ:typed-result-bundle, REQ:atomic-save-and-compatibility, REQ:reuse-and-review, REQ:validation-and-export)
 
 **Given** the pilot opened through the real DataTug app, **When** a user runs a query, creates a meaning, saves, reopens, reruns, changes the meaning, reuses it, reloads, and exports, **Then** the journey works without manually injecting storage or forcing UI change detection and its visible labels and persisted documents agree. Automated browser coverage records the same journey, plus focused failure and stale-result cases. Browser network fixtures may isolate provider availability but MUST NOT be reported as proof of a live cloud deployment. This browser journey is the Rehearse equivalent for the pilot.
+
+## Verification evidence
+
+- Core contract: [PR #366](https://github.com/datatug/datatug-core/pull/366), released as Core `v0.53.0` at `6a958361d5561e47bc597a7d215c3b9d6c039d9f`. Full suite coverage is 100.0%; all seven observed post-target checks passed.
+- Server persistence: [backend PR #44](https://github.com/datatug/backend/pull/44), released as backend `v0.29.0` at `cc71dce177d18c39e80445d5960551537cc8e8b5`. All ten observed post-target checks passed, including Firestore emulator roundtrips. This is library and storage verification; deployment of a consuming cloud service is not claimed.
+- Local API: [CLI PR #376](https://github.com/datatug/datatug-cli/pull/376) landed at `43e621b8c0239da056b71e68be49066bf738286e`, which is also the remote CLI `v0.76.0` tag. All eighteen observed post-target checks passed, including release artifacts. The adapter advertises semantic metadata support and preserves the bundle through query read/save.
+- Export compatibility: ModelSpec CLI accepts the result document; the current MeaningGraph Core reference checker accepts the exported graph with the exported ModelSpec document supplied as its model. The inspected MeaningGraph CLI rejects `meaning/draft-2`; released CLI support and its ordinary file-loading path are not verified consumers of these pilot exports.
+- A live, unmocked local DataTug browser run verified first-copy creation, retained query parameter and results, immediate confirmed label, one-click reopening and renaming. A second run directly selected Invoice / Invoice reference from an earlier personal query, saved a new copy without a file exchange, retained seven rows and Customer ID 1, and immediately displayed the meaning under InvoiceId. After reopening, its label was changed to Invoice identifier; rerunning the original query still showed Invoice reference. Automated persistence, conflict, validation and browser checks complement these receipts; this does not claim a deployed cloud-store save.
+- UI implementation: [PR #300](https://github.com/datatug/datatug-apps/pull/300). The browser journey exercises keyboard and 390px entry, first-copy save, cold reload and rerun, reuse across columns, rename propagation, exports, malformed import rejection, changed-query review, stale removal protection, an actual device revision conflict preserving the old label and draft, and valid import into a separate saved query. GitHub metadata is fixture-backed in this automated test; query execution uses the actual SQLite path.
+- The final local browser journey also verifies right-click entry and that the primary Save button remains fully visible at 390px after optional context is collapsed. ContextMenu and Shift+F10 use the same editor; ordinary typing remains available to the grid.
+- UI revision `d17f581a52ea5b0be5a6c8ea6cb9fba85cf18f9e`: 3,197 main unit tests passed (three skipped), typecheck passed, focused lint reported zero findings, and production build passed. Four browser cases passed, including the complete mapping/reuse journey and three affected existing scenarios; the real-agent federated cleanup test passed separately. Deferred-response tests cover capability lookup, save failure, copy creation and leaving an Ionic-cached page. Independent review approved this revision with no unresolved findings.
+- All four jobs in [source CI run 38456195695](https://github.com/datatug/datatug-apps/actions/runs/38456195695) passed on that exact revision, including the general browser suite, mobile WebKit and production-build demo handoff stages.
 
 ## Open Questions
 
