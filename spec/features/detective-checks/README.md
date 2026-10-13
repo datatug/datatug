@@ -1,12 +1,12 @@
 ---
 format: https://specscore.md/feature-specification
-status: Draft
+status: Approved
 ---
 
 # Feature: Detective and reusable Checks across web and terminal
 
 > [SpecScore.**Studio**](https://specscore.studio): | [Explore](https://specscore.studio/app/github.com/datatug/datatug/spec/features/detective-checks?op=explore) | [Edit](https://specscore.studio/app/github.com/datatug/datatug/spec/features/detective-checks?op=edit) | [Ask question](https://specscore.studio/app/github.com/datatug/datatug/spec/features/detective-checks?op=ask) | [Request change](https://specscore.studio/app/github.com/datatug/datatug/spec/features/detective-checks?op=request-change) |
-**Status:** Draft
+**Status:** Approved
 **Source Ideas:** —
 
 ## Summary
@@ -23,7 +23,8 @@ underlying definitions, semantics, permissions and stored history stay consisten
 
 **Source context:** the owner's Detective + Checks brief, including its idea/vibe
 addendum and the explicit web/terminal clarification on 2026-10-13. The owner then
-requested autonomous work. This document captures the product requirements; a
+approved implementation and required local and cloud storage from the ground up,
+including a full cloud demo without starting a local DataTug CLI. This document captures the product requirements; a
 scaffold, component, focused test or pending branch is not delivery evidence.
 
 **Plan:** [Central implementation plan](https://github.com/sneat-co/workbench/blob/main/spec/plans/github.com/datatug/datatug/detective-checks/README.md).
@@ -105,12 +106,38 @@ work MUST reuse existing Bubble Tea/navigation conventions and preserve normal t
 for search and editing. Every create flow lands on the created resource; cold links
 reload from its stable ID, never rely on router state alone.
 
-The initial local agent adapter MUST persist definitions as reviewable project assets
-and private Cases/runs/audit outside tracked project content by default. Both UIs using
-the same agent/store MUST resume the same records. Cross-device resume is conditional
-on an authenticated reachable shared store; a loopback-only agent MUST NOT imply
-cloud or cross-device availability. Unsupported hosted storage is explicit and is
-not silently replaced with browser-local persistence.
+Local and cloud stores are both required MVP adapters over common domain contracts,
+execution semantics and lifecycle services. The local adapter MUST persist definitions
+as reviewable project assets and private Cases/runs/audit outside tracked project
+content by default. The cloud adapter MUST persist definitions, private Case context,
+findings, Scenario applications, runs and audit through the existing authorized backend.
+Both UIs using the same project/store MUST resume the same records. An authenticated
+user MUST also resume cloud records from another device without a local agent. Storage
+identity, access and reachability MUST remain explicit; no implicit machine-local or
+browser-local fallback may discard or fork hosted records.
+
+### REQ: hosted-demo-without-local-cli
+
+A user MUST be able to open a cloud demo project in the web app and exercise the full
+MVP without installing or starting `datatug-cli`, opening a loopback port, or connecting
+to the demonstrator's machine. Authoritative hosted Check runs MUST use a server-owned
+saved-query executor; browser exploration results are not trusted run evidence. The
+hosted executor MUST preserve the same authorization, read-only limits, environment
+selection, nested/per-row/set-level evaluation and evidence semantics as local execution.
+Cloud storage alone does not satisfy this requirement.
+
+Reusable demo definitions and datasets may be shared as templates. Mutated definitions,
+Cases, pasted context, findings and run history MUST have an authorized user/workspace
+scope, so independent visitors cannot read or overwrite one another's private evidence.
+Use existing authentication and Personal Space/project-access authority. On the first
+persistent action, create or resume a private demo project from a pinned public template,
+with a distinct server-issued demo admission permitting only admitted demo sources.
+No paid purchase is required, and paid project admission rules remain enforced. Sign-in
+may occur at submit; guest provisioning must be explicitly implemented if offered.
+Refresh/restart
+must preserve saved progress; the UI MUST explain sign-in or capability requirements.
+The demonstration includes authoring, AI proposal review, execution, evidence, Scenario
+progress, Incidentius/knowledge linkage and Case lifecycle, not just a read-only tour.
 
 ### REQ: stable-identity-and-versions
 
@@ -289,20 +316,41 @@ as design topics. Do not implement those engines in the MVP.
 | Paste review/AI actions/Scenario discovery | Required | Required | Same confirmation and permission rules |
 | Incidentius/knowledge linkage | Required | Required | Separate resources, reviewed provenance |
 | Cross-UI resume | Required | Required | Same reachable authorized store |
+| Local and cloud storage | Required | Required | Same domain/version/history semantics |
+| Full hosted demo without local CLI | Required | Cloud access required | Isolated persistent demo progress and hosted execution |
 
 ### Transport and implementation boundary
 
-The initial adapter exposes `GET /datatug/detective/state?project=<id>` with the
+The local adapter exposes `GET /datatug/detective/state?project=<id>` with the
 existing security-context mechanism, and `POST /datatug/detective/action?project=<id>`
 with a typed discriminated action request. State/action payloads MUST be bounded,
 validated and scoped to the served project/principal. Actor and timestamps are
-server-issued. The shared wire model lives with the agent implementation; browser
-and terminal clients MUST exercise the same serialized contract in integration tests.
+server-issued. The hosted adapter uses existing authenticated project-reference routes
+and server-side project authorization. Cloud mutations MUST go through Sneat HTTPS
+endpoints; clients never write Firestore directly. Common domain types and evaluation
+live in an importable shared module, with local filesystem/agent and cloud persistence/
+execution supplied through interfaces. The shared implementation belongs in
+`datatug-core`; the cloud adapter belongs in `datatug/backend`, composed by `sneat-go`.
+Neither adapter owns a second evaluator or a
+divergent lifecycle. Browser and terminal clients MUST exercise the same serialized
+domain contract and both adapters in integration tests.
 Resource capability errors MUST be rendered distinctly from an empty catalog.
 A query-specific grant does not grant access to private Case context or the complete
 catalog. Protected deployment requires project-resource read/write/run authorization
 before loading or returning these records; unrestricted local-owner proof is not proof
 of that boundary. Both clients use the same capabilities and fail-closed behavior.
+Cloud private resources use scoped, bounded collections under the admitted project.
+Firestore rules MUST exclude their subtree from every broader client-read grant;
+a narrower deny cannot revoke an overlapping allow. Test direct client access as well
+as HTTPS authorization, including Space members lacking project grants.
+
+Cloud mutations commit scope/actor/payload-bound operation receipts, resource versions
+and audit events atomically. A run is accepted durably before external execution, and
+its result/evidence/Case linkage completes transactionally. External network execution
+MUST remain outside retryable database transactions. Duplicate requests return the
+same accepted operation/result rather than execute twice; changed payload/principal/
+project under the same operation key is rejected. A restart during execution exposes
+an interrupted/uncertain state and a recovery path, never invents success.
 
 State pages, catalogs and history need bounded reads and stable pagination or direct
 resource lookup. Reaching a documented capacity must reject a new item before mutation,
@@ -417,6 +465,25 @@ walk create → context confirmation → manual nested Check → drilldown → e
 close/reopen → resume from the other UI, **Then** no hidden setup/reload/tap is needed
 and the test asserts persisted mechanisms and authorized execution, not only labels.
 
+### AC: local-and-cloud-store-parity (verifies REQ:shared-surfaces-and-store)
+
+**Given** equivalent local and cloud projects, **When** web and terminal clients save,
+edit and run the same definitions and resume Cases after restart, **Then** IDs, versions,
+typed context, Scenario progress, evidence and lifecycle semantics agree. Cloud requests
+authenticate and enforce project-resource access before reading or mutating records;
+cross-user/project probes cannot disclose or alter another investigation.
+
+### AC: full-cloud-demo (verifies REQ:hosted-demo-without-local-cli)
+
+**Given** a fresh browser with no local DataTug process or agent connection, **When** a
+visitor opens the cloud demo and follows the complete MVP journey, **Then** they can
+author/edit Checks and Validators, confirm pasted context and AI drafts, manually run
+nested invoice/CRM Checks, inspect per-row/set-level evidence, apply a Scenario, capture
+findings and knowledge/Incidentius links, close/reopen the Case and resume saved progress.
+Prove a second authorized browser/device resumes the saved cloud Case, and a different
+visitor cannot access it. Fail the test on any loopback request, agent setup prompt,
+in-memory-only history, simulated result, or unimplemented required action.
+
 ### AC: feature-pages-and-honest-scope (verifies REQ:product-story-and-deferred-scope)
 
 **Given** the landed MVP, **When** visiting the linked Detective and Checks feature
@@ -425,9 +492,11 @@ accessibility checks pass, and future capabilities are explicitly future.
 
 ## Open Questions
 
-No new owner decision is required for the local-agent implementation direction.
-Hosted adapters, AI/provider availability and integration acceptance remain explicit
-engineering verification items; they do not reduce the required two-UI workflows.
+The owner approved implementation on 2026-10-13 and explicitly required both local and
+cloud storage from the ground up, with full cloud demos requiring no local CLI. This
+supersedes the earlier local-agent-first delivery assumption. Hosted execution, existing
+identity integration and real provider/Incidentius/knowledge acceptance are engineering
+work within the approved scope; absence of an adapter does not defer cloud capability.
 
 ---
 *This document follows the https://specscore.md/feature-specification*
