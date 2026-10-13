@@ -124,7 +124,12 @@ to the demonstrator's machine. Authoritative hosted Check runs MUST use a server
 saved-query executor; browser exploration results are not trusted run evidence. The
 hosted executor MUST preserve the same authorization, read-only limits, environment
 selection, nested/per-row/set-level evaluation and evidence semantics as local execution.
-Cloud storage alone does not satisfy this requirement.
+Cloud storage alone does not satisfy this requirement. The server resolves saved-query
+IDs and revisions, schema metadata, logical environment and admitted source mappings;
+clients cannot submit arbitrary source URLs or fabricated rows/outcomes as a Check
+receipt. Preserve source-policy restrictions and time/row/byte limits in evidence.
+An ordinary browser DemoDB query is useful exploration, but acceptance requires an
+immutable server-issued run referencing its actual query/dependency revisions.
 
 Reusable demo definitions and datasets may be shared as templates. Mutated definitions,
 Cases, pasted context, findings and run history MUST have an authorized user/workspace
@@ -134,8 +139,12 @@ persistent action, create or resume a private demo project from a pinned public 
 with a distinct server-issued demo admission permitting only admitted demo sources.
 No paid purchase is required, and paid project admission rules remain enforced. Sign-in
 may occur at submit; guest provisioning must be explicitly implemented if offered.
-Refresh/restart
-must preserve saved progress; the UI MUST explain sign-in or capability requirements.
+Personal Space identity and demo admission MUST be resolved by the server, never from
+client assertions of ownership, entitlement or demo mode. Admission pins the template
+revision and allowed source identities; requesting a different project/source MUST NOT
+turn demo access into paid or arbitrary-source access. Retried provisioning returns the
+same private project without recopying over visitor edits. Refresh/restart must preserve
+saved progress; the UI MUST explain sign-in or capability requirements.
 The demonstration includes authoring, AI proposal review, execution, evidence, Scenario
 progress, Incidentius/knowledge linkage and Case lifecycle, not just a read-only tour.
 
@@ -259,13 +268,19 @@ mapping. Unsupported/ambiguous mappings MUST have diagnostic errors before execu
 
 ### REQ: audit-and-privacy
 
-Audit is project infrastructure with a pluggable append interface and an initial local
-JSONL implementation. Store actor, scope, time, action, source/environment IDs, query
-identity/fingerprint, duration/row counts, outcome, run/definition/correlation references
+Audit is project infrastructure with shared event contracts and both local JSONL and
+cloud transactional storage implementations. Store actor, scope, time, action, source/
+environment IDs, query identity/fingerprint, duration/row counts, outcome, run/definition/
+correlation references
 and redacted input metadata. Do not dump rows, pasted text, credentials or parameter
 values into audit by default. Private persisted Case context follows explicit storage
 and access rules. Audit write failure MUST be visible; retry/durability semantics
 MUST NOT silently discard it. Runs and Case activity remain separate linked records.
+Local files require an explicit recovery protocol for partial resource/audit writes;
+cloud resource changes, operation receipts and audit commit in one transaction. A failed
+transaction publishes none of them. If commit acknowledgement is lost, report uncertainty
+and reconcile by operation identity. Query billing/activity counters are not substitutes
+for execution evidence or the immutable Detective audit.
 
 Retention/export/redaction and secret safeguards MUST be documented. Future object
 store adapters batch/partition objects; they MUST NOT assume atomic appends to S3/GCS.
@@ -281,12 +296,30 @@ on the Case; a bare Scenario ID cannot establish what guidance was followed. App
 a Scenario offers its first manual action and never starts all queries automatically. Cases
 MUST support linking/creating Incidentius incidents and starting independent Cases from
 an incident with reviewed safe context. Avoid one-to-one ownership or lifecycle coupling.
+Both stores require a real Incidentius adapter through its owning extension contract: create/link an incident from a Case and
+start another independent Case from that incident. Authorize both resources independently;
+a link does not confer access, reveal hidden context or synchronize lifecycle. Cross-store
+or cross-extension writes use idempotent linked operations with visible partial progress
+and reconciliation; do not promise a transaction across unrelated stores.
 
 Meaningful UI actions SHOULD be expressible through the existing AI action harness:
 context extraction, discovery, query/Check/Validator drafts, Case edits, manual runs and
 failure explanation. Draft persistence/execution requires review when appropriate;
 the AI uses the same deterministic authorization/action routes and MUST NOT bypass
 permissions. Do not invent a parallel AI framework or label heuristic parsing as AI.
+Extend the existing harness's typed action registry and dispatcher where DataTug actions
+are absent, through the owning AI extension contracts and host wiring. A real provider
+must support the hosted demo; a local browser-only interpreter is not cloud parity.
+Treat pasted/source/model text as untrusted proposal content, with visible extraction
+provenance and confirmation before deterministic mutations or manual execution.
+
+Persist knowledge proposals as private, typed DataTug resources with the source Case,
+finding/evidence references, hypothesis/confirmed distinction, intended MeaningGraph or
+ModelSpec target identity/revision, and review status. Both UIs expose review/edit and
+an explicit target-specific handoff/export or owning-extension submission with a receipt.
+A proposal is not published knowledge. Promotion requires the destination's authorization
+and review contract; neither public catalog overwrite nor arbitrary timeline text counts.
+No private Case context is copied into a public knowledge catalog implicitly.
 
 ### REQ: product-story-and-deferred-scope
 
@@ -331,32 +364,60 @@ endpoints; clients never write Firestore directly. Common domain types and evalu
 live in an importable shared module, with local filesystem/agent and cloud persistence/
 execution supplied through interfaces. The shared implementation belongs in
 `datatug-core`; the cloud adapter belongs in `datatug/backend`, composed by `sneat-go`.
-Neither adapter owns a second evaluator or a
-divergent lifecycle. Browser and terminal clients MUST exercise the same serialized
-domain contract and both adapters in integration tests.
+The shared Core owns domain models, validation, evaluation and lifecycle semantics;
+the CLI owns local filesystem/JSONL and execution/API adapters; the backend owns hosted
+DALgo/Firestore persistence, admission, project-resource authorization and execution.
+Core MUST NOT import the CLI, cloud SDKs or extension implementations. Cross-extension
+reuse goes through owning contracts; `sneat-go` only composes and configures adapters.
+Neither adapter owns a second evaluator or a divergent lifecycle. Browser and terminal
+clients MUST exercise the same serialized domain contract and both adapters in integration tests.
 Resource capability errors MUST be rendered distinctly from an empty catalog.
 A query-specific grant does not grant access to private Case context or the complete
 catalog. Protected deployment requires project-resource read/write/run authorization
 before loading or returning these records; unrestricted local-owner proof is not proof
 of that boundary. Both clients use the same capabilities and fail-closed behavior.
-Cloud private resources use scoped, bounded collections under the admitted project.
-Firestore rules MUST exclude their subtree from every broader client-read grant;
+Cloud private resources remain logically owned by the admitted project in its Space.
+Physically, all new private Detective records use the server-only extension namespace
+`/spaces/{spaceID}/ext/datatug/detectiveProjects/{projectScopeKey}/{collection}/{id}`.
+The server derives and verifies `projectScopeKey` from normalized store/project/branch
+identity; a client-supplied key is never authority. Separate definitions, Cases, Case
+events, runs/nodes, operation receipts and audit into bounded records/collections rather
+than rewriting a growing project document. Existing project/query records retain their
+paths. Do not create a parallel per-user root.
+Use existing active project-contact/role authorization in addition to current admission;
+Space membership alone is insufficient. Map read, edit and run actions to explicit
+capabilities, rechecking current authority on every request/replay and execution boundary.
+Demo admission is a distinct trusted source-restricted path, not an exception disabling
+ordinary protected-project checks.
+Firestore rules MUST disjointly exclude `detectiveProjects` and every descendant from
+every broader client-read grant, preserving existing project/query read behavior;
 a narrower deny cannot revoke an overlapping allow. Test direct client access as well
-as HTTPS authorization, including Space members lacking project grants.
+as HTTPS authorization, including Space members lacking project grants. The exclusions
+must cover the complete protected Detective namespace, operation records and audit,
+including nested descendants and future collections. Admission records retain their
+existing private exclusions. Do not rely on parsing recursive wildcard paths to discover
+which project descendants happen to contain private Detective data.
 
 Cloud mutations commit scope/actor/payload-bound operation receipts, resource versions
 and audit events atomically. A run is accepted durably before external execution, and
 its result/evidence/Case linkage completes transactionally. External network execution
 MUST remain outside retryable database transactions. Duplicate requests return the
-same accepted operation/result rather than execute twice; changed payload/principal/
-project under the same operation key is rejected. A restart during execution exposes
-an interrupted/uncertain state and a recovery path, never invents success.
+same accepted operation/result rather than execute twice. Scope receipts by principal,
+Space/project and action, and bind a canonical payload digest; reject changed payloads
+within that identity and never disclose another principal's receipt. Replays reauthorize
+current access, even when the original attempt succeeded. Concurrent acceptance requires
+transactional uniqueness; workers claim accepted runs so retries do not dispatch them
+again. A restart during execution exposes interrupted/uncertain execution with unknown
+outcome and a recovery path, never invents success. Do not promise exactly-once external
+reads after a crash: reconciliation or an explicitly authorized new attempt must preserve
+attempt identity and prevent old workers from overwriting newer finalization. Finish
+server evidence, audit, operation status and linked Case activity atomically.
 
 State pages, catalogs and history need bounded reads and stable pagination or direct
 resource lookup. Reaching a documented capacity must reject a new item before mutation,
 not save an item that makes the next read of the entire project fail. A long-lived Case
-must remain readable/closable as its activity grows. Audit failure returns an identifiable
-uncertain outcome plus a reconciliation path; blind retries must not duplicate runs or
+must remain readable/closable as its activity grows. An uncertain local write or lost
+commit acknowledgement returns an identifiable uncertain outcome plus a reconciliation path; blind retries must not duplicate runs or
 lose their Case links. Local durability includes restart and failure-injection tests.
 
 Representative definition and context (query IDs resolve in the project library):
@@ -454,13 +515,17 @@ promotion, record confirmation and provenance, and enforce the ordinary action p
 
 ### AC: audit-without-data-dumps (verifies REQ:audit-and-privacy)
 
-**Given** query/Check runs and Case changes, **When** inspecting/restarting the local
-JSONL audit backend or injecting a write failure, **Then** events are durable, bounded,
-linked and redacted with visible failures and no result-set/secret/paste dumps.
+**Given** query/Check runs and Case changes on each adapter, **When** inspecting/restarting
+its audit store or injecting a resource/audit/acknowledgement failure, **Then** events are
+durable, bounded, linked and redacted with visible failures and no result-set/secret/paste
+dumps. Cloud transaction rollback exposes no partial mutation; lost acknowledgements and
+local partial writes reconcile by operation identity. Concurrent duplicates, revoked
+replay access and worker interruption cannot fabricate or duplicate a completed run.
 
 ### AC: complete-user-journey (verifies REQ:shared-surfaces-and-store)
 
-**Given** a real demo project and agent, **When** automated web and terminal journeys
+**Given** real demo projects served by the local adapter and separately by the hosted
+backend, **When** automated web and terminal journeys on each adapter
 walk create → context confirmation → manual nested Check → drilldown → evidence →
 close/reopen → resume from the other UI, **Then** no hidden setup/reload/tap is needed
 and the test asserts persisted mechanisms and authorized execution, not only labels.
@@ -471,7 +536,9 @@ and the test asserts persisted mechanisms and authorized execution, not only lab
 edit and run the same definitions and resume Cases after restart, **Then** IDs, versions,
 typed context, Scenario progress, evidence and lifecycle semantics agree. Cloud requests
 authenticate and enforce project-resource access before reading or mutating records;
-cross-user/project probes cannot disclose or alter another investigation.
+cross-user/project probes cannot disclose or alter another investigation. Include an
+otherwise valid Space member without an active project assignment, revoked permission
+on replay, and direct Firestore probes into nested Case/run/receipt/audit records.
 
 ### AC: full-cloud-demo (verifies REQ:hosted-demo-without-local-cli)
 
@@ -480,9 +547,13 @@ visitor opens the cloud demo and follows the complete MVP journey, **Then** they
 author/edit Checks and Validators, confirm pasted context and AI drafts, manually run
 nested invoice/CRM Checks, inspect per-row/set-level evidence, apply a Scenario, capture
 findings and knowledge/Incidentius links, close/reopen the Case and resume saved progress.
-Prove a second authorized browser/device resumes the saved cloud Case, and a different
-visitor cannot access it. Fail the test on any loopback request, agent setup prompt,
-in-memory-only history, simulated result, or unimplemented required action.
+Browse the public template, sign in at the first persistent action without a purchase,
+and prove server-issued source-restricted demo admission without changing paid guards.
+Use real admitted invoice and CRM sources, including the ten-row failure fixture, and
+inspect authoritative server execution/audit receipts rather than client-reported results.
+Prove a second authorized browser/device and the terminal resume the saved cloud Case
+after service restart, and a different visitor cannot access it. Fail the test on any
+loopback request, agent setup prompt, in-memory-only history, simulated result, or unimplemented required action.
 
 ### AC: feature-pages-and-honest-scope (verifies REQ:product-story-and-deferred-scope)
 
