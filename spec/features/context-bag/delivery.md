@@ -218,3 +218,18 @@ Implementation decisions carried into M0–M3:
 The approval authorizes M0–M3 implementation, not unreviewed publishing, storage
 migration or deployment of private data. Review findings and their dispositions are recorded in the
 [review log](../../research/context-bag/review-log.md).
+
+## Implementation evidence
+
+Snapshot dated 2026-10-13. These receipts document delivered slices and exercised
+behavior; they do not declare M0–M3 or the full paired journey complete.
+
+| Area | Evidence | Remaining |
+|---|---|---|
+| M0 storage decision | SQLite was selected for the local OVDB profile. The inGitDB crash fixture observed inconsistent head/receipt/audit states and remains excluded under [dalgo2ingitdb issue 15](https://github.com/ingitdb/dalgo2ingitdb/issues/15). Actual SQLite and hosted Firestore transaction-owner conformance was exercised. | Keep inGitDB deferred until its crash boundary is repaired and retested. |
+| Core contracts | [Core PR 364](https://github.com/datatug/datatug-core/pull/364) (`v0.51.0`) and [PR 365](https://github.com/datatug/datatug-core/pull/365) (`v0.51.1`) are merged to main; all observed PR and main checks passed. | This establishes the domain/storage contracts, not completion of the app journeys. |
+| Hosted API | [Backend PR 42](https://github.com/datatug/backend/pull/42), merge `80df77f00def597da860c20454307e4a671726ce`, landed with all ten observed main checks passing. | The application host remains under construction. |
+| Browser fixture and lifecycle | Chinook `Invoice.InvoiceId = 1` showed one invoice row in Explorer; its details query returned two invoice-line rows, and the shared-input genre bar reports Rock totaling $1.98. Saved/reloaded state was checked under run `run_bd2f1ba2c84941d5bffb40f7e3b9578e`. Browser checks also exercised two distinct session tabs, a UAT session and second PROD bag, stop/archive/restore/resume, scoped Clear+Confirm that preserved text/history, and explicit resolution of two `outcome-unknown` results without redispatch; the same four run IDs remained and pending count returned to zero. | The approved invoice fixture is exercised; broader relationships and the full hosted web/terminal journey remain unverified. |
+| CLI transport | [CLI PR 374](https://github.com/datatug/datatug-cli/pull/374), merge `f5c9e8c79ca7804623f38f52060f721a7a700eaf`, landed after all 16 PR checks passed and a canonical fast-forward; its remote task branch was removed. | Post-main checks are running. |
+| Apps and Detective bridge | [Apps PR 297](https://github.com/datatug/datatug-apps/pull/297) contains the current web implementation and is pending landing. | The host is under construction, and native Detective Case/run finalization plus the session outbox evidence link are not delivered. M0–M3 remain incomplete. |
+| Public explanation | The [OVDB session storage article](https://datatug.app/en/under-the-hood/ovdb-session-storage/) is live from websites main commit `397550ff52fc111e69d8c6938b8b329d85be4e72`; CI and deployment passed and worktree cleanup is complete. | Article publication does not imply that the unfinished hosted and Detective flows are available. |
