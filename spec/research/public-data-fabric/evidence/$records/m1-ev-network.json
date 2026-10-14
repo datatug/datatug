@@ -1,8 +1,0 @@
-{
-  "title": "Internet number resource allocation",
-  "observed_at": "2026-10-04T22:12:00Z",
-  "outcome": "observation",
-  "url": "https://www.iana.org/numbers",
-  "summary": "IANA coordinates IP address/autonomous system number allocation through Regional Internet Registries. Reuse: IANA/RIR source terms require screening; no allocation list copied.",
-  "review_stage": "discovery"
-}

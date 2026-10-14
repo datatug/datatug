@@ -1,9 +1,0 @@
-{
-  "title": "adventureworks semantic artifact checks",
-  "observed_at": "2026-10-04T19:26:00Z",
-  "outcome": "pass",
-  "summary": "Literal current fixture: 71 entities and 486 properties. Publish lint, export drift and meaning reference checks passed; this is not reconciliation.",
-  "repository": "demo-db/adventureworks",
-  "commit": "cd8dcdf2079fe31480ad6d6c024b8c17cb91beea",
-  "path": "model/"
-}

@@ -1,8 +1,0 @@
-{
-  "title": "Phase 2 mobility reconciliation boundary",
-  "observed_at": "2026-10-04T23:30:33.173750+00:00",
-  "outcome": "decision",
-  "summary": "Stop, platform, station, locality, route, trip and service day are distinct. Keys are authority/feed/version scoped; NaPTAN ATCO, NaptanCode, NPTG, ORR NLC/TLC, GTFS stop_id and WIGOS must never be equated by spelling. Schedules describe supply, annual rail usage is an estimate, and geography/weather associations do not establish station identity.",
-  "reviewer": "fresh-phase2-semantic-reconciler",
-  "path": "spec/research/public-data-fabric/p2-reconciliation.md"
-}

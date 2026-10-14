@@ -1,8 +1,0 @@
-{
-  "title": "ILO ISCO-08 occupation classification",
-  "observed_at": "2026-10-04T22:10:00Z",
-  "outcome": "observation",
-  "summary": "ISCO classifies occupations using tasks/duties and skill distinctions; free-text job titles need contextual classification. Reuse: ILO document/code-list reuse terms unresolved; no code list copied.",
-  "url": "https://isco.ilo.org/en/isco-08/",
-  "review_stage": "discovery"
-}

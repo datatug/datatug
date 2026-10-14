@@ -1,8 +1,0 @@
-{
-  "title": "Phase 2 observation reconciliation boundary",
-  "observed_at": "2026-10-04T23:30:33.173750+00:00",
-  "outcome": "decision",
-  "summary": "An observation needs feature/support, property, measure, unit, period, method and quality. Grid context is not station measurement; nearby water stage is not flood risk. Rates, totals, current population and dated population cannot be interchanged. Preserve geography version, aggregation and denominator; no causal or individual inference from contextual series.",
-  "reviewer": "fresh-phase2-semantic-reconciler",
-  "path": "spec/research/public-data-fabric/p2-reconciliation.md"
-}

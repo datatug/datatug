@@ -1,8 +1,0 @@
-{
-  "title": "Phase2 context and readiness review",
-  "observed_at": "2026-10-04T23:30:33.173750+00:00",
-  "outcome": "decision",
-  "summary": "Non-meaning source/dataset/recordset/scenario context reviewed; no semantic acceptance, validation, implementation or publication is granted. Existing lifecycle/rights preserved.",
-  "reviewer": "fresh-phase2-semantic-reconciler",
-  "path": "spec/research/public-data-fabric/p2-reconciliation.md"
-}

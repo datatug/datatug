@@ -1,9 +1,0 @@
-{
-  "title": "Six pinned native sources: local references and starter country coverage",
-  "observed_at": "2026-10-04T23:30:33.173750+00:00",
-  "outcome": "decision",
-  "summary": "All six SQLite hashes equal accepted demand pins. All 152 declared references measured; no unmatched nonnull rows or duplicate target key groups. Three references have zero populated source keys. Country matcher uses core case-folded labels with no trim and exact alpha2 strings; partial coverage is preserved, not approved as complete.",
-  "reviewer": "fresh-phase2-semantic-reconciler",
-  "path": "spec/research/public-data-fabric/evidence/p2-native-checks.json",
-  "command": "wb run -- python3 spec/research/public-data-fabric/inspect_reconciliation.py --fixtures PRIVATE_FIXTURES --core-country-values PINNED_CORE_COUNTRY_VALUES --output OUTPUT"
-}

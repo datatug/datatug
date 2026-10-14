@@ -1,8 +1,0 @@
-{
-  "title": "Phase 2 geography reconciliation boundary",
-  "observed_at": "2026-10-04T23:30:33.173750+00:00",
-  "outcome": "decision",
-  "summary": "Country/territory in ISO scope is distinct from sovereignty, jurisdiction, statistical area, sales territory and locality. A place label is not a globally unique key. Country context is necessary but insufficient for same-named settlements; postcode associations can be many-to-many. Retain leading zeros and historical/category scope. Implement a versioned raw-value-to-reviewed-code bridge with ambiguity and unmatched outputs before external lookup.",
-  "reviewer": "fresh-phase2-semantic-reconciler",
-  "path": "spec/research/public-data-fabric/p2-reconciliation.md"
-}

@@ -1,8 +1,0 @@
-{
-  "title": "GLEIF legal entity identity and relationship evidence",
-  "observed_at": "2026-10-04T22:10:00Z",
-  "outcome": "observation",
-  "summary": "LEI is a 20-character alphanumeric legal-entity identifier; reference data and ownership relations are distinct from trading names. Reuse: Research paraphrase only; GLEIF data terms require separate source-screening, not ISO text rights.",
-  "url": "https://www.gleif.org/en/organizational-identity/lei-vlei/the-legal-entity-identifier-lei",
-  "review_stage": "discovery"
-}

@@ -1,8 +1,0 @@
-{
-  "title": "IANA time zone database",
-  "observed_at": "2026-10-04T22:10:00Z",
-  "outcome": "observation",
-  "summary": "tz database records local-time history for representative locations and changes with political time rules. Reuse: Publisher explicitly describes database and this page as public domain; downstream boundary datasets remain separate.",
-  "url": "https://data.iana.org/time-zones/tz-link.html",
-  "review_stage": "discovery"
-}

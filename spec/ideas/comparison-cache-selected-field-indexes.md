@@ -19,7 +19,7 @@ How might we accelerate explicitly requested field filters over schemaless local
 
 ## Context
 
-Task 15 caches post-policy comparison rows as canonical minified JSON TEXT in a schema-versioned local SQLite envelope indexed only by comparison id, state and canonical sort key. Some future large-cache journeys may need a user-selected field filter.
+The local comparison cache stores post-policy comparison rows as canonical minified JSON TEXT in a schema-versioned local SQLite envelope indexed only by comparison id, state and canonical sort key. Some future large-cache journeys may need a user-selected field filter.
 
 ## Recommended Direction
 
@@ -48,7 +48,7 @@ After measured demand, support one explicitly selected typed field, build and re
 
 | Tier | Assumption | How to validate |
 |------|------------|-----------------|
-| Must-be-true | Users need repeated filtering on a small, explicitly chosen set of fields | Measure Task 15 cache-page filter requests and require repeated use before building an index |
+| Must-be-true | Users need repeated filtering on a small, explicitly chosen set of fields | Measure local comparison cache-page filter requests and require repeated use before building an index |
 | Should-be-true | A typed selected-field index materially improves filtered page latency over a full JSON scan | Benchmark representative large caches with and without the index |
 | Might-be-true | Lazy local index creation and eviction fit the existing cache lifecycle | Prototype one field and verify schema-version migration, authorization and eviction tests |
 

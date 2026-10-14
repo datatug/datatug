@@ -1,9 +1,0 @@
-{
-  "title": "DataTug foundation review round 1",
-  "observed_at": "2026-10-04T19:26:00Z",
-  "outcome": "partial",
-  "summary": "DT-P0-001: canonical /demo project Chat is rejected by a legacy-only project ID check. DT-P0-002: CLI anonymous public OVDB SourceConfig is unsupported; browser federation already accepts optional bearer credentials. DT-P0-003: no canonical MeaningGraph/ModelSpec ingestion/discovery bridge was found. Targeted Go tests, current local SQLite CLI queries and grid reads pass; canonical semantic ingestion/discovery remains a future integration requirement.",
-  "reviewer": "foundation-datatug",
-  "independent": false,
-  "path": "evidence/datatug-findings.json"
-}

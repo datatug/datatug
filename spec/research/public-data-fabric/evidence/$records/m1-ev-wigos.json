@@ -1,8 +1,0 @@
-{
-  "title": "WMO WIGOS station identifier",
-  "observed_at": "2026-10-04T22:10:00Z",
-  "outcome": "observation",
-  "summary": "WSI identifies observing stations/platforms within WIGOS; it is not a transit-station ID. Reuse: WMO documentation and station metadata terms need screening; no records copied.",
-  "url": "https://community.wmo.int/site/knowledge-hub/programmes-and-initiatives/wmo-integrated-global-observing-system-wigos/implementation-of-wmo-integrated-global-observing-system-wigos/wigos-station-identifiers",
-  "review_stage": "discovery"
-}

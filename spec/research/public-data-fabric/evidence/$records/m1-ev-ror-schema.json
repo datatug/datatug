@@ -1,8 +1,0 @@
-{
-  "title": "ROR schema domain and external-ID scope",
-  "observed_at": "2026-10-04T22:15:00Z",
-  "outcome": "observation",
-  "url": "https://ror.readme.io/docs/schema-v2",
-  "summary": "Publisher schema documentation exposes domains separately from website links and types external identifier schemes. Avoid inferring affiliation/entity identity from arbitrary URL or assuming every record has every external identifier. Documentation/page version2.0 explanation is historical; current selected schema/version must be pinned by data lane. ROR data CC0 statement is separately evidenced in m1-ev-ror.",
-  "review_stage": "discovery"
-}

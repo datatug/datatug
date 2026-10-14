@@ -1,9 +1,0 @@
-{
-  "title": "Preserved TPC-H public-rollout exclusion",
-  "observed_at": "2026-10-04T19:26:00Z",
-  "outcome": "decision",
-  "summary": "Existing 2026-10-04 delivery decision records user confirmation of no TPC permission and exclusion from websites, server inventory and registries. The new README-only educational proposal supplies no superseding permission evidence.",
-  "url": "https://github.com/demo-db/tpch",
-  "repository": "demo-db/tpch",
-  "commit": "52600c63a66a49e60b83a6f7df0f92580179d616"
-}

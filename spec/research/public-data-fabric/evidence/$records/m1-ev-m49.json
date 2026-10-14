@@ -1,8 +1,0 @@
-{
-  "title": "UNSD M49 statistical country/area and region hierarchy",
-  "observed_at": "2026-10-04T22:10:00Z",
-  "outcome": "observation",
-  "summary": "M49 exposes country/area, numeric code, ISO alpha codes and statistical groupings; groupings do not establish political affiliation. Reuse: UN publisher terms unresolved for republication; no table copied.",
-  "url": "https://unstats.un.org/unsd/methodology/m49/overview/",
-  "review_stage": "discovery"
-}

@@ -1,8 +1,0 @@
-{
-  "title": "W3C Time Ontology",
-  "observed_at": "2026-10-04T22:10:00Z",
-  "outcome": "observation",
-  "summary": "Instants, intervals, duration and interval relations support explicit temporal qualifiers. Reuse: W3C document licence; paraphrase/link only.",
-  "url": "https://www.w3.org/TR/owl-time/",
-  "review_stage": "discovery"
-}

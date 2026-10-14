@@ -1,9 +1,0 @@
-{
-  "title": "sakila semantic artifact checks",
-  "observed_at": "2026-10-04T19:26:00Z",
-  "outcome": "pass",
-  "summary": "Literal current fixture: 16 entities and 90 properties. Publish lint, export drift and meaning reference checks passed; this is not reconciliation.",
-  "repository": "demo-db/sakila",
-  "commit": "0cb13fd76b2ce590f68efa99a6fbf7effcf6e4ce",
-  "path": "model/"
-}

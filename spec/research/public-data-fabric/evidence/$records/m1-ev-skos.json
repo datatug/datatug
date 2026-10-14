@@ -1,8 +1,0 @@
-{
-  "title": "W3C SKOS mapping distinctions",
-  "observed_at": "2026-10-04T22:10:00Z",
-  "outcome": "observation",
-  "summary": "Close/exact/broader/narrower mapping relations are distinct; lexical similarity is insufficient for identity. Reuse: W3C document licence; factual paraphrase only.",
-  "url": "https://www.w3.org/TR/skos-reference/",
-  "review_stage": "discovery"
-}

@@ -1,8 +1,0 @@
-{
-  "title": "UNSD economic classifications",
-  "observed_at": "2026-10-04T22:10:00Z",
-  "outcome": "observation",
-  "summary": "ISIC activities, CPC products and correspondence tables are separate versioned classification resources. Reuse: UN classification publication/data terms require source-specific screening; no tables copied.",
-  "url": "https://unstats.un.org/unsd/classifications/econ/",
-  "review_stage": "discovery"
-}

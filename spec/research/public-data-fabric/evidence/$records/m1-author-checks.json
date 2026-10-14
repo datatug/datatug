@@ -1,9 +1,0 @@
-{
-  "title": "Meaning stream author validation",
-  "observed_at": "2026-10-04T22:16:00Z",
-  "outcome": "pass",
-  "independent": false,
-  "review_stage": "discovery",
-  "command": "wb run -- ingitdb validate --path .; wb run -- python3 spec/research/public-data-fabric/check.py --self-test; wb run -- specscore spec lint; git diff --check",
-  "summary": "Final author checks passed: all six collections valid,22 ledger mutation checks passed,SpecScore0 violations,diff check clean. Earlier conceptual-edge guard rejection fixed by preserving paths as qualified bundles; earlier new streams directory README lint fixed by flat report path. These author checks do not substitute for independent review or pass phase1."
-}

@@ -1,8 +1,0 @@
-{
-  "title": "Phase 2 time reconciliation boundary",
-  "observed_at": "2026-10-04T23:30:33.173750+00:00",
-  "outcome": "decision",
-  "summary": "Separate calendar date, local wall time, UTC instant, duration, observation period and validity bounds. Timezone, calendar and source event role are prerequisites for conversion. Employees 9999-01-01 is an open-ended validity sentinel; shift time lacks a date. A midnight string alone does not establish a UTC instant. Date-only native/source semantics can reuse core date; timestamp truncation needs an explicit query transformation.",
-  "reviewer": "fresh-phase2-semantic-reconciler",
-  "path": "spec/research/public-data-fabric/p2-reconciliation.md"
-}

@@ -1,8 +1,0 @@
-{
-  "fabric.candidates": "spec/research/public-data-fabric/candidates",
-  "fabric.assertions": "spec/research/public-data-fabric/assertions",
-  "fabric.evidence": "spec/research/public-data-fabric/evidence",
-  "fabric.questions": "spec/research/public-data-fabric/questions",
-  "fabric.implementation": "spec/research/public-data-fabric/implementation",
-  "fabric.gates": "spec/research/public-data-fabric/gates"
-}

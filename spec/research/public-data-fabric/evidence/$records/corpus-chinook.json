@@ -1,9 +1,0 @@
-{
-  "title": "chinook semantic artifact checks",
-  "observed_at": "2026-10-04T19:26:00Z",
-  "outcome": "pass",
-  "summary": "Literal current fixture: 11 entities and 64 properties. Publish lint, export drift and meaning reference checks passed; this is not reconciliation.",
-  "repository": "demo-db/chinook",
-  "commit": "26e852cca00101f53a84ef8ee1f1ae389067f5cf",
-  "path": "model/"
-}

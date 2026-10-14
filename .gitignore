@@ -1,3 +1,8 @@
 specscore.local.yaml
 **/.*.lifecycle-transaction.lock
 .specscore-lifecycle.lock
+.codegraph/
+.worktrees/
+.worktree.md
+.wb/
+.wb-worklog/

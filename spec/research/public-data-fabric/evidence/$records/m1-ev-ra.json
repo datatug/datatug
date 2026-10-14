@@ -1,8 +1,0 @@
-{
-  "title": "GLEIF Registration Authorities List",
-  "observed_at": "2026-10-04T22:10:00Z",
-  "outcome": "observation",
-  "summary": "Registration authority codes contextualise local entity registration identifiers. Jurisdiction and authority are not interchangeable. Reuse: Specific list licence/attribution not established in this lane; no list copied.",
-  "url": "https://www.gleif.org/en/lei-data/code-lists/gleif-registration-authorities-list",
-  "review_stage": "discovery"
-}

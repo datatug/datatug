@@ -1,7 +1,0 @@
-{
-  "title": "Demand source-role review fixes r1 and duplicate correction r2",
-  "observed_at": "2026-10-04T21:52:03Z",
-  "outcome": "observation",
-  "path": "spec/research/public-data-fabric/evidence/demo-demand-corrections.json",
-  "summary": "Corrected phone/address type classification, region scope flag, customer person/store relationships and keyless whole-row proposals. Retained original hypotheses/dispositions/reasons and deduplicated seven identical surviving assertions. Fresh independent final review remains pending."
-}

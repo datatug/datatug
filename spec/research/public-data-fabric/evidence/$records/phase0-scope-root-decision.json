@@ -1,9 +1,0 @@
-{
-  "title": "Root accepts bounded publication escalation timing decision",
-  "observed_at": "2026-10-04T21:17:14.778768+00:00",
-  "outcome": "decision",
-  "summary": "Root accepts architectural recommendation: receiving gates4/5/6 keep corpus-publication open blocking with original six-corpus obligations. Separate Phase0 timing question resolved; Phase0 remains pending distinct fresh foundation acceptance and durable reviewed landing. External existing owner authorization dependency is attributed, not bypassed.",
-  "reviewer": "Main orchestrator root",
-  "independent": false,
-  "path": "evidence/phase0-publication-escalation-r1.json"
-}

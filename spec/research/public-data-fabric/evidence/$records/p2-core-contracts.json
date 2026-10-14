@@ -1,8 +1,0 @@
-{
-  "title": "Pinned canonical scopes and exercised binding contracts",
-  "observed_at": "2026-10-04T23:30:33.173750+00:00",
-  "outcome": "decision",
-  "summary": "Read all six root core meaning files (23 concepts), FORMAT.md and validator role/matching contracts, ModelSpec core-model and registry constraints. Tools with clean VCS provenance match pinned CLIs; core check and all 18 six-provider model/meaning/export checks pass. No canonical changes. Full pins and executed argv in p2-inputs-and-tools.json.",
-  "reviewer": "fresh-phase2-semantic-reconciler",
-  "path": "spec/research/public-data-fabric/evidence/p2-inputs-and-tools.json"
-}

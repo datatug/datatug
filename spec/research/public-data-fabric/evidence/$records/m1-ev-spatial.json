@@ -1,8 +1,0 @@
-{
-  "title": "W3C Spatial Data on the Web best practices",
-  "observed_at": "2026-10-04T22:10:00Z",
-  "outcome": "observation",
-  "summary": "Spatial identity, geometry and coordinate reference systems need explicit context for interoperable spatial data. Reuse: W3C document licence; no geometry dataset copied.",
-  "url": "https://www.w3.org/TR/sdw-bp/",
-  "review_stage": "discovery"
-}

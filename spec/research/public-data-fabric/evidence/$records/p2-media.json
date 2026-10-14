@@ -1,8 +1,0 @@
-{
-  "title": "Phase 2 media reconciliation boundary",
-  "observed_at": "2026-10-04T23:30:33.173750+00:00",
-  "outcome": "decision",
-  "summary": "Work, edition, media item, file, codec, Internet media type, genre and language are distinct. Local publication/track/film IDs are source-scoped; no inferred ISBN/DOI identity. Language is distinct from locale/tag and formatting culture. Compound composer/actor strings require a reviewed multiplicity policy; padding/legacy locale aliases require raw-preserving bridges.",
-  "reviewer": "fresh-phase2-semantic-reconciler",
-  "path": "spec/research/public-data-fabric/p2-reconciliation.md"
-}

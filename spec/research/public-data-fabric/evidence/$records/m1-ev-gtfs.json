@@ -1,8 +1,0 @@
-{
-  "title": "GTFS Schedule reference",
-  "observed_at": "2026-10-04T22:10:00Z",
-  "outcome": "observation",
-  "summary": "Stops/platforms/stations, routes, trips, service calendars, stop times and agencies are distinct structures. IDs require dataset/feed context. Reuse: Specification access does not license any transit feed. Publisher feed terms and identifier stability need independent screening.",
-  "url": "https://gtfs.org/documentation/schedule/reference/",
-  "review_stage": "discovery"
-}

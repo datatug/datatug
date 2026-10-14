@@ -1,8 +1,0 @@
-{
-  "title": "IETF URI generic syntax",
-  "observed_at": "2026-10-04T22:10:00Z",
-  "outcome": "observation",
-  "summary": "URI components and scheme-specific semantics matter; a URL/domain is not universally an organisation identity. Reuse: RFC copyright/Trust terms apply; no RFC text copied.",
-  "url": "https://www.rfc-editor.org/rfc/rfc3986",
-  "review_stage": "discovery"
-}
