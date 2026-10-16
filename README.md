@@ -29,7 +29,7 @@ This repository is the main community hub for **GitHub Issues**, bug reports, an
 
 DataTug is built through serious engineering: we build on open source and contribute tools and standards back. These articles share some of the work behind the product. The OVDB session storage design is still in progress.
 
-<a href="https://datatug.app/en/under-the-hood/tools-we-built/"><img src="https://datatug.app/static/illustrations/dev-shipyard-768.webp" width="160" alt="Illustration of tools being built in a software workshop" /></a>
+<a href="https://datatug.app/en/under-the-hood/tools-we-built/"><img src="https://datatug.app/static/illustrations/dev-shipyard-768.webp" width="160" alt="Developers reviewing plans beside a tugboat under construction" /></a>
 
 **[The tools we built to build DataTug](https://datatug.app/en/under-the-hood/tools-we-built/)** — A look at the developer tools we created to build, ship, and maintain DataTug.
 
