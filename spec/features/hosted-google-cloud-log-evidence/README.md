@@ -15,19 +15,31 @@ Give a signed-in DataTug user a personal, direct-read connection to one Google C
 
 **Owner-approved direction (2026-10-19):** The user separately consents to the narrow `logging.read` OAuth API scope and selects one project-local **log view**. DataTug uses that user's grant for bounded, direct `entries.list` queries through `dalgo2logs`. A server-side DataTug gateway authenticates and authorizes every request. There is no log ingestion, database snapshot, shared credential, aggregation system, or public OVDB protocol change. Workspace sharing needs a later authorization decision.
 
-This feature is in implementation, not a claim that hosted access works today. The existing local demo uses application default credentials (ADC) and a fixed project behind a loopback single-owner OVDB server. The delegated adapter, server contracts, encrypted credential storage, grant/connection registry, bounded reader, and feature-gated browser UI are merged. The DataTug Cloud host has not wired the routes, verifier, quotas or cleanup worker; production OAuth configuration, deployment and a live user-grant pilot are also outstanding. The production and Business Preview UI flags remain off.
+This feature remains in implementation. The direct adapter, server contracts,
+encrypted grant registry, bounded reader and feature-gated browser UI are
+merged. The local Northwind demo reads committed synthetic files through a
+loopback OVDB server and displays results in AG Grid; it is not a hosted Google
+user-grant pilot. Host route composition, identity checks, quotas and cleanup
+are merged in `datatug-cloud` PR #9. The hosted feature stays
+disabled pending production OAuth configuration, deployment prerequisites and
+a real consent/read/revoke pilot. Production and Business Preview UI flags are
+off.
 
 ### Delivery status (2026-10-19)
 
 | Slice | Evidence | State |
 | --- | --- | --- |
 | Direct delegated DALGO reads of one fixed view | [`dalgo2logs` PRs #6–#8](https://github.com/dal-go/dalgo2logs/pull/8) | Merged; synthetic-reader and bounded-query tests, no entry persistence |
-| OAuth/service contract, encrypted grant registry, direct reader | [`backend` PRs #59–#62](https://github.com/datatug/backend/pull/62) | Merged; emulator, race, lint, coverage and security CI passed |
-| Connection and evidence UI | [`datatug-apps` PR #396](https://github.com/datatug/datatug-apps/pull/396) | Merged; local and CI browser E2E passed with emulators; production flag off |
-| Hosted route composition and worker | `datatug-cloud` | Open; repository requires Claude Code subagents, and that runtime is not authenticated on the founder Mac in this session |
+| OAuth/service contract, encrypted grant registry, direct reader | [`backend` PRs #59–#64](https://github.com/datatug/backend/pull/64) | Merged; cancellation cleanup and form POST callback included; emulator, race, lint, coverage and security CI passed |
+| Connection and evidence UI | [`datatug-apps` PRs #396](https://github.com/datatug/datatug-apps/pull/396) and [#398](https://github.com/datatug/datatug-apps/pull/398) | Merged; hosted connection UI is gated; local evidence rows use AG Grid; local and CI browser E2E passed |
+| Hosted route composition and worker | [`datatug-cloud` PR #9](https://github.com/datatug/datatug-cloud/pull/9) | Merged at `4d180b91`; reviewed head, Build & test and Lint passed; feature disabled |
+| Reproducible local AG Grid investigation | [`datatug-demo-project` PR #55](https://github.com/datatug/datatug-demo-project/pull/55) | Merged; real app screenshots and standalone illustrative HTML; synthetic logs only |
 | Real Google grant and view pilot | Disposable nonproduction Google project | Open; no production credential or IAM changes made |
 
-The current browser test uses an emulator and synthetic API responses. It does not prove a real Google OAuth consent, IAM grant or Cloud Logging read. The merged UI does not yet provide hosted log→record→log navigation; the local Northwind demo does.
+The hosted browser test uses an emulator and synthetic API responses. It does
+not prove a real Google OAuth consent, IAM grant or Cloud Logging read. The
+hosted UI does not yet provide log→record→log navigation; the local Northwind
+demo does. That local demo reads files directly, without any log database copy.
 
 ## Problem
 
@@ -116,15 +128,23 @@ Defaults should inherit 24 hours, 200 entries and 30 seconds; retain seven-day, 
 ## Open Questions
 
 - Workspace-managed service identities and project-wide search remain separate decisions.
-- Select the exact KMS/secret-store service and ownership of the isolated OAuth project/client against the deployment environment; do not create production credentials before a threat model and operator runbook.
+- Select the disposable pilot project, project-local narrow log view, dedicated
+  OAuth client and Cloud KMS key. Grant only the required service-account IAM;
+  no production credentials or IAM were changed by the implementation PR.
+- Decide how to keep the revocation cleanup worker live on Cloud Run. The
+  current deployment uses `min_instances: 0`; the host README calls for a
+  minimum instance and instance-based CPU allocation before activation. Review
+  the continuing cost and rollback behavior with the owner.
 - Confirm Google consent-screen verification classification and Cloud Logging billing/quota behavior in the actual Cloud project before public launch.
 
 ## Source and contract evidence
 
 - [`dalgo2logs/cloudlogging/cloud.go`](https://github.com/dal-go/dalgo2logs/blob/62c8d1efd058915c82fc726cd8ce201aa602faeb/cloudlogging/cloud.go) and [`personal.go`](https://github.com/dal-go/dalgo2logs/blob/62c8d1efd058915c82fc726cd8ce201aa602faeb/cloudlogging/personal.go): local ADC and request-scoped delegated constructors with bounded reads.
-- [`dalgo2logs/docs/operations.md`](https://github.com/dal-go/dalgo2logs/blob/40002199025ec819550bbe7f0e764a5e2a83afdc/docs/operations.md): loopback owner-token boundary and hosted gap.
-- [`datatug-cloud/internal/accesspolicy/accesspolicy.go`](https://github.com/datatug/datatug-cloud/blob/d860d8067d1d4b615b494ef43da9fa383908b8d2/internal/accesspolicy/accesspolicy.go): method-based policy that treats query POST as write.
-- [`backend/host4datatug/auth.go`](https://github.com/datatug/backend/blob/2e194840d886191d674e93b524e93a9fde6b52ed/host4datatug/auth.go): verified DataTug UID and active OAuth-grant path.
+- [`dalgo2logs/docs/operations.md`](https://github.com/dal-go/dalgo2logs/blob/62c8d1efd058915c82fc726cd8ce201aa602faeb/docs/operations.md): the separate loopback owner-token configuration and its local-only boundary.
+- [`datatug-cloud/internal/composition/personal_cloud_logs.go`](https://github.com/datatug/datatug-cloud/blob/caaf347b7a3c848207f34e5341cce23d3c7ca6ad/internal/composition/personal_cloud_logs.go): opt-in direct-reader host composition and cleanup worker.
+- [`datatug-cloud/internal/accesspolicy/accesspolicy.go`](https://github.com/datatug/datatug-cloud/blob/caaf347b7a3c848207f34e5341cce23d3c7ca6ad/internal/accesspolicy/accesspolicy.go): read-only POST query route policy; the exact form POST callback exception is in host composition above.
+- [`backend` PR #64](https://github.com/datatug/backend/pull/64): OAuth callback code and state arrive in a bounded form POST body, avoiding callback query parameters in Cloud Run ingress URLs.
+- [`backend/host4datatug/auth.go`](https://github.com/datatug/backend/blob/c918eef314e2a2e15d7e8cbf7e277246049b8376/host4datatug/auth.go): verified DataTug UID and active OAuth-grant path.
 - [Google `entries.list`](https://docs.cloud.google.com/logging/docs/reference/v2/rest/v2/entries/list): view resource names, `logging.read`, ordering and pagination.
 - [Cloud Logging query language](https://docs.cloud.google.com/logging/docs/view/logging-query-language): case-insensitive equality versus token-based `SEARCH` and substring semantics.
 - [Cloud Logging IAM](https://docs.cloud.google.com/logging/docs/access-control) and [log views](https://docs.cloud.google.com/logging/docs/logs-views): view authorization.
