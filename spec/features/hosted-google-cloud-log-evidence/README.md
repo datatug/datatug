@@ -15,7 +15,19 @@ Give a signed-in DataTug user a personal, direct-read connection to one Google C
 
 **Owner-approved direction (2026-10-19):** The user separately consents to the narrow `logging.read` OAuth API scope and selects one project-local **log view**. DataTug uses that user's grant for bounded, direct `entries.list` queries through `dalgo2logs`. A server-side DataTug gateway authenticates and authorizes every request. There is no log ingestion, database snapshot, shared credential, aggregation system, or public OVDB protocol change. Workspace sharing needs a later authorization decision.
 
-This feature is in implementation, not a claim that hosted access works today. The existing local demo uses application default credentials (ADC) and a fixed project behind a loopback single-owner OVDB server. Hosted per-user access requires the server adapters, security configuration, deployment and live verification described below.
+This feature is in implementation, not a claim that hosted access works today. The existing local demo uses application default credentials (ADC) and a fixed project behind a loopback single-owner OVDB server. The delegated adapter, server contracts, encrypted credential storage, grant/connection registry, bounded reader, and feature-gated browser UI are merged. The DataTug Cloud host has not wired the routes, verifier, quotas or cleanup worker; production OAuth configuration, deployment and a live user-grant pilot are also outstanding. The production and Business Preview UI flags remain off.
+
+### Delivery status (2026-10-19)
+
+| Slice | Evidence | State |
+| --- | --- | --- |
+| Direct delegated DALGO reads of one fixed view | [`dalgo2logs` PRs #6–#8](https://github.com/dal-go/dalgo2logs/pull/8) | Merged; synthetic-reader and bounded-query tests, no entry persistence |
+| OAuth/service contract, encrypted grant registry, direct reader | [`backend` PRs #59–#62](https://github.com/datatug/backend/pull/62) | Merged; emulator, race, lint, coverage and security CI passed |
+| Connection and evidence UI | [`datatug-apps` PR #396](https://github.com/datatug/datatug-apps/pull/396) | Merged; local and CI browser E2E passed with emulators; production flag off |
+| Hosted route composition and worker | `datatug-cloud` | Open; repository requires Claude Code subagents, and that runtime is not authenticated on the founder Mac in this session |
+| Real Google grant and view pilot | Disposable nonproduction Google project | Open; no production credential or IAM changes made |
+
+The current browser test uses an emulator and synthetic API responses. It does not prove a real Google OAuth consent, IAM grant or Cloud Logging read. The merged UI does not yet provide hosted log→record→log navigation; the local Northwind demo does.
 
 ## Problem
 
@@ -48,7 +60,7 @@ Use an isolated Google OAuth **project** and dedicated web client for this integ
 
 The production app at `datatug.app` calls `api.sneat.cloud`, so a SameSite cookie set by the cross-site OAuth-start API request cannot reliably bind the Google callback. The implementation uses a two-step completion instead: the authenticated start returns an authorization URL and random app binding secret held only in the redirect tab's session storage; the server callback exchanges the code and seals a short-lived pending grant, then redirects to a fixed frontend route with an opaque one-time receipt. The signed-in browser submits that receipt and binding secret to a final API route; the server checks the original UID, binding hash, expiry and one-time consumption before claiming the Google account. The browser scrubs the receipt from its URL before telemetry or rendering. A bounded recovery worker destroys expired pending credentials. Google code and tokens never reach the frontend.
 
-The current adapter constructs `logadmin.Client` from ADC and fixes a project. Hosted use requires an **internal** constructor accepting a trusted user credential source and one validated project-local log-view resource. Build `entries.list.resourceNames` from that view; no DALGO query parameter can select a project or view. Preserve adapter time-window, result, byte and timeout limits. Add a bounded page/scan budget: Google can return an empty page with a nonempty `nextPageToken`, so one empty page is not proof of no matches. Translate each predicate with identical semantics or reject it. Keep DALGO read-only and its records/schema ordinary. OVDB can mount this DB through its generic mount, but no OVDB core branch may inspect the adapter name or introduce a log-specific public field or endpoint.
+The adapter now accepts a trusted request-scoped user token source and one validated project-local log-view resource, as well as the earlier local ADC mode. It builds `entries.list.resourceNames` from that fixed view; no DALGO query parameter can select a project or view. Time-window, result, byte, timeout and page/scan budgets are enforced, including empty pages with a nonempty `nextPageToken`. Unsupported predicates are rejected. DALGO remains read-only with ordinary records/schema. OVDB can mount this DB through its generic mount; no OVDB core branch inspects the adapter name or introduces a log-specific public field or endpoint.
 
 The hosted v1 query whitelist is inclusive UTC `timestamp >=` and `timestamp <=` (both required), `severity =` for documented enum values, and equality for `correlation_id`, `order_id` and `service` against the adapter's mapped Google fields. The initial identifier equality contract accepts **ASCII operands and mapped values only**, compared without ASCII letter case. A non-ASCII operand or candidate returns an explicit unsupported-query result. Google Logging's broader string `=` comparison uses Unicode NFKC_CF; the adapter does not silently claim that full behavior. The UI must label the ASCII limit. The existing adapter has no message/free-text predicate. Regex, arbitrary SQL, full-text, substring, OR groups, offset, keyed `Get` and unsupported ordering are rejected or disabled, never approximated. A later text feature needs a separately tested contract for Google `SEARCH` token semantics and must not be presented as substring search.
 
@@ -109,7 +121,7 @@ Defaults should inherit 24 hours, 200 entries and 30 seconds; retain seven-day, 
 
 ## Source and contract evidence
 
-- [`dalgo2logs/cloudlogging/cloud.go`](https://github.com/dal-go/dalgo2logs/blob/40002199025ec819550bbe7f0e764a5e2a83afdc/cloudlogging/cloud.go): fixed-project ADC adapter and bounded reads.
+- [`dalgo2logs/cloudlogging/cloud.go`](https://github.com/dal-go/dalgo2logs/blob/62c8d1efd058915c82fc726cd8ce201aa602faeb/cloudlogging/cloud.go) and [`personal.go`](https://github.com/dal-go/dalgo2logs/blob/62c8d1efd058915c82fc726cd8ce201aa602faeb/cloudlogging/personal.go): local ADC and request-scoped delegated constructors with bounded reads.
 - [`dalgo2logs/docs/operations.md`](https://github.com/dal-go/dalgo2logs/blob/40002199025ec819550bbe7f0e764a5e2a83afdc/docs/operations.md): loopback owner-token boundary and hosted gap.
 - [`datatug-cloud/internal/accesspolicy/accesspolicy.go`](https://github.com/datatug/datatug-cloud/blob/d860d8067d1d4b615b494ef43da9fa383908b8d2/internal/accesspolicy/accesspolicy.go): method-based policy that treats query POST as write.
 - [`backend/host4datatug/auth.go`](https://github.com/datatug/backend/blob/2e194840d886191d674e93b524e93a9fde6b52ed/host4datatug/auth.go): verified DataTug UID and active OAuth-grant path.
