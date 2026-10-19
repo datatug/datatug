@@ -1,21 +1,21 @@
 ---
 format: https://specscore.md/feature-specification
-status: Draft
+status: Implementing
 ---
 
 # Feature: Hosted Google Cloud log evidence
 
 > [SpecScore.**Studio**](https://specscore.studio): | [Explore](https://specscore.studio/app/github.com/datatug/datatug/spec/features/hosted-google-cloud-log-evidence?op=explore) | [Edit](https://specscore.studio/app/github.com/datatug/datatug/spec/features/hosted-google-cloud-log-evidence?op=edit) | [Ask question](https://specscore.studio/app/github.com/datatug/datatug/spec/features/hosted-google-cloud-log-evidence?op=ask) | [Request change](https://specscore.studio/app/github.com/datatug/datatug/spec/features/hosted-google-cloud-log-evidence?op=request-change) |
-**Status:** Draft
+**Status:** Implementing
 **Source Ideas:** —
 
 ## Summary
 
 Give a signed-in DataTug user a personal, direct-read connection to one Google Cloud Logging log view.
 
-**Recommendation for owner approval:** The user separately consents to the narrow `logging.read` OAuth API scope and selects one project-local **log view**. DataTug uses that user's grant for bounded, direct `entries.list` queries through `dalgo2logs`. A server-side DataTug gateway authenticates and authorizes every request. There is no log ingestion, database snapshot, shared credential, aggregation system, or public OVDB protocol change. Workspace sharing needs a later authorization decision.
+**Owner-approved direction (2026-10-19):** The user separately consents to the narrow `logging.read` OAuth API scope and selects one project-local **log view**. DataTug uses that user's grant for bounded, direct `entries.list` queries through `dalgo2logs`. A server-side DataTug gateway authenticates and authorizes every request. There is no log ingestion, database snapshot, shared credential, aggregation system, or public OVDB protocol change. Workspace sharing needs a later authorization decision.
 
-This is a design, not a claim that hosted access works today. The current adapter uses application default credentials (ADC) and a fixed project behind a loopback single-owner OVDB server. The DataTug log page connects to that local server. Neither component provides hosted per-user access.
+This feature is in implementation, not a claim that hosted access works today. The existing local demo uses application default credentials (ADC) and a fixed project behind a loopback single-owner OVDB server. Hosted per-user access requires the server adapters, security configuration, deployment and live verification described below.
 
 ## Problem
 
@@ -46,9 +46,11 @@ The registry models one provider grant per DataTug UID + Google `sub` + OAuth pr
 
 Use an isolated Google OAuth **project** and dedicated web client for this integration, with server-side authorization-code exchange, exact redirect URI, state bound to the DataTug session/UID and one-time nonce, PKCE, and offline access only after explicit consent. Do not reuse the DataTug sign-in OAuth project or attach other product scopes to this one. Validate ID-token issuer, audience, expiry and nonce before storing `sub`; do not treat the Google ID token as DataTug authentication. Store refresh tokens with envelope encryption under a managed key, apart from configuration and project data; restrict decrypt/use to the query service identity and audit it. Keep short-lived access tokens only in bounded server memory. If Google returns no refresh token, show a reconnect path; never substitute server ADC. Token refresh and the read probe use the same user grant. Never put credentials in URLs, browser storage, project files, logs, tracing or error responses.
 
+The production app at `datatug.app` calls `api.sneat.cloud`, so a SameSite cookie set by the cross-site OAuth-start API request cannot reliably bind the Google callback. The implementation uses a two-step completion instead: the authenticated start returns an authorization URL and random app binding secret held only in the redirect tab's session storage; the server callback exchanges the code and seals a short-lived pending grant, then redirects to a fixed frontend route with an opaque one-time receipt. The signed-in browser submits that receipt and binding secret to a final API route; the server checks the original UID, binding hash, expiry and one-time consumption before claiming the Google account. The browser scrubs the receipt from its URL before telemetry or rendering. A bounded recovery worker destroys expired pending credentials. Google code and tokens never reach the frontend.
+
 The current adapter constructs `logadmin.Client` from ADC and fixes a project. Hosted use requires an **internal** constructor accepting a trusted user credential source and one validated project-local log-view resource. Build `entries.list.resourceNames` from that view; no DALGO query parameter can select a project or view. Preserve adapter time-window, result, byte and timeout limits. Add a bounded page/scan budget: Google can return an empty page with a nonempty `nextPageToken`, so one empty page is not proof of no matches. Translate each predicate with identical semantics or reject it. Keep DALGO read-only and its records/schema ordinary. OVDB can mount this DB through its generic mount, but no OVDB core branch may inspect the adapter name or introduce a log-specific public field or endpoint.
 
-The hosted v1 query whitelist is inclusive UTC `timestamp >=` and `timestamp <=` (both required), `severity =` for documented enum values, and equality for `correlation_id`, `order_id` and `service` against the adapter's mapped Google fields. Google Logging string `=` comparison is **case-insensitive**; the UI must say so for identifiers. The existing adapter has no message/free-text predicate. Regex, arbitrary SQL, full-text, substring, OR groups, offset, keyed `Get` and unsupported ordering are rejected or disabled, never approximated. A later text feature needs a separately tested contract for Google `SEARCH` token semantics and must not be presented as substring search.
+The hosted v1 query whitelist is inclusive UTC `timestamp >=` and `timestamp <=` (both required), `severity =` for documented enum values, and equality for `correlation_id`, `order_id` and `service` against the adapter's mapped Google fields. The initial identifier equality contract accepts **ASCII operands and mapped values only**, compared without ASCII letter case. A non-ASCII operand or candidate returns an explicit unsupported-query result. Google Logging's broader string `=` comparison uses Unicode NFKC_CF; the adapter does not silently claim that full behavior. The UI must label the ASCII limit. The existing adapter has no message/free-text predicate. Regex, arbitrary SQL, full-text, substring, OR groups, offset, keyed `Get` and unsupported ordering are rejected or disabled, never approximated. A later text feature needs a separately tested contract for Google `SEARCH` token semantics and must not be presented as substring search.
 
 The hosted API owns authorization. It may call DALGO directly or delegate through a private request-scoped generic OVDB mount; use the simpler measured integration. Neither path exposes the local owner token as a hosted credential. A normal OVDB client remains able to discover/query an authorized generic mount using the unchanged public protocol.
 
@@ -56,7 +58,9 @@ The current Cloud adapter's `source_ref` is a hash of an SDK reconstruction, `Ge
 
 | Route intent | Required server decision | Allowed result |
 | --- | --- | --- |
-| OAuth start/callback | Valid DataTug session; one-time state and PKCE bound to UID | One personal connection; no browser credential |
+| OAuth start | Valid browser DataTug session; server-bound UID, one-time state, nonce and PKCE | Authorization URL and browser-held finish binding; no Google credential |
+| OAuth callback | One-time state, nonce and PKCE; verified Google identity and scope | Short-lived server-sealed completion and opaque receipt; no active connection yet |
+| OAuth finish | Valid browser DataTug session; original UID, receipt, finish binding and expiry; atomic subject claim | Personal grant metadata; no browser credential |
 | List/create/remove `me/log-connections` | Verified UID; owner equality; CSRF/origin checks on mutations | Personal view metadata only |
 | Revoke Google grant | Verified UID; account-level confirmation; disable every child view first | Explicit project-wide OAuth revocation and bounded encrypted cleanup tombstone |
 | Discover/query | Verified UID; owner equality; active grant; fixed view; bounded supported query | Current entries only, never persisted |
@@ -85,13 +89,13 @@ Defaults should inherit 24 hours, 200 entries and 30 seconds; retain seven-day, 
 2. The browser receives no Google credential. Registry is server-only; refresh tokens are encrypted under a managed key; view removal disables its queries, and account disconnect disables all child views before provider-wide revocation cleanup completes.
 3. Discovery/query uses ordinary read-only DALGO collections and direct bounded `entries.list` calls. No log payload/result is persistently stored in a database, cache, analytics event or investigation; responses set `Cache-Control: no-store`.
 4. An unmodified OVDB client discovers/queries an authorized generic mount using the existing public contract; an OVDB protocol diff is empty.
-5. DataTug completes log→record→log navigation against current source data. The Cloud UI exposes only the stated filter whitelist, labels its case-insensitive string equality, and disables free text with an explanation. Consent, denied, expired, empty, capped, error, narrow/mobile and evidence-unavailable states are tested. If exact reference replay is offered, it uses the bounded locator resolver and does not treat a broad rerun as exact replay.
+5. DataTug completes log→record→log navigation against current source data. The Cloud UI exposes only the stated filter whitelist, labels its ASCII-only case-insensitive identifier equality, and disables free text with an explanation. Consent, denied, expired, empty, capped, error, narrow/mobile and evidence-unavailable states are tested. If exact reference replay is offered, it uses the bounded locator resolver and does not treat a broad rerun as exact replay.
 6. Negative tests cover IDOR/cross-UID, concurrent OAuth callbacks for the same Google `sub` under two DataTug UIDs, generic duplicate-owner denial without account disclosure, relink only after explicit old-owner release and cleanup barrier, OAuth state/PKCE replay, missing refresh token, token disclosure, view mismatch, IAM revocation, unsupported query, empty pages with page token, throttling, cancellation, large payload, removal with other views still linked, provider-wide revoke failure/tombstone cleanup, reconnect blocked across UIDs during pending revocation, late old-generation refresh/revoke jobs unable to affect a new grant, and exact replay after newer entries push the target beyond the normal result cap. Use Google client test doubles, then a disposable nonproduction project with synthetic logs for a gated live pilot. No production credentials in CI.
 7. Security review verifies scope, storage, redaction, retention, user disclosure, Google consent-screen requirements and least-privilege IAM before public rollout. Pilot measures API cost and latency rather than inferring a guarantee from local benchmarks.
 
 ## Implementation plan and approval gates
 
-1. **Owner decision:** Approve or amend personal delegated OAuth and mandatory fixed log view. This approves architecture only, not linking a production account. Keep the feature Draft until the SpecScore human gate is met.
+1. **Owner decision:** Approved personal delegated OAuth and mandatory fixed log view on 2026-10-19. This approves architecture only, not linking a production account. The feature is Implementing.
 2. **Adapter:** Accept trusted user credentials and fixed log-view resource; prove exact filter translation, pagination, limits and read-only behavior. Keep OVDB public API unchanged and test a normal client.
 3. **DataTug server:** Add provider grant plus child-view registry, managed-key token lifecycle, OAuth start/callback, view removal and account-wide disconnect with revocation tombstone, route-specific read policy, UID/IAM checks, quotas, sanitized errors and audit. Review threat model before a real-account pilot.
 4. **UI:** Connect/reconnect, remove-view and revoke-account states, project/view selection and probe, existing log view and record navigation. A reference-only save/replay bridge is separate, and exact replay must meet the locator contract above before it is advertised. Use existing DemoDB synthetic fixture for E2E and a disposable Google project for live pilot.
@@ -99,7 +103,7 @@ Defaults should inherit 24 hours, 200 entries and 30 seconds; retain seven-day, 
 
 ## Open Questions
 
-- **Owner approval requested:** Is a personal delegated Google OAuth connection restricted to one explicit log view the intended first hosted model? Recommendation: **yes**. Workspace-managed service identities and project-wide search would be separate decisions.
+- Workspace-managed service identities and project-wide search remain separate decisions.
 - Select the exact KMS/secret-store service and ownership of the isolated OAuth project/client against the deployment environment; do not create production credentials before a threat model and operator runbook.
 - Confirm Google consent-screen verification classification and Cloud Logging billing/quota behavior in the actual Cloud project before public launch.
 
