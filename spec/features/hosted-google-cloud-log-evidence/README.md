@@ -22,12 +22,13 @@ loopback OVDB server and displays results in AG Grid; it is not a hosted Google
 user-grant pilot. Host route composition, identity checks, quotas, task-based
 cleanup and the pilot UID allowlist are merged in `datatug-cloud` PR #12.
 Task OIDC authenticates cleanup; the UID allowlist applies only to verified
-user management/query routes. The production host serves revision
-`datatug-cloud-00008-tw6` at 100% traffic from image tag
-`1d2822f2e0d853352738a01bb3bb39846d5efc98`; GET health check returned 200 with
-`X-Sneat-Service: datatug-cloud`. The feature-enabled and pilot UID allowlist
-environment variables are absent. The cleanup route and Scheduler job are not
-activated or provisioned. Deployment workflow
+user management/query routes. The 2026-10-19 provisioning readback found ready
+revision `datatug-cloud-00009-9zk` at 100% traffic from image tag
+`eca0f01d3121d4bce095f0006a5931ba086a1fe5`. The feature-enabled and pilot UID
+allowlist environment variables and both OAuth secret bindings are absent.
+The cleanup route and Scheduler job are not activated or provisioned. The
+earlier PR #12 deployment at revision `00008-tw6` passed GET health with
+`X-Sneat-Service: datatug-cloud`; deployment workflow
 [39272895816](https://github.com/datatug/datatug-cloud/actions/runs/39272895816)
 completed successfully. The hosted feature stays
 disabled pending production OAuth configuration, deployment prerequisites and
@@ -41,7 +42,7 @@ off.
 | Direct delegated DALGO reads of one fixed view | [`dalgo2logs` PRs #6–#8](https://github.com/dal-go/dalgo2logs/pull/8) | Merged; synthetic-reader and bounded-query tests, no entry persistence |
 | OAuth/service contract, encrypted grant registry, direct reader | [`backend` PRs #59–#64](https://github.com/datatug/backend/pull/64), [`#66` alignment receipt](https://github.com/datatug/backend/pull/66) | Implementation merged; cancellation cleanup and form POST callback included; emulator, race, lint, coverage and security CI passed. PR #66 merged at `9d9c79ddbdbf9d979b8057a0482b03822bd03bc7` |
 | Connection and evidence UI | [`datatug-apps` PRs #396](https://github.com/datatug/datatug-apps/pull/396) and [#398](https://github.com/datatug/datatug-apps/pull/398), [`#403` alignment receipt](https://github.com/datatug/datatug-apps/pull/403) | Implementation merged; hosted connection UI is gated; local evidence rows use AG Grid; local and CI browser E2E passed. PR #403 merged at `0fc93214ff275edabd86d23881e5f566a1a4bddb`; exact candidate build, test and Cloud Logs E2E passed |
-| Hosted route composition and task cleanup | [`datatug-cloud` PR #9](https://github.com/datatug/datatug-cloud/pull/9) and [PR #12](https://github.com/datatug/datatug-cloud/pull/12) | PR #9 merged at `4d180b91`; reviewed head, Build & test and Lint passed. PR #12 merged at `1d2822f2e0d853352738a01bb3bb39846d5efc98`; production revision `datatug-cloud-00008-tw6` serves 100% traffic from this image and GET health check returns 200. Task OIDC authenticates cleanup; pilot UID allowlist applies to verified user management/query routes. Feature-enabled and pilot UID environment variables are absent; cleanup is not activated or provisioned. Deployment workflow [39272895816](https://github.com/datatug/datatug-cloud/actions/runs/39272895816) completed successfully |
+| Hosted route composition and task cleanup | [`datatug-cloud` PR #9](https://github.com/datatug/datatug-cloud/pull/9) and [PR #12](https://github.com/datatug/datatug-cloud/pull/12) | PR #9 merged at `4d180b91`; reviewed head, Build & test and Lint passed. PR #12 merged at `1d2822f2e0d853352738a01bb3bb39846d5efc98`; its deployment [39272895816](https://github.com/datatug/datatug-cloud/actions/runs/39272895816) succeeded at revision `00008-tw6` with GET health 200. Later provisioning readback found ready revision `00009-9zk`, image `eca0f01d3121d4bce095f0006a5931ba086a1fe5`, at 100% traffic. Task OIDC authenticates cleanup; pilot UID allowlist applies to verified user management/query routes. Feature-enabled and pilot UID variables and OAuth secret bindings are absent; cleanup is not activated or provisioned |
 | Firebase server-only rules | [`sneat-firebase` PR #61](https://github.com/sneat-co/sneat-firebase/pull/61) | Merged at `a78abcd7e55258b93ba996b7bfe1e48149cfe029`; 263 tests across 20 suites; live deploy run [39272536444](https://github.com/sneat-co/sneat-firebase/actions/runs/39272536444) succeeded; exact byte readback SHA `9038e32d45753b5ebe62ac078743da5b0cd7eadb40b9dfedae723c8bf245d8d2`, ruleset `bbb016cf-1cea-4cc5-adb8-79bae63d9c2b` |
 | Reproducible local AG Grid investigation | [`datatug-demo-project` PR #55](https://github.com/datatug/datatug-demo-project/pull/55) | Merged; real app screenshots and standalone illustrative HTML; synthetic logs only |
 | Narrow synthetic Google log view and direct DALGO read | [`datatug-demo-project` PR #57](https://github.com/datatug/datatug-demo-project/pull/57) | Merged; eight clearly marked synthetic entries in `sneat-eur3-1`, fixed view read verified; hosted consent, view-only IAM and browser journey remain open |
@@ -147,24 +148,41 @@ Defaults should inherit 24 hours, 200 entries and 30 seconds; retain seven-day, 
   with client ID `588648831063-rr6titvvsu52j9n7gqc07uagqoru3lfd.apps.googleusercontent.com`
   and callback `https://api.sneat.cloud/v0/datatug/me/google-log-grants/oauth/callback`.
   The verified Firebase identity at `auth.sneat.co` remains shared with Sneat.
-  No Google user grant has been completed. The client secret has not been
-  downloaded or stored; secure storage approval is pending. A low-privilege
-  view-only identity and IAM grant are also open; the existing pilot read used
-  a project Editor identity.
-- Cloud KMS API is enabled in `sneat-eur3-1`; key ring and key creation are
-  pending resource approval. The hosted feature remains disabled. Bounded
+  No Google user grant has been completed. Following explicit owner approval,
+  the client secret was stored/read-back verified as version `1` of
+  `datatug-cloud-logs-oauth-client-secret` in Secret Manager (`europe-west3`),
+  and the temporary JSON was deleted. A browser recovery tool emitted the secret
+  into private tool output despite suppression; independent security review
+  requires owner-performed replacement and a new pinned secret version before
+  activation. No user-token revocation is indicated. A low-privilege view-only
+  identity and IAM grant are also open; the source read used an Editor identity.
+- Following explicit owner approval, KMS ring `datatug-cloud-logs` and key
+  `google-oauth-grants` were created in `sneat-eur3-1/europe-west3`; primary
+  software version `1` is enabled for `ENCRYPT_DECRYPT`. After automatic approval
+  review required exact permission, the owner separately approved the current
+  shared runtime account `588648831063-compute@developer.gserviceaccount.com`
+  receiving key-level `roles/cloudkms.cryptoKeyEncrypterDecrypter`, and creation
+  of `datatug-cloud-logs-oauth-state-key`. Both were applied. State-secret version
+  `1` contains the standard-base64 encoding of 32 random bytes, generated and
+  transferred in memory with read-back equality verified; replication is only
+  `europe-west3`. Existing Secret Manager access is unchanged. Other workloads
+  using the shared runtime identity also gain access to the new KMS key, an
+  explicitly approved pilot limitation.
+  Generic deployment wiring is under review in [CICD PR #44](https://github.com/sneat-co/cicd/pull/44);
+  its 133 fake-provider step checks passed locally and independently. The hosted
+  feature remains disabled. Bounded
   cleanup is merged in host PR #12 and is invoked through the existing
   `/_tasks` taskshost route, authenticated by task OIDC. The pilot UID allowlist
   applies only to verified user management/query routes. Cleanup is not
-  activated or provisioned: no Cloud Scheduler job or
-  Scheduler invoker IAM grant exists, the feature flag is off, and no user
-  grant exists. The intended managed job is
+  activated or provisioned: no Cloud Scheduler job exists, the feature flag is
+  off, and no user grant exists. Policy readback confirms that the existing
+  task invoker already has Cloud Run invoke permission. The intended managed job is
   `datatug-personal-cloud-log-cleanup` in `europe-west3`, using
   `cloud-tasks-invoker@sneat-eur3-1.iam.gserviceaccount.com` with audience
   `https://datatug-cloud-354fvnqbaa-ey.a.run.app`; keep it paused until the
-  host route and feature configuration are ready. The live host currently
-  serves `datatug-cloud-00008-tw6` at 100% traffic, with both feature-related
-  environment variables absent.
+  host route and feature configuration are ready. The provisioning readback
+  found ready revision `datatug-cloud-00009-9zk` at 100% traffic, with both
+  feature-related environment variables and OAuth secret bindings absent.
 - A hosted Google popup test returned `auth/popup-closed-by-user`. A same-origin
   `createAuthUri` probe returned HTTP 400 `INVALID_CONTINUE_URI` because the
   domain belongs to a different Firebase Hosting project. The popup result's
