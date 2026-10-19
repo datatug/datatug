@@ -30,14 +30,21 @@ receives no Cloud Logs configuration. Its deployment
 succeeded. The subsequent 2026-10-19 provider readback found ready revision
 `datatug-cloud-00012-stx` at 100% traffic, image tag
 `4868105ee730ec3c2ae4914f78970214da0b9676`, and GET `/health-check` returned 200
-with `X-Sneat-Service: datatug-cloud`. No personal Cloud Logs environment
-variables or OAuth secret bindings are present, and the pilot Scheduler job
-does not exist. The backend feature stays disabled pending credential
+with `X-Sneat-Service: datatug-cloud`. Host PR #15 then deployed at
+`datatug-cloud-00013-hjk` with 100% traffic from image
+`e5925566ab0c81f95a7bbe46b73fd9836f1c024f`. Provider readback at
+2026-10-19 18:05:25 UTC found production revision `datatug-cloud-00013-hjk`
+and preview revision `datatug-cloud-00014-np9`, both at 100% traffic on that
+image; both had no Cloud Logs environment variables, OAuth secret bindings or
+pilot Scheduler job. GET `/health-check` returned 200 for production at
+18:02:45 UTC. Host post-merge Go CI [39298598295](https://github.com/datatug/datatug-cloud/actions/runs/39298598295)
+and deployment workflow [39298871944](https://github.com/datatug/datatug-cloud/actions/runs/39298871944)
+passed. The backend feature stays disabled pending credential
 replacement, production OAuth configuration and a real consent/read/revoke
 pilot. [Apps PR #407](https://github.com/datatug/datatug-apps/pull/407) merged
 at `a63cfe2883d1078f9a3c1058483197126ea372de`; its production UI flag is on
 behind the fail-closed, server-confirmed UID access gate, and Business Preview
-remains off. The post-merge [CI run 39291047149](https://github.com/datatug/datatug-apps/actions/runs/39291047149)
+remains off. The post-merge [CI run 39292521711](https://github.com/datatug/datatug-apps/actions/runs/39292521711)
 passed preflight, build, test, Cloud Logs E2E and deploy-gate checks.
 Cloudflare workflow [39293867514](https://github.com/datatug/datatug-apps/actions/runs/39293867514)
 succeeded, and public build-info reports SHA
@@ -52,8 +59,8 @@ grant access while its server configuration is absent.
 | Direct delegated DALGO reads of one fixed view | [`dalgo2logs` PRs #6–#8](https://github.com/dal-go/dalgo2logs/pull/8) | Merged; synthetic-reader and bounded-query tests, no entry persistence |
 | OAuth/service contract, encrypted grant registry, direct reader | [`backend` PRs #59–#64](https://github.com/datatug/backend/pull/64), [`#66` alignment receipt](https://github.com/datatug/backend/pull/66) | Implementation merged; cancellation cleanup and form POST callback included; emulator, race, lint, coverage and security CI passed. PR #66 merged at `9d9c79ddbdbf9d979b8057a0482b03822bd03bc7` |
 | Connection and evidence UI | [`datatug-apps` PRs #396](https://github.com/datatug/datatug-apps/pull/396) and [#398](https://github.com/datatug/datatug-apps/pull/398), [`#403` alignment receipt](https://github.com/datatug/datatug-apps/pull/403) | Implementation merged; hosted connection UI is gated; local evidence rows use AG Grid; local and CI browser E2E passed. PR #403 merged at `0fc93214ff275edabd86d23881e5f566a1a4bddb`; exact candidate build, test and Cloud Logs E2E passed |
-| Pilot UI access gate and sign-in recovery | [Apps PR #407](https://github.com/datatug/datatug-apps/pull/407) | Merged at `a63cfe2883d1078f9a3c1058483197126ea372de`; post-merge [CI run 39291047149](https://github.com/datatug/datatug-apps/actions/runs/39291047149) passed preflight, build, test, Cloud Logs E2E and deploy-gate checks. Cloudflare workflow [39293867514](https://github.com/datatug/datatug-apps/actions/runs/39293867514) succeeded; public build-info reports the same SHA and version `0.1.0+1201`. Production UI is on behind the verified-UID server gate; Business Preview is off. No post-deploy CI smoke or usable DataTug session was verified |
-| Hosted route composition and task cleanup | [`datatug-cloud` PR #9](https://github.com/datatug/datatug-cloud/pull/9) and [PR #12](https://github.com/datatug/datatug-cloud/pull/12) | PR #9 merged at `4d180b91`; reviewed head, Build & test and Lint passed. PR #12 merged at `1d2822f2e0d853352738a01bb3bb39846d5efc98`; its deployment [39272895816](https://github.com/datatug/datatug-cloud/actions/runs/39272895816) succeeded at revision `00008-tw6` with GET health 200. Later provisioning readback found ready revision `00009-9zk`, image `eca0f01d3121d4bce095f0006a5931ba086a1fe5`, at 100% traffic. Task OIDC authenticates cleanup; pilot UID allowlist applies to verified user management/query routes. Feature-enabled and pilot UID variables and OAuth secret bindings are absent; cleanup is not activated or provisioned |
+| Pilot UI access gate and sign-in recovery | [Apps PR #407](https://github.com/datatug/datatug-apps/pull/407) | Merged at `a63cfe2883d1078f9a3c1058483197126ea372de`; post-merge [CI run 39292521711](https://github.com/datatug/datatug-apps/actions/runs/39292521711) passed preflight, build, test, Cloud Logs E2E and deploy-gate checks. Cloudflare workflow [39293867514](https://github.com/datatug/datatug-apps/actions/runs/39293867514) succeeded; public build-info reports the same SHA and version `0.1.0+1201`. Production UI is on behind the verified-UID server gate; Business Preview is off. No post-deploy CI smoke or usable DataTug session was verified |
+| Hosted route composition and task cleanup | [`datatug-cloud` PR #9](https://github.com/datatug/datatug-cloud/pull/9), [PR #12](https://github.com/datatug/datatug-cloud/pull/12), [PR #14](https://github.com/datatug/datatug-cloud/pull/14), [PR #15](https://github.com/datatug/datatug-cloud/pull/15), and [README follow-up PR #16](https://github.com/datatug/datatug-cloud/pull/16) | PR #9 merged at `4d180b91`; reviewed head, Build & test and Lint passed. PR #12 merged at `1d2822f2e0d853352738a01bb3bb39846d5efc98`; deployment [39272895816](https://github.com/datatug/datatug-cloud/actions/runs/39272895816) succeeded at revision `00008-tw6` with GET health 200. PR #14 deployment [39288374923](https://github.com/datatug/datatug-cloud/actions/runs/39288374923) succeeded; provider readback found ready revision `00012-stx` at 100% traffic with GET health 200. PR #15 merged at `e5925566ab0c81f95a7bbe46b73fd9836f1c024f`; its private user-routes switch omits all eight user handlers while retaining cleanup registration, credentials and task OIDC. Post-merge Go CI [39298598295](https://github.com/datatug/datatug-cloud/actions/runs/39298598295) and deployment workflow [39298871944](https://github.com/datatug/datatug-cloud/actions/runs/39298871944) passed. Provider readback at 18:05:25 UTC found production `00013-hjk` and preview `00014-np9`, both at 100% traffic on image `e5925566ab0c81f95a7bbe46b73fd9836f1c024f`, with no Cloud Logs environment variables, OAuth secret bindings or pilot Scheduler job; GET health returned 200 for production at 18:02:45 UTC. README-only PR #16 merged at `b5c6c8444fd3c98c177d441b47f691cbdfae1d5b`; candidate CI [39299058079](https://github.com/datatug/datatug-cloud/actions/runs/39299058079) passed build and lint, independent review was clear, and post-merge CI/deployment wait is pending. Task OIDC authenticates cleanup; the pilot UID allowlist applies only to verified user management/query routes. No grant, live cleanup, activation or shutdown proof exists |
 | Opt-in production deployment wiring | [`cicd` PR #44](https://github.com/sneat-co/cicd/pull/44), [`datatug-cloud` PR #14](https://github.com/datatug/datatug-cloud/pull/14) | Merged at `9571a3c78a448598ccce184a2aa7625ab07d6a53` and `4868105ee730ec3c2ae4914f78970214da0b9676`; independent review and exact-head CI passed. Generic CICD step tests: 133 passed. Post-merge host Go CI and deployment passed; direct provider readback and health are recorded above. Existing Secret Manager versions are referenced without copying their values. No pilot enablement or Google user grant occurred |
 | Firebase server-only rules | [`sneat-firebase` PR #61](https://github.com/sneat-co/sneat-firebase/pull/61) | Merged at `a78abcd7e55258b93ba996b7bfe1e48149cfe029`; 263 tests across 20 suites; live deploy run [39272536444](https://github.com/sneat-co/sneat-firebase/actions/runs/39272536444) succeeded; exact byte readback SHA `9038e32d45753b5ebe62ac078743da5b0cd7eadb40b9dfedae723c8bf245d8d2`, ruleset `bbb016cf-1cea-4cc5-adb8-79bae63d9c2b` |
 | Reproducible local AG Grid investigation | [`datatug-demo-project` PR #55](https://github.com/datatug/datatug-demo-project/pull/55) | Merged; real app screenshots and standalone illustrative HTML; synthetic logs only |
@@ -202,16 +209,40 @@ Defaults should inherit 24 hours, 200 entries and 30 seconds; retain seven-day, 
   `datatug-personal-cloud-log-cleanup` in `europe-west3`, using
   `cloud-tasks-invoker@sneat-eur3-1.iam.gserviceaccount.com` with audience
   `https://datatug-cloud-354fvnqbaa-ey.a.run.app`; keep it paused until the
-  host route and feature configuration are ready. The latest release readback
-  found ready revision `datatug-cloud-00012-stx` at 100% traffic, with
-  feature-related environment variables and OAuth secret bindings absent.
-  Deactivation after a real grant requires a separately verified cleanup
-  barrier: simply setting the feature flag to `0` removes cleanup registration
-  and its credential bindings. Pending and revoking grants must finish bounded
-  cleanup while the task route and keys remain available, before pausing/removing
-  the job or removing those bindings. This drain has not been exercised against
-  real grants; an elapsed timeout alone cannot establish it. A cleanup-preserving
-  disable path or an executed drain proof is required before activation.
+  host route and feature configuration are ready. Host PR #15 is merged at
+  `e5925566ab0c81f95a7bbe46b73fd9836f1c024f`. Its private
+  `DATATUG_PERSONAL_CLOUD_LOGS_USER_ROUTES_ENABLED=0` switch under the master
+  feature flag omits all eight user handlers while retaining cleanup task
+  registration, cleanup credentials and task OIDC. When enabled, this stops
+  user routes; it does not revoke Google grants or prove full shutdown. Host
+  PR #15 is deployed at production revision `datatug-cloud-00013-hjk`
+  and preview revision `datatug-cloud-00014-np9`, both at 100% traffic on image
+  `e5925566ab0c81f95a7bbe46b73fd9836f1c024f`. Provider readback at 18:05:25 UTC
+  found no personal Cloud Logs environment variables, OAuth secret bindings or
+  pilot Scheduler job. GET health returned 200 for production at 18:02:45 UTC.
+  The route stop with the master feature enabled was not exercised because no
+  personal Cloud Logs configuration is present. Host Go CI
+  [39298598295](https://github.com/datatug/datatug-cloud/actions/runs/39298598295)
+  and deployment workflow
+  [39298871944](https://github.com/datatug/datatug-cloud/actions/runs/39298871944)
+  passed. README-only PR #16 merged at
+  `b5c6c8444fd3c98c177d441b47f691cbdfae1d5b`; candidate build and lint
+  [39299058079](https://github.com/datatug/datatug-cloud/actions/runs/39299058079)
+  passed and independent review was clear. Its post-merge wait is pending. No
+  production grant or cleanup run was observed.
+  Source review identified a shutdown race: an in-flight `finish` can activate
+  a completion after the initial revoke inventory, removing that completion
+  and creating an active grant; cleanup only handles expiring completions and
+  queued revocations. Before turning the master feature flag off after
+  activation, prove a no-further-activation barrier across all serving and old
+  revisions and in-flight start/callback/finish requests, then take a final
+  active-grant inventory. Any late active grant needs a separately verified
+  revocation path, followed by a generation-fenced drain of queued revocations
+  and purge of all completion records while the task route and keys remain
+  available. The shutdown sequence has no live proof. PR #15 only stops user
+  routes while preserving cleanup; it does not provide that barrier, revoke
+  grants, or clear the activation gate. Turning the master feature flag to `0`
+  removes cleanup registration and its credential bindings.
 - Hosted Google popup and redirect attempts using the shared Firebase identity
   reached `auth.sneat.co` but did not produce a usable DataTug session; the
   popup attempt also returned `auth/popup-closed-by-user`. Public helper checks
