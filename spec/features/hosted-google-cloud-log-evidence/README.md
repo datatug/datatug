@@ -20,13 +20,16 @@ encrypted grant registry, bounded reader and feature-gated browser UI are
 merged. The local Northwind demo reads committed synthetic files through a
 loopback OVDB server and displays results in AG Grid; it is not a hosted Google
 user-grant pilot. Host route composition, identity checks, quotas, task-based
-cleanup and the pilot UID allowlist are merged in `datatug-cloud` PR #12. The
-production host serves revision `datatug-cloud-00008-tw6` at 100% traffic from
-image tag `1d2822f2e0d853352738a01bb3bb39846d5efc98`; GET health check returned
-200 with `X-Sneat-Service: datatug-cloud`. The feature-enabled and pilot UID
-allowlist environment variables are absent. The cleanup route and Scheduler
-job are not activated or provisioned. Deployment workflow 39272895816 was
-still running its remaining preview/verify steps at the latest receipt. The hosted feature stays
+cleanup and the pilot UID allowlist are merged in `datatug-cloud` PR #12.
+Task OIDC authenticates cleanup; the UID allowlist applies only to verified
+user management/query routes. The production host serves revision
+`datatug-cloud-00008-tw6` at 100% traffic from image tag
+`1d2822f2e0d853352738a01bb3bb39846d5efc98`; GET health check returned 200 with
+`X-Sneat-Service: datatug-cloud`. The feature-enabled and pilot UID allowlist
+environment variables are absent. The cleanup route and Scheduler job are not
+activated or provisioned. Deployment workflow
+[39272895816](https://github.com/datatug/datatug-cloud/actions/runs/39272895816)
+completed successfully. The hosted feature stays
 disabled pending production OAuth configuration, deployment prerequisites and
 a real consent/read/revoke pilot. Production and Business Preview UI flags are
 off.
@@ -36,9 +39,9 @@ off.
 | Slice | Evidence | State |
 | --- | --- | --- |
 | Direct delegated DALGO reads of one fixed view | [`dalgo2logs` PRs #6–#8](https://github.com/dal-go/dalgo2logs/pull/8) | Merged; synthetic-reader and bounded-query tests, no entry persistence |
-| OAuth/service contract, encrypted grant registry, direct reader | [`backend` PR #66](https://github.com/datatug/backend/pull/66) | Merged at `9d9c79ddbdbf9d979b8057a0482b03822bd03bc7` |
-| Connection and evidence UI | [`datatug-apps` PR #403](https://github.com/datatug/datatug-apps/pull/403) | Merged at `0fc93214ff275edabd86d23881e5f566a1a4bddb`; exact candidate build, test and Cloud Logs E2E passed |
-| Hosted route composition and task cleanup | [`datatug-cloud` PR #12](https://github.com/datatug/datatug-cloud/pull/12) | Merged at `1d2822f2e0d853352738a01bb3bb39846d5efc98`; production revision `datatug-cloud-00008-tw6` serves 100% traffic from this image and GET health check returns 200. Feature-enabled and pilot UID environment variables are absent; cleanup is not activated or provisioned. Workflow 39272895816 still had preview/verify steps running at the latest receipt. |
+| OAuth/service contract, encrypted grant registry, direct reader | [`backend` PRs #59–#64](https://github.com/datatug/backend/pull/64), [`#66` alignment receipt](https://github.com/datatug/backend/pull/66) | Implementation merged; cancellation cleanup and form POST callback included; emulator, race, lint, coverage and security CI passed. PR #66 merged at `9d9c79ddbdbf9d979b8057a0482b03822bd03bc7` |
+| Connection and evidence UI | [`datatug-apps` PRs #396](https://github.com/datatug/datatug-apps/pull/396) and [#398](https://github.com/datatug/datatug-apps/pull/398), [`#403` alignment receipt](https://github.com/datatug/datatug-apps/pull/403) | Implementation merged; hosted connection UI is gated; local evidence rows use AG Grid; local and CI browser E2E passed. PR #403 merged at `0fc93214ff275edabd86d23881e5f566a1a4bddb`; exact candidate build, test and Cloud Logs E2E passed |
+| Hosted route composition and task cleanup | [`datatug-cloud` PR #9](https://github.com/datatug/datatug-cloud/pull/9) and [PR #12](https://github.com/datatug/datatug-cloud/pull/12) | PR #9 merged at `4d180b91`; reviewed head, Build & test and Lint passed. PR #12 merged at `1d2822f2e0d853352738a01bb3bb39846d5efc98`; production revision `datatug-cloud-00008-tw6` serves 100% traffic from this image and GET health check returns 200. Task OIDC authenticates cleanup; pilot UID allowlist applies to verified user management/query routes. Feature-enabled and pilot UID environment variables are absent; cleanup is not activated or provisioned. Deployment workflow [39272895816](https://github.com/datatug/datatug-cloud/actions/runs/39272895816) completed successfully |
 | Firebase server-only rules | [`sneat-firebase` PR #61](https://github.com/sneat-co/sneat-firebase/pull/61) | Merged at `a78abcd7e55258b93ba996b7bfe1e48149cfe029`; 263 tests across 20 suites; live deploy run [39272536444](https://github.com/sneat-co/sneat-firebase/actions/runs/39272536444) succeeded; exact byte readback SHA `9038e32d45753b5ebe62ac078743da5b0cd7eadb40b9dfedae723c8bf245d8d2`, ruleset `bbb016cf-1cea-4cc5-adb8-79bae63d9c2b` |
 | Reproducible local AG Grid investigation | [`datatug-demo-project` PR #55](https://github.com/datatug/datatug-demo-project/pull/55) | Merged; real app screenshots and standalone illustrative HTML; synthetic logs only |
 | Narrow synthetic Google log view and direct DALGO read | [`datatug-demo-project` PR #57](https://github.com/datatug/datatug-demo-project/pull/57) | Merged; eight clearly marked synthetic entries in `sneat-eur3-1`, fixed view read verified; hosted consent, view-only IAM and browser journey remain open |
@@ -151,8 +154,9 @@ Defaults should inherit 24 hours, 200 entries and 30 seconds; retain seven-day, 
 - Cloud KMS API is enabled in `sneat-eur3-1`; key ring and key creation are
   pending resource approval. The hosted feature remains disabled. Bounded
   cleanup is merged in host PR #12 and is invoked through the existing
-  `/_tasks` taskshost route with task OIDC authentication and the pilot UID
-  allowlist. It is not activated or provisioned: no Cloud Scheduler job or
+  `/_tasks` taskshost route, authenticated by task OIDC. The pilot UID allowlist
+  applies only to verified user management/query routes. Cleanup is not
+  activated or provisioned: no Cloud Scheduler job or
   Scheduler invoker IAM grant exists, the feature flag is off, and no user
   grant exists. The intended managed job is
   `datatug-personal-cloud-log-cleanup` in `europe-west3`, using
