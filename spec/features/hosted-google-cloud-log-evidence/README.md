@@ -21,7 +21,12 @@ merged. The local Northwind demo reads committed synthetic files through a
 loopback OVDB server and displays results in AG Grid; it is not a hosted Google
 user-grant pilot. Host route composition, identity checks, quotas, task-based
 cleanup and the pilot UID allowlist are merged in `datatug-cloud` PR #12. The
-cleanup route and Scheduler job are not activated or provisioned. The hosted feature stays
+production host serves revision `datatug-cloud-00008-tw6` at 100% traffic from
+image tag `1d2822f2e0d853352738a01bb3bb39846d5efc98`; GET health check returned
+200 with `X-Sneat-Service: datatug-cloud`. The feature-enabled and pilot UID
+allowlist environment variables are absent. The cleanup route and Scheduler
+job are not activated or provisioned. Deployment workflow 39272895816 was
+still running its remaining preview/verify steps at the latest receipt. The hosted feature stays
 disabled pending production OAuth configuration, deployment prerequisites and
 a real consent/read/revoke pilot. Production and Business Preview UI flags are
 off.
@@ -33,7 +38,7 @@ off.
 | Direct delegated DALGO reads of one fixed view | [`dalgo2logs` PRs #6–#8](https://github.com/dal-go/dalgo2logs/pull/8) | Merged; synthetic-reader and bounded-query tests, no entry persistence |
 | OAuth/service contract, encrypted grant registry, direct reader | [`backend` PR #66](https://github.com/datatug/backend/pull/66) | Merged at `9d9c79ddbdbf9d979b8057a0482b03822bd03bc7` |
 | Connection and evidence UI | [`datatug-apps` PR #403](https://github.com/datatug/datatug-apps/pull/403) | Merged at `0fc93214ff275edabd86d23881e5f566a1a4bddb`; exact candidate build, test and Cloud Logs E2E passed |
-| Hosted route composition and task cleanup | [`datatug-cloud` PR #12](https://github.com/datatug/datatug-cloud/pull/12) | Merged at `1d2822f2e0d853352738a01bb3bb39846d5efc98`; taskshost OIDC cleanup and pilot UID allowlist merged, not activated or provisioned |
+| Hosted route composition and task cleanup | [`datatug-cloud` PR #12](https://github.com/datatug/datatug-cloud/pull/12) | Merged at `1d2822f2e0d853352738a01bb3bb39846d5efc98`; production revision `datatug-cloud-00008-tw6` serves 100% traffic from this image and GET health check returns 200. Feature-enabled and pilot UID environment variables are absent; cleanup is not activated or provisioned. Workflow 39272895816 still had preview/verify steps running at the latest receipt. |
 | Firebase server-only rules | [`sneat-firebase` PR #61](https://github.com/sneat-co/sneat-firebase/pull/61) | Merged at `a78abcd7e55258b93ba996b7bfe1e48149cfe029`; 263 tests across 20 suites; live deploy run [39272536444](https://github.com/sneat-co/sneat-firebase/actions/runs/39272536444) succeeded; exact byte readback SHA `9038e32d45753b5ebe62ac078743da5b0cd7eadb40b9dfedae723c8bf245d8d2`, ruleset `bbb016cf-1cea-4cc5-adb8-79bae63d9c2b` |
 | Reproducible local AG Grid investigation | [`datatug-demo-project` PR #55](https://github.com/datatug/datatug-demo-project/pull/55) | Merged; real app screenshots and standalone illustrative HTML; synthetic logs only |
 | Narrow synthetic Google log view and direct DALGO read | [`datatug-demo-project` PR #57](https://github.com/datatug/datatug-demo-project/pull/57) | Merged; eight clearly marked synthetic entries in `sneat-eur3-1`, fixed view read verified; hosted consent, view-only IAM and browser journey remain open |
@@ -153,8 +158,9 @@ Defaults should inherit 24 hours, 200 entries and 30 seconds; retain seven-day, 
   `datatug-personal-cloud-log-cleanup` in `europe-west3`, using
   `cloud-tasks-invoker@sneat-eur3-1.iam.gserviceaccount.com` with audience
   `https://datatug-cloud-354fvnqbaa-ey.a.run.app`; keep it paused until the
-  host route and feature configuration are ready. No host runtime revision is
-  claimed here.
+  host route and feature configuration are ready. The live host currently
+  serves `datatug-cloud-00008-tw6` at 100% traffic, with both feature-related
+  environment variables absent.
 - A hosted Google popup test returned `auth/popup-closed-by-user`. A same-origin
   `createAuthUri` probe returned HTTP 400 `INVALID_CONTINUE_URI` because the
   domain belongs to a different Firebase Hosting project. The popup result's
