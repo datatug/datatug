@@ -58,7 +58,9 @@ The current Cloud adapter's `source_ref` is a hash of an SDK reconstruction, `Ge
 
 | Route intent | Required server decision | Allowed result |
 | --- | --- | --- |
-| OAuth start/callback | Valid DataTug session; one-time state and PKCE bound to UID | One personal connection; no browser credential |
+| OAuth start | Valid browser DataTug session; server-bound UID, one-time state, nonce and PKCE | Authorization URL and browser-held finish binding; no Google credential |
+| OAuth callback | One-time state, nonce and PKCE; verified Google identity and scope | Short-lived server-sealed completion and opaque receipt; no active connection yet |
+| OAuth finish | Valid browser DataTug session; original UID, receipt, finish binding and expiry; atomic subject claim | Personal grant metadata; no browser credential |
 | List/create/remove `me/log-connections` | Verified UID; owner equality; CSRF/origin checks on mutations | Personal view metadata only |
 | Revoke Google grant | Verified UID; account-level confirmation; disable every child view first | Explicit project-wide OAuth revocation and bounded encrypted cleanup tombstone |
 | Discover/query | Verified UID; owner equality; active grant; fixed view; bounded supported query | Current entries only, never persisted |
