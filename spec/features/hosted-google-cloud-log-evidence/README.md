@@ -60,15 +60,25 @@ connected test account and its one existing view. Selecting **VIEW LOGS** and
 querying the one-minute window above for order `11039` returned six rows in
 the actual AG Grid at 15:06 UTC. The retained grant and view were used; no new
 Logging consent, revocation, or provider configuration change occurred. The
-token refresh mechanism remains unverified. The backend grant remains stored,
+deployed host pins backend `v0.39.2`, whose request-scoped token provider calls
+`OAuth.Refresh` without a reusable token cache. The retained-grant read thus
+supports the ordinary refresh path by code-path inference; no outbound token
+exchange was traced. Forced expiry, revoked-grant recovery and real Google
+revocation remain untested. The backend grant remains stored,
 and no Google revocation was requested or performed. Current public Firebase
 Auth URI reads returned an
 `authUri` for `auth.sneat.co` and `400 INVALID_CONTINUE_URI` for
 `datatug.app`; Hosting inventory reads found no `datatug.app`
 custom-domain association, leaving its owner unknown. No auth, identity,
-project, DNS, or domain configuration changed. A second account-resource
-lookup is awaiting owner permission after automatic approval review blocked
-it; it has not been retried or bypassed.
+project, DNS, or domain configuration changed. After automatic approval
+review initially blocked a second account-resource lookup, the owner
+explicitly authorized it. At 15:46 UTC, that account's same eight projects,
+all eight Hosting listings and all 17 sites were read successfully with
+complete pagination; no `datatug.app` association appeared. Firebase's list
+including deleted projects added no other project, and the deleted Cloud
+project query returned none. The conflicting owner remains unknown within
+this visibility. The saved active CLI account and all provider configuration
+were unchanged.
 
 See the [hosted pilot receipt and cropped captures](https://github.com/datatug/datatug-demo-project/blob/main/docs/logs/google-cloud-pilot.md).
 The OAuth audience readback says **In production**, **External**, and
