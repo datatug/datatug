@@ -49,6 +49,21 @@ shows “No entries matched this bounded query.” A range over 24 hours shows
 Google grant connected with zero views; reconnecting that view succeeded
 without new consent, and the six-entry query succeeded again.
 
+Later re-entry was not verified: more than an hour after the successful
+query and reconnect, the original tab showed “Please Sign In” and no hosted
+access; why that session ended is unknown. A new shared Google popup sign-in
+ended with `auth/popup-closed-by-user`. A full-page redirect attempt returned
+blank, the redirect setting was restored to its default, and a clean-tab popup
+has not completed. No later query or Google refresh-token/expired-grant behavior
+is proven. The backend grant remains stored, and no Google revocation was
+requested or performed. Current public Firebase Auth URI reads returned an
+`authUri` for `auth.sneat.co` and `400 INVALID_CONTINUE_URI` for
+`datatug.app`; Hosting inventory reads found no `datatug.app`
+custom-domain association, leaving its owner unknown. No auth, identity,
+project, DNS, or domain configuration changed. A second account-resource
+lookup is awaiting owner permission after automatic approval review blocked
+it; it has not been retried or bypassed.
+
 See the [hosted pilot receipt and cropped captures](https://github.com/datatug/datatug-demo-project/blob/main/docs/logs/google-cloud-pilot.md).
 The OAuth audience readback says **In production**, **External**, and
 **requires verification**. The consent screen displays `2 users / 100` for the
