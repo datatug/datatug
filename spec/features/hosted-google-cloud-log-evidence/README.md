@@ -32,9 +32,12 @@ succeeded. The subsequent 2026-10-19 provider readback found ready revision
 `4868105ee730ec3c2ae4914f78970214da0b9676`, and GET `/health-check` returned 200
 with `X-Sneat-Service: datatug-cloud`. Host PR #15 was followed by README-only PR #16, merged at
 commit b5c6c8444fd3c98c177d441b47f691cbdfae1d5b. Its post-merge Go CI and deployment
-passed; the latest provider readback and current production/preview revisions
-are recorded in the evidence table below. The backend feature stays disabled pending credential
-replacement, production OAuth configuration and a real consent/read/revoke
+passed; dated provider receipts are recorded in the evidence table below.
+The current 2026-10-20 targets are in the
+[pilot guide](https://github.com/datatug/datatug-demo-project/blob/main/docs/logs/google-cloud-pilot.md).
+The backend feature stays disabled
+pending retirement of the older OAuth client secret, production OAuth
+configuration and a real consent/read/revoke
 pilot. [Apps PR #407](https://github.com/datatug/datatug-apps/pull/407) merged
 at `a63cfe2883d1078f9a3c1058483197126ea372de`; its production UI flag is on
 behind the fail-closed, server-confirmed UID access gate, and Business Preview
@@ -135,7 +138,7 @@ The current DataTug Cloud API maps `/v0/datatug/` GET, HEAD and OPTIONS to `data
 
 Google IAM decides which entries the delegated user can see; `logging.read` alone grants no project access. Require a project-local log view for hosted v1, avoiding folder/organization or whole-project fan-out. Show the exact view and Google account before enabling the connection. DataTug cannot assume a log payload contains no secrets or personal data: display raw details as inert text, set `Cache-Control: no-store`, disable public payload links and automatic AI processing, redact connection IDs/project names/log references/identifiers/content from analytics and diagnostics, and audit only connection events plus query metadata/counts (never filter text or entries). **Workspace sharing is deferred.** If reference-only investigation sharing is later enabled, each viewer needs their own Google grant and current view IAM, and a denied viewer never sees the author's payload.
 
-Defaults should inherit 24 hours, 200 entries and 30 seconds; retain seven-day, 1,000-entry and five-minute adapter hard ceilings only if hosted quotas are tighter. Set one view per connection, finite per-user concurrency/rate, response-byte cap, cancellation on client disconnect and finite pagination. Distinguish no matches, cap reached, more possibly available, expired grant, IAM denial and unsupported filter. Source references are pointers, not durable copies; Cloud retention, deletion and IAM changes can make them unresolved.
+The implemented personal hosted query limit is an inclusive range of at most 24 hours, 200 entries and 30 seconds; the UI must state and enforce that 24-hour maximum before submitting. Standalone adapter ceilings do not expand the hosted contract. Set one view per connection, finite per-user concurrency/rate, response-byte cap, cancellation on client disconnect and finite pagination. Distinguish no matches, cap reached, more possibly available, expired grant, IAM denial and unsupported filter. Source references are pointers, not durable copies; Cloud retention, deletion and IAM changes can make them unresolved.
 
 ### Alternatives
 
@@ -212,9 +215,16 @@ Before initializing or trusting the barrier in production, deploy guard-aware wr
   the client secret was stored/read-back verified as version `1` of
   `datatug-cloud-logs-oauth-client-secret` in Secret Manager (`europe-west3`),
   and the temporary JSON was deleted. A browser recovery tool emitted the secret
-  into private tool output despite suppression; independent security review
-  requires owner-performed replacement and a new pinned secret version before
-  activation. No user-token revocation is indicated. A low-privilege view-only
+  into private tool output despite suppression. On 2026-10-20 the owner created
+  a replacement using **Add secret**. The replacement was privately verified
+  to differ from version `1`, stored as enabled version `2`, read back for
+  equality, and its temporary JSON deleted. The GitHub deployment selector
+  `DATATUG_PERSONAL_CLOUD_LOGS_CLIENT_SECRET_VERSION` is now `2`; stored version
+  `1` is disabled. The master feature switch remains absent and no runtime
+  binding was added. Retirement of the original credential at Google still
+  needs owner confirmation: disabling its stored copy does not disable that
+  Google credential. No Google user-token revocation occurred or is indicated.
+  A low-privilege view-only
   identity and IAM grant are also open; the source read used an Editor identity.
 - Following explicit owner approval, KMS ring `datatug-cloud-logs` and key
   `google-oauth-grants` were created in `sneat-eur3-1/europe-west3`; primary
@@ -238,12 +248,19 @@ Before initializing or trusting the barrier in production, deploy guard-aware wr
   activated or provisioned: no Cloud Scheduler job exists, the feature flag is
   off, and no user grant exists. Policy readback confirms that the existing
   task invoker already has Cloud Run invoke permission. The intended managed job is `datatug-personal-cloud-log-cleanup` in
-  `europe-west3`, using
+  `europe-west1`, using
   `cloud-tasks-invoker@sneat-eur3-1.iam.gserviceaccount.com` with audience
-  `https://datatug-cloud-354fvnqbaa-ey.a.run.app`; keep it paused until the
-  host route and feature configuration are ready. The latest PR #16 release
-  and provider readback are recorded in the evidence table above. No personal
-  Cloud Logs configuration, OAuth binding or Scheduler job is present, so the
+  `https://datatug-cloud-354fvnqbaa-ew.a.run.app`; keep it paused until the
+  host route and feature configuration are ready. Host PR #18 moved new
+  deployments to Belgium; the approved KMS key and Secret Manager replication
+  remain in `europe-west3`. Read-only provider checks on 2026-10-20 found both
+  Belgium and the earlier Frankfurt services still present, with no personal
+  Cloud Logs configuration or OAuth bindings and no pilot Scheduler job in
+  either region. Inventory both regions, tagged revisions, direct targets
+  and in-flight work before trusting the activation barrier. The dated
+  execution receipts above remain historical; the current readback is in the
+  [pilot guide](https://github.com/datatug/datatug-demo-project/blob/main/docs/logs/google-cloud-pilot.md).
+  No personal Cloud Logs configuration, OAuth binding or Scheduler job is present, so the
   route-stop behavior with the master feature enabled was not exercised. No
   production grant or cleanup run was observed.
   Source review identified a shutdown race: an in-flight `finish` can activate
