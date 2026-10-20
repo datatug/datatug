@@ -49,14 +49,20 @@ shows “No entries matched this bounded query.” A range over 24 hours shows
 Google grant connected with zero views; reconnecting that view succeeded
 without new consent, and the six-entry query succeeded again.
 
-Later re-entry was not verified: more than an hour after the successful
+Later re-entry check: more than an hour after the successful
 query and reconnect, the original tab showed “Please Sign In” and no hosted
 access; why that session ended is unknown. A new shared Google popup sign-in
 ended with `auth/popup-closed-by-user`. A full-page redirect attempt returned
-blank, the redirect setting was restored to its default, and a clean-tab popup
-has not completed. No later query or Google refresh-token/expired-grant behavior
-is proven. The backend grant remains stored, and no Google revocation was
-requested or performed. Current public Firebase Auth URI reads returned an
+blank and the redirect setting was restored to its default. In a clean tab
+at 15:05–15:06 UTC, the normal shared Google popup completed, signed the owner
+in at `datatug.app/my/cloud-logs?signInMethod=default`, and loaded the
+connected test account and its one existing view. Selecting **VIEW LOGS** and
+querying the one-minute window above for order `11039` returned six rows in
+the actual AG Grid at 15:06 UTC. The retained grant and view were used; no new
+Logging consent, revocation, or provider configuration change occurred. The
+token refresh mechanism remains unverified. The backend grant remains stored,
+and no Google revocation was requested or performed. Current public Firebase
+Auth URI reads returned an
 `authUri` for `auth.sneat.co` and `400 INVALID_CONTINUE_URI` for
 `datatug.app`; Hosting inventory reads found no `datatug.app`
 custom-domain association, leaving its owner unknown. No auth, identity,
