@@ -27,15 +27,18 @@ applies only to verified user management/query routes.
 Hosted Google consent, fixed-view access, and a bounded synthetic query now
 work on production `datatug-cloud-00010-bjt`. The owner approved Google's
 unverified-app prompt for `openid email logging.read` with offline consent.
-The selected replacement Google identity has no direct project roles and only
-`roles/logging.viewAccessor` on the synthetic pilot view. Identity email, UID,
-Google subject, and grant ID are intentionally omitted. The prior test identity
-binding was removed at `13:15:56Z`.
+The selected replacement Google identity had no direct project roles. The
+pilot's only added IAM binding for this identity was
+`roles/logging.viewAccessor` on the synthetic pilot view.
+Inherited, group-based, and other-view effective permissions were not
+exhaustively audited. Identity email, UID, Google subject, and grant ID are
+intentionally omitted. The earlier unrecognized test identity's view binding
+was removed at `13:15:56Z`.
 
 The callback POST returned 303 at `13:21:01.118Z`; OAuth finish returned 200 at
 `13:21:34.563Z`; fixed-view connect returned 200 at `13:22:08.821Z`. The
-broader `_Default/_AllLogs` probe returned 403 at `13:23:05.371Z` and the UI
-showed Google's denial. No broader permissions were added. In the hosted query
+broader `_Default/_AllLogs` probe returned 403 at `13:23:05.371Z`; the DataTug
+UI reported that Google denied access. No broader permission was added. In the hosted query
 window `2026-10-19T13:52:00Z`–`13:53:00Z`, order `11039` returned six synthetic
 events in the actual AG Grid. Selecting the carrier error shows its original
 raw JSON, `synthetic: true`, correlation `nw-11039-f1`, and Google source
@@ -46,7 +49,7 @@ shows “No entries matched this bounded query.” A range over 24 hours shows
 Google grant connected with zero views; reconnecting that view succeeded
 without new consent, and the six-entry query succeeded again.
 
-See the [hosted pilot receipt and redacted captures](https://github.com/datatug/datatug-demo-project/blob/main/docs/logs/google-cloud-pilot.md).
+See the [hosted pilot receipt and cropped captures](https://github.com/datatug/datatug-demo-project/blob/main/docs/logs/google-cloud-pilot.md).
 The OAuth audience readback says **In production**, **External**, and
 **requires verification**. The consent screen displays `2 users / 100` for the
 whole Google project, not a count of DataTug Logging grants. No audience
@@ -76,7 +79,7 @@ Cloud Logging billing/quota behavior before public launch.
 | Scheduler header fix and current pilot setup (2026-10-20) | [`cicd` PR #45](https://github.com/sneat-co/cicd/pull/45), [host auth fix PR #25](https://github.com/datatug/datatug-cloud/pull/25), [pilot execution receipt](https://github.com/datatug/datatug-demo-project/blob/main/docs/logs/google-cloud-pilot.md) | PR #45 merged at `3d89e25a11d042b4c855765e58ec876838780679`; 133 local fake-provider checks passed, candidate GitHub CI showed 8 checks, and post-merge main CI passed 6/6. OIDC updates clear the workflow-owned custom-header map. Host PR #25 merged at `9d055b12fae5ae74793e8f452bd7fc8714e22d33`; exact-main CI passed 10/10 at `13:00:44Z`, and deployment `39426215088` succeeded. Provider readback at `13:07:48Z` found production `datatug-cloud-00010-bjt` and preview `datatug-cloud-preview-00009-2fx` at 100% on the merged image. Production has master feature/routes `1`, secret references `2`/`1`, and allowlisted UID match; the approved resume persisted epoch `2`, `paused=false`. All four Belgium/Frankfurt health checks returned 200. Preview and Frankfurt services have no personal Cloud Logs settings. The approved recurring job is enabled; scheduled OIDC target requests returned HTTP 200 at `13:06:08Z`, `13:07:07Z` and `13:08:04Z` without `X-Cron-Secret`. They do not establish which records were deleted. The disposable Scheduler probe was deleted and returned `NOT_FOUND`. The 13:09 Google chooser attempt showed no accounts or views and did not recognize the selected provider identity; that checkpoint was superseded by the consent and query receipts above. |
 | Firebase server-only rules | [`sneat-firebase` PR #61](https://github.com/sneat-co/sneat-firebase/pull/61) | Merged at `a78abcd7e55258b93ba996b7bfe1e48149cfe029`; 263 tests across 20 suites; live deploy run [39272536444](https://github.com/sneat-co/sneat-firebase/actions/runs/39272536444) succeeded; exact byte readback SHA `9038e32d45753b5ebe62ac078743da5b0cd7eadb40b9dfedae723c8bf245d8d2`, ruleset `bbb016cf-1cea-4cc5-adb8-79bae63d9c2b` |
 | Reproducible local AG Grid investigation | [`datatug-demo-project` PR #55](https://github.com/datatug/datatug-demo-project/pull/55) | Merged; real app screenshots and standalone illustrative HTML; synthetic logs only |
-| Narrow synthetic Google log view and direct DALGO read | [`datatug-demo-project` PR #57](https://github.com/datatug/datatug-demo-project/pull/57) | Merged; eight clearly marked synthetic entries in `sneat-eur3-1`. The replacement identity's view-only read, denied broader view, hosted consent, and six-row browser query are verified in the current receipt above. |
+| Narrow synthetic Google log view and direct DALGO read | [`datatug-demo-project` PR #57](https://github.com/datatug/datatug-demo-project/pull/57) | Merged; eight clearly marked synthetic entries in `sneat-eur3-1`. Hosted consent, query through the pilot view, denied broader-view probe, and six-row browser result are verified in the current receipt above. |
 
 The hosted browser test uses an emulator and synthetic API responses; it remains
 separate from the live Google consent and production query receipts above. The
@@ -178,10 +181,10 @@ The implemented personal hosted query limit is an inclusive range of at most 24 
 
 1. **Owner decision:** On 2026-10-19, approved personal delegated OAuth with a mandatory fixed log view and a dedicated web client in the existing shared Google Cloud project `sneat-eur3-1`. Sneat/Firebase login remains shared, and the delegated grant is linked to the verified UID from that session. This approves architecture only, not linking a production account. The feature is Implementing.
 2. **Adapter:** Accept trusted user credentials and fixed log-view resource; prove exact filter translation, pagination, limits and read-only behavior. Keep OVDB public API unchanged and test a normal client.
-3. **DataTug server:** Add provider grant plus child-view registry, managed-key token lifecycle, OAuth start/callback, view removal and account-wide Google access revocation with a revocation tombstone, route-specific read policy, UID/IAM checks, quotas, sanitized errors and audit. Review threat model before a real-account pilot.
+3. **DataTug server:** Add provider grant plus child-view registry, managed-key token lifecycle, OAuth start/callback, view removal and account-wide Google access revocation with a revocation tombstone, route-specific read policy, UID/IAM checks, quotas, sanitized errors and audit. Review the threat model before broader rollout.
 4. **UI:** Connect/reconnect, remove-view and revoke-access states, project/view selection and probe, existing log view and record navigation. A reference-only save/replay bridge is separate, and exact replay must meet the locator contract above before it is advertised. The hosted synthetic-view consent and query now work; log-to-record navigation remains an explicit UI gap.
-5. **Release:** The pilot has verified actual consent/scopes, view-only IAM, denial outside the view, and a production browser query. Before public rollout, verify consent-screen classification, cost bounds, user disconnect/revocation, shutdown safety, exact-head CI, and the hosted record-navigation journey.
-6. **Reversible activation barrier:** Backend epoch state and transaction guards are merged in PR #67; the host-private OIDC control and synthetic Firestore journey are merged in host PR #17. Post-merge CI, deployment and provider readback passed with the master feature off. The pilot is not activated. Complete the cross-revision and live-provider gates below before considering pilot activation.
+5. **Release:** The pilot has verified actual consent/scopes, an explicit view-level IAM binding, denial on the broader-view probe, and a production browser query. Effective inherited, group-based, and other-view permissions were not exhaustively audited. Before public rollout, verify consent-screen classification, cost bounds, user disconnect/revocation, shutdown safety, exact-head CI, and the hosted record-navigation journey.
+6. **Reversible activation barrier:** Backend epoch state and transaction guards are merged in PR #67; the host-private OIDC control and synthetic Firestore journey are merged in host PR #17. The production lifecycle was resumed at epoch `2`, and the hosted consent and bounded query are verified above. Cross-revision shutdown and live cleanup proof remain separate gates.
 
 ### Reversible OAuth activation pause
 
