@@ -15,41 +15,55 @@ Give a signed-in DataTug user a personal, direct-read connection to one Google C
 
 **Owner-approved direction (2026-10-19):** The user separately consents to the narrow `logging.read` OAuth API scope and selects one project-local **log view**. DataTug uses that user's grant for bounded, direct `entries.list` queries through `dalgo2logs`. A server-side DataTug gateway authenticates and authorizes every request. There is no log ingestion, database snapshot, shared credential, aggregation system, or public OVDB protocol change. Workspace sharing needs a later authorization decision.
 
-This feature remains in implementation. The direct adapter, server contracts,
-encrypted grant registry, bounded reader and feature-gated browser UI are
-merged. The local Northwind demo reads committed synthetic files through a
-loopback OVDB server and displays results in AG Grid; it is not a hosted Google
-user-grant pilot. Host route composition, identity checks, quotas, task-based
-cleanup and the pilot UID allowlist are merged in `datatug-cloud` PR #12.
-Task OIDC authenticates cleanup; the UID allowlist applies only to verified
-user management/query routes. Generic secret bindings and paused OIDC Scheduler
-deployment support are merged in `sneat-co/cicd` PR #44. Host PR #14 pins that
-reviewed implementation and adds explicit opt-in production wiring; preview
-receives no Cloud Logs configuration. Its deployment
-[39288374923](https://github.com/datatug/datatug-cloud/actions/runs/39288374923)
-succeeded. The subsequent 2026-10-19 provider readback found ready revision
-`datatug-cloud-00012-stx` at 100% traffic, image tag
-`4868105ee730ec3c2ae4914f78970214da0b9676`, and GET `/health-check` returned 200
-with `X-Sneat-Service: datatug-cloud`. Host PR #15 was followed by README-only PR #16, merged at
-commit b5c6c8444fd3c98c177d441b47f691cbdfae1d5b. Its post-merge Go CI and deployment
-passed; dated provider receipts are recorded in the evidence table below.
-The current 2026-10-20 targets are in the
-[pilot guide](https://github.com/datatug/datatug-demo-project/blob/main/docs/logs/google-cloud-pilot.md).
-The backend feature stays disabled
-pending retirement of the older OAuth client secret, production OAuth
-configuration and a real consent/read/revoke
-pilot. [Apps PR #407](https://github.com/datatug/datatug-apps/pull/407) merged
-at `a63cfe2883d1078f9a3c1058483197126ea372de`; its production UI flag is on
-behind the fail-closed, server-confirmed UID access gate, and Business Preview
-remains off. The post-merge [CI run 39292521711](https://github.com/datatug/datatug-apps/actions/runs/39292521711)
-passed preflight, build, test, Cloud Logs E2E and deploy-gate checks.
-Cloudflare workflow [39293867514](https://github.com/datatug/datatug-apps/actions/runs/39293867514)
-succeeded, and public build-info reports SHA
-`a63cfe2883d1078f9a3c1058483197126ea372de` with version `0.1.0+1201`. No
-post-deploy CI smoke was run. This UI release does not activate the backend or
-grant access while its server configuration is absent.
+The direct adapter, server contracts, encrypted grant registry, bounded reader,
+and feature-gated browser UI are merged. The local Northwind demo reads
+committed synthetic files through a loopback OVDB server and displays them in
+AG Grid. Host route composition, identity checks, quotas, task cleanup, and the
+pilot UID allowlist are merged. Cleanup uses task OIDC; the UID allowlist
+applies only to verified user management/query routes.
 
-### Delivery status (2026-10-19)
+### Live pilot status — verified 2026-10-20
+
+Hosted Google consent, fixed-view access, and a bounded synthetic query now
+work on production `datatug-cloud-00010-bjt`. The owner approved Google's
+unverified-app prompt for `openid email logging.read` with offline consent.
+The selected replacement Google identity had no direct project roles. The
+pilot's only added IAM binding for this identity was
+`roles/logging.viewAccessor` on the synthetic pilot view.
+Inherited, group-based, and other-view effective permissions were not
+exhaustively audited. Identity email, UID, Google subject, and grant ID are
+intentionally omitted. The earlier unrecognized test identity's view binding
+was removed at `13:15:56Z`.
+
+The callback POST returned 303 at `13:21:01.118Z`; OAuth finish returned 200 at
+`13:21:34.563Z`; fixed-view connect returned 200 at `13:22:08.821Z`. The
+broader `_Default/_AllLogs` probe returned 403 at `13:23:05.371Z`; the DataTug
+UI reported that Google denied access. No broader permission was added. In the hosted query
+window `2026-10-19T13:52:00Z`–`13:53:00Z`, order `11039` returned six synthetic
+events in the actual AG Grid. Selecting the carrier error shows its original
+raw JSON, `synthetic: true`, correlation `nw-11039-f1`, and Google source
+reference. Severity `ERROR` plus uppercase correlation `NW-11039-F1` and
+service `CARRIER-GATEWAY` returns one carrier error. An unmatched identifier
+shows “No entries matched this bounded query.” A range over 24 hours shows
+“Choose a time range no longer than 24 hours.” Removing the view left the
+Google grant connected with zero views; reconnecting that view succeeded
+without new consent, and the six-entry query succeeded again.
+
+See the [hosted pilot receipt and cropped captures](https://github.com/datatug/datatug-demo-project/blob/main/docs/logs/google-cloud-pilot.md).
+The OAuth audience readback says **In production**, **External**, and
+**requires verification**. The consent screen displays `2 users / 100` for the
+whole Google project, not a count of DataTug Logging grants. No audience
+settings changed. Resolve sensitive-scope verification and assess the shared
+project cap before broader rollout.
+The hosted log-to-record journey remains unimplemented; the local file demo
+supports record↔log context. Investigation and Detective persistence gaps
+are unchanged. Google-wide disconnect/revocation has not been executed. The
+pilot made no Firebase identity/auth-project change and no OVDB public-contract
+change. It adds no ingestion, log database, or snapshots. The source view has
+30-day retention; confirm consent-screen verification classification and
+Cloud Logging billing/quota behavior before public launch.
+
+### Delivery status (implementation receipts; live pilot updated 2026-10-20 above)
 
 | Slice | Evidence | State |
 | --- | --- | --- |
@@ -58,21 +72,20 @@ grant access while its server configuration is absent.
 | Reversible activation backend | [backend PR #67](https://github.com/datatug/backend/pull/67) | Merged at `d3112f646accffedcc7279995ea7362c390f8e8c`; reviewed candidate `7a52784dbdf7e923941fc66f202ad8092e15be65` passed [Backend CI 39308503102](https://github.com/datatug/backend/actions/runs/39308503102) and [Security 39308502042](https://github.com/datatug/backend/actions/runs/39308502042). The full local Firestore adapter suite passed with `-race`, 100% statement coverage and zero uncovered statements in 14.416s. It checks genuine overlapping transactions, a separate committed-pause rejection, frozen admission across injected callback replay, held exchange, and final-inventory resume fencing. No forced commit order or observed SDK retry is claimed. Published `v0.38.0` points to that merge commit; post-merge [Backend CI 39309725492](https://github.com/datatug/backend/actions/runs/39309725492) and [Security 39309724286](https://github.com/datatug/backend/actions/runs/39309724286) passed, with WB verifying the exact target at 19:25:05 UTC. No live activation proof exists |
 | Reversible activation host | [datatug-cloud PR #17](https://github.com/datatug/datatug-cloud/pull/17) | Merged at `669728342d2b9c36d7b37e254c821ba19b4162bf`, pinning backend `v0.38.0`. Reviewed candidate `a67028d5f689d0ff0f73719d535cd638836780de` passed [Go CI 39313747372](https://github.com/datatug/datatug-cloud/actions/runs/39313747372): build/test, lint, and the actual Firestore-emulator HTTP journey, which passed with `-race` in 8.446s. The local full host race suite had 100% statement coverage and zero uncovered statements. The fixed-pilot-UID control validates task OIDC, bounds bodies and deadlines, and preserves the existing cleanup route. Its synthetic journey uses fake OAuth/KMS/OIDC and does not prove live authenticated task delivery or Google consent/read/revoke. Post-merge [Go CI 39314930149](https://github.com/datatug/datatug-cloud/actions/runs/39314930149) and [deployment 39316404362](https://github.com/datatug/datatug-cloud/actions/runs/39316404362) passed; WB verified all ten exact-target checks at 20:09:41 UTC. Provider readback at 20:09:47 UTC found production `datatug-cloud-00015-vdq` and preview `datatug-cloud-preview-00016-p9d` at 100% traffic, both configured with the merge SHA image tag. Their immutable image digests are respectively `dfc28e7b327c4950d8ec1d1955851975b08a0aa3a4c2a32659d905b18d773115` and `6af0f4fc286dce15a5fad73c42213750d73d50daf60ebd36f7e67bdab7adaaa9`. Both had no personal Cloud Logs environment variables or OAuth secret bindings, and no pilot Scheduler job existed. GET health checks at 20:10:10 UTC returned 200 with `X-Sneat-Service: datatug-cloud` for both services. The code is deployed with the master feature off; no live lifecycle invocation or hosted Google journey is claimed |
 | Connection and evidence UI | [`datatug-apps` PRs #396](https://github.com/datatug/datatug-apps/pull/396) and [#398](https://github.com/datatug/datatug-apps/pull/398), [`#403` alignment receipt](https://github.com/datatug/datatug-apps/pull/403) | Implementation merged; hosted connection UI is gated; local evidence rows use AG Grid; local and CI browser E2E passed. PR #403 merged at `0fc93214ff275edabd86d23881e5f566a1a4bddb`; exact candidate build, test and Cloud Logs E2E passed |
-| Pilot UI access gate and sign-in recovery | [Apps PR #407](https://github.com/datatug/datatug-apps/pull/407) | Merged at `a63cfe2883d1078f9a3c1058483197126ea372de`; post-merge [CI run 39292521711](https://github.com/datatug/datatug-apps/actions/runs/39292521711) passed preflight, build, test, Cloud Logs E2E and deploy-gate checks. Cloudflare workflow [39293867514](https://github.com/datatug/datatug-apps/actions/runs/39293867514) succeeded; public build-info reports the same SHA and version `0.1.0+1201`. Production UI is on behind the verified-UID server gate; Business Preview is off. No post-deploy CI smoke or usable DataTug session was verified |
+| Pilot UI access gate and sign-in recovery | [Apps PR #407](https://github.com/datatug/datatug-apps/pull/407) | Merged at `a63cfe2883d1078f9a3c1058483197126ea372de`; post-merge [CI run 39292521711](https://github.com/datatug/datatug-apps/actions/runs/39292521711) passed preflight, build, test, Cloud Logs E2E and deploy-gate checks. Cloudflare workflow [39293867514](https://github.com/datatug/datatug-apps/actions/runs/39293867514) succeeded; public build-info reports the same SHA and version `0.1.0+1201`. Production UI is on behind the verified-UID server gate; Business Preview is off. No post-deploy CI smoke was run. The 13:09 basic sign-in/OAuth chooser attempt showed no accounts or views and did not recognize the selected provider identity; this historical attempt was superseded by the consent and live query recorded above. |
 | Hosted route composition and task cleanup | [datatug-cloud PR #9](https://github.com/datatug/datatug-cloud/pull/9), [PR #12](https://github.com/datatug/datatug-cloud/pull/12), [PR #14](https://github.com/datatug/datatug-cloud/pull/14), and [PR #15](https://github.com/datatug/datatug-cloud/pull/15) | PR #9 merged at `4d180b91`; reviewed head, Build & test and Lint passed. PR #12 merged at `1d2822f2e0d853352738a01bb3bb39846d5efc98`; deployment [39272895816](https://github.com/datatug/datatug-cloud/actions/runs/39272895816) succeeded at revision `00008-tw6` with GET health 200. PR #14 deployment [39288374923](https://github.com/datatug/datatug-cloud/actions/runs/39288374923) succeeded; provider readback found `00012-stx` at 100% traffic with GET health 200. PR #15 merged at `e5925566ab0c81f95a7bbe46b73fd9836f1c024f`; its private user-routes switch omits all eight user handlers while retaining cleanup registration, credentials and task OIDC. Post-merge Go CI [39298598295](https://github.com/datatug/datatug-cloud/actions/runs/39298598295) and deployment workflow [39298871944](https://github.com/datatug/datatug-cloud/actions/runs/39298871944) passed. Its 18:05:25 UTC provider snapshot found production `00013-hjk` and preview `datatug-cloud-preview-00014-np9`, both at 100% traffic on image `e5925566ab0c81f95a7bbe46b73fd9836f1c024f`, with no Cloud Logs environment variables, OAuth secret bindings or pilot Scheduler job. |
 | Host README-only release follow-up | [datatug-cloud PR #16](https://github.com/datatug/datatug-cloud/pull/16) | Merged at `b5c6c8444fd3c98c177d441b47f691cbdfae1d5b`; candidate build/lint [39299058079](https://github.com/datatug/datatug-cloud/actions/runs/39299058079), post-merge Go CI [39299663820](https://github.com/datatug/datatug-cloud/actions/runs/39299663820), and deployment [39299949750](https://github.com/datatug/datatug-cloud/actions/runs/39299949750) passed. Provider readback at 18:11:59 UTC found production `datatug-cloud-00014-lhg` and preview `datatug-cloud-preview-00015-6w6`, both at 100% traffic on image `b5c6c8444fd3c98c177d441b47f691cbdfae1d5b`; both had no Cloud Logs environment variables or OAuth secret bindings, and no pilot Scheduler job exists. GET health returned 200 at 18:12:01 UTC. No grant, live cleanup or shutdown proof exists |
-| Opt-in production deployment wiring | [`cicd` PR #44](https://github.com/sneat-co/cicd/pull/44), [`datatug-cloud` PR #14](https://github.com/datatug/datatug-cloud/pull/14) | Merged at `9571a3c78a448598ccce184a2aa7625ab07d6a53` and `4868105ee730ec3c2ae4914f78970214da0b9676`; independent review and exact-head CI passed. Generic CICD step tests: 133 passed. Post-merge host Go CI and deployment passed; direct provider readback and health are recorded above. Existing Secret Manager versions are referenced without copying their values. No pilot enablement or Google user grant occurred |
+| Initial opt-in production deployment wiring (2026-10-19) | [`cicd` PR #44](https://github.com/sneat-co/cicd/pull/44), [`datatug-cloud` PR #14](https://github.com/datatug/datatug-cloud/pull/14) | Merged at `9571a3c78a448598ccce184a2aa7625ab07d6a53` and `4868105ee730ec3c2ae4914f78970214da0b9676`; independent review and exact-head CI passed. Generic CICD step tests: 133 passed. Post-merge host Go CI and deployment passed; direct provider readback and health are recorded above. This is the earlier deployment state; current setup is recorded in the summary and pilot guide |
+| Scheduler header fix and current pilot setup (2026-10-20) | [`cicd` PR #45](https://github.com/sneat-co/cicd/pull/45), [host auth fix PR #25](https://github.com/datatug/datatug-cloud/pull/25), [pilot execution receipt](https://github.com/datatug/datatug-demo-project/blob/main/docs/logs/google-cloud-pilot.md) | PR #45 merged at `3d89e25a11d042b4c855765e58ec876838780679`; 133 local fake-provider checks passed, candidate GitHub CI showed 8 checks, and post-merge main CI passed 6/6. OIDC updates clear the workflow-owned custom-header map. Host PR #25 merged at `9d055b12fae5ae74793e8f452bd7fc8714e22d33`; exact-main CI passed 10/10 at `13:00:44Z`, and deployment `39426215088` succeeded. Provider readback at `13:07:48Z` found production `datatug-cloud-00010-bjt` and preview `datatug-cloud-preview-00009-2fx` at 100% on the merged image. Production has master feature/routes `1`, secret references `2`/`1`, and allowlisted UID match; the approved resume persisted epoch `2`, `paused=false`. All four Belgium/Frankfurt health checks returned 200. Preview and Frankfurt services have no personal Cloud Logs settings. The approved recurring job is enabled; scheduled OIDC target requests returned HTTP 200 at `13:06:08Z`, `13:07:07Z` and `13:08:04Z` without `X-Cron-Secret`. They do not establish which records were deleted. The disposable Scheduler probe was deleted and returned `NOT_FOUND`. The 13:09 Google chooser attempt showed no accounts or views and did not recognize the selected provider identity; that checkpoint was superseded by the consent and query receipts above. |
 | Firebase server-only rules | [`sneat-firebase` PR #61](https://github.com/sneat-co/sneat-firebase/pull/61) | Merged at `a78abcd7e55258b93ba996b7bfe1e48149cfe029`; 263 tests across 20 suites; live deploy run [39272536444](https://github.com/sneat-co/sneat-firebase/actions/runs/39272536444) succeeded; exact byte readback SHA `9038e32d45753b5ebe62ac078743da5b0cd7eadb40b9dfedae723c8bf245d8d2`, ruleset `bbb016cf-1cea-4cc5-adb8-79bae63d9c2b` |
 | Reproducible local AG Grid investigation | [`datatug-demo-project` PR #55](https://github.com/datatug/datatug-demo-project/pull/55) | Merged; real app screenshots and standalone illustrative HTML; synthetic logs only |
-| Narrow synthetic Google log view and direct DALGO read | [`datatug-demo-project` PR #57](https://github.com/datatug/datatug-demo-project/pull/57) | Merged; eight clearly marked synthetic entries in `sneat-eur3-1`, fixed view read verified; hosted consent, view-only IAM and browser journey remain open |
+| Narrow synthetic Google log view and direct DALGO read | [`datatug-demo-project` PR #57](https://github.com/datatug/datatug-demo-project/pull/57) | Merged; eight clearly marked synthetic entries in `sneat-eur3-1`. Hosted consent, query through the pilot view, denied broader-view probe, and six-row browser result are verified in the current receipt above. |
 
-The hosted browser test uses an emulator and synthetic API responses. It does
-not prove a real hosted Google OAuth consent, view-only IAM grant or browser
-journey. The narrow synthetic view and direct DALGO read in `sneat-eur3-1` are
-recorded separately in PR #57; the tested account had project Editor access, so
-the pilot does not prove least-privilege view IAM. The hosted UI does not yet
-provide log→record→log navigation; the local Northwind demo does. That local
-demo reads files directly, without any log database copy.
+The hosted browser test uses an emulator and synthetic API responses; it remains
+separate from the live Google consent and production query receipts above. The
+hosted UI does not yet provide log→record→log navigation; the local Northwind
+demo supports record↔log context. That local demo reads files directly, without
+any log database copy.
 
 ## Problem
 
@@ -101,7 +114,7 @@ DataTug browser (Firebase session)
 
 The registry models one provider grant per DataTug UID + Google `sub` + OAuth project and one or more view connections under it. A server-enforced unique constraint on `(OAuth project, Google sub)` permits **one active or revocation-pending DataTug UID globally**, not merely one grant per UID; callback insertion is atomic so simultaneous authorizations cannot create two owners. If that Google account is already linked elsewhere, return a generic conflict without revealing the other DataTug account. Linking it to a different UID requires the old owner's explicit disconnect and completed cleanup barrier, including destruction of credentials and old-generation jobs; if the old DataTug account is inaccessible, use an audited support recovery with independent identity proof, never an automatic timeout takeover. The grant stores verified stable `sub`, display email, state, timestamps, key version and encrypted refresh token; each view connection stores opaque ID, owner UID and fixed project/view. Email is display-only, never an ownership key. The registry stores **no entries, raw payloads, query results, query text or business identifiers**. It is server-only, separate from browser-writeable project connection declarations. Project membership cannot grant access to a personal token.
 
-Use a trusted dedicated Cloud Logging OAuth **web client** in the existing shared Google Cloud project `sneat-eur3-1`. Keep the Firebase login identity and OAuth application shared across Sneat and DataTug; link the separately consented `logging.read` grant to the verified DataTug UID from the same Firebase session. An isolated Google Cloud project is an optional future alternative, never a prerequisite. Use server-side authorization-code exchange, an exact redirect URI, state bound to the DataTug session/UID and one-time nonce, PKCE, and offline access only after explicit consent. Keep this client's requested scopes narrow. Validate ID-token issuer, audience, expiry and nonce before storing `sub`; do not treat the Google ID token as DataTug authentication. Store refresh tokens encrypted under a managed key, apart from configuration and project data; restrict decrypt/use to the query service identity and audit it. Keep short-lived access tokens only in bounded server memory. If Google returns no refresh token, show a reconnect path; never substitute server ADC. Token refresh and the read probe use the same user grant. Never put credentials in URLs, browser storage, project files, logs, tracing or error responses.
+Use a trusted dedicated Cloud Logging OAuth **web client** in the existing shared Google Cloud project `sneat-eur3-1`. Keep the Firebase login identity and OAuth application shared across Sneat and DataTug; link the separately consented `logging.read` grant to the verified DataTug UID from the same Firebase session. Use server-side authorization-code exchange, an exact redirect URI, state bound to the DataTug session/UID and one-time nonce, PKCE, and offline access only after explicit consent. Keep this client's requested scopes narrow. Validate ID-token issuer, audience, expiry and nonce before storing `sub`; do not treat the Google ID token as DataTug authentication. Store refresh tokens encrypted under a managed key, apart from configuration and project data; restrict decrypt/use to the query service identity and audit it. Keep short-lived access tokens only in bounded server memory. If Google returns no refresh token, show a reconnect path; never substitute server ADC. Token refresh and the read probe use the same user grant. Never put credentials in URLs, browser storage, project files, logs, tracing or error responses.
 
 **What KMS protects:** The current vault calls Cloud KMS directly to encrypt each
 user's refresh token; Firestore stores only its ciphertext and grant metadata.
@@ -169,9 +182,9 @@ The implemented personal hosted query limit is an inclusive range of at most 24 
 1. **Owner decision:** On 2026-10-19, approved personal delegated OAuth with a mandatory fixed log view and a dedicated web client in the existing shared Google Cloud project `sneat-eur3-1`. Sneat/Firebase login remains shared, and the delegated grant is linked to the verified UID from that session. This approves architecture only, not linking a production account. The feature is Implementing.
 2. **Adapter:** Accept trusted user credentials and fixed log-view resource; prove exact filter translation, pagination, limits and read-only behavior. Keep OVDB public API unchanged and test a normal client.
 3. **DataTug server:** Add provider grant plus child-view registry, managed-key token lifecycle, OAuth start/callback, view removal and account-wide Google access revocation with a revocation tombstone, route-specific read policy, UID/IAM checks, quotas, sanitized errors and audit. Review threat model before a real-account pilot.
-4. **UI:** Connect/reconnect, remove-view and revoke-access states, project/view selection and probe, existing log view and record navigation. A reference-only save/replay bridge is separate, and exact replay must meet the locator contract above before it is advertised. Use the existing synthetic log view in `sneat-eur3-1` for the source pilot and keep its hosted OAuth/browser gaps explicit.
-5. **Release:** Verify actual consent screen/scopes, IAM view grant, revocation, denial after grant loss, exact-head CI, cost bounds and browser journey before enabling opt-in hosted access.
-6. **Reversible activation barrier:** Backend epoch state and transaction guards are merged in PR #67; the host-private OIDC control and synthetic Firestore journey are merged in host PR #17. Post-merge CI, deployment and provider readback passed with the master feature off. The pilot is not activated. Complete the cross-revision and live-provider gates below before considering pilot activation.
+4. **UI:** Connect/reconnect, remove-view and revoke-access states, project/view selection and probe, existing log view and record navigation. A reference-only save/replay bridge is separate, and exact replay must meet the locator contract above before it is advertised. The hosted synthetic-view consent and query now work; log-to-record navigation remains an explicit UI gap.
+5. **Release:** The pilot has verified actual consent/scopes, an explicit view-level IAM binding, denial on the broader-view probe, and a production browser query. Effective inherited, group-based, and other-view permissions were not exhaustively audited. Before public rollout, verify consent-screen classification, cost bounds, user disconnect/revocation, shutdown safety, exact-head CI, and the hosted record-navigation journey.
+6. **Reversible activation barrier:** Backend epoch state and transaction guards are merged in PR #67; the host-private OIDC control and synthetic Firestore journey are merged in host PR #17. The production lifecycle was resumed at epoch `2`, and the hosted consent and bounded query are verified above. Cross-revision shutdown and live cleanup proof remain separate gates.
 
 ### Reversible OAuth activation pause
 
@@ -211,7 +224,8 @@ Before initializing or trusting the barrier in production, deploy guard-aware wr
   with client ID `588648831063-rr6titvvsu52j9n7gqc07uagqoru3lfd.apps.googleusercontent.com`
   and callback `https://api.sneat.cloud/v0/datatug/me/google-log-grants/oauth/callback`.
   The verified Firebase identity at `auth.sneat.co` remains shared with Sneat.
-  No Google user grant has been completed. Following explicit owner approval,
+  At that checkpoint, no Google user grant had been completed; consent and a
+  fixed-view query were later verified as recorded above. Following explicit owner approval,
   the client secret was stored/read-back verified as version `1` of
   `datatug-cloud-logs-oauth-client-secret` in Secret Manager (`europe-west3`),
   and the temporary JSON was deleted. A browser recovery tool emitted the secret
@@ -220,12 +234,13 @@ Before initializing or trusting the barrier in production, deploy guard-aware wr
   to differ from version `1`, stored as enabled version `2`, read back for
   equality, and its temporary JSON deleted. The GitHub deployment selector
   `DATATUG_PERSONAL_CLOUD_LOGS_CLIENT_SECRET_VERSION` is now `2`; stored version
-  `1` is disabled. The master feature switch remains absent and no runtime
-  binding was added. Retirement of the original credential at Google still
-  needs owner confirmation: disabling its stored copy does not disable that
-  Google credential. No Google user-token revocation occurred or is indicated.
-  A low-privilege view-only
-  identity and IAM grant are also open; the source read used an Editor identity.
+  `1` is disabled. The owner confirmed retirement of the original credential
+  in Google's OAuth client. Runtime configuration now references client
+  version `2` and state-key version `1`; the master feature and user routes are
+  `1`, and the allowlisted lifecycle was later resumed to epoch `2` with durable
+  readback `paused=false`. The later hosted consent and view-only query are
+  recorded above. Google-wide disconnect/revocation has not been executed; the
+  earlier source read used an Editor identity and is not least-privilege proof.
 - Following explicit owner approval, KMS ring `datatug-cloud-logs` and key
   `google-oauth-grants` were created in `sneat-eur3-1/europe-west3`; primary
   software version `1` is enabled for `ENCRYPT_DECRYPT`. After automatic approval
@@ -239,30 +254,34 @@ Before initializing or trusting the barrier in production, deploy guard-aware wr
   using the shared runtime identity also gain access to the new KMS key, an
   explicitly approved pilot limitation.
   Generic deployment wiring is merged in [CICD PR #44](https://github.com/sneat-co/cicd/pull/44)
-  and [host PR #14](https://github.com/datatug/datatug-cloud/pull/14);
-  its 133 fake-provider step checks passed locally and independently. The hosted
-  feature remains disabled. Bounded
+  and [host PR #14](https://github.com/datatug/datatug-cloud/pull/14); the
+  Scheduler header fix is merged in [CICD PR #45](https://github.com/sneat-co/cicd/pull/45).
+  Its fake-provider regression rejects remove-header tombstones and verifies
+  header clearing in both OIDC update paths. The hosted user routes are enabled
+  under current production configuration; the allowlisted lifecycle is active
+  at epoch `2`. Bounded
   cleanup is merged in host PR #12 and is invoked through the existing
   `/_tasks` taskshost route, authenticated by task OIDC. The pilot UID allowlist
-  applies only to verified user management/query routes. Cleanup is not
-  activated or provisioned: no Cloud Scheduler job exists, the feature flag is
-  off, and no user grant exists. Policy readback confirms that the existing
-  task invoker already has Cloud Run invoke permission. The intended managed job is `datatug-personal-cloud-log-cleanup` in
-  `europe-west1`, using
-  `cloud-tasks-invoker@sneat-eur3-1.iam.gserviceaccount.com` with audience
-  `https://datatug-cloud-354fvnqbaa-ew.a.run.app`; keep it paused until the
-  host route and feature configuration are ready. Host PR #18 moved new
-  deployments to Belgium; the approved KMS key and Secret Manager replication
-  remain in `europe-west3`. Read-only provider checks on 2026-10-20 found both
-  Belgium and the earlier Frankfurt services still present, with no personal
-  Cloud Logs configuration or OAuth bindings and no pilot Scheduler job in
-  either region. Inventory both regions, tagged revisions, direct targets
-  and in-flight work before trusting the activation barrier. The dated
-  execution receipts above remain historical; the current readback is in the
-  [pilot guide](https://github.com/datatug/datatug-demo-project/blob/main/docs/logs/google-cloud-pilot.md).
-  No personal Cloud Logs configuration, OAuth binding or Scheduler job is present, so the
-  route-stop behavior with the master feature enabled was not exercised. No
-  production grant or cleanup run was observed.
+  applies only to verified user management/query routes. Production readback
+  at `13:07:48Z` found Belgium production `datatug-cloud-00010-bjt` and
+  preview `datatug-cloud-preview-00009-2fx` at 100% on the merged PR #25 image
+  `9d055b12fae5ae74793e8f452bd7fc8714e22d33`. Production master feature
+  and user routes are `1`, secret references are versions `2`/`1`, and
+  the allowlisted lifecycle is active at epoch `2`. The private OIDC
+  control returned 200 for authenticated status and 401 without
+  authentication. The managed recurring job is enabled; scheduled OIDC targets returned HTTP 200 at
+  `13:06:08Z`, `13:07:07Z` and `13:08:04Z` on production revision
+  `datatug-cloud-00010-bjt`, without `X-Cron-Secret`. These responses do not
+  establish which records were deleted. The disposable probe was deleted and
+  returned `NOT_FOUND` at `13:10:25Z`. All four Belgium/Frankfurt health checks returned 200;
+  preview and Frankfurt services have no personal Cloud Logs settings.
+  The existing task invoker already has `run.invoker`; no new invoker IAM
+  grant was added at that earlier checkpoint. The replacement identity's
+  Google grant and fixed-view read are verified in the current pilot receipt;
+  Google-wide disconnect/revocation remains unexecuted. Host PR #25's Firebase
+  `auth_time` fix is merged and deployed; exact-main CI passed 10/10 and the
+  deployment succeeded. Earlier 2026-10-20 provider snapshots above are historical;
+  current receipts and open checks are in the [pilot guide](https://github.com/datatug/datatug-demo-project/blob/main/docs/logs/google-cloud-pilot.md).
   Source review identified a shutdown race: an in-flight `finish` can activate
   a completion after the initial revoke inventory, removing that completion
   and creating an active grant; cleanup only handles expiring completions and
@@ -276,20 +295,18 @@ Before initializing or trusting the barrier in production, deploy guard-aware wr
   routes while preserving cleanup; it does not provide that barrier, revoke
   grants, or clear the activation gate. Turning the master feature flag to `0`
   removes cleanup registration and its credential bindings.
-- Hosted Google popup and redirect attempts using the shared Firebase identity
-  reached `auth.sneat.co` but did not produce a usable DataTug session; the
-  popup attempt also returned `auth/popup-closed-by-user`. Public helper checks
-  returned HTTP 200, the shared helper's `init.json` identified project
+- An earlier same-origin `createAuthUri` probe returned HTTP 400
+  `INVALID_CONTINUE_URI`; the later hosted OAuth callback, finish and query
+  succeeded, so that failed probe is a superseded diagnostic. Public helper
+  checks returned HTTP 200; the shared helper's `init.json` identified project
   `sneat-eur3-1` and auth domain `auth.sneat.co`, and its two handler scripts
-  matched the canonical Firebase helper by SHA-256. These checks do not
-  establish why either browser flow failed. A separate same-origin
-  `createAuthUri` probe returned HTTP 400 `INVALID_CONTINUE_URI` because
-  `datatug.app` belongs to a different Firebase Hosting project. No change to
-  the shared identity or auth domain is proposed, and no auth configuration
-  was mutated.
+  matched the canonical Firebase helper by SHA-256. No identity, Firebase
+  project or auth-domain change has been made.
 - The pilot view is temporary and its receipt records a 2026-11-18 review date.
-  Confirm Google consent-screen verification classification and Cloud Logging
-  billing/quota behavior in the actual Cloud project before public launch.
+  Confirm Google sensitive-scope verification and Cloud Logging billing/quota
+  behavior in the actual Cloud project before public launch. The consent screen
+  currently shows External / In production / requires verification and a
+  project-wide `2 users / 100` display; this is not the count of DataTug log grants.
 
 ## Source and contract evidence
 
