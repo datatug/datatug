@@ -2,6 +2,14 @@
 
 **DataTug** is a context-aware, semantic data exploration and troubleshooting environment across operational data sources. It turns distributed operational data into a navigable graph of meaning, relationships, and reusable queries — stored as Git-native project files and usable across the terminal, browser, and AI agents.
 
+## Watch
+
+<a href="https://youtu.be/tjOzdzB_PGA"><img src="https://datatug.app/static/illustrations/intro-video-poster-1280.webp" alt="DataTug in one minute — watch the intro (1:01)" width="560"></a>
+
+▶ **[Watch the DataTug intro (1:01)](https://youtu.be/tjOzdzB_PGA)**
+
+More videos: [datatug.app/en/videos](https://datatug.app/en/videos/)
+
 ## Surfaces & Ecosystem
 
 - **DataTug CLI** — Command-line interface, terminal UI (TUI), and local execution server (`datatug serve`, `datatug demo`).
